@@ -310,6 +310,10 @@ public class SootMethod
      * Please call setApplicationClass() on the relevant class.
      */
 
+
+    /**
+     *  The call to getBodyFromMethodSource seems to be a bottleneck
+     */
     public Body retrieveActiveBody() {
         declaringClass.checkLevel(SootClass.BODIES);
         if (declaringClass.isPhantomClass())
@@ -317,7 +321,7 @@ public class SootMethod
                 "cannot get resident body for phantom class : "
                     + getSignature()
                     + "; maybe you want to call c.setApplicationClass() on this class!");
-        
+
         if (!hasActiveBody()) {
             setActiveBody(this.getBodyFromMethodSource("jb"));
             ms = null;
@@ -326,7 +330,7 @@ public class SootMethod
     }
 
     /**
-        Sets the active body for this method. 
+        Sets the active body for this method.
      */
     public void setActiveBody(Body body) {
         if ((declaringClass != null)
