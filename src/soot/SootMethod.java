@@ -86,9 +86,26 @@ public class SootMethod
      *
      * @param phaseName       Phase name for body loading. */
     private Body getBodyFromMethodSource(String phaseName) {
-    	if (ms == null)
+
+        if (ms == null)
     		throw new RuntimeException("No method source set for method " + this.getSignature());
-        return ms.getBody(this, phaseName);
+
+        /**
+         * from here
+         * */
+        long tStart = System.currentTimeMillis();
+
+        Body body = ms.getBody(this, phaseName);
+
+        long tEnd = System.currentTimeMillis();
+        G.v().out.println("\ngetBody in getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
+
+        return  body;
+        /**
+         * to here count time
+         * getBody seems to be the "slow" method
+         * */
+//        return ms.getBody(this, phaseName);
     }
 
     /** Sets the MethodSource of the current SootMethod. */
@@ -322,10 +339,16 @@ public class SootMethod
                     + getSignature()
                     + "; maybe you want to call c.setApplicationClass() on this class!");
 
+        long tStart = System.currentTimeMillis();
+
         if (!hasActiveBody()) {
             setActiveBody(this.getBodyFromMethodSource("jb"));
             ms = null;
         }
+
+        long tEnd = System.currentTimeMillis();
+        G.v().out.println("getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
+
         return getActiveBody();
     }
 
