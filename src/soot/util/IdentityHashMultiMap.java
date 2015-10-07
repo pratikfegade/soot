@@ -1,5 +1,5 @@
 /* Soot - a J*va Optimization Framework
- * Copyright (C) 1997-2000 Etienne Gagnon.  All rights reserved.
+ * Copyright (C) 2002 Ondrej Lhotak
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,25 +17,28 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/*
- * Modified by the Sable Research Group and others 1997-1999.  
- * See the 'credits' file distributed with Soot for the complete list of
- * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
+package soot.util;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * An identity-based version of the MultiMap.
+ *
+ * @author Steven Arzt
  */
 
-package soot.jimple.toolkits.typing;
-
-public class TypeException extends Exception {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2484942383485179989L;
-
-	public TypeException(String message) {
-		super(message);
-
-		if (message == null) {
-			throw new InternalTypingException();
-		}
-	}
+public class IdentityHashMultiMap<K,V> extends HashMultiMap<K, V> {
+	
+	@Override
+    protected Map<K, Set<V>> createMap() {
+    	return new IdentityHashMap<K, Set<V>>();
+    }
+	
+	@SuppressWarnings("deprecation")
+	@Override
+    protected Set<V> newSet() {
+        return new IdentityHashSet<V>();
+    }
+	
 }

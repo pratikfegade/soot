@@ -31,12 +31,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.RandomAccess;
+import java.util.Set;
 
+import soot.baf.GotoInst;
+import soot.jimple.GotoStmt;
 import soot.options.Options;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.interaction.FlowInfo;
@@ -51,6 +55,23 @@ import soot.util.PriorityQueue;
  * corresponding flow analysis.
  */
 public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
+	public enum Flow {
+		IN {
+			@Override
+			<F> F getFlow(Entry<?, F> e) {
+				return e.inFlow;
+			}
+		},
+		OUT {
+			@Override
+			<F> F getFlow(Entry<?, F> e) {
+				return e.outFlow;
+			}
+		};
+
+		abstract <F> F getFlow(Entry<?, F> e);
+	}
+	
 	static class Entry<D, F> implements Numberable {
 		final D data;
 		int number;
@@ -75,7 +96,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 
 		@Override
 		public String toString() {
-			return data.toString();
+			return data == null ? "" : data.toString();
 		}
 
 		@Override
@@ -102,7 +123,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 		 * @param entryFlow
 		 * @return
 		 */
-		<D, F> List<Entry<D, F>> newUniverse (DirectedGraph<D> g, GraphView gv, F entryFlow) {
+		<D, F> List<Entry<D, F>> newUniverse (DirectedGraph<D> g, GraphView gv, F entryFlow, boolean isForward) {
 			final int n = g.size();
 
 			Deque<Entry<D, F>> s = new ArrayDeque<Entry<D, F>>(n);
@@ -111,7 +132,67 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 
 			// out of universe node
 			Entry<D, F> superEntry = new Entry<D, F>(null, null);
-			visitEntry(visited, superEntry, gv.getEntries(g));
+
+			List<D> entries = null;
+			List<D> actualEntries = gv.getEntries(g);
+
+			if (!actualEntries.isEmpty()) {
+				// normal cases: there is at least 
+				// one return statement for a backward analysis
+				// or one entry statement for a forward analysis
+				entries = actualEntries;
+			} else {
+				// cases without any entry statement
+
+				if (isForward) {
+					// case of a forward flow analysis on 
+					// a method without any entry point
+					throw new RuntimeException("error: no entry point for method in forward analysis");
+				} else {
+					// case of backward analysis on 
+					// a method which potentially has 
+					// an infinite loop and no return statement
+					entries = new ArrayList<D>();
+
+					// a single head is expected
+					assert g.getHeads().size() == 1;
+					D head = g.getHeads().get(0);
+
+					Set<D> visitedNodes = new HashSet<D>();
+					List<D> workList = new ArrayList<D>();
+					D current = null;
+
+					// collect all 'goto' statements to catch the 'goto'
+					// from the infinite loop
+					workList.add(head);
+					while (!workList.isEmpty()) {
+						current = workList.remove(0);
+						visitedNodes.add(current);
+
+						// only add 'goto' statements
+						if (current instanceof GotoInst || current instanceof GotoStmt) {
+							entries.add(current);
+						}
+
+						for (D next: g.getSuccsOf(current)) {
+							if (visitedNodes.contains(next)) {
+								continue;
+							}
+							workList.add(next);
+						}
+					}
+
+					//
+					if (entries.isEmpty()) {
+						throw new RuntimeException("error: backward analysis on an empty entry set.");
+					}
+
+				}
+
+			}
+
+			visitEntry(visited, superEntry, entries);
+			superEntry.inFlow = entryFlow;
 			superEntry.outFlow = entryFlow;
 
 			
@@ -387,7 +468,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 				omit = !n.isRealStronglyConnected;
 			} else {
 				assert n.in.length == 1 : "missing superhead";
-				n.inFlow = n.in[0].outFlow;
+				n.inFlow = getFlow(n.in[0], n);
 				assert n.inFlow != null : "topological order is broken";
 			}
 
@@ -418,15 +499,45 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 	protected boolean omissible(N n) {
 		return false;
 	}
+	
+	/**
+	 * You can specify which flow set you would like to use of node {@code from}
+	 * @param from
+	 * @param mergeNode
+	 * @return Flow.OUT
+	 */
+	protected Flow getFlow(N from, N mergeNode) {
+		return Flow.OUT;
+	}
+	
+	private A getFlow(Entry<N, A> o, Entry<N, A> e) {
+		return (o.inFlow == o.outFlow) ? o.outFlow : getFlow(o.data, e.data).getFlow(o);
+	}
+	
+	private void meetFlows(Entry<N, A> e) {
+		assert e.in.length >= 1;
 
+		if (e.in.length > 1) {
+			boolean copy = true;
+			for (Entry<N, A> o : e.in) {
+				A flow = getFlow(o, e);
+				if (copy) {
+					copy = false;
+					copy(flow, e.inFlow);
+				} else {
+					mergeInto(e.data, e.inFlow, flow);
+				}
+			}
+		}
+	}
+	
 	final int doAnalysis(GraphView gv, InteractionFlowHandler ifh, Map<N, A> inFlow, Map<N, A> outFlow) {
 		assert gv != null;
 		assert ifh != null;
 
 		ifh = Options.v().interactive_mode() ? ifh : InteractionFlowHandler.NONE;
 
-		final List<Entry<N, A>> universe = Orderer.INSTANCE.newUniverse(graph, gv, entryInitialFlow());
-
+		final List<Entry<N, A>> universe = Orderer.INSTANCE.newUniverse(graph, gv, entryInitialFlow(), isForward());
 		initFlow(universe, inFlow, outFlow);
 
 		Queue<Entry<N, A>> q = PriorityQueue.of(universe, true);
@@ -437,13 +548,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			if (e == null)
 				return numComputations;
 
-			Entry<N, A>[] in = e.in;
-			if (in.length > 1) {
-				copy(in[0].outFlow, e.inFlow);
-				for (int i = 1; i < in.length; i++) {
-					mergeInto(e.data, e.inFlow, in[i].outFlow);
-				}
-			}
+			meetFlows(e);
 
 			// Compute beforeFlow and store it.
 			ifh.handleFlowIn(this, e.data);
