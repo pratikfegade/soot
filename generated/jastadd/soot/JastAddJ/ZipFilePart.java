@@ -1,47 +1,27 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-   * Loads class files from a zip file (Jar file)
-    * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+// load files in a zip file
 public class ZipFilePart extends PathPart {
+    // Declared in ClassPath.jrag at line 443
 
     private HashSet set = new HashSet();
 
+    // Declared in ClassPath.jrag at line 444
 
     private ZipFile file;
 
-
-    private String zipPath;
-
+    // Declared in ClassPath.jrag at line 446
 
 
     public boolean hasPackage(String name) {
       return set.contains(name);
     }
 
+    // Declared in ClassPath.jrag at line 450
 
 
-    public ZipFilePart(ZipFile file, String path) {
-      zipPath = path;
+    public ZipFilePart(ZipFile file) {
       this.file = file;
       // process all entries in the zip file
       for (Enumeration e = file.entries() ; e.hasMoreElements() ;) {
@@ -63,23 +43,18 @@ public class ZipFilePart extends PathPart {
       }
     }
 
-
-
-    public ZipFilePart(ZipFile file) {
-      this(file, file.getName());
-    }
-
+    // Declared in ClassPath.jrag at line 472
 
 
     public boolean selectCompilationUnit(String canonicalName) throws IOException {
-      String name = canonicalName.replace('.', '/'); // ZipFiles always use '/' as separator
+      String name = canonicalName.replace('.', '/'); // ZipFiles do always use '/' as separator
       name = name + fileSuffix();
       if(set.contains(name)) {
         ZipEntry zipEntry = file.getEntry(name);
         if(zipEntry != null && !zipEntry.isDirectory()) {
           is = file.getInputStream(zipEntry);
           age = zipEntry.getTime();
-          pathName = zipPath;
+          pathName = file.getName();
           relativeName = name + fileSuffix();
           fullName = canonicalName;
           return true;

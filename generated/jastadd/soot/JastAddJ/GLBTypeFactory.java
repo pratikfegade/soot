@@ -1,27 +1,9 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
 public class GLBTypeFactory extends java.lang.Object {
+    // Declared in GLBTypeFactory.jadd at line 44
 
         // TODO add support for array types.
         public static TypeDecl glb(final ArrayList typeList) {
@@ -52,6 +34,7 @@ public class GLBTypeFactory extends java.lang.Object {
             return retType;
         }
 
+    // Declared in GLBTypeFactory.jadd at line 77
 
 
         /**
@@ -80,6 +63,7 @@ public class GLBTypeFactory extends java.lang.Object {
             }
         }
 
+    // Declared in GLBTypeFactory.jadd at line 113
 
 
         /**
@@ -92,6 +76,7 @@ public class GLBTypeFactory extends java.lang.Object {
          * <i>C<sub>i</sub></i> for any <i>i</i>, 1 &le; i &le; n, or a
          * compile-time error occurs.
          * 
+         * @param T
          * @param types
          * @return the most specific class that all elements in <i>types</i> are a
          *         subtype of. Or null if no such class exists.
@@ -114,13 +99,14 @@ public class GLBTypeFactory extends java.lang.Object {
             }
         }
 
+    // Declared in GLBTypeFactory.jadd at line 137
 
 
         /**
          * Return most specific superclass of t.
          * 
          * @param t
-         * @return most specific superclass of t
+         * @return
          */
         private final static TypeDecl mostSpecificSuperClass(final TypeDecl t) {
             HashSet superTypes = new HashSet();
@@ -139,6 +125,7 @@ public class GLBTypeFactory extends java.lang.Object {
                 return (TypeDecl) t.typeObject();
         }
 
+    // Declared in GLBTypeFactory.jadd at line 168
 
 
         /**
@@ -179,10 +166,13 @@ public class GLBTypeFactory extends java.lang.Object {
 
         }
 
+    // Declared in GLBTypeFactory.jadd at line 197
 
 
         /**
+         * @param T
          * @param ifaceList
+         * @return
          */
         private static boolean checkInterfaceCompatibility(ArrayList ifaceList) {
             for (int i = 0; i < ifaceList.size(); i++) {
@@ -218,12 +208,14 @@ public class GLBTypeFactory extends java.lang.Object {
             return true;
         }
 
+    // Declared in GLBTypeFactory.jadd at line 237
 
 
         /**
          * @param t
          * @param cls
          * @param ifaceList
+         * @return
          */
         private static boolean checkClassInterfaceCompatibility(TypeDecl cls,
                 ArrayList ifaceList) {
@@ -251,6 +243,7 @@ public class GLBTypeFactory extends java.lang.Object {
             return true;
         }
 
+    // Declared in GLBTypeFactory.jadd at line 268
 
 
         /**
@@ -275,6 +268,7 @@ public class GLBTypeFactory extends java.lang.Object {
             removeNullValues(types);
         }
 
+    // Declared in GLBTypeFactory.jadd at line 290
 
 
         /**

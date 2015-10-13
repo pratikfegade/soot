@@ -1,51 +1,38 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
 public class TypeDescriptor extends java.lang.Object {
+    // Declared in BytecodeDescriptor.jrag at line 244
 
     private BytecodeParser p;
 
+    // Declared in BytecodeDescriptor.jrag at line 245
 
     private String descriptor;
 
+    // Declared in BytecodeDescriptor.jrag at line 246
 
     public TypeDescriptor(BytecodeParser parser, String descriptor) {
       p = parser;
       this.descriptor = descriptor;
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 251
 
 
     public boolean isBoolean() {
       return descriptor.charAt(0) == 'Z';
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 255
 
 
     public Access type() {
       return type(descriptor);
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 259
 
 
     public Access type(String s) {
@@ -80,6 +67,7 @@ public class TypeDescriptor extends java.lang.Object {
       //return null;
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 291
 
 
     public List parameterList() {
@@ -91,6 +79,7 @@ public class TypeDescriptor extends java.lang.Object {
       return list;
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 299
 
     public List parameterListSkipFirst() {
       List list = new List();
@@ -103,6 +92,7 @@ public class TypeDescriptor extends java.lang.Object {
       return list;
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 310
 
 
     public String typeList(String s, List l) {
@@ -165,6 +155,7 @@ public class TypeDescriptor extends java.lang.Object {
 
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 370
 
 
     public String arrayTypeList(String s, ArrayTypeAccess typeAccess) {

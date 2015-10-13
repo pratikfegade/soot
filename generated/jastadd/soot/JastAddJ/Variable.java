@@ -1,106 +1,87 @@
+
 package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast interface
- * 
- */
 public interface Variable {
+    // Declared in VariableDeclaration.jrag at line 12
 
-		 
-		public String name();
+    public String name();
 
-		 
-		public TypeDecl type();
+    // Declared in VariableDeclaration.jrag at line 13
 
-		 
-		public Collection<TypeDecl> throwTypes();
+    public TypeDecl type();
 
-		 
-		public boolean isParameter();
+    // Declared in VariableDeclaration.jrag at line 15
 
-		// 4.5.3
-		 
-		// 4.5.3
-		public boolean isClassVariable();
+    // 4.5.3
+    public boolean isClassVariable();
 
-		 
-		public boolean isInstanceVariable();
+    // Declared in VariableDeclaration.jrag at line 16
 
-		 
-		public boolean isMethodParameter();
+    public boolean isInstanceVariable();
 
-		 
-		public boolean isConstructorParameter();
+    // Declared in VariableDeclaration.jrag at line 17
 
-		 
-		public boolean isExceptionHandlerParameter();
+    public boolean isMethodParameter();
 
-		 
-		public boolean isLocalVariable();
+    // Declared in VariableDeclaration.jrag at line 18
 
-		// 4.5.4
-		 
-		// 4.5.4
-		public boolean isFinal();
+    public boolean isConstructorParameter();
 
-		 
-		public boolean isVolatile();
+    // Declared in VariableDeclaration.jrag at line 19
 
+    public boolean isExceptionHandlerParameter();
 
-		 
+    // Declared in VariableDeclaration.jrag at line 20
 
-		public boolean isBlank();
+    public boolean isLocalVariable();
 
-		 
-		public boolean isStatic();
+    // Declared in VariableDeclaration.jrag at line 22
 
-		 
-		public boolean isSynthetic();
+    // 4.5.4
+    public boolean isFinal();
+
+    // Declared in VariableDeclaration.jrag at line 23
+
+    public boolean isVolatile();
+
+    // Declared in VariableDeclaration.jrag at line 25
 
 
-		 
+    public boolean isBlank();
 
-		public TypeDecl hostType();
+    // Declared in VariableDeclaration.jrag at line 26
 
+    public boolean isStatic();
 
-		 
+    // Declared in VariableDeclaration.jrag at line 27
 
-		public Expr getInit();
+    public boolean isSynthetic();
 
-		 
-		public boolean hasInit();
-
-
-		 
-
-		public Constant constant();
+    // Declared in VariableDeclaration.jrag at line 29
 
 
-		 
+    public TypeDecl hostType();
 
-		public Modifiers getModifiers();
-  /**
-   * @attribute syn
-   * @aspect SourceDeclarations
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:1519
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public Variable sourceVariableDecl();
+    // Declared in VariableDeclaration.jrag at line 31
+
+
+    public Expr getInit();
+
+    // Declared in VariableDeclaration.jrag at line 32
+
+    public boolean hasInit();
+
+    // Declared in VariableDeclaration.jrag at line 34
+
+
+    public Constant constant();
+
+    // Declared in VariableDeclaration.jrag at line 36
+
+
+    public Modifiers getModifiers();
+
+    // Declared in Generics.jrag at line 1281
+ @SuppressWarnings({"unchecked", "cast"})     public Variable sourceVariableDecl();
 }

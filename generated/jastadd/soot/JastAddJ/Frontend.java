@@ -1,30 +1,13 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
 public class Frontend extends java.lang.Object {
+    // Declared in FrontendMain.jrag at line 12
 
     protected Program program;
 
+    // Declared in FrontendMain.jrag at line 14
 
 
     protected Frontend() {
@@ -32,6 +15,7 @@ public class Frontend extends java.lang.Object {
       program.state().reset();
     }
 
+    // Declared in FrontendMain.jrag at line 19
 
 
     public boolean process(String[] args, BytecodeReader reader, JavaParser parser) {
@@ -45,11 +29,11 @@ public class Frontend extends java.lang.Object {
 
       if(program.options().hasOption("-version")) {
         printVersion();
-        return true;
+        return false;
       }
       if(program.options().hasOption("-help") || files.isEmpty()) {
         printUsage();
-        return true;
+        return false;
       }
 
       try {
@@ -63,40 +47,31 @@ public class Frontend extends java.lang.Object {
         for(Iterator iter = program.compilationUnitIterator(); iter.hasNext(); ) {
           CompilationUnit unit = (CompilationUnit)iter.next();
           if(unit.fromSource()) {
-            try {
-              Collection errors = unit.parseErrors();
-              Collection warnings = new LinkedList();
-              // compute static semantic errors when there are no parse errors
-              // or the recover from parse errors option is specified
-              if(errors.isEmpty() || program.options().hasOption("-recover"))
-                unit.errorCheck(errors, warnings);
-              if(!errors.isEmpty()) {
-                processErrors(errors, unit);
-                return false;
-              }
-              else {
-               if(!warnings.isEmpty())
-                 processWarnings(warnings, unit);
-                processNoErrors(unit);
-              }
-            } catch (Throwable t) {
-              System.err.println("Errors:");
-              System.err.println("Fatal exception while processing " +
-                  unit.pathName() + ":");
-              t.printStackTrace(System.err);
+            Collection errors = unit.parseErrors();
+            Collection warnings = new LinkedList();
+            // compute static semantic errors when there are no parse errors or 
+            // the recover from parse errors option is specified
+            if(errors.isEmpty() || program.options().hasOption("-recover"))
+              unit.errorCheck(errors, warnings);
+            if(!errors.isEmpty()) {
+              processErrors(errors, unit);
               return false;
+            }
+            else {
+             if(!warnings.isEmpty())
+               processWarnings(warnings, unit);
+              processNoErrors(unit);
             }
           }
         }
-      } catch (Throwable t) {
-        System.err.println("Errors:");
-        System.err.println("Fatal exception:");
-        t.printStackTrace(System.err);
-        return false;
+      } catch (Exception e) {
+        System.err.println(e.getMessage());
+        e.printStackTrace();
       }
       return true;
     }
 
+    // Declared in FrontendMain.jrag at line 72
 
 
     protected void initOptions() {
@@ -125,11 +100,13 @@ public class Frontend extends java.lang.Object {
       options.addKeyOption("-recover");
     }
 
+    // Declared in FrontendMain.jrag at line 97
 
     protected void processArgs(String[] args) {
       program.options().addOptions(args);
     }
 
+    // Declared in FrontendMain.jrag at line 101
 
 
     protected void processErrors(Collection errors, CompilationUnit unit) {
@@ -139,6 +116,7 @@ public class Frontend extends java.lang.Object {
       }
     }
 
+    // Declared in FrontendMain.jrag at line 107
 
     protected void processWarnings(Collection warnings, CompilationUnit unit) {
       System.err.println("Warnings:");
@@ -147,14 +125,16 @@ public class Frontend extends java.lang.Object {
       }
     }
 
+    // Declared in FrontendMain.jrag at line 113
 
     protected void processNoErrors(CompilationUnit unit) {
     }
 
+    // Declared in FrontendMain.jrag at line 116
 
 
     protected void printUsage() {
-      printLongVersion();
+      printVersion();
       System.out.println(
           "\n" + name() + "\n\n" +
           "Usage: java " + name() + " <options> <source files>\n" +
@@ -169,29 +149,27 @@ public class Frontend extends java.lang.Object {
           );
     }
 
-
-
-    protected void printLongVersion() {
-      System.out.println(name() + " " + url() + " Version " + version());
-    }
-
+    // Declared in FrontendMain.jrag at line 132
 
 
     protected void printVersion() {
-      System.out.println(name() + " " + version());
+      System.out.println(name() + " " + url() + " Version " + version());
     }
 
+    // Declared in FrontendMain.jrag at line 136
 
 
     protected String name() {
       return "Java1.4Frontend";
     }
 
+    // Declared in FrontendMain.jrag at line 139
 
     protected String url() {
       return "(http://jastadd.cs.lth.se)";
     }
 
+    // Declared in FrontendMain.jrag at line 143
 
 
     protected String version() {

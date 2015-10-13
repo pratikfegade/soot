@@ -1,42 +1,29 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
 public class MethodInfo extends java.lang.Object {
+    // Declared in BytecodeDescriptor.jrag at line 131
 
     private BytecodeParser p;
 
+    // Declared in BytecodeDescriptor.jrag at line 132
 
     String name;
 
+    // Declared in BytecodeDescriptor.jrag at line 133
 
     int flags;
 
+    // Declared in BytecodeDescriptor.jrag at line 134
 
     private MethodDescriptor methodDescriptor;
 
+    // Declared in BytecodeDescriptor.jrag at line 135
 
     private Attributes.MethodAttributes attributes;
 
+    // Declared in BytecodeDescriptor.jrag at line 137
 
 
     public MethodInfo(BytecodeParser parser) {
@@ -58,6 +45,7 @@ public class MethodInfo extends java.lang.Object {
       attributes = new Attributes.MethodAttributes(p);
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 155
 
     public BodyDecl bodyDecl() {
       Signatures.MethodSignature s = attributes.methodSignature;
@@ -137,12 +125,14 @@ public class MethodInfo extends java.lang.Object {
       return b;
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 233
 
 
     private boolean isConstructor() {
       return name.equals("<init>");
     }
 
+    // Declared in BytecodeDescriptor.jrag at line 237
 
 
     public boolean isSynthetic() {

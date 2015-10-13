@@ -1,89 +1,57 @@
-/* This file was generated with JastAdd2 (http://jastadd.org) version R20130212 (r1031) */
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
- * @production AssignExpr : {@link Expr} ::= <span class="component">Dest:{@link Expr}</span> <span class="component">Source:{@link Expr}</span>;
- * @ast node
- * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/java.ast:106
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
+
+
 public abstract class AssignExpr extends Expr implements Cloneable {
-  /**
-   * @apilevel low-level
-   */
-  public void flushCache() {
-    super.flushCache();
-    type_computed = false;
-    type_value = null;
-  }
-  /**
-   * @apilevel internal
-   */
-  public void flushCollectionCache() {
-    super.flushCollectionCache();
-  }
-  /**
-   * @apilevel internal
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public AssignExpr clone() throws CloneNotSupportedException {
-    AssignExpr node = (AssignExpr)super.clone();
-    node.type_computed = false;
-    node.type_value = null;
-    node.in$Circle(false);
-    node.is$Final(false);
-    return node;
-  }
-  /**
-   * @ast method 
-   * @aspect DA
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:463
-   */
+    public void flushCache() {
+        super.flushCache();
+        type_computed = false;
+        type_value = null;
+    }
+    public void flushCollectionCache() {
+        super.flushCollectionCache();
+    }
+     @SuppressWarnings({"unchecked", "cast"})  public AssignExpr clone() throws CloneNotSupportedException {
+        AssignExpr node = (AssignExpr)super.clone();
+        node.type_computed = false;
+        node.type_value = null;
+        node.in$Circle(false);
+        node.is$Final(false);
+        return node;
+    }
+    // Declared in DefiniteAssignment.jrag at line 464
+
+  // 16.2.2 9th bullet
   protected boolean checkDUeverywhere(Variable v) {
     if(getDest().isVariable() && getDest().varDecl() == v)
       if(!getSource().isDAafter(v))
         return false;
     return super.checkDUeverywhere(v);
   }
-  /**
-   * @ast method 
-   * @aspect NodeConstructors
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/NodeConstructors.jrag:94
-   */
+
+    // Declared in NodeConstructors.jrag at line 94
+
+
   public static Stmt asStmt(Expr left, Expr right) {
     return new ExprStmt(new AssignSimpleExpr(left, right));
   }
-  /**
-   * @ast method 
-   * @aspect PrettyPrint
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/PrettyPrint.jadd:241
-   */
+
+    // Declared in PrettyPrint.jadd at line 240
+
+
+  // Assign Expression
+
   public void toString(StringBuffer s) {
     getDest().toString(s);
     s.append(printOp());
     getSource().toString(s);
   }
-  /**
-   * @ast method 
-   * @aspect TypeCheck
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeCheck.jrag:52
-   */
+
+    // Declared in TypeCheck.jrag at line 52
+
+  
   public void typeCheck() {
     if(!getDest().isVariable())
       error("left hand side is not a variable");
@@ -96,11 +64,11 @@ public abstract class AssignExpr extends Expr implements Cloneable {
             " a value of type " + sourceType().typeName());
     }
   }
-  /**
-   * @ast method 
-   * @aspect Expressions
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddExtensions/JimpleBackend/Expressions.jrag:62
-   */
+
+    // Declared in Expressions.jrag at line 62
+
+
+  // compound assign expression
   public soot.Value eval(Body b) {
     TypeDecl dest = getDest().type();
     TypeDecl source = getSource().type();
@@ -121,11 +89,11 @@ public abstract class AssignExpr extends Expr implements Cloneable {
     getDest().emitStore(b, lvalue, result, this);
     return result;
   }
-  /**
-   * @ast method 
-   * @aspect Expressions
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddExtensions/JimpleBackend/Expressions.jrag:129
-   */
+
+    // Declared in Expressions.jrag at line 129
+
+
+  // shift assign expression
   public soot.Value emitShiftExpr(Body b) {
     TypeDecl dest = getDest().type();
     TypeDecl source = getSource().type();
@@ -143,322 +111,229 @@ public abstract class AssignExpr extends Expr implements Cloneable {
     getDest().emitStore(b, lvalue, result, this);
     return result;
   }
-  /**
-   * @ast method 
-   * @aspect Expressions
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddExtensions/JimpleBackend/Expressions.jrag:153
-   */
+
+    // Declared in Expressions.jrag at line 153
+
+
+
+  // create the operation for a compound assign expression
   public soot.Value createAssignOp(Body b, soot.Value fst, soot.Value snd) {
     throw new Error("Operation createAssignOp is not implemented for " + getClass().getName());
   }
-  /**
-   * @ast method 
-   * 
-   */
-  public AssignExpr() {
-    super();
+
+    // Declared in java.ast at line 3
+    // Declared in java.ast line 99
+
+    public AssignExpr() {
+        super();
 
 
-  }
-  /**
-   * Initializes the child array to the correct size.
-   * Initializes List and Opt nta children.
-   * @apilevel internal
-   * @ast method
-   * @ast method 
-   * 
-   */
-  public void init$Children() {
-    children = new ASTNode[2];
-  }
-  /**
-   * @ast method 
-   * 
-   */
-  public AssignExpr(Expr p0, Expr p1) {
-    setChild(p0, 0);
-    setChild(p1, 1);
-  }
-  /**
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
+    }
+
+    // Declared in java.ast at line 10
+
+
+    // Declared in java.ast line 99
+    public AssignExpr(Expr p0, Expr p1) {
+        setChild(p0, 0);
+        setChild(p1, 1);
+    }
+
+    // Declared in java.ast at line 15
+
+
   protected int numChildren() {
     return 2;
   }
-  /**
-   * @apilevel internal
-   * @ast method 
-   * 
-   */
-  public boolean mayHaveRewrite() {
-    return false;
-  }
-  /**
-   * Replaces the Dest child.
-   * @param node The new node to replace the Dest child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setDest(Expr node) {
-    setChild(node, 0);
-  }
-  /**
-   * Retrieves the Dest child.
-   * @return The current node used as the Dest child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public Expr getDest() {
-    return (Expr)getChild(0);
-  }
-  /**
-   * Retrieves the Dest child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Dest child.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public Expr getDestNoTransform() {
-    return (Expr)getChildNoTransform(0);
-  }
-  /**
-   * Replaces the Source child.
-   * @param node The new node to replace the Source child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setSource(Expr node) {
-    setChild(node, 1);
-  }
-  /**
-   * Retrieves the Source child.
-   * @return The current node used as the Source child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public Expr getSource() {
-    return (Expr)getChild(1);
-  }
-  /**
-   * Retrieves the Source child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Source child.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public Expr getSourceNoTransform() {
-    return (Expr)getChildNoTransform(1);
-  }
-  /**
-   * @attribute syn
-   * @aspect DA
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:235
-   */
-  public boolean isDAafter(Variable v) {
-    ASTNode$State state = state();
-    try {  return (getDest().isVariable() && getDest().varDecl() == v) || getSource().isDAafter(v);  }
-    finally {
+
+    // Declared in java.ast at line 18
+
+    public boolean mayHaveRewrite() {
+        return false;
     }
-  }
-  /*eq Stmt.isDAafter(Variable v) {
-    //System.out.println("### isDAafter reached in " + getClass().getName());
-    //throw new NullPointerException();
-    throw new Error("Can not compute isDAafter for " + getClass().getName() + " at " + errorPrefix());
-  }* @attribute syn
-   * @aspect DA
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:332
-   */
-  public boolean isDAafterTrue(Variable v) {
-    ASTNode$State state = state();
-    try {  return isDAafter(v) || isFalse();  }
-    finally {
+
+    // Declared in java.ast at line 2
+    // Declared in java.ast line 99
+    public void setDest(Expr node) {
+        setChild(node, 0);
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect DA
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:333
-   */
-  public boolean isDAafterFalse(Variable v) {
-    ASTNode$State state = state();
-    try {  return isDAafter(v) || isTrue();  }
-    finally {
+
+    // Declared in java.ast at line 5
+
+    public Expr getDest() {
+        return (Expr)getChild(0);
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect DU
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:694
-   */
-  public boolean isDUafter(Variable v) {
-    ASTNode$State state = state();
-    try {  return getSource().isDUafter(v);  }
-    finally {
+
+    // Declared in java.ast at line 9
+
+
+    public Expr getDestNoTransform() {
+        return (Expr)getChildNoTransform(0);
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect DU
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:702
-   */
-  public boolean isDUafterTrue(Variable v) {
-    ASTNode$State state = state();
-    try {  return isDUafter(v);  }
-    finally {
+
+    // Declared in java.ast at line 2
+    // Declared in java.ast line 99
+    public void setSource(Expr node) {
+        setChild(node, 1);
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect DU
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:703
-   */
-  public boolean isDUafterFalse(Variable v) {
-    ASTNode$State state = state();
-    try {  return isDUafter(v);  }
-    finally {
+
+    // Declared in java.ast at line 5
+
+    public Expr getSource() {
+        return (Expr)getChild(1);
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect PrettyPrint
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/PrettyPrint.jadd:247
-   */
-  public String printOp() {
-    ASTNode$State state = state();
-    try {  return " = ";  }
-    finally {
+
+    // Declared in java.ast at line 9
+
+
+    public Expr getSourceNoTransform() {
+        return (Expr)getChildNoTransform(1);
     }
-  }
-  /**
-   * @apilevel internal
-   */
-  protected boolean type_computed = false;
-  /**
-   * @apilevel internal
-   */
-  protected TypeDecl type_value;
-  /**
-   * @attribute syn
-   * @aspect TypeAnalysis
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:298
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl type() {
-    if(type_computed) {
-      return type_value;
+
+    // Declared in DefiniteAssignment.jrag at line 392
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDAafter(Variable v) {
+        ASTNode$State state = state();
+        boolean isDAafter_Variable_value = isDAafter_compute(v);
+        return isDAafter_Variable_value;
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    type_value = type_compute();
-      if(isFinal && num == state().boundariesCrossed) type_computed = true;
-    return type_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private TypeDecl type_compute() {  return getDest().type();  }
-  /**
-   * @attribute syn
-   * @aspect TypeCheck
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeCheck.jrag:109
-   */
-  public TypeDecl sourceType() {
-    ASTNode$State state = state();
-    try {  return getSource().type().isPrimitive() ? getSource().type() : unknownType();  }
-    finally {
+
+    private boolean isDAafter_compute(Variable v) {  return (getDest().isVariable() && getDest().varDecl() == v) || getSource().isDAafter(v);  }
+
+    // Declared in DefiniteAssignment.jrag at line 396
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDAafterTrue(Variable v) {
+        ASTNode$State state = state();
+        boolean isDAafterTrue_Variable_value = isDAafterTrue_compute(v);
+        return isDAafterTrue_Variable_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect PreciseRethrow
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java7Frontend/PreciseRethrow.jrag:111
-   */
-  public boolean modifiedInScope(Variable var) {
-    ASTNode$State state = state();
-    try {  return getDest().isVariable(var);  }
-    finally {
+
+    private boolean isDAafterTrue_compute(Variable v) {  return isDAafter(v) || isFalse();  }
+
+    // Declared in DefiniteAssignment.jrag at line 397
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDAafterFalse(Variable v) {
+        ASTNode$State state = state();
+        boolean isDAafterFalse_Variable_value = isDAafterFalse_compute(v);
+        return isDAafterFalse_Variable_value;
     }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:19
-   * @apilevel internal
-   */
-  public boolean Define_boolean_isDest(ASTNode caller, ASTNode child) {
-    if(caller == getSourceNoTransform()) {
-      return false;
+
+    private boolean isDAafterFalse_compute(Variable v) {  return isDAafter(v) || isTrue();  }
+
+    // Declared in DefiniteAssignment.jrag at line 827
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDUafter(Variable v) {
+        ASTNode$State state = state();
+        boolean isDUafter_Variable_value = isDUafter_compute(v);
+        return isDUafter_Variable_value;
     }
-    else if(caller == getDestNoTransform()) {
-      return true;
+
+    private boolean isDUafter_compute(Variable v) {  return getSource().isDUafter(v);  }
+
+    // Declared in DefiniteAssignment.jrag at line 830
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDUafterTrue(Variable v) {
+        ASTNode$State state = state();
+        boolean isDUafterTrue_Variable_value = isDUafterTrue_compute(v);
+        return isDUafterTrue_Variable_value;
     }
-    else {      return getParent().Define_boolean_isDest(this, caller);
+
+    private boolean isDUafterTrue_compute(Variable v) {  return isDUafter(v);  }
+
+    // Declared in DefiniteAssignment.jrag at line 831
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDUafterFalse(Variable v) {
+        ASTNode$State state = state();
+        boolean isDUafterFalse_Variable_value = isDUafterFalse_compute(v);
+        return isDUafterFalse_Variable_value;
     }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:29
-   * @apilevel internal
-   */
-  public boolean Define_boolean_isSource(ASTNode caller, ASTNode child) {
-    if(caller == getSourceNoTransform()) {
-      return true;
+
+    private boolean isDUafterFalse_compute(Variable v) {  return isDUafter(v);  }
+
+    // Declared in PrettyPrint.jadd at line 246
+ @SuppressWarnings({"unchecked", "cast"})     public String printOp() {
+        ASTNode$State state = state();
+        String printOp_value = printOp_compute();
+        return printOp_value;
     }
-    else if(caller == getDestNoTransform()) {
-      return true;
+
+    private String printOp_compute() {  return " = ";  }
+
+    protected boolean type_computed = false;
+    protected TypeDecl type_value;
+    // Declared in TypeAnalysis.jrag at line 298
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl type() {
+        if(type_computed) {
+            return type_value;
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        type_value = type_compute();
+        if(isFinal && num == state().boundariesCrossed)
+            type_computed = true;
+        return type_value;
     }
-    else {      return getParent().Define_boolean_isSource(this, caller);
+
+    private TypeDecl type_compute() {  return getDest().type();  }
+
+    // Declared in TypeCheck.jrag at line 109
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl sourceType() {
+        ASTNode$State state = state();
+        TypeDecl sourceType_value = sourceType_compute();
+        return sourceType_value;
     }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:392
-   * @apilevel internal
-   */
-  public boolean Define_boolean_isDAbefore(ASTNode caller, ASTNode child, Variable v) {
-    if(caller == getDestNoTransform()) {
-      return isDAbefore(v);
+
+    private TypeDecl sourceType_compute() {  return getSource().type().isPrimitive() ? getSource().type() : unknownType();  }
+
+    // Declared in DefiniteAssignment.jrag at line 19
+    public boolean Define_boolean_isDest(ASTNode caller, ASTNode child) {
+        if(caller == getSourceNoTransform()) {
+            return false;
+        }
+        if(caller == getDestNoTransform()) {
+            return true;
+        }
+        return getParent().Define_boolean_isDest(this, caller);
     }
-    else if(caller == getSourceNoTransform()) {
-      return getDest().isDAafter(v);
+
+    // Declared in DefiniteAssignment.jrag at line 29
+    public boolean Define_boolean_isSource(ASTNode caller, ASTNode child) {
+        if(caller == getSourceNoTransform()) {
+            return true;
+        }
+        if(caller == getDestNoTransform()) {
+            return true;
+        }
+        return getParent().Define_boolean_isSource(this, caller);
     }
-    else {      return getParent().Define_boolean_isDAbefore(this, caller, v);
+
+    // Declared in DefiniteAssignment.jrag at line 394
+    public boolean Define_boolean_isDAbefore(ASTNode caller, ASTNode child, Variable v) {
+        if(caller == getDestNoTransform()) {
+            return isDAbefore(v);
+        }
+        if(caller == getSourceNoTransform()) {
+            return getDest().isDAafter(v);
+        }
+        return getParent().Define_boolean_isDAbefore(this, caller, v);
     }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:828
-   * @apilevel internal
-   */
-  public boolean Define_boolean_isDUbefore(ASTNode caller, ASTNode child, Variable v) {
-    if(caller == getDestNoTransform()) {
-      return isDUbefore(v);
+
+    // Declared in DefiniteAssignment.jrag at line 829
+    public boolean Define_boolean_isDUbefore(ASTNode caller, ASTNode child, Variable v) {
+        if(caller == getDestNoTransform()) {
+            return isDUbefore(v);
+        }
+        if(caller == getSourceNoTransform()) {
+            return getDest().isDUafter(v);
+        }
+        return getParent().Define_boolean_isDUbefore(this, caller, v);
     }
-    else if(caller == getSourceNoTransform()) {
-      return getDest().isDUafter(v);
+
+    // Declared in SyntacticClassification.jrag at line 99
+    public NameType Define_NameType_nameType(ASTNode caller, ASTNode child) {
+        if(caller == getDestNoTransform()) {
+            return NameType.EXPRESSION_NAME;
+        }
+        return getParent().Define_NameType_nameType(this, caller);
     }
-    else {      return getParent().Define_boolean_isDUbefore(this, caller, v);
-    }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/SyntacticClassification.jrag:99
-   * @apilevel internal
-   */
-  public NameType Define_NameType_nameType(ASTNode caller, ASTNode child) {
-    if(caller == getDestNoTransform()) {
-      return NameType.EXPRESSION_NAME;
-    }
-    else {      return getParent().Define_NameType_nameType(this, caller);
-    }
-  }
-  /**
-   * @apilevel internal
-   */
-  public ASTNode rewriteTo() {
+
+public ASTNode rewriteTo() {
     return super.rewriteTo();
-  }
+}
+
 }

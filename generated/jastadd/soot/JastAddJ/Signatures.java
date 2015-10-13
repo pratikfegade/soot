@@ -1,40 +1,25 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
 public class Signatures extends java.lang.Object {
+    // Declared in BytecodeReader.jrag at line 564
 
     // simple parser framework
     String data;
 
+    // Declared in BytecodeReader.jrag at line 565
 
     int pos;
 
+    // Declared in BytecodeReader.jrag at line 566
 
     public Signatures(String s) {
       data = s;
       pos = 0;
     }
 
+    // Declared in BytecodeReader.jrag at line 571
 
 
     public boolean next(String s) {
@@ -44,6 +29,7 @@ public class Signatures extends java.lang.Object {
       return true;
     }
 
+    // Declared in BytecodeReader.jrag at line 578
 
 
     public void eat(String s) {
@@ -53,12 +39,14 @@ public class Signatures extends java.lang.Object {
       pos += s.length();
     }
 
+    // Declared in BytecodeReader.jrag at line 585
 
 
     public void error(String s) {
       throw new Error("Expected " + s + " but found " + data.substring(pos));
     }
 
+    // Declared in BytecodeReader.jrag at line 589
 
 
     public String identifier() {
@@ -70,12 +58,14 @@ public class Signatures extends java.lang.Object {
       return result;
     }
 
+    // Declared in BytecodeReader.jrag at line 598
 
 
     public boolean eof() {
       return pos == data.length();
     }
 
+    // Declared in BytecodeReader.jrag at line 604
 
 
     // 4.4.4 Signatures
@@ -114,6 +104,7 @@ public class Signatures extends java.lang.Object {
       }
     }
 
+    // Declared in BytecodeReader.jrag at line 638
 
 
     public static class FieldSignature extends Signatures {
@@ -127,6 +118,7 @@ public class Signatures extends java.lang.Object {
       private Access fieldTypeAccess;
     }
 
+    // Declared in BytecodeReader.jrag at line 649
 
 
     public static class MethodSignature extends Signatures {
@@ -182,10 +174,12 @@ public class Signatures extends java.lang.Object {
       public Access returnType() { return returnType; }
     }
 
+    // Declared in BytecodeReader.jrag at line 702
 
 
     protected List typeParameters;
 
+    // Declared in BytecodeReader.jrag at line 704
 
 
     void formalTypeParameters() {
@@ -197,6 +191,7 @@ public class Signatures extends java.lang.Object {
       eat(">");
     }
 
+    // Declared in BytecodeReader.jrag at line 713
 
 
     TypeVariable formalTypeParameter() {
@@ -213,6 +208,7 @@ public class Signatures extends java.lang.Object {
       return new TypeVariable(new Modifiers(new List()), id, new List(), bounds);
     }
 
+    // Declared in BytecodeReader.jrag at line 727
 
 
     Access classBound() {
@@ -226,6 +222,7 @@ public class Signatures extends java.lang.Object {
       }
     }
 
+    // Declared in BytecodeReader.jrag at line 738
 
 
     Access interfaceBound() {
@@ -233,6 +230,7 @@ public class Signatures extends java.lang.Object {
       return fieldTypeSignature();
     }
 
+    // Declared in BytecodeReader.jrag at line 744
 
 
 
@@ -248,11 +246,13 @@ public class Signatures extends java.lang.Object {
       return null; // error never returns
     }
 
+    // Declared in BytecodeReader.jrag at line 755
 
     boolean nextIsFieldTypeSignature() {
       return next("L") || next("[") || next("T");
     }
 
+    // Declared in BytecodeReader.jrag at line 759
 
 
     Access classTypeSignature() {
@@ -280,6 +280,7 @@ public class Signatures extends java.lang.Object {
       return a;
     }
 
+    // Declared in BytecodeReader.jrag at line 784
 
 
     Access classTypeSignatureSuffix() {
@@ -293,6 +294,7 @@ public class Signatures extends java.lang.Object {
       return a;
     }
 
+    // Declared in BytecodeReader.jrag at line 795
 
 
     Access typeVariableSignature() {
@@ -302,6 +304,7 @@ public class Signatures extends java.lang.Object {
       return new TypeAccess(id);
     }
 
+    // Declared in BytecodeReader.jrag at line 802
 
 
     List typeArguments() {
@@ -314,6 +317,7 @@ public class Signatures extends java.lang.Object {
       return list;
     }
 
+    // Declared in BytecodeReader.jrag at line 812
 
 
     Access typeArgument() {
@@ -334,6 +338,7 @@ public class Signatures extends java.lang.Object {
       }
     }
 
+    // Declared in BytecodeReader.jrag at line 830
 
 
     Access arrayTypeSignature() {
@@ -341,6 +346,7 @@ public class Signatures extends java.lang.Object {
       return new ArrayTypeAccess(typeSignature());
     }
 
+    // Declared in BytecodeReader.jrag at line 835
 
 
     Access typeSignature() {
@@ -352,6 +358,7 @@ public class Signatures extends java.lang.Object {
       }
     }
 
+    // Declared in BytecodeReader.jrag at line 844
 
 
     Access baseType() {
@@ -365,6 +372,15 @@ public class Signatures extends java.lang.Object {
       else if(next("Z")) { eat("Z"); return new PrimitiveTypeAccess("boolean"); }
       error("baseType");
       return null; // error never returns
+    }
+
+    // Declared in BytecodeReader.jrag at line 857
+
+
+    public static void main(String[] args) {
+      //new Signatures("<T:Ljava/lang/Object;:Ljava/lang/String;>Ljava/lang/Object;").classSignature();
+      //new ClassSignature("<T:Ljava/lang/Object;:Ljava/lang/String;>Ljava/lang/Object;").classSignature();
+      new ClassSignature("Ljava/lang/Object;Ljava/lang/Comparable<Ljava/lang/String;>;");
     }
 
 

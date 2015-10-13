@@ -1,187 +1,112 @@
-/* This file was generated with JastAdd2 (http://jastadd.org) version R20130212 (r1031) */
+
 package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
 
-/**
- * @production MemberTypeDecl : {@link MemberDecl};
- * @ast node
- * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/java.ast:98
- */
+// 8.5 Member Type Declarations
+
 public abstract class MemberTypeDecl extends MemberDecl implements Cloneable {
-  /**
-   * @apilevel low-level
-   */
-  public void flushCache() {
-    super.flushCache();
-  }
-  /**
-   * @apilevel internal
-   */
-  public void flushCollectionCache() {
-    super.flushCollectionCache();
-  }
-  /**
-   * @apilevel internal
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public MemberTypeDecl clone() throws CloneNotSupportedException {
-    MemberTypeDecl node = (MemberTypeDecl)super.clone();
-    node.in$Circle(false);
-    node.is$Final(false);
-    return node;
-  }
-  /**
-   * @ast method 
-   * 
-   */
-  public MemberTypeDecl() {
-    super();
+    public void flushCache() {
+        super.flushCache();
+    }
+    public void flushCollectionCache() {
+        super.flushCollectionCache();
+    }
+     @SuppressWarnings({"unchecked", "cast"})  public MemberTypeDecl clone() throws CloneNotSupportedException {
+        MemberTypeDecl node = (MemberTypeDecl)super.clone();
+        node.in$Circle(false);
+        node.is$Final(false);
+        return node;
+    }
+    // Declared in java.ast at line 3
+    // Declared in java.ast line 91
+
+    public MemberTypeDecl() {
+        super();
 
 
-  }
-  /**
-   * Initializes the child array to the correct size.
-   * Initializes List and Opt nta children.
-   * @apilevel internal
-   * @ast method
-   * @ast method 
-   * 
-   */
-  public void init$Children() {
-  }
-  /**
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
+    }
+
+    // Declared in java.ast at line 9
+
+
   protected int numChildren() {
     return 0;
   }
-  /**
-   * @apilevel internal
-   * @ast method 
-   * 
-   */
-  public boolean mayHaveRewrite() {
-    return false;
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeScopePropagation
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/LookupType.jrag:484
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public abstract TypeDecl typeDecl();
-  /**
-   * @attribute syn
-   * @aspect TypeScopePropagation
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/LookupType.jrag:479
-   */
-  public boolean declaresType(String name) {
-    ASTNode$State state = state();
-    try {  return typeDecl().name().equals(name);  }
-    finally {
+
+    // Declared in java.ast at line 12
+
+    public boolean mayHaveRewrite() {
+        return false;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeScopePropagation
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/LookupType.jrag:481
-   */
-  public TypeDecl type(String name) {
-    ASTNode$State state = state();
-    try {  return declaresType(name) ? typeDecl() : null;  }
-    finally {
+
+    // Declared in LookupType.jrag at line 396
+ @SuppressWarnings({"unchecked", "cast"})     public abstract TypeDecl typeDecl();
+    // Declared in LookupType.jrag at line 392
+ @SuppressWarnings({"unchecked", "cast"})     public boolean declaresType(String name) {
+        ASTNode$State state = state();
+        boolean declaresType_String_value = declaresType_compute(name);
+        return declaresType_String_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect Modifiers
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/Modifiers.jrag:222
-   */
-  public boolean isStatic() {
-    ASTNode$State state = state();
-    try {  return typeDecl().isStatic();  }
-    finally {
+
+    private boolean declaresType_compute(String name) {  return typeDecl().name().equals(name);  }
+
+    // Declared in LookupType.jrag at line 394
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl type(String name) {
+        ASTNode$State state = state();
+        TypeDecl type_String_value = type_compute(name);
+        return type_String_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect PrettyPrint
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/PrettyPrint.jadd:758
-   */
-  public boolean addsIndentationLevel() {
-    ASTNode$State state = state();
-    try {  return false;  }
-    finally {
+
+    private TypeDecl type_compute(String name) {  return declaresType(name) ? typeDecl() : null;  }
+
+    // Declared in Modifiers.jrag at line 246
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isStatic() {
+        ASTNode$State state = state();
+        boolean isStatic_value = isStatic_compute();
+        return isStatic_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect Annotations
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Annotations.jrag:283
-   */
-  public boolean hasAnnotationSuppressWarnings(String s) {
-    ASTNode$State state = state();
-    try {  return typeDecl().hasAnnotationSuppressWarnings(s);  }
-    finally {
+
+    private boolean isStatic_compute() {  return typeDecl().isStatic();  }
+
+    // Declared in PrettyPrint.jadd at line 760
+ @SuppressWarnings({"unchecked", "cast"})     public boolean addsIndentationLevel() {
+        ASTNode$State state = state();
+        boolean addsIndentationLevel_value = addsIndentationLevel_compute();
+        return addsIndentationLevel_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect Annotations
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Annotations.jrag:322
-   */
-  public boolean isDeprecated() {
-    ASTNode$State state = state();
-    try {  return typeDecl().isDeprecated();  }
-    finally {
+
+    private boolean addsIndentationLevel_compute() {  return false;  }
+
+    // Declared in Annotations.jrag at line 284
+ @SuppressWarnings({"unchecked", "cast"})     public boolean hasAnnotationSuppressWarnings(String s) {
+        ASTNode$State state = state();
+        boolean hasAnnotationSuppressWarnings_String_value = hasAnnotationSuppressWarnings_compute(s);
+        return hasAnnotationSuppressWarnings_String_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect GenericsParTypeDecl
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/GenericsParTypeDecl.jrag:67
-   */
-  public boolean visibleTypeParameters() {
-    ASTNode$State state = state();
-    try {  return !isStatic();  }
-    finally {
+
+    private boolean hasAnnotationSuppressWarnings_compute(String s) {  return typeDecl().hasAnnotationSuppressWarnings(s);  }
+
+    // Declared in Annotations.jrag at line 322
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDeprecated() {
+        ASTNode$State state = state();
+        boolean isDeprecated_value = isDeprecated_compute();
+        return isDeprecated_value;
     }
-  }
-  /**
-	 * @return true if the modifier list includes the SafeVarargs annotation
-	 * @attribute syn
-   * @aspect SafeVarargs
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java7Frontend/SafeVarargs.jrag:20
-   */
-  public boolean hasAnnotationSafeVarargs() {
-    ASTNode$State state = state();
-    try {  return typeDecl().hasAnnotationSafeVarargs();  }
-    finally {
+
+    private boolean isDeprecated_compute() {  return typeDecl().isDeprecated();  }
+
+    // Declared in GenericsParTypeDecl.jrag at line 68
+ @SuppressWarnings({"unchecked", "cast"})     public boolean visibleTypeParameters() {
+        ASTNode$State state = state();
+        boolean visibleTypeParameters_value = visibleTypeParameters_compute();
+        return visibleTypeParameters_value;
     }
-  }
-  /**
-   * @apilevel internal
-   */
-  public ASTNode rewriteTo() {
+
+    private boolean visibleTypeParameters_compute() {  return !isStatic();  }
+
+public ASTNode rewriteTo() {
     return super.rewriteTo();
-  }
+}
+
 }

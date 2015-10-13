@@ -11,13 +11,13 @@ package beaver;
 /**
  * Represents a symbol of a grammar.
  */
-public class Symbol implements Cloneable
+public class Symbol
 {
 	static private final int COLUMN_FIELD_BITS = 12;
 	static private final int COLUMN_FIELD_MASK = (1 << COLUMN_FIELD_BITS) - 1; 
 	
 	/**
-	 * Packs symbol "coordinates" into a single number.
+	 * Packes symbol "coordinates" into a single number.
 	 */
 	static public int makePosition(int line, int column)
 	{
@@ -43,7 +43,7 @@ public class Symbol implements Cloneable
 	/**
 	 * Value assigned to this symbol. 
 	 */
-	public Object value;
+	public final Object value;
 
 	/** 
 	 * Numeric symbol ID. 
@@ -159,11 +159,5 @@ public class Symbol implements Cloneable
 	public int getEnd()
 	{
 		return end;
-	}
-
-	public Symbol clone() throws CloneNotSupportedException {
-		Symbol copy = (Symbol) super.clone();
-		copy.value = copy;
-		return copy;
 	}
 }

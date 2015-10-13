@@ -1,219 +1,135 @@
-/* This file was generated with JastAdd2 (http://jastadd.org) version R20130212 (r1031) */
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
- * @production InstanceInitializer : {@link BodyDecl} ::= <span class="component">{@link Block}</span>;
- * @ast node
- * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/java.ast:73
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
+
 public class InstanceInitializer extends BodyDecl implements Cloneable {
-  /**
-   * @apilevel low-level
-   */
-  public void flushCache() {
-    super.flushCache();
-    exceptions_computed = false;
-    exceptions_value = null;
-    isDAafter_Variable_values = null;
-    isDUafter_Variable_values = null;
-    handlesException_TypeDecl_values = null;
-  }
-  /**
-   * @apilevel internal
-   */
-  public void flushCollectionCache() {
-    super.flushCollectionCache();
-  }
-  /**
-   * @apilevel internal
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public InstanceInitializer clone() throws CloneNotSupportedException {
-    InstanceInitializer node = (InstanceInitializer)super.clone();
-    node.exceptions_computed = false;
-    node.exceptions_value = null;
-    node.isDAafter_Variable_values = null;
-    node.isDUafter_Variable_values = null;
-    node.handlesException_TypeDecl_values = null;
-    node.in$Circle(false);
-    node.is$Final(false);
-    return node;
-  }
-  /**
-   * @apilevel internal
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public InstanceInitializer copy() {
-    try {
-      InstanceInitializer node = (InstanceInitializer) clone();
-      node.parent = null;
-      if(children != null)
-        node.children = (ASTNode[]) children.clone();
-      return node;
-    } catch (CloneNotSupportedException e) {
-      throw new Error("Error: clone not supported for " +
-        getClass().getName());
+    public void flushCache() {
+        super.flushCache();
+        exceptions_computed = false;
+        exceptions_value = null;
+        isDAafter_Variable_values = null;
+        isDUafter_Variable_values = null;
+        handlesException_TypeDecl_values = null;
     }
-  }
-  /**
-   * Create a deep copy of the AST subtree at this node.
-   * The copy is dangling, i.e. has no parent.
-   * @return dangling copy of the subtree at this node
-   * @apilevel low-level
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public InstanceInitializer fullCopy() {
-    InstanceInitializer tree = (InstanceInitializer) copy();
-    if (children != null) {
-      for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
-        if(child != null) {
-          child = child.fullCopy();
-          tree.setChild(child, i);
-        }
+    public void flushCollectionCache() {
+        super.flushCollectionCache();
+    }
+     @SuppressWarnings({"unchecked", "cast"})  public InstanceInitializer clone() throws CloneNotSupportedException {
+        InstanceInitializer node = (InstanceInitializer)super.clone();
+        node.exceptions_computed = false;
+        node.exceptions_value = null;
+        node.isDAafter_Variable_values = null;
+        node.isDUafter_Variable_values = null;
+        node.handlesException_TypeDecl_values = null;
+        node.in$Circle(false);
+        node.is$Final(false);
+        return node;
+    }
+     @SuppressWarnings({"unchecked", "cast"})  public InstanceInitializer copy() {
+      try {
+          InstanceInitializer node = (InstanceInitializer)clone();
+          if(children != null) node.children = (ASTNode[])children.clone();
+          return node;
+      } catch (CloneNotSupportedException e) {
       }
+      System.err.println("Error: Could not clone node of type " + getClass().getName() + "!");
+      return null;
     }
-    return tree;
-  }
-  /**
-   * @ast method 
-   * @aspect PrettyPrint
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/PrettyPrint.jadd:106
-   */
+     @SuppressWarnings({"unchecked", "cast"})  public InstanceInitializer fullCopy() {
+        InstanceInitializer res = (InstanceInitializer)copy();
+        for(int i = 0; i < getNumChildNoTransform(); i++) {
+          ASTNode node = getChildNoTransform(i);
+          if(node != null) node = node.fullCopy();
+          res.setChild(node, i);
+        }
+        return res;
+    }
+    // Declared in PrettyPrint.jadd at line 106
+
+
+  // Type body decl
+
   public void toString(StringBuffer s) {
-    if(getBlock().getNumStmt() == 0) return;
-    s.append(indent());
-    getBlock().toString(s);
+    if(getBlock().getNumStmt() > 0) {
+      s.append(indent());
+      getBlock().toString(s);
+    }
   }
-  /**
-   * @ast method 
-   * @aspect UnreachableStatements
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/UnreachableStatements.jrag:22
-   */
+
+    // Declared in UnreachableStatements.jrag at line 22
+
   void checkUnreachableStmt() {
     if(!getBlock().canCompleteNormally())
       error("instance initializer in " + hostType().fullName() + " can not complete normally");
   }
-  /**
-   * @ast method 
-   * 
-   */
-  public InstanceInitializer() {
-    super();
+
+    // Declared in java.ast at line 3
+    // Declared in java.ast line 70
+
+    public InstanceInitializer() {
+        super();
 
 
-  }
-  /**
-   * Initializes the child array to the correct size.
-   * Initializes List and Opt nta children.
-   * @apilevel internal
-   * @ast method
-   * @ast method 
-   * 
-   */
-  public void init$Children() {
-    children = new ASTNode[1];
-  }
-  /**
-   * @ast method 
-   * 
-   */
-  public InstanceInitializer(Block p0) {
-    setChild(p0, 0);
-  }
-  /**
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
+    }
+
+    // Declared in java.ast at line 10
+
+
+    // Declared in java.ast line 70
+    public InstanceInitializer(Block p0) {
+        setChild(p0, 0);
+    }
+
+    // Declared in java.ast at line 14
+
+
   protected int numChildren() {
     return 1;
   }
-  /**
-   * @apilevel internal
-   * @ast method 
-   * 
-   */
-  public boolean mayHaveRewrite() {
-    return false;
-  }
-  /**
-   * Replaces the Block child.
-   * @param node The new node to replace the Block child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setBlock(Block node) {
-    setChild(node, 0);
-  }
-  /**
-   * Retrieves the Block child.
-   * @return The current node used as the Block child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public Block getBlock() {
-    return (Block)getChild(0);
-  }
-  /**
-   * Retrieves the Block child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Block child.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public Block getBlockNoTransform() {
-    return (Block)getChildNoTransform(0);
-  }
-  /**
-   * @apilevel internal
-   */
-  protected boolean exceptions_computed = false;
-  /**
-   * @apilevel internal
-   */
-  protected Collection exceptions_value;
-  /**
-   * @attribute syn
-   * @aspect AnonymousClasses
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/AnonymousClasses.jrag:191
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public Collection exceptions() {
-    if(exceptions_computed) {
-      return exceptions_value;
+
+    // Declared in java.ast at line 17
+
+    public boolean mayHaveRewrite() {
+        return false;
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    exceptions_value = exceptions_compute();
-      if(isFinal && num == state().boundariesCrossed) exceptions_computed = true;
-    return exceptions_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private Collection exceptions_compute() {
+
+    // Declared in java.ast at line 2
+    // Declared in java.ast line 70
+    public void setBlock(Block node) {
+        setChild(node, 0);
+    }
+
+    // Declared in java.ast at line 5
+
+    public Block getBlock() {
+        return (Block)getChild(0);
+    }
+
+    // Declared in java.ast at line 9
+
+
+    public Block getBlockNoTransform() {
+        return (Block)getChildNoTransform(0);
+    }
+
+    protected boolean exceptions_computed = false;
+    protected Collection exceptions_value;
+    // Declared in AnonymousClasses.jrag at line 179
+ @SuppressWarnings({"unchecked", "cast"})     public Collection exceptions() {
+        if(exceptions_computed) {
+            return exceptions_value;
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        exceptions_value = exceptions_compute();
+        if(isFinal && num == state().boundariesCrossed)
+            exceptions_computed = true;
+        return exceptions_value;
+    }
+
+    private Collection exceptions_compute() {
     HashSet set = new HashSet();
     collectExceptions(set, this);
     for(Iterator iter = set.iterator(); iter.hasNext(); ) {
@@ -223,91 +139,71 @@ public class InstanceInitializer extends BodyDecl implements Cloneable {
     }
     return set;
   }
-  protected java.util.Map isDAafter_Variable_values;
-  /**
-   * @attribute syn
-   * @aspect DA
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:292
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public boolean isDAafter(Variable v) {
-    Object _parameters = v;
-    if(isDAafter_Variable_values == null) isDAafter_Variable_values = new java.util.HashMap(4);
-    if(isDAafter_Variable_values.containsKey(_parameters)) {
-      return ((Boolean)isDAafter_Variable_values.get(_parameters)).booleanValue();
+
+    // Declared in DefiniteAssignment.jrag at line 294
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDAafter(Variable v) {
+        Object _parameters = v;
+if(isDAafter_Variable_values == null) isDAafter_Variable_values = new java.util.HashMap(4);
+        if(isDAafter_Variable_values.containsKey(_parameters)) {
+            return ((Boolean)isDAafter_Variable_values.get(_parameters)).booleanValue();
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        boolean isDAafter_Variable_value = isDAafter_compute(v);
+        if(isFinal && num == state().boundariesCrossed)
+            isDAafter_Variable_values.put(_parameters, Boolean.valueOf(isDAafter_Variable_value));
+        return isDAafter_Variable_value;
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    boolean isDAafter_Variable_value = isDAafter_compute(v);
-      if(isFinal && num == state().boundariesCrossed) isDAafter_Variable_values.put(_parameters, Boolean.valueOf(isDAafter_Variable_value));
-    return isDAafter_Variable_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private boolean isDAafter_compute(Variable v) {  return getBlock().isDAafter(v);  }
-  protected java.util.Map isDUafter_Variable_values;
-  /**
-   * @attribute syn
-   * @aspect DU
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:749
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public boolean isDUafter(Variable v) {
-    Object _parameters = v;
-    if(isDUafter_Variable_values == null) isDUafter_Variable_values = new java.util.HashMap(4);
-    if(isDUafter_Variable_values.containsKey(_parameters)) {
-      return ((Boolean)isDUafter_Variable_values.get(_parameters)).booleanValue();
+
+    private boolean isDAafter_compute(Variable v) {  return getBlock().isDAafter(v);  }
+
+    // Declared in DefiniteAssignment.jrag at line 750
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isDUafter(Variable v) {
+        Object _parameters = v;
+if(isDUafter_Variable_values == null) isDUafter_Variable_values = new java.util.HashMap(4);
+        if(isDUafter_Variable_values.containsKey(_parameters)) {
+            return ((Boolean)isDUafter_Variable_values.get(_parameters)).booleanValue();
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        boolean isDUafter_Variable_value = isDUafter_compute(v);
+        if(isFinal && num == state().boundariesCrossed)
+            isDUafter_Variable_values.put(_parameters, Boolean.valueOf(isDUafter_Variable_value));
+        return isDUafter_Variable_value;
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    boolean isDUafter_Variable_value = isDUafter_compute(v);
-      if(isFinal && num == state().boundariesCrossed) isDUafter_Variable_values.put(_parameters, Boolean.valueOf(isDUafter_Variable_value));
-    return isDUafter_Variable_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private boolean isDUafter_compute(Variable v) {  return getBlock().isDUafter(v);  }
-  protected java.util.Map handlesException_TypeDecl_values;
-  /**
-   * @attribute inh
-   * @aspect ExceptionHandling
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/ExceptionHandling.jrag:46
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public boolean handlesException(TypeDecl exceptionType) {
-    Object _parameters = exceptionType;
-    if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = new java.util.HashMap(4);
-    if(handlesException_TypeDecl_values.containsKey(_parameters)) {
-      return ((Boolean)handlesException_TypeDecl_values.get(_parameters)).booleanValue();
+
+    private boolean isDUafter_compute(Variable v) {  return getBlock().isDUafter(v);  }
+
+    protected java.util.Map handlesException_TypeDecl_values;
+    // Declared in ExceptionHandling.jrag at line 32
+ @SuppressWarnings({"unchecked", "cast"})     public boolean handlesException(TypeDecl exceptionType) {
+        Object _parameters = exceptionType;
+if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = new java.util.HashMap(4);
+        if(handlesException_TypeDecl_values.containsKey(_parameters)) {
+            return ((Boolean)handlesException_TypeDecl_values.get(_parameters)).booleanValue();
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        boolean handlesException_TypeDecl_value = getParent().Define_boolean_handlesException(this, null, exceptionType);
+        if(isFinal && num == state().boundariesCrossed)
+            handlesException_TypeDecl_values.put(_parameters, Boolean.valueOf(handlesException_TypeDecl_value));
+        return handlesException_TypeDecl_value;
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    boolean handlesException_TypeDecl_value = getParent().Define_boolean_handlesException(this, null, exceptionType);
-      if(isFinal && num == state().boundariesCrossed) handlesException_TypeDecl_values.put(_parameters, Boolean.valueOf(handlesException_TypeDecl_value));
-    return handlesException_TypeDecl_value;
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/DefiniteAssignment.jrag:438
-   * @apilevel internal
-   */
-  public boolean Define_boolean_isDAbefore(ASTNode caller, ASTNode child, Variable v) {
-    if(caller == getBlockNoTransform()) {
-      return isDAbefore(v);
+
+    // Declared in DefiniteAssignment.jrag at line 439
+    public boolean Define_boolean_isDAbefore(ASTNode caller, ASTNode child, Variable v) {
+        if(caller == getBlockNoTransform()) {
+            return isDAbefore(v);
+        }
+        return getParent().Define_boolean_isDAbefore(this, caller, v);
     }
-    else {      return getParent().Define_boolean_isDAbefore(this, caller, v);
-    }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/ExceptionHandling.jrag:180
-   * @apilevel internal
-   */
-  public boolean Define_boolean_handlesException(ASTNode caller, ASTNode child, TypeDecl exceptionType) {
-    if(caller == getBlockNoTransform()){
+
+    // Declared in ExceptionHandling.jrag at line 166
+    public boolean Define_boolean_handlesException(ASTNode caller, ASTNode child, TypeDecl exceptionType) {
+        if(caller == getBlockNoTransform()){
     if(hostType().isAnonymous())
       return true;
     if(!exceptionType.isUncheckedException())
@@ -319,46 +215,35 @@ public class InstanceInitializer extends BodyDecl implements Cloneable {
     }
     return true;
   }
-    else {      return getParent().Define_boolean_handlesException(this, caller, exceptionType);
+        return getParent().Define_boolean_handlesException(this, caller, exceptionType);
     }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/NameCheck.jrag:248
-   * @apilevel internal
-   */
-  public ASTNode Define_ASTNode_enclosingBlock(ASTNode caller, ASTNode child) {
-    if(caller == getBlockNoTransform()) {
-      return this;
+
+    // Declared in NameCheck.jrag at line 243
+    public ASTNode Define_ASTNode_enclosingBlock(ASTNode caller, ASTNode child) {
+        if(caller == getBlockNoTransform()) {
+            return this;
+        }
+        return getParent().Define_ASTNode_enclosingBlock(this, caller);
     }
-    else {      return getParent().Define_ASTNode_enclosingBlock(this, caller);
+
+    // Declared in TypeHierarchyCheck.jrag at line 140
+    public boolean Define_boolean_inStaticContext(ASTNode caller, ASTNode child) {
+        if(caller == getBlockNoTransform()) {
+            return false;
+        }
+        return getParent().Define_boolean_inStaticContext(this, caller);
     }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeHierarchyCheck.jrag:140
-   * @apilevel internal
-   */
-  public boolean Define_boolean_inStaticContext(ASTNode caller, ASTNode child) {
-    if(caller == getBlockNoTransform()) {
-      return false;
+
+    // Declared in UnreachableStatements.jrag at line 35
+    public boolean Define_boolean_reachable(ASTNode caller, ASTNode child) {
+        if(caller == getBlockNoTransform()) {
+            return true;
+        }
+        return getParent().Define_boolean_reachable(this, caller);
     }
-    else {      return getParent().Define_boolean_inStaticContext(this, caller);
-    }
-  }
-  /**
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/UnreachableStatements.jrag:35
-   * @apilevel internal
-   */
-  public boolean Define_boolean_reachable(ASTNode caller, ASTNode child) {
-    if(caller == getBlockNoTransform()) {
-      return true;
-    }
-    else {      return getParent().Define_boolean_reachable(this, caller);
-    }
-  }
-  /**
-   * @apilevel internal
-   */
-  public ASTNode rewriteTo() {
+
+public ASTNode rewriteTo() {
     return super.rewriteTo();
-  }
+}
+
 }

@@ -1,28 +1,10 @@
-package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
-/**
-  * @ast class
- * 
- */
+package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+
 public class Options extends java.lang.Object {
-static  class Option {
+    // Declared in Options.jadd at line 20
+static   class Option {
     public String name;
     public boolean hasValue;
     public boolean isCollection;
@@ -33,60 +15,70 @@ static  class Option {
     }
   }
 
-private  Map options = new HashMap();
+    // Declared in Options.jadd at line 30
+private   Map options = new HashMap();
 
-private  Map optionDescriptions = new HashMap();
+    // Declared in Options.jadd at line 31
+private   Map optionDescriptions = new HashMap();
 
-private  HashSet files = new HashSet();
+    // Declared in Options.jadd at line 33
+private   HashSet files = new HashSet();
 
-public  Collection files() {
+    // Declared in Options.jadd at line 34
+public   Collection files() {
     return files;
   }
 
-public  void initOptions() {
+    // Declared in Options.jadd at line 38
+public   void initOptions() {
     options = new HashMap();
     optionDescriptions = new HashMap();
     files = new HashSet();
   }
 
-public  void addKeyOption(String name) {
+    // Declared in Options.jadd at line 44
+public   void addKeyOption(String name) {
     if(optionDescriptions.containsKey(name))
       throw new Error("Command line definition error: option description for " + name + " is multiply declared");
     optionDescriptions.put(name, new Option(name, false, false));
   }
 
-public  void addKeyValueOption(String name) {
+    // Declared in Options.jadd at line 50
+public   void addKeyValueOption(String name) {
     if(optionDescriptions.containsKey(name))
       throw new Error("Command line definition error: option description for " + name + " is multiply declared");
     optionDescriptions.put(name, new Option(name, true, false));
   }
 
-public  void addKeyCollectionOption(String name) {
+    // Declared in Options.jadd at line 56
+public   void addKeyCollectionOption(String name) {
     if(optionDescriptions.containsKey(name))
       throw new Error("Command line definition error: option description for " + name + " is multiply declared");
     optionDescriptions.put(name, new Option(name, true, true));
   }
 
-public  void addOptionDescription(String name, boolean value) {
+    // Declared in Options.jadd at line 62
+public   void addOptionDescription(String name, boolean value) {
     if(optionDescriptions.containsKey(name))
       throw new Error("Command line definition error: option description for " + name + " is multiply declared");
     optionDescriptions.put(name, new Option(name, value, false));
   }
 
-public  void addOptionDescription(String name, boolean value, boolean isCollection) {
+    // Declared in Options.jadd at line 67
+public   void addOptionDescription(String name, boolean value, boolean isCollection) {
     if(optionDescriptions.containsKey(name))
       throw new Error("Command line definition error: option description for " + name + " is multiply declared");
     optionDescriptions.put(name, new Option(name, value, isCollection));
   }
 
-public  void addOptions(String[] args) {
+    // Declared in Options.jadd at line 73
+public   void addOptions(String[] args) {
     for(int i = 0; i < args.length; i++) {
       String arg = args[i];
       if(arg.startsWith("@")) {
         try {
           String fileName = arg.substring(1,arg.length());
-          java.io.FileReader r = new java.io.FileReader(fileName);
-		  java.io.StreamTokenizer tokenizer = new java.io.StreamTokenizer(r);
+          java.io.StreamTokenizer tokenizer = new java.io.StreamTokenizer(new java.io.FileReader(fileName));
           tokenizer.resetSyntax();
           tokenizer.whitespaceChars(' ',' ');
           tokenizer.whitespaceChars('\t','\t');
@@ -108,11 +100,7 @@ public  void addOptions(String[] args) {
             newArgs[index] = (String)iter.next();
           }
           addOptions(newArgs);
-          r.close();
-        } catch (java.io.FileNotFoundException e) {
-          System.err.println("File not found: "+arg.substring(1));
         } catch (java.io.IOException e) {
-          System.err.println("Exception: "+e.getMessage());
         }
       }
       else if(arg.startsWith("-")) {
@@ -157,35 +145,42 @@ public  void addOptions(String[] args) {
     }
   }
 
-public  boolean hasOption(String name) {
+    // Declared in Options.jadd at line 145
+public   boolean hasOption(String name) {
     return options.containsKey(name);
   }
 
-public  void setOption(String name) {
+    // Declared in Options.jadd at line 148
+public   void setOption(String name) {
     options.put(name, null);
   }
 
-public  boolean hasValueForOption(String name) {
+    // Declared in Options.jadd at line 151
+public   boolean hasValueForOption(String name) {
     return options.containsKey(name) && options.get(name) != null;
   }
 
-public  String getValueForOption(String name) {
+    // Declared in Options.jadd at line 154
+public   String getValueForOption(String name) {
     if(!hasValueForOption(name))
       throw new Error("Command line argument error: key " + name + " does not have a value");
     return (String)options.get(name);
   }
 
-public  void setValueForOption(String value, String option) {
+    // Declared in Options.jadd at line 159
+public   void setValueForOption(String value, String option) {
     options.put(option, value);
   }
 
-public  Collection getValueCollectionForOption(String name) {
+    // Declared in Options.jadd at line 162
+public   Collection getValueCollectionForOption(String name) {
     if(!hasValueForOption(name))
       throw new Error("Command line argument error: key " + name + " does not have a value");
     return (Collection)options.get(name);
   }
 
-public  boolean verbose() {
+    // Declared in Options.jadd at line 168
+public   boolean verbose() {
     return hasOption("-verbose");
   }
 

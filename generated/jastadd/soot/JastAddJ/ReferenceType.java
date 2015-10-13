@@ -1,67 +1,37 @@
-/* This file was generated with JastAdd2 (http://jastadd.org) version R20130212 (r1031) */
+
 package soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
 
-/**
- * @production ReferenceType : {@link TypeDecl};
- * @ast node
- * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/java.ast:44
- */
+// 4.1 The Kinds of Types and Values
+
 public abstract class ReferenceType extends TypeDecl implements Cloneable {
-  /**
-   * @apilevel low-level
-   */
-  public void flushCache() {
-    super.flushCache();
-    narrowingConversionTo_TypeDecl_values = null;
-    unboxed_computed = false;
-    unboxed_value = null;
-    jvmName_computed = false;
-    jvmName_value = null;
-  }
-  /**
-   * @apilevel internal
-   */
-  public void flushCollectionCache() {
-    super.flushCollectionCache();
-  }
-  /**
-   * @apilevel internal
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public ReferenceType clone() throws CloneNotSupportedException {
-    ReferenceType node = (ReferenceType)super.clone();
-    node.narrowingConversionTo_TypeDecl_values = null;
-    node.unboxed_computed = false;
-    node.unboxed_value = null;
-    node.jvmName_computed = false;
-    node.jvmName_value = null;
-    node.in$Circle(false);
-    node.is$Final(false);
-    return node;
-  }
-  /**
-   * @ast method 
-   * @aspect AutoBoxingCodegen
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddExtensions/Jimple1.5Backend/AutoBoxingCodegen.jrag:74
-   */
+    public void flushCache() {
+        super.flushCache();
+        narrowingConversionTo_TypeDecl_values = null;
+        unboxed_computed = false;
+        unboxed_value = null;
+        jvmName_computed = false;
+        jvmName_value = null;
+    }
+    public void flushCollectionCache() {
+        super.flushCollectionCache();
+    }
+     @SuppressWarnings({"unchecked", "cast"})  public ReferenceType clone() throws CloneNotSupportedException {
+        ReferenceType node = (ReferenceType)super.clone();
+        node.narrowingConversionTo_TypeDecl_values = null;
+        node.unboxed_computed = false;
+        node.unboxed_value = null;
+        node.jvmName_computed = false;
+        node.jvmName_value = null;
+        node.in$Circle(false);
+        node.is$Final(false);
+        return node;
+    }
+    // Declared in AutoBoxingCodegen.jrag at line 74
+
+
+  // Code generation for Unboxing Conversion
   public soot.Value emitCastTo(Body b, soot.Value v, TypeDecl type, ASTNode location) {
     if(this == type)
       return v;
@@ -70,281 +40,189 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
     else 
       return super.emitCastTo(b, v, type, location);
   }
-  /**
-   * @ast method 
-   * 
-   */
-  public ReferenceType() {
-    super();
+
+    // Declared in java.ast at line 3
+    // Declared in java.ast line 41
+
+    public ReferenceType() {
+        super();
+
+        setChild(new List(), 1);
+
+    }
+
+    // Declared in java.ast at line 11
 
 
-  }
-  /**
-   * Initializes the child array to the correct size.
-   * Initializes List and Opt nta children.
-   * @apilevel internal
-   * @ast method
-   * @ast method 
-   * 
-   */
-  public void init$Children() {
-    children = new ASTNode[2];
-    setChild(new List(), 1);
-  }
-  /**
-   * @ast method 
-   * 
-   */
-  public ReferenceType(Modifiers p0, String p1, List<BodyDecl> p2) {
-    setChild(p0, 0);
-    setID(p1);
-    setChild(p2, 1);
-  }
-  /**
-   * @ast method 
-   * 
-   */
-  public ReferenceType(Modifiers p0, beaver.Symbol p1, List<BodyDecl> p2) {
-    setChild(p0, 0);
-    setID(p1);
-    setChild(p2, 1);
-  }
-  /**
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
+    // Declared in java.ast line 41
+    public ReferenceType(Modifiers p0, String p1, List<BodyDecl> p2) {
+        setChild(p0, 0);
+        setID(p1);
+        setChild(p2, 1);
+    }
+
+    // Declared in java.ast at line 18
+
+
+    // Declared in java.ast line 41
+    public ReferenceType(Modifiers p0, beaver.Symbol p1, List<BodyDecl> p2) {
+        setChild(p0, 0);
+        setID(p1);
+        setChild(p2, 1);
+    }
+
+    // Declared in java.ast at line 24
+
+
   protected int numChildren() {
     return 2;
   }
-  /**
-   * @apilevel internal
-   * @ast method 
-   * 
-   */
-  public boolean mayHaveRewrite() {
-    return false;
-  }
-  /**
-   * Replaces the Modifiers child.
-   * @param node The new node to replace the Modifiers child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setModifiers(Modifiers node) {
-    setChild(node, 0);
-  }
-  /**
-   * Retrieves the Modifiers child.
-   * @return The current node used as the Modifiers child.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public Modifiers getModifiers() {
-    return (Modifiers)getChild(0);
-  }
-  /**
-   * Retrieves the Modifiers child.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The current node used as the Modifiers child.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public Modifiers getModifiersNoTransform() {
-    return (Modifiers)getChildNoTransform(0);
-  }
-  /**
-   * Replaces the lexeme ID.
-   * @param value The new value for the lexeme ID.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setID(String value) {
-    tokenString_ID = value;
-  }
-  /**
-   * JastAdd-internal setter for lexeme ID using the Beaver parser.
-   * @apilevel internal
-   * @ast method 
-   * 
-   */
-  public void setID(beaver.Symbol symbol) {
-    if(symbol.value != null && !(symbol.value instanceof String))
-      throw new UnsupportedOperationException("setID is only valid for String lexemes");
-    tokenString_ID = (String)symbol.value;
-    IDstart = symbol.getStart();
-    IDend = symbol.getEnd();
-  }
-  /**
-   * Retrieves the value for the lexeme ID.
-   * @return The value for the lexeme ID.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public String getID() {
-    return tokenString_ID != null ? tokenString_ID : "";
-  }
-  /**
-   * Replaces the BodyDecl list.
-   * @param list The new list node to be used as the BodyDecl list.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setBodyDeclList(List<BodyDecl> list) {
-    setChild(list, 1);
-  }
-  /**
-   * Retrieves the number of children in the BodyDecl list.
-   * @return Number of children in the BodyDecl list.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public int getNumBodyDecl() {
-    return getBodyDeclList().getNumChild();
-  }
-  /**
-   * Retrieves the number of children in the BodyDecl list.
-   * Calling this method will not trigger rewrites..
-   * @return Number of children in the BodyDecl list.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public int getNumBodyDeclNoTransform() {
-    return getBodyDeclListNoTransform().getNumChildNoTransform();
-  }
-  /**
-   * Retrieves the element at index {@code i} in the BodyDecl list..
-   * @param i Index of the element to return.
-   * @return The element at position {@code i} in the BodyDecl list.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
-  }
-  /**
-   * Append an element to the BodyDecl list.
-   * @param node The element to append to the BodyDecl list.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void addBodyDecl(BodyDecl node) {
-    List<BodyDecl> list = (parent == null || state == null) ? getBodyDeclListNoTransform() : getBodyDeclList();
-    list.addChild(node);
-  }
-  /**
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public void addBodyDeclNoTransform(BodyDecl node) {
-    List<BodyDecl> list = getBodyDeclListNoTransform();
-    list.addChild(node);
-  }
-  /**
-   * Replaces the BodyDecl list element at index {@code i} with the new node {@code node}.
-   * @param node The new node to replace the old list element.
-   * @param i The list index of the node to be replaced.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public void setBodyDecl(BodyDecl node, int i) {
-    List<BodyDecl> list = getBodyDeclList();
-    list.setChild(node, i);
-  }
-  /**
-   * Retrieves the BodyDecl list.
-   * @return The node representing the BodyDecl list.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  public List<BodyDecl> getBodyDecls() {
-    return getBodyDeclList();
-  }
-  /**
-   * Retrieves the BodyDecl list.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the BodyDecl list.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  public List<BodyDecl> getBodyDeclsNoTransform() {
-    return getBodyDeclListNoTransform();
-  }
-  /**
-   * Retrieves the BodyDecl list.
-   * @return The node representing the BodyDecl list.
-   * @apilevel high-level
-   * @ast method 
-   * 
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public List<BodyDecl> getBodyDeclList() {
-    List<BodyDecl> list = (List<BodyDecl>)getChild(1);
-    list.getNumChild();
-    return list;
-  }
-  /**
-   * Retrieves the BodyDecl list.
-   * <p><em>This method does not invoke AST transformations.</em></p>
-   * @return The node representing the BodyDecl list.
-   * @apilevel low-level
-   * @ast method 
-   * 
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public List<BodyDecl> getBodyDeclListNoTransform() {
-    return (List<BodyDecl>)getChildNoTransform(1);
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeConversion
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:17
-   */
-  public boolean wideningConversionTo(TypeDecl type) {
-    ASTNode$State state = state();
-    try {  return instanceOf(type);  }
-    finally {
+
+    // Declared in java.ast at line 27
+
+    public boolean mayHaveRewrite() {
+        return false;
     }
-  }
-  protected java.util.Map narrowingConversionTo_TypeDecl_values;
-  /**
-   * @attribute syn
-   * @aspect TypeConversion
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:36
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public boolean narrowingConversionTo(TypeDecl type) {
-    Object _parameters = type;
-    if(narrowingConversionTo_TypeDecl_values == null) narrowingConversionTo_TypeDecl_values = new java.util.HashMap(4);
-    if(narrowingConversionTo_TypeDecl_values.containsKey(_parameters)) {
-      return ((Boolean)narrowingConversionTo_TypeDecl_values.get(_parameters)).booleanValue();
+
+    // Declared in java.ast at line 2
+    // Declared in java.ast line 38
+    public void setModifiers(Modifiers node) {
+        setChild(node, 0);
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    boolean narrowingConversionTo_TypeDecl_value = narrowingConversionTo_compute(type);
-      if(isFinal && num == state().boundariesCrossed) narrowingConversionTo_TypeDecl_values.put(_parameters, Boolean.valueOf(narrowingConversionTo_TypeDecl_value));
-    return narrowingConversionTo_TypeDecl_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private boolean narrowingConversionTo_compute(TypeDecl type) {
+
+    // Declared in java.ast at line 5
+
+    public Modifiers getModifiers() {
+        return (Modifiers)getChild(0);
+    }
+
+    // Declared in java.ast at line 9
+
+
+    public Modifiers getModifiersNoTransform() {
+        return (Modifiers)getChildNoTransform(0);
+    }
+
+    // Declared in java.ast at line 2
+    // Declared in java.ast line 38
+    public void setID(String value) {
+        tokenString_ID = value;
+    }
+
+    // Declared in java.ast at line 5
+
+    public void setID(beaver.Symbol symbol) {
+        if(symbol.value != null && !(symbol.value instanceof String))
+          throw new UnsupportedOperationException("setID is only valid for String lexemes");
+        tokenString_ID = (String)symbol.value;
+        IDstart = symbol.getStart();
+        IDend = symbol.getEnd();
+    }
+
+    // Declared in java.ast at line 12
+
+    public String getID() {
+        return tokenString_ID != null ? tokenString_ID : "";
+    }
+
+    // Declared in java.ast at line 2
+    // Declared in java.ast line 38
+    public void setBodyDeclList(List<BodyDecl> list) {
+        setChild(list, 1);
+    }
+
+    // Declared in java.ast at line 6
+
+
+    public int getNumBodyDecl() {
+        return getBodyDeclList().getNumChild();
+    }
+
+    // Declared in java.ast at line 10
+
+
+     @SuppressWarnings({"unchecked", "cast"})  public BodyDecl getBodyDecl(int i) {
+        return (BodyDecl)getBodyDeclList().getChild(i);
+    }
+
+    // Declared in java.ast at line 14
+
+
+    public void addBodyDecl(BodyDecl node) {
+        List<BodyDecl> list = (parent == null || state == null) ? getBodyDeclListNoTransform() : getBodyDeclList();
+        list.addChild(node);
+    }
+
+    // Declared in java.ast at line 19
+
+
+    public void addBodyDeclNoTransform(BodyDecl node) {
+        List<BodyDecl> list = getBodyDeclListNoTransform();
+        list.addChild(node);
+    }
+
+    // Declared in java.ast at line 24
+
+
+    public void setBodyDecl(BodyDecl node, int i) {
+        List<BodyDecl> list = getBodyDeclList();
+        list.setChild(node, i);
+    }
+
+    // Declared in java.ast at line 28
+
+    public List<BodyDecl> getBodyDecls() {
+        return getBodyDeclList();
+    }
+
+    // Declared in java.ast at line 31
+
+    public List<BodyDecl> getBodyDeclsNoTransform() {
+        return getBodyDeclListNoTransform();
+    }
+
+    // Declared in java.ast at line 35
+
+
+     @SuppressWarnings({"unchecked", "cast"})  public List<BodyDecl> getBodyDeclList() {
+        List<BodyDecl> list = (List<BodyDecl>)getChild(1);
+        list.getNumChild();
+        return list;
+    }
+
+    // Declared in java.ast at line 41
+
+
+     @SuppressWarnings({"unchecked", "cast"})  public List<BodyDecl> getBodyDeclListNoTransform() {
+        return (List<BodyDecl>)getChildNoTransform(1);
+    }
+
+    // Declared in TypeAnalysis.jrag at line 33
+ @SuppressWarnings({"unchecked", "cast"})     public boolean wideningConversionTo(TypeDecl type) {
+        ASTNode$State state = state();
+        boolean wideningConversionTo_TypeDecl_value = wideningConversionTo_compute(type);
+        return wideningConversionTo_TypeDecl_value;
+    }
+
+    private boolean wideningConversionTo_compute(TypeDecl type) {  return instanceOf(type);  }
+
+    // Declared in TypeAnalysis.jrag at line 36
+ @SuppressWarnings({"unchecked", "cast"})     public boolean narrowingConversionTo(TypeDecl type) {
+        Object _parameters = type;
+if(narrowingConversionTo_TypeDecl_values == null) narrowingConversionTo_TypeDecl_values = new java.util.HashMap(4);
+        if(narrowingConversionTo_TypeDecl_values.containsKey(_parameters)) {
+            return ((Boolean)narrowingConversionTo_TypeDecl_values.get(_parameters)).booleanValue();
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        boolean narrowingConversionTo_TypeDecl_value = narrowingConversionTo_compute(type);
+        if(isFinal && num == state().boundariesCrossed)
+            narrowingConversionTo_TypeDecl_values.put(_parameters, Boolean.valueOf(narrowingConversionTo_TypeDecl_value));
+        return narrowingConversionTo_TypeDecl_value;
+    }
+
+    private boolean narrowingConversionTo_compute(TypeDecl type) {
     if(type.instanceOf(this))
       return true;
     if(isClassDecl() && !getModifiers().isFinal() && type.isInterfaceDecl())
@@ -361,38 +239,33 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
       return true;
     return false;
   }
-  /**
-   * @attribute syn
-   * @aspect TypeAnalysis
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:165
-   */
-  public boolean isReferenceType() {
-    ASTNode$State state = state();
-    try {  return true;  }
-    finally {
+
+    // Declared in TypeAnalysis.jrag at line 166
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isReferenceType() {
+        ASTNode$State state = state();
+        boolean isReferenceType_value = isReferenceType_compute();
+        return isReferenceType_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeWideningAndIdentity
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:482
-   */
-  public boolean isSupertypeOfNullType(NullType type) {
-    ASTNode$State state = state();
-    try {  return true;  }
-    finally {
+
+    private boolean isReferenceType_compute() {  return true;  }
+
+    // Declared in TypeAnalysis.jrag at line 483
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isSupertypeOfNullType(NullType type) {
+        ASTNode$State state = state();
+        boolean isSupertypeOfNullType_NullType_value = isSupertypeOfNullType_compute(type);
+        return isSupertypeOfNullType_NullType_value;
     }
-  }
-  /* It is a compile-time error if the return type of a method declared in an
-  annotation type is any type other than one of the following: one of the
-  primitive types, String, Class and any invocation of Class, an enum type
-  (\ufffd8.9), an annotation type, or an array (\ufffd10) of one of the preceding types.* @attribute syn
-   * @aspect Annotations
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Annotations.jrag:121
-   */
-  public boolean isValidAnnotationMethodReturnType() {
-    ASTNode$State state = state();
-    try {
+
+    private boolean isSupertypeOfNullType_compute(NullType type) {  return true;  }
+
+    // Declared in Annotations.jrag at line 123
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isValidAnnotationMethodReturnType() {
+        ASTNode$State state = state();
+        boolean isValidAnnotationMethodReturnType_value = isValidAnnotationMethodReturnType_compute();
+        return isValidAnnotationMethodReturnType_value;
+    }
+
+    private boolean isValidAnnotationMethodReturnType_compute() {
     if(isString()) return true;
     if(fullName().equals("java.lang.Class"))
       return true;
@@ -401,49 +274,31 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
       return true;
     return false;
   }
-    finally {
+
+    // Declared in AutoBoxing.jrag at line 48
+ @SuppressWarnings({"unchecked", "cast"})     public boolean unboxingConversionTo(TypeDecl typeDecl) {
+        ASTNode$State state = state();
+        boolean unboxingConversionTo_TypeDecl_value = unboxingConversionTo_compute(typeDecl);
+        return unboxingConversionTo_TypeDecl_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:47
-   */
-  public boolean unboxingConversionTo(TypeDecl typeDecl) {
-    ASTNode$State state = state();
-    try {  return unboxed() == typeDecl;  }
-    finally {
+
+    private boolean unboxingConversionTo_compute(TypeDecl typeDecl) {  return unboxed() == typeDecl;  }
+
+    // Declared in AutoBoxing.jrag at line 52
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl unboxed() {
+        if(unboxed_computed) {
+            return unboxed_value;
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        unboxed_value = unboxed_compute();
+        if(isFinal && num == state().boundariesCrossed)
+            unboxed_computed = true;
+        return unboxed_value;
     }
-  }
-  /**
-   * @apilevel internal
-   */
-  protected boolean unboxed_computed = false;
-  /**
-   * @apilevel internal
-   */
-  protected TypeDecl unboxed_value;
-  /**
-   * @attribute syn
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:52
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl unboxed() {
-    if(unboxed_computed) {
-      return unboxed_value;
-    }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    unboxed_value = unboxed_compute();
-      if(isFinal && num == state().boundariesCrossed) unboxed_computed = true;
-    return unboxed_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private TypeDecl unboxed_compute() {
+
+    private TypeDecl unboxed_compute() {
     if(packageName().equals("java.lang") && isTopLevelType()) {
       String n = name();
       if(n.equals("Boolean")) return typeBoolean();
@@ -457,123 +312,94 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
     }
     return unknownType();
   }
-  /**
-   * @attribute syn
-   * @aspect NumericPromotion
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:146
-   */
-  public TypeDecl unaryNumericPromotion() {
-    ASTNode$State state = state();
-    try {  return isNumericType() && !isUnknown() ? unboxed().unaryNumericPromotion() : this;  }
-    finally {
+
+    // Declared in AutoBoxing.jrag at line 170
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl unaryNumericPromotion() {
+        ASTNode$State state = state();
+        TypeDecl unaryNumericPromotion_value = unaryNumericPromotion_compute();
+        return unaryNumericPromotion_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect NumericPromotion
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:154
-   */
-  public TypeDecl binaryNumericPromotion(TypeDecl type) {
-    ASTNode$State state = state();
-    try {  return unboxed().binaryNumericPromotion(type);  }
-    finally {
+
+    private TypeDecl unaryNumericPromotion_compute() {  return isNumericType() && !isUnknown() ? unboxed().unaryNumericPromotion() : this;  }
+
+    // Declared in AutoBoxing.jrag at line 174
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl binaryNumericPromotion(TypeDecl type) {
+        ASTNode$State state = state();
+        TypeDecl binaryNumericPromotion_TypeDecl_value = binaryNumericPromotion_compute(type);
+        return binaryNumericPromotion_TypeDecl_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeAnalysis
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:173
-   */
-  public boolean isNumericType() {
-    ASTNode$State state = state();
-    try {  return !unboxed().isUnknown() && unboxed().isNumericType();  }
-    finally {
+
+    private TypeDecl binaryNumericPromotion_compute(TypeDecl type) {  return unboxed().binaryNumericPromotion(type);  }
+
+    // Declared in AutoBoxing.jrag at line 196
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isNumericType() {
+        ASTNode$State state = state();
+        boolean isNumericType_value = isNumericType_compute();
+        return isNumericType_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeAnalysis
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:177
-   */
-  public boolean isIntegralType() {
-    ASTNode$State state = state();
-    try {  return !unboxed().isUnknown() && unboxed().isIntegralType();  }
-    finally {
+
+    private boolean isNumericType_compute() {  return !unboxed().isUnknown() && unboxed().isNumericType();  }
+
+    // Declared in AutoBoxing.jrag at line 199
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isIntegralType() {
+        ASTNode$State state = state();
+        boolean isIntegralType_value = isIntegralType_compute();
+        return isIntegralType_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeAnalysis
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:221
-   */
-  public boolean isPrimitive() {
-    ASTNode$State state = state();
-    try {  return !unboxed().isUnknown() && unboxed().isPrimitive();  }
-    finally {
+
+    private boolean isIntegralType_compute() {  return !unboxed().isUnknown() && unboxed().isIntegralType();  }
+
+    // Declared in AutoBoxing.jrag at line 202
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isPrimitive() {
+        ASTNode$State state = state();
+        boolean isPrimitive_value = isPrimitive_compute();
+        return isPrimitive_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect TypeAnalysis
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Frontend/TypeAnalysis.jrag:181
-   */
-  public boolean isBoolean() {
-    ASTNode$State state = state();
-    try {  return fullName().equals("java.lang.Boolean") && unboxed().isBoolean();  }
-    finally {
+
+    private boolean isPrimitive_compute() {  return !unboxed().isUnknown() && unboxed().isPrimitive();  }
+
+    // Declared in AutoBoxing.jrag at line 215
+ @SuppressWarnings({"unchecked", "cast"})     public boolean isBoolean() {
+        ASTNode$State state = state();
+        boolean isBoolean_value = isBoolean_compute();
+        return isBoolean_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect GenericsSubtype
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/GenericsSubtype.jrag:479
-   */
-  public boolean supertypeNullType(NullType type) {
-    ASTNode$State state = state();
-    try {  return true;  }
-    finally {
+
+    private boolean isBoolean_compute() {  return fullName().equals("java.lang.Boolean") && unboxed().isBoolean();  }
+
+    // Declared in GenericsSubtype.jrag at line 480
+ @SuppressWarnings({"unchecked", "cast"})     public boolean supertypeNullType(NullType type) {
+        ASTNode$State state = state();
+        boolean supertypeNullType_NullType_value = supertypeNullType_compute(type);
+        return supertypeNullType_NullType_value;
     }
-  }
-  /**
-   * @attribute syn
-   * @aspect InnerClasses
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Backend/InnerClasses.jrag:82
-   */
-  public TypeDecl stringPromotion() {
-    ASTNode$State state = state();
-    try {  return typeObject();  }
-    finally {
+
+    private boolean supertypeNullType_compute(NullType type) {  return true;  }
+
+    // Declared in InnerClasses.jrag at line 80
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl stringPromotion() {
+        ASTNode$State state = state();
+        TypeDecl stringPromotion_value = stringPromotion_compute();
+        return stringPromotion_value;
     }
-  }
-  /**
-   * @apilevel internal
-   */
-  protected boolean jvmName_computed = false;
-  /**
-   * @apilevel internal
-   */
-  protected String jvmName_value;
-  /**
-   * @attribute syn
-   * @aspect Java2Rewrites
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Backend/Java2Rewrites.jrag:18
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public String jvmName() {
-    if(jvmName_computed) {
-      return jvmName_value;
+
+    private TypeDecl stringPromotion_compute() {  return typeObject();  }
+
+    // Declared in Java2Rewrites.jrag at line 18
+ @SuppressWarnings({"unchecked", "cast"})     public String jvmName() {
+        if(jvmName_computed) {
+            return jvmName_value;
+        }
+        ASTNode$State state = state();
+        int num = state.boundariesCrossed;
+        boolean isFinal = this.is$Final();
+        jvmName_value = jvmName_compute();
+        if(isFinal && num == state().boundariesCrossed)
+            jvmName_computed = true;
+        return jvmName_value;
     }
-    ASTNode$State state = state();
-  int num = state.boundariesCrossed;
-  boolean isFinal = this.is$Final();
-    jvmName_value = jvmName_compute();
-      if(isFinal && num == state().boundariesCrossed) jvmName_computed = true;
-    return jvmName_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  private String jvmName_compute() {
+
+    private String jvmName_compute() {
     if(!isNestedType())
       return fullName();
     else if(isAnonymous() || isLocalClass())
@@ -581,109 +407,74 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
     else
       return enclosingType().jvmName() + "$" + name();
   }
-  /**
-   * @attribute syn
-   * @aspect Java2Rewrites
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.4Backend/Java2Rewrites.jrag:57
-   */
-  public String referenceClassFieldName() {
-    ASTNode$State state = state();
-    try {  return "class$" + jvmName().replace('[', '$').replace('.', '$').replace(';', ' ').trim();  }
-    finally {
+
+    // Declared in Java2Rewrites.jrag at line 60
+ @SuppressWarnings({"unchecked", "cast"})     public String referenceClassFieldName() {
+        ASTNode$State state = state();
+        String referenceClassFieldName_value = referenceClassFieldName_compute();
+        return referenceClassFieldName_value;
     }
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:66
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeBoolean() {
-    ASTNode$State state = state();
-    TypeDecl typeBoolean_value = getParent().Define_TypeDecl_typeBoolean(this, null);
-    return typeBoolean_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:67
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeByte() {
-    ASTNode$State state = state();
-    TypeDecl typeByte_value = getParent().Define_TypeDecl_typeByte(this, null);
-    return typeByte_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:68
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeChar() {
-    ASTNode$State state = state();
-    TypeDecl typeChar_value = getParent().Define_TypeDecl_typeChar(this, null);
-    return typeChar_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:69
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeShort() {
-    ASTNode$State state = state();
-    TypeDecl typeShort_value = getParent().Define_TypeDecl_typeShort(this, null);
-    return typeShort_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:70
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeInt() {
-    ASTNode$State state = state();
-    TypeDecl typeInt_value = getParent().Define_TypeDecl_typeInt(this, null);
-    return typeInt_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:71
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeLong() {
-    ASTNode$State state = state();
-    TypeDecl typeLong_value = getParent().Define_TypeDecl_typeLong(this, null);
-    return typeLong_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:72
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeFloat() {
-    ASTNode$State state = state();
-    TypeDecl typeFloat_value = getParent().Define_TypeDecl_typeFloat(this, null);
-    return typeFloat_value;
-  }
-  /**
-   * @attribute inh
-   * @aspect AutoBoxing
-   * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/AutoBoxing.jrag:73
-   */
-  @SuppressWarnings({"unchecked", "cast"})
-  public TypeDecl typeDouble() {
-    ASTNode$State state = state();
-    TypeDecl typeDouble_value = getParent().Define_TypeDecl_typeDouble(this, null);
-    return typeDouble_value;
-  }
-  /**
-   * @apilevel internal
-   */
-  public ASTNode rewriteTo() {
+
+    private String referenceClassFieldName_compute() {  return "class$" + jvmName().replace('[', '$').replace('.', '$').replace(';', ' ').trim();  }
+
+    // Declared in AutoBoxing.jrag at line 66
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeBoolean() {
+        ASTNode$State state = state();
+        TypeDecl typeBoolean_value = getParent().Define_TypeDecl_typeBoolean(this, null);
+        return typeBoolean_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 67
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeByte() {
+        ASTNode$State state = state();
+        TypeDecl typeByte_value = getParent().Define_TypeDecl_typeByte(this, null);
+        return typeByte_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 68
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeChar() {
+        ASTNode$State state = state();
+        TypeDecl typeChar_value = getParent().Define_TypeDecl_typeChar(this, null);
+        return typeChar_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 69
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeShort() {
+        ASTNode$State state = state();
+        TypeDecl typeShort_value = getParent().Define_TypeDecl_typeShort(this, null);
+        return typeShort_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 70
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeInt() {
+        ASTNode$State state = state();
+        TypeDecl typeInt_value = getParent().Define_TypeDecl_typeInt(this, null);
+        return typeInt_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 71
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeLong() {
+        ASTNode$State state = state();
+        TypeDecl typeLong_value = getParent().Define_TypeDecl_typeLong(this, null);
+        return typeLong_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 72
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeFloat() {
+        ASTNode$State state = state();
+        TypeDecl typeFloat_value = getParent().Define_TypeDecl_typeFloat(this, null);
+        return typeFloat_value;
+    }
+
+    // Declared in AutoBoxing.jrag at line 73
+ @SuppressWarnings({"unchecked", "cast"})     public TypeDecl typeDouble() {
+        ASTNode$State state = state();
+        TypeDecl typeDouble_value = getParent().Define_TypeDecl_typeDouble(this, null);
+        return typeDouble_value;
+    }
+
+public ASTNode rewriteTo() {
     return super.rewriteTo();
-  }
+}
+
 }
