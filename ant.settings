@@ -12,12 +12,12 @@ slf4j-api.jar=libs/slf4j-api-1.7.5.jar
 slf4j-simple.jar=libs/slf4j-simple-1.7.5.jar
 
 ## Location of JastAdd classes jar file to link Soot against
-#jastaddfrontend.loc=../JastAddExtensions/SootJastAddJ
+jastaddfrontend.loc=../abc/JastAddExtensions/SootJastAddJ
 
 ## Location of Jasmin classes jar file
-jasmin.jar=../libs/jasminclasses-2.5.0.jar
+jasmin.jar=libs/jasminclasses-2.5.0.jar
 
-heros.jar=../libs/heros/heros-trunk.jar
+heros.jar=libs/heros-trunk.jar
 
 ## Location of Eclipse installation.
 ## This should have a directory called plugins in it.
