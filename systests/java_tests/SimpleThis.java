@@ -1,6 +1,6 @@
 public class SimpleThis {
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         SimpleThis st = new SimpleThis();
         st.run();
     }
@@ -11,7 +11,7 @@ public class SimpleThis {
         }
     }
 
-    public void go(){
+    public void go() {
         System.out.println("going");
     }
 }

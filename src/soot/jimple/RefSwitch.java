@@ -24,20 +24,22 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface RefSwitch extends soot.util.Switch
-{
-    public abstract void caseArrayRef(ArrayRef v);
-    public abstract void caseStaticFieldRef(StaticFieldRef v);
-    public abstract void caseInstanceFieldRef(InstanceFieldRef v);
-    public abstract void caseParameterRef(ParameterRef v);
-    public abstract void caseCaughtExceptionRef(CaughtExceptionRef v);
-    public abstract void caseThisRef(ThisRef v);
-    public abstract void defaultCase(Object obj);
+public interface RefSwitch extends soot.util.Switch {
+    void caseArrayRef(ArrayRef v);
+
+    void caseStaticFieldRef(StaticFieldRef v);
+
+    void caseInstanceFieldRef(InstanceFieldRef v);
+
+    void caseParameterRef(ParameterRef v);
+
+    void caseCaughtExceptionRef(CaughtExceptionRef v);
+
+    void caseThisRef(ThisRef v);
+
+    void defaultCase(Object obj);
 }
 
 

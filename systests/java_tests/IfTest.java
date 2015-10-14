@@ -1,8 +1,9 @@
 public class IfTest {
 
     int x = 0;
-    public static void main(String [] args){
-    
+
+    public static void main(String[] args) {
+
         int i = 9;
 
         if (i > 10) {
@@ -10,11 +11,10 @@ public class IfTest {
             i = i - 1;
             System.out.println(i);
         }
-        
+
         if (i < 10) {
             System.out.println("Smile");
-        }
-        else {
+        } else {
             System.out.println("Tomorrow");
         }
 
@@ -24,16 +24,16 @@ public class IfTest {
 
         boolean result;
 
-        for (int j = 0; j < 10; j ++) {
+        for (int j = 0; j < 10; j++) {
             result = true;
             if (result) {
                 System.out.println("true");
             }
-            if (!result){
+            if (!result) {
                 System.out.println("false");
             }
         }
-   
+
         IfTest it = new IfTest();
         it.run(7);
         it.go();
@@ -57,16 +57,15 @@ public class IfTest {
         if (result) {
             System.out.println("Smile");
         }
-       
+
         if (size > 1) {
             result = false;
-        }
-        else {
+        } else {
             x = size;
         }
 
         return result;
     }
 
-    
+
 }

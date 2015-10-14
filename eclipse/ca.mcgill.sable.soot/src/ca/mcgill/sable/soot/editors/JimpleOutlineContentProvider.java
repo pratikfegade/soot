@@ -18,88 +18,78 @@
  */
 
 
-
 package ca.mcgill.sable.soot.editors;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 
-
 public class JimpleOutlineContentProvider implements ITreeContentProvider {
 
 
-	protected static final Object[] EMPTY_ARRAY = new Object[0];
+    protected static final Object[] EMPTY_ARRAY = new Object[0];
 
-	
-	/**
-	 * Constructor for OptionsTreeContentProvider.
-	 */
-	public JimpleOutlineContentProvider() {
-		super();
-	}
 
-	/**
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(Object)
-	 */
-	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof JimpleOutlineObject) {
-			JimpleOutlineObject opt = (JimpleOutlineObject)parentElement;
-			if (opt.getChildren() != null) {
-				return opt.getChildren().toArray();
-			}
-			else {
-				return EMPTY_ARRAY;
-			}
-		}
-		else {
-			return EMPTY_ARRAY;
-		}
-		
-	}
-	
+    /**
+     * Constructor for OptionsTreeContentProvider.
+     */
+    public JimpleOutlineContentProvider() {
+        super();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(Object)
-	 */
-	public Object getParent(Object element) {
-		return ((JimpleOutlineObject)element).getParent();
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(Object)
+     */
+    public Object[] getChildren(Object parentElement) {
+        if (parentElement instanceof JimpleOutlineObject) {
+            JimpleOutlineObject opt = (JimpleOutlineObject) parentElement;
+            if (opt.getChildren() != null) {
+                return opt.getChildren().toArray();
+            } else {
+                return EMPTY_ARRAY;
+            }
+        } else {
+            return EMPTY_ARRAY;
+        }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(Object)
-	 */
-	public boolean hasChildren(Object element) {
-		if (element instanceof JimpleOutlineObject) {
-			if (((JimpleOutlineObject)element).getChildren() != null) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		} 
-		else {
-			return false;
-		}
-	}
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(Object)
-	 */
-	public Object[] getElements(Object inputElement) {
-		return getChildren(inputElement);
-	}
 
-	/**
-	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-	 */
-	public void dispose() {
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(Object)
+     */
+    public Object getParent(Object element) {
+        return ((JimpleOutlineObject) element).getParent();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(Viewer, Object, Object)
-	 */
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(Object)
+     */
+    public boolean hasChildren(Object element) {
+        if (element instanceof JimpleOutlineObject) {
+            return ((JimpleOutlineObject) element).getChildren() != null;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(Object)
+     */
+    public Object[] getElements(Object inputElement) {
+        return getChildren(inputElement);
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+     */
+    public void dispose() {
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(Viewer, Object, Object)
+     */
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+    }
 
 }

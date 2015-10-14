@@ -25,29 +25,41 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
-import soot.jimple.*;
-import java.util.*;
 
-import soot.util.*;
+import soot.Body;
+import soot.EquivalentValue;
+import soot.Unit;
+import soot.Value;
+import soot.jimple.AssignStmt;
+import soot.jimple.Stmt;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.UnitValueBoxPair;
+import soot.util.Chain;
+import soot.util.HashChain;
 
-/** Provides an user-interface for the AvailableExpressionsAnalysis class.
- * Returns, for each statement, the list of expressions available before and after it. */
-public class SlowAvailableExpressions implements AvailableExpressions
-{
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Provides an user-interface for the AvailableExpressionsAnalysis class.
+ * Returns, for each statement, the list of expressions available before and after it.
+ */
+public class SlowAvailableExpressions implements AvailableExpressions {
     Map<Unit, List<UnitValueBoxPair>> unitToPairsAfter;
     Map<Unit, List<UnitValueBoxPair>> unitToPairsBefore;
 
     Map<Unit, Chain<EquivalentValue>> unitToEquivsAfter;
     Map<Unit, Chain<EquivalentValue>> unitToEquivsBefore;
 
-    /** Wrapper for SlowAvailableExpressionsAnalysis. */ 
-    public SlowAvailableExpressions(Body b)
-    {
-        SlowAvailableExpressionsAnalysis analysis = 
-            new SlowAvailableExpressionsAnalysis(new ExceptionalUnitGraph(b));
+    /**
+     * Wrapper for SlowAvailableExpressionsAnalysis.
+     */
+    public SlowAvailableExpressions(Body b) {
+        SlowAvailableExpressionsAnalysis analysis =
+                new SlowAvailableExpressionsAnalysis(new ExceptionalUnitGraph(b));
 
         // Build unitToExprs map
         {
@@ -68,7 +80,7 @@ public class SlowAvailableExpressions implements AvailableExpressions
                 for (Value v : set) {
                     Stmt containingStmt = analysis.rhsToContainingStmt.get(v);
                     UnitValueBoxPair p = new UnitValueBoxPair
-                        (containingStmt, ((AssignStmt)containingStmt).getRightOpBox());
+                            (containingStmt, ((AssignStmt) containingStmt).getRightOpBox());
                     EquivalentValue ev = new EquivalentValue(v);
                     pairsBefore.add(p);
                     if (!equivsBefore.contains(ev))
@@ -77,11 +89,11 @@ public class SlowAvailableExpressions implements AvailableExpressions
 
                 unitToPairsBefore.put(s, pairsBefore);
                 unitToEquivsBefore.put(s, equivsBefore);
-                
+
                 for (Value v : analysis.getFlowAfter(s)) {
                     Stmt containingStmt = analysis.rhsToContainingStmt.get(v);
                     UnitValueBoxPair p = new UnitValueBoxPair
-                        (containingStmt, ((AssignStmt)containingStmt).getRightOpBox());
+                            (containingStmt, ((AssignStmt) containingStmt).getRightOpBox());
                     EquivalentValue ev = new EquivalentValue(v);
                     pairsAfter.add(p);
                     if (!equivsAfter.contains(ev))
@@ -90,31 +102,35 @@ public class SlowAvailableExpressions implements AvailableExpressions
 
                 unitToPairsAfter.put(s, pairsAfter);
                 unitToEquivsAfter.put(s, equivsAfter);
-            }  
+            }
         }
     }
 
-    /** Returns a List containing the UnitValueBox pairs corresponding to expressions available before u. */
-    public List<UnitValueBoxPair> getAvailablePairsBefore(Unit u)
-    {
+    /**
+     * Returns a List containing the UnitValueBox pairs corresponding to expressions available before u.
+     */
+    public List<UnitValueBoxPair> getAvailablePairsBefore(Unit u) {
         return unitToPairsBefore.get(u);
     }
 
-    /** Returns a List containing the UnitValueBox pairs corresponding to expressions available after u. */
-    public List<UnitValueBoxPair> getAvailablePairsAfter(Unit u)
-    {
+    /**
+     * Returns a List containing the UnitValueBox pairs corresponding to expressions available after u.
+     */
+    public List<UnitValueBoxPair> getAvailablePairsAfter(Unit u) {
         return unitToPairsAfter.get(u);
     }
 
-    /** Returns a Chain containing the EquivalentValue objects corresponding to expressions available before u. */
-    public Chain<EquivalentValue> getAvailableEquivsBefore(Unit u)
-    {
+    /**
+     * Returns a Chain containing the EquivalentValue objects corresponding to expressions available before u.
+     */
+    public Chain<EquivalentValue> getAvailableEquivsBefore(Unit u) {
         return unitToEquivsBefore.get(u);
     }
 
-    /** Returns a Chain containing the EquivalentValue objects corresponding to expressions available after u. */
-    public Chain<EquivalentValue> getAvailableEquivsAfter(Unit u)
-    {
+    /**
+     * Returns a Chain containing the EquivalentValue objects corresponding to expressions available after u.
+     */
+    public Chain<EquivalentValue> getAvailableEquivsAfter(Unit u) {
         return unitToEquivsAfter.get(u);
     }
 }

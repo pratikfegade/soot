@@ -27,132 +27,118 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
-
-import java.util.*;
-
+import soot.baf.Baf;
 import soot.grimp.PrecedenceTest;
+import soot.jimple.*;
+import soot.util.Switch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
-abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf
-{	    
-	final ValueBox opBox;
+abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf {
+    final ValueBox opBox;
     Type type;
 
-    AbstractCastExpr(Value op, Type type)
-    {
+    AbstractCastExpr(Value op, Type type) {
         this(Jimple.v().newImmediateBox(op), type);
+    }
+
+    protected AbstractCastExpr(ValueBox opBox, Type type) {
+        this.opBox = opBox;
+        this.type = type;
     }
 
     public abstract Object clone();
 
-    protected AbstractCastExpr(ValueBox opBox, Type type)
-    {
-        this.opBox = opBox; 
-        this.type = type;
-    }
-
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof AbstractCastExpr)
-        {
-            AbstractCastExpr ace = (AbstractCastExpr)o;
+    public boolean equivTo(Object o) {
+        if (o instanceof AbstractCastExpr) {
+            AbstractCastExpr ace = (AbstractCastExpr) o;
             return opBox.getValue().equivTo(ace.opBox.getValue()) &&
-                type.equals(ace.type);
+                    type.equals(ace.type);
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return opBox.getValue().equivHashCode() * 101 + type.hashCode() + 17;
     }
 
-    public String toString()
-    {
-        return "("  + type.toString() + ") " + opBox.getValue().toString();
+    public String toString() {
+        return "(" + type.toString() + ") " + opBox.getValue().toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal("(");
         up.type(type);
         up.literal(") ");
-        if( PrecedenceTest.needsBrackets( opBox, this ) ) up.literal("(");
+        if (PrecedenceTest.needsBrackets(opBox, this)) up.literal("(");
         opBox.toString(up);
-        if( PrecedenceTest.needsBrackets( opBox, this ) ) up.literal(")");
+        if (PrecedenceTest.needsBrackets(opBox, this)) up.literal(")");
     }
-    
+
     @Override
-    public Value getOp()
-    {
+    public Value getOp() {
         return opBox.getValue();
     }
 
     @Override
-    public void setOp(Value op)
-    {
+    public void setOp(Value op) {
         opBox.setValue(op);
     }
-    
+
     @Override
-    public ValueBox getOpBox()
-    {
+    public ValueBox getOpBox() {
         return opBox;
     }
 
     @Override
-    public final List<ValueBox> getUseBoxes()
-    {
+    public final List<ValueBox> getUseBoxes() {
         List<ValueBox> list = new ArrayList<ValueBox>();
 
         list.addAll(opBox.getValue().getUseBoxes());
         list.add(opBox);
-    
+
         return list;
     }
 
-    public Type getCastType()
-    {
+    public Type getCastType() {
         return type;
     }
 
-    public void setCastType(Type castType)
-    {
+    public void setCastType(Type castType) {
         this.type = castType;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ExprSwitch) sw).caseCastExpr(this);
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
         final Type toType = getCastType();
         final Type fromType = getOp().getType();
 
-        ((ConvertToBaf)getOp()).convertToBaf(context, out);
+        ((ConvertToBaf) getOp()).convertToBaf(context, out);
 
-	Unit u;
+        Unit u;
         if (toType instanceof ArrayType || toType instanceof RefType)
             u = Baf.v().newInstanceCastInst(toType);
         else {
-        	if(!fromType.equals(toType))
-        		u = Baf.v().newPrimitiveCastInst(fromType, toType);
-        	else
-        		u = Baf.v().newNopInst();
+            if (!fromType.equals(toType))
+                u = Baf.v().newPrimitiveCastInst(fromType, toType);
+            else
+                u = Baf.v().newNopInst();
         }
 
-	out.add(u);
+        out.add(u);
 
-	u.addAllTagsOf(context.getCurrentUnit());
+        u.addAllTagsOf(context.getCurrentUnit());
     }
 }

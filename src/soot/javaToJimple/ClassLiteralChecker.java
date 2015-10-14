@@ -18,38 +18,39 @@
  */
 
 package soot.javaToJimple;
-import java.util.*;
 
 import polyglot.ast.Node;
+
+import java.util.ArrayList;
 
 public class ClassLiteralChecker extends polyglot.visit.NodeVisitor {
 
     private final ArrayList<Node> list;
 
+    public ClassLiteralChecker() {
+        list = new ArrayList<Node>();
+    }
+
     public ArrayList<Node> getList() {
         return list;
     }
 
-    public ClassLiteralChecker(){
-        list = new ArrayList<Node>();
-    }
-
-    public polyglot.ast.Node override(polyglot.ast.Node parent, polyglot.ast.Node n){
-        if (n instanceof polyglot.ast.ClassDecl){
+    public polyglot.ast.Node override(polyglot.ast.Node parent, polyglot.ast.Node n) {
+        if (n instanceof polyglot.ast.ClassDecl) {
             return n;
         }
-        if ((n instanceof polyglot.ast.New) && (((polyglot.ast.New)n).anonType() != null)){
+        if ((n instanceof polyglot.ast.New) && (((polyglot.ast.New) n).anonType() != null)) {
             return n;
         }
         return null;
     }
-    
+
     public polyglot.visit.NodeVisitor enter(polyglot.ast.Node parent, polyglot.ast.Node n) {
-    
+
         if (n instanceof polyglot.ast.ClassLit) {
-            polyglot.ast.ClassLit lit = (polyglot.ast.ClassLit)n;
+            polyglot.ast.ClassLit lit = (polyglot.ast.ClassLit) n;
             // only find ones where type is not primitive
-            if (!lit.typeNode().type().isPrimitive()){
+            if (!lit.typeNode().type().isPrimitive()) {
                 list.add(n);
             }
         }

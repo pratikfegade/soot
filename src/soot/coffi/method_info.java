@@ -24,111 +24,133 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
-import soot.*;
 
-import java.util.*;
+import soot.G;
 
-/** Represents a single method_info object.
- * @see ClassFile
+import java.util.List;
+
+/**
+ * Represents a single method_info object.
+ *
  * @author Clark Verbrugge
+ * @see ClassFile
  */
 public class method_info {
-   /** Access flags for this field. */
+    /**
+     * Access flags for this field.
+     */
     public int access_flags;
-   /** Constant pool index of the name of this method.
-    * @see ClassFile#constant_pool
-    * @see CONSTANT_Utf8_info
-    */
+    /**
+     * Constant pool index of the name of this method.
+     *
+     * @see ClassFile#constant_pool
+     * @see CONSTANT_Utf8_info
+     */
     public int name_index;
-   /** Constant pool index of the type descriptor of this method.
-    * @see ClassFile#constant_pool
-    * @see CONSTANT_Utf8_info
-    */
+    /**
+     * Constant pool index of the type descriptor of this method.
+     *
+     * @see ClassFile#constant_pool
+     * @see CONSTANT_Utf8_info
+     */
     public int descriptor_index;
-   /** Count of attributes this method contains. */
+    /**
+     * Count of attributes this method contains.
+     */
     public int attributes_count;
-   /** Array of attribute_info objects for this method.
-    * @see attribute_info
-    */
+    /**
+     * Array of attribute_info objects for this method.
+     *
+     * @see attribute_info
+     */
     public attribute_info attributes[];
 
-    /** A shortcut into attributes array for Code_attribute
+    /**
+     * A shortcut into attributes array for Code_attribute
+     *
      * @see Code_attribute
      */
     public Code_attribute code_attr;
 
-   /** List of Instructions constructed when the method is parsed.
-    * @see Instruction
-    */
+    /**
+     * List of Instructions constructed when the method is parsed.
+     *
+     * @see Instruction
+     */
     public Instruction instructions;
-   /** Control Flow Graph constructed when the method is parsed.
-    * @see CFG
-    */
+    /**
+     * Control Flow Graph constructed when the method is parsed.
+     *
+     * @see CFG
+     */
     public CFG cfg;
 
     public soot.SootMethod jmethod;
 
     List instructionList;
 
-   /** Returns the name of this method.
-    * @param constant_pool the constant_pool for this class.
-    * @return the name of this method.
-    */
+    /**
+     * Returns the name of this method.
+     *
+     * @param constant_pool the constant_pool for this class.
+     * @return the name of this method.
+     */
     public String toName(cp_info constant_pool[]) {
-      CONSTANT_Utf8_info ci;
-      ci = (CONSTANT_Utf8_info)(constant_pool[name_index]);
-      return ci.convert();
-   }
+        CONSTANT_Utf8_info ci;
+        ci = (CONSTANT_Utf8_info) (constant_pool[name_index]);
+        return ci.convert();
+    }
 
-   /** Locates and returns the code attribute for this method.
-    * @return the single code attribute, or null if not found.
-    * @see Code_attribute
-    */
+    /**
+     * Locates and returns the code attribute for this method.
+     *
+     * @return the single code attribute, or null if not found.
+     * @see Code_attribute
+     */
     Code_attribute locate_code_attribute() {
-      attribute_info ai;
-      int i;
+        attribute_info ai;
+        int i;
 
-      for (i=0; i<attributes_count; i++) {
-         ai = attributes[i];
-         if (ai instanceof Code_attribute)
-            return (Code_attribute)ai;
-      }
-      return null;
-   }
+        for (i = 0; i < attributes_count; i++) {
+            ai = attributes[i];
+            if (ai instanceof Code_attribute)
+                return (Code_attribute) ai;
+        }
+        return null;
+    }
 
-   /** Returns the prototype of this field.
-    * @param constant_pool the constant_pool for this class.
-    * @return the prototype (access + return + name + parameters) of this method.
-    */
+    /**
+     * Returns the prototype of this field.
+     *
+     * @param constant_pool the constant_pool for this class.
+     * @return the prototype (access + return + name + parameters) of this method.
+     */
     public String prototype(cp_info constant_pool[]) {
-      String access,rt,name,params;
-      Code_attribute c = locate_code_attribute();
+        String access, rt, name, params;
+        Code_attribute c = locate_code_attribute();
 
-      access = ClassFile.access_string(access_flags," ");
-      rt = ClassFile.parseMethodDesc_return(cp_info.getTypeDescr(constant_pool,
-                                                                 descriptor_index));
-      name = toName(constant_pool);
-      params = ClassFile.parseMethodDesc_params(cp_info.
-                                                getTypeDescr(constant_pool,
-                                                             descriptor_index));
-      if (access.length()>0)
-         return access + " " + rt + " " + name + "(" + params + ")";
-      return rt + " " + name + "(" + params + ")";
-   }
+        access = ClassFile.access_string(access_flags, " ");
+        rt = ClassFile.parseMethodDesc_return(cp_info.getTypeDescr(constant_pool,
+                descriptor_index));
+        name = toName(constant_pool);
+        params = ClassFile.parseMethodDesc_params(cp_info.
+                getTypeDescr(constant_pool,
+                        descriptor_index));
+        if (access.length() > 0)
+            return access + " " + rt + " " + name + "(" + params + ")";
+        return rt + " " + name + "(" + params + ")";
+    }
 
-   /** Displays this method, printing a prototype followed by list of Instructions.
-    * @param constant_pool the constant_pool for this class.
-    * @see prototype
-    * @see ByteCode#showCode
-    */
+    /**
+     * Displays this method, printing a prototype followed by list of Instructions.
+     *
+     * @param constant_pool the constant_pool for this class.
+     * @see prototype
+     * @see ByteCode#showCode
+     */
     void print(cp_info constant_pool[]) {
-      G.v().out.println(prototype(constant_pool));
-      ByteCode.showCode(instructions,constant_pool);
-   }
+        G.v().out.println(prototype(constant_pool));
+        ByteCode.showCode(instructions, constant_pool);
+    }
 }

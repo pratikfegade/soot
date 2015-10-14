@@ -23,7 +23,8 @@ import java.util.ArrayList;
 
 
 public interface ISootOptionWidget {
-	
-	public ArrayList getControls();
-	public String getId();
+
+    ArrayList getControls();
+
+    String getId();
 }

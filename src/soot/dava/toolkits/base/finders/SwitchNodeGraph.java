@@ -19,82 +19,77 @@
 
 package soot.dava.toolkits.base.finders;
 
-import java.util.*;
-import soot.toolkits.graph.*;
+import soot.toolkits.graph.DirectedGraph;
 
-class SwitchNodeGraph implements DirectedGraph
-{
-    private LinkedList body;
-	private final LinkedList heads, tails;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+class SwitchNodeGraph implements DirectedGraph {
+    private final LinkedList heads, tails;
     private final HashMap binding;
-    
+    private LinkedList body;
 
-    public SwitchNodeGraph( List body)
-    {
-	this.body = new LinkedList();
-	this.body.addAll( body);
 
-	binding = new HashMap();
+    public SwitchNodeGraph(List body) {
+        this.body = new LinkedList();
+        this.body.addAll(body);
 
-	heads = new LinkedList();
-	tails = new LinkedList();
+        binding = new HashMap();
 
-	Iterator it = body.iterator();
-	while (it.hasNext()) {
-	    SwitchNode sn = (SwitchNode) it.next();
+        heads = new LinkedList();
+        tails = new LinkedList();
 
-	    binding.put( sn.get_AugStmt().bsuccs.get(0), sn);
-	    sn.reset();
-	}
-	
-	it = body.iterator();
-	while (it.hasNext())
-	    ((SwitchNode) it.next()).setup_Graph( binding);
+        Iterator it = body.iterator();
+        while (it.hasNext()) {
+            SwitchNode sn = (SwitchNode) it.next();
 
-	it = body.iterator();
-	while (it.hasNext()) {
-	    SwitchNode sn = (SwitchNode) it.next();
+            binding.put(sn.get_AugStmt().bsuccs.get(0), sn);
+            sn.reset();
+        }
 
-	    if (sn.get_Preds().isEmpty())
-		heads.add( sn);
+        it = body.iterator();
+        while (it.hasNext())
+            ((SwitchNode) it.next()).setup_Graph(binding);
 
-	    if (sn.get_Succs().isEmpty())
-		tails.add( sn);
-	}
+        it = body.iterator();
+        while (it.hasNext()) {
+            SwitchNode sn = (SwitchNode) it.next();
+
+            if (sn.get_Preds().isEmpty())
+                heads.add(sn);
+
+            if (sn.get_Succs().isEmpty())
+                tails.add(sn);
+        }
     }
 
-    public int size()
-    {
-	return body.size();
+    public int size() {
+        return body.size();
     }
 
-    public List getHeads()
-    {
-	return heads;
+    public List getHeads() {
+        return heads;
     }
 
-    public List getTails()
-    {
-	return tails;
+    public List getTails() {
+        return tails;
     }
 
-    public List getPredsOf( Object o)
-    {
-	return ((SwitchNode) o).get_Preds();
+    public List getPredsOf(Object o) {
+        return ((SwitchNode) o).get_Preds();
     }
 
-    public List getSuccsOf( Object o)
-    {
-	return ((SwitchNode) o).get_Succs();
+    public List getSuccsOf(Object o) {
+        return ((SwitchNode) o).get_Succs();
     }
 
-    public Iterator iterator()
-    {
-	return body.iterator();
+    public Iterator iterator() {
+        return body.iterator();
     }
 
-    public List getBody()
-    {
-	return body;
+    public List getBody() {
+        return body;
     }
 }

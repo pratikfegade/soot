@@ -27,74 +27,69 @@ package soot.jimple.toolkits.annotation.profiling;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-
-import java.util.*;
 import soot.options.ProfilingOptions;
+import soot.util.Chain;
 
-public class ProfilingGenerator extends BodyTransformer
-{
-    public ProfilingGenerator( Singletons.Global g ) {}
-    public static ProfilingGenerator v() { return G.v().soot_jimple_toolkits_annotation_profiling_ProfilingGenerator(); }
+import java.util.Iterator;
+import java.util.Map;
 
+public class ProfilingGenerator extends BodyTransformer {
     public String mainSignature = "void main(java.lang.String[])";
+
+    public ProfilingGenerator(Singletons.Global g) {
+    }
+
+    public static ProfilingGenerator v() {
+        return G.v().soot_jimple_toolkits_annotation_profiling_ProfilingGenerator();
+    }
 
     //    private String mainSignature = "long runBenchmark(java.lang.String[])";
 
-    protected void internalTransform(Body body, String phaseName, Map opts)
-    {
-        ProfilingOptions options = new ProfilingOptions( opts );
-	if (options.notmainentry())
-	    mainSignature = "long runBenchmark(java.lang.String[])";
+    protected void internalTransform(Body body, String phaseName, Map opts) {
+        ProfilingOptions options = new ProfilingOptions(opts);
+        if (options.notmainentry())
+            mainSignature = "long runBenchmark(java.lang.String[])";
 
-	{
-	    SootMethod m = body.getMethod();
+        {
+            SootMethod m = body.getMethod();
 
-	    SootClass counterClass = Scene.v().loadClassAndSupport("MultiCounter");
-	    SootMethod reset = counterClass.getMethod("void reset()") ;
-	    SootMethod report = counterClass.getMethod("void report()") ;
-	    
-	    boolean isMainMethod= m.getSubSignature().equals(mainSignature);
-	    
-	    Chain units = body.getUnits();
+            SootClass counterClass = Scene.v().loadClassAndSupport("MultiCounter");
+            SootMethod reset = counterClass.getMethod("void reset()");
+            SootMethod report = counterClass.getMethod("void report()");
 
-	    if (isMainMethod)
-	    {
-	        units.addFirst(Jimple.v().newInvokeStmt(
-			       Jimple.v().newStaticInvokeExpr(reset.makeRef())));		
-	    }
+            boolean isMainMethod = m.getSubSignature().equals(mainSignature);
 
-	    Iterator stmtIt = body.getUnits().snapshotIterator();
-	    while (stmtIt.hasNext())
-	    {
-	        Stmt stmt = (Stmt)stmtIt.next();
+            Chain units = body.getUnits();
 
-		if (stmt instanceof InvokeStmt)
-		{
-		    InvokeExpr iexpr = ((InvokeStmt)stmt).getInvokeExpr() ;
-		
-		    if (iexpr instanceof StaticInvokeExpr)
-		    {
-		        SootMethod tempm = ((StaticInvokeExpr)iexpr).getMethod() ;
-			
-			if (tempm.getSignature().equals(
-				"<java.lang.System: void exit(int)>"))
-			{
-			    units.insertBefore (Jimple.v().newInvokeStmt( 
-				    Jimple.v().newStaticInvokeExpr(report.makeRef())), stmt) ;
+            if (isMainMethod) {
+                units.addFirst(Jimple.v().newInvokeStmt(
+                        Jimple.v().newStaticInvokeExpr(reset.makeRef())));
+            }
 
-			}
-		    }
-		}
-		else
-		if (isMainMethod
-		    && (  stmt instanceof ReturnStmt 
-			 || stmt instanceof ReturnVoidStmt))
-		{
-		    units.insertBefore(Jimple.v().newInvokeStmt(
-			    Jimple.v().newStaticInvokeExpr(report.makeRef())), stmt);				 
-		}
-	    }
-	}
+            Iterator stmtIt = body.getUnits().snapshotIterator();
+            while (stmtIt.hasNext()) {
+                Stmt stmt = (Stmt) stmtIt.next();
+
+                if (stmt instanceof InvokeStmt) {
+                    InvokeExpr iexpr = stmt.getInvokeExpr();
+
+                    if (iexpr instanceof StaticInvokeExpr) {
+                        SootMethod tempm = iexpr.getMethod();
+
+                        if (tempm.getSignature().equals(
+                                "<java.lang.System: void exit(int)>")) {
+                            units.insertBefore(Jimple.v().newInvokeStmt(
+                                    Jimple.v().newStaticInvokeExpr(report.makeRef())), stmt);
+
+                        }
+                    }
+                } else if (isMainMethod
+                        && (stmt instanceof ReturnStmt
+                        || stmt instanceof ReturnVoidStmt)) {
+                    units.insertBefore(Jimple.v().newInvokeStmt(
+                            Jimple.v().newStaticInvokeExpr(report.makeRef())), stmt);
+                }
+            }
+        }
     }
 }

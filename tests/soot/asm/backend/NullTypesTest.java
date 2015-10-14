@@ -1,15 +1,15 @@
 package soot.asm.backend;
 
-import org.objectweb.asm.*;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.util.TraceClassVisitor;
 
 /**
  * Test for null types
  *
  * @author Tobias Hamann, Florian Kuebler, Dominik Helm, Lukas Sommer
- *
  */
-public class NullTypesTest extends AbstractASMBackendTest{
+public class NullTypesTest extends AbstractASMBackendTest {
     @Override
     protected void generate(TraceClassVisitor cw) {
 
@@ -53,12 +53,12 @@ public class NullTypesTest extends AbstractASMBackendTest{
 
     @Override
     protected String getTargetFolder() {
-		return "./testclasses";
+        return "./testclasses";
     }
 
     @Override
     protected String getClassPathFolder() {
-		return "./testclasses";
+        return "./testclasses";
     }
 
 }

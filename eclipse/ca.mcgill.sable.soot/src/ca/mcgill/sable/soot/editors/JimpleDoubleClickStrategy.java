@@ -22,115 +22,117 @@ package ca.mcgill.sable.soot.editors;
 import org.eclipse.jface.text.*;
 
 
-
 public class JimpleDoubleClickStrategy implements ITextDoubleClickStrategy {
-	protected ITextViewer fText;
+    protected ITextViewer fText;
 
-	public JimpleDoubleClickStrategy() {
-		super();
-	}
-	public void doubleClicked(ITextViewer part) {
-		int pos = part.getSelectedRange().x;
+    public JimpleDoubleClickStrategy() {
+        super();
+    }
 
-		if (pos < 0)
-			return;
+    public void doubleClicked(ITextViewer part) {
+        int pos = part.getSelectedRange().x;
 
-		fText = part;
+        if (pos < 0)
+            return;
 
-		if (!selectComment(pos)) {
-			selectWord(pos);
-		}
-	}
-	protected boolean selectComment(int caretPos) {
-		IDocument doc = fText.getDocument();
-		int startPos, endPos;
+        fText = part;
 
-		try {
-			int pos = caretPos;
-			char c = ' ';
+        if (!selectComment(pos)) {
+            selectWord(pos);
+        }
+    }
 
-			while (pos >= 0) {
-				c = doc.getChar(pos);
-				if (c == '\\') {
-					pos -= 2;
-					continue;
-				}
-				if (c == Character.LINE_SEPARATOR || c == '\"')
-					break;
-				--pos;
-			}
+    protected boolean selectComment(int caretPos) {
+        IDocument doc = fText.getDocument();
+        int startPos, endPos;
 
-			if (c != '\"')
-				return false;
+        try {
+            int pos = caretPos;
+            char c = ' ';
 
-			startPos = pos;
+            while (pos >= 0) {
+                c = doc.getChar(pos);
+                if (c == '\\') {
+                    pos -= 2;
+                    continue;
+                }
+                if (c == Character.LINE_SEPARATOR || c == '\"')
+                    break;
+                --pos;
+            }
 
-			pos = caretPos;
-			int length = doc.getLength();
-			c = ' ';
+            if (c != '\"')
+                return false;
 
-			while (pos < length) {
-				c = doc.getChar(pos);
-				if (c == Character.LINE_SEPARATOR || c == '\"')
-					break;
-				++pos;
-			}
-			if (c != '\"')
-				return false;
+            startPos = pos;
 
-			endPos = pos;
-			
-			int offset = startPos +1;
-			int len = endPos - offset;
-			fText.setSelectedRange(offset, len);
-			return true;
-		} catch (BadLocationException x) {
-		}
+            pos = caretPos;
+            int length = doc.getLength();
+            c = ' ';
 
-		return false;
-	}
-	protected boolean selectWord(int caretPos) {
+            while (pos < length) {
+                c = doc.getChar(pos);
+                if (c == Character.LINE_SEPARATOR || c == '\"')
+                    break;
+                ++pos;
+            }
+            if (c != '\"')
+                return false;
 
-		IDocument doc = fText.getDocument();
-		int startPos, endPos;
+            endPos = pos;
 
-		try {
+            int offset = startPos + 1;
+            int len = endPos - offset;
+            fText.setSelectedRange(offset, len);
+            return true;
+        } catch (BadLocationException x) {
+        }
 
-			int pos = caretPos;
-			char c;
+        return false;
+    }
 
-			while (pos >= 0) {
-				c = doc.getChar(pos);
-				if (!Character.isJavaIdentifierPart(c))
-					break;
-				--pos;
-			}
+    protected boolean selectWord(int caretPos) {
 
-			startPos = pos;
+        IDocument doc = fText.getDocument();
+        int startPos, endPos;
 
-			pos = caretPos;
-			int length = doc.getLength();
+        try {
 
-			while (pos < length) {
-				c = doc.getChar(pos);
-				if (!Character.isJavaIdentifierPart(c))
-					break;
-				++pos;
-			}
+            int pos = caretPos;
+            char c;
 
-			endPos = pos;
-			selectRange(startPos, endPos);
-			return true;
+            while (pos >= 0) {
+                c = doc.getChar(pos);
+                if (!Character.isJavaIdentifierPart(c))
+                    break;
+                --pos;
+            }
 
-		} catch (BadLocationException x) {
-		}
+            startPos = pos;
 
-		return false;
-	}
-	
-	private void selectRange(int startPos, int stopPos) {
-		int offset = startPos+1;
-		int length = stopPos - offset;
-		fText.setSelectedRange(offset, length);
-	}
+            pos = caretPos;
+            int length = doc.getLength();
+
+            while (pos < length) {
+                c = doc.getChar(pos);
+                if (!Character.isJavaIdentifierPart(c))
+                    break;
+                ++pos;
+            }
+
+            endPos = pos;
+            selectRange(startPos, endPos);
+            return true;
+
+        } catch (BadLocationException x) {
+        }
+
+        return false;
+    }
+
+    private void selectRange(int startPos, int stopPos) {
+        int offset = startPos + 1;
+        int length = stopPos - offset;
+        fText.setSelectedRange(offset, length);
+    }
 }

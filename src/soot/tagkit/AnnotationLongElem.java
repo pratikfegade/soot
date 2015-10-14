@@ -28,33 +28,32 @@ package soot.tagkit;
 import soot.util.Switch;
 
 
-/** 
+/**
  * Represents the int annotation element
- * each annotation can have several elements 
+ * each annotation can have several elements
  * for Java 1.5.
  */
 
-public class AnnotationLongElem extends AnnotationElem
-{
+public class AnnotationLongElem extends AnnotationElem {
 
     long value;
 
-    public AnnotationLongElem(long v, char kind, String name){
+    public AnnotationLongElem(long v, char kind, String name) {
         super(kind, name);
         this.value = v;
     }
-    
-    public String toString(){
-        return super.toString()+" value: "+value;
+
+    public String toString() {
+        return super.toString() + " value: " + value;
     }
 
-    public long getValue(){
+    public long getValue() {
         return value;
     }
-    
-	@Override
-	public void apply(Switch sw) {
-		((IAnnotationElemTypeSwitch) sw).caseAnnotationLongElem(this);
-	}
+
+    @Override
+    public void apply(Switch sw) {
+        ((IAnnotationElemTypeSwitch) sw).caseAnnotationLongElem(this);
+    }
 }
 

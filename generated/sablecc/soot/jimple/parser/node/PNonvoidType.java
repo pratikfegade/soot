@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PNonvoidType extends Node
-{
+public abstract class PNonvoidType extends Node {
     // Empty body
 }

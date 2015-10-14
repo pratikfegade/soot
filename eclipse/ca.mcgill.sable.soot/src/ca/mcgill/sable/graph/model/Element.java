@@ -22,82 +22,83 @@ package ca.mcgill.sable.graph.model;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-import java.beans.*;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class Element implements IPropertySource {
 
-	public static final String GRAPH_CHILD = "graph child";
-	public static final String COMPLEX_CHILD = "complex child";
-	public static final String INPUTS = "inputs";
-	public static final String OUTPUTS = "outputs";
-	public static final String DATA = "data";
-	public static final String COMPLEX_CHILD_ADDED = "complex child added";
-	public static final String EDGE_LABEL = "edge label";
-	
-	public Element() {
-		super();
-	}
-	
-	protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	
-	public void addPropertyChangeListener(PropertyChangeListener l){
-		listeners.addPropertyChangeListener(l);
-	}
-	
-	protected void firePropertyChange(String name, Object oldVal, Object newVal){
-		listeners.firePropertyChange(name, oldVal, newVal);
-	}
-	
-	protected void firePropertyChange(String name, Object newVal){
-		firePropertyChange(name, null, newVal);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener l){
-		listeners.removePropertyChangeListener(l);
-	}
-	
-	public void fireStructureChange(String name, Object newVal){
-		firePropertyChange(name, null, newVal);
-	}
+    public static final String GRAPH_CHILD = "graph child";
+    public static final String COMPLEX_CHILD = "complex child";
+    public static final String INPUTS = "inputs";
+    public static final String OUTPUTS = "outputs";
+    public static final String DATA = "data";
+    public static final String COMPLEX_CHILD_ADDED = "complex child added";
+    public static final String EDGE_LABEL = "edge label";
+    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
-	 */
-	public Object getEditableValue() {
-		return null;
-	}
+    public Element() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
-	 */
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return null;
-	}
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        listeners.addPropertyChangeListener(l);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
-	 */
-	public Object getPropertyValue(Object id) {
-		return null;
-	}
+    protected void firePropertyChange(String name, Object oldVal, Object newVal) {
+        listeners.firePropertyChange(name, oldVal, newVal);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
-	 */
-	public boolean isPropertySet(Object id) {
-		return false;
-	}
+    protected void firePropertyChange(String name, Object newVal) {
+        firePropertyChange(name, null, newVal);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
-	 */
-	public void resetPropertyValue(Object id) {
-	}
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        listeners.removePropertyChangeListener(l);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
-	 */
-	public void setPropertyValue(Object id, Object value) {
-	}
+    public void fireStructureChange(String name, Object newVal) {
+        firePropertyChange(name, null, newVal);
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
+     */
+    public Object getEditableValue() {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
+     */
+    public IPropertyDescriptor[] getPropertyDescriptors() {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
+     */
+    public Object getPropertyValue(Object id) {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
+     */
+    public boolean isPropertySet(Object id) {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
+     */
+    public void resetPropertyValue(Object id) {
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
+     */
+    public void setPropertyValue(Object id, Object value) {
+    }
 
 }

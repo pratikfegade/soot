@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ADeclaration extends PDeclaration
-{
+public final class ADeclaration extends PDeclaration {
     private PJimpleType _jimpleType_;
     private PLocalNameList _localNameList_;
     private TSemicolon _semicolon_;
 
-    public ADeclaration()
-    {
+    public ADeclaration() {
         // Constructor
     }
 
     public ADeclaration(
-        @SuppressWarnings("hiding") PJimpleType _jimpleType_,
-        @SuppressWarnings("hiding") PLocalNameList _localNameList_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
-    {
+            @SuppressWarnings("hiding") PJimpleType _jimpleType_,
+            @SuppressWarnings("hiding") PLocalNameList _localNameList_,
+            @SuppressWarnings("hiding") TSemicolon _semicolon_) {
         // Constructor
         setJimpleType(_jimpleType_);
 
@@ -31,35 +28,28 @@ public final class ADeclaration extends PDeclaration
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ADeclaration(
-            cloneNode(this._jimpleType_),
-            cloneNode(this._localNameList_),
-            cloneNode(this._semicolon_));
+                cloneNode(this._jimpleType_),
+                cloneNode(this._localNameList_),
+                cloneNode(this._semicolon_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseADeclaration(this);
     }
 
-    public PJimpleType getJimpleType()
-    {
+    public PJimpleType getJimpleType() {
         return this._jimpleType_;
     }
 
-    public void setJimpleType(PJimpleType node)
-    {
-        if(this._jimpleType_ != null)
-        {
+    public void setJimpleType(PJimpleType node) {
+        if (this._jimpleType_ != null) {
             this._jimpleType_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class ADeclaration extends PDeclaration
         this._jimpleType_ = node;
     }
 
-    public PLocalNameList getLocalNameList()
-    {
+    public PLocalNameList getLocalNameList() {
         return this._localNameList_;
     }
 
-    public void setLocalNameList(PLocalNameList node)
-    {
-        if(this._localNameList_ != null)
-        {
+    public void setLocalNameList(PLocalNameList node) {
+        if (this._localNameList_ != null) {
             this._localNameList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class ADeclaration extends PDeclaration
         this._localNameList_ = node;
     }
 
-    public TSemicolon getSemicolon()
-    {
+    public TSemicolon getSemicolon() {
         return this._semicolon_;
     }
 
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
+    public void setSemicolon(TSemicolon node) {
+        if (this._semicolon_ != null) {
             this._semicolon_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class ADeclaration extends PDeclaration
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._jimpleType_)
-            + toString(this._localNameList_)
-            + toString(this._semicolon_);
+                + toString(this._jimpleType_)
+                + toString(this._localNameList_)
+                + toString(this._semicolon_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._jimpleType_ == child)
-        {
+        if (this._jimpleType_ == child) {
             this._jimpleType_ = null;
             return;
         }
 
-        if(this._localNameList_ == child)
-        {
+        if (this._localNameList_ == child) {
             this._localNameList_ = null;
             return;
         }
 
-        if(this._semicolon_ == child)
-        {
+        if (this._semicolon_ == child) {
             this._semicolon_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class ADeclaration extends PDeclaration
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._jimpleType_ == oldChild)
-        {
+        if (this._jimpleType_ == oldChild) {
             setJimpleType((PJimpleType) newChild);
             return;
         }
 
-        if(this._localNameList_ == oldChild)
-        {
+        if (this._localNameList_ == oldChild) {
             setLocalNameList((PLocalNameList) newChild);
             return;
         }
 
-        if(this._semicolon_ == oldChild)
-        {
+        if (this._semicolon_ == oldChild) {
             setSemicolon((TSemicolon) newChild);
             return;
         }

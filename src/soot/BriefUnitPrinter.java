@@ -18,68 +18,68 @@
  */
 
 package soot;
+
 import soot.jimple.*;
 
 /**
-* UnitPrinter implementation for normal (full) Jimple, Grimp, and Baf
-*/
+ * UnitPrinter implementation for normal (full) Jimple, Grimp, and Baf
+ */
 public class BriefUnitPrinter extends LabeledUnitPrinter {
-    public BriefUnitPrinter( Body body ) {
+    private boolean baf;
+    private boolean eatSpace = false;
+
+    public BriefUnitPrinter(Body body) {
         super(body);
     }
 
-    private boolean baf;
-    public void startUnit( Unit u ) {
+    public void startUnit(Unit u) {
         super.startUnit(u);
-        if( u instanceof Stmt ) {
-            baf = false;
-        } else {
-            baf = true;
-        }
+        baf = !(u instanceof Stmt);
     }
 
-    public void methodRef( SootMethodRef m ) {
+    public void methodRef(SootMethodRef m) {
         handleIndent();
-        if( !baf && m.resolve().isStatic() ){
-            output.append( m.declaringClass().getName() );
+        if (!baf && m.resolve().isStatic()) {
+            output.append(m.declaringClass().getName());
             literal(".");
         }
-        output.append( m.name() );
+        output.append(m.name());
     }
-    public void fieldRef( SootFieldRef f ) { 
+
+    public void fieldRef(SootFieldRef f) {
         handleIndent();
-        if( baf || f.resolve().isStatic() ){
-            output.append( f.declaringClass().getName() );
+        if (baf || f.resolve().isStatic()) {
+            output.append(f.declaringClass().getName());
             literal(".");
         }
         output.append(f.name());
     }
-    public void identityRef( IdentityRef r ) {
+
+    public void identityRef(IdentityRef r) {
         handleIndent();
-        if( r instanceof ThisRef ) {
+        if (r instanceof ThisRef) {
             literal("@this");
-        } else if( r instanceof ParameterRef ) {
+        } else if (r instanceof ParameterRef) {
             ParameterRef pr = (ParameterRef) r;
-            literal("@parameter"+pr.getIndex());
-        } else if( r instanceof CaughtExceptionRef ) {
+            literal("@parameter" + pr.getIndex());
+        } else if (r instanceof CaughtExceptionRef) {
             literal("@caughtexception");
         } else throw new RuntimeException();
     }
 
-    private boolean eatSpace = false;
-    public void literal( String s ) {
+    public void literal(String s) {
         handleIndent();
-        if( eatSpace && s.equals(" ") ) {
+        if (eatSpace && s.equals(" ")) {
             eatSpace = false;
             return;
         }
         eatSpace = false;
-        if( !baf ) {
-            if( false
-            ||  s.equals( Jimple.STATICINVOKE )
-            ||  s.equals( Jimple.VIRTUALINVOKE )
-            ||  s.equals( Jimple.INTERFACEINVOKE )
-              ) {
+        if (!baf) {
+            if (false
+                    || s.equals(Jimple.STATICINVOKE)
+                    || s.equals(Jimple.VIRTUALINVOKE)
+                    || s.equals(Jimple.INTERFACEINVOKE)
+                    ) {
                 eatSpace = true;
                 return;
             }
@@ -87,9 +87,9 @@ public class BriefUnitPrinter extends LabeledUnitPrinter {
         output.append(s);
     }
 
-    public void type( Type t ) {
+    public void type(Type t) {
         handleIndent();
-        output.append( t.toString() );
+        output.append(t.toString());
     }
 }
 

@@ -24,15 +24,11 @@
 
 package soot.dexpler.instructions;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction21c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
 import soot.Type;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
@@ -44,24 +40,27 @@ import soot.jimple.ClassConstant;
 import soot.jimple.Constant;
 import soot.jimple.Jimple;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class ConstClassInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
 
-    public ConstClassInstruction (Instruction instruction, int codeAdress) {
+    public ConstClassInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        if(!(instruction instanceof Instruction21c))
-            throw new IllegalArgumentException("Expected Instruction21c but got: "+instruction.getClass());
+    public void jimplify(DexBody body) {
+        if (!(instruction instanceof Instruction21c))
+            throw new IllegalArgumentException("Expected Instruction21c but got: " + instruction.getClass());
 
         ReferenceInstruction constClass = (ReferenceInstruction) this.instruction;
 
-        TypeReference tidi = (TypeReference)(constClass.getReference());
+        TypeReference tidi = (TypeReference) (constClass.getReference());
         String type = tidi.getType();
         if (type.startsWith("L") && type.endsWith(";"))
-          type = type.replaceAll("^L", "").replaceAll(";$", "");
+            type = type.replaceAll("^L", "").replaceAll(";$", "");
 
         int dest = ((OneRegisterInstruction) instruction).getRegisterA();
         Constant cst = ClassConstant.v(type);
@@ -70,11 +69,11 @@ public class ConstClassInstruction extends DexlibAbstractInstruction {
         addTags(assign);
         body.add(assign);
 
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          //DalvikTyper.v().captureAssign((JAssignStmt)assign, op); //TODO: classtype could be null!
-          DalvikTyper.v().setType(assign.getLeftOpBox(), cst.getType(), false);
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            //DalvikTyper.v().captureAssign((JAssignStmt)assign, op); //TODO: classtype could be null!
+            DalvikTyper.v().setType(assign.getLeftOpBox(), cst.getType(), false);
         }
     }
 

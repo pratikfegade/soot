@@ -20,248 +20,246 @@
 package ca.mcgill.sable.soot.launching;
 
 
-import java.io.PrintStream;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-
+import ca.mcgill.sable.soot.SootPlugin;
+import ca.mcgill.sable.soot.interaction.InteractionController;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-
 import soot.toolkits.graph.interaction.InteractionHandler;
-import ca.mcgill.sable.soot.SootPlugin;
-import ca.mcgill.sable.soot.interaction.InteractionController;
+
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 
 
 public class SootThread extends Thread {
 
-	private Display display;
-	private String mainClass;
-	private ArrayList cfgList;
-	private InteractionController listener;
-	private SootRunner parent;
-	private Shell activeShell;
-
-	
-	/**
-	 * Constructor for SootThread.
-	 */
-	public SootThread(Display display, String mainClass, SootRunner parent) {
-		super();
+    private Display display;
+    private String mainClass;
+    private ArrayList cfgList;
+    private InteractionController listener;
+    private SootRunner parent;
+    private Shell activeShell;
+    private String[] cmd;
+    private PrintStream sootOut;
+    /**
+     * Constructor for SootThread.
+     */
+    public SootThread(Display display, String mainClass, SootRunner parent) {
+        super();
         setDisplay(display);
-        
-		setMainClass(mainClass);
-		
-		InteractionController controller = new InteractionController();
-       	controller.setDisplay(getDisplay());
+
+        setMainClass(mainClass);
+
+        InteractionController controller = new InteractionController();
+        controller.setDisplay(getDisplay());
         controller.setSootThread(this);
         setListener(controller);
         setParent(parent);
         this.setName("soot thread");
-        	
-	}
 
-	
-	
-	private String [] cmd;
-	private PrintStream sootOut;
+    }
 
-	
-	public void run() {
-		final String [] cmdFinal = getCmd();
-		final PrintStream sootOutFinal = getSootOut();
-		try {
-			
-			soot.G.reset();
-			soot.G.v().out = sootOutFinal;
-           
-			InteractionController listener = getListener();
-			InteractionHandler.v().setInteractionListener(listener);
-            
+    public void run() {
+        final String[] cmdFinal = getCmd();
+        final PrintStream sootOutFinal = getSootOut();
+        try {
+
+            soot.G.reset();
+            soot.G.v().out = sootOutFinal;
+
+            InteractionController listener = getListener();
+            InteractionHandler.v().setInteractionListener(listener);
+
             String mainClass = getMainClass();
             String mainProject = null;
-            if(mainClass.contains(":")) {
-            	String[] split = mainClass.split(":");
-				mainProject = split[0];
-            	mainClass = split[1];
+            if (mainClass.contains(":")) {
+                String[] split = mainClass.split(":");
+                mainProject = split[0];
+                mainClass = split[1];
             }
             Class<?> toRun;
-			try {
-				ClassLoader loader;
-	            if(mainProject!=null) {
-		            IProject project = SootPlugin.getWorkspace().getRoot().getProject(mainProject);
-		            if(project.exists() && project.isOpen() && project.hasNature("org.eclipse.jdt.core.javanature")) {
-		            	IJavaProject javaProject = JavaCore.create(project);
-						URL[] urls = SootClasspath.projectClassPath(javaProject);
-						loader = new URLClassLoader(urls,SootThread.class.getClassLoader());
-		            } else {
-		    			final String mc = mainClass;
-		    			final Shell defaultShell = getShell();
-		    			getDisplay().syncExec(new Runnable() {
-		    				public void run() {
-				    			MessageDialog.openError(defaultShell, "Unable to find Soot Main Project", "Project "+mc+" does not exist," +
-								" is no Java project or is closed. Aborting...");
-		    				}
-		    			});
-		    			SootPlugin.getDefault().getConsole().clearConsole();
-		    			return;
-		            }
-	            } else {
-	            	loader = SootThread.class.getClassLoader();
-	            }
+            try {
+                ClassLoader loader;
+                if (mainProject != null) {
+                    IProject project = SootPlugin.getWorkspace().getRoot().getProject(mainProject);
+                    if (project.exists() && project.isOpen() && project.hasNature("org.eclipse.jdt.core.javanature")) {
+                        IJavaProject javaProject = JavaCore.create(project);
+                        URL[] urls = SootClasspath.projectClassPath(javaProject);
+                        loader = new URLClassLoader(urls, SootThread.class.getClassLoader());
+                    } else {
+                        final String mc = mainClass;
+                        final Shell defaultShell = getShell();
+                        getDisplay().syncExec(new Runnable() {
+                            public void run() {
+                                MessageDialog.openError(defaultShell, "Unable to find Soot Main Project", "Project " + mc + " does not exist," +
+                                        " is no Java project or is closed. Aborting...");
+                            }
+                        });
+                        SootPlugin.getDefault().getConsole().clearConsole();
+                        return;
+                    }
+                } else {
+                    loader = SootThread.class.getClassLoader();
+                }
 
-	            toRun = loader.loadClass(mainClass);
-			} catch(final ClassNotFoundException e) {
-				final Shell defaultShell = getShell();
-    			final String inProject = mainProject!=null ? (" in project "+mainProject):"";
-    			getDisplay().syncExec(new Runnable() {
-    				public void run() {
-    	    			MessageDialog.openError(defaultShell, "Unable to find class", "Cannot find class"+inProject+". Aborting...\n"+e.getLocalizedMessage());
-    				}
-    			});
-    			SootPlugin.getDefault().getConsole().clearConsole();
-				return;
-			}
-			            
-			Method [] meths = toRun.getDeclaredMethods();
-			Object [] args = new Object [1];
-			args[0] = cmdFinal;
-			for (int i = 0; i < meths.length; i++){
-				if (meths[i].getName().equals("main")){
-					Class<?>[] fields = meths[i].getParameterTypes();
-					if (fields.length == 1){
-					meths[i].invoke(toRun, args);
-					}
-				}
-			}
-			setCfgList(soot.Scene.v().getPkgList());
-			getParent().setCfgList(getCfgList());
-			
-		}
-		catch (Exception e) {
-            System.out.println("Soot exception: "+e);
-			e.printStackTrace(sootOutFinal);
-			System.out.println(e.getCause());
-       	}
-	}
+                toRun = loader.loadClass(mainClass);
+            } catch (final ClassNotFoundException e) {
+                final Shell defaultShell = getShell();
+                final String inProject = mainProject != null ? (" in project " + mainProject) : "";
+                getDisplay().syncExec(new Runnable() {
+                    public void run() {
+                        MessageDialog.openError(defaultShell, "Unable to find class", "Cannot find class" + inProject + ". Aborting...\n" + e.getLocalizedMessage());
+                    }
+                });
+                SootPlugin.getDefault().getConsole().clearConsole();
+                return;
+            }
 
-	private Shell getShell() {
-		getDisplay().syncExec(new Runnable() {
+            Method[] meths = toRun.getDeclaredMethods();
+            Object[] args = new Object[1];
+            args[0] = cmdFinal;
+            for (int i = 0; i < meths.length; i++) {
+                if (meths[i].getName().equals("main")) {
+                    Class<?>[] fields = meths[i].getParameterTypes();
+                    if (fields.length == 1) {
+                        meths[i].invoke(toRun, args);
+                    }
+                }
+            }
+            setCfgList(soot.Scene.v().getPkgList());
+            getParent().setCfgList(getCfgList());
 
-			public void run() {
-				activeShell = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
-			}
-		});		
-		return activeShell;
-	}
+        } catch (Exception e) {
+            System.out.println("Soot exception: " + e);
+            e.printStackTrace(sootOutFinal);
+            System.out.println(e.getCause());
+        }
+    }
 
-	/**
-	 * Returns the cmd.
-	 * @return String
-	 */
-	public String [] getCmd() {
-		return cmd;
-	}
+    private Shell getShell() {
+        getDisplay().syncExec(new Runnable() {
 
-	/**
-	 * Returns the sootOut.
-	 * @return PrintStream
-	 */
-	public PrintStream getSootOut() {
-		return sootOut;
-	}
+            public void run() {
+                activeShell = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+            }
+        });
+        return activeShell;
+    }
 
-	/**
-	 * Sets the cmd.
-	 * @param cmd The cmd to set
-	 */
-	public void setCmd(String [] cmd) {
-		this.cmd = cmd;
-	}
+    /**
+     * Returns the cmd.
+     *
+     * @return String
+     */
+    public String[] getCmd() {
+        return cmd;
+    }
 
-	/**
-	 * Sets the sootOut.
-	 * @param sootOut The sootOut to set
-	 */
-	public void setSootOut(PrintStream sootOut) {
-		this.sootOut = sootOut;
-	}
+    /**
+     * Sets the cmd.
+     *
+     * @param cmd The cmd to set
+     */
+    public void setCmd(String[] cmd) {
+        this.cmd = cmd;
+    }
 
-	/**
-	 * Returns the display.
-	 * @return Display
-	 */
-	public Display getDisplay() {
-		return display;
-	}
+    /**
+     * Returns the sootOut.
+     *
+     * @return PrintStream
+     */
+    public PrintStream getSootOut() {
+        return sootOut;
+    }
 
-	/**
-	 * Sets the display.
-	 * @param display The display to set
-	 */
-	public void setDisplay(Display display) {
-		this.display = display;
-	}
+    /**
+     * Sets the sootOut.
+     *
+     * @param sootOut The sootOut to set
+     */
+    public void setSootOut(PrintStream sootOut) {
+        this.sootOut = sootOut;
+    }
 
-	/**
-	 * @return
-	 */
-	public String getMainClass() {
-		return mainClass;
-	}
+    /**
+     * Returns the display.
+     *
+     * @return Display
+     */
+    public Display getDisplay() {
+        return display;
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setMainClass(String string) {
-		mainClass = string;
-	}
+    /**
+     * Sets the display.
+     *
+     * @param display The display to set
+     */
+    public void setDisplay(Display display) {
+        this.display = display;
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getCfgList() {
-		return cfgList;
-	}
+    /**
+     * @return
+     */
+    public String getMainClass() {
+        return mainClass;
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setCfgList(ArrayList list) {
-		cfgList = list;
-	}
+    /**
+     * @param string
+     */
+    public void setMainClass(String string) {
+        mainClass = string;
+    }
 
-	/**
-	 * @return
-	 */
-	public InteractionController getListener() {
-		return listener;
-	}
+    /**
+     * @return
+     */
+    public ArrayList getCfgList() {
+        return cfgList;
+    }
 
-	/**
-	 * @param controller
-	 */
-	public void setListener(InteractionController controller) {
-		this.listener = controller;
-	}
+    /**
+     * @param list
+     */
+    public void setCfgList(ArrayList list) {
+        cfgList = list;
+    }
 
-	/**
-	 * @return
-	 */
-	public SootRunner getParent() {
-		return parent;
-	}
+    /**
+     * @return
+     */
+    public InteractionController getListener() {
+        return listener;
+    }
 
-	/**
-	 * @param runner
-	 */
-	public void setParent(SootRunner runner) {
-		parent = runner;
-	}
+    /**
+     * @param controller
+     */
+    public void setListener(InteractionController controller) {
+        this.listener = controller;
+    }
+
+    /**
+     * @return
+     */
+    public SootRunner getParent() {
+        return parent;
+    }
+
+    /**
+     * @param runner
+     */
+    public void setParent(SootRunner runner) {
+        parent = runner;
+    }
 
 }

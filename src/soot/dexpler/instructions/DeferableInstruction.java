@@ -32,7 +32,7 @@ import soot.dexpler.DexBody;
  *
  * @author Michael Markert <michael.markert@googlemail.com>
  */
-public interface DeferableInstruction  {
+public interface DeferableInstruction {
 
     /**
      * Jimplify this instruction with the guarantee that every other
@@ -40,5 +40,5 @@ public interface DeferableInstruction  {
      *
      * @param body to jimplify into
      */
-    public void deferredJimplify(DexBody body);
+    void deferredJimplify(DexBody body);
 }

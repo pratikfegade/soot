@@ -20,154 +20,154 @@
 
 package soot.dava.internal.asg;
 
-import soot.*;
+import soot.G;
+import soot.dava.internal.SET.SETNode;
+import soot.jimple.Stmt;
+import soot.util.IterableSet;
 
-import java.util.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.dava.internal.SET.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AugmentedStmt {
-	public List<AugmentedStmt> bpreds, bsuccs, cpreds, csuccs;
-	public SETNode myNode;
+    private final IterableSet<AugmentedStmt> dominators;
+    public List<AugmentedStmt> bpreds, bsuccs, cpreds, csuccs;
+    public SETNode myNode;
+    private IterableSet<AugmentedStmt> reachers;
+    private Stmt s;
 
-	private final IterableSet<AugmentedStmt> dominators;
-	private IterableSet<AugmentedStmt> reachers;
-	private Stmt s;
+    public AugmentedStmt(Stmt s) {
+        this.s = s;
 
-	public AugmentedStmt(Stmt s) {
-		this.s = s;
+        dominators = new IterableSet<AugmentedStmt>();
+        reachers = new IterableSet<AugmentedStmt>();
 
-		dominators = new IterableSet<AugmentedStmt>();
-		reachers = new IterableSet<AugmentedStmt>();
+        reset_PredsSuccs();
+    }
 
-		reset_PredsSuccs();
-	}
+    public boolean add_BPred(AugmentedStmt bpred) {
+        if (add_CPred(bpred) == false)
+            return false;
 
-	public void set_Stmt(Stmt s) {
-		this.s = s;
-	}
+        if (bpreds.contains(bpred)) {
+            cpreds.remove(bpred);
+            return false;
+        }
 
-	public boolean add_BPred(AugmentedStmt bpred) {
-		if (add_CPred(bpred) == false)
-			return false;
+        bpreds.add(bpred);
+        return true;
+    }
 
-		if (bpreds.contains(bpred)) {
-			cpreds.remove(bpred);
-			return false;
-		}
+    public boolean add_BSucc(AugmentedStmt bsucc) {
+        if (add_CSucc(bsucc) == false)
+            return false;
 
-		bpreds.add(bpred);
-		return true;
-	}
+        if (bsuccs.contains(bsucc)) {
+            csuccs.remove(bsucc);
+            return false;
+        }
 
-	public boolean add_BSucc(AugmentedStmt bsucc) {
-		if (add_CSucc(bsucc) == false)
-			return false;
+        bsuccs.add(bsucc);
+        return true;
+    }
 
-		if (bsuccs.contains(bsucc)) {
-			csuccs.remove(bsucc);
-			return false;
-		}
+    public boolean add_CPred(AugmentedStmt cpred) {
+        if (cpreds.contains(cpred) == false) {
+            cpreds.add(cpred);
+            return true;
+        }
 
-		bsuccs.add(bsucc);
-		return true;
-	}
+        return false;
+    }
 
-	public boolean add_CPred(AugmentedStmt cpred) {
-		if (cpreds.contains(cpred) == false) {
-			cpreds.add(cpred);
-			return true;
-		}
+    public boolean add_CSucc(AugmentedStmt csucc) {
+        if (csuccs.contains(csucc) == false) {
+            csuccs.add(csucc);
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public boolean add_CSucc(AugmentedStmt csucc) {
-		if (csuccs.contains(csucc) == false) {
-			csuccs.add(csucc);
-			return true;
-		}
+    public boolean remove_BPred(AugmentedStmt bpred) {
+        if (remove_CPred(bpred) == false)
+            return false;
 
-		return false;
-	}
+        if (bpreds.contains(bpred)) {
+            bpreds.remove(bpred);
+            return true;
+        }
 
-	public boolean remove_BPred(AugmentedStmt bpred) {
-		if (remove_CPred(bpred) == false)
-			return false;
+        cpreds.add(bpred);
+        return false;
+    }
 
-		if (bpreds.contains(bpred)) {
-			bpreds.remove(bpred);
-			return true;
-		}
+    public boolean remove_BSucc(AugmentedStmt bsucc) {
+        if (remove_CSucc(bsucc) == false)
+            return false;
 
-		cpreds.add(bpred);
-		return false;
-	}
+        if (bsuccs.contains(bsucc)) {
+            bsuccs.remove(bsucc);
+            return true;
+        }
 
-	public boolean remove_BSucc(AugmentedStmt bsucc) {
-		if (remove_CSucc(bsucc) == false)
-			return false;
+        csuccs.add(bsucc);
+        return false;
+    }
 
-		if (bsuccs.contains(bsucc)) {
-			bsuccs.remove(bsucc);
-			return true;
-		}
+    public boolean remove_CPred(AugmentedStmt cpred) {
+        if (cpreds.contains(cpred)) {
+            cpreds.remove(cpred);
+            return true;
+        }
 
-		csuccs.add(bsucc);
-		return false;
-	}
+        return false;
+    }
 
-	public boolean remove_CPred(AugmentedStmt cpred) {
-		if (cpreds.contains(cpred)) {
-			cpreds.remove(cpred);
-			return true;
-		}
+    public boolean remove_CSucc(AugmentedStmt csucc) {
+        if (csuccs.contains(csucc)) {
+            csuccs.remove(csucc);
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public boolean remove_CSucc(AugmentedStmt csucc) {
-		if (csuccs.contains(csucc)) {
-			csuccs.remove(csucc);
-			return true;
-		}
+    public Stmt get_Stmt() {
+        return s;
+    }
 
-		return false;
-	}
+    public void set_Stmt(Stmt s) {
+        this.s = s;
+    }
 
-	public Stmt get_Stmt() {
-		return s;
-	}
+    public IterableSet<AugmentedStmt> get_Dominators() {
+        return dominators;
+    }
 
-	public IterableSet<AugmentedStmt> get_Dominators() {
-		return dominators;
-	}
+    public IterableSet<AugmentedStmt> get_Reachers() {
+        return reachers;
+    }
 
-	public IterableSet<AugmentedStmt> get_Reachers() {
-		return reachers;
-	}
+    public void set_Reachability(IterableSet<AugmentedStmt> reachers) {
+        this.reachers = reachers;
+    }
 
-	public void set_Reachability(IterableSet<AugmentedStmt> reachers) {
-		this.reachers = reachers;
-	}
+    public void dump() {
+        G.v().out.println(toString());
+    }
 
-	public void dump() {
-		G.v().out.println(toString());
-	}
+    public String toString() {
+        return "(" + s.toString() + " @ " + hashCode() + ")";
+    }
 
-	public String toString() {
-		return "(" + s.toString() + " @ " + hashCode() + ")";
-	}
+    public void reset_PredsSuccs() {
+        bpreds = new LinkedList<AugmentedStmt>();
+        bsuccs = new LinkedList<AugmentedStmt>();
+        cpreds = new LinkedList<AugmentedStmt>();
+        csuccs = new LinkedList<AugmentedStmt>();
+    }
 
-	public void reset_PredsSuccs() {
-		bpreds = new LinkedList<AugmentedStmt>();
-		bsuccs = new LinkedList<AugmentedStmt>();
-		cpreds = new LinkedList<AugmentedStmt>();
-		csuccs = new LinkedList<AugmentedStmt>();
-	}
-
-	public Object clone() {
-		return new AugmentedStmt((Stmt) s.clone());
-	}
+    public Object clone() {
+        return new AugmentedStmt((Stmt) s.clone());
+    }
 }

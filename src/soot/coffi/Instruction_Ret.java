@@ -24,15 +24,12 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
-/** Instruction subclasses are used to represent parsed bytecode; each
+
+/**
+ * Instruction subclasses are used to represent parsed bytecode; each
  * bytecode operation has a corresponding subclass of Instruction.
- * <p>
+ * <p/>
  * Each subclass is derived from one of
  * <ul><li>Instruction</li>
  * <li>Instruction_noargs (an Instruction with no embedded arguments)</li>
@@ -45,6 +42,7 @@ package soot.coffi;
  * <li>Instruction_intbranch (a short argument specifying a code offset)</li>
  * <li>Instruction_longbranch (an int argument specifying a code offset)</li>
  * </ul>
+ *
  * @author Clark Verbrugge
  * @see Instruction
  * @see Instruction_noargs
@@ -58,11 +56,11 @@ package soot.coffi;
  * @see Instruction_longbranch
  * @see Instruction_Unknown
  */
-class Instruction_Ret extends Instruction_bytevar{
-    public Instruction_Ret() { 
-	super((byte)ByteCode.RET); 
-	name = "ret"; 
-	branches = true;
-	/* returns = true; */
+class Instruction_Ret extends Instruction_bytevar {
+    public Instruction_Ret() {
+        super((byte) ByteCode.RET);
+        name = "ret";
+        branches = true;
+    /* returns = true; */
     }
 }

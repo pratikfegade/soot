@@ -22,7 +22,7 @@ import soot.PointsToSet;
 
 /**
  * A points-to set supporting deep equals and hashCode operations.
- *  
+ *
  * @author Eric Bodden
  * @see PointsToSetEqualsWrapper
  */
@@ -33,13 +33,13 @@ public interface EqualsSupportingPointsToSet extends PointsToSet {
      * Note that hashCode() is not overwritten on purpose.
      * This is because Spark relies on comparison by object identity.
      */
-    public int pointsToSetHashCode();
+    int pointsToSetHashCode();
 
     /**
      * Returns <code>true</code> if and only if other holds the same alloc nodes as this.
      * Note that equals() is not overwritten on purpose.
      * This is because Spark relies on comparison by object identity.
      */
-    public boolean pointsToSetEquals(Object other);
+    boolean pointsToSetEquals(Object other);
 
 }

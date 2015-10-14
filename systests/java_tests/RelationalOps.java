@@ -1,9 +1,9 @@
 public class RelationalOps {
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         int counterLocal = 8;
-        if (counterLocal <= 0){
-        
+        if (counterLocal <= 0) {
+
         }
     }
 }

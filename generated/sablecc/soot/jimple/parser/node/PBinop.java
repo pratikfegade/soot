@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PBinop extends Node
-{
+public abstract class PBinop extends Node {
     // Empty body
 }

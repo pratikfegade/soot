@@ -19,229 +19,231 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class SootAttributesHandler {
 
-	private ArrayList attrList;
-	private String fileName;
-	private HashMap projList;
-	private long valuesSetTime;
-	private boolean update = true;
-	private ArrayList keyList;
-	private ArrayList typesToShow;
-	private boolean showAllTypes = true;
+    private static final String NEWLINE = "\n\r";
+    private ArrayList attrList;
+    private String fileName;
+    private HashMap projList;
+    private long valuesSetTime;
+    private boolean update = true;
+    private ArrayList keyList;
+    private ArrayList typesToShow;
+    private boolean showAllTypes = true;
 
-	private static final String NEWLINE = "\n\r";
-	
-	public SootAttributesHandler() {
-				
-	}
-	
-	public void setAttrList(ArrayList attrList) {
-		this.attrList = new ArrayList();
-		this.attrList.addAll(attrList);
-	}
+    public SootAttributesHandler() {
 
-	public String getJimpleAttributes(int lnNum) {
-		StringBuffer sb = new StringBuffer();
-		if (getAttrList() == null) return sb.toString();
-		Iterator it = getAttrList().iterator();
-		
-		while (it.hasNext()) {
-			SootAttribute sa = (SootAttribute)it.next();
-			if (sa.attrForJimpleLn(lnNum)) {
-				if (showAllTypes){
-					sb.append(sa.getAllTextAttrs("\n"));
-				}
-				else {
-					Iterator typesIt = typesToShow.iterator();
-					while (typesIt.hasNext()){
-						sb.append(sa.getTextAttrsForType("\n", (String)typesIt.next()));
-					}
-					
-				}
-				
-			}
-		}	
-		String result = sb.toString();
-		result = result.trim();
-		if (result.length() == 0 ) return null;
-		return result;
-	}
-	
-	public ArrayList getJimpleLinks(int lnNum){
-		Iterator it = getAttrList().iterator();
-		ArrayList list = new ArrayList();
-		while (it.hasNext()){
-			SootAttribute sa = (SootAttribute)it.next();
-			if (sa.attrForJimpleLn(lnNum)){
-				list = sa.getAllLinkAttrs();
-			}
-		}
-		return list;
-	}
-	
-	public String getJavaAttribute(int lnNum) {
-		StringBuffer sb = new StringBuffer();
-		if (getAttrList() == null) return sb.toString();
-		Iterator it = getAttrList().iterator();
-		while (it.hasNext()) {
-			SootAttribute sa = (SootAttribute)it.next();
-			if (sa.attrForJavaLn(lnNum)) {
-				if (showAllTypes){
-					sb.append(sa.getAllTextAttrs("<br>"));
-				}
-				else {
-					Iterator typesIt = typesToShow.iterator();
-					while (typesIt.hasNext()){
-						sb.append(sa.getTextAttrsForType("<br>", (String)typesIt.next()));
-					}
-				}
-			}
-		}	
-		return sb.toString();
-	}
+    }
 
-	public ArrayList getJavaLinks(int lnNum){
-		ArrayList list = new ArrayList();
-		if (getAttrList() == null) return list;
-		Iterator it = getAttrList().iterator();
-		while (it.hasNext()){
-			SootAttribute sa = (SootAttribute)it.next();
-			if (sa.attrForJavaLn(lnNum)){
-				if (sa.getAllLinkAttrs() != null){
-				
-					list.addAll(sa.getAllLinkAttrs());
-				}
-			}
-		}
-		return list;
-	}
+    public String getJimpleAttributes(int lnNum) {
+        StringBuffer sb = new StringBuffer();
+        if (getAttrList() == null) return sb.toString();
+        Iterator it = getAttrList().iterator();
 
+        while (it.hasNext()) {
+            SootAttribute sa = (SootAttribute) it.next();
+            if (sa.attrForJimpleLn(lnNum)) {
+                if (showAllTypes) {
+                    sb.append(sa.getAllTextAttrs("\n"));
+                } else {
+                    Iterator typesIt = typesToShow.iterator();
+                    while (typesIt.hasNext()) {
+                        sb.append(sa.getTextAttrsForType("\n", (String) typesIt.next()));
+                    }
 
-	/**
-	 * Returns the projList.
-	 * @return HashMap
-	 */
-	public HashMap getProjList() {
-		return projList;
-	}
+                }
 
-	/**
-	 * Sets the projList.
-	 * @param projList The projList to set
-	 */
-	public void setProjList(HashMap projList) {
-		this.projList = projList;
-	}
+            }
+        }
+        String result = sb.toString();
+        result = result.trim();
+        if (result.length() == 0) return null;
+        return result;
+    }
 
-	/**
-	 * Returns the attrList.
-	 * @return Vector
-	 */
-	public ArrayList getAttrList() {
-		return attrList;
-	}
+    public ArrayList getJimpleLinks(int lnNum) {
+        Iterator it = getAttrList().iterator();
+        ArrayList list = new ArrayList();
+        while (it.hasNext()) {
+            SootAttribute sa = (SootAttribute) it.next();
+            if (sa.attrForJimpleLn(lnNum)) {
+                list = sa.getAllLinkAttrs();
+            }
+        }
+        return list;
+    }
 
-	/**
-	 * Returns the fileName.
-	 * @return String
-	 */
-	public String getFileName() {
-		return fileName;
-	}
+    public String getJavaAttribute(int lnNum) {
+        StringBuffer sb = new StringBuffer();
+        if (getAttrList() == null) return sb.toString();
+        Iterator it = getAttrList().iterator();
+        while (it.hasNext()) {
+            SootAttribute sa = (SootAttribute) it.next();
+            if (sa.attrForJavaLn(lnNum)) {
+                if (showAllTypes) {
+                    sb.append(sa.getAllTextAttrs("<br>"));
+                } else {
+                    Iterator typesIt = typesToShow.iterator();
+                    while (typesIt.hasNext()) {
+                        sb.append(sa.getTextAttrsForType("<br>", (String) typesIt.next()));
+                    }
+                }
+            }
+        }
+        return sb.toString();
+    }
 
-	/**
-	 * Sets the fileName.
-	 * @param fileName The fileName to set
-	 */
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public ArrayList getJavaLinks(int lnNum) {
+        ArrayList list = new ArrayList();
+        if (getAttrList() == null) return list;
+        Iterator it = getAttrList().iterator();
+        while (it.hasNext()) {
+            SootAttribute sa = (SootAttribute) it.next();
+            if (sa.attrForJavaLn(lnNum)) {
+                if (sa.getAllLinkAttrs() != null) {
 
-	/**
-	 * @return
-	 */
-	public long getValuesSetTime() {
-		return valuesSetTime;
-	}
+                    list.addAll(sa.getAllLinkAttrs());
+                }
+            }
+        }
+        return list;
+    }
 
-	/**
-	 * @param l
-	 */
-	public void setValuesSetTime(long l) {
-		valuesSetTime = l;
-	}
+    /**
+     * Returns the projList.
+     *
+     * @return HashMap
+     */
+    public HashMap getProjList() {
+        return projList;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isUpdate() {
-		return update;
-	}
+    /**
+     * Sets the projList.
+     *
+     * @param projList The projList to set
+     */
+    public void setProjList(HashMap projList) {
+        this.projList = projList;
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setUpdate(boolean b) {
-		update = b;
-	}
+    /**
+     * Returns the attrList.
+     *
+     * @return Vector
+     */
+    public ArrayList getAttrList() {
+        return attrList;
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getKeyList() {
-		if (keyList == null) return keyList;
-		if (isShowAllTypes()){
-			return keyList;
-		}
-		else {
-			ArrayList typeList = new ArrayList();
-			Iterator kIt = keyList.iterator();
-			while (kIt.hasNext()){
-				AnalysisKey key = (AnalysisKey)kIt.next();
-				if (getTypesToShow().contains(key.getType())){
-					typeList.add(key);
-				}
-			}
-			return typeList;
-		}
-	}
+    public void setAttrList(ArrayList attrList) {
+        this.attrList = new ArrayList();
+        this.attrList.addAll(attrList);
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setKeyList(ArrayList list) {
-		keyList = list;
-	}
+    /**
+     * Returns the fileName.
+     *
+     * @return String
+     */
+    public String getFileName() {
+        return fileName;
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getTypesToShow() {
-		return typesToShow;
-	}
+    /**
+     * Sets the fileName.
+     *
+     * @param fileName The fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setTypesToShow(ArrayList list) {
-		typesToShow = list;
-	}
+    /**
+     * @return
+     */
+    public long getValuesSetTime() {
+        return valuesSetTime;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isShowAllTypes() {
-		return showAllTypes;
-	}
+    /**
+     * @param l
+     */
+    public void setValuesSetTime(long l) {
+        valuesSetTime = l;
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setShowAllTypes(boolean b) {
-		showAllTypes = b;
-	}
+    /**
+     * @return
+     */
+    public boolean isUpdate() {
+        return update;
+    }
+
+    /**
+     * @param b
+     */
+    public void setUpdate(boolean b) {
+        update = b;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getKeyList() {
+        if (keyList == null) return keyList;
+        if (isShowAllTypes()) {
+            return keyList;
+        } else {
+            ArrayList typeList = new ArrayList();
+            Iterator kIt = keyList.iterator();
+            while (kIt.hasNext()) {
+                AnalysisKey key = (AnalysisKey) kIt.next();
+                if (getTypesToShow().contains(key.getType())) {
+                    typeList.add(key);
+                }
+            }
+            return typeList;
+        }
+    }
+
+    /**
+     * @param list
+     */
+    public void setKeyList(ArrayList list) {
+        keyList = list;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getTypesToShow() {
+        return typesToShow;
+    }
+
+    /**
+     * @param list
+     */
+    public void setTypesToShow(ArrayList list) {
+        typesToShow = list;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isShowAllTypes() {
+        return showAllTypes;
+    }
+
+    /**
+     * @param b
+     */
+    public void setShowAllTypes(boolean b) {
+        showAllTypes = b;
+    }
 
 }

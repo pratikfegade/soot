@@ -27,11 +27,11 @@ import soot.*;
  */
 public class Integer127Type extends PrimType implements IntegerType {
 
-    public static Integer127Type v() {
-        return G.v().soot_jimple_toolkits_typing_fast_Integer127Type();
+    public Integer127Type(Singletons.Global g) {
     }
 
-    public Integer127Type(Singletons.Global g) {
+    public static Integer127Type v() {
+        return G.v().soot_jimple_toolkits_typing_fast_Integer127Type();
     }
 
     public String toString() {
@@ -48,7 +48,7 @@ public class Integer127Type extends PrimType implements IntegerType {
     }
 
     @Override
-	public boolean isAllowedInFinalCode() {
-		return false;
-	}
+    public boolean isAllowedInFinalCode() {
+        return false;
+    }
 }

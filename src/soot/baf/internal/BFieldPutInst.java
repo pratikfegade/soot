@@ -25,69 +25,72 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.AbstractJasminClass;
+import soot.SootField;
+import soot.SootFieldRef;
+import soot.UnitPrinter;
+import soot.baf.FieldPutInst;
+import soot.baf.InstSwitch;
+import soot.util.Switch;
 
-public class BFieldPutInst extends AbstractInst implements FieldPutInst
-{
+public class BFieldPutInst extends AbstractInst implements FieldPutInst {
     SootFieldRef fieldRef;
 
-    public BFieldPutInst(SootFieldRef fieldRef)
-    {
-        if( fieldRef.isStatic() ) throw new RuntimeException("wrong static-ness");
+    public BFieldPutInst(SootFieldRef fieldRef) {
+        if (fieldRef.isStatic()) throw new RuntimeException("wrong static-ness");
         this.fieldRef = fieldRef;
     }
-    
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 2;
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 0;
     }
-    
 
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new BFieldPutInst(fieldRef);
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return AbstractJasminClass.sizeOfType(fieldRef.type()) + 1;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 0;
     }
-        
 
-    final public String getName() { return "fieldput"; }
-    final String getParameters()
-    { 
-        return " " + fieldRef.getSignature(); 
+
+    final public String getName() {
+        return "fieldput";
     }
-    protected void getParameters( UnitPrinter up ) {
+
+    final String getParameters() {
+        return " " + fieldRef.getSignature();
+    }
+
+    protected void getParameters(UnitPrinter up) {
         up.literal(" ");
         up.fieldRef(fieldRef);
     }
-    
-    public SootFieldRef getFieldRef() { return fieldRef; }
-    public SootField getField() { return fieldRef.resolve(); }
-    
-    public void apply(Switch sw)
-    {
+
+    public SootFieldRef getFieldRef() {
+        return fieldRef;
+    }
+
+    public SootField getField() {
+        return fieldRef.resolve();
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseFieldPutInst(this);
-    }   
-    public boolean containsFieldRef() { return true; }
+    }
+
+    public boolean containsFieldRef() {
+        return true;
+    }
 }

@@ -1,18 +1,24 @@
-<HTML> <HEAD> <TITLE>NullnessAnalysis.java</TITLE> </HEAD> <BODY> <PRE> 
+<HTML>
+<HEAD><TITLE>NullnessAnalysis.java</TITLE></HEAD>
+<BODY>
+<PRE>
 <FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>*</FONT>;
 <FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>jimple</FONT>.<FONT COLOR=CadetBlue>*</FONT>;
-<FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>toolkits</FONT>.<FONT COLOR=CadetBlue>scalar</FONT>.<FONT COLOR=CadetBlue>*</FONT>;
-<FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>toolkits</FONT>.<FONT COLOR=CadetBlue>graph</FONT>.<FONT COLOR=CadetBlue>*</FONT>;
+<FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>toolkits</FONT>.<FONT COLOR=CadetBlue>scalar</FONT>.<FONT
+        COLOR=CadetBlue>*</FONT>;
+<FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>toolkits</FONT>.<FONT COLOR=CadetBlue>graph</FONT>.<FONT
+        COLOR=CadetBlue>*</FONT>;
 <FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>soot</FONT>.<FONT COLOR=CadetBlue>util</FONT>.<FONT COLOR=CadetBlue>*</FONT>;
 
 <FONT COLOR=Purple>import</FONT> <FONT COLOR=CadetBlue>java</FONT>.<FONT COLOR=CadetBlue>util</FONT>.<FONT COLOR=CadetBlue>*</FONT>;
 
 <FONT COLOR=Firebrick>/** Tracks which locals are definitely non-null.
- * Author: Patrick Lam (plam@sable.mcgill.ca)
- * Based on BranchedRefVarsAnalysis by Janus Godard (janus@place.org). */</FONT>
+    * Author: Patrick Lam (plam@sable.mcgill.ca)
+    * Based on BranchedRefVarsAnalysis by Janus Godard (janus@place.org). */</FONT>
 <FONT COLOR=Purple>class</FONT> <FONT COLOR=ForestGreen>NullnessAnalysis</FONT> <FONT COLOR=Purple>extends</FONT> <FONT COLOR=ForestGreen>ForwardBranchedFlowAnalysis</FONT>
 {
-    <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>copy</FONT>(<FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>src</FONT>, 
+    <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>copy</FONT>(<FONT
+        COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>src</FONT>,
                         <FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>dest</FONT>) {
         <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>sourceSet</FONT> = (<FONT COLOR=ForestGreen>FlowSet</FONT>)src,
             destSet = (<FONT COLOR=ForestGreen>FlowSet</FONT>) dest;
@@ -21,7 +27,9 @@
     }
 
 
-    <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>merge</FONT>(<FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>src1</FONT>, <FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>src2</FONT>, <FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>dest</FONT>)
+    <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>merge</FONT>(<FONT
+        COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>src1</FONT>, <FONT COLOR=ForestGreen>Object</FONT> <FONT
+        COLOR=DarkGoldenrod>src2</FONT>, <FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>dest</FONT>)
     {
         <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>srcSet1</FONT> = (<FONT COLOR=ForestGreen>FlowSet</FONT>) src1;
         <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>srcSet2</FONT> = (<FONT COLOR=ForestGreen>FlowSet</FONT>) src2;
@@ -34,18 +42,20 @@
     <FONT COLOR=ForestGreen>FlowUniverse</FONT> <FONT COLOR=DarkGoldenrod>allRefLocals</FONT>;
     <FONT COLOR=ForestGreen>Map</FONT> <FONT COLOR=DarkGoldenrod>unitToGenerateSet</FONT>;
 
-    <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>flowThrough</FONT>(<FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=DarkGoldenrod>srcValue</FONT>, <FONT COLOR=ForestGreen>Unit</FONT> <FONT COLOR=DarkGoldenrod>unit</FONT>,
-                               <FONT COLOR=ForestGreen>List</FONT> <FONT COLOR=DarkGoldenrod>fallOut</FONT>, <FONT COLOR=ForestGreen>List</FONT> <FONT COLOR=DarkGoldenrod>branchOuts</FONT>)
+    <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>flowThrough</FONT>(<FONT COLOR=ForestGreen>Object</FONT> <FONT
+        COLOR=DarkGoldenrod>srcValue</FONT>, <FONT COLOR=ForestGreen>Unit</FONT> <FONT COLOR=DarkGoldenrod>unit</FONT>,
+                               <FONT COLOR=ForestGreen>List</FONT> <FONT COLOR=DarkGoldenrod>fallOut</FONT>, <FONT
+        COLOR=ForestGreen>List</FONT> <FONT COLOR=DarkGoldenrod>branchOuts</FONT>)
     {
         <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>dest</FONT>;
         <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>src</FONT>  = (<FONT COLOR=ForestGreen>FlowSet</FONT>) srcValue;
         <FONT COLOR=ForestGreen>Unit</FONT>    <FONT COLOR=DarkGoldenrod>s</FONT>    = (<FONT COLOR=ForestGreen>Unit</FONT>)    unit;
 
         <FONT COLOR=Firebrick>// Create working set.
-</FONT>        dest = (<FONT COLOR=ForestGreen>FlowSet</FONT>)src.clone();
+        </FONT>        dest = (<FONT COLOR=ForestGreen>FlowSet</FONT>)src.clone();
 
         <FONT COLOR=Firebrick>// Take out kill set.
-</FONT>        <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>boxIt</FONT> = s.getDefBoxes().iterator();
+        </FONT>        <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>boxIt</FONT> = s.getDefBoxes().iterator();
         <FONT COLOR=Purple>while</FONT> (boxIt.hasNext()) {
             <FONT COLOR=ForestGreen>ValueBox</FONT> <FONT COLOR=DarkGoldenrod>box</FONT> = (<FONT COLOR=ForestGreen>ValueBox</FONT>) boxIt.next();
             <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>value</FONT> = box.getValue();
@@ -55,18 +65,19 @@
         }
 
         <FONT COLOR=Firebrick>// Perform gen.
-</FONT>        dest.union((<FONT COLOR=ForestGreen>FlowSet</FONT>)unitToGenerateSet.get(unit), dest);
+        </FONT>        dest.union((<FONT COLOR=ForestGreen>FlowSet</FONT>)unitToGenerateSet.get(unit), dest);
 
-        <FONT COLOR=Firebrick>// Handle copy statements: 
-</FONT>        <FONT COLOR=Firebrick>//    x = y &amp;&amp; 'y' in src =&gt; add 'x' to dest
+        <FONT COLOR=Firebrick>// Handle copy statements:
+        </FONT>        <FONT COLOR=Firebrick>// x = y &amp;&amp; 'y' in src =&gt; add 'x' to dest
 </FONT>        <FONT COLOR=Purple>if</FONT> (s <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>DefinitionStmt</FONT>)
         {
-            <FONT COLOR=ForestGreen>DefinitionStmt</FONT> <FONT COLOR=DarkGoldenrod>as</FONT> = (<FONT COLOR=ForestGreen>DefinitionStmt</FONT>) s;
+            <FONT COLOR=ForestGreen>DefinitionStmt</FONT> <FONT COLOR=DarkGoldenrod>as</FONT> = (<FONT
+        COLOR=ForestGreen>DefinitionStmt</FONT>) s;
 
             <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>ro</FONT> = as.getRightOp();
 
             <FONT COLOR=Firebrick>// extract cast argument
-</FONT>            <FONT COLOR=Purple>if</FONT> (ro <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>CastExpr</FONT>)
+            </FONT>            <FONT COLOR=Purple>if</FONT> (ro <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>CastExpr</FONT>)
                 ro = ((<FONT COLOR=ForestGreen>CastExpr</FONT>) ro).getOp();
         
             <FONT COLOR=Purple>if</FONT> (src.contains(ro) &amp;&amp;
@@ -75,7 +86,7 @@
         }
 
         <FONT COLOR=Firebrick>// Copy the out value to the fallthrough box (don't need iterator)
-</FONT>        {
+        </FONT>        {
             <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>it</FONT> = fallOut.iterator();
             <FONT COLOR=Purple>while</FONT> (it.hasNext()) {
                 <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>fs</FONT> = (<FONT COLOR=ForestGreen>FlowSet</FONT>) (it.next());
@@ -84,7 +95,7 @@
         }
         
         <FONT COLOR=Firebrick>// Copy the out value to all branch boxes.
-</FONT>        {
+        </FONT>        {
             <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>it</FONT> = branchOuts.iterator();
             <FONT COLOR=Purple>while</FONT> (it.hasNext()) {
                 <FONT COLOR=ForestGreen>FlowSet</FONT> <FONT COLOR=DarkGoldenrod>fs</FONT> = (<FONT COLOR=ForestGreen>FlowSet</FONT>) (it.next());
@@ -93,20 +104,23 @@
         }
 
         <FONT COLOR=Firebrick>// Handle if statements by patching dest sets.
-</FONT>        <FONT COLOR=Purple>if</FONT> (unit <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>IfStmt</FONT>)
+        </FONT>        <FONT COLOR=Purple>if</FONT> (unit <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>IfStmt</FONT>)
         {
             <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>cond</FONT> = ((<FONT COLOR=ForestGreen>IfStmt</FONT>)unit).getCondition();
             <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>op1</FONT> = ((<FONT COLOR=ForestGreen>BinopExpr</FONT>) cond).getOp1();
             <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>op2</FONT> = ((<FONT COLOR=ForestGreen>BinopExpr</FONT>) cond).getOp2();
-            <FONT COLOR=ForestGreen>boolean</FONT> <FONT COLOR=DarkGoldenrod>isNeg</FONT> = cond <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>NeExpr</FONT>;
+            <FONT COLOR=ForestGreen>boolean</FONT> <FONT COLOR=DarkGoldenrod>isNeg</FONT> = cond <FONT COLOR=Purple>instanceof</FONT> <FONT
+        COLOR=ForestGreen>NeExpr</FONT>;
             <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>toGen</FONT> = <FONT COLOR=CadetBlue>null</FONT>;
 
             <FONT COLOR=Firebrick>// case 1: opN is a local and opM is NullConstant
-</FONT>            <FONT COLOR=Firebrick>//          =&gt; opN nonnull on ne branch.
-</FONT>            <FONT COLOR=Purple>if</FONT> (op1 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; op2 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>NullConstant</FONT>)
+            </FONT>            <FONT COLOR=Firebrick>// =&gt; opN nonnull on ne branch.
+</FONT>            <FONT COLOR=Purple>if</FONT> (op1 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; op2 <FONT
+        COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>NullConstant</FONT>)
                 toGen = op1;
 
-            <FONT COLOR=Purple>if</FONT> (op2 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; op1 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>NullConstant</FONT>)
+            <FONT COLOR=Purple>if</FONT> (op2 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; op1 <FONT
+        COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>NullConstant</FONT>)
                 toGen = op2;
 
             <FONT COLOR=Purple>if</FONT> (toGen != <FONT COLOR=CadetBlue>null</FONT>)
@@ -114,7 +128,7 @@
                 <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>it</FONT> = <FONT COLOR=CadetBlue>null</FONT>;
 
                 <FONT COLOR=Firebrick>// if (toGen != null) goto l1: on branch, toGen nonnull.
-</FONT>                <FONT COLOR=Purple>if</FONT> (isNeg)
+                </FONT>                <FONT COLOR=Purple>if</FONT> (isNeg)
                     it = branchOuts.iterator();
                 <FONT COLOR=Purple>else</FONT>
                     it = fallOut.iterator();
@@ -126,7 +140,8 @@
             }
 
             <FONT COLOR=Firebrick>// case 2: both ops are local and one op is non-null and testing equality
-</FONT>            <FONT COLOR=Purple>if</FONT> (op1 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; op2 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; 
+            </FONT>            <FONT COLOR=Purple>if</FONT> (op1 <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp; op2 <FONT
+        COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>Local</FONT> &amp;&amp;
                 cond <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>EqExpr</FONT>)
             {
                 toGen = <FONT COLOR=CadetBlue>null</FONT>;
@@ -156,16 +171,18 @@
     <FONT COLOR=Purple>protected</FONT> <FONT COLOR=ForestGreen>Object</FONT> <FONT COLOR=Blue>entryInitialFlow</FONT>()
     {
         <FONT COLOR=Firebrick>// everything could be null
-</FONT>        <FONT COLOR=Purple>return</FONT> emptySet.clone();
+        </FONT>        <FONT COLOR=Purple>return</FONT> emptySet.clone();
     }
 
-    <FONT COLOR=Purple>private</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>addGen</FONT>(<FONT COLOR=ForestGreen>Unit</FONT> <FONT COLOR=DarkGoldenrod>u</FONT>, <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>v</FONT>)
+    <FONT COLOR=Purple>private</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>addGen</FONT>(<FONT COLOR=ForestGreen>Unit</FONT> <FONT
+        COLOR=DarkGoldenrod>u</FONT>, <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>v</FONT>)
     {
         <FONT COLOR=ForestGreen>ArraySparseSet</FONT> <FONT COLOR=DarkGoldenrod>l</FONT> = (<FONT COLOR=ForestGreen>ArraySparseSet</FONT>)unitToGenerateSet.get(u);
         l.add(v);
     }
 
-    <FONT COLOR=Purple>private</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>addGensFor</FONT>(<FONT COLOR=ForestGreen>DefinitionStmt</FONT> <FONT COLOR=DarkGoldenrod>u</FONT>)
+    <FONT COLOR=Purple>private</FONT> <FONT COLOR=ForestGreen>void</FONT> <FONT COLOR=Blue>addGensFor</FONT>(<FONT COLOR=ForestGreen>DefinitionStmt</FONT> <FONT
+        COLOR=DarkGoldenrod>u</FONT>)
     {
         <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>lo</FONT> = u.getLeftOp();
         <FONT COLOR=ForestGreen>Value</FONT> <FONT COLOR=DarkGoldenrod>ro</FONT> = u.getRightOp();
@@ -178,7 +195,8 @@
             addGen(u, lo);
     }
 
-    <FONT COLOR=Purple>public</FONT> <FONT COLOR=ForestGreen>NullnessAnalysis</FONT>(<FONT COLOR=ForestGreen>UnitGraph</FONT> <FONT COLOR=DarkGoldenrod>g</FONT>)
+    <FONT COLOR=Purple>public</FONT> <FONT COLOR=ForestGreen>NullnessAnalysis</FONT>(<FONT COLOR=ForestGreen>UnitGraph</FONT> <FONT
+        COLOR=DarkGoldenrod>g</FONT>)
     {
         <FONT COLOR=Purple>super</FONT>(g);
 
@@ -186,15 +204,16 @@
 
         <FONT COLOR=ForestGreen>Body</FONT> <FONT COLOR=DarkGoldenrod>b</FONT> = g.getBody();
 
-        <FONT COLOR=ForestGreen>List</FONT> <FONT COLOR=DarkGoldenrod>refLocals</FONT> = <FONT COLOR=Purple>new</FONT> <FONT COLOR=ForestGreen>LinkedList</FONT>();
+        <FONT COLOR=ForestGreen>List</FONT> <FONT COLOR=DarkGoldenrod>refLocals</FONT> = <FONT COLOR=Purple>new</FONT> <FONT
+        COLOR=ForestGreen>LinkedList</FONT>();
 
         <FONT COLOR=Firebrick>// set up universe, empty, full sets.
-</FONT>
+        </FONT>
         emptySet = <FONT COLOR=Purple>new</FONT> <FONT COLOR=ForestGreen>ArraySparseSet</FONT>();
         fullSet = <FONT COLOR=Purple>new</FONT> <FONT COLOR=ForestGreen>ArraySparseSet</FONT>();
 
         <FONT COLOR=Firebrick>// Find all locals in body.
-</FONT>        <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>localIt</FONT> = b.getLocals().iterator();
+        </FONT>        <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>localIt</FONT> = b.getLocals().iterator();
         <FONT COLOR=Purple>while</FONT> (localIt.hasNext())
         {
             <FONT COLOR=ForestGreen>Local</FONT> <FONT COLOR=DarkGoldenrod>l</FONT> = (<FONT COLOR=ForestGreen>Local</FONT>)localIt.next();
@@ -203,7 +222,7 @@
         }
 
         <FONT COLOR=Firebrick>// Create gen sets.
-</FONT>        <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>unitIt</FONT> = b.getUnits().iterator();
+        </FONT>        <FONT COLOR=ForestGreen>Iterator</FONT> <FONT COLOR=DarkGoldenrod>unitIt</FONT> = b.getUnits().iterator();
         <FONT COLOR=Purple>while</FONT> (unitIt.hasNext())
         {
             <FONT COLOR=ForestGreen>Unit</FONT> <FONT COLOR=DarkGoldenrod>u</FONT> = (<FONT COLOR=ForestGreen>Unit</FONT>)unitIt.next();
@@ -225,15 +244,20 @@
                     
                 <FONT COLOR=Purple>if</FONT>(boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>InstanceFieldRef</FONT>) {
                     base = ((<FONT COLOR=ForestGreen>InstanceFieldRef</FONT>) (boxValue)).getBase();
-                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>ArrayRef</FONT>) {
+                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT
+        COLOR=ForestGreen>ArrayRef</FONT>) {
                     base = ((<FONT COLOR=ForestGreen>ArrayRef</FONT>) (boxValue)).getBase();
-                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>InstanceInvokeExpr</FONT>) {
+                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT
+        COLOR=ForestGreen>InstanceInvokeExpr</FONT>) {
                     base = ((<FONT COLOR=ForestGreen>InstanceInvokeExpr</FONT>) boxValue).getBase();
-                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>LengthExpr</FONT>) {
+                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (boxValue <FONT COLOR=Purple>instanceof</FONT> <FONT
+        COLOR=ForestGreen>LengthExpr</FONT>) {
                     base = ((<FONT COLOR=ForestGreen>LengthExpr</FONT>) boxValue).getOp();
-                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (u <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>ThrowStmt</FONT>) {
+                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (u <FONT COLOR=Purple>instanceof</FONT> <FONT
+        COLOR=ForestGreen>ThrowStmt</FONT>) {
                     base = ((<FONT COLOR=ForestGreen>ThrowStmt</FONT>)u).getOp();
-                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (u <FONT COLOR=Purple>instanceof</FONT> <FONT COLOR=ForestGreen>MonitorStmt</FONT>) {
+                } <FONT COLOR=Purple>else</FONT> <FONT COLOR=Purple>if</FONT> (u <FONT COLOR=Purple>instanceof</FONT> <FONT
+        COLOR=ForestGreen>MonitorStmt</FONT>) {
                     base = ((<FONT COLOR=ForestGreen>MonitorStmt</FONT>)u).getOp();
                 }
 
@@ -245,8 +269,10 @@
         }
 
         <FONT COLOR=Firebrick>// Call superclass method to do work.
-</FONT>        doAnalysis();
+        </FONT>        doAnalysis();
     }
 }
 
-</PRE> </BODY> </HTML>
+</PRE>
+</BODY>
+</HTML>

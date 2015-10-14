@@ -20,233 +20,246 @@
 package soot.toolkits.graph.interaction;
 
 import soot.*;
-import soot.toolkits.graph.*;
-import soot.jimple.toolkits.annotation.callgraph.*;
-import java.util.*;
-import soot.options.*;
+import soot.jimple.toolkits.annotation.callgraph.CallGraphGrapher;
+import soot.options.Options;
+import soot.toolkits.graph.DirectedGraph;
+
+import java.util.ArrayList;
 
 public class InteractionHandler {
-   
-    public InteractionHandler(Singletons.Global g){}
-    public static InteractionHandler v() { return G.v().soot_toolkits_graph_interaction_InteractionHandler();}
 
     private ArrayList<Object> stopUnitList;
-    public ArrayList<Object> getStopUnitList(){
+    private boolean cgReset = false;
+    private CallGraphGrapher grapher;
+    private SootMethod nextMethod;
+    private boolean interactThisAnalysis;
+    private boolean interactionCon;
+    private IInteractionListener interactionListener;
+    private String currentPhaseName;
+    private boolean currentPhaseEnabled;
+    private boolean cgDone = false;
+    private boolean doneCurrent;
+    private boolean autoCon;
+
+    public InteractionHandler(Singletons.Global g) {
+    }
+
+    public static InteractionHandler v() {
+        return G.v().soot_toolkits_graph_interaction_InteractionHandler();
+    }
+
+    public ArrayList<Object> getStopUnitList() {
         return stopUnitList;
     }
-    public void addToStopUnitList(Object elem){
-        if (stopUnitList == null){
+
+    public void addToStopUnitList(Object elem) {
+        if (stopUnitList == null) {
             stopUnitList = new ArrayList<Object>();
         }
         stopUnitList.add(elem);
     }
-    
-    public void removeFromStopUnitList(Object elem){
-        if (stopUnitList.contains(elem)){
+
+    public void removeFromStopUnitList(Object elem) {
+        if (stopUnitList.contains(elem)) {
             stopUnitList.remove(elem);
         }
     }
 
-    public void handleNewAnalysis(Transform t, Body b){
+    public void handleNewAnalysis(Transform t, Body b) {
         // here save current phase name and only send if actual data flow analysis exists
-        if (PhaseOptions.getBoolean(PhaseOptions.v().getPhaseOptions( t.getPhaseName()), "enabled")){
-            String name = t.getPhaseName()+" for method: "+b.getMethod().getName();
+        if (PhaseOptions.getBoolean(PhaseOptions.v().getPhaseOptions(t.getPhaseName()), "enabled")) {
+            String name = t.getPhaseName() + " for method: " + b.getMethod().getName();
             currentPhaseName(name);
             currentPhaseEnabled(true);
             doneCurrent(false);
-        }
-        else {
+        } else {
             currentPhaseEnabled(false);
             setInteractThisAnalysis(false);
         }
     }
 
-    public void handleCfgEvent(DirectedGraph<?> g){
-        if (currentPhaseEnabled()){
-            G.v().out.println("Analyzing: "+currentPhaseName());
+    public void handleCfgEvent(DirectedGraph<?> g) {
+        if (currentPhaseEnabled()) {
+            G.v().out.println("Analyzing: " + currentPhaseName());
             doInteraction(new InteractionEvent(IInteractionConstants.NEW_ANALYSIS, currentPhaseName()));
         }
-        if (isInteractThisAnalysis()){
+        if (isInteractThisAnalysis()) {
             doInteraction(new InteractionEvent(IInteractionConstants.NEW_CFG, g));
         }
     }
 
-    public void handleStopAtNodeEvent(Object u){
-        if (isInteractThisAnalysis()){
+    public void handleStopAtNodeEvent(Object u) {
+        if (isInteractThisAnalysis()) {
             doInteraction(new InteractionEvent(IInteractionConstants.STOP_AT_NODE, u));
         }
     }
-    
-    public void handleBeforeAnalysisEvent(Object beforeFlow){
-        if (isInteractThisAnalysis()){
-            if (autoCon()){
+
+    public void handleBeforeAnalysisEvent(Object beforeFlow) {
+        if (isInteractThisAnalysis()) {
+            if (autoCon()) {
                 doInteraction(new InteractionEvent(IInteractionConstants.NEW_BEFORE_ANALYSIS_INFO_AUTO, beforeFlow));
-            }
-            else{
+            } else {
                 doInteraction(new InteractionEvent(IInteractionConstants.NEW_BEFORE_ANALYSIS_INFO, beforeFlow));
             }
         }
     }
 
-    public void handleAfterAnalysisEvent(Object afterFlow){
-        if (isInteractThisAnalysis()){
-            if (autoCon()){
+    public void handleAfterAnalysisEvent(Object afterFlow) {
+        if (isInteractThisAnalysis()) {
+            if (autoCon()) {
                 doInteraction(new InteractionEvent(IInteractionConstants.NEW_AFTER_ANALYSIS_INFO_AUTO, afterFlow));
-            }
-            else {
+            } else {
                 doInteraction(new InteractionEvent(IInteractionConstants.NEW_AFTER_ANALYSIS_INFO, afterFlow));
             }
         }
     }
 
-    public void handleTransformDone(Transform t, Body b){
+    public void handleTransformDone(Transform t, Body b) {
         doneCurrent(true);
-        if (isInteractThisAnalysis()){
+        if (isInteractThisAnalysis()) {
             doInteraction(new InteractionEvent(IInteractionConstants.DONE, null));
         }
     }
-   
-    public void handleCallGraphStart(Object info, CallGraphGrapher grapher){
+
+    public void handleCallGraphStart(Object info, CallGraphGrapher grapher) {
         setGrapher(grapher);
         doInteraction(new InteractionEvent(IInteractionConstants.CALL_GRAPH_START, info));
-        if (!isCgReset()){
+        if (!isCgReset()) {
             handleCallGraphNextMethod();
-        }
-        else {
+        } else {
             setCgReset(false);
             handleReset();
         }
     }
-   
-    public void handleCallGraphNextMethod(){
-        if (!cgDone()){
+
+    public void handleCallGraphNextMethod() {
+        if (!cgDone()) {
             getGrapher().setNextMethod(getNextMethod());
             getGrapher().handleNextMethod();
         }
     }
 
-    private boolean cgReset = false;
-    public void setCgReset(boolean v){
-        cgReset = v;
-    }
-    public boolean isCgReset(){
+    public boolean isCgReset() {
         return cgReset;
     }
-    
-    public void handleReset(){
-        if (!cgDone()){
+
+    public void setCgReset(boolean v) {
+        cgReset = v;
+    }
+
+    public void handleReset() {
+        if (!cgDone()) {
             getGrapher().reset();
         }
     }
 
-    public void handleCallGraphPart(Object info){
+    public void handleCallGraphPart(Object info) {
         doInteraction(new InteractionEvent(IInteractionConstants.CALL_GRAPH_PART, info));
-        if (!isCgReset()){
+        if (!isCgReset()) {
             handleCallGraphNextMethod();
-        }
-        else {
+        } else {
             setCgReset(false);
             handleReset();
         }
     }
-        
-    private CallGraphGrapher grapher;
-    private void setGrapher(CallGraphGrapher g){
-        grapher = g;
-    }
-    private CallGraphGrapher getGrapher(){
+
+    private CallGraphGrapher getGrapher() {
         return grapher;
     }
 
-    private SootMethod nextMethod;
-    public void setNextMethod(SootMethod m){
-        nextMethod = m;
-    }
-    private SootMethod getNextMethod(){
-        return nextMethod;
-    }
-    
-    private synchronized void doInteraction(InteractionEvent event){
-        getInteractionListener().setEvent(event);
-        getInteractionListener().handleEvent();
-    
+    private void setGrapher(CallGraphGrapher g) {
+        grapher = g;
     }
 
-    public synchronized void waitForContinue(){
+    private SootMethod getNextMethod() {
+        return nextMethod;
+    }
+
+    public void setNextMethod(SootMethod m) {
+        nextMethod = m;
+    }
+
+    private synchronized void doInteraction(InteractionEvent event) {
+        getInteractionListener().setEvent(event);
+        getInteractionListener().handleEvent();
+
+    }
+
+    public synchronized void waitForContinue() {
         try {
             this.wait();
+        } catch (InterruptedException e) {
         }
-        catch (InterruptedException e){
-        }
-        
+
     }
-    
-    private boolean interactThisAnalysis;
-    public void setInteractThisAnalysis(boolean b){
-        interactThisAnalysis = b;
-    }
-    public boolean isInteractThisAnalysis(){
+
+    public boolean isInteractThisAnalysis() {
         return interactThisAnalysis;
     }
-    private boolean interactionCon;
-    public synchronized void setInteractionCon(){
+
+    public void setInteractThisAnalysis(boolean b) {
+        interactThisAnalysis = b;
+    }
+
+    public synchronized void setInteractionCon() {
         this.notify();
     }
 
-    public boolean isInteractionCon(){
+    public boolean isInteractionCon() {
         return interactionCon;
     }
-    private IInteractionListener interactionListener;
-    public void setInteractionListener(IInteractionListener listener){
-        interactionListener = listener;
-    }
-    public IInteractionListener getInteractionListener(){
+
+    public IInteractionListener getInteractionListener() {
         return interactionListener;
     }
-    
-    private String currentPhaseName;
-    public void currentPhaseName(String name){
+
+    public void setInteractionListener(IInteractionListener listener) {
+        interactionListener = listener;
+    }
+
+    public void currentPhaseName(String name) {
         currentPhaseName = name;
     }
-    public String currentPhaseName(){
+
+    public String currentPhaseName() {
         return currentPhaseName;
     }
 
-    private boolean currentPhaseEnabled;    
-    public void currentPhaseEnabled(boolean b){
+    public void currentPhaseEnabled(boolean b) {
         currentPhaseEnabled = b;
     }
-    public boolean currentPhaseEnabled(){
+
+    public boolean currentPhaseEnabled() {
         return currentPhaseEnabled;
     }
 
-    private boolean cgDone = false;
-    public void cgDone(boolean b){
+    public void cgDone(boolean b) {
         cgDone = b;
     }
-    public boolean cgDone(){
+
+    public boolean cgDone() {
         return cgDone;
     }
 
-    private boolean doneCurrent;
-    public void doneCurrent(boolean b){
+    public void doneCurrent(boolean b) {
         doneCurrent = b;
     }
-    public boolean doneCurrent(){
+
+    public boolean doneCurrent() {
         return doneCurrent;
     }
 
-    private boolean autoCon;
-    public void autoCon(boolean b){
+    public void autoCon(boolean b) {
         autoCon = b;
     }
-    public boolean autoCon(){
+
+    public boolean autoCon() {
         return autoCon;
     }
 
-    public void stopInteraction(boolean b){
+    public void stopInteraction(boolean b) {
         Options.v().set_interactive_mode(false);
     }
-    
+
 }
 

@@ -1,8 +1,8 @@
 public class UnaryTest {
 
-    public static void main(String [] args) {
-    
-        int [] i = new int[4];
+    public static void main(String[] args) {
+
+        int[] i = new int[4];
         int j = 9;
 
         i[0] = j++;

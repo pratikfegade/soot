@@ -20,58 +20,55 @@
 
 package ca.mcgill.sable.soot.ui;
 
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.*;
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.core.runtime.*;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.jface.dialogs.*;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.*;
-import ca.mcgill.sable.soot.*;
-
-
+import org.eclipse.swt.widgets.*;
 
 
 public class SootOptionsLauncherDialog extends Dialog {
-	protected IAdaptable input;
-	private Text text_input;
-	private Label text_label;
+    protected IAdaptable input;
+    private Text text_input;
+    private Label text_label;
 
-	public SootOptionsLauncherDialog(Shell parentShell, IAdaptable input) {
-		super(parentShell);
-		this.input = input;
-	}
+    public SootOptionsLauncherDialog(Shell parentShell, IAdaptable input) {
+        super(parentShell);
+        this.input = input;
+    }
 
-	protected Control createDialogArea(Composite parent) {
-		Composite composite = (Composite)super.createDialogArea(parent);
-	
-		text_label = new Label(composite, SWT.LEFT);			
-		text_label.setText("Set Soot Command Line:");
-	
-		text_input = new Text(composite, SWT.CENTER);
-		IDialogSettings settings = null;
-		try {
-			settings = SootPlugin.getDefault().getDialogSettings();
-		}
-		catch (Exception e1) {
-			System.out.println(e1.getMessage());	
-		}
-		if (settings != null) {
-			String input = settings.get("text_input");
-			if (input != null) {
-				text_input.setText(input);
-			}
-		}
-		text_input.setSize(200,20);
-				
-		return composite;
-		
-	}
-	
-	protected void okPressed() {
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		settings.put("text_input", text_input.getText());
-		super.okPressed();
-			
-	}
-	
-	
+    protected Control createDialogArea(Composite parent) {
+        Composite composite = (Composite) super.createDialogArea(parent);
+
+        text_label = new Label(composite, SWT.LEFT);
+        text_label.setText("Set Soot Command Line:");
+
+        text_input = new Text(composite, SWT.CENTER);
+        IDialogSettings settings = null;
+        try {
+            settings = SootPlugin.getDefault().getDialogSettings();
+        } catch (Exception e1) {
+            System.out.println(e1.getMessage());
+        }
+        if (settings != null) {
+            String input = settings.get("text_input");
+            if (input != null) {
+                text_input.setText(input);
+            }
+        }
+        text_input.setSize(200, 20);
+
+        return composite;
+
+    }
+
+    protected void okPressed() {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+        settings.put("text_input", text_input.getText());
+        super.okPressed();
+
+    }
+
+
 }

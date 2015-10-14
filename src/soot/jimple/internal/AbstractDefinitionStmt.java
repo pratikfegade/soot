@@ -25,76 +25,67 @@
 
 package soot.jimple.internal;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import soot.Value;
 import soot.ValueBox;
 import soot.jimple.DefinitionStmt;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 @SuppressWarnings("serial")
-public abstract class AbstractDefinitionStmt extends AbstractStmt 
-    implements DefinitionStmt
-{	
-	public final ValueBox leftBox;
-	public final ValueBox rightBox;
-	
-	protected AbstractDefinitionStmt(ValueBox leftBox, ValueBox rightBox) {
-		this.leftBox = leftBox;
-		this.rightBox = rightBox;
-	}
-    
+public abstract class AbstractDefinitionStmt extends AbstractStmt
+        implements DefinitionStmt {
+    public final ValueBox leftBox;
+    public final ValueBox rightBox;
+
+    protected AbstractDefinitionStmt(ValueBox leftBox, ValueBox rightBox) {
+        this.leftBox = leftBox;
+        this.rightBox = rightBox;
+    }
+
     @Override
-    public final Value getLeftOp()
-    {
+    public final Value getLeftOp() {
         return leftBox.getValue();
     }
-    
+
     @Override
-    public final Value getRightOp()
-    {
+    public final Value getRightOp() {
         return rightBox.getValue();
     }
 
     @Override
-    public final ValueBox getLeftOpBox()
-    {
+    public final ValueBox getLeftOpBox() {
         return leftBox;
     }
-    
+
     @Override
-    public final ValueBox getRightOpBox()
-    {
+    public final ValueBox getRightOpBox() {
         return rightBox;
     }
 
-	@Override
-    public final List<ValueBox> getDefBoxes()
-    {
+    @Override
+    public final List<ValueBox> getDefBoxes() {
         return Collections.singletonList(leftBox);
     }
 
     @Override
-    public final List<ValueBox> getUseBoxes()
-    {
+    public final List<ValueBox> getUseBoxes() {
         List<ValueBox> list = new ArrayList<ValueBox>();
         list.addAll(getLeftOp().getUseBoxes());
         list.add(rightBox);
         list.addAll(getRightOp().getUseBoxes());
         return list;
     }
-    
+
     @Override
-    public boolean fallsThrough() 
-    { 
-    	return true;
-	}      
-    
+    public boolean fallsThrough() {
+        return true;
+    }
+
     @Override
-    public boolean branches() 
-    { 
-    	return false;
-	}
+    public boolean branches() {
+        return false;
+    }
 }

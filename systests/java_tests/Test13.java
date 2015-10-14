@@ -4,7 +4,7 @@ interface MyListener {
 
 public class Test13 {
 
-    public static void main (String [] args){
+    public static void main(String[] args) {
         Test13 t13 = new Test13();
         MyListener ml = t13.run();
         ml.action();
@@ -12,21 +12,23 @@ public class Test13 {
         ml2.action();
     }
 
-    public MyListener run(){
+    public MyListener run() {
         class MyListener1 implements MyListener {
-            public void action(){
+            public void action() {
                 System.out.println("Smile");
             }
-        };
+        }
+        ;
         return new MyListener1();
     }
-    
-    public MyListener runAgain(){
+
+    public MyListener runAgain() {
         class MyListener1 implements MyListener {
-            public void action(){
+            public void action() {
                 System.out.println("Smile 2");
             }
-        };
+        }
+        ;
         return new MyListener1();
     }
 }

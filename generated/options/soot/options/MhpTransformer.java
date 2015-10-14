@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,26 +20,27 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for May Happen in Parallel Analyses. */
-public class MhpTransformer
-{
+import java.util.Map;
+
+/**
+ * Option parser for May Happen in Parallel Analyses.
+ */
+public class MhpTransformer {
     private Map<String, String> options;
 
-    public MhpTransformer( Map<String, String> options ) {
+    public MhpTransformer(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
+
 }
         

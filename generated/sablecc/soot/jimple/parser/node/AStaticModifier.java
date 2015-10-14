@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AStaticModifier extends PModifier
-{
+public final class AStaticModifier extends PModifier {
     private TStatic _static_;
 
-    public AStaticModifier()
-    {
+    public AStaticModifier() {
         // Constructor
     }
 
     public AStaticModifier(
-        @SuppressWarnings("hiding") TStatic _static_)
-    {
+            @SuppressWarnings("hiding") TStatic _static_) {
         // Constructor
         setStatic(_static_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStaticModifier(
-            cloneNode(this._static_));
+                cloneNode(this._static_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStaticModifier(this);
     }
 
-    public TStatic getStatic()
-    {
+    public TStatic getStatic() {
         return this._static_;
     }
 
-    public void setStatic(TStatic node)
-    {
-        if(this._static_ != null)
-        {
+    public void setStatic(TStatic node) {
+        if (this._static_ != null) {
             this._static_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AStaticModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._static_);
+                + toString(this._static_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._static_ == child)
-        {
+        if (this._static_ == child) {
             this._static_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AStaticModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._static_ == oldChild)
-        {
+        if (this._static_ == oldChild) {
             setStatic((TStatic) newChild);
             return;
         }

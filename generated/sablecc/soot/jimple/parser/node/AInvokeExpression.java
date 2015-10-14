@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AInvokeExpression extends PExpression
-{
+public final class AInvokeExpression extends PExpression {
     private PInvokeExpr _invokeExpr_;
 
-    public AInvokeExpression()
-    {
+    public AInvokeExpression() {
         // Constructor
     }
 
     public AInvokeExpression(
-        @SuppressWarnings("hiding") PInvokeExpr _invokeExpr_)
-    {
+            @SuppressWarnings("hiding") PInvokeExpr _invokeExpr_) {
         // Constructor
         setInvokeExpr(_invokeExpr_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AInvokeExpression(
-            cloneNode(this._invokeExpr_));
+                cloneNode(this._invokeExpr_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAInvokeExpression(this);
     }
 
-    public PInvokeExpr getInvokeExpr()
-    {
+    public PInvokeExpr getInvokeExpr() {
         return this._invokeExpr_;
     }
 
-    public void setInvokeExpr(PInvokeExpr node)
-    {
-        if(this._invokeExpr_ != null)
-        {
+    public void setInvokeExpr(PInvokeExpr node) {
+        if (this._invokeExpr_ != null) {
             this._invokeExpr_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AInvokeExpression extends PExpression
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._invokeExpr_);
+                + toString(this._invokeExpr_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._invokeExpr_ == child)
-        {
+        if (this._invokeExpr_ == child) {
             this._invokeExpr_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AInvokeExpression extends PExpression
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._invokeExpr_ == oldChild)
-        {
+        if (this._invokeExpr_ == oldChild) {
             setInvokeExpr((PInvokeExpr) newChild);
             return;
         }

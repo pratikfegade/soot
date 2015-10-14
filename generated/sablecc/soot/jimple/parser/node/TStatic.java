@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TStatic extends Token
-{
-    public TStatic()
-    {
+public final class TStatic extends Token {
+    public TStatic() {
         super.setText("static");
     }
 
-    public TStatic(int line, int pos)
-    {
+    public TStatic(int line, int pos) {
         super.setText("static");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TStatic(getLine(), getPos());
+    public Object clone() {
+        return new TStatic(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTStatic(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TStatic text.");
     }
 }

@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Jennifer Lhotak
  *
@@ -23,64 +22,63 @@ package ca.mcgill.sable.soot.launching;
 import org.eclipse.jface.action.*;
 
 /**
- * Soot Launcher for folders. 
+ * Soot Launcher for folders.
  */
 public class SootFolderLauncher extends SootLauncher {
 
-	private String processPath;
-	private String classpathAppend = null;
+    private String processPath;
+    private String classpathAppend = null;
 
-	public void run(IAction action) {
-		super.run(action);
-		classpathAppend = null;
-		
-		if (getSootSelection().getType() == SootSelection.PACKAGEROOT_SELECTED_TYPE){
-			addJars();
-			if (getSootSelection().getPackageFragmentRoot().getResource() != null){
-				setProcessPath(platform_location+getSootSelection().getPackageFragmentRoot().getPath().toOSString());
-			}
-			else {
-				setProcessPath(getSootSelection().getPackageFragmentRoot().getPath().toOSString());
-			}
-		}
-	}
-	
-	/**
-	 * Sets the classpathAppend.
-	 * @param classpathAppend The classpathAppend to set
-	 */
-	public void setClasspathAppend(String ca) {
-		if (this.classpathAppend == null){
-			this.classpathAppend = ca;
-		}
-		else {
-			this.classpathAppend = this.classpathAppend+getSootClasspath().getSeparator()+ca;
-		}
-	}
+    public void run(IAction action) {
+        super.run(action);
+        classpathAppend = null;
 
+        if (getSootSelection().getType() == SootSelection.PACKAGEROOT_SELECTED_TYPE) {
+            addJars();
+            if (getSootSelection().getPackageFragmentRoot().getResource() != null) {
+                setProcessPath(platform_location + getSootSelection().getPackageFragmentRoot().getPath().toOSString());
+            } else {
+                setProcessPath(getSootSelection().getPackageFragmentRoot().getPath().toOSString());
+            }
+        }
+    }
 
-	/**
-	 * Returns the processPath.
-	 * @return String
-	 */
-	public String getProcessPath() {
-		return processPath;
-	}
+    /**
+     * Returns the processPath.
+     *
+     * @return String
+     */
+    public String getProcessPath() {
+        return processPath;
+    }
 
+    /**
+     * Sets the processPath.
+     *
+     * @param processPath The processPath to set
+     */
+    public void setProcessPath(String processPath) {
+        this.processPath = processPath;
+    }
 
-	/**
-	 * Sets the processPath.
-	 * @param processPath The processPath to set
-	 */
-	public void setProcessPath(String processPath) {
-		this.processPath = processPath;
-	}
+    /**
+     * @return
+     */
+    public String getClasspathAppend() {
+        return getSootClasspath().getSootClasspath() + getSootClasspath().getSeparator() + classpathAppend;
+    }
 
-	/**
-	 * @return
-	 */
-	public String getClasspathAppend() {
-		return getSootClasspath().getSootClasspath() + getSootClasspath().getSeparator() + classpathAppend;
-	}
+    /**
+     * Sets the classpathAppend.
+     *
+     * @param classpathAppend The classpathAppend to set
+     */
+    public void setClasspathAppend(String ca) {
+        if (this.classpathAppend == null) {
+            this.classpathAppend = ca;
+        } else {
+            this.classpathAppend = this.classpathAppend + getSootClasspath().getSeparator() + ca;
+        }
+    }
 
 }

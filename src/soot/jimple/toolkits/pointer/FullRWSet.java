@@ -18,49 +18,61 @@
  */
 
 package soot.jimple.toolkits.pointer;
-import java.util.*;
-import soot.*;
+
+import soot.PointsToSet;
+import soot.SootField;
+
+import java.util.Set;
 
 public class FullRWSet extends RWSet {
-    
-    public int size()
-    {
-	throw new RuntimeException( "Unsupported" );
-    }
-    
-    public boolean getCallsNative() {
-	return true;
-    }
-    public boolean setCallsNative() {
-	throw new RuntimeException( "Unsupported" );
+
+    public int size() {
+        throw new RuntimeException("Unsupported");
     }
 
-    /** Returns an iterator over any globals read/written. */
+    public boolean getCallsNative() {
+        return true;
+    }
+
+    public boolean setCallsNative() {
+        throw new RuntimeException("Unsupported");
+    }
+
+    /**
+     * Returns an iterator over any globals read/written.
+     */
     public Set getGlobals() {
-	throw new RuntimeException( "Unsupported" );
+        throw new RuntimeException("Unsupported");
     }
+
     public Set getFields() {
-	throw new RuntimeException( "Unsupported" );
+        throw new RuntimeException("Unsupported");
     }
-    public PointsToSet getBaseForField( Object f ) {
-	throw new RuntimeException( "Unsupported" );
+
+    public PointsToSet getBaseForField(Object f) {
+        throw new RuntimeException("Unsupported");
     }
-    public boolean hasNonEmptyIntersection( RWSet other ) {
-	if( other == null ) return false;
-	return true;
+
+    public boolean hasNonEmptyIntersection(RWSet other) {
+        return other != null;
     }
-    /** Adds the RWSet other into this set. */
-    public boolean union( RWSet other ) {
-	throw new RuntimeException( "Unsupported" );
+
+    /**
+     * Adds the RWSet other into this set.
+     */
+    public boolean union(RWSet other) {
+        throw new RuntimeException("Unsupported");
     }
-    public boolean addGlobal( SootField global ) {
-	throw new RuntimeException( "Unsupported" );
+
+    public boolean addGlobal(SootField global) {
+        throw new RuntimeException("Unsupported");
     }
-    public boolean addFieldRef( PointsToSet otherBase, Object field ) {
-	throw new RuntimeException( "Unsupported" );
+
+    public boolean addFieldRef(PointsToSet otherBase, Object field) {
+        throw new RuntimeException("Unsupported");
     }
-    public boolean isEquivTo( RWSet other ) {
-	if( other instanceof FullRWSet ) return true;
-	return false;
+
+    public boolean isEquivTo(RWSet other) {
+        return other instanceof FullRWSet;
     }
 }

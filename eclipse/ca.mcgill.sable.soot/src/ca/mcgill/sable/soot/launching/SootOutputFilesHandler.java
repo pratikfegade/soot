@@ -19,162 +19,162 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.eclipse.core.resources.IFile;
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.part.*;
 
-import ca.mcgill.sable.soot.SootPlugin;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Handles Soot ouptut dir. Potentially will do something with
- * Soot generated files such as open them automatically. 
+ * Soot generated files such as open them automatically.
  */
 public class SootOutputFilesHandler {
 
-	private IFolder sootOutputFolder;
-	private ArrayList oldFilelist;
-	private ArrayList newFilelist;
-	private IWorkbenchWindow window;
-	private ArrayList beforeFileList;
-	
-	
-	/**
-	 * Constructor for SootOutputFilesHandler.
-	 */
-	public SootOutputFilesHandler(IWorkbenchWindow window) {
-		super();
-		setWindow(window);
-	}
-	
-	
-		
-	public void resetSootOutputFolder(IProject project) {
-		try {
-			setSootOutputFolder(project.getFolder("sootOutput"));
-			if (!getSootOutputFolder().exists()) {
-				getSootOutputFolder().create(false, true, null);
-			}
-		}
-		catch (Exception e1) {
-			System.out.println(e1.getMessage());
-		}	
-	}
-	
-	public void refreshAll(IProject project){
-		try{
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);	
-		}
-		catch(CoreException e){
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	public void refreshFolder() {
-		try {
-			getSootOutputFolder().refreshLocal(IResource.DEPTH_INFINITE, null);
-		} 
-		catch (CoreException e1) {
-			System.out.println(e1.getMessage());
-		}
-	}
-	
-	public void handleFilesChanged() {
-		
-		// files that were showing close
-		if (getOldFilelist() != null) {
-			Iterator it = getOldFilelist().iterator();
-			while (it.hasNext()) {
-				Object temp = it.next();
-				if (temp instanceof IEditorPart) {
-					getWindow().getActivePage().closeEditor((IEditorPart)temp, true);
-				}
-			}
-		}
-	
-		try {
-			IResource [] children = getSootOutputFolder().members();
-		
-			IWorkbenchWindow window = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();		
-		}
-		catch (Exception e) {
-			System.out.println("Open Editor ex: "+e.getMessage());
-			System.out.println(e.getStackTrace());
-		}
-		// new files show
-	}
-	
-	/**
-	 * Returns the sootOuputFolder.
-	 * @return IFolder
-	 */
-	public IFolder getSootOutputFolder() {
-		return sootOutputFolder;
-	}
-
-	/**
-	 * Sets the sootOuputFolder.
-	 * @param sootOuputFolder The sootOuputFolder to set
-	 */
-	public void setSootOutputFolder(IFolder sootOutputFolder) {
-		this.sootOutputFolder = sootOutputFolder;
-	}
+    private IFolder sootOutputFolder;
+    private ArrayList oldFilelist;
+    private ArrayList newFilelist;
+    private IWorkbenchWindow window;
+    private ArrayList beforeFileList;
 
 
-	/**
-	 * Returns the newFilelist.
-	 * @return ArrayList
-	 */
-	public ArrayList getNewFilelist() {
-		return newFilelist;
-	}
+    /**
+     * Constructor for SootOutputFilesHandler.
+     */
+    public SootOutputFilesHandler(IWorkbenchWindow window) {
+        super();
+        setWindow(window);
+    }
 
-	/**
-	 * Returns the oldFilelist.
-	 * @return ArrayList
-	 */
-	public ArrayList getOldFilelist() {
-		return oldFilelist;
-	}
 
-	/**
-	 * Sets the newFilelist.
-	 * @param newFilelist The newFilelist to set
-	 */
-	public void setNewFilelist(ArrayList newFilelist) {
-		this.newFilelist = newFilelist;
-	}
+    public void resetSootOutputFolder(IProject project) {
+        try {
+            setSootOutputFolder(project.getFolder("sootOutput"));
+            if (!getSootOutputFolder().exists()) {
+                getSootOutputFolder().create(false, true, null);
+            }
+        } catch (Exception e1) {
+            System.out.println(e1.getMessage());
+        }
+    }
 
-	/**
-	 * Sets the oldFilelist.
-	 * @param oldFilelist The oldFilelist to set
-	 */
-	public void setOldFilelist(ArrayList oldFilelist) {
-		this.oldFilelist = oldFilelist;
-	}
+    public void refreshAll(IProject project) {
+        try {
+            project.refreshLocal(IResource.DEPTH_INFINITE, null);
+        } catch (CoreException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	/**
-	 * Returns the window.
-	 * @return IWorkbenchWindow
-	 */
-	public IWorkbenchWindow getWindow() {
-		return window;
-	}
+    public void refreshFolder() {
+        try {
+            getSootOutputFolder().refreshLocal(IResource.DEPTH_INFINITE, null);
+        } catch (CoreException e1) {
+            System.out.println(e1.getMessage());
+        }
+    }
 
-	/**
-	 * Sets the window.
-	 * @param window The window to set
-	 */
-	public void setWindow(IWorkbenchWindow window) {
-		this.window = window;
-	}
+    public void handleFilesChanged() {
+
+        // files that were showing close
+        if (getOldFilelist() != null) {
+            Iterator it = getOldFilelist().iterator();
+            while (it.hasNext()) {
+                Object temp = it.next();
+                if (temp instanceof IEditorPart) {
+                    getWindow().getActivePage().closeEditor((IEditorPart) temp, true);
+                }
+            }
+        }
+
+        try {
+            IResource[] children = getSootOutputFolder().members();
+
+            IWorkbenchWindow window = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
+        } catch (Exception e) {
+            System.out.println("Open Editor ex: " + e.getMessage());
+            System.out.println(e.getStackTrace());
+        }
+        // new files show
+    }
+
+    /**
+     * Returns the sootOuputFolder.
+     *
+     * @return IFolder
+     */
+    public IFolder getSootOutputFolder() {
+        return sootOutputFolder;
+    }
+
+    /**
+     * Sets the sootOuputFolder.
+     *
+     * @param sootOuputFolder The sootOuputFolder to set
+     */
+    public void setSootOutputFolder(IFolder sootOutputFolder) {
+        this.sootOutputFolder = sootOutputFolder;
+    }
+
+
+    /**
+     * Returns the newFilelist.
+     *
+     * @return ArrayList
+     */
+    public ArrayList getNewFilelist() {
+        return newFilelist;
+    }
+
+    /**
+     * Sets the newFilelist.
+     *
+     * @param newFilelist The newFilelist to set
+     */
+    public void setNewFilelist(ArrayList newFilelist) {
+        this.newFilelist = newFilelist;
+    }
+
+    /**
+     * Returns the oldFilelist.
+     *
+     * @return ArrayList
+     */
+    public ArrayList getOldFilelist() {
+        return oldFilelist;
+    }
+
+    /**
+     * Sets the oldFilelist.
+     *
+     * @param oldFilelist The oldFilelist to set
+     */
+    public void setOldFilelist(ArrayList oldFilelist) {
+        this.oldFilelist = oldFilelist;
+    }
+
+    /**
+     * Returns the window.
+     *
+     * @return IWorkbenchWindow
+     */
+    public IWorkbenchWindow getWindow() {
+        return window;
+    }
+
+    /**
+     * Sets the window.
+     *
+     * @param window The window to set
+     */
+    public void setWindow(IWorkbenchWindow window) {
+        this.window = window;
+    }
 
 }

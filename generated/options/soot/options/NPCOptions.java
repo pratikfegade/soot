@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,51 +20,54 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Null Pointer Checker. */
-public class NPCOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Null Pointer Checker.
+ */
+public class NPCOptions {
     private Map<String, String> options;
 
-    public NPCOptions( Map<String, String> options ) {
+    public NPCOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Only Array Ref --
-    
+
+    /**
+     * Only Array Ref --
+     * <p/>
      * Annotate only array references.
-    
-     * Annotate only array-referencing instructions, instead of all 
-     * instructions that need null pointer checks. 
+     * <p/>
+     * Annotate only array-referencing instructions, instead of all
+     * instructions that need null pointer checks.
      */
     public boolean only_array_ref() {
-        return soot.PhaseOptions.getBoolean( options, "only-array-ref" );
+        return soot.PhaseOptions.getBoolean(options, "only-array-ref");
     }
-    
-    /** Profiling --
-    
+
+    /**
+     * Profiling --
+     * <p/>
      * Insert instructions to count safe pointer accesses.
-    
-     * Insert profiling instructions that at runtime count the number 
-     * of eliminated safe null pointer checks. The inserted profiling 
-     * code assumes the existence of a MultiCounter class implementing 
-     * the methods invoked. For details, see the NullPointerChecker 
+     * <p/>
+     * Insert profiling instructions that at runtime count the number
+     * of eliminated safe null pointer checks. The inserted profiling
+     * code assumes the existence of a MultiCounter class implementing
+     * the methods invoked. For details, see the NullPointerChecker
      * source code.
      */
     public boolean profiling() {
-        return soot.PhaseOptions.getBoolean( options, "profiling" );
+        return soot.PhaseOptions.getBoolean(options, "profiling");
     }
-    
+
 }
         

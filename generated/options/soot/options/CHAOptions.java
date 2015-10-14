@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,38 +20,40 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Class Hierarchy Analysis. */
-public class CHAOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Class Hierarchy Analysis.
+ */
+public class CHAOptions {
     private Map<String, String> options;
 
-    public CHAOptions( Map<String, String> options ) {
+    public CHAOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Verbose --
-    
+
+    /**
+     * Verbose --
+     * <p/>
      * Print statistics about the resulting call graph.
-    
-     * Setting this option to true causes Soot to print out statistics 
-     * about the call graph computed by this phase, such as the number 
+     * <p/>
+     * Setting this option to true causes Soot to print out statistics
+     * about the call graph computed by this phase, such as the number
      * of methods determined to be reachable.
      */
     public boolean verbose() {
-        return soot.PhaseOptions.getBoolean( options, "verbose" );
+        return soot.PhaseOptions.getBoolean(options, "verbose");
     }
-    
+
 }
         

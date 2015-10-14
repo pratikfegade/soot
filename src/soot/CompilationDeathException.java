@@ -27,38 +27,31 @@
 package soot;
 
 @SuppressWarnings("serial")
-public class CompilationDeathException extends RuntimeException
-{
-    private final int mStatus;
-
+public class CompilationDeathException extends RuntimeException {
     public static final int COMPILATION_ABORTED = 0;
     public static final int COMPILATION_SUCCEEDED = 1;
+    private final int mStatus;
 
-    public CompilationDeathException(String msg, Throwable t)
-    {
-    	super(msg,t);
+    public CompilationDeathException(String msg, Throwable t) {
+        super(msg, t);
         mStatus = COMPILATION_ABORTED;
     }
-    
-    public CompilationDeathException(String msg)
-    {
-    	super(msg);
+
+    public CompilationDeathException(String msg) {
+        super(msg);
         mStatus = COMPILATION_ABORTED;
     }
-        
-    public CompilationDeathException(int status, String msg)
-    {
-    	super(msg);
-        mStatus = status;
-    }
-        
-    public CompilationDeathException(int status)
-    {
+
+    public CompilationDeathException(int status, String msg) {
+        super(msg);
         mStatus = status;
     }
 
-    public int getStatus()
-    {
+    public CompilationDeathException(int status) {
+        mStatus = status;
+    }
+
+    public int getStatus() {
         return mStatus;
     }
 }

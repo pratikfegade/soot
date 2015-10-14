@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ACmpeqBinop extends PBinop
-{
+public final class ACmpeqBinop extends PBinop {
     private TCmpeq _cmpeq_;
 
-    public ACmpeqBinop()
-    {
+    public ACmpeqBinop() {
         // Constructor
     }
 
     public ACmpeqBinop(
-        @SuppressWarnings("hiding") TCmpeq _cmpeq_)
-    {
+            @SuppressWarnings("hiding") TCmpeq _cmpeq_) {
         // Constructor
         setCmpeq(_cmpeq_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ACmpeqBinop(
-            cloneNode(this._cmpeq_));
+                cloneNode(this._cmpeq_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseACmpeqBinop(this);
     }
 
-    public TCmpeq getCmpeq()
-    {
+    public TCmpeq getCmpeq() {
         return this._cmpeq_;
     }
 
-    public void setCmpeq(TCmpeq node)
-    {
-        if(this._cmpeq_ != null)
-        {
+    public void setCmpeq(TCmpeq node) {
+        if (this._cmpeq_ != null) {
             this._cmpeq_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ACmpeqBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._cmpeq_);
+                + toString(this._cmpeq_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._cmpeq_ == child)
-        {
+        if (this._cmpeq_ == child) {
             this._cmpeq_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ACmpeqBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._cmpeq_ == oldChild)
-        {
+        if (this._cmpeq_ == oldChild) {
             setCmpeq((TCmpeq) newChild);
             return;
         }

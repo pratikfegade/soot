@@ -25,34 +25,33 @@ import org.eclipse.draw2d.MouseListener;
 
 public class SimpleNodeMouseListener implements MouseListener {
 
-	public SimpleNodeMouseListener() {
-		super();
-	}
+    public SimpleNodeMouseListener() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.MouseListener#mousePressed(org.eclipse.draw2d.MouseEvent)
-	 */
-	public void mousePressed(MouseEvent me) {
-		if (me.getState() == MouseEvent.BUTTON1) {
-		
-		}
-		else if (me.getState() == MouseEvent.BUTTON3) {
-		
-		}
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.MouseListener#mousePressed(org.eclipse.draw2d.MouseEvent)
+     */
+    public void mousePressed(MouseEvent me) {
+        if (me.getState() == MouseEvent.BUTTON1) {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.MouseListener#mouseReleased(org.eclipse.draw2d.MouseEvent)
-	 */
-	public void mouseReleased(MouseEvent me) {
-		
-	}
+        } else if (me.getState() == MouseEvent.BUTTON3) {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.MouseListener#mouseDoubleClicked(org.eclipse.draw2d.MouseEvent)
-	 */
-	public void mouseDoubleClicked(MouseEvent me) {
-	
-	}
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.MouseListener#mouseReleased(org.eclipse.draw2d.MouseEvent)
+     */
+    public void mouseReleased(MouseEvent me) {
+
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.MouseListener#mouseDoubleClicked(org.eclipse.draw2d.MouseEvent)
+     */
+    public void mouseDoubleClicked(MouseEvent me) {
+
+    }
 
 }

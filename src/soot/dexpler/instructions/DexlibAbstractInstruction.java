@@ -24,30 +24,23 @@
 
 package soot.dexpler.instructions;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.FiveRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.RegisterRangeInstruction;
-
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.LongType;
-import soot.Type;
-import soot.Unit;
+import soot.*;
 import soot.dexpler.DexBody;
 import soot.tagkit.BytecodeOffsetTag;
 import soot.tagkit.Host;
 import soot.tagkit.LineNumberTag;
 import soot.tagkit.SourceLineNumberTag;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 /**
  * This class represents a wrapper around dexlib instruction.
- *
  */
 public abstract class DexlibAbstractInstruction {
 
@@ -55,12 +48,170 @@ public abstract class DexlibAbstractInstruction {
 
     protected Instruction instruction;
     protected int codeAddress;
-//    protected Unit beginUnit;
+    //    protected Unit beginUnit;
 //    protected Unit endUnit;
     protected Unit unit;
+    //FT
+    protected Type[] opUnType = {
+            IntType.v(),    // 0x7B neg-int vx, vy
+            IntType.v(),    // 0x7C
+            LongType.v(),   // 0x7D
+            LongType.v(),   // 0x7E
+            FloatType.v(),  // 0x7F
+            DoubleType.v(), // 0x80
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v()     // 0x8F int-to-short vx, vy
+    };
+    protected Type[] resUnType = {
+            IntType.v(),  // 0x7B
+            IntType.v(),
+            LongType.v(),
+            LongType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            LongType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            IntType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            IntType.v(),
+            LongType.v(),
+            DoubleType.v(),
+            IntType.v(),
+            LongType.v(),
+            FloatType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v()     // 0x8F
+    };
+    protected Type[] resBinType = {
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v()
+    };
+    protected Type[] op1BinType = {
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v()
+    };
+    protected Type[] op2BinType = {
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            LongType.v(),
+            IntType.v(),
+            IntType.v(),
+            IntType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            FloatType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v(),
+            DoubleType.v()
+    };
+
+    /**
+     * @param instruction the underlying dexlib instruction
+     * @param codeAddress the bytecode address of this instruction
+     */
+    public DexlibAbstractInstruction(Instruction instruction, int codeAddress) {
+        this.instruction = instruction;
+        this.codeAddress = codeAddress;
+    }
 
     public Instruction getInstruction() {
-      return instruction;
+        return instruction;
     }
 
     /**
@@ -75,7 +226,7 @@ public abstract class DexlibAbstractInstruction {
      * For instruction such as v0 = v3 (v0 gets the content of v3),
      * movesRegister(3) returns 0
      * movesRegister(0) returns -1
-     *
+     * <p/>
      * Instructions should override this if they copy register content.
      *
      * @param register the number of the register
@@ -90,7 +241,7 @@ public abstract class DexlibAbstractInstruction {
      * For instruction such as v0 = v3 (v0 gets the content of v3),
      * movesToRegister(3) returns -1
      * movesToRegister(0) returns 3
-     *
+     * <p/>
      * Instructions should override this if they copy register content.
      *
      * @param register the number of the register
@@ -102,7 +253,7 @@ public abstract class DexlibAbstractInstruction {
 
     /**
      * Return if the instruction overrides the value in the register.
-     *
+     * <p/>
      * Instructions should override this if they modify the registers.
      *
      * @param register the number of the register
@@ -113,12 +264,12 @@ public abstract class DexlibAbstractInstruction {
 
     /**
      * Return if the value in the register is used as a floating point.
-     *
+     * <p/>
      * Instructions that have this context information and may deal with
      * integers or floating points should override this.
      *
      * @param register the number of the register
-     * @param body the body containing the instruction
+     * @param body     the body containing the instruction
      */
     boolean isUsedAsFloatingPoint(DexBody body, int register) {
         return false;
@@ -126,21 +277,24 @@ public abstract class DexlibAbstractInstruction {
 
     /**
      * Return the types that are be introduced by this instruction.
-     *
+     * <p/>
      * Instructions that may introduce types should override this.
      */
     public Set<Type> introducedTypes() {
         return Collections.emptySet();
     }
 
-    /**
-     * @param instruction the underlying dexlib instruction
-     * @param codeAddress the bytecode address of this instruction
-     */
-    public DexlibAbstractInstruction(Instruction instruction, int codeAddress) {
-        this.instruction = instruction;
-        this.codeAddress = codeAddress;
-    }
+//    /**
+//     * Set the first and last Jimple Unit, that comprise this instruction.
+//     *
+//     * Does not override already set units.
+//     */
+//    protected void defineBlock(Unit begin, Unit end) {
+//        if (beginUnit == null)
+//            beginUnit = begin;
+//        if (endUnit == null)
+//            endUnit = end;
+//    }
 
     public int getLineNumber() {
         return lineNumber;
@@ -153,9 +307,8 @@ public abstract class DexlibAbstractInstruction {
     /**
      * Tag the passed host with: - this instructions line number (if one is set)
      * - the original bytecode offset
-     * 
-     * @param host
-     *            the host to tag
+     *
+     * @param host the host to tag
      */
     protected void addTags(Host host) {
         if (lineNumber != -1) {
@@ -165,7 +318,7 @@ public abstract class DexlibAbstractInstruction {
         host.addTag(new BytecodeOffsetTag(codeAddress));
     }
 
-//    /**
+    //    /**
 //     * Return the first of the jimple units that represent this instruction.
 //     *
 //     */
@@ -181,220 +334,54 @@ public abstract class DexlibAbstractInstruction {
 //        return endUnit;
 //    }
     public Unit getUnit() {
-      return unit;
+        return unit;
     }
 
     /**
      * Set the Jimple Unit, that comprises this instruction.
-     *
+     * <p/>
      * Does not override already set units.
      */
     protected void setUnit(Unit u) {
-      unit = u;
+        unit = u;
 //        defineBlock(stmt, stmt);
     }
 
-//    /**
-//     * Set the first and last Jimple Unit, that comprise this instruction.
-//     *
-//     * Does not override already set units.
-//     */
-//    protected void defineBlock(Unit begin, Unit end) {
-//        if (beginUnit == null)
-//            beginUnit = begin;
-//        if (endUnit == null)
-//            endUnit = end;
-//    }
+    //public abstract void getConstraint(IDalvikTyper DalvikTyper.v());
 
-    //FT
-    protected Type [] opUnType = {
-        IntType.v(),    // 0x7B neg-int vx, vy
-        IntType.v(),    // 0x7C
-        LongType.v(),   // 0x7D
-        LongType.v(),   // 0x7E
-        FloatType.v(),  // 0x7F
-        DoubleType.v(), // 0x80
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v()     // 0x8F int-to-short vx, vy
-      };
+    /**
+     * Return the indices used in the given instruction.
+     *
+     * @param instruction a range invocation instruction
+     * @return a list of register indices
+     */
+    protected List<Integer> getUsedRegistersNums(RegisterRangeInstruction instruction) {
+        List<Integer> regs = new ArrayList<Integer>();
+        int start = instruction.getStartRegister();
+        for (int i = start; i < start + instruction.getRegisterCount(); i++)
+            regs.add(i);
 
-      protected Type [] resUnType = {
-          IntType.v(),  // 0x7B
-          IntType.v(),
-          LongType.v(),
-          LongType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          LongType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          IntType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          IntType.v(),
-          LongType.v(),
-          DoubleType.v(),
-          IntType.v(),
-          LongType.v(),
-          FloatType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v()     // 0x8F
-      };
+        return regs;
+    }
 
-      protected Type []  resBinType = {
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v()
+    /**
+     * Return the indices used in the given instruction.
+     *
+     * @param instruction a invocation instruction
+     * @return a list of register indices
+     */
+    protected List<Integer> getUsedRegistersNums(FiveRegisterInstruction instruction) {
+        int[] regs = {
+                instruction.getRegisterC(),
+                instruction.getRegisterD(),
+                instruction.getRegisterE(),
+                instruction.getRegisterF(),
+                instruction.getRegisterG(),
         };
-
-      protected Type []  op1BinType = {
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v()
-      };
-
-      protected Type []  op2BinType = {
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v()
-        };
-
-      //public abstract void getConstraint(IDalvikTyper DalvikTyper.v());
-
-      /**
-       * Return the indices used in the given instruction.
-       *
-       * @param instruction a range invocation instruction
-       * @return a list of register indices
-       */
-      protected List<Integer> getUsedRegistersNums(RegisterRangeInstruction instruction) {
-          List<Integer> regs = new ArrayList<Integer>();
-          int start = instruction.getStartRegister();
-          for (int i = start; i < start + instruction.getRegisterCount(); i++)
-              regs.add(i);
-
-          return regs;
-      }
-      
-      /**
-       * Return the indices used in the given instruction.
-       *
-       * @param instruction a invocation instruction
-       * @return a list of register indices
-       */
-      protected List<Integer> getUsedRegistersNums(FiveRegisterInstruction instruction) {
-          int[] regs = {
-              instruction.getRegisterC(),
-              instruction.getRegisterD(),
-              instruction.getRegisterE(),
-              instruction.getRegisterF(),
-              instruction.getRegisterG(),
-          };
-          List<Integer> l = new ArrayList<Integer>();
-          for (int i = 0; i < instruction.getRegisterCount(); i++)
-              l.add(regs[i]);
-          return l;
-      }
+        List<Integer> l = new ArrayList<Integer>();
+        for (int i = 0; i < instruction.getRegisterCount(); i++)
+            l.add(regs[i]);
+        return l;
+    }
 
 }

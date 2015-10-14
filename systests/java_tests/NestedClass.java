@@ -1,12 +1,12 @@
 public class NestedClass {
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         NestedClass nc = new NestedClass();
         nc.run();
     }
-        
-    public void run (){
-    
+
+    public void run() {
+
         Link l = new Link();
         l.go();
         Linker lr = new Linker();
@@ -14,15 +14,15 @@ public class NestedClass {
     }
 
     class Link {
-        
-        public void go(){
+
+        public void go() {
             System.out.println("go");
         }
-        
+
     }
 
     class Linker {
-        public void gofor(){
+        public void gofor() {
             Link l = new Link();
             l.go();
         }

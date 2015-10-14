@@ -20,68 +20,68 @@
 
 package soot.dava.internal.AST;
 
-import soot.*;
-import java.util.*;
-import soot.dava.internal.asg.*;
-import soot.dava.toolkits.base.AST.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.toolkits.base.AST.ASTAnalysis;
+import soot.dava.toolkits.base.AST.ASTWalker;
+import soot.dava.toolkits.base.AST.TryContentsFinder;
+import soot.dava.toolkits.base.AST.analysis.Analysis;
 
-public class ASTStatementSequenceNode extends ASTNode
-{
+import java.util.Iterator;
+import java.util.List;
+
+public class ASTStatementSequenceNode extends ASTNode {
     private List<Object> statementSequence;
 
-    public ASTStatementSequenceNode( List<Object> statementSequence)
-    {
-	super();
+    public ASTStatementSequenceNode(List<Object> statementSequence) {
+        super();
 
-	this.statementSequence = statementSequence;
+        this.statementSequence = statementSequence;
     }
 
-    public Object clone()
-    {
-	return new ASTStatementSequenceNode( statementSequence);
+    public Object clone() {
+        return new ASTStatementSequenceNode(statementSequence);
     }
 
-    public void perform_Analysis( ASTAnalysis a)
-    {
-	if (a.getAnalysisDepth() > ASTAnalysis.ANALYSE_AST) {
+    public void perform_Analysis(ASTAnalysis a) {
+        if (a.getAnalysisDepth() > ASTAnalysis.ANALYSE_AST) {
 
-	    Iterator<Object> it = statementSequence.iterator();
-	    while (it.hasNext())
-		ASTWalker.v().walk_stmt( a, ((AugmentedStmt) it.next()).get_Stmt());
-	}
+            Iterator<Object> it = statementSequence.iterator();
+            while (it.hasNext())
+                ASTWalker.v().walk_stmt(a, ((AugmentedStmt) it.next()).get_Stmt());
+        }
 
-	if (a instanceof TryContentsFinder) {
-	    TryContentsFinder.v().add_ExceptionSet( this, TryContentsFinder.v().remove_CurExceptionSet());
-	}
+        if (a instanceof TryContentsFinder) {
+            TryContentsFinder.v().add_ExceptionSet(this, TryContentsFinder.v().remove_CurExceptionSet());
+        }
     }
 
-    public void toString( UnitPrinter up ) {
-    	Iterator<Object> it = statementSequence.iterator();
-    	while (it.hasNext()) {
-                AugmentedStmt as = (AugmentedStmt) it.next();
-    	    //System.out.println("Stmt is:"+as.get_Stmt());
-                Unit u = as.get_Stmt();
-                up.startUnit( u );
-                u.toString( up );
-                up.literal(";");
-                up.endUnit( u );
-                up.newline();
-            }
+    public void toString(UnitPrinter up) {
+        Iterator<Object> it = statementSequence.iterator();
+        while (it.hasNext()) {
+            AugmentedStmt as = (AugmentedStmt) it.next();
+            //System.out.println("Stmt is:"+as.get_Stmt());
+            Unit u = as.get_Stmt();
+            up.startUnit(u);
+            u.toString(up);
+            up.literal(";");
+            up.endUnit(u);
+            up.newline();
+        }
     }
 
-    public String toString()
-    {
-	StringBuffer b = new StringBuffer();
+    public String toString() {
+        StringBuffer b = new StringBuffer();
 
-	Iterator<Object> it = statementSequence.iterator();
-	while (it.hasNext()) {
-	    b.append( ((Unit) ((AugmentedStmt) it.next()).get_Stmt()).toString());
-	    b.append( ";");
-	    b.append( NEWLINE);
-	}
+        Iterator<Object> it = statementSequence.iterator();
+        while (it.hasNext()) {
+            b.append(((AugmentedStmt) it.next()).get_Stmt().toString());
+            b.append(";");
+            b.append(NEWLINE);
+        }
 
-	return b.toString();
+        return b.toString();
     }
 
 
@@ -90,21 +90,18 @@ public class ASTStatementSequenceNode extends ASTNode
       Part of Visitor Design Implementation for AST
       See: soot.dava.toolkits.base.AST.analysis For details
     */
-    public List<Object> getStatements(){
-	return statementSequence;
+    public List<Object> getStatements() {
+        return statementSequence;
     }
-
-    public void apply(Analysis a){
-	a.caseASTStatementSequenceNode(this);
-    }
-
-
-
 
     /*
       Nomair A. Naeem added 3-MAY-05
     */
-    public void setStatements(List<Object> statementSequence){
-	this.statementSequence=statementSequence;
+    public void setStatements(List<Object> statementSequence) {
+        this.statementSequence = statementSequence;
+    }
+
+    public void apply(Analysis a) {
+        a.caseASTStatementSequenceNode(this);
     }
 }

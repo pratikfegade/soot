@@ -27,18 +27,16 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.SootFieldRef;
+import soot.Value;
+import soot.jimple.Jimple;
 
-public class JInstanceFieldRef extends AbstractInstanceFieldRef
-{
-    public JInstanceFieldRef(Value base, SootFieldRef fieldRef)
-    {
+public class JInstanceFieldRef extends AbstractInstanceFieldRef {
+    public JInstanceFieldRef(Value base, SootFieldRef fieldRef) {
         super(Jimple.v().newLocalBox(base), fieldRef);
     }
-   
-    public Object clone() 
-    {
-        return new JInstanceFieldRef( Jimple.cloneIfNecessary(getBase()), fieldRef);
+
+    public Object clone() {
+        return new JInstanceFieldRef(Jimple.cloneIfNecessary(getBase()), fieldRef);
     }
 }

@@ -26,60 +26,55 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
-import java.util.*;
+import soot.RefType;
+import soot.Type;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.util.Switch;
 
-public class ThisRef implements IdentityRef
-{
+import java.util.Collections;
+import java.util.List;
+
+public class ThisRef implements IdentityRef {
     RefType thisType;
 
-    public ThisRef(RefType thisType)
-    {
+    public ThisRef(RefType thisType) {
         this.thisType = thisType;
     }
 
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof ThisRef)
-        {
-            return thisType.equals(((ThisRef)o).thisType);
+    public boolean equivTo(Object o) {
+        if (o instanceof ThisRef) {
+            return thisType.equals(((ThisRef) o).thisType);
         }
         return false;
     }
 
-    public int equivHashCode()
-    {
+    public int equivHashCode() {
         return thisType.hashCode();
     }
-    
-    public String toString()
-    {
-        return "@this: "+thisType;
+
+    public String toString() {
+        return "@this: " + thisType;
     }
-    
-    public void toString( UnitPrinter up ) {
+
+    public void toString(UnitPrinter up) {
         up.identityRef(this);
     }
 
     @Override
-    public final List<ValueBox> getUseBoxes()
-    {
+    public final List<ValueBox> getUseBoxes() {
         return Collections.emptyList();
     }
-    
-    public Type getType()
-    {
+
+    public Type getType() {
         return thisType;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((RefSwitch) sw).caseThisRef(this);
     }
-    
-    public Object clone()
-    {
+
+    public Object clone() {
         return new ThisRef(thisType);
     }
 

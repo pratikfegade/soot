@@ -19,7 +19,9 @@
 
 package soot.jimple;
 
-/** Any expression that allocates objects.
+/**
+ * Any expression that allocates objects.
+ *
  * @author Ondrej Lhotak
  */
 

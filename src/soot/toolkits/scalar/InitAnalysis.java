@@ -28,7 +28,7 @@ import soot.toolkits.graph.UnitGraph;
 
 /**
  * An analysis to check whether or not local variables have been initialised.
- * 
+ *
  * @author Ganesh Sittampalam
  * @author Eric Bodden
  */
@@ -37,7 +37,7 @@ public class InitAnalysis extends ForwardFlowAnalysis<Unit, FlowSet<Local>> {
 
     public InitAnalysis(UnitGraph g) {
         super(g);
-        allLocals = new ArraySparseSet<Local>();        
+        allLocals = new ArraySparseSet<Local>();
         for (Local loc : g.getBody().getLocals()) {
             allLocals.add(loc);
         }
@@ -49,7 +49,7 @@ public class InitAnalysis extends ForwardFlowAnalysis<Unit, FlowSet<Local>> {
     protected FlowSet<Local> entryInitialFlow() {
         return new ArraySparseSet<Local>();
     }
-    
+
     @Override
     protected FlowSet<Local> newInitialFlow() {
         FlowSet<Local> ret = new ArraySparseSet<Local>();
@@ -73,7 +73,7 @@ public class InitAnalysis extends ForwardFlowAnalysis<Unit, FlowSet<Local>> {
     protected void merge(FlowSet<Local> in1, FlowSet<Local> in2, FlowSet<Local> out) {
         in1.intersection(in2, out);
     }
-    
+
     @Override
     protected void copy(FlowSet<Local> source, FlowSet<Local> dest) {
         source.copy(dest);

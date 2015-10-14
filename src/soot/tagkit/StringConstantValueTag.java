@@ -27,20 +27,20 @@ package soot.tagkit;
 
 import soot.coffi.CONSTANT_Utf8_info;
 
-public class StringConstantValueTag extends ConstantValueTag
-{
+public class StringConstantValueTag extends ConstantValueTag {
     private final String value;
 
     public StringConstantValueTag(String value) {
-	this.value = value;
-	this.bytes = CONSTANT_Utf8_info.toUtf8(value);
+        this.value = value;
+        this.bytes = CONSTANT_Utf8_info.toUtf8(value);
     }
 
     public String getStringValue() {
-	return value;
+        return value;
     }
+
     public String toString() {
-        return "ConstantValue: "+value;
+        return "ConstantValue: " + value;
     }
 }
 

@@ -19,7 +19,8 @@
 
 package soot.toolkits.graph;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A reversible version of HashMutableDirectedGraph
@@ -27,91 +28,79 @@ import java.util.*;
  * @author Navindra Umanee
  **/
 public class HashReversibleGraph<N> extends HashMutableDirectedGraph<N>
-    implements ReversibleGraph<N>
-{
+        implements ReversibleGraph<N> {
     protected boolean reversed;
 
-    public HashReversibleGraph(DirectedGraph<N> dg)
-    {
+    public HashReversibleGraph(DirectedGraph<N> dg) {
         this();
 
-        for(Iterator<N> i = dg.iterator(); i.hasNext();){
+        for (Iterator<N> i = dg.iterator(); i.hasNext(); ) {
             N s = i.next();
             addNode(s);
         }
 
-        for(Iterator<N> i = dg.iterator(); i.hasNext();){
+        for (Iterator<N> i = dg.iterator(); i.hasNext(); ) {
             N s = i.next();
             List<N> succs = dg.getSuccsOf(s);
-            for(Iterator<N> succsIt = succs.iterator(); succsIt.hasNext();){
+            for (Iterator<N> succsIt = succs.iterator(); succsIt.hasNext(); ) {
                 N t = succsIt.next();
                 addEdge(s, t);
             }
         }
 
         /* use the same heads and tails as the original graph */
-        
+
         heads.clear();
         heads.addAll(dg.getHeads());
         tails.clear();
         tails.addAll(dg.getTails());
     }
-            
-    public HashReversibleGraph()
-    {
+
+    public HashReversibleGraph() {
         super();
         reversed = false;
     }
-    
-    public boolean isReversed()
-    {
+
+    public boolean isReversed() {
         return reversed;
     }
 
-    public ReversibleGraph<N> reverse()
-    {   
+    public ReversibleGraph<N> reverse() {
         reversed = !reversed;
         return this;
     }
 
-    public void addEdge(N from, N to)
-    {
-        if(reversed)
+    public void addEdge(N from, N to) {
+        if (reversed)
             super.addEdge(to, from);
         else
             super.addEdge(from, to);
     }
 
-    public void removeEdge(N from, N to)
-    {
-        if(reversed)
+    public void removeEdge(N from, N to) {
+        if (reversed)
             super.removeEdge(to, from);
         else
             super.removeEdge(from, to);
     }
 
-    public boolean containsEdge(N from, N to)
-    {
+    public boolean containsEdge(N from, N to) {
         return reversed ? super.containsEdge(to, from) : super.containsEdge(from, to);
     }
 
-    public List<N> getHeads()
-    {
+    public List<N> getHeads() {
         return reversed ? super.getTails() : super.getHeads();
     }
 
-    public List<N> getTails()
-    {
+    public List<N> getTails() {
         return reversed ? super.getHeads() : super.getTails();
-    }   
+    }
 
-    public List<N> getPredsOf(N s)
-    {
+    public List<N> getPredsOf(N s) {
         return reversed ? super.getSuccsOf(s) : super.getPredsOf(s);
     }
-    
-    public List<N> getSuccsOf(N s)
-    {
+
+    public List<N> getSuccsOf(N s) {
         return reversed ? super.getPredsOf(s) : super.getSuccsOf(s);
     }
 }

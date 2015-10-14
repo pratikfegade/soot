@@ -2,23 +2,20 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AThrowsClause extends PThrowsClause
-{
+public final class AThrowsClause extends PThrowsClause {
     private TThrows _throws_;
     private PClassNameList _classNameList_;
 
-    public AThrowsClause()
-    {
+    public AThrowsClause() {
         // Constructor
     }
 
     public AThrowsClause(
-        @SuppressWarnings("hiding") TThrows _throws_,
-        @SuppressWarnings("hiding") PClassNameList _classNameList_)
-    {
+            @SuppressWarnings("hiding") TThrows _throws_,
+            @SuppressWarnings("hiding") PClassNameList _classNameList_) {
         // Constructor
         setThrows(_throws_);
 
@@ -27,34 +24,27 @@ public final class AThrowsClause extends PThrowsClause
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AThrowsClause(
-            cloneNode(this._throws_),
-            cloneNode(this._classNameList_));
+                cloneNode(this._throws_),
+                cloneNode(this._classNameList_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAThrowsClause(this);
     }
 
-    public TThrows getThrows()
-    {
+    public TThrows getThrows() {
         return this._throws_;
     }
 
-    public void setThrows(TThrows node)
-    {
-        if(this._throws_ != null)
-        {
+    public void setThrows(TThrows node) {
+        if (this._throws_ != null) {
             this._throws_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -64,22 +54,17 @@ public final class AThrowsClause extends PThrowsClause
         this._throws_ = node;
     }
 
-    public PClassNameList getClassNameList()
-    {
+    public PClassNameList getClassNameList() {
         return this._classNameList_;
     }
 
-    public void setClassNameList(PClassNameList node)
-    {
-        if(this._classNameList_ != null)
-        {
+    public void setClassNameList(PClassNameList node) {
+        if (this._classNameList_ != null) {
             this._classNameList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -90,25 +75,21 @@ public final class AThrowsClause extends PThrowsClause
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._throws_)
-            + toString(this._classNameList_);
+                + toString(this._throws_)
+                + toString(this._classNameList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._throws_ == child)
-        {
+        if (this._throws_ == child) {
             this._throws_ = null;
             return;
         }
 
-        if(this._classNameList_ == child)
-        {
+        if (this._classNameList_ == child) {
             this._classNameList_ = null;
             return;
         }
@@ -117,17 +98,14 @@ public final class AThrowsClause extends PThrowsClause
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._throws_ == oldChild)
-        {
+        if (this._throws_ == oldChild) {
             setThrows((TThrows) newChild);
             return;
         }
 
-        if(this._classNameList_ == oldChild)
-        {
+        if (this._classNameList_ == oldChild) {
             setClassNameList((PClassNameList) newChild);
             return;
         }

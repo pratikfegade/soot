@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AFullIdentClassName extends PClassName
-{
+public final class AFullIdentClassName extends PClassName {
     private TFullIdentifier _fullIdentifier_;
 
-    public AFullIdentClassName()
-    {
+    public AFullIdentClassName() {
         // Constructor
     }
 
     public AFullIdentClassName(
-        @SuppressWarnings("hiding") TFullIdentifier _fullIdentifier_)
-    {
+            @SuppressWarnings("hiding") TFullIdentifier _fullIdentifier_) {
         // Constructor
         setFullIdentifier(_fullIdentifier_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFullIdentClassName(
-            cloneNode(this._fullIdentifier_));
+                cloneNode(this._fullIdentifier_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFullIdentClassName(this);
     }
 
-    public TFullIdentifier getFullIdentifier()
-    {
+    public TFullIdentifier getFullIdentifier() {
         return this._fullIdentifier_;
     }
 
-    public void setFullIdentifier(TFullIdentifier node)
-    {
-        if(this._fullIdentifier_ != null)
-        {
+    public void setFullIdentifier(TFullIdentifier node) {
+        if (this._fullIdentifier_ != null) {
             this._fullIdentifier_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AFullIdentClassName extends PClassName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._fullIdentifier_);
+                + toString(this._fullIdentifier_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._fullIdentifier_ == child)
-        {
+        if (this._fullIdentifier_ == child) {
             this._fullIdentifier_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AFullIdentClassName extends PClassName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._fullIdentifier_ == oldChild)
-        {
+        if (this._fullIdentifier_ == oldChild) {
             setFullIdentifier((TFullIdentifier) newChild);
             return;
         }

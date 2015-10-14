@@ -26,45 +26,55 @@
 
 package soot.util;
 
-import java.io.*;
+import java.io.FilterWriter;
+import java.io.IOException;
+import java.io.Writer;
 
-/** A FilterWriter which catches to-be-escaped characters (<code>\\unnnn</code>) in the
- * input and substitutes their escaped representation.  Used for Soot output. */
-public class EscapedWriter extends FilterWriter
-{
-    /** Convenience field containing the system's line separator. */
+/**
+ * A FilterWriter which catches to-be-escaped characters (<code>\\unnnn</code>) in the
+ * input and substitutes their escaped representation.  Used for Soot output.
+ */
+public class EscapedWriter extends FilterWriter {
+    /**
+     * Convenience field containing the system's line separator.
+     */
     public final String lineSeparator = System.getProperty("line.separator");
     private final int cr = lineSeparator.charAt(0);
     private final int lf = (lineSeparator.length() == 2) ? lineSeparator.charAt(1) : -1;
+    private final StringBuffer mini = new StringBuffer();
 
-    /** Constructs an EscapedWriter around the given Writer. */
-    public EscapedWriter(Writer fos)
-    {
+    /**
+     * Constructs an EscapedWriter around the given Writer.
+     */
+    public EscapedWriter(Writer fos) {
         super(fos);
     }
 
-    private final StringBuffer mini = new StringBuffer();
-
-    /** Print a single character (unsupported). */
-    public void print(int ch) throws IOException
-    {
+    /**
+     * Print a single character (unsupported).
+     */
+    public void print(int ch) throws IOException {
         write(ch);
         throw new RuntimeException();
     }
-  
-    /** Write a segment of the given String. */
-    public void write(String s, int off, int len) throws IOException
-    {
-        for(int i = off; i < off + len; i++)
+
+    /**
+     * Write a segment of the given String.
+     */
+    public void write(String s, int off, int len) throws IOException {
+        for (int i = off; i < off + len; i++)
             write(s.charAt(i));
     }
-  
-    /** Write a single character. */
-    public void write(int ch) throws IOException
-    {
-        if (ch >= 32 && ch <= 126 || ch == cr || ch == lf || ch == ' ')
-            { super.write(ch); return; }
-        
+
+    /**
+     * Write a single character.
+     */
+    public void write(int ch) throws IOException {
+        if (ch >= 32 && ch <= 126 || ch == cr || ch == lf || ch == ' ') {
+            super.write(ch);
+            return;
+        }
+
         mini.setLength(0);
         mini.append(Integer.toHexString(ch));
 

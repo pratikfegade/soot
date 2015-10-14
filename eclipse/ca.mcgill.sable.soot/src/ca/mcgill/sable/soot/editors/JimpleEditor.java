@@ -20,6 +20,7 @@
 package ca.mcgill.sable.soot.editors;
 
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.swt.widgets.Composite;
@@ -28,79 +29,77 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
-import ca.mcgill.sable.soot.SootPlugin;
-
 
 public class JimpleEditor extends TextEditor {
 
-	private ColorManager colorManager;
-	protected JimpleContentOutlinePage page;
-	private ISourceViewer viewer;
-	
-	/**
-	 * Constructor for JimpleEditor.
-	 */
-	public JimpleEditor() {
-		super();
-		colorManager = SootPlugin.getDefault().getColorManager();
-		setSourceViewerConfiguration(new JimpleConfiguration(colorManager, this));
-		setDocumentProvider(new JimpleDocumentProvider());
-		setViewer(this.getSourceViewer());
-	
-		
-	}
-	
-	/**
-	 * This method is what creates the Jimple Content Outliner
-	 */
-	public Object getAdapter(Class key) {
-		if (key.equals(IContentOutlinePage.class)) {
-			//System.out.println("in getAdapter of editor");
-			IEditorInput input = getEditorInput();
-			if (input instanceof IFileEditorInput) {
-				setPage(new JimpleContentOutlinePage(((IFileEditorInput)input).getFile(), this));
-				return getPage();
-			}
-		}
-		return super.getAdapter(key);
-	}
-		
-	public void dispose() {
-		super.dispose();
-	}
-	
-	/**
-	 * @return
-	 */
-	public JimpleContentOutlinePage getPage() {
-		return page;
-	}
+    protected JimpleContentOutlinePage page;
+    private ColorManager colorManager;
+    private ISourceViewer viewer;
 
-	/**
-	 * @param page
-	 */
-	public void setPage(JimpleContentOutlinePage page) {
-		this.page = page;
-	}
+    /**
+     * Constructor for JimpleEditor.
+     */
+    public JimpleEditor() {
+        super();
+        colorManager = SootPlugin.getDefault().getColorManager();
+        setSourceViewerConfiguration(new JimpleConfiguration(colorManager, this));
+        setDocumentProvider(new JimpleDocumentProvider());
+        setViewer(this.getSourceViewer());
 
-	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
-		setViewer(super.createSourceViewer(parent, ruler, styles));
-		SootPlugin.getDefault().addEditorViewer(getViewer());
-		return getViewer();
-	}
-	
-	/**
-	 * @return
-	 */
-	public ISourceViewer getViewer() {
-		return viewer;
-	}
 
-	/**
-	 * @param viewer
-	 */
-	public void setViewer(ISourceViewer viewer) {
-		this.viewer = viewer;
-	}
+    }
+
+    /**
+     * This method is what creates the Jimple Content Outliner
+     */
+    public Object getAdapter(Class key) {
+        if (key.equals(IContentOutlinePage.class)) {
+            //System.out.println("in getAdapter of editor");
+            IEditorInput input = getEditorInput();
+            if (input instanceof IFileEditorInput) {
+                setPage(new JimpleContentOutlinePage(((IFileEditorInput) input).getFile(), this));
+                return getPage();
+            }
+        }
+        return super.getAdapter(key);
+    }
+
+    public void dispose() {
+        super.dispose();
+    }
+
+    /**
+     * @return
+     */
+    public JimpleContentOutlinePage getPage() {
+        return page;
+    }
+
+    /**
+     * @param page
+     */
+    public void setPage(JimpleContentOutlinePage page) {
+        this.page = page;
+    }
+
+    protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
+        setViewer(super.createSourceViewer(parent, ruler, styles));
+        SootPlugin.getDefault().addEditorViewer(getViewer());
+        return getViewer();
+    }
+
+    /**
+     * @return
+     */
+    public ISourceViewer getViewer() {
+        return viewer;
+    }
+
+    /**
+     * @param viewer
+     */
+    public void setViewer(ISourceViewer viewer) {
+        this.viewer = viewer;
+    }
 
 }

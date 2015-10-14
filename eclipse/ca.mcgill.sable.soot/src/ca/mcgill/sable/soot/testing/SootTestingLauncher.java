@@ -19,26 +19,27 @@
 
 package ca.mcgill.sable.soot.testing;
 
+import ca.mcgill.sable.soot.launching.SootLauncher;
 import org.eclipse.jface.action.*;
+
 //import org.eclipse.jface.dialogs.*;
 //import org.eclipse.jface.preference.PreferenceManager;
-
 //import ca.mcgill.sable.soot.SootPlugin;
-import ca.mcgill.sable.soot.launching.SootLauncher;
+
 /**
  * @author jlhotak
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
+ *         <p/>
+ *         To change this generated comment edit the template variable "typecomment":
+ *         Window>Preferences>Java>Templates.
+ *         To enable and disable the creation of type comments go to
+ *         Window>Preferences>Java>Code Generation.
  */
 public class SootTestingLauncher extends SootLauncher {
 
-	public void run(IAction action) {
-		
-		super.run(action);
-		
+    public void run(IAction action) {
+
+        super.run(action);
+
 		/*TestDialog dialog = new TestDialog(window.getShell(),
          getSootSelection().getProject());
         dialog.open();
@@ -58,9 +59,10 @@ public class SootTestingLauncher extends SootLauncher {
         /*TestOutputDialog dialog = new TestOutputDialog(window.getShell(),
         	getSootSelection().getProject());
         dialog.open();*/
-      	
-		
-	}
 
-	public void setClasspathAppend(String ca){}
+
+    }
+
+    public void setClasspathAppend(String ca) {
+    }
 }

@@ -24,30 +24,37 @@
  */
 
 
-
 package soot.tagkit;
 
 
-import soot.*;
+import soot.G;
+import soot.IdentityUnit;
+import soot.Singletons;
+import soot.Unit;
 
-/** The aggregator for LineNumberTable attribute. */
-public class LineNumberTagAggregator extends FirstTagAggregator
-{    
-    public LineNumberTagAggregator( Singletons.Global g ) {}
-    public static LineNumberTagAggregator v() { return G.v().soot_tagkit_LineNumberTagAggregator(); }
-
-    /** Decide whether this tag should be aggregated by this aggregator. */
-    public boolean wantTag(Tag t)
-    {
-	return (t instanceof LineNumberTag) || (t instanceof SourceLnPosTag);
+/**
+ * The aggregator for LineNumberTable attribute.
+ */
+public class LineNumberTagAggregator extends FirstTagAggregator {
+    public LineNumberTagAggregator(Singletons.Global g) {
     }
-    
-    public String aggregatedName()
-    {
+
+    public static LineNumberTagAggregator v() {
+        return G.v().soot_tagkit_LineNumberTagAggregator();
+    }
+
+    /**
+     * Decide whether this tag should be aggregated by this aggregator.
+     */
+    public boolean wantTag(Tag t) {
+        return (t instanceof LineNumberTag) || (t instanceof SourceLnPosTag);
+    }
+
+    public String aggregatedName() {
         return "LineNumberTable";
     }
 
-    public void considerTag(Tag t, Unit u){
+    public void considerTag(Tag t, Unit u) {
         //System.out.println("consider tag for unit: "+u.getClass());
         if (!(u instanceof IdentityUnit)) super.considerTag(t, u);
     }

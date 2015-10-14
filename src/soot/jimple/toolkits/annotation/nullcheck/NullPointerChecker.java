@@ -28,19 +28,22 @@
  */
 
 package soot.jimple.toolkits.annotation.nullcheck;
-import soot.options.*;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
-import soot.tagkit.*;
-import soot.jimple.toolkits.annotation.tags.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
+import soot.jimple.toolkits.annotation.tags.NullCheckTag;
+import soot.options.Options;
+import soot.tagkit.Tag;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.FlowSet;
+import soot.util.Chain;
+
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
  /*
-	ArrayRef
+    ArrayRef
 	GetField
 	PutField
 	InvokeVirtual
@@ -52,167 +55,142 @@ import soot.toolkits.scalar.*;
 -	MonitorExit	
  */
 
-public class NullPointerChecker extends BodyTransformer 
-{
-    public NullPointerChecker( Singletons.Global g ) {}
-    public static NullPointerChecker v() { return G.v().soot_jimple_toolkits_annotation_nullcheck_NullPointerChecker(); }
-
+public class NullPointerChecker extends BodyTransformer {
     private boolean isProfiling = false;
- 
     private boolean enableOther = true;
-    
-    protected void internalTransform(Body body, String phaseName, Map<String,String> options)
-    {
-	isProfiling = PhaseOptions.getBoolean(options, "profiling");
-	enableOther = !PhaseOptions.getBoolean(options, "onlyarrayref");
 
-	{
-	    Date start = new Date();
+    public NullPointerChecker(Singletons.Global g) {
+    }
 
-	    if (Options.v().verbose())
-		G.v().out.println("[npc] Null pointer check for "+body.getMethod().getName()
-				   +" started on "+start);
-		
-	    BranchedRefVarsAnalysis analysis = new BranchedRefVarsAnalysis(
-	    					new ExceptionalUnitGraph(body));
+    public static NullPointerChecker v() {
+        return G.v().soot_jimple_toolkits_annotation_nullcheck_NullPointerChecker();
+    }
 
-	    SootClass counterClass = null;
-	    SootMethod increase = null;
-	    
-	    if (isProfiling)
-	    {
-		counterClass = Scene.v().loadClassAndSupport("MultiCounter");
-		increase = counterClass.getMethod("void increase(int)") ;
-	    }
+    protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
+        isProfiling = PhaseOptions.getBoolean(options, "profiling");
+        enableOther = !PhaseOptions.getBoolean(options, "onlyarrayref");
 
-	    Chain<Unit> units = body.getUnits();
+        {
+            Date start = new Date();
 
-	    Iterator<Unit> stmtIt = units.snapshotIterator() ;
+            if (Options.v().verbose())
+                G.v().out.println("[npc] Null pointer check for " + body.getMethod().getName()
+                        + " started on " + start);
 
-	    while (stmtIt.hasNext())
-	    {
-	        Stmt s = (Stmt)stmtIt.next() ;
-		
-		Value obj = null;
+            BranchedRefVarsAnalysis analysis = new BranchedRefVarsAnalysis(
+                    new ExceptionalUnitGraph(body));
 
-		if (s.containsArrayRef())
-		{
-		    ArrayRef aref = s.getArrayRef();
-		    obj = aref.getBase();
-		}
-		else
-	        {
-		    if (enableOther)
-		    {
-			// Throw
-			if (s instanceof ThrowStmt)
-			{
-			    obj = ((ThrowStmt)s).getOp();
-			}
-			else
-			// Monitor enter and exit 
-			if (s instanceof MonitorStmt)
-			{ 
-			    obj = ((MonitorStmt)s).getOp();
-			}
-			else
-			{
-			    Iterator<ValueBox> boxIt;
-                            boxIt = s.getDefBoxes().iterator();
-			    while (boxIt.hasNext())
-			    {
-				ValueBox vBox = (ValueBox)boxIt.next();
-				Value v = vBox.getValue();
+            SootClass counterClass = null;
+            SootMethod increase = null;
 
-				// putfield, and getfield 
-				if (v instanceof InstanceFieldRef)
-				{
-				    obj = ((InstanceFieldRef)v).getBase();
-				    break;
-				}
-				else
-				// invokevirtual, invokespecial, invokeinterface
-				if (v instanceof InstanceInvokeExpr)
-				{
-				    obj = ((InstanceInvokeExpr)v).getBase();
-				    break;
-				}
-				else
-				// arraylength 
-				if (v instanceof LengthExpr)
-				{
-				    obj = ((LengthExpr)v).getOp();
-				    break;
-				}
-			    }
-                            boxIt = s.getUseBoxes().iterator();
-			    while (boxIt.hasNext())
-			    {
-				ValueBox vBox = (ValueBox)boxIt.next();
-				Value v = vBox.getValue();
+            if (isProfiling) {
+                counterClass = Scene.v().loadClassAndSupport("MultiCounter");
+                increase = counterClass.getMethod("void increase(int)");
+            }
 
-				// putfield, and getfield 
-				if (v instanceof InstanceFieldRef)
-				{
-				    obj = ((InstanceFieldRef)v).getBase();
-				    break;
-				}
-				else
-				// invokevirtual, invokespecial, invokeinterface
-				if (v instanceof InstanceInvokeExpr)
-				{
-				    obj = ((InstanceInvokeExpr)v).getBase();
-				    break;
-				}
-				else
-				// arraylength 
-				if (v instanceof LengthExpr)
-				{
-				    obj = ((LengthExpr)v).getOp();
-				    break;
-				}
-			    }
-			}
-		    }	
-		}
+            Chain<Unit> units = body.getUnits();
 
-		// annotate it or now 
-		if (obj != null)
-		{
-		    FlowSet beforeSet = (FlowSet)analysis.getFlowBefore(s);
-			
-		    int vInfo = analysis.anyRefInfo(obj, beforeSet);
-			
-		    boolean needCheck = 
-			(vInfo != BranchedRefVarsAnalysis.kNonNull);
+            Iterator<Unit> stmtIt = units.snapshotIterator();
 
-		    if (isProfiling)
-		    {
-			int whichCounter = 5;
-			if (!needCheck)
-			    whichCounter = 6;   
-  
-			units.insertBefore(Jimple.v().newInvokeStmt(
-					      Jimple.v().newStaticInvokeExpr(increase.makeRef(),
-					      IntConstant.v(whichCounter))), s);
-		    }
-			
-		    {
-			Tag nullTag = new NullCheckTag(needCheck);
-			s.addTag(nullTag);
-		    }
-		}	       
-	    }
+            while (stmtIt.hasNext()) {
+                Stmt s = (Stmt) stmtIt.next();
 
-	    Date finish = new Date();
-	    if (Options.v().verbose())
-	    {
-		long runtime = finish.getTime()-start.getTime();
-		long mins = runtime/60000;
-		long secs = (runtime%60000)/1000;
-		G.v().out.println("[npc] Null pointer checker finished. It took "
-				   +mins+" mins and "+secs+" secs.");
-	    }
-	}    
+                Value obj = null;
+
+                if (s.containsArrayRef()) {
+                    ArrayRef aref = s.getArrayRef();
+                    obj = aref.getBase();
+                } else {
+                    if (enableOther) {
+                        // Throw
+                        if (s instanceof ThrowStmt) {
+                            obj = ((ThrowStmt) s).getOp();
+                        } else
+                            // Monitor enter and exit
+                            if (s instanceof MonitorStmt) {
+                                obj = ((MonitorStmt) s).getOp();
+                            } else {
+                                Iterator<ValueBox> boxIt;
+                                boxIt = s.getDefBoxes().iterator();
+                                while (boxIt.hasNext()) {
+                                    ValueBox vBox = boxIt.next();
+                                    Value v = vBox.getValue();
+
+                                    // putfield, and getfield
+                                    if (v instanceof InstanceFieldRef) {
+                                        obj = ((InstanceFieldRef) v).getBase();
+                                        break;
+                                    } else
+                                        // invokevirtual, invokespecial, invokeinterface
+                                        if (v instanceof InstanceInvokeExpr) {
+                                            obj = ((InstanceInvokeExpr) v).getBase();
+                                            break;
+                                        } else
+                                            // arraylength
+                                            if (v instanceof LengthExpr) {
+                                                obj = ((LengthExpr) v).getOp();
+                                                break;
+                                            }
+                                }
+                                boxIt = s.getUseBoxes().iterator();
+                                while (boxIt.hasNext()) {
+                                    ValueBox vBox = boxIt.next();
+                                    Value v = vBox.getValue();
+
+                                    // putfield, and getfield
+                                    if (v instanceof InstanceFieldRef) {
+                                        obj = ((InstanceFieldRef) v).getBase();
+                                        break;
+                                    } else
+                                        // invokevirtual, invokespecial, invokeinterface
+                                        if (v instanceof InstanceInvokeExpr) {
+                                            obj = ((InstanceInvokeExpr) v).getBase();
+                                            break;
+                                        } else
+                                            // arraylength
+                                            if (v instanceof LengthExpr) {
+                                                obj = ((LengthExpr) v).getOp();
+                                                break;
+                                            }
+                                }
+                            }
+                    }
+                }
+
+                // annotate it or now
+                if (obj != null) {
+                    FlowSet beforeSet = (FlowSet) analysis.getFlowBefore(s);
+
+                    int vInfo = analysis.anyRefInfo(obj, beforeSet);
+
+                    boolean needCheck =
+                            (vInfo != BranchedRefVarsAnalysis.kNonNull);
+
+                    if (isProfiling) {
+                        int whichCounter = 5;
+                        if (!needCheck)
+                            whichCounter = 6;
+
+                        units.insertBefore(Jimple.v().newInvokeStmt(
+                                Jimple.v().newStaticInvokeExpr(increase.makeRef(),
+                                        IntConstant.v(whichCounter))), s);
+                    }
+
+                    {
+                        Tag nullTag = new NullCheckTag(needCheck);
+                        s.addTag(nullTag);
+                    }
+                }
+            }
+
+            Date finish = new Date();
+            if (Options.v().verbose()) {
+                long runtime = finish.getTime() - start.getTime();
+                long mins = runtime / 60000;
+                long secs = (runtime % 60000) / 1000;
+                G.v().out.println("[npc] Null pointer checker finished. It took "
+                        + mins + " mins and " + secs + " secs.");
+            }
+        }
     }
 }

@@ -27,24 +27,23 @@ import soot.UnitBox;
  *
  * @author Navindra Umanee
  **/
-public interface SUnitBox extends UnitBox
-{
+public interface SUnitBox extends UnitBox {
     /**
      * Indicates whether the contents of the UnitBox may have been
      * changed.  Returns true if setUnit(Unit) has been called
      * recently and was not followed by setUnitChanged(false).
-     *
+     * <p/>
      * <p> Needed for Shimple internal Unit chain patching.
      **/
-    public boolean isUnitChanged();
-    
+    boolean isUnitChanged();
+
     /**
      * Updates the value of the flag used to indicate whether the
      * contents of the UnitBox may have changed.
-     *
+     * <p/>
      * <p> Needed for Shimple internal Unit chain patching.
      *
      * @see #isUnitChanged()
      **/
-    public void setUnitChanged(boolean unitChanged);
+    void setUnitChanged(boolean unitChanged);
 }

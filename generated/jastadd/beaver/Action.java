@@ -11,30 +11,25 @@ package beaver;
 /**
  * An "interface" to Java code executed when a production is reduced.
  */
-public abstract class Action
-{
-	static public final Action NONE = new Action()
-	{
-		public Symbol reduce(Symbol[] args, int offset)
-		{
-			return new Symbol(null);
-		}
-	};
-	
-	static public final Action RETURN = new Action()
-	{
-		public Symbol reduce(Symbol[] args, int offset)
-		{
-			return args[offset + 1];
-		}
-	};
-	
-	/**
-	 * Am action code that is executed when the production is reduced.
-	 *
-	 * @param args   an array part of which is filled with this action arguments
-	 * @param offset to the last element <b>BEFORE</b> the first argument of this action
-	 * @return a symbol or a value of a LHS nonterminal
-	 */
-	public abstract Symbol reduce(Symbol[] args, int offset);
+public abstract class Action {
+    static public final Action NONE = new Action() {
+        public Symbol reduce(Symbol[] args, int offset) {
+            return new Symbol(null);
+        }
+    };
+
+    static public final Action RETURN = new Action() {
+        public Symbol reduce(Symbol[] args, int offset) {
+            return args[offset + 1];
+        }
+    };
+
+    /**
+     * Am action code that is executed when the production is reduced.
+     *
+     * @param args   an array part of which is filled with this action arguments
+     * @param offset to the last element <b>BEFORE</b> the first argument of this action
+     * @return a symbol or a value of a LHS nonterminal
+     */
+    public abstract Symbol reduce(Symbol[] args, int offset);
 }

@@ -24,75 +24,68 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.Type;
+import soot.baf.Baf;
+import soot.baf.Dup1_x2Inst;
+import soot.baf.InstSwitch;
+import soot.util.Switch;
 
-public class BDup1_x2Inst extends BDupInst implements Dup1_x2Inst
-{
+import java.util.ArrayList;
+import java.util.List;
+
+public class BDup1_x2Inst extends BDupInst implements Dup1_x2Inst {
     private final Type mOpType;
     private final Type mUnder1Type;
     private final Type mUnder2Type;
 
-    public BDup1_x2Inst(Type aOpType, Type aUnder1Type, Type aUnder2Type)
-    {
+    public BDup1_x2Inst(Type aOpType, Type aUnder1Type, Type aUnder2Type) {
         mOpType = Baf.getDescriptorTypeOf(aOpType);
         mUnder1Type = Baf.getDescriptorTypeOf(aUnder1Type);
         mUnder2Type = Baf.getDescriptorTypeOf(aUnder2Type);
     }
 
-    public Type getOp1Type()
-    {
+    public Type getOp1Type() {
         return mOpType;
     }
 
-    public Type getUnder1Type()
-    {
+    public Type getUnder1Type() {
         return mUnder1Type;
     }
 
-    public Type getUnder2Type()
-    {
+    public Type getUnder2Type() {
         return mUnder2Type;
     }
 
-    public List<Type> getOpTypes()
-    {
-        List<Type> res =  new ArrayList<Type>();
+    public List<Type> getOpTypes() {
+        List<Type> res = new ArrayList<Type>();
         res.add(mOpType);
         return res;
     }
-    
-    public List<Type> getUnderTypes()
-    {
-        List<Type> res =  new ArrayList<Type>();
+
+    public List<Type> getUnderTypes() {
+        List<Type> res = new ArrayList<Type>();
         res.add(mUnder1Type);
         res.add(mUnder2Type);
         return res;
     }
 
-    
-    final public String getName() { return "dup1_x2"; }
 
-
-    public void apply(Switch sw)
-    {
-        ((InstSwitch) sw).caseDup1_x2Inst(this);
-    }   
-
-
-
-    public String toString()
-    {
-        return "dup1_x2." +  Baf.bafDescriptorOf(mOpType) + "_" +  Baf.bafDescriptorOf(mUnder1Type) + "." + Baf.bafDescriptorOf(mUnder2Type);
+    final public String getName() {
+        return "dup1_x2";
     }
-  
+
+
+    public void apply(Switch sw) {
+        ((InstSwitch) sw).caseDup1_x2Inst(this);
+    }
+
+
+    public String toString() {
+        return "dup1_x2." + Baf.bafDescriptorOf(mOpType) + "_" + Baf.bafDescriptorOf(mUnder1Type) + "." + Baf.bafDescriptorOf(mUnder2Type);
+    }
+
 }
 
 

@@ -20,41 +20,42 @@
 package soot.shimple.toolkits.scalar;
 
 import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.shimple.*;
-import soot.jimple.toolkits.scalar.*;
-import java.util.*;
+import soot.jimple.Constant;
+import soot.jimple.Expr;
+import soot.jimple.toolkits.scalar.Evaluator;
+import soot.shimple.PhiExpr;
+import soot.util.Switch;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Extension of soot.jimple.toolkits.scalar.Evaluator to handle Phi
- * expressions. 
+ * expressions.
  *
  * @author Navindra Umanee.
  * @see soot.jimple.toolkits.scalar.Evaluator
  * @see SConstantPropagatorAndFolder
  **/
-public class SEvaluator
-{
+public class SEvaluator {
     /**
      * Returns true if given value is determined to be constant valued,
      * false otherwise
      **/
-    public static boolean isValueConstantValued(Value op)
-    {
-        if(op instanceof PhiExpr) {
+    public static boolean isValueConstantValued(Value op) {
+        if (op instanceof PhiExpr) {
             Iterator<Value> argsIt = ((PhiExpr) op).getValues().iterator();
             Constant firstConstant = null;
 
-            while(argsIt.hasNext()){
+            while (argsIt.hasNext()) {
                 Value arg = argsIt.next();
 
-                if(!(arg instanceof Constant))
+                if (!(arg instanceof Constant))
                     return false;
 
-                if(firstConstant == null)
+                if (firstConstant == null)
                     firstConstant = (Constant) arg;
-                else if(!firstConstant.equals(arg))
+                else if (!firstConstant.equals(arg))
                     return false;
             }
 
@@ -68,14 +69,13 @@ public class SEvaluator
      * Returns the constant value of <code>op</code> if it is easy to
      * find the constant value; else returns <code>null</code>.
      **/
-    public static Value getConstantValueOf(Value op) 
-    {
-        if(!(op instanceof PhiExpr))
+    public static Value getConstantValueOf(Value op) {
+        if (!(op instanceof PhiExpr))
             return Evaluator.getConstantValueOf(op);
 
-        if(!(isValueConstantValued(op)))
+        if (!(isValueConstantValued(op)))
             return null;
-        
+
         return ((PhiExpr) op).getValue(0);
     }
 
@@ -84,7 +84,7 @@ public class SEvaluator
      * Otherwise, if a normal expression contains Top, returns Top.
      * Else determine the constant value of the expression if
      * possible, if not return Bottom.
-     *
+     * <p/>
      * <p> If a Phi expression contains Bottom, always return Bottom.
      * Otherwise, if all the constant arguments are the same (ignoring
      * Top and locals) return that constant or Top if no concrete
@@ -93,65 +93,63 @@ public class SEvaluator
      * @see SEvaluator.TopConstant
      * @see SEvaluator.BottomConstant
      **/
-    public static Constant getFuzzyConstantValueOf(Value v)
-    {
-        if(v instanceof Constant)
+    public static Constant getFuzzyConstantValueOf(Value v) {
+        if (v instanceof Constant)
             return (Constant) v;
 
-        if(v instanceof Local)
+        if (v instanceof Local)
             return BottomConstant.v();
 
-        if(!(v instanceof Expr))
+        if (!(v instanceof Expr))
             return BottomConstant.v();
 
         Expr expr = (Expr) v;
         Constant constant = null;
 
-        if(expr instanceof PhiExpr){
+        if (expr instanceof PhiExpr) {
             PhiExpr phi = (PhiExpr) expr;
             Iterator<Value> argsIt = phi.getValues().iterator();
 
-            while(argsIt.hasNext()){
+            while (argsIt.hasNext()) {
                 Value arg = argsIt.next();
-            
-                if(!(arg instanceof Constant))
+
+                if (!(arg instanceof Constant))
                     continue;
 
-                if(arg instanceof TopConstant)
+                if (arg instanceof TopConstant)
                     continue;
 
-                if(constant == null)
+                if (constant == null)
                     constant = (Constant) arg;
-                else if(!constant.equals(arg)){
+                else if (!constant.equals(arg)) {
                     constant = BottomConstant.v();
                     break;
                 }
             }
 
-            if(constant == null)
+            if (constant == null)
                 constant = TopConstant.v();
-        }
-        else{
+        } else {
             Iterator valueBoxesIt = expr.getUseBoxes().iterator();
-            while(valueBoxesIt.hasNext()){
-                Value value = ((ValueBox)valueBoxesIt.next()).getValue();
+            while (valueBoxesIt.hasNext()) {
+                Value value = ((ValueBox) valueBoxesIt.next()).getValue();
 
-                if(value instanceof BottomConstant){
+                if (value instanceof BottomConstant) {
                     constant = BottomConstant.v();
                     break;
                 }
-                
-                if(value instanceof TopConstant)
+
+                if (value instanceof TopConstant)
                     constant = TopConstant.v();
             }
 
-            if(constant == null)
+            if (constant == null)
                 constant = (Constant) getConstantValueOf(expr);
 
-            if(constant == null)
+            if (constant == null)
                 constant = BottomConstant.v();
         }
-        
+
         return constant;
     }
 
@@ -163,15 +161,14 @@ public class SEvaluator
      * @see SEvaluator.TopConstant
      * @see SEvaluator.BottomConstant
      **/
-    public static Constant getFuzzyConstantValueOf(Value v, Map<Local, Constant> localToConstant)
-    {
-        if(v instanceof Constant)
+    public static Constant getFuzzyConstantValueOf(Value v, Map<Local, Constant> localToConstant) {
+        if (v instanceof Constant)
             return (Constant) v;
 
-        if(v instanceof Local)
+        if (v instanceof Local)
             return localToConstant.get(v);
 
-        if(!(v instanceof Expr))
+        if (!(v instanceof Expr))
             return BottomConstant.v();
 
         /* clone expr and update the clone with our assumptions */
@@ -179,78 +176,71 @@ public class SEvaluator
         Expr expr = (Expr) v.clone();
         Iterator useBoxIt = expr.getUseBoxes().iterator();
 
-        while(useBoxIt.hasNext()){
+        while (useBoxIt.hasNext()) {
             ValueBox useBox = (ValueBox) useBoxIt.next();
             Value use = useBox.getValue();
-            if(use instanceof Local){
+            if (use instanceof Local) {
                 Constant constant = localToConstant.get(use);
-                if(useBox.canContainValue(constant))
+                if (useBox.canContainValue(constant))
                     useBox.setValue(constant);
             }
         }
 
         // oops -- clear spurious pointers to the unit chain!
-        if(expr instanceof UnitBoxOwner)
-            ((UnitBoxOwner)expr).clearUnitBoxes();
+        if (expr instanceof UnitBoxOwner)
+            ((UnitBoxOwner) expr).clearUnitBoxes();
         
         /* evaluate the expression */
-        
-        return(getFuzzyConstantValueOf(expr));
+
+        return (getFuzzyConstantValueOf(expr));
     }
 
     /**
      * Head of a new hierarchy of constants -- Top and Bottom.
      **/
-    public static abstract class MetaConstant extends Constant
-    {
+    public static abstract class MetaConstant extends Constant {
     }
-    
+
     /**
      * Top i.e. assumed to be a constant, but of unknown value.
      **/
-    public static class TopConstant extends MetaConstant
-    {
+    public static class TopConstant extends MetaConstant {
         private static final TopConstant constant = new TopConstant();
-        
-        private TopConstant() {}
-        
-        public static Constant v()
-        {
+
+        private TopConstant() {
+        }
+
+        public static Constant v() {
             return constant;
         }
 
-        public Type getType()
-        {
+        public Type getType() {
             return UnknownType.v();
         }
 
-        public void apply(Switch sw)
-        {
+        public void apply(Switch sw) {
             throw new RuntimeException("Not implemented.");
         }
     }
-    
+
     /**
      * Bottom i.e. known not to be a constant.
      **/
-    public static class BottomConstant extends MetaConstant
-    {
+    public static class BottomConstant extends MetaConstant {
         private static final BottomConstant constant = new BottomConstant();
-        
-        private BottomConstant() {}
 
-        public static Constant v()
-        {
+        private BottomConstant() {
+        }
+
+        public static Constant v() {
             return constant;
         }
-        
-        public Type getType()
-        {
-        return UnknownType.v();
+
+        public Type getType() {
+            return UnknownType.v();
         }
-    
-        public void apply(Switch sw)
-        {
+
+        public void apply(Switch sw) {
             throw new RuntimeException("Not implemented.");
         }
     }

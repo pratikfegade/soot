@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TRBracket extends Token
-{
-    public TRBracket()
-    {
+public final class TRBracket extends Token {
+    public TRBracket() {
         super.setText("]");
     }
 
-    public TRBracket(int line, int pos)
-    {
+    public TRBracket(int line, int pos) {
         super.setText("]");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TRBracket(getLine(), getPos());
+    public Object clone() {
+        return new TRBracket(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTRBracket(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TRBracket text.");
     }
 }

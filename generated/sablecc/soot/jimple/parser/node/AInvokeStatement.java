@@ -2,23 +2,20 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AInvokeStatement extends PStatement
-{
+public final class AInvokeStatement extends PStatement {
     private PInvokeExpr _invokeExpr_;
     private TSemicolon _semicolon_;
 
-    public AInvokeStatement()
-    {
+    public AInvokeStatement() {
         // Constructor
     }
 
     public AInvokeStatement(
-        @SuppressWarnings("hiding") PInvokeExpr _invokeExpr_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
-    {
+            @SuppressWarnings("hiding") PInvokeExpr _invokeExpr_,
+            @SuppressWarnings("hiding") TSemicolon _semicolon_) {
         // Constructor
         setInvokeExpr(_invokeExpr_);
 
@@ -27,34 +24,27 @@ public final class AInvokeStatement extends PStatement
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AInvokeStatement(
-            cloneNode(this._invokeExpr_),
-            cloneNode(this._semicolon_));
+                cloneNode(this._invokeExpr_),
+                cloneNode(this._semicolon_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAInvokeStatement(this);
     }
 
-    public PInvokeExpr getInvokeExpr()
-    {
+    public PInvokeExpr getInvokeExpr() {
         return this._invokeExpr_;
     }
 
-    public void setInvokeExpr(PInvokeExpr node)
-    {
-        if(this._invokeExpr_ != null)
-        {
+    public void setInvokeExpr(PInvokeExpr node) {
+        if (this._invokeExpr_ != null) {
             this._invokeExpr_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -64,22 +54,17 @@ public final class AInvokeStatement extends PStatement
         this._invokeExpr_ = node;
     }
 
-    public TSemicolon getSemicolon()
-    {
+    public TSemicolon getSemicolon() {
         return this._semicolon_;
     }
 
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
+    public void setSemicolon(TSemicolon node) {
+        if (this._semicolon_ != null) {
             this._semicolon_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -90,25 +75,21 @@ public final class AInvokeStatement extends PStatement
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._invokeExpr_)
-            + toString(this._semicolon_);
+                + toString(this._invokeExpr_)
+                + toString(this._semicolon_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._invokeExpr_ == child)
-        {
+        if (this._invokeExpr_ == child) {
             this._invokeExpr_ = null;
             return;
         }
 
-        if(this._semicolon_ == child)
-        {
+        if (this._semicolon_ == child) {
             this._semicolon_ = null;
             return;
         }
@@ -117,17 +98,14 @@ public final class AInvokeStatement extends PStatement
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._invokeExpr_ == oldChild)
-        {
+        if (this._invokeExpr_ == oldChild) {
             setInvokeExpr((PInvokeExpr) newChild);
             return;
         }
 
-        if(this._semicolon_ == oldChild)
-        {
+        if (this._semicolon_ == oldChild) {
             setSemicolon((TSemicolon) newChild);
             return;
         }

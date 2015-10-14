@@ -19,21 +19,21 @@ package soot;
  */
 
 
-
-import java.io.File;
-
 import soot.dexpler.DexResolver;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
 
+import java.io.File;
+
 /**
- * Responsible for resolving a single class from a dex source format. 
+ * Responsible for resolving a single class from a dex source format.
  */
 public class DexClassSource extends ClassSource {
     protected File path;
+
     /**
      * @param className the class which dependencies are to be resolved.
-     * @param path to the file that defines the class.
+     * @param path      to the file that defines the class.
      */
     public DexClassSource(String className, File path) {
         super(className);
@@ -47,7 +47,7 @@ public class DexClassSource extends ClassSource {
      * @return Dependencies of class (Strings or Types referenced).
      */
     public Dependencies resolve(SootClass sc) {
-        if(Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("resolving " + className + " from file " + path.getPath());
         return DexResolver.v().resolveFromFile(path, className, sc);
     }

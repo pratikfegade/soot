@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TInterfaceinvoke extends Token
-{
-    public TInterfaceinvoke()
-    {
+public final class TInterfaceinvoke extends Token {
+    public TInterfaceinvoke() {
         super.setText("interfaceinvoke");
     }
 
-    public TInterfaceinvoke(int line, int pos)
-    {
+    public TInterfaceinvoke(int line, int pos) {
         super.setText("interfaceinvoke");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TInterfaceinvoke(getLine(), getPos());
+    public Object clone() {
+        return new TInterfaceinvoke(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTInterfaceinvoke(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TInterfaceinvoke text.");
     }
 }

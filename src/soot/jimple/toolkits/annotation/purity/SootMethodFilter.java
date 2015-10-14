@@ -21,12 +21,13 @@
  * Implementation of the paper "A Combined Pointer and Purity Analysis for
  * Java Programs" by Alexandru Salcianu and Martin Rinard, within the
  * Soot Optimization Framework.
- *
+ * <p/>
  * by Antoine Mine, 2005/01/24
  */
 
 package soot.jimple.toolkits.annotation.purity;
-import soot.*;
+
+import soot.SootMethod;
 
 /**
  * Allows specifying which SootMethod you want to analyse in a
@@ -37,6 +38,6 @@ import soot.*;
  */
 public interface SootMethodFilter {
 
-    public boolean want(SootMethod m);
+    boolean want(SootMethod m);
 
 }

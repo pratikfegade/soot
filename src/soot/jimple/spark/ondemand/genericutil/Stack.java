@@ -22,7 +22,6 @@ import java.util.Collection;
 
 /**
  * @author manu_s
- *
  */
 public final class Stack<T> implements Cloneable {
 
@@ -32,7 +31,7 @@ public final class Stack<T> implements Cloneable {
 
     @SuppressWarnings("unchecked")
     public Stack(int numElems_) {
-        elems = (T[])new Object[numElems_];
+        elems = (T[]) new Object[numElems_];
     }
 
     public Stack() {
@@ -45,67 +44,69 @@ public final class Stack<T> implements Cloneable {
         if (size == elems.length) {
             // lengthen array
             Object[] tmp = elems;
-            elems = (T[])new Object[tmp.length * 2];
+            elems = (T[]) new Object[tmp.length * 2];
             System.arraycopy(tmp, 0, elems, 0, tmp.length);
         }
         elems[size] = obj_;
         size++;
     }
-    
+
     public void pushAll(Collection<T> c) {
-    	for (T t : c) {
-			push(t);
-		}
+        for (T t : c) {
+            push(t);
+        }
     }
+
     public T pop() {
-    	if (size == 0) return null;
-    	size--;
-    	T ret =  elems[size];
-    	elems[size] = null;
-    	return ret;
+        if (size == 0) return null;
+        size--;
+        T ret = elems[size];
+        elems[size] = null;
+        return ret;
     }
 
     public T peek() {
-    	if (size == 0) return null;
-    	return elems[size - 1];
+        if (size == 0) return null;
+        return elems[size - 1];
     }
-    
+
     public int size() {
-    	return size;
+        return size;
     }
-    
+
     public boolean isEmpty() {
-    	return size == 0;
+        return size == 0;
     }
-    
+
     public void clear() {
-    	size = 0;
+        size = 0;
     }
 
     @SuppressWarnings("unchecked")
     public Stack<T> clone() {
-    	Stack<T> ret = null;
-		try {
-			ret = (Stack<T>)super.clone();
-			ret.elems = (T[])new Object[elems.length];
-			System.arraycopy(elems, 0, ret.elems, 0, size);
-			return ret;
-		} catch (CloneNotSupportedException e) {
-			// should not happen
-			throw new InternalError();
-		}
+        Stack<T> ret = null;
+        try {
+            ret = (Stack<T>) super.clone();
+            ret.elems = (T[]) new Object[elems.length];
+            System.arraycopy(elems, 0, ret.elems, 0, size);
+            return ret;
+        } catch (CloneNotSupportedException e) {
+            // should not happen
+            throw new InternalError();
+        }
     }
-    
+
     public Object get(int i) {
-    	return elems[i];
+        return elems[i];
     }
-    
+
     public boolean contains(Object o) {
         return Util.arrayContains(elems, o, size);
     }
-    
+
     /**
      * returns first index
+     *
      * @param o
      * @return
      */
@@ -115,14 +116,15 @@ public final class Stack<T> implements Cloneable {
         }
         return -1;
     }
+
     public String toString() {
-    	StringBuffer s = new StringBuffer();
-		s.append("[");
-		for (int i=0; i<size && elems[i] != null; i++) {
-		    if (i>0) s.append(", ");
-		    s.append(elems[i].toString());
-		}
-		s.append("]");
-		return s.toString();
+        StringBuffer s = new StringBuffer();
+        s.append("[");
+        for (int i = 0; i < size && elems[i] != null; i++) {
+            if (i > 0) s.append(", ");
+            s.append(elems[i].toString());
+        }
+        s.append("]");
+        return s.toString();
     }
 }

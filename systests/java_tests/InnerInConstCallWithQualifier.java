@@ -1,19 +1,20 @@
 public class InnerInConstCallWithQualifier {
 
-    public static void main(String [] args){
+    public InnerInConstCallWithQualifier() {
+        this(new QualifierClass().new QInner() {
+            public void run() {
+            }
+        });
+    }
+
+    public InnerInConstCallWithQualifier(Object r) {
+    }
+
+    public static void main(String[] args) {
         new InnerInConstCallWithQualifier().go();
     }
-    
-    public InnerInConstCallWithQualifier(){
-        this(new QualifierClass().new QInner() {
-            public void run(){
-            }});
-    }
 
-    public InnerInConstCallWithQualifier(Object r){
-    }
-
-    private void go(){
+    private void go() {
         System.out.println("running go");
     }
 }
@@ -21,8 +22,8 @@ public class InnerInConstCallWithQualifier {
 class QualifierClass {
 
     public class QInner {
-        public void run(){
-        
+        public void run() {
+
         }
     }
 }

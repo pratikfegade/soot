@@ -18,9 +18,6 @@
  */
 
 package soot.jimple.toolkits.annotation;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import soot.Body;
 import soot.BodyTransformer;
@@ -31,27 +28,35 @@ import soot.tagkit.LinkTag;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.MHGDominatorsFinder;
 
-/** A body transformer that records avail expression 
- * information in tags.  - both pessimistic and optimistic options*/
-public class DominatorsTagger extends BodyTransformer
-{ 
-	public DominatorsTagger( Singletons.Global g ) {}
-    public static DominatorsTagger v() { return G.v().soot_jimple_toolkits_annotation_DominatorsTagger(); }
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * A body transformer that records avail expression
+ * information in tags.  - both pessimistic and optimistic options
+ */
+public class DominatorsTagger extends BodyTransformer {
+    public DominatorsTagger(Singletons.Global g) {
+    }
+
+    public static DominatorsTagger v() {
+        return G.v().soot_jimple_toolkits_annotation_DominatorsTagger();
+    }
 
     protected void internalTransform(
-            Body b, String phaseName, Map opts)
-    {
+            Body b, String phaseName, Map opts) {
 
-       
+
         MHGDominatorsFinder analysis = new MHGDominatorsFinder(new ExceptionalUnitGraph(b));
         Iterator it = b.getUnits().iterator();
-        while (it.hasNext()){
-            Stmt s = (Stmt)it.next();
+        while (it.hasNext()) {
+            Stmt s = (Stmt) it.next();
             List dominators = analysis.getDominators(s);
             Iterator dIt = dominators.iterator();
-            while (dIt.hasNext()){
-                Stmt ds = (Stmt)dIt.next();
-                String info = ds+" dominates "+s;
+            while (dIt.hasNext()) {
+                Stmt ds = (Stmt) dIt.next();
+                String info = ds + " dominates " + s;
                 s.addTag(new LinkTag(info, ds, b.getMethod().getDeclaringClass().getName(), "Dominators"));
             }
         }

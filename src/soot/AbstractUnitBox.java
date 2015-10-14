@@ -24,49 +24,42 @@
  */
 
 
-
-
-
 package soot;
 
-/** Reference implementation for UnitBox; just
- * add a canContainUnit method. */
+/**
+ * Reference implementation for UnitBox; just
+ * add a canContainUnit method.
+ */
 @SuppressWarnings("serial")
-public abstract class AbstractUnitBox implements UnitBox
-{
+public abstract class AbstractUnitBox implements UnitBox {
     protected Unit unit;
 
     public abstract boolean canContainUnit(Unit u);
 
-    public boolean isBranchTarget()
-    {
+    public boolean isBranchTarget() {
         return true;
     }
-    
-    public void setUnit(Unit unit)
-    {
-        if(!canContainUnit(unit))
-            throw new RuntimeException("attempting to put invalid unit in UnitBox");
-            
-        // Remove this from set of back pointers.
-            if(this.unit != null)
-            {
-                this.unit.removeBoxPointingToThis(this);
-            }
 
-        // Perform link
-            this.unit = unit;
-
-        // Add this to back pointers
-            if(this.unit != null)
-            {
-                this.unit.addBoxPointingToThis(this);
-            }
+    public Unit getUnit() {
+        return unit;
     }
 
-    public Unit getUnit()
-    {
-        return unit;
+    public void setUnit(Unit unit) {
+        if (!canContainUnit(unit))
+            throw new RuntimeException("attempting to put invalid unit in UnitBox");
+
+        // Remove this from set of back pointers.
+        if (this.unit != null) {
+            this.unit.removeBoxPointingToThis(this);
+        }
+
+        // Perform link
+        this.unit = unit;
+
+        // Add this to back pointers
+        if (this.unit != null) {
+            this.unit.addBoxPointingToThis(this);
+        }
     }
 
     public void toString(UnitPrinter up) {

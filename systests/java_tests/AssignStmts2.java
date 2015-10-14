@@ -1,8 +1,9 @@
 public class AssignStmts2 {
 
     int x = 0;
-    public static void main(String [] args) {
-    
+
+    public static void main(String[] args) {
+
 
         int i = 8;
         int j = 9;
@@ -35,8 +36,8 @@ public class AssignStmts2 {
         System.out.println(i);
         i ^= j;
         System.out.println(i);
-            
-        AssignStmts2 as = new AssignStmts2(); 
+
+        AssignStmts2 as = new AssignStmts2();
         as.run();
     }
 

@@ -24,23 +24,12 @@ import soot.jimple.spark.pag.SparkField;
 
 /**
  * for hacking around with stuff
- * 
+ *
  * @author manu
- * 
  */
 public class ManualFieldCheckHeuristic implements FieldCheckHeuristic {
 
-    private boolean allNotBothEnds = false;
-
-    public boolean runNewPass() {
-        if (!allNotBothEnds) {
-            allNotBothEnds = true;
-            return true;
-        }
-        return false;
-    }
-
-    private static final String[] importantTypes = new String[] {
+    private static final String[] importantTypes = new String[]{
 //            "ca.mcgill.sable.util.ArrayList",
 //            "ca.mcgill.sable.util.ArrayList$ArrayIterator",
 //            "ca.mcgill.sable.util.AbstractList$AbstractListIterator",
@@ -52,10 +41,18 @@ public class ManualFieldCheckHeuristic implements FieldCheckHeuristic {
 //            "ca.mcgill.sable.util.LinkedList$LinkedListIterator",
 //            "ca.mcgill.sable.util.LinkedList$Node",
             /*"ca.mcgill.sable.soot.TrustingMonotonicArraySet",*/ "java.util.Vector$1",
-            "java.util.ArrayList", };
+            "java.util.ArrayList",};
+    private static final String[] notBothEndsTypes = new String[]{
+            "java.util.Hashtable$Entry", "java.util.LinkedList$Entry", /*"ca.mcgill.sable.util.LinkedList$Node"*/};
+    private boolean allNotBothEnds = false;
 
-    private static final String[] notBothEndsTypes = new String[] {
-            "java.util.Hashtable$Entry", "java.util.LinkedList$Entry", /*"ca.mcgill.sable.util.LinkedList$Node"*/ };
+    public boolean runNewPass() {
+        if (!allNotBothEnds) {
+            allNotBothEnds = true;
+            return true;
+        }
+        return false;
+    }
 
     public boolean validateMatchesForField(SparkField field) {
         if (field instanceof ArrayElement) {

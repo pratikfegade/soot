@@ -24,53 +24,46 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.AbstractJasminClass;
+import soot.Type;
+import soot.baf.InstSwitch;
+import soot.baf.NegInst;
+import soot.util.Switch;
 
-public class BNegInst extends AbstractOpTypeInst implements NegInst
-{
-    public BNegInst(Type opType)
-    {
+public class BNegInst extends AbstractOpTypeInst implements NegInst {
+    public BNegInst(Type opType) {
         super(opType);
     }
-  
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 1;
     }
 
-    public int getOutCount()
-    {
+    public int getOutCount() {
         return 1;
     }
-  
-    public Object clone() 
-    {
-        return new  BNegInst(getOpType());
+
+    public Object clone() {
+        return new BNegInst(getOpType());
     }
-  
-    public int getInMachineCount()
-    {
+
+    public int getInMachineCount() {
         return AbstractJasminClass.sizeOfType(getOpType());
     }
-    
 
-    public int getOutMachineCount()
-    {
+
+    public int getOutMachineCount() {
         return AbstractJasminClass.sizeOfType(getOpType());
     }
-       
-    public final String getName() { return "neg"; }
 
-    public void apply(Switch sw)
-    {
+    public final String getName() {
+        return "neg";
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseNegInst(this);
-    }   
+    }
 }
 

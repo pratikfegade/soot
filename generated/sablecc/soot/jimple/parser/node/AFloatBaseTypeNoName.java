@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AFloatBaseTypeNoName extends PBaseTypeNoName
-{
+public final class AFloatBaseTypeNoName extends PBaseTypeNoName {
     private TFloat _float_;
 
-    public AFloatBaseTypeNoName()
-    {
+    public AFloatBaseTypeNoName() {
         // Constructor
     }
 
     public AFloatBaseTypeNoName(
-        @SuppressWarnings("hiding") TFloat _float_)
-    {
+            @SuppressWarnings("hiding") TFloat _float_) {
         // Constructor
         setFloat(_float_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFloatBaseTypeNoName(
-            cloneNode(this._float_));
+                cloneNode(this._float_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFloatBaseTypeNoName(this);
     }
 
-    public TFloat getFloat()
-    {
+    public TFloat getFloat() {
         return this._float_;
     }
 
-    public void setFloat(TFloat node)
-    {
-        if(this._float_ != null)
-        {
+    public void setFloat(TFloat node) {
+        if (this._float_ != null) {
             this._float_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AFloatBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._float_);
+                + toString(this._float_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._float_ == child)
-        {
+        if (this._float_ == child) {
             this._float_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AFloatBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._float_ == oldChild)
-        {
+        if (this._float_ == oldChild) {
             setFloat((TFloat) newChild);
             return;
         }

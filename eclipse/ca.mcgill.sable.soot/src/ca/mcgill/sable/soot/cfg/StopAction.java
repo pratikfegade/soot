@@ -19,41 +19,37 @@
 
 package ca.mcgill.sable.soot.cfg;
 
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.*;
+import ca.mcgill.sable.graph.actions.SimpleSelectAction;
+import ca.mcgill.sable.soot.cfg.editParts.NodeDataEditPart;
 import org.eclipse.gef.ui.actions.*;
-
-import ca.mcgill.sable.graph.actions.*;
-import ca.mcgill.sable.soot.cfg.editParts.*;
+import org.eclipse.jface.action.*;
+import org.eclipse.ui.*;
 
 
 public class StopAction extends SimpleSelectAction {
 
-	public static final String STOP = "mark stop action";
-	
+    public static final String STOP = "mark stop action";
 
-	public StopAction(IWorkbenchPart part) {
-		super(part);
-	}
 
-	
+    public StopAction(IWorkbenchPart part) {
+        super(part);
+    }
 
-	
-	protected void init(){
-		super.init();
-		setId(STOP);
-		setText("Add Breakpoint");
-	}
 
-	public void run(){
-		if (!getSelectedObjects().isEmpty() && (getSelectedObjects().get(0) instanceof NodeDataEditPart)){
-			NodeDataEditPart cfgPart = (NodeDataEditPart)getSelectedObjects().get(0);
-			cfgPart.markStop();
-		}
-	}
-	
-	public boolean calculateEnabled(){
-		return true;
-	}
+    protected void init() {
+        super.init();
+        setId(STOP);
+        setText("Add Breakpoint");
+    }
+
+    public void run() {
+        if (!getSelectedObjects().isEmpty() && (getSelectedObjects().get(0) instanceof NodeDataEditPart)) {
+            NodeDataEditPart cfgPart = (NodeDataEditPart) getSelectedObjects().get(0);
+            cfgPart.markStop();
+        }
+    }
+
+    public boolean calculateEnabled() {
+        return true;
+    }
 }

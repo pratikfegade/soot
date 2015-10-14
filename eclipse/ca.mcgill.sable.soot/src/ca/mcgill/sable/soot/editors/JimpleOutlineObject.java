@@ -20,119 +20,117 @@
 
 package ca.mcgill.sable.soot.editors;
 
-import java.util.*;
+import java.util.BitSet;
+import java.util.Vector;
 
 public class JimpleOutlineObject {
 
-	private Vector children;
-	private String label;
-	private JimpleOutlineObject parent;
-	private int type;
-	private BitSet decorators;
-	
-	public static final int NONE = 100;
-	public static final int CLASS = 10;
-	public static final int INTERFACE = 11;
-	public static final int METHOD = 1;
-	public static final int PUBLIC_METHOD = 2;
-	public static final int PRIVATE_METHOD = 3;
-	public static final int PROTECTED_METHOD = 4;
-	public static final int NONE_METHOD = 30;
-	public static final int FIELD = 5;
-	public static final int PUBLIC_FIELD = 6;
-	public static final int PRIVATE_FIELD = 7;
-	public static final int PROTECTED_FIELD = 8;
-	public static final int NONE_FIELD = 31;
-	
-	public static final int FINAL_DEC = 20;
-	public static final int STATIC_DEC = 21;
-	public static final int SYNCHRONIZED_DEC = 22;
-	public static final int ABSTRACT_DEC = 23;
-	
-	public JimpleOutlineObject(String label, int type, BitSet dec){
-		setLabel(label);	
-		setType(type);
-		setDecorators(dec);
-	}
-	
-	public void addChild(JimpleOutlineObject t) {
-		if (getChildren() == null) {
-			setChildren(new Vector());
-		}
-		t.setParent(this);
-		getChildren().add(t);
-	}
-	
-	/**
-	 * @return
-	 */
-	public Vector getChildren() {
-		return children;
-	}
+    public static final int NONE = 100;
+    public static final int CLASS = 10;
+    public static final int INTERFACE = 11;
+    public static final int METHOD = 1;
+    public static final int PUBLIC_METHOD = 2;
+    public static final int PRIVATE_METHOD = 3;
+    public static final int PROTECTED_METHOD = 4;
+    public static final int NONE_METHOD = 30;
+    public static final int FIELD = 5;
+    public static final int PUBLIC_FIELD = 6;
+    public static final int PRIVATE_FIELD = 7;
+    public static final int PROTECTED_FIELD = 8;
+    public static final int NONE_FIELD = 31;
+    public static final int FINAL_DEC = 20;
+    public static final int STATIC_DEC = 21;
+    public static final int SYNCHRONIZED_DEC = 22;
+    public static final int ABSTRACT_DEC = 23;
+    private Vector children;
+    private String label;
+    private JimpleOutlineObject parent;
+    private int type;
+    private BitSet decorators;
 
-	/**
-	 * @return
-	 */
-	public String getLabel() {
-		return label;
-	}
+    public JimpleOutlineObject(String label, int type, BitSet dec) {
+        setLabel(label);
+        setType(type);
+        setDecorators(dec);
+    }
 
-	/**
-	 * @return
-	 */
-	public JimpleOutlineObject getParent() {
-		return parent;
-	}
+    public void addChild(JimpleOutlineObject t) {
+        if (getChildren() == null) {
+            setChildren(new Vector());
+        }
+        t.setParent(this);
+        getChildren().add(t);
+    }
 
-	/**
-	 * @param vector
-	 */
-	public void setChildren(Vector vector) {
-		children = vector;
-	}
+    /**
+     * @return
+     */
+    public Vector getChildren() {
+        return children;
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setLabel(String string) {
-		label = string;
-	}
+    /**
+     * @param vector
+     */
+    public void setChildren(Vector vector) {
+        children = vector;
+    }
 
-	/**
-	 * @param object
-	 */
-	public void setParent(JimpleOutlineObject object) {
-		parent = object;
-	}
+    /**
+     * @return
+     */
+    public String getLabel() {
+        return label;
+    }
 
-	/**
-	 * @return
-	 */
-	public int getType() {
-		return type;
-	}
+    /**
+     * @param string
+     */
+    public void setLabel(String string) {
+        label = string;
+    }
 
-	/**
-	 * @param i
-	 */
-	public void setType(int i) {
-		type = i;
-	}
+    /**
+     * @return
+     */
+    public JimpleOutlineObject getParent() {
+        return parent;
+    }
+
+    /**
+     * @param object
+     */
+    public void setParent(JimpleOutlineObject object) {
+        parent = object;
+    }
+
+    /**
+     * @return
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * @param i
+     */
+    public void setType(int i) {
+        type = i;
+    }
 
 
+    /**
+     * @return
+     */
+    public BitSet getDecorators() {
+        return decorators;
+    }
 
-	/**
-	 * @return
-	 */
-	public BitSet getDecorators() {
-		return decorators;
-	}
-
-	/**
-	 * @param list
-	 */
-	public void setDecorators(BitSet list) {
-		decorators = list;
-	}
+    /**
+     * @param list
+     */
+    public void setDecorators(BitSet list) {
+        decorators = list;
+    }
 
 }

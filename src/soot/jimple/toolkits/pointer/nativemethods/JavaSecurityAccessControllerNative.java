@@ -26,68 +26,73 @@
 
 package soot.jimple.toolkits.pointer.nativemethods;
 
-import soot.*;
-import soot.jimple.toolkits.pointer.representations.*;
-import soot.jimple.toolkits.pointer.util.*;
+import soot.SootMethod;
+import soot.jimple.toolkits.pointer.representations.Environment;
+import soot.jimple.toolkits.pointer.representations.ReferenceVariable;
+import soot.jimple.toolkits.pointer.util.NativeHelper;
 
 public class JavaSecurityAccessControllerNative extends NativeMethodClass {
-    public JavaSecurityAccessControllerNative( NativeHelper helper ) { super(helper); }
-
-  /**
-   * Implements the abstract method simulateMethod.
-   * It distributes the request to the corresponding methods 
-   * by signatures.
-   */
-  public void simulateMethod(SootMethod method,
-			     ReferenceVariable thisVar,
-			     ReferenceVariable returnVar,
-			     ReferenceVariable params[]){
-
-    String subSignature = method.getSubSignature();
-
-    if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedAction)")){
-      java_security_AccessController_doPrivileged(method, thisVar, 
-						  returnVar, params);
-      return;
-
-    } else if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)")){
-      java_security_AccessController_doPrivileged(method, thisVar, 
-						  returnVar, params);
-      return;
-
-    } else if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)")){
-      java_security_AccessController_doPrivileged(method, thisVar, 
-						  returnVar, params);
-      return;
-
-    } else if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)")){
-      java_security_AccessController_doPrivileged(method, thisVar, 
-						  returnVar, params);
-      return;
-
-    } else if (subSignature.equals("java.security.AccessControlContext getStackAccessControlContext()")){
-      java_security_AccessController_getStackAccessControlContext(method,
-								  thisVar,
-								  returnVar,
-								  params);
-      return;
-
-    } else if (subSignature.equals("java.security.AccessControlContext getInheritedAccessControlContext()")){
-      java_security_AccessController_getInheritedAccessControlContext(
-					        method,
-						thisVar,
-						returnVar,
-						params);
-      return;
-
-    } else {
-      defaultMethod(method, thisVar, returnVar, params);
-      return;
-
+    public JavaSecurityAccessControllerNative(NativeHelper helper) {
+        super(helper);
     }
-  }
 
-  /************************ java.security.AccessController ************/
+    /**
+     * Implements the abstract method simulateMethod.
+     * It distributes the request to the corresponding methods
+     * by signatures.
+     */
+    public void simulateMethod(SootMethod method,
+                               ReferenceVariable thisVar,
+                               ReferenceVariable returnVar,
+                               ReferenceVariable params[]) {
+
+        String subSignature = method.getSubSignature();
+
+        if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedAction)")) {
+            java_security_AccessController_doPrivileged(method, thisVar,
+                    returnVar, params);
+            return;
+
+        } else if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction)")) {
+            java_security_AccessController_doPrivileged(method, thisVar,
+                    returnVar, params);
+            return;
+
+        } else if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedAction,java.security.AccessControlContext)")) {
+            java_security_AccessController_doPrivileged(method, thisVar,
+                    returnVar, params);
+            return;
+
+        } else if (subSignature.equals("java.lang.Object doPrivileged(java.security.PrivilegedExceptionAction,java.security.AccessControlContext)")) {
+            java_security_AccessController_doPrivileged(method, thisVar,
+                    returnVar, params);
+            return;
+
+        } else if (subSignature.equals("java.security.AccessControlContext getStackAccessControlContext()")) {
+            java_security_AccessController_getStackAccessControlContext(method,
+                    thisVar,
+                    returnVar,
+                    params);
+            return;
+
+        } else if (subSignature.equals("java.security.AccessControlContext getInheritedAccessControlContext()")) {
+            java_security_AccessController_getInheritedAccessControlContext(
+                    method,
+                    thisVar,
+                    returnVar,
+                    params);
+            return;
+
+        } else {
+            defaultMethod(method, thisVar, returnVar, params);
+            return;
+
+        }
+    }
+
+    /************************
+     * java.security.AccessController
+     ************/
   /* The return value of doPrivileged depends on the implementation.
    * 
    * public static native 
@@ -106,46 +111,43 @@ public class JavaSecurityAccessControllerNative extends NativeMethodClass {
    *                                 java.security.AccessControlContext) 
    *                    throws java.security.PrivilegedActionException;
    */
-  public 
-    void java_security_AccessController_doPrivileged(
-				 SootMethod method,
-				 ReferenceVariable thisVar,
-				 ReferenceVariable returnVar,
-				 ReferenceVariable params[]){
-    // No longer necessary since Spark handles it itself in a more precise
-    // way.
-    //helper.assignObjectTo(returnVar, Environment.v().getLeastObject());
-    helper.throwException(Environment.v().getPrivilegedActionExceptionObject());
-  }
+    public void java_security_AccessController_doPrivileged(
+            SootMethod method,
+            ReferenceVariable thisVar,
+            ReferenceVariable returnVar,
+            ReferenceVariable params[]) {
+        // No longer necessary since Spark handles it itself in a more precise
+        // way.
+        //helper.assignObjectTo(returnVar, Environment.v().getLeastObject());
+        helper.throwException(Environment.v().getPrivilegedActionExceptionObject());
+    }
 
-  /**
-   * Creates an access control context object.
-   *
-   * private static native 
-   *   java.security.AccessControlContext getStackAccessControlContext();
-   */
-  public 
-    void java_security_AccessController_getStackAccessControlContext(
-					    SootMethod method,
-					    ReferenceVariable thisVar,
-					    ReferenceVariable returnVar,
-					    ReferenceVariable params[]){
-    helper.assignObjectTo(returnVar, Environment.v().getLeastObject());
-  }
+    /**
+     * Creates an access control context object.
+     * <p/>
+     * private static native
+     * java.security.AccessControlContext getStackAccessControlContext();
+     */
+    public void java_security_AccessController_getStackAccessControlContext(
+            SootMethod method,
+            ReferenceVariable thisVar,
+            ReferenceVariable returnVar,
+            ReferenceVariable params[]) {
+        helper.assignObjectTo(returnVar, Environment.v().getLeastObject());
+    }
 
 
-  /**
-   * NOTE: not documented and not called by anyone
-   *
-   * static native 
-   *   java.security.AccessControlContext getInheritedAccessControlContext();
-   */
-  public 
-    void java_security_AccessController_getInheritedAccessControlContext(
-					   SootMethod method,
-					   ReferenceVariable thisVar,
-					   ReferenceVariable returnVar,
-					   ReferenceVariable params[]){
-    helper.assignObjectTo(returnVar, Environment.v().getLeastObject());
-  }
+    /**
+     * NOTE: not documented and not called by anyone
+     * <p/>
+     * static native
+     * java.security.AccessControlContext getInheritedAccessControlContext();
+     */
+    public void java_security_AccessController_getInheritedAccessControlContext(
+            SootMethod method,
+            ReferenceVariable thisVar,
+            ReferenceVariable returnVar,
+            ReferenceVariable params[]) {
+        helper.assignObjectTo(returnVar, Environment.v().getLeastObject());
+    }
 }

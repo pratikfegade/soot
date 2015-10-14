@@ -27,67 +27,64 @@
 
 package soot.jimple.internal;
 
-import soot.*;
+import soot.SootMethodRef;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.util.Switch;
 
-import java.util.*;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public abstract class AbstractVirtualInvokeExpr extends AbstractInstanceInvokeExpr
-  implements VirtualInvokeExpr, ConvertToBaf                                               
-{
+        implements VirtualInvokeExpr, ConvertToBaf {
     protected AbstractVirtualInvokeExpr(ValueBox baseBox, SootMethodRef methodRef,
-                                ValueBox[] argBoxes)
-    {
-    	super(methodRef, baseBox, argBoxes); 
-    	if( methodRef.isStatic() ) throw new RuntimeException("wrong static-ness");
+                                        ValueBox[] argBoxes) {
+        super(methodRef, baseBox, argBoxes);
+        if (methodRef.isStatic()) throw new RuntimeException("wrong static-ness");
     }
 
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof AbstractVirtualInvokeExpr)
-        {
-            AbstractVirtualInvokeExpr ie = (AbstractVirtualInvokeExpr)o;
+    public boolean equivTo(Object o) {
+        if (o instanceof AbstractVirtualInvokeExpr) {
+            AbstractVirtualInvokeExpr ie = (AbstractVirtualInvokeExpr) o;
             if (!(baseBox.getValue().equivTo(ie.baseBox.getValue()) &&
-                    getMethod().equals(ie.getMethod()) && 
+                    getMethod().equals(ie.getMethod()) &&
                     argBoxes.length == ie.argBoxes.length))
                 return false;
-            for(int i=0; i< argBoxes.length; i++){
-          	  if(!(argBoxes[i]).getValue().equivTo(ie.argBoxes[i].getValue()))
-          	    return false;
-          	}
+            for (int i = 0; i < argBoxes.length; i++) {
+                if (!(argBoxes[i]).getValue().equivTo(ie.argBoxes[i].getValue()))
+                    return false;
+            }
             return true;
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return baseBox.getValue().equivHashCode() * 101 + getMethod().equivHashCode() * 17;
     }
 
     public abstract Object clone();
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ExprSwitch) sw).caseVirtualInvokeExpr(this);
     }
-    
-    public String toString()
-    {
+
+    public String toString() {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append(Jimple.VIRTUALINVOKE + " " + baseBox.getValue().toString() +
-            "." + methodRef.getSignature() + "(");
+                "." + methodRef.getSignature() + "(");
 
-        for(int i = 0; i < argBoxes.length; i++)
-        {
-            if(i != 0)
+        for (int i = 0; i < argBoxes.length; i++) {
+            if (i != 0)
                 buffer.append(", ");
-                        
+
             buffer.append(argBoxes[i].getValue().toString());
         }
 
@@ -96,36 +93,33 @@ public abstract class AbstractVirtualInvokeExpr extends AbstractInstanceInvokeEx
         return buffer.toString();
     }
 
-    public void toString(UnitPrinter up)
-    {
+    public void toString(UnitPrinter up) {
         up.literal(Jimple.VIRTUALINVOKE);
         up.literal(" ");
         baseBox.toString(up);
         up.literal(".");
         up.methodRef(methodRef);
         up.literal("(");
-        
-        for(int i = 0; i < argBoxes.length; i++)
-        {
-            if(i != 0)
+
+        for (int i = 0; i < argBoxes.length; i++) {
+            if (i != 0)
                 up.literal(", ");
-                                        
+
             argBoxes[i].toString(up);
         }
 
         up.literal(")");
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-       ((ConvertToBaf)(getBase())).convertToBaf(context, out);
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getBase())).convertToBaf(context, out);
 
-       for (ValueBox element : argBoxes) {
-	    ((ConvertToBaf)(element.getValue())).convertToBaf(context, out);
-	}
+        for (ValueBox element : argBoxes) {
+            ((ConvertToBaf) (element.getValue())).convertToBaf(context, out);
+        }
 
-       Unit u = Baf.v().newVirtualInvokeInst(methodRef);
-       out.add(u);
-       u.addAllTagsOf(context.getCurrentUnit());
+        Unit u = Baf.v().newVirtualInvokeInst(methodRef);
+        out.add(u);
+        u.addAllTagsOf(context.getCurrentUnit());
     }
 }

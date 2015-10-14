@@ -26,20 +26,20 @@
 package soot.tagkit;
 
 
-/** Represents a tag that just has a string to be printed with the code.
+/**
+ * Represents a tag that just has a string to be printed with the code.
  */
 
-public class StringTag implements  Tag
-{
+public class StringTag implements Tag {
     String s;
     private String analysisType = "Unknown";
 
-    public StringTag(String s, String type){
+    public StringTag(String s, String type) {
         this(s);
         analysisType = type;
     }
-    
-    public StringTag( String s ) {
+
+    public StringTag(String s) {
         this.s = s;
     }
 
@@ -47,22 +47,26 @@ public class StringTag implements  Tag
         return s;
     }
 
-    public String getAnalysisType(){
+    public String getAnalysisType() {
         return analysisType;
     }
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "StringTag";
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return s;
     }
-    
-    /** Returns the tag raw data. */
+
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "StringTag has no value for bytecode" );
+        throw new RuntimeException("StringTag has no value for bytecode");
     }
 }
 

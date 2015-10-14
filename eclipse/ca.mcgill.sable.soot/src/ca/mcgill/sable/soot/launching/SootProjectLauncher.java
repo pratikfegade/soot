@@ -19,97 +19,96 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.*;
-
 import org.eclipse.jdt.core.*;
 import org.eclipse.jface.action.*;
+
+import java.util.ArrayList;
 
 /**
  * Handles launching Soot on project.
  */
 public class SootProjectLauncher extends SootLauncher {
 
-	private String process_path;
-	private ArrayList javaProcessPath;
-	private String classpathAppend = null;
-	
-	public void run(IAction action) {
-		super.run(action);
-		classpathAppend = null;
-		try {
-			setProcess_path(platform_location+getSootSelection().getJavaProject().getOutputLocation().toOSString());
-			IPackageFragmentRoot [] roots = getSootSelection().getJavaProject().getAllPackageFragmentRoots();
-			
-			for (int i = 0; i < roots.length; i++){
-				if (!roots[i].isArchive() && roots[i].getKind() == IPackageFragmentRoot.K_SOURCE){
-				
-					String next = platform_location+roots[i].getPath();
-					
-					if (getJavaProcessPath() == null){
-						setJavaProcessPath(new ArrayList());
-					}
-					
-					getJavaProcessPath().add(next);
-				}
-			}
-			
-			addJars();
-		}
-		catch(Exception e1) {
-			System.out.println(e1.getMessage());
-		}
-	}
-	
-	/**
-	 * Sets the classpathAppend.
-	 * @param classpathAppend The classpathAppend to set
-	 */
-	public void setClasspathAppend(String ca) {
-		if (this.classpathAppend == null){
-			this.classpathAppend = ca;
-		}
-		else {
-			this.classpathAppend = this.classpathAppend+getSootClasspath().getSeparator()+ca;
-		}
-	}
+    private String process_path;
+    private ArrayList javaProcessPath;
+    private String classpathAppend = null;
 
+    public void run(IAction action) {
+        super.run(action);
+        classpathAppend = null;
+        try {
+            setProcess_path(platform_location + getSootSelection().getJavaProject().getOutputLocation().toOSString());
+            IPackageFragmentRoot[] roots = getSootSelection().getJavaProject().getAllPackageFragmentRoots();
 
-	/**
-	 * Returns the process_path.
-	 * @return String
-	 */
-	public String getProcess_path() {
-		return process_path;
-	}
+            for (int i = 0; i < roots.length; i++) {
+                if (!roots[i].isArchive() && roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
 
+                    String next = platform_location + roots[i].getPath();
 
-	/**
-	 * Sets the process_path.
-	 * @param process_path The process_path to set
-	 */
-	public void setProcess_path(String process_path) {
-		this.process_path = process_path;
-	}
+                    if (getJavaProcessPath() == null) {
+                        setJavaProcessPath(new ArrayList());
+                    }
 
-	/**
-	 * @return
-	 */
-	public String getClasspathAppend() {
-		return getSootClasspath().getSootClasspath() + getSootClasspath().getSeparator() + classpathAppend;
-	}
+                    getJavaProcessPath().add(next);
+                }
+            }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getJavaProcessPath() {
-		return javaProcessPath;
-	}
+            addJars();
+        } catch (Exception e1) {
+            System.out.println(e1.getMessage());
+        }
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setJavaProcessPath(ArrayList list) {
-		javaProcessPath = list;
-	}
+    /**
+     * Returns the process_path.
+     *
+     * @return String
+     */
+    public String getProcess_path() {
+        return process_path;
+    }
+
+    /**
+     * Sets the process_path.
+     *
+     * @param process_path The process_path to set
+     */
+    public void setProcess_path(String process_path) {
+        this.process_path = process_path;
+    }
+
+    /**
+     * @return
+     */
+    public String getClasspathAppend() {
+        return getSootClasspath().getSootClasspath() + getSootClasspath().getSeparator() + classpathAppend;
+    }
+
+    /**
+     * Sets the classpathAppend.
+     *
+     * @param classpathAppend The classpathAppend to set
+     */
+    public void setClasspathAppend(String ca) {
+        if (this.classpathAppend == null) {
+            this.classpathAppend = ca;
+        } else {
+            this.classpathAppend = this.classpathAppend + getSootClasspath().getSeparator() + ca;
+        }
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getJavaProcessPath() {
+        return javaProcessPath;
+    }
+
+    /**
+     * @param string
+     */
+    public void setJavaProcessPath(ArrayList list) {
+        javaProcessPath = list;
+    }
 
 }

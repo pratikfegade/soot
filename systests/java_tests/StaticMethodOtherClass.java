@@ -1,11 +1,12 @@
-class OtherClass{
-    public static void run(){
+class OtherClass {
+    public static void run() {
     }
 }
+
 public class StaticMethodOtherClass {
 
-    public static void main(String [] args){
-    
+    public static void main(String[] args) {
+
         OtherClass.run();
     }
 }

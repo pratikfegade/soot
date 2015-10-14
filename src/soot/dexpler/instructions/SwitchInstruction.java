@@ -27,7 +27,6 @@ package soot.dexpler.instructions;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OffsetInstruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
-
 import soot.Local;
 import soot.Unit;
 import soot.dexpler.DexBody;
@@ -37,13 +36,12 @@ import soot.jimple.Stmt;
 public abstract class SwitchInstruction extends PseudoInstruction implements DeferableInstruction {
     protected Unit markerUnit;
 
-    public SwitchInstruction (Instruction instruction, int codeAdress) {
+    public SwitchInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
     /**
      * Return a switch statement based on given target data on the given key.
-     *
      */
     protected abstract Stmt switchStatement(DexBody body, Instruction targetData, Local key);
 
@@ -53,7 +51,7 @@ public abstract class SwitchInstruction extends PseudoInstruction implements Def
         body.add(markerUnit);
         body.addDeferredJimplification(this);
     }
-    
+
     public void deferredJimplify(DexBody body) {
         int keyRegister = ((OneRegisterInstruction) instruction).getRegisterA();
         int offset = ((OffsetInstruction) instruction).getCodeOffset();
@@ -63,5 +61,5 @@ public abstract class SwitchInstruction extends PseudoInstruction implements Def
         Stmt stmt = switchStatement(body, targetData, key);
         body.getBody().getUnits().insertAfter(stmt, markerUnit);
     }
-    
+
 }

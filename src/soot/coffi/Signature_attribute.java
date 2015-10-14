@@ -24,16 +24,13 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** Attribute that connects signature attribute.
- * @see attribute_info
+/**
+ * Attribute that connects signature attribute.
+ *
  * @author Jennifer Lhotak
+ * @see attribute_info
  */
 class Signature_attribute extends attribute_info {
 

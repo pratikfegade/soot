@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,46 +20,46 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Available Expressions Tagger. */
-public class AETOptions
-{
-    private Map<String, String> options;
+import java.util.Map;
 
-    public AETOptions( Map<String, String> options ) {
-        this.options = options;
-    }
-    
-    /** Enabled --
-    
-     * .
-    
-     * 
-     */
-    public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
-    }
-    
+/**
+ * Option parser for Available Expressions Tagger.
+ */
+public class AETOptions {
     public static final int kind_optimistic = 1;
     public static final int kind_pessimistic = 2;
-    /** Kind --
-    
+    private Map<String, String> options;
+
+    public AETOptions(Map<String, String> options) {
+        this.options = options;
+    }
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
+     */
+    public boolean enabled() {
+        return soot.PhaseOptions.getBoolean(options, "enabled");
+    }
+
+    /**
+     * Kind --
+     * <p/>
+     * .
      */
     public int kind() {
-        String s = soot.PhaseOptions.getString( options, "kind" );
-        
-        if( s.equalsIgnoreCase( "optimistic" ) )
+        String s = soot.PhaseOptions.getString(options, "kind");
+
+        if (s.equalsIgnoreCase("optimistic"))
             return kind_optimistic;
-        
-        if( s.equalsIgnoreCase( "pessimistic" ) )
+
+        if (s.equalsIgnoreCase("pessimistic"))
             return kind_pessimistic;
-        
-        throw new RuntimeException( "Invalid value "+s+" of phase option kind" );
+
+        throw new RuntimeException("Invalid value " + s + " of phase option kind");
     }
-    
+
 }
         

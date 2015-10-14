@@ -20,14 +20,15 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import java.util.*;
-import soot.*;
-import soot.jimple.*;
+import soot.Type;
+import soot.Value;
+import soot.jimple.Stmt;
+
+import java.util.Collection;
 
 /**
  * @author Ben Bellamy
  */
-public interface IEvalFunction
-{
-	Collection<Type> eval(Typing tg, Value expr, Stmt stmt);
+public interface IEvalFunction {
+    Collection<Type> eval(Typing tg, Value expr, Stmt stmt);
 }

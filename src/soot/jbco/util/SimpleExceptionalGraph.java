@@ -19,48 +19,51 @@
 
 package soot.jbco.util;
 
-import java.util.*;
-
 import soot.Body;
 import soot.Trap;
 import soot.Unit;
 import soot.toolkits.graph.TrapUnitGraph;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
- * @author Michael Batchelder 
- * 
- * Created on 15-Jun-2006 
+ * @author Michael Batchelder
+ *         <p/>
+ *         Created on 15-Jun-2006
  */
 public class SimpleExceptionalGraph extends TrapUnitGraph {
 
-  /**
-   * @param body
-   */
-  public SimpleExceptionalGraph(Body body) {
-    super(body);
-	int size = unitChain.size();
+    /**
+     * @param body
+     */
+    public SimpleExceptionalGraph(Body body) {
+        super(body);
+        int size = unitChain.size();
 
-	unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	buildUnexceptionalEdges(unitToSuccs, unitToPreds);
-	buildSimpleExceptionalEdges(unitToSuccs, unitToPreds);
-	
-	makeMappedListsUnmodifiable(unitToSuccs);
-	makeMappedListsUnmodifiable(unitToPreds);
-	buildHeadsAndTails();
-  }
+        unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
+        unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
+        buildUnexceptionalEdges(unitToSuccs, unitToPreds);
+        buildSimpleExceptionalEdges(unitToSuccs, unitToPreds);
 
-  protected void buildSimpleExceptionalEdges(Map unitToSuccs, Map unitToPreds) {
-	for (Iterator<Trap> trapIt = body.getTraps().iterator(); 
-	     	trapIt.hasNext(); ) {
-	    Trap trap = trapIt.next();
+        makeMappedListsUnmodifiable(unitToSuccs);
+        makeMappedListsUnmodifiable(unitToPreds);
+        buildHeadsAndTails();
+    }
 
-	    Unit handler = trap.getHandlerUnit();
-	    for (Iterator predIt = ((List)unitToPreds.get(trap.getBeginUnit())).iterator();
-	    	 	predIt.hasNext();) {
-	      Unit pred = (Unit)predIt.next();
-	      addEdge(unitToSuccs, unitToPreds, pred, handler);
-	    }
-	}
-  }
+    protected void buildSimpleExceptionalEdges(Map unitToSuccs, Map unitToPreds) {
+        for (Iterator<Trap> trapIt = body.getTraps().iterator();
+             trapIt.hasNext(); ) {
+            Trap trap = trapIt.next();
+
+            Unit handler = trap.getHandlerUnit();
+            for (Iterator predIt = ((List) unitToPreds.get(trap.getBeginUnit())).iterator();
+                 predIt.hasNext(); ) {
+                Unit pred = (Unit) predIt.next();
+                addEdge(unitToSuccs, unitToPreds, pred, handler);
+            }
+        }
+    }
 }

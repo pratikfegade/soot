@@ -24,64 +24,61 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.util.Switch;
 
-import java.util.*;
+import java.util.List;
 
-public class JReturnStmt extends AbstractOpStmt implements ReturnStmt
-{
-    public JReturnStmt(Value returnValue)
-    {
+public class JReturnStmt extends AbstractOpStmt implements ReturnStmt {
+    public JReturnStmt(Value returnValue) {
         this(Jimple.v().newImmediateBox(returnValue));
     }
 
-    protected JReturnStmt(ValueBox returnValueBox)
-    {
+    protected JReturnStmt(ValueBox returnValueBox) {
         super(returnValueBox);
     }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new JReturnStmt(Jimple.cloneIfNecessary(getOp()));
     }
 
-    public String toString()
-    {
-        return Jimple.RETURN + " "  + opBox.getValue().toString();
+    public String toString() {
+        return Jimple.RETURN + " " + opBox.getValue().toString();
     }
-    
-    public void toString( UnitPrinter up) {
+
+    public void toString(UnitPrinter up) {
         up.literal(Jimple.RETURN);
         up.literal(" ");
         opBox.toString(up);
     }
-    
-    public void apply(Switch sw)
-    {
+
+    public void apply(Switch sw) {
         ((StmtSwitch) sw).caseReturnStmt(this);
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-       ((ConvertToBaf)(getOp())).convertToBaf(context, out);
-       
-       Unit u = Baf.v().newReturnInst(getOp().getType());
-       u.addAllTagsOf(this);
-       out.add(u);
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getOp())).convertToBaf(context, out);
+
+        Unit u = Baf.v().newReturnInst(getOp().getType());
+        u.addAllTagsOf(this);
+        out.add(u);
     }
 
-     
-    public boolean fallsThrough(){return false;}        
-    public boolean branches(){return false;}
+
+    public boolean fallsThrough() {
+        return false;
+    }
+
+    public boolean branches() {
+        return false;
+    }
 
 
 }

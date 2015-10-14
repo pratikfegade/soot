@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TDynamicinvoke extends Token
-{
-    public TDynamicinvoke()
-    {
+public final class TDynamicinvoke extends Token {
+    public TDynamicinvoke() {
         super.setText("dynamicinvoke");
     }
 
-    public TDynamicinvoke(int line, int pos)
-    {
+    public TDynamicinvoke(int line, int pos) {
         super.setText("dynamicinvoke");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TDynamicinvoke(getLine(), getPos());
+    public Object clone() {
+        return new TDynamicinvoke(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTDynamicinvoke(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TDynamicinvoke text.");
     }
 }

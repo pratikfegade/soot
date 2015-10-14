@@ -24,51 +24,44 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.RefType;
+import soot.baf.InstSwitch;
+import soot.baf.NewInst;
+import soot.util.Switch;
 
-public class BNewInst extends AbstractRefTypeInst implements NewInst
-{
-    public BNewInst(RefType opType)
-    {
+public class BNewInst extends AbstractRefTypeInst implements NewInst {
+    public BNewInst(RefType opType) {
         super(opType);
     }
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 0;
     }
 
 
-    public Object clone() 
-    {
-        return new  BNewInst(getBaseType());
+    public Object clone() {
+        return new BNewInst(getBaseType());
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 0;
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 1;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 1;
     }
-    
-    final public String getName() { return "new"; }
 
-    public void apply(Switch sw)
-    {
+    final public String getName() {
+        return "new";
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseNewInst(this);
     }
 

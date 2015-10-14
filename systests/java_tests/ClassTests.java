@@ -1,6 +1,6 @@
 public class ClassTests {
 
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         ClassTests ct = new ClassTests();
         ct.run();
     }

@@ -26,28 +26,31 @@
 
 package soot.toolkits.scalar;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-/** 
+/**
  * Provides an implementation of a flow universe, wrapping collections.
  */
 public class CollectionFlowUniverse<E> implements FlowUniverse<E> {
-  Set<E> elements;
+    Set<E> elements;
 
-  public CollectionFlowUniverse(Collection<? extends E> elements) {
-    this.elements = new HashSet<E>(elements);
-  }
+    public CollectionFlowUniverse(Collection<? extends E> elements) {
+        this.elements = new HashSet<E>(elements);
+    }
 
-  public int size() {
-    return elements.size();
-  }
+    public int size() {
+        return elements.size();
+    }
 
-  public Iterator<E> iterator() {
-    return elements.iterator();
-  }
+    public Iterator<E> iterator() {
+        return elements.iterator();
+    }
 
-  @SuppressWarnings("unchecked")
-  public E[] toArray() {
-    return (E[]) elements.toArray();
-  }
+    @SuppressWarnings("unchecked")
+    public E[] toArray() {
+        return (E[]) elements.toArray();
+    }
 }

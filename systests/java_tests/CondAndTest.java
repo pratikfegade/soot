@@ -1,12 +1,12 @@
-import java.util.*;
+import java.util.Vector;
 
 public class CondAndTest {
 
     private Vector charsSet = new Vector();
     private Vector charsProb = new Vector();
-    
-    public static void main(String [] args) {
-    
+
+    public static void main(String[] args) {
+
         boolean x = true;
         boolean y = false;
 

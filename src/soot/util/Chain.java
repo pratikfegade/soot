@@ -31,81 +31,135 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/** Augmented data type guaranteeing O(1) insertion and removal from a set
+/**
+ * Augmented data type guaranteeing O(1) insertion and removal from a set
  * of ordered, unique elements.
- * @param <E> element type  */
-public interface Chain<E> extends Collection<E>, Serializable
-{
-    /** Inserts <code>toInsert</code> in the Chain before <code>point</code>. */
-    public void insertBefore(List<E> toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain after <code>point</code>. */
-    public void insertAfter(List<E> toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain after <code>point</code>. */
-    public void insertAfter(E toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain before <code>point</code>. */
-    public void insertBefore(E toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain before <code>point</code>.
-     * (It would probably be better to make Chain implement List)*/
-    public void insertBefore(Chain<E> toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain after <code>point</code>. 
-     * (It would probably be better to make Chain implement List)*/
-    public void insertAfter(Chain<E> toInsert, E point);
+ *
+ * @param <E> element type
+ */
+public interface Chain<E> extends Collection<E>, Serializable {
+    /**
+     * Inserts <code>toInsert</code> in the Chain before <code>point</code>.
+     */
+    void insertBefore(List<E> toInsert, E point);
 
-    
-    /** Replaces <code>out</code> in the Chain by <code>in</code>. */
-    public void swapWith(E out, E in);
+    /**
+     * Inserts <code>toInsert</code> in the Chain after <code>point</code>.
+     */
+    void insertAfter(List<E> toInsert, E point);
 
-    /** Removes the given object from this Chain.
-     *  Parameter has to be of type {@link Object} to be compatible
-     *  with the {@link Collection} interface. */
-    public boolean remove(Object u);
+    /**
+     * Inserts <code>toInsert</code> in the Chain after <code>point</code>.
+     */
+    void insertAfter(E toInsert, E point);
 
-    /** Adds the given object at the beginning of the Chain. */
-    public void addFirst(E u);
+    /**
+     * Inserts <code>toInsert</code> in the Chain before <code>point</code>.
+     */
+    void insertBefore(E toInsert, E point);
 
-    /** Adds the given object at the end of the Chain. */
-    public void addLast(E u);
+    /**
+     * Inserts <code>toInsert</code> in the Chain before <code>point</code>.
+     * (It would probably be better to make Chain implement List)
+     */
+    void insertBefore(Chain<E> toInsert, E point);
 
-    /** Removes the first object contained in this Chain. */
-    public void removeFirst();
-    /** Removes the last object contained in this Chain. */
-    public void removeLast();
+    /**
+     * Inserts <code>toInsert</code> in the Chain after <code>point</code>.
+     * (It would probably be better to make Chain implement List)
+     */
+    void insertAfter(Chain<E> toInsert, E point);
 
-    /** Returns true if object <code>someObject</code> follows object <code>someReferenceObject</code> in the Chain. */
-    public boolean follows(E someObject, E someReferenceObject);
 
-    /** Returns the first object in this Chain. */
-    public E getFirst();
+    /**
+     * Replaces <code>out</code> in the Chain by <code>in</code>.
+     */
+    void swapWith(E out, E in);
 
-    /** Returns the last object in this Chain. */
-    public E getLast();
-    
-    /** Returns the object immediately following <code>point</code>. */
-    public E getSuccOf(E point);
+    /**
+     * Removes the given object from this Chain.
+     * Parameter has to be of type {@link Object} to be compatible
+     * with the {@link Collection} interface.
+     */
+    boolean remove(Object u);
 
-    /** Returns the object immediately preceding <code>point</code>. */
-    public E getPredOf(E point);
+    /**
+     * Adds the given object at the beginning of the Chain.
+     */
+    void addFirst(E u);
 
-    /** Returns an iterator over a copy of this chain. 
+    /**
+     * Adds the given object at the end of the Chain.
+     */
+    void addLast(E u);
+
+    /**
+     * Removes the first object contained in this Chain.
+     */
+    void removeFirst();
+
+    /**
+     * Removes the last object contained in this Chain.
+     */
+    void removeLast();
+
+    /**
+     * Returns true if object <code>someObject</code> follows object <code>someReferenceObject</code> in the Chain.
+     */
+    boolean follows(E someObject, E someReferenceObject);
+
+    /**
+     * Returns the first object in this Chain.
+     */
+    E getFirst();
+
+    /**
+     * Returns the last object in this Chain.
+     */
+    E getLast();
+
+    /**
+     * Returns the object immediately following <code>point</code>.
+     */
+    E getSuccOf(E point);
+
+    /**
+     * Returns the object immediately preceding <code>point</code>.
+     */
+    E getPredOf(E point);
+
+    /**
+     * Returns an iterator over a copy of this chain.
      * This avoids ConcurrentModificationExceptions from being thrown
      * if the underlying Chain is modified during iteration.
      * Do not use this to remove elements which have not yet been
-     * iterated over! */
-    public Iterator<E> snapshotIterator();
+     * iterated over!
+     */
+    Iterator<E> snapshotIterator();
 
-    /** Returns an iterator over this Chain. */
-    public Iterator<E> iterator();
+    /**
+     * Returns an iterator over this Chain.
+     */
+    Iterator<E> iterator();
 
-    /** Returns an iterator over this Chain, starting at the given object. */
-    public Iterator<E> iterator(E u);
+    /**
+     * Returns an iterator over this Chain, starting at the given object.
+     */
+    Iterator<E> iterator(E u);
 
-    /** Returns an iterator over this Chain, starting at head and reaching tail (inclusive). */
-    public Iterator<E> iterator(E head, E tail);
+    /**
+     * Returns an iterator over this Chain, starting at head and reaching tail (inclusive).
+     */
+    Iterator<E> iterator(E head, E tail);
 
-    /** Returns the size of this Chain. */
-    public int size();
-    
-    /** Returns the number of times this chain has been modified. */
-	long getModificationCount();   
+    /**
+     * Returns the size of this Chain.
+     */
+    int size();
+
+    /**
+     * Returns the number of times this chain has been modified.
+     */
+    long getModificationCount();
 }
 

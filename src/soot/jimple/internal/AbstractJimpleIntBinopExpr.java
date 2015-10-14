@@ -24,33 +24,30 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.Type;
+import soot.Unit;
+import soot.Value;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleToBafContext;
 
-import java.util.*;
+import java.util.List;
 
 @SuppressWarnings("serial")
 abstract public class AbstractJimpleIntBinopExpr extends AbstractIntBinopExpr
-                                          implements ConvertToBaf
-{
-    protected AbstractJimpleIntBinopExpr(Value op1, Value op2)
-    {
+        implements ConvertToBaf {
+    protected AbstractJimpleIntBinopExpr(Value op1, Value op2) {
         this.op1Box = Jimple.v().newArgBox(op1);
         this.op2Box = Jimple.v().newArgBox(op2);
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
         ((ConvertToBaf) this.getOp1()).convertToBaf(context, out);
         ((ConvertToBaf) this.getOp2()).convertToBaf(context, out);
 
-        Unit u = (Unit)makeBafInst(this.getOp1().getType());
+        Unit u = (Unit) makeBafInst(this.getOp1().getType());
         out.add(u);
         u.addAllTagsOf(context.getCurrentUnit());
     }

@@ -1,6 +1,6 @@
 public class Compare {
-    public static void main(String [] args) {
-    
+    public static void main(String[] args) {
+
         Compare c = new Compare();
         c.run();
     }
@@ -17,15 +17,14 @@ public class Compare {
 
         if (by < i) {
         }
-        
+
         if (l2 >= l) {
             l2 = l2 - 1;
         }
-        
+
         if (l != i) {
             i = i + 1;
-        }
-        else if (l == i) {
+        } else if (l == i) {
             i = i - 1;
         }
 
@@ -36,7 +35,7 @@ public class Compare {
         if (d == f) {
             d += f;
         }
-        
+
         if (f <= d) {
             d += f;
         }
@@ -51,7 +50,7 @@ public class Compare {
 
         char c = 'c';
 
-        if (c < i ) {
+        if (c < i) {
             i++;
         }
     }

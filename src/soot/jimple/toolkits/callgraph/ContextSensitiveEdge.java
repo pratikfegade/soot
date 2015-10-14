@@ -18,39 +18,52 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import soot.*;
-import soot.jimple.*;
 
-/** Represents a single context-sensitive edge in a call graph.
+import soot.Context;
+import soot.Kind;
+import soot.SootMethod;
+import soot.Unit;
+import soot.jimple.Stmt;
+
+/**
+ * Represents a single context-sensitive edge in a call graph.
+ *
  * @author Ondrej Lhotak
  */
-public interface ContextSensitiveEdge 
-{ 
-    /** The context at the source of the call.
+public interface ContextSensitiveEdge {
+    /**
+     * The context at the source of the call.
      */
-    public Context srcCtxt();
+    Context srcCtxt();
 
-    /** The method in which the call occurs; may be null for calls not
+    /**
+     * The method in which the call occurs; may be null for calls not
      * occurring in a specific method (eg. implicit calls by the VM)
      */
-    public SootMethod src();
+    SootMethod src();
 
-    /** The unit at which the call occurs; may be null for calls not
+    /**
+     * The unit at which the call occurs; may be null for calls not
      * occurring at a specific statement (eg. calls in native code)
      */
-    public Unit srcUnit();
-    public Stmt srcStmt();
-    
-    /** The context at the target of the call.
+    Unit srcUnit();
+
+    Stmt srcStmt();
+
+    /**
+     * The context at the target of the call.
      */
-    public Context tgtCtxt();
+    Context tgtCtxt();
 
-    /** The target method of the call edge. */
-    public SootMethod tgt();
+    /**
+     * The target method of the call edge.
+     */
+    SootMethod tgt();
 
-    /** The kind of edge. Note: kind should not be tested by other classes;
-     *  instead, accessors such as isExplicit() should be added.
+    /**
+     * The kind of edge. Note: kind should not be tested by other classes;
+     * instead, accessors such as isExplicit() should be added.
      **/
-    public Kind kind();
+    Kind kind();
 }
 

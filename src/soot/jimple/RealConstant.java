@@ -25,8 +25,7 @@
 
 package soot.jimple;
 
-public abstract class RealConstant extends NumericConstant
-{
+public abstract class RealConstant extends NumericConstant {
     // PTC 1999/06/28
     public abstract IntConstant cmpl(RealConstant c);
 

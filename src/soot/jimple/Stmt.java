@@ -24,27 +24,31 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.ValueBox;
 
-public interface Stmt extends Unit
-{
-    public void toString(UnitPrinter up);
+public interface Stmt extends Unit {
+    void toString(UnitPrinter up);
 
-    public boolean containsInvokeExpr();
-    public InvokeExpr getInvokeExpr();
-    public ValueBox getInvokeExprBox();
+    boolean containsInvokeExpr();
 
-    public boolean containsArrayRef();
-    public ArrayRef getArrayRef();
-    public ValueBox getArrayRefBox();
+    InvokeExpr getInvokeExpr();
 
-    public boolean containsFieldRef();
-    public FieldRef getFieldRef();
-    public ValueBox getFieldRefBox();
+    ValueBox getInvokeExprBox();
+
+    boolean containsArrayRef();
+
+    ArrayRef getArrayRef();
+
+    ValueBox getArrayRefBox();
+
+    boolean containsFieldRef();
+
+    FieldRef getFieldRef();
+
+    ValueBox getFieldRefBox();
 }
 

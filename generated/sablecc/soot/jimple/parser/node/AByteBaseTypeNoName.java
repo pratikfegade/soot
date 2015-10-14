@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AByteBaseTypeNoName extends PBaseTypeNoName
-{
+public final class AByteBaseTypeNoName extends PBaseTypeNoName {
     private TByte _byte_;
 
-    public AByteBaseTypeNoName()
-    {
+    public AByteBaseTypeNoName() {
         // Constructor
     }
 
     public AByteBaseTypeNoName(
-        @SuppressWarnings("hiding") TByte _byte_)
-    {
+            @SuppressWarnings("hiding") TByte _byte_) {
         // Constructor
         setByte(_byte_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AByteBaseTypeNoName(
-            cloneNode(this._byte_));
+                cloneNode(this._byte_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAByteBaseTypeNoName(this);
     }
 
-    public TByte getByte()
-    {
+    public TByte getByte() {
         return this._byte_;
     }
 
-    public void setByte(TByte node)
-    {
-        if(this._byte_ != null)
-        {
+    public void setByte(TByte node) {
+        if (this._byte_ != null) {
             this._byte_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AByteBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._byte_);
+                + toString(this._byte_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._byte_ == child)
-        {
+        if (this._byte_ == child) {
             this._byte_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AByteBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._byte_ == oldChild)
-        {
+        if (this._byte_ == oldChild) {
             setByte((TByte) newChild);
             return;
         }

@@ -27,47 +27,44 @@
 package soot.dava.internal.javaRep;
 
 import soot.*;
-import soot.util.*;
-import soot.grimp.*;
-//import soot.jimple.*;
-import soot.jimple.internal.*;
+import soot.grimp.Grimp;
+import soot.jimple.internal.AbstractUnopExpr;
+import soot.util.Switch;
 
-public class DNotExpr extends AbstractUnopExpr
-{
-    public DNotExpr(Value op)
-    {
+//import soot.jimple.*;
+
+public class DNotExpr extends AbstractUnopExpr {
+    public DNotExpr(Value op) {
         super(Grimp.v().newExprBox(op));
     }
-      
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new DNotExpr(Grimp.cloneIfNecessary(getOpBox().getValue()));
     }
 
-    public void toString( UnitPrinter up ) {
-        up.literal( " ! (" );
+    public void toString(UnitPrinter up) {
+        up.literal(" ! (");
         getOpBox().toString(up);
-        up.literal( ")" );
+        up.literal(")");
     }
 
-    public String toString()
-    {
-	return " ! (" + ( getOpBox().getValue()).toString() +")"; 
+    public String toString() {
+        return " ! (" + (getOpBox().getValue()).toString() + ")";
     }
 
-    
-    public Type getType(){
-	Value op = getOpBox().getValue();
-    
-	if(op.getType().equals(IntType.v()) || op.getType().equals(ByteType.v()) ||
-	   op.getType().equals(ShortType.v()) || op.getType().equals(BooleanType.v()) || 
-	   op.getType().equals(CharType.v()))
+
+    public Type getType() {
+        Value op = getOpBox().getValue();
+
+        if (op.getType().equals(IntType.v()) || op.getType().equals(ByteType.v()) ||
+                op.getType().equals(ShortType.v()) || op.getType().equals(BooleanType.v()) ||
+                op.getType().equals(CharType.v()))
             return IntType.v();
-        else if(op.getType().equals(LongType.v()))
+        else if (op.getType().equals(LongType.v()))
             return LongType.v();
-        else if(op.getType().equals(DoubleType.v()))
+        else if (op.getType().equals(DoubleType.v()))
             return DoubleType.v();
-        else if(op.getType().equals(FloatType.v()))
+        else if (op.getType().equals(FloatType.v()))
             return FloatType.v();
         else
             return UnknownType.v();
@@ -76,31 +73,24 @@ public class DNotExpr extends AbstractUnopExpr
     /*
       NOTE THIS IS AN EMPTY IMPLEMENTATION OF APPLY METHOD
     */
-    public void apply(Switch sw){
+    public void apply(Switch sw) {
     }
 
 
-
-
-
-
-
-
-
-
-    /** Compares the specified object with this one for structural equality. */
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof DNotExpr)
-        {
-            return getOpBox().getValue().equivTo(((DNotExpr)o).getOpBox().getValue());
+    /**
+     * Compares the specified object with this one for structural equality.
+     */
+    public boolean equivTo(Object o) {
+        if (o instanceof DNotExpr) {
+            return getOpBox().getValue().equivTo(((DNotExpr) o).getOpBox().getValue());
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return getOpBox().getValue().equivHashCode();
     }
 }

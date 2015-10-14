@@ -19,63 +19,62 @@
 
 package soot.jbco.bafTransformations;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Local;
 import soot.jbco.IJbcoTransform;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
- * @author Michael Batchelder 
- * 
- * Created on 16-Jun-2006 
+ * @author Michael Batchelder
+ *         <p/>
+ *         Created on 16-Jun-2006
  */
 public class Jimple2BafLocalBuilder extends BodyTransformer implements IJbcoTransform {
 
-  public static String dependancies[] = new String[] {"jtp.jbco_jl","bb.jbco_j2bl","bb.lp"};
+    public static String dependancies[] = new String[]{"jtp.jbco_jl", "bb.jbco_j2bl", "bb.lp"};
+    public static String name = "bb.jbco_j2bl";
+    private static boolean runOnce = false;
 
-  public String[] getDependancies() {
-    return dependancies;
-  }
-  
-  public static String name = "bb.jbco_j2bl";
-  
-  public String getName() {
-    return name;
-  }
-  
-  public void outputSummary() {}
-
-  private static boolean runOnce = false;
-  
-  protected void internalTransform(Body b, String phaseName, Map<String,String> options) {
-    if (soot.jbco.Main.methods2JLocals.size() == 0) { 
-      if (!runOnce) {
-        runOnce = true;
-        out.println("[Jimple2BafLocalBuilder]:: Jimple Local Lists have not been built");
-        out.println("                           Skipping Jimple To Baf Builder\n");
-      }
-      return;
+    public String[] getDependancies() {
+        return dependancies;
     }
-      
-    Collection<Local> bLocals = b.getLocals();
-    HashMap<Local, Local> bafToJLocals = new HashMap<Local, Local>();
-    Iterator<Local> jlocIt = soot.jbco.Main.methods2JLocals.get(b.getMethod()).iterator();
-    while (jlocIt.hasNext()) {
-      Local jl = jlocIt.next();
-      Iterator<Local> blocIt = bLocals.iterator();
-      while (blocIt.hasNext()) {
-        Local bl = (Local) blocIt.next();
-        if (bl.getName().equals(jl.getName())) {
-          bafToJLocals.put(bl, jl);
-          break;
+
+    public String getName() {
+        return name;
+    }
+
+    public void outputSummary() {
+    }
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        if (soot.jbco.Main.methods2JLocals.size() == 0) {
+            if (!runOnce) {
+                runOnce = true;
+                out.println("[Jimple2BafLocalBuilder]:: Jimple Local Lists have not been built");
+                out.println("                           Skipping Jimple To Baf Builder\n");
+            }
+            return;
         }
-      }
+
+        Collection<Local> bLocals = b.getLocals();
+        HashMap<Local, Local> bafToJLocals = new HashMap<Local, Local>();
+        Iterator<Local> jlocIt = soot.jbco.Main.methods2JLocals.get(b.getMethod()).iterator();
+        while (jlocIt.hasNext()) {
+            Local jl = jlocIt.next();
+            Iterator<Local> blocIt = bLocals.iterator();
+            while (blocIt.hasNext()) {
+                Local bl = blocIt.next();
+                if (bl.getName().equals(jl.getName())) {
+                    bafToJLocals.put(bl, jl);
+                    break;
+                }
+            }
+        }
+        soot.jbco.Main.methods2Baf2JLocals.put(b.getMethod(), bafToJLocals);
     }
-    soot.jbco.Main.methods2Baf2JLocals.put(b.getMethod(),bafToJLocals);
-  }
 }

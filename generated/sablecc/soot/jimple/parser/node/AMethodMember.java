@@ -2,12 +2,14 @@
 
 package soot.jimple.parser.node;
 
-import java.util.*;
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
-public final class AMethodMember extends PMember
-{
+public final class AMethodMember extends PMember {
     private final LinkedList<PModifier> _modifier_ = new LinkedList<PModifier>();
     private PType _type_;
     private PName _name_;
@@ -17,21 +19,19 @@ public final class AMethodMember extends PMember
     private PThrowsClause _throwsClause_;
     private PMethodBody _methodBody_;
 
-    public AMethodMember()
-    {
+    public AMethodMember() {
         // Constructor
     }
 
     public AMethodMember(
-        @SuppressWarnings("hiding") List<PModifier> _modifier_,
-        @SuppressWarnings("hiding") PType _type_,
-        @SuppressWarnings("hiding") PName _name_,
-        @SuppressWarnings("hiding") TLParen _lParen_,
-        @SuppressWarnings("hiding") PParameterList _parameterList_,
-        @SuppressWarnings("hiding") TRParen _rParen_,
-        @SuppressWarnings("hiding") PThrowsClause _throwsClause_,
-        @SuppressWarnings("hiding") PMethodBody _methodBody_)
-    {
+            @SuppressWarnings("hiding") List<PModifier> _modifier_,
+            @SuppressWarnings("hiding") PType _type_,
+            @SuppressWarnings("hiding") PName _name_,
+            @SuppressWarnings("hiding") TLParen _lParen_,
+            @SuppressWarnings("hiding") PParameterList _parameterList_,
+            @SuppressWarnings("hiding") TRParen _rParen_,
+            @SuppressWarnings("hiding") PThrowsClause _throwsClause_,
+            @SuppressWarnings("hiding") PMethodBody _methodBody_) {
         // Constructor
         setModifier(_modifier_);
 
@@ -52,37 +52,31 @@ public final class AMethodMember extends PMember
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMethodMember(
-            cloneList(this._modifier_),
-            cloneNode(this._type_),
-            cloneNode(this._name_),
-            cloneNode(this._lParen_),
-            cloneNode(this._parameterList_),
-            cloneNode(this._rParen_),
-            cloneNode(this._throwsClause_),
-            cloneNode(this._methodBody_));
+                cloneList(this._modifier_),
+                cloneNode(this._type_),
+                cloneNode(this._name_),
+                cloneNode(this._lParen_),
+                cloneNode(this._parameterList_),
+                cloneNode(this._rParen_),
+                cloneNode(this._throwsClause_),
+                cloneNode(this._methodBody_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMethodMember(this);
     }
 
-    public LinkedList<PModifier> getModifier()
-    {
+    public LinkedList<PModifier> getModifier() {
         return this._modifier_;
     }
 
-    public void setModifier(List<PModifier> list)
-    {
+    public void setModifier(List<PModifier> list) {
         this._modifier_.clear();
         this._modifier_.addAll(list);
-        for(PModifier e : list)
-        {
-            if(e.parent() != null)
-            {
+        for (PModifier e : list) {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -90,22 +84,17 @@ public final class AMethodMember extends PMember
         }
     }
 
-    public PType getType()
-    {
+    public PType getType() {
         return this._type_;
     }
 
-    public void setType(PType node)
-    {
-        if(this._type_ != null)
-        {
+    public void setType(PType node) {
+        if (this._type_ != null) {
             this._type_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -115,22 +104,17 @@ public final class AMethodMember extends PMember
         this._type_ = node;
     }
 
-    public PName getName()
-    {
+    public PName getName() {
         return this._name_;
     }
 
-    public void setName(PName node)
-    {
-        if(this._name_ != null)
-        {
+    public void setName(PName node) {
+        if (this._name_ != null) {
             this._name_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -140,22 +124,17 @@ public final class AMethodMember extends PMember
         this._name_ = node;
     }
 
-    public TLParen getLParen()
-    {
+    public TLParen getLParen() {
         return this._lParen_;
     }
 
-    public void setLParen(TLParen node)
-    {
-        if(this._lParen_ != null)
-        {
+    public void setLParen(TLParen node) {
+        if (this._lParen_ != null) {
             this._lParen_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -165,22 +144,17 @@ public final class AMethodMember extends PMember
         this._lParen_ = node;
     }
 
-    public PParameterList getParameterList()
-    {
+    public PParameterList getParameterList() {
         return this._parameterList_;
     }
 
-    public void setParameterList(PParameterList node)
-    {
-        if(this._parameterList_ != null)
-        {
+    public void setParameterList(PParameterList node) {
+        if (this._parameterList_ != null) {
             this._parameterList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -190,22 +164,17 @@ public final class AMethodMember extends PMember
         this._parameterList_ = node;
     }
 
-    public TRParen getRParen()
-    {
+    public TRParen getRParen() {
         return this._rParen_;
     }
 
-    public void setRParen(TRParen node)
-    {
-        if(this._rParen_ != null)
-        {
+    public void setRParen(TRParen node) {
+        if (this._rParen_ != null) {
             this._rParen_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -215,22 +184,17 @@ public final class AMethodMember extends PMember
         this._rParen_ = node;
     }
 
-    public PThrowsClause getThrowsClause()
-    {
+    public PThrowsClause getThrowsClause() {
         return this._throwsClause_;
     }
 
-    public void setThrowsClause(PThrowsClause node)
-    {
-        if(this._throwsClause_ != null)
-        {
+    public void setThrowsClause(PThrowsClause node) {
+        if (this._throwsClause_ != null) {
             this._throwsClause_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -240,22 +204,17 @@ public final class AMethodMember extends PMember
         this._throwsClause_ = node;
     }
 
-    public PMethodBody getMethodBody()
-    {
+    public PMethodBody getMethodBody() {
         return this._methodBody_;
     }
 
-    public void setMethodBody(PMethodBody node)
-    {
-        if(this._methodBody_ != null)
-        {
+    public void setMethodBody(PMethodBody node) {
+        if (this._methodBody_ != null) {
             this._methodBody_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -266,66 +225,56 @@ public final class AMethodMember extends PMember
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._modifier_)
-            + toString(this._type_)
-            + toString(this._name_)
-            + toString(this._lParen_)
-            + toString(this._parameterList_)
-            + toString(this._rParen_)
-            + toString(this._throwsClause_)
-            + toString(this._methodBody_);
+                + toString(this._modifier_)
+                + toString(this._type_)
+                + toString(this._name_)
+                + toString(this._lParen_)
+                + toString(this._parameterList_)
+                + toString(this._rParen_)
+                + toString(this._throwsClause_)
+                + toString(this._methodBody_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._modifier_.remove(child))
-        {
+        if (this._modifier_.remove(child)) {
             return;
         }
 
-        if(this._type_ == child)
-        {
+        if (this._type_ == child) {
             this._type_ = null;
             return;
         }
 
-        if(this._name_ == child)
-        {
+        if (this._name_ == child) {
             this._name_ = null;
             return;
         }
 
-        if(this._lParen_ == child)
-        {
+        if (this._lParen_ == child) {
             this._lParen_ = null;
             return;
         }
 
-        if(this._parameterList_ == child)
-        {
+        if (this._parameterList_ == child) {
             this._parameterList_ = null;
             return;
         }
 
-        if(this._rParen_ == child)
-        {
+        if (this._rParen_ == child) {
             this._rParen_ = null;
             return;
         }
 
-        if(this._throwsClause_ == child)
-        {
+        if (this._throwsClause_ == child) {
             this._throwsClause_ = null;
             return;
         }
 
-        if(this._methodBody_ == child)
-        {
+        if (this._methodBody_ == child) {
             this._methodBody_ = null;
             return;
         }
@@ -334,15 +283,11 @@ public final class AMethodMember extends PMember
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<PModifier> i = this._modifier_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PModifier> i = this._modifier_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PModifier) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -355,44 +300,37 @@ public final class AMethodMember extends PMember
             }
         }
 
-        if(this._type_ == oldChild)
-        {
+        if (this._type_ == oldChild) {
             setType((PType) newChild);
             return;
         }
 
-        if(this._name_ == oldChild)
-        {
+        if (this._name_ == oldChild) {
             setName((PName) newChild);
             return;
         }
 
-        if(this._lParen_ == oldChild)
-        {
+        if (this._lParen_ == oldChild) {
             setLParen((TLParen) newChild);
             return;
         }
 
-        if(this._parameterList_ == oldChild)
-        {
+        if (this._parameterList_ == oldChild) {
             setParameterList((PParameterList) newChild);
             return;
         }
 
-        if(this._rParen_ == oldChild)
-        {
+        if (this._rParen_ == oldChild) {
             setRParen((TRParen) newChild);
             return;
         }
 
-        if(this._throwsClause_ == oldChild)
-        {
+        if (this._throwsClause_ == oldChild) {
             setThrowsClause((PThrowsClause) newChild);
             return;
         }
 
-        if(this._methodBody_ == oldChild)
-        {
+        if (this._methodBody_ == oldChild) {
             setMethodBody((PMethodBody) newChild);
             return;
         }

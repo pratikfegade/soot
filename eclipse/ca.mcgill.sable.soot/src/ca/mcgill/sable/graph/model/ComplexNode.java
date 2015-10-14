@@ -19,37 +19,38 @@
 
 
 package ca.mcgill.sable.graph.model;
-import java.util.*;
+
+import java.util.ArrayList;
 
 public class ComplexNode extends Element {
 
-	private ArrayList children = new ArrayList();
-	
-	
-	public ComplexNode() {
-		super();
-	}
-	
-	public void addChild(Element child){
-		if (getChildren() == null){
-			setChildren(new ArrayList());
-		}
-		getChildren().add(child);
-		fireStructureChange(COMPLEX_CHILD, child);
-	}
+    private ArrayList children = new ArrayList();
 
-	/**
-	 * @return
-	 */
-	public ArrayList getChildren() {
-		return children;
-	}
 
-	/**
-	 * @param list
-	 */
-	public void setChildren(ArrayList list) {
-		children = list;
-	}
+    public ComplexNode() {
+        super();
+    }
+
+    public void addChild(Element child) {
+        if (getChildren() == null) {
+            setChildren(new ArrayList());
+        }
+        getChildren().add(child);
+        fireStructureChange(COMPLEX_CHILD, child);
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getChildren() {
+        return children;
+    }
+
+    /**
+     * @param list
+     */
+    public void setChildren(ArrayList list) {
+        children = list;
+    }
 
 }

@@ -24,43 +24,38 @@
  */
 
 
-
-
-
-
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
+import soot.Type;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.grimp.Precedence;
+import soot.jimple.internal.AbstractCastExpr;
 
-public class GCastExpr extends AbstractCastExpr implements Precedence
-{
-    public GCastExpr(Value op, Type type)
-    {
+public class GCastExpr extends AbstractCastExpr implements Precedence {
+    public GCastExpr(Value op, Type type) {
         super(Grimp.v().newExprBox(op), type);
     }
 
-    public int getPrecedence() { return 850; }
+    public int getPrecedence() {
+        return 850;
+    }
 
-    private String toString(String leftString, Value op, String opString)
-    {
+    private String toString(String leftString, Value op, String opString) {
         String rightOp = opString;
 
-        if (op instanceof Precedence && 
-            ((Precedence)op).getPrecedence() < getPrecedence()) 
+        if (op instanceof Precedence &&
+                ((Precedence) op).getPrecedence() < getPrecedence())
             rightOp = "(" + rightOp + ")";
         return leftString + rightOp;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return toString("(" + getCastType().toString() + ") ", getOp(),
-                        getOp().toString());
+                getOp().toString());
     }
 
-    public Object clone()
-    {
+    public Object clone() {
         return new GCastExpr(Grimp.cloneIfNecessary(getOp()), getCastType());
     }
 

@@ -23,39 +23,37 @@ import soot.jimple.spark.pag.AllocNode;
 
 public class AllocAndContext {
 
-  public final AllocNode alloc;
+    public final AllocNode alloc;
 
-  public final ImmutableStack<Integer> context;
+    public final ImmutableStack<Integer> context;
 
-  public AllocAndContext(AllocNode alloc, ImmutableStack<Integer> context) {
-    this.alloc = alloc;
-    this.context = context;
-  }
+    public AllocAndContext(AllocNode alloc, ImmutableStack<Integer> context) {
+        this.alloc = alloc;
+        this.context = context;
+    }
 
-  public String toString() {
-    return alloc + ", context " + context;
-  }
+    public String toString() {
+        return alloc + ", context " + context;
+    }
 
-  public int hashCode() {
-    final int PRIME = 31;
-    int result = 1;
-    result = PRIME * result + alloc.hashCode();
-    result = PRIME * result + context.hashCode();
-    return result;
-  }
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + alloc.hashCode();
+        result = PRIME * result + context.hashCode();
+        return result;
+    }
 
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    final AllocAndContext other = (AllocAndContext) obj;
-    if (!alloc.equals(other.alloc))
-      return false;
-    if (!context.equals(other.context))
-      return false;
-    return true;
-  }
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final AllocAndContext other = (AllocAndContext) obj;
+        if (!alloc.equals(other.alloc))
+            return false;
+        return context.equals(other.context);
+    }
 }

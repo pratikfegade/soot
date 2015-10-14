@@ -24,24 +24,32 @@
  */
 
 package soot.jimple.toolkits.invoke;
-import soot.options.*;
 
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.JimpleBody;
+import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.*;
+import soot.options.Options;
 import soot.tagkit.Host;
+
 import java.util.*;
 
-/** Uses the Scene's currently-active InvokeGraph to inline monomorphic call sites. */
-public class StaticInliner extends SceneTransformer
-{
-    public StaticInliner( Singletons.Global g ) {}
-    public static StaticInliner v() { return G.v().soot_jimple_toolkits_invoke_StaticInliner(); }
+/**
+ * Uses the Scene's currently-active InvokeGraph to inline monomorphic call sites.
+ */
+public class StaticInliner extends SceneTransformer {
+    private final HashMap<SootMethod, Integer> methodToOriginalSize = new HashMap<SootMethod, Integer>();
 
-    protected void internalTransform(String phaseName, Map options)
-    {
-        Filter explicitInvokesFilter = new Filter( new ExplicitEdgesPred() );
-        if(Options.v().verbose())
+    public StaticInliner(Singletons.Global g) {
+    }
+
+    public static StaticInliner v() {
+        return G.v().soot_jimple_toolkits_invoke_StaticInliner();
+    }
+
+    protected void internalTransform(String phaseName, Map options) {
+        Filter explicitInvokesFilter = new Filter(new ExplicitEdgesPred());
+        if (Options.v().verbose())
             G.v().out.println("[] Inlining methods...");
 
         boolean enableNullPointerCheckInsertion = PhaseOptions.getBoolean(options, "insert-null-checks");
@@ -66,81 +74,80 @@ public class StaticInliner extends SceneTransformer
             orderer.go();
             List<SootMethod> order = orderer.order();
             ListIterator<SootMethod> it = order.listIterator(order.size());
-    
-            while (it.hasPrevious())
-            {
+
+            while (it.hasPrevious()) {
                 SootMethod container = it.previous();
-                if( methodToOriginalSize.get(container) == null ) continue;
-    
+                if (methodToOriginalSize.get(container) == null) continue;
+
                 if (!container.isConcrete())
                     continue;
-    
-                if (!explicitInvokesFilter.wrap( cg.edgesOutOf(container) ).hasNext())
+
+                if (!explicitInvokesFilter.wrap(cg.edgesOutOf(container)).hasNext())
                     continue;
-    
-                JimpleBody b = (JimpleBody)container.retrieveActiveBody();
-                    
-                List<Unit> unitList = new ArrayList<Unit>(); unitList.addAll(b.getUnits());
+
+                JimpleBody b = (JimpleBody) container.retrieveActiveBody();
+
+                List<Unit> unitList = new ArrayList<Unit>();
+                unitList.addAll(b.getUnits());
                 Iterator<Unit> unitIt = unitList.iterator();
-    
-                while (unitIt.hasNext())
-                {
-                    Stmt s = (Stmt)unitIt.next();
+
+                while (unitIt.hasNext()) {
+                    Stmt s = (Stmt) unitIt.next();
                     if (!s.containsInvokeExpr())
                         continue;
-                    
+
                     Iterator targets = new Targets(
-                            explicitInvokesFilter.wrap( cg.edgesOutOf(s) ) );
-                    if( !targets.hasNext() ) continue;
-                    SootMethod target = (SootMethod)targets.next();
-                    if( targets.hasNext() ) continue;
-    
+                            explicitInvokesFilter.wrap(cg.edgesOutOf(s)));
+                    if (!targets.hasNext()) continue;
+                    SootMethod target = (SootMethod) targets.next();
+                    if (targets.hasNext()) continue;
+
                     if (!target.getDeclaringClass().isApplicationClass() || !target.isConcrete())
                         continue;
-    
-                    if(!InlinerSafetyManager.ensureInlinability(target, s, container, modifierOptions))
+
+                    if (!InlinerSafetyManager.ensureInlinability(target, s, container, modifierOptions))
                         continue;
-                        
+
                     List<Host> l = new ArrayList<Host>();
-                    l.add(target); l.add(s); l.add(container);
-                    
+                    l.add(target);
+                    l.add(s);
+                    l.add(container);
+
                     sitesToInline.add(l);
                 }
             }
         }
-        
+
         // Proceed to inline the sites, one at a time, keeping track of
         // expansion rates.
         {
 
             Iterator<List<Host>> sitesIt = sitesToInline.iterator();
-            while (sitesIt.hasNext())
-            {
+            while (sitesIt.hasNext()) {
                 List l = sitesIt.next();
-                SootMethod inlinee = (SootMethod)l.get(0);
-                int inlineeSize = ((JimpleBody)(inlinee.retrieveActiveBody())).getUnits().size();
+                SootMethod inlinee = (SootMethod) l.get(0);
+                int inlineeSize = inlinee.retrieveActiveBody().getUnits().size();
 
-                Stmt invokeStmt = (Stmt)l.get(1);
+                Stmt invokeStmt = (Stmt) l.get(1);
 
-                SootMethod container = (SootMethod)l.get(2);
-                int containerSize = ((JimpleBody)(container.retrieveActiveBody())).getUnits().size();
-                
+                SootMethod container = (SootMethod) l.get(2);
+                int containerSize = container.retrieveActiveBody().getUnits().size();
+
                 if (inlineeSize + containerSize > maxContainerSize)
                     continue;
 
                 if (inlineeSize > maxInlineeSize)
                     continue;
 
-                if (inlineeSize + containerSize > 
-                         expansionFactor * methodToOriginalSize.get(container).intValue())
+                if (inlineeSize + containerSize >
+                        expansionFactor * methodToOriginalSize.get(container).intValue())
                     continue;
 
-                if(InlinerSafetyManager.ensureInlinability(inlinee, invokeStmt, container, modifierOptions))
-                {
+                if (InlinerSafetyManager.ensureInlinability(inlinee, invokeStmt, container, modifierOptions)) {
                     // Not that it is important to check right before inlining if the site is still valid.
-                    
+
                     SiteInliner.inlineSite(inlinee, invokeStmt, container, options);
-                    if( rerunJb ) {
+                    if (rerunJb) {
                         PackManager.v().getPack("jb").apply(container.getActiveBody());
                     }
                 }
@@ -148,23 +155,18 @@ public class StaticInliner extends SceneTransformer
         }
     }
 
-    private final HashMap<SootMethod, Integer> methodToOriginalSize = new HashMap<SootMethod, Integer>();
-    private void computeAverageMethodSizeAndSaveOriginalSizes()
-    {
+    private void computeAverageMethodSizeAndSaveOriginalSizes() {
         long sum = 0, count = 0;
         Iterator classesIt = Scene.v().getApplicationClasses().iterator();
 
-        while (classesIt.hasNext())
-        {
+        while (classesIt.hasNext()) {
             SootClass c = (SootClass) classesIt.next();
 
             Iterator methodsIt = c.methodIterator();
-            while (methodsIt.hasNext())
-            {
+            while (methodsIt.hasNext()) {
                 SootMethod m = (SootMethod) methodsIt.next();
-                if (m.isConcrete())
-                {
-                    int size = ((JimpleBody)m.retrieveActiveBody()).getUnits().size();
+                if (m.isConcrete()) {
+                    int size = m.retrieveActiveBody().getUnits().size();
                     sum += size;
                     methodToOriginalSize.put(m, new Integer(size));
                     count++;

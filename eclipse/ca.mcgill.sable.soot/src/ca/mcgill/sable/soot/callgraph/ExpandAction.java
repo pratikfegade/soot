@@ -19,37 +19,34 @@
 
 package ca.mcgill.sable.soot.callgraph;
 
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.*;
+import ca.mcgill.sable.graph.actions.SimpleSelectAction;
 import org.eclipse.gef.ui.actions.*;
-import ca.mcgill.sable.graph.actions.*;
+import org.eclipse.jface.action.*;
+import org.eclipse.ui.*;
 
 
 public class ExpandAction extends SimpleSelectAction {
 
-	public static final String EXPAND = "expand action";
-	
-	
-	public ExpandAction(IWorkbenchPart part) {
-		super(part);
-	}
+    public static final String EXPAND = "expand action";
 
-	
 
-	
-	protected void init(){
-		super.init();
-		setId(EXPAND);
-		setText("Expand");
-	}
+    public ExpandAction(IWorkbenchPart part) {
+        super(part);
+    }
 
-	public void run(){
-		CallGraphNodeEditPart cgPart = (CallGraphNodeEditPart)getSelectedObjects().get(0);
-		cgPart.expandGraph();
-	}
-	
-	public boolean calculateEnabled(){
-		return true;
-	}
+
+    protected void init() {
+        super.init();
+        setId(EXPAND);
+        setText("Expand");
+    }
+
+    public void run() {
+        CallGraphNodeEditPart cgPart = (CallGraphNodeEditPart) getSelectedObjects().get(0);
+        cgPart.expandGraph();
+    }
+
+    public boolean calculateEnabled() {
+        return true;
+    }
 }

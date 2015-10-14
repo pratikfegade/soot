@@ -19,54 +19,54 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.ArrayList;
-
 import org.eclipse.jface.dialogs.IInputValidator;
+
+import java.util.ArrayList;
 
 /**
  * Manages disallowing of duplicate names for saving Soot configurations
  */
 public class SootConfigNameInputValidator implements IInputValidator {
 
-	private ArrayList alreadyUsed;
-	
-	/**
-	 * Constructor for SootConfigNameInputValidator.
-	 */
-	public SootConfigNameInputValidator() {
-		super();
-	}
+    private ArrayList alreadyUsed;
 
-	/**
-	 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(String)
-	 */
-	public String isValid(String newText) {
-		if (newText.equals("")){
-			return "You must enter a name!";
-		}
-		else if (newText == null) {
-			return "Must not be null!";
-		}
-		else if (getAlreadyUsed().contains(newText)) {
-			return "A configuration with that name already exists!";
-		}
-		return null;
-	}
+    /**
+     * Constructor for SootConfigNameInputValidator.
+     */
+    public SootConfigNameInputValidator() {
+        super();
+    }
 
-	/**
-	 * Returns the alreadyUsed.
-	 * @return ArrayList
-	 */
-	public ArrayList getAlreadyUsed() {
-		return alreadyUsed;
-	}
+    /**
+     * @see org.eclipse.jface.dialogs.IInputValidator#isValid(String)
+     */
+    public String isValid(String newText) {
+        if (newText.equals("")) {
+            return "You must enter a name!";
+        } else if (newText == null) {
+            return "Must not be null!";
+        } else if (getAlreadyUsed().contains(newText)) {
+            return "A configuration with that name already exists!";
+        }
+        return null;
+    }
 
-	/**
-	 * Sets the alreadyUsed.
-	 * @param alreadyUsed The alreadyUsed to set
-	 */
-	public void setAlreadyUsed(ArrayList alreadyUsed) {
-		this.alreadyUsed = alreadyUsed;
-	}
+    /**
+     * Returns the alreadyUsed.
+     *
+     * @return ArrayList
+     */
+    public ArrayList getAlreadyUsed() {
+        return alreadyUsed;
+    }
+
+    /**
+     * Sets the alreadyUsed.
+     *
+     * @param alreadyUsed The alreadyUsed to set
+     */
+    public void setAlreadyUsed(ArrayList alreadyUsed) {
+        this.alreadyUsed = alreadyUsed;
+    }
 
 }

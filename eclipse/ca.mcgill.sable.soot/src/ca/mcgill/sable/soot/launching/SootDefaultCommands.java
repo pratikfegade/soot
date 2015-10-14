@@ -19,9 +19,9 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.ArrayList;
-
 import ca.mcgill.sable.soot.ui.PhaseOptionsDialog;
+
+import java.util.ArrayList;
 
 /**
  * Sets Soot commands needed by Eclipse in Options Dialog
@@ -29,65 +29,66 @@ import ca.mcgill.sable.soot.ui.PhaseOptionsDialog;
  */
 public class SootDefaultCommands {
 
-	private PhaseOptionsDialog dialog;
-	
-	/**
-	 * Constructor for SootDefaultCommands.
-	 */
-	public SootDefaultCommands(PhaseOptionsDialog dialog) {
-		setDialog(dialog);
-	}
-	
-	public void setSootClassPath(String val) {
-		getDialog().addToEclipseDefList(LaunchCommands.SOOT_CLASSPATH, val);
-	}
-	
-	public void setProcessPath(String val) {
-		ArrayList list = new ArrayList();
-		list.add(val);
-		getDialog().addToEclipseDefList(LaunchCommands.PROCESS_PATH, list);
-	}
-	public void setProcessPath(ArrayList list){
-		getDialog().addToEclipseDefList(LaunchCommands.PROCESS_PATH, list);
-	}
-	public void setOutputDir(String val) {
-		getDialog().addToEclipseDefList(LaunchCommands.OUTPUT_DIR, val);
-	}
-	
-	public void setKeepLineNum() {
-		getDialog().addToEclipseDefList(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
-	}
-	
-	public void setPrintTags() {
-		getDialog().addToEclipseDefList(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
-	}
-	
-	public void setSrcPrec(String val) {
-		getDialog().addToEclipseDefList(LaunchCommands.SRC_PREC, val);
-	}
-	
-	public void setSootMainClass(){
-		getDialog().addToEclipseDefList("sootMainClass", "soot.Main");
-	}
-	
-	
+    private PhaseOptionsDialog dialog;
 
-	
+    /**
+     * Constructor for SootDefaultCommands.
+     */
+    public SootDefaultCommands(PhaseOptionsDialog dialog) {
+        setDialog(dialog);
+    }
 
-	/**
-	 * Returns the dialog.
-	 * @return PhaseOptionsDialog
-	 */
-	public PhaseOptionsDialog getDialog() {
-		return dialog;
-	}
+    public void setSootClassPath(String val) {
+        getDialog().addToEclipseDefList(LaunchCommands.SOOT_CLASSPATH, val);
+    }
 
-	/**
-	 * Sets the dialog.
-	 * @param dialog The dialog to set
-	 */
-	public void setDialog(PhaseOptionsDialog dialog) {
-		this.dialog = dialog;
-	}
+    public void setProcessPath(String val) {
+        ArrayList list = new ArrayList();
+        list.add(val);
+        getDialog().addToEclipseDefList(LaunchCommands.PROCESS_PATH, list);
+    }
+
+    public void setProcessPath(ArrayList list) {
+        getDialog().addToEclipseDefList(LaunchCommands.PROCESS_PATH, list);
+    }
+
+    public void setOutputDir(String val) {
+        getDialog().addToEclipseDefList(LaunchCommands.OUTPUT_DIR, val);
+    }
+
+    public void setKeepLineNum() {
+        getDialog().addToEclipseDefList(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
+    }
+
+    public void setPrintTags() {
+        getDialog().addToEclipseDefList(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
+    }
+
+    public void setSrcPrec(String val) {
+        getDialog().addToEclipseDefList(LaunchCommands.SRC_PREC, val);
+    }
+
+    public void setSootMainClass() {
+        getDialog().addToEclipseDefList("sootMainClass", "soot.Main");
+    }
+
+
+    /**
+     * Returns the dialog.
+     *
+     * @return PhaseOptionsDialog
+     */
+    public PhaseOptionsDialog getDialog() {
+        return dialog;
+    }
+
+    /**
+     * Sets the dialog.
+     *
+     * @param dialog The dialog to set
+     */
+    public void setDialog(PhaseOptionsDialog dialog) {
+        this.dialog = dialog;
+    }
 
 }

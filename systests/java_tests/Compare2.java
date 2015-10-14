@@ -1,6 +1,6 @@
 public class Compare2 {
-    public static void main(String [] args) {
-    
+    public static void main(String[] args) {
+
         Compare2 c = new Compare2();
         c.run();
     }
@@ -11,8 +11,7 @@ public class Compare2 {
 
         if (l >= i) {
             System.out.println(l);
-        }
-        else if (l < i) {
+        } else if (l < i) {
             System.out.println(i);
         }
 

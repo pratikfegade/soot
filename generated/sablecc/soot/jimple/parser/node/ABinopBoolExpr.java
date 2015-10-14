@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ABinopBoolExpr extends PBoolExpr
-{
+public final class ABinopBoolExpr extends PBoolExpr {
     private PBinopExpr _binopExpr_;
 
-    public ABinopBoolExpr()
-    {
+    public ABinopBoolExpr() {
         // Constructor
     }
 
     public ABinopBoolExpr(
-        @SuppressWarnings("hiding") PBinopExpr _binopExpr_)
-    {
+            @SuppressWarnings("hiding") PBinopExpr _binopExpr_) {
         // Constructor
         setBinopExpr(_binopExpr_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ABinopBoolExpr(
-            cloneNode(this._binopExpr_));
+                cloneNode(this._binopExpr_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseABinopBoolExpr(this);
     }
 
-    public PBinopExpr getBinopExpr()
-    {
+    public PBinopExpr getBinopExpr() {
         return this._binopExpr_;
     }
 
-    public void setBinopExpr(PBinopExpr node)
-    {
-        if(this._binopExpr_ != null)
-        {
+    public void setBinopExpr(PBinopExpr node) {
+        if (this._binopExpr_ != null) {
             this._binopExpr_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ABinopBoolExpr extends PBoolExpr
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._binopExpr_);
+                + toString(this._binopExpr_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._binopExpr_ == child)
-        {
+        if (this._binopExpr_ == child) {
             this._binopExpr_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ABinopBoolExpr extends PBoolExpr
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._binopExpr_ == oldChild)
-        {
+        if (this._binopExpr_ == oldChild) {
             setBinopExpr((PBinopExpr) newChild);
             return;
         }

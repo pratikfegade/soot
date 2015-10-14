@@ -21,65 +21,70 @@ package soot.jimple.toolkits.base;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
-import soot.tagkit.*;
+import soot.tagkit.SourceLnPosTag;
+import soot.util.NumberedString;
 
-public class ExceptionChecker extends BodyTransformer{
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+public class ExceptionChecker extends BodyTransformer {
 
     FastHierarchy hierarchy;
     ExceptionCheckerErrorReporter reporter;
 
-    public ExceptionChecker(ExceptionCheckerErrorReporter r){
+    public ExceptionChecker(ExceptionCheckerErrorReporter r) {
         this.reporter = r;
     }
 
-    protected void internalTransform(Body b, String phaseName, Map options){
+    protected void internalTransform(Body b, String phaseName, Map options) {
 
         Iterator it = b.getUnits().iterator();
-        while (it.hasNext()){
-            Stmt s = (Stmt)it.next();
-            if (s instanceof ThrowStmt){
-                ThrowStmt ts = (ThrowStmt)s;
+        while (it.hasNext()) {
+            Stmt s = (Stmt) it.next();
+            if (s instanceof ThrowStmt) {
+                ThrowStmt ts = (ThrowStmt) s;
                 checkThrow(b, ts);
-            }
-            else if (s instanceof InvokeStmt){
-                InvokeStmt is = (InvokeStmt)s;
+            } else if (s instanceof InvokeStmt) {
+                InvokeStmt is = (InvokeStmt) s;
                 checkInvoke(b, is);
-            }
-            else if ((s instanceof AssignStmt) && (((AssignStmt)s).getRightOp() instanceof InvokeExpr)){
-                InvokeExpr ie = (InvokeExpr)((AssignStmt)s).getRightOp();
+            } else if ((s instanceof AssignStmt) && (((AssignStmt) s).getRightOp() instanceof InvokeExpr)) {
+                InvokeExpr ie = (InvokeExpr) ((AssignStmt) s).getRightOp();
                 checkInvokeExpr(b, ie, s);
             }
         }
     }
 
-    protected void checkThrow(Body b, ThrowStmt ts){
-        if (isThrowDeclared(b, ((RefType)ts.getOp().getType()).getSootClass()) || isThrowFromCompiler(ts) || isExceptionCaught(b, ts, (RefType)ts.getOp().getType())) return;
-        if (reporter != null){
-            reporter.reportError(new ExceptionCheckerError(b.getMethod(), ((RefType)ts.getOp().getType()).getSootClass(), ts, (SourceLnPosTag)ts.getOpBox().getTag("SourceLnPosTag")));
+    protected void checkThrow(Body b, ThrowStmt ts) {
+        if (isThrowDeclared(b, ((RefType) ts.getOp().getType()).getSootClass()) || isThrowFromCompiler(ts) || isExceptionCaught(b, ts, (RefType) ts.getOp().getType()))
+            return;
+        if (reporter != null) {
+            reporter.reportError(new ExceptionCheckerError(b.getMethod(), ((RefType) ts.getOp().getType()).getSootClass(), ts, (SourceLnPosTag) ts.getOpBox().getTag("SourceLnPosTag")));
         }
     }
 
     // does the method declare the throw if its a throw that needs declaring
     // RuntimeException and subclasses do not need to be declared
     // Error and subclasses do not need to be declared
-    protected boolean isThrowDeclared(Body b, SootClass throwClass){
-        if (hierarchy == null){
+    protected boolean isThrowDeclared(Body b, SootClass throwClass) {
+        if (hierarchy == null) {
             hierarchy = new FastHierarchy();
         }
 
         // handles case when exception is RuntimeException or Error
-        if (throwClass.equals(Scene.v().getSootClass("java.lang.RuntimeException")) || throwClass.equals(Scene.v().getSootClass("java.lang.Error"))) return true;
+        if (throwClass.equals(Scene.v().getSootClass("java.lang.RuntimeException")) || throwClass.equals(Scene.v().getSootClass("java.lang.Error")))
+            return true;
         // handles case when exception is a subclass of RuntimeException or Error
-        if (hierarchy.isSubclass(throwClass, Scene.v().getSootClass("java.lang.RuntimeException")) || hierarchy.isSubclass(throwClass, Scene.v().getSootClass("java.lang.Error"))) return true;
+        if (hierarchy.isSubclass(throwClass, Scene.v().getSootClass("java.lang.RuntimeException")) || hierarchy.isSubclass(throwClass, Scene.v().getSootClass("java.lang.Error")))
+            return true;
 
         // handles case when exact exception is thrown
         if (b.getMethod().throwsException(throwClass)) return true;
 
         // handles case when a super type of the exception is thrown
         Iterator<SootClass> it = b.getMethod().getExceptions().iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             SootClass nextEx = it.next();
             if (hierarchy.isSubclass(throwClass, nextEx)) return true;
         }
@@ -87,35 +92,34 @@ public class ExceptionChecker extends BodyTransformer{
     }
 
     // is the throw created by the compiler
-    protected boolean isThrowFromCompiler(ThrowStmt ts){
-        if (ts.hasTag("ThrowCreatedByCompilerTag")) return true;
-        return false;
+    protected boolean isThrowFromCompiler(ThrowStmt ts) {
+        return ts.hasTag("ThrowCreatedByCompilerTag");
     }
 
     // is the throw caught inside the method
-    protected boolean isExceptionCaught(Body b, Stmt s, RefType throwType){
-        if (hierarchy == null){
+    protected boolean isExceptionCaught(Body b, Stmt s, RefType throwType) {
+        if (hierarchy == null) {
             hierarchy = new FastHierarchy();
         }
         Iterator it = b.getTraps().iterator();
-        while (it.hasNext()){
-            Trap trap = (Trap)it.next();
-            if (trap.getException().getType().equals(throwType) || hierarchy.isSubclass(throwType.getSootClass(), (trap.getException().getType()).getSootClass())){
-                if (isThrowInStmtRange(b, (Stmt)trap.getBeginUnit(), (Stmt)trap.getEndUnit(), s)) return true;
+        while (it.hasNext()) {
+            Trap trap = (Trap) it.next();
+            if (trap.getException().getType().equals(throwType) || hierarchy.isSubclass(throwType.getSootClass(), (trap.getException().getType()).getSootClass())) {
+                if (isThrowInStmtRange(b, (Stmt) trap.getBeginUnit(), (Stmt) trap.getEndUnit(), s)) return true;
             }
         }
         return false;
     }
 
-    protected boolean isThrowInStmtRange(Body b, Stmt begin, Stmt end, Stmt s){
+    protected boolean isThrowInStmtRange(Body b, Stmt begin, Stmt end, Stmt s) {
         Iterator it = b.getUnits().iterator(begin, end);
-        while (it.hasNext()){
+        while (it.hasNext()) {
             if (it.next().equals(s)) return true;
         }
         return false;
     }
 
-    protected void checkInvoke(Body b, InvokeStmt is){
+    protected void checkInvoke(Body b, InvokeStmt is) {
         checkInvokeExpr(b, is.getInvokeExpr(), is);
     }
 
@@ -126,52 +130,51 @@ public class ExceptionChecker extends BodyTransformer{
     // the maximal set of exceptions that could be declared to be thrown if the
     // interface had declared the method. Returns null if no supertype declares
     // the method.
-    private List<SootClass> getExceptionSpec(SootClass intrface,NumberedString sig) {
-    	SootMethod sm = intrface.getMethodUnsafe(sig);
-        if(sm != null) return sm.getExceptions();
-        List<SootClass> result=null;
-        SootClass obj=Scene.v().getSootClass("java.lang.Object");
+    private List<SootClass> getExceptionSpec(SootClass intrface, NumberedString sig) {
+        SootMethod sm = intrface.getMethodUnsafe(sig);
+        if (sm != null) return sm.getExceptions();
+        List<SootClass> result = null;
+        SootClass obj = Scene.v().getSootClass("java.lang.Object");
         sm = obj.getMethodUnsafe(sig);
-        if(sm != null) result=new Vector<SootClass>(sm.getExceptions());
-        for (SootClass suprintr : intrface.getInterfaces() ) {
-            List<SootClass> other=getExceptionSpec(suprintr,sig);
-            if(other!=null)
-                if(result==null) result=other;
+        if (sm != null) result = new Vector<SootClass>(sm.getExceptions());
+        for (SootClass suprintr : intrface.getInterfaces()) {
+            List<SootClass> other = getExceptionSpec(suprintr, sig);
+            if (other != null)
+                if (result == null) result = other;
                 else result.retainAll(other);
         }
         return result;
     }
 
 
-    protected void checkInvokeExpr(Body b, InvokeExpr ie, Stmt s){
-        if(ie instanceof InstanceInvokeExpr &&
-           ((InstanceInvokeExpr) ie).getBase().getType() instanceof ArrayType &&
-           ie.getMethodRef().name().equals("clone") &&
-           ie.getMethodRef().parameterTypes().size()==0)
+    protected void checkInvokeExpr(Body b, InvokeExpr ie, Stmt s) {
+        if (ie instanceof InstanceInvokeExpr &&
+                ((InstanceInvokeExpr) ie).getBase().getType() instanceof ArrayType &&
+                ie.getMethodRef().name().equals("clone") &&
+                ie.getMethodRef().parameterTypes().size() == 0)
             return;  // the call is to the clone() method of an array type, which
-                     // is defined not to throw any exceptions; if we left this to
-                     // normal resolution we'd get the method in Object which does
-                     // throw CloneNotSupportedException
+        // is defined not to throw any exceptions; if we left this to
+        // normal resolution we'd get the method in Object which does
+        // throw CloneNotSupportedException
 
-        List exceptions=ie instanceof InterfaceInvokeExpr
-            // For an invokeinterface, there is no unique resolution for the
-            // method reference that will get the "correct" exception spec. We
-            // actually need to look at the intersection of all declarations of
-            // the method in supertypes.
-            ? getExceptionSpec(ie.getMethodRef().declaringClass(),
-                               ie.getMethodRef().getSubSignature())
-            // Otherwise, we just do normal resolution.
-            : ie.getMethod().getExceptions();
+        List exceptions = ie instanceof InterfaceInvokeExpr
+                // For an invokeinterface, there is no unique resolution for the
+                // method reference that will get the "correct" exception spec. We
+                // actually need to look at the intersection of all declarations of
+                // the method in supertypes.
+                ? getExceptionSpec(ie.getMethodRef().declaringClass(),
+                ie.getMethodRef().getSubSignature())
+                // Otherwise, we just do normal resolution.
+                : ie.getMethod().getExceptions();
         Iterator it = exceptions.iterator();
-        while (it.hasNext()){
-            SootClass sc = (SootClass)it.next();
+        while (it.hasNext()) {
+            SootClass sc = (SootClass) it.next();
             if (isThrowDeclared(b, sc) || isExceptionCaught(b, s, sc.getType())) continue;
-            if (reporter != null){
-                if (s instanceof InvokeStmt){
-                    reporter.reportError(new ExceptionCheckerError(b.getMethod(), sc, s, (SourceLnPosTag)s.getTag("SourceLnPosTag")));
-                }
-                else if (s instanceof AssignStmt){
-                    reporter.reportError(new ExceptionCheckerError(b.getMethod(), sc, s, (SourceLnPosTag)((AssignStmt)s).getRightOpBox().getTag("SourceLnPosTag")));
+            if (reporter != null) {
+                if (s instanceof InvokeStmt) {
+                    reporter.reportError(new ExceptionCheckerError(b.getMethod(), sc, s, (SourceLnPosTag) s.getTag("SourceLnPosTag")));
+                } else if (s instanceof AssignStmt) {
+                    reporter.reportError(new ExceptionCheckerError(b.getMethod(), sc, s, (SourceLnPosTag) ((AssignStmt) s).getRightOpBox().getTag("SourceLnPosTag")));
                 }
             }
         }

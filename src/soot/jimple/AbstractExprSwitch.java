@@ -24,185 +24,147 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public abstract class AbstractExprSwitch implements ExprSwitch
-{
+public abstract class AbstractExprSwitch implements ExprSwitch {
     Object result;
 
-    public void caseAddExpr(AddExpr v)
-    {
+    public void caseAddExpr(AddExpr v) {
         defaultCase(v);
     }
 
-    public void caseAndExpr(AndExpr v)
-    {
+    public void caseAndExpr(AndExpr v) {
         defaultCase(v);
     }
 
-    public void caseCmpExpr(CmpExpr v)
-    {
+    public void caseCmpExpr(CmpExpr v) {
         defaultCase(v);
     }
 
-    public void caseCmpgExpr(CmpgExpr v)
-    {
+    public void caseCmpgExpr(CmpgExpr v) {
         defaultCase(v);
     }
 
-    public void caseCmplExpr(CmplExpr v)
-    {
+    public void caseCmplExpr(CmplExpr v) {
         defaultCase(v);
     }
 
-    public void caseDivExpr(DivExpr v)
-    {
+    public void caseDivExpr(DivExpr v) {
         defaultCase(v);
     }
 
-    public void caseEqExpr(EqExpr v)
-    {
+    public void caseEqExpr(EqExpr v) {
         defaultCase(v);
     }
 
-    public void caseNeExpr(NeExpr v)
-    {
+    public void caseNeExpr(NeExpr v) {
         defaultCase(v);
     }
 
-    public void caseGeExpr(GeExpr v)
-    {
+    public void caseGeExpr(GeExpr v) {
         defaultCase(v);
     }
 
-    public void caseGtExpr(GtExpr v)
-    {
+    public void caseGtExpr(GtExpr v) {
         defaultCase(v);
     }
 
-    public void caseLeExpr(LeExpr v)
-    {
+    public void caseLeExpr(LeExpr v) {
         defaultCase(v);
     }
 
-    public void caseLtExpr(LtExpr v)
-    {
+    public void caseLtExpr(LtExpr v) {
         defaultCase(v);
     }
 
-    public void caseMulExpr(MulExpr v)
-    {
+    public void caseMulExpr(MulExpr v) {
         defaultCase(v);
     }
 
-    public void caseOrExpr(OrExpr v)
-    {
+    public void caseOrExpr(OrExpr v) {
         defaultCase(v);
     }
 
-    public void caseRemExpr(RemExpr v)
-    {
+    public void caseRemExpr(RemExpr v) {
         defaultCase(v);
     }
 
-    public void caseShlExpr(ShlExpr v)
-    {
+    public void caseShlExpr(ShlExpr v) {
         defaultCase(v);
     }
 
-    public void caseShrExpr(ShrExpr v)
-    {
+    public void caseShrExpr(ShrExpr v) {
         defaultCase(v);
     }
 
-    public void caseUshrExpr(UshrExpr v)
-    {
+    public void caseUshrExpr(UshrExpr v) {
         defaultCase(v);
     }
 
-    public void caseSubExpr(SubExpr v)
-    {
+    public void caseSubExpr(SubExpr v) {
         defaultCase(v);
     }
 
-    public void caseXorExpr(XorExpr v)
-    {
+    public void caseXorExpr(XorExpr v) {
         defaultCase(v);
     }
 
-    public void caseInterfaceInvokeExpr(InterfaceInvokeExpr v)
-    {
+    public void caseInterfaceInvokeExpr(InterfaceInvokeExpr v) {
         defaultCase(v);
     }
 
-    public void caseSpecialInvokeExpr(SpecialInvokeExpr v)
-    {
+    public void caseSpecialInvokeExpr(SpecialInvokeExpr v) {
         defaultCase(v);
     }
 
-    public void caseStaticInvokeExpr(StaticInvokeExpr v)
-    {
+    public void caseStaticInvokeExpr(StaticInvokeExpr v) {
         defaultCase(v);
     }
 
-    public void caseVirtualInvokeExpr(VirtualInvokeExpr v)
-    {
+    public void caseVirtualInvokeExpr(VirtualInvokeExpr v) {
         defaultCase(v);
     }
 
     public void caseDynamicInvokeExpr(DynamicInvokeExpr v) {
-    	defaultCase(v);
-    }
-
-    public void caseCastExpr(CastExpr v)
-    {
         defaultCase(v);
     }
 
-    public void caseInstanceOfExpr(InstanceOfExpr v)
-    {
+    public void caseCastExpr(CastExpr v) {
         defaultCase(v);
     }
 
-    public void caseNewArrayExpr(NewArrayExpr v)
-    {
+    public void caseInstanceOfExpr(InstanceOfExpr v) {
         defaultCase(v);
     }
 
-    public void caseNewMultiArrayExpr(NewMultiArrayExpr v)
-    {
+    public void caseNewArrayExpr(NewArrayExpr v) {
         defaultCase(v);
     }
 
-    public void caseNewExpr(NewExpr v)
-    {
+    public void caseNewMultiArrayExpr(NewMultiArrayExpr v) {
         defaultCase(v);
     }
 
-    public void caseLengthExpr(LengthExpr v)
-    {
+    public void caseNewExpr(NewExpr v) {
         defaultCase(v);
     }
 
-    public void caseNegExpr(NegExpr v)
-    {
+    public void caseLengthExpr(LengthExpr v) {
         defaultCase(v);
     }
 
-    public void defaultCase(Object obj)
-    {
+    public void caseNegExpr(NegExpr v) {
+        defaultCase(v);
     }
 
-    public void setResult(Object result)
-    {
-        this.result = result;
+    public void defaultCase(Object obj) {
     }
 
-    public Object getResult()
-    {
+    public Object getResult() {
         return result;
+    }
+
+    public void setResult(Object result) {
+        this.result = result;
     }
 }

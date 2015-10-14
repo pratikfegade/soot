@@ -24,26 +24,31 @@
  */
 
 
-
 package soot.tagkit;
 
 
-import soot.*;
+import soot.Unit;
 
-/** A tag aggregator that associates a tag with the <b>first</b> instruction
- * that is tagged with it. */
-public abstract class FirstTagAggregator extends TagAggregator
-{    
-    /** Decide whether this tag should be aggregated by this aggregator. */
-    public abstract boolean wantTag( Tag t );
+/**
+ * A tag aggregator that associates a tag with the <b>first</b> instruction
+ * that is tagged with it.
+ */
+public abstract class FirstTagAggregator extends TagAggregator {
+    /**
+     * Decide whether this tag should be aggregated by this aggregator.
+     */
+    public abstract boolean wantTag(Tag t);
 
-    /** Return name of the resulting aggregated tag. */
+    /**
+     * Return name of the resulting aggregated tag.
+     */
     public abstract String aggregatedName();
 
-    /** Decide whether this tag should be aggregated by this aggregator. */
-    public void considerTag(Tag t, Unit u)
-    {
-        if( units.size() > 0 && units.getLast() == u ) return;
+    /**
+     * Decide whether this tag should be aggregated by this aggregator.
+     */
+    public void considerTag(Tag t, Unit u) {
+        if (units.size() > 0 && units.getLast() == u) return;
         units.add(u);
         tags.add(t);
     }

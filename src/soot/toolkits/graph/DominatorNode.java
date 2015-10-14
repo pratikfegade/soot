@@ -19,7 +19,8 @@
 
 package soot.toolkits.graph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a dominator node in DominatorTree.  Usually you should
@@ -29,37 +30,24 @@ import java.util.*;
  *
  * @author Navindra Umanee
  **/
-public class DominatorNode<N>
-{
+public class DominatorNode<N> {
     protected N gode;
     protected DominatorNode<N> parent;
     protected List<DominatorNode<N>> children;
 
-    protected DominatorNode(N gode)
-    {
+    protected DominatorNode(N gode) {
         this.gode = gode;
         children = new ArrayList<DominatorNode<N>>();
-    }
-
-    /**
-     * Sets the parent of this node in the DominatorTree.  Usually
-     * called internally.
-     **/
-    public void setParent(DominatorNode<N> parent)
-    {
-        this.parent = parent;
     }
 
     /**
      * Adds a child to the internal list of children of this node in
      * tree.  Usually called internally.
      **/
-    public boolean addChild(DominatorNode<N> child)
-    {
-        if(children.contains(child)){
+    public boolean addChild(DominatorNode<N> child) {
+        if (children.contains(child)) {
             return false;
-        }
-        else{
+        } else {
             children.add(child);
             return true;
         }
@@ -69,46 +57,48 @@ public class DominatorNode<N>
      * Returns the node (from the original DirectedGraph) encapsulated
      * by this DominatorNode.
      **/
-    public N getGode()
-    {
+    public N getGode() {
         return gode;
     }
 
     /**
      * Returns the parent of the node in the DominatorTree.
      **/
-    public DominatorNode<N> getParent()
-    {
+    public DominatorNode<N> getParent() {
         return parent;
+    }
+
+    /**
+     * Sets the parent of this node in the DominatorTree.  Usually
+     * called internally.
+     **/
+    public void setParent(DominatorNode<N> parent) {
+        this.parent = parent;
     }
 
     /**
      * Returns a backed list of the children of this node in the
      * DominatorTree.
      **/
-    public List<DominatorNode<N>> getChildren()
-    {
+    public List<DominatorNode<N>> getChildren() {
         return children;
     }
 
     /**
      * Returns true if this node is the head of its DominatorTree.
      **/
-    public boolean isHead()
-    {
+    public boolean isHead() {
         return parent == null;
     }
 
     /**
      * Returns true if this node is a tail of its DominatorTree.
      **/
-    public boolean isTail()
-    {
+    public boolean isTail() {
         return children.isEmpty();
     }
 
-    public String toString()
-    {
+    public String toString() {
         // *** FIXME: Print info about parent and children
         return gode.toString();
     }

@@ -24,48 +24,40 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-import java.io.*;
-import soot.*;
+import soot.ArrayType;
+import soot.RefType;
+import soot.Type;
 
-class TypeArray
-{
+import java.io.PrintStream;
+
+class TypeArray {
     private Type[] types;
 
-    private TypeArray()
-    {
+    private TypeArray() {
     }
 
     /**
      * Returns an empty array of types.
-     *
      */
 
-    public static TypeArray v(int size)
-    {
+    public static TypeArray v(int size) {
         TypeArray newArray = new TypeArray();
 
         newArray.types = new Type[size];
 
-        for(int i =  0; i < size; i++)
+        for (int i = 0; i < size; i++)
             newArray.types[i] = UnusuableType.v();
 
         return newArray;
     }
 
-    public Type get(int index)
-    {
+    public Type get(int index) {
         return types[index];
     }
 
-    public TypeArray set(int index, Type type)
-    {
+    public TypeArray set(int index, Type type) {
         TypeArray newArray = new TypeArray();
 
         newArray.types = types.clone();
@@ -74,57 +66,49 @@ class TypeArray
         return newArray;
     }
 
-    public boolean equals(Object obj)
-    {
-        if(obj instanceof TypeArray)
-        {
+    public boolean equals(Object obj) {
+        if (obj instanceof TypeArray) {
             TypeArray other = (TypeArray) obj;
 
-            if(types.length != other.types.length)
+            if (types.length != other.types.length)
                 return false;
 
             for (Type element : types)
-				if(!element.equals(element))
+                if (!element.equals(element))
                     return false;
 
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    public TypeArray merge(TypeArray otherArray)
-    {
+    public TypeArray merge(TypeArray otherArray) {
         TypeArray newArray = new TypeArray();
 
-        if(types.length != otherArray.types.length)
+        if (types.length != otherArray.types.length)
             throw new RuntimeException("Merging of type arrays failed; unequal array length");
 
         newArray.types = new Type[types.length];
 
-        for(int i = 0; i < types.length; i++)
-        {
-            if(types[i].equals(otherArray.types[i]))
+        for (int i = 0; i < types.length; i++) {
+            if (types[i].equals(otherArray.types[i]))
                 newArray.types[i] = types[i];
-            else if((types[i] instanceof ArrayType ||
-                types[i] instanceof RefType) &&
-                (otherArray.types[i] instanceof ArrayType
-                    || otherArray.types[i] instanceof RefType))
-            {
+            else if ((types[i] instanceof ArrayType ||
+                    types[i] instanceof RefType) &&
+                    (otherArray.types[i] instanceof ArrayType
+                            || otherArray.types[i] instanceof RefType)) {
                 // This type merge does not need to be accurate, because it is not really used
 
                 newArray.types[i] = RefType.v("java.lang.Object");
-            }
-            else {
+            } else {
                 newArray.types[i] = UnusuableType.v();
             }
         }
         return newArray;
     }
 
-    public void print(PrintStream out)
-    {
-        for(int i = 0; i < types.length; i++)
+    public void print(PrintStream out) {
+        for (int i = 0; i < types.length; i++)
             out.println(i + ": " + types[i].toString());
     }
 }

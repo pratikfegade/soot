@@ -26,14 +26,20 @@
 
 package soot.util;
 
-/** This class implements an ArrayList where the
+/**
+ * This class implements an ArrayList where the
  * equality and hashCode use object equality, not list
- * equality.  This is important for putting Lists into HashMaps. 
- *
+ * equality.  This is important for putting Lists into HashMaps.
+ * <p/>
  * The notation "Stationary" refers to the fact that the List
- * stays "fixed" under list changes. */
-public class StationaryArrayList<T> extends java.util.ArrayList<T>
-{
-    public int hashCode() { return System.identityHashCode(this); }
-    public boolean equals(Object other) { return this == other; }
+ * stays "fixed" under list changes.
+ */
+public class StationaryArrayList<T> extends java.util.ArrayList<T> {
+    public int hashCode() {
+        return System.identityHashCode(this);
+    }
+
+    public boolean equals(Object other) {
+        return this == other;
+    }
 }

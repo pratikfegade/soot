@@ -2,30 +2,30 @@
 
 package soot.jimple.parser.node;
 
-import java.util.*;
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
-public final class AFullMethodBody extends PMethodBody
-{
-    private TLBrace _lBrace_;
+public final class AFullMethodBody extends PMethodBody {
     private final LinkedList<PDeclaration> _declaration_ = new LinkedList<PDeclaration>();
     private final LinkedList<PStatement> _statement_ = new LinkedList<PStatement>();
     private final LinkedList<PCatchClause> _catchClause_ = new LinkedList<PCatchClause>();
+    private TLBrace _lBrace_;
     private TRBrace _rBrace_;
 
-    public AFullMethodBody()
-    {
+    public AFullMethodBody() {
         // Constructor
     }
 
     public AFullMethodBody(
-        @SuppressWarnings("hiding") TLBrace _lBrace_,
-        @SuppressWarnings("hiding") List<PDeclaration> _declaration_,
-        @SuppressWarnings("hiding") List<PStatement> _statement_,
-        @SuppressWarnings("hiding") List<PCatchClause> _catchClause_,
-        @SuppressWarnings("hiding") TRBrace _rBrace_)
-    {
+            @SuppressWarnings("hiding") TLBrace _lBrace_,
+            @SuppressWarnings("hiding") List<PDeclaration> _declaration_,
+            @SuppressWarnings("hiding") List<PStatement> _statement_,
+            @SuppressWarnings("hiding") List<PCatchClause> _catchClause_,
+            @SuppressWarnings("hiding") TRBrace _rBrace_) {
         // Constructor
         setLBrace(_lBrace_);
 
@@ -40,37 +40,30 @@ public final class AFullMethodBody extends PMethodBody
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFullMethodBody(
-            cloneNode(this._lBrace_),
-            cloneList(this._declaration_),
-            cloneList(this._statement_),
-            cloneList(this._catchClause_),
-            cloneNode(this._rBrace_));
+                cloneNode(this._lBrace_),
+                cloneList(this._declaration_),
+                cloneList(this._statement_),
+                cloneList(this._catchClause_),
+                cloneNode(this._rBrace_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFullMethodBody(this);
     }
 
-    public TLBrace getLBrace()
-    {
+    public TLBrace getLBrace() {
         return this._lBrace_;
     }
 
-    public void setLBrace(TLBrace node)
-    {
-        if(this._lBrace_ != null)
-        {
+    public void setLBrace(TLBrace node) {
+        if (this._lBrace_ != null) {
             this._lBrace_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -80,19 +73,15 @@ public final class AFullMethodBody extends PMethodBody
         this._lBrace_ = node;
     }
 
-    public LinkedList<PDeclaration> getDeclaration()
-    {
+    public LinkedList<PDeclaration> getDeclaration() {
         return this._declaration_;
     }
 
-    public void setDeclaration(List<PDeclaration> list)
-    {
+    public void setDeclaration(List<PDeclaration> list) {
         this._declaration_.clear();
         this._declaration_.addAll(list);
-        for(PDeclaration e : list)
-        {
-            if(e.parent() != null)
-            {
+        for (PDeclaration e : list) {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -100,19 +89,15 @@ public final class AFullMethodBody extends PMethodBody
         }
     }
 
-    public LinkedList<PStatement> getStatement()
-    {
+    public LinkedList<PStatement> getStatement() {
         return this._statement_;
     }
 
-    public void setStatement(List<PStatement> list)
-    {
+    public void setStatement(List<PStatement> list) {
         this._statement_.clear();
         this._statement_.addAll(list);
-        for(PStatement e : list)
-        {
-            if(e.parent() != null)
-            {
+        for (PStatement e : list) {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -120,19 +105,15 @@ public final class AFullMethodBody extends PMethodBody
         }
     }
 
-    public LinkedList<PCatchClause> getCatchClause()
-    {
+    public LinkedList<PCatchClause> getCatchClause() {
         return this._catchClause_;
     }
 
-    public void setCatchClause(List<PCatchClause> list)
-    {
+    public void setCatchClause(List<PCatchClause> list) {
         this._catchClause_.clear();
         this._catchClause_.addAll(list);
-        for(PCatchClause e : list)
-        {
-            if(e.parent() != null)
-            {
+        for (PCatchClause e : list) {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -140,22 +121,17 @@ public final class AFullMethodBody extends PMethodBody
         }
     }
 
-    public TRBrace getRBrace()
-    {
+    public TRBrace getRBrace() {
         return this._rBrace_;
     }
 
-    public void setRBrace(TRBrace node)
-    {
-        if(this._rBrace_ != null)
-        {
+    public void setRBrace(TRBrace node) {
+        if (this._rBrace_ != null) {
             this._rBrace_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -166,43 +142,36 @@ public final class AFullMethodBody extends PMethodBody
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._lBrace_)
-            + toString(this._declaration_)
-            + toString(this._statement_)
-            + toString(this._catchClause_)
-            + toString(this._rBrace_);
+                + toString(this._lBrace_)
+                + toString(this._declaration_)
+                + toString(this._statement_)
+                + toString(this._catchClause_)
+                + toString(this._rBrace_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._lBrace_ == child)
-        {
+        if (this._lBrace_ == child) {
             this._lBrace_ = null;
             return;
         }
 
-        if(this._declaration_.remove(child))
-        {
+        if (this._declaration_.remove(child)) {
             return;
         }
 
-        if(this._statement_.remove(child))
-        {
+        if (this._statement_.remove(child)) {
             return;
         }
 
-        if(this._catchClause_.remove(child))
-        {
+        if (this._catchClause_.remove(child)) {
             return;
         }
 
-        if(this._rBrace_ == child)
-        {
+        if (this._rBrace_ == child) {
             this._rBrace_ = null;
             return;
         }
@@ -211,21 +180,16 @@ public final class AFullMethodBody extends PMethodBody
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._lBrace_ == oldChild)
-        {
+        if (this._lBrace_ == oldChild) {
             setLBrace((TLBrace) newChild);
             return;
         }
 
-        for(ListIterator<PDeclaration> i = this._declaration_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PDeclaration> i = this._declaration_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PDeclaration) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -238,12 +202,9 @@ public final class AFullMethodBody extends PMethodBody
             }
         }
 
-        for(ListIterator<PStatement> i = this._statement_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PStatement> i = this._statement_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PStatement) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -256,12 +217,9 @@ public final class AFullMethodBody extends PMethodBody
             }
         }
 
-        for(ListIterator<PCatchClause> i = this._catchClause_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PCatchClause> i = this._catchClause_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PCatchClause) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -274,8 +232,7 @@ public final class AFullMethodBody extends PMethodBody
             }
         }
 
-        if(this._rBrace_ == oldChild)
-        {
+        if (this._rBrace_ == oldChild) {
             setRBrace((TRBrace) newChild);
             return;
         }

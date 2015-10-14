@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AStringConstant extends PConstant
-{
+public final class AStringConstant extends PConstant {
     private TStringConstant _stringConstant_;
 
-    public AStringConstant()
-    {
+    public AStringConstant() {
         // Constructor
     }
 
     public AStringConstant(
-        @SuppressWarnings("hiding") TStringConstant _stringConstant_)
-    {
+            @SuppressWarnings("hiding") TStringConstant _stringConstant_) {
         // Constructor
         setStringConstant(_stringConstant_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStringConstant(
-            cloneNode(this._stringConstant_));
+                cloneNode(this._stringConstant_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStringConstant(this);
     }
 
-    public TStringConstant getStringConstant()
-    {
+    public TStringConstant getStringConstant() {
         return this._stringConstant_;
     }
 
-    public void setStringConstant(TStringConstant node)
-    {
-        if(this._stringConstant_ != null)
-        {
+    public void setStringConstant(TStringConstant node) {
+        if (this._stringConstant_ != null) {
             this._stringConstant_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AStringConstant extends PConstant
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._stringConstant_);
+                + toString(this._stringConstant_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._stringConstant_ == child)
-        {
+        if (this._stringConstant_ == child) {
             this._stringConstant_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AStringConstant extends PConstant
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._stringConstant_ == oldChild)
-        {
+        if (this._stringConstant_ == oldChild) {
             setStringConstant((TStringConstant) newChild);
             return;
         }

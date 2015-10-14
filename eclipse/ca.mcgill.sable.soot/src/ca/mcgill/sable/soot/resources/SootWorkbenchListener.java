@@ -19,50 +19,50 @@
 
 package ca.mcgill.sable.soot.resources;
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import ca.mcgill.sable.soot.SootPlugin;
-
 public class SootWorkbenchListener implements IWindowListener {
 
     private boolean initialized = false;
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWindowListener#windowActivated(org.eclipse.ui.IWorkbenchWindow)
-	 */
-	public void windowActivated(IWorkbenchWindow window) {
-        if (!initialized){
-		    window.getActivePage().addPartListener(new EditorActivationListener());
-		    IEditorPart activeEdPart = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		    SootPlugin.getDefault().getPartManager().updatePart(activeEdPart);
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWindowListener#windowActivated(org.eclipse.ui.IWorkbenchWindow)
+     */
+    public void windowActivated(IWorkbenchWindow window) {
+        if (!initialized) {
+            window.getActivePage().addPartListener(new EditorActivationListener());
+            IEditorPart activeEdPart = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+            SootPlugin.getDefault().getPartManager().updatePart(activeEdPart);
             initialized = true;
         }
 
-        
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWindowListener#windowDeactivated(org.eclipse.ui.IWorkbenchWindow)
-	 */
-	public void windowDeactivated(IWorkbenchWindow window) {
-		
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWindowListener#windowClosed(org.eclipse.ui.IWorkbenchWindow)
-	 */
-	public void windowClosed(IWorkbenchWindow window) {
-		
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWindowListener#windowDeactivated(org.eclipse.ui.IWorkbenchWindow)
+     */
+    public void windowDeactivated(IWorkbenchWindow window) {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWindowListener#windowOpened(org.eclipse.ui.IWorkbenchWindow)
-	 */
-	public void windowOpened(IWorkbenchWindow window) {
-		window.getActivePage().addPartListener(new EditorActivationListener());
-		IEditorPart activeEdPart = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		SootPlugin.getDefault().getPartManager().updatePart(activeEdPart);
-	}
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWindowListener#windowClosed(org.eclipse.ui.IWorkbenchWindow)
+     */
+    public void windowClosed(IWorkbenchWindow window) {
+
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWindowListener#windowOpened(org.eclipse.ui.IWorkbenchWindow)
+     */
+    public void windowOpened(IWorkbenchWindow window) {
+        window.getActivePage().addPartListener(new EditorActivationListener());
+        IEditorPart activeEdPart = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+        SootPlugin.getDefault().getPartManager().updatePart(activeEdPart);
+    }
 
 }

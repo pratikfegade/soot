@@ -24,55 +24,46 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.baf.*;
-import soot.util.*;
+import soot.baf.InstSwitch;
+import soot.baf.ThrowInst;
+import soot.util.Switch;
 
-public class BThrowInst extends AbstractInst implements ThrowInst
-{
-    public BThrowInst()
-    {
+public class BThrowInst extends AbstractInst implements ThrowInst {
+    public BThrowInst() {
     }
 
-    public int getInCount()
-    {
+    public int getInCount() {
         return 1;
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 1;
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 0;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 0;
     }
-    
-    final public String getName() { return "athrow"; }
 
-    public void apply(Switch sw)
-    {
+    final public String getName() {
+        return "athrow";
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseThrowInst(this);
-    }   
+    }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new BThrowInst();
     }
 
 
-    public boolean fallsThrough()
-    {
+    public boolean fallsThrough() {
         return false;
     }
 }

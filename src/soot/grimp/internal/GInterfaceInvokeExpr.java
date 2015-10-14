@@ -25,50 +25,50 @@
  */
 
 
-
-
-
-
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
-import java.util.*;
+import soot.SootMethodRef;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.grimp.Grimp;
+import soot.grimp.Precedence;
+import soot.grimp.PrecedenceTest;
+import soot.jimple.internal.AbstractInterfaceInvokeExpr;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GInterfaceInvokeExpr extends AbstractInterfaceInvokeExpr
-    implements Precedence
-{
-    public GInterfaceInvokeExpr(Value base, SootMethodRef methodRef, List args)
-    {
+        implements Precedence {
+    public GInterfaceInvokeExpr(Value base, SootMethodRef methodRef, List args) {
         super(Grimp.v().newObjExprBox(base), methodRef,
-             new ValueBox[args.size()]);
+                new ValueBox[args.size()]);
 
-        for(int i = 0; i < args.size(); i++)
+        for (int i = 0; i < args.size(); i++)
             this.argBoxes[i] = Grimp.v().newExprBox((Value) args.get(i));
     }
 
-    public int getPrecedence() { return 950; }
+    public int getPrecedence() {
+        return 950;
+    }
 
-    private String toString(Value op, String opString, String rightString)
-    {
+    private String toString(Value op, String opString, String rightString) {
         String leftOp = opString;
 
-        if (getBase() instanceof Precedence && 
-            ((Precedence)getBase()).getPrecedence() < getPrecedence()) 
+        if (getBase() instanceof Precedence &&
+                ((Precedence) getBase()).getPrecedence() < getPrecedence())
             leftOp = "(" + leftOp + ")";
         return leftOp + rightString;
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append("." + methodRef.getSignature() + "(");
 
-        for(int i = 0; i < argBoxes.length; i++)
-        {
-            if(i != 0)
+        for (int i = 0; i < argBoxes.length; i++) {
+            if (i != 0)
                 buffer.append(", ");
 
             buffer.append(argBoxes[i].getValue().toString());
@@ -76,22 +76,20 @@ public class GInterfaceInvokeExpr extends AbstractInterfaceInvokeExpr
 
         buffer.append(")");
 
-        return toString(getBase(), getBase().toString(), 
-                        buffer.toString());
+        return toString(getBase(), getBase().toString(),
+                buffer.toString());
     }
 
-    public void toString(UnitPrinter up)
-    {
-        if( PrecedenceTest.needsBrackets( baseBox, this ) ) up.literal("(");
+    public void toString(UnitPrinter up) {
+        if (PrecedenceTest.needsBrackets(baseBox, this)) up.literal("(");
         baseBox.toString(up);
-        if( PrecedenceTest.needsBrackets( baseBox, this ) ) up.literal(")");
+        if (PrecedenceTest.needsBrackets(baseBox, this)) up.literal(")");
         up.literal(".");
         up.methodRef(methodRef);
         up.literal("(");
 
-        for(int i = 0; i < argBoxes.length; i++)
-        {
-            if(i != 0)
+        for (int i = 0; i < argBoxes.length; i++) {
+            if (i != 0)
                 up.literal(", ");
 
             argBoxes[i].toString(up);
@@ -100,17 +98,16 @@ public class GInterfaceInvokeExpr extends AbstractInterfaceInvokeExpr
         up.literal(")");
     }
 
-    
-    public Object clone() 
-    {
+
+    public Object clone() {
         List argList = new ArrayList(getArgCount());
 
-        for(int i = 0; i < getArgCount(); i++) {
+        for (int i = 0; i < getArgCount(); i++) {
             argList.add(i, Grimp.cloneIfNecessary(getArg(i)));
         }
-            
-        return new  GInterfaceInvokeExpr(Grimp.cloneIfNecessary(getBase()), 
-            methodRef, argList);
+
+        return new GInterfaceInvokeExpr(Grimp.cloneIfNecessary(getBase()),
+                methodRef, argList);
     }
 
 }

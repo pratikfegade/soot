@@ -18,42 +18,50 @@
  */
 
 package soot.jimple.spark.pag;
-import java.util.HashMap;
-import java.util.Map;
 
 import soot.SootMethod;
 import soot.Type;
 
-/** Represents a simple variable node (Green) in the pointer assignment graph
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Represents a simple variable node (Green) in the pointer assignment graph
  * that is specific to a particular method invocation.
+ *
  * @author Ondrej Lhotak
  */
 public class LocalVarNode extends VarNode {
-    public ContextVarNode context( Object context ) 
-    { return cvns == null ? null : cvns.get( context ); }
+    protected Map<Object, ContextVarNode> cvns;
+    protected SootMethod method;
+
+    LocalVarNode(PAG pag, Object variable, Type t, SootMethod m) {
+        super(pag, variable, t);
+        this.method = m;
+        //if( m == null ) throw new RuntimeException( "method shouldn't be null" );
+    }
+    /* End of public methods. */
+
+    public ContextVarNode context(Object context) {
+        return cvns == null ? null : cvns.get(context);
+    }
 
     public SootMethod getMethod() {
         return method;
     }
-    public String toString() {
-	return "LocalVarNode "+getNumber()+" "+variable+" "+method;
-    }
-    /* End of public methods. */
-
-    LocalVarNode( PAG pag, Object variable, Type t, SootMethod m ) {
-	super( pag, variable, t );
-        this.method = m;
-        //if( m == null ) throw new RuntimeException( "method shouldn't be null" );
-    }
-    /** Registers a cvn as having this node as its base. */
-    void addContext( ContextVarNode cvn, Object context ) {
-	if( cvns == null ) cvns = new HashMap<Object, ContextVarNode>();
-	cvns.put( context, cvn );
-    }
 
     /* End of package methods. */
 
-    protected Map<Object, ContextVarNode> cvns;
-    protected SootMethod method;
+    public String toString() {
+        return "LocalVarNode " + getNumber() + " " + variable + " " + method;
+    }
+
+    /**
+     * Registers a cvn as having this node as its base.
+     */
+    void addContext(ContextVarNode cvn, Object context) {
+        if (cvns == null) cvns = new HashMap<Object, ContextVarNode>();
+        cvns.put(context, cvn);
+    }
 }
 

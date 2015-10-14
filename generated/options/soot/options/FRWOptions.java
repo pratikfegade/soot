@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,38 +20,40 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Field Read/Write Tagger. */
-public class FRWOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Field Read/Write Tagger.
+ */
+public class FRWOptions {
     private Map<String, String> options;
 
-    public FRWOptions( Map<String, String> options ) {
+    public FRWOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Maximum number of fields --
-    
+
+    /**
+     * Maximum number of fields --
+     * <p/>
      * .
-    
-     * If a statement reads/writes more than this number of fields, no 
-     * tag will be produced for it, in order to keep the size of the 
-     * tags reasonable. 
+     * <p/>
+     * If a statement reads/writes more than this number of fields, no
+     * tag will be produced for it, in order to keep the size of the
+     * tags reasonable.
      */
     public int threshold() {
-        return soot.PhaseOptions.getInt( options, "threshold" );
+        return soot.PhaseOptions.getInt(options, "threshold");
     }
-    
+
 }
         

@@ -54,6 +54,7 @@
 package ca.mcgill.sable.soot.testing;
 
 //import org.eclipse.jface.dialogs.IDialogSettings;
+
 import org.eclipse.swt.widgets.*;
 //import org.eclipse.swt.*;
 //import org.eclipse.swt.layout.*;
@@ -62,10 +63,10 @@ import org.eclipse.swt.widgets.*;
 
 public class OptionsDialog {//extends AbstractOptionsDialog {
 
-	public OptionsDialog(Shell parentShell) {
-		//super(parentShell);
-	}
-	
+    public OptionsDialog(Shell parentShell) {
+        //super(parentShell);
+    }
+
 	/*/**
 	 * each section gets initialize as a stack layer in pageContainer
 	 * the area containing the options
@@ -706,7 +707,6 @@ public class OptionsDialog {//extends AbstractOptionsDialog {
 		return editGroup;
 	}*/
 
-	
-	
+
 }
 

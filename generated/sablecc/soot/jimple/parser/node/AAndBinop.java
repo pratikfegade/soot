@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AAndBinop extends PBinop
-{
+public final class AAndBinop extends PBinop {
     private TAnd _and_;
 
-    public AAndBinop()
-    {
+    public AAndBinop() {
         // Constructor
     }
 
     public AAndBinop(
-        @SuppressWarnings("hiding") TAnd _and_)
-    {
+            @SuppressWarnings("hiding") TAnd _and_) {
         // Constructor
         setAnd(_and_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AAndBinop(
-            cloneNode(this._and_));
+                cloneNode(this._and_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAAndBinop(this);
     }
 
-    public TAnd getAnd()
-    {
+    public TAnd getAnd() {
         return this._and_;
     }
 
-    public void setAnd(TAnd node)
-    {
-        if(this._and_ != null)
-        {
+    public void setAnd(TAnd node) {
+        if (this._and_ != null) {
             this._and_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AAndBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._and_);
+                + toString(this._and_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._and_ == child)
-        {
+        if (this._and_ == child) {
             this._and_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AAndBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._and_ == oldChild)
-        {
+        if (this._and_ == oldChild) {
             setAnd((TAnd) newChild);
             return;
         }

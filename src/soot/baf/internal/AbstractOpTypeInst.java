@@ -24,45 +24,37 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.*;
-import soot.baf.*;
+import soot.baf.Baf;
 
-public abstract class AbstractOpTypeInst extends AbstractInst
-{
+public abstract class AbstractOpTypeInst extends AbstractInst {
     protected Type opType;
 
-    protected AbstractOpTypeInst(Type opType)
-    {
-        if(opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
+    protected AbstractOpTypeInst(Type opType) {
+        if (opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
             opType = RefType.v();
-        
+
         this.opType = opType;
     }
-    
-    public Type getOpType()
-    {
+
+    public Type getOpType() {
         return opType;
     }
-    
-    public void setOpType(Type t)
-    {
+
+    public void setOpType(Type t) {
         opType = t;
-        if(opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
+        if (opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
             opType = RefType.v();
     }
 
     /* override AbstractInst's toString with our own, including types */
-    public String toString()
-    {
-        return getName() + "." + 
-          Baf.bafDescriptorOf(opType) + getParameters();
+    public String toString() {
+        return getName() + "." +
+                Baf.bafDescriptorOf(opType) + getParameters();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(getName());
         up.literal(".");
@@ -71,12 +63,8 @@ public abstract class AbstractOpTypeInst extends AbstractInst
     }
 
 
-  
-  
-  
-  public int getOutMachineCount()
-  {
-    return AbstractJasminClass.sizeOfType(getOpType());
-  } 
+    public int getOutMachineCount() {
+        return AbstractJasminClass.sizeOfType(getOpType());
+    }
 
 }

@@ -20,52 +20,51 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import java.util.*;
-
-
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.core.resources.*;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jface.text.source.IVerticalRulerInfo;
+import org.eclipse.ui.*;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.*;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import ca.mcgill.sable.soot.SootPlugin;
-import org.eclipse.ui.*;
-import org.eclipse.ui.part.*;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 public class SootAttributeJimpleSelectAction
-	extends SootAttributeSelectAction {
-		
-	public SootAttributeJimpleSelectAction(ResourceBundle bundle, String prefix, ITextEditor editor, IVerticalRulerInfo rulerInfo) {	
-		super(bundle, prefix, editor, rulerInfo);
-	}
-	
-	public ArrayList getMarkerLinks(){
-		SootAttributesHandler handler = SootPlugin.getDefault().getManager().getAttributesHandlerForFile((IFile)getResource(getEditor()));
-		ArrayList links = handler.getJimpleLinks(getLineNumber()+1);
-		return links;
-	}
-	protected int getLinkLine(LinkAttribute la){
-		return la.getJimpleLink();
-	}
-	
-	public void findClass(String className){
-		setLinkToEditor(getEditor());		
-		String resource = removeExt(getResource(getEditor()).getName());
-		String ext = getResource(getEditor()).getFileExtension();
-		
-		String classNameToFind = (ext == null) ? className : className+"."+ext;
-		if (!resource.equals(className)){
-			IContainer parent = getResource(getEditor()).getParent();
-			IResource file = parent.findMember(classNameToFind);
-			try {
-				setLinkToEditor((AbstractTextEditor)SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput((IFile)file), file.getName()));
-			}
-			catch (PartInitException e){
-			}
-			
-		}
-		
-	}
+        extends SootAttributeSelectAction {
+
+    public SootAttributeJimpleSelectAction(ResourceBundle bundle, String prefix, ITextEditor editor, IVerticalRulerInfo rulerInfo) {
+        super(bundle, prefix, editor, rulerInfo);
+    }
+
+    public ArrayList getMarkerLinks() {
+        SootAttributesHandler handler = SootPlugin.getDefault().getManager().getAttributesHandlerForFile((IFile) getResource(getEditor()));
+        ArrayList links = handler.getJimpleLinks(getLineNumber() + 1);
+        return links;
+    }
+
+    protected int getLinkLine(LinkAttribute la) {
+        return la.getJimpleLink();
+    }
+
+    public void findClass(String className) {
+        setLinkToEditor(getEditor());
+        String resource = removeExt(getResource(getEditor()).getName());
+        String ext = getResource(getEditor()).getFileExtension();
+
+        String classNameToFind = (ext == null) ? className : className + "." + ext;
+        if (!resource.equals(className)) {
+            IContainer parent = getResource(getEditor()).getParent();
+            IResource file = parent.findMember(classNameToFind);
+            try {
+                setLinkToEditor((AbstractTextEditor) SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput((IFile) file), file.getName()));
+            } catch (PartInitException e) {
+            }
+
+        }
+
+    }
 }

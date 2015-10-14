@@ -24,64 +24,61 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.util.*;
-import soot.baf.*;
-import java.util.*;
+import soot.util.Switch;
 
-public class JThrowStmt extends AbstractOpStmt implements ThrowStmt
-{
+import java.util.List;
 
-    public JThrowStmt(Value op)
-    {
+public class JThrowStmt extends AbstractOpStmt implements ThrowStmt {
+
+    public JThrowStmt(Value op) {
         this(Jimple.v().newImmediateBox(op));
     }
 
-    protected JThrowStmt(ValueBox opBox)
-    {
+    protected JThrowStmt(ValueBox opBox) {
         super(opBox);
     }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new JThrowStmt(Jimple.cloneIfNecessary(getOp()));
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "throw " + opBox.getValue().toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(Jimple.THROW);
         up.literal(" ");
         opBox.toString(up);
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((StmtSwitch) sw).caseThrowStmt(this);
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        ((ConvertToBaf)getOp()).convertToBaf(context, out);
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) getOp()).convertToBaf(context, out);
 
         Unit u = Baf.v().newThrowInst();
         u.addAllTagsOf(this);
-        out.add(u);	
+        out.add(u);
     }
-    
-    public boolean fallsThrough(){return false;}
-    public boolean branches(){return false;}
 
+    public boolean fallsThrough() {
+        return false;
+    }
+
+    public boolean branches() {
+        return false;
+    }
 
 
 }

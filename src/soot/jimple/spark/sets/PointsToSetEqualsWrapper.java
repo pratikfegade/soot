@@ -18,11 +18,11 @@
  */
 package soot.jimple.spark.sets;
 
-import java.util.Set;
-
 import soot.PointsToSet;
 import soot.Type;
 import soot.jimple.ClassConstant;
+
+import java.util.Set;
 
 /**
  * A decorator that implements equals/hashCode for {@link PointsToSet} supporting the {@link EqualsSupportingPointsToSet} interface.
@@ -36,27 +36,27 @@ public class PointsToSetEqualsWrapper implements PointsToSet {
     public PointsToSetEqualsWrapper(EqualsSupportingPointsToSet pts) {
         this.pts = pts;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode() {        
+    public int hashCode() {
         //delegate
         return pts.pointsToSetHashCode();
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean equals(Object obj) {
-        if(this==obj || this.pts==obj) {
+        if (this == obj || this.pts == obj) {
             return true;
         }
-        
+
         //unwrap other
-        obj = unwrapIfNecessary(obj);       
+        obj = unwrapIfNecessary(obj);
         //delegate
         return pts.pointsToSetEquals(obj);
     }
@@ -68,7 +68,7 @@ public class PointsToSetEqualsWrapper implements PointsToSet {
      */
     public boolean hasNonEmptyIntersection(PointsToSet other) {
         //unwrap other
-        other = (PointsToSet) unwrapIfNecessary(other);       
+        other = (PointsToSet) unwrapIfNecessary(other);
         return pts.hasNonEmptyIntersection(other);
     }
 
@@ -103,15 +103,15 @@ public class PointsToSetEqualsWrapper implements PointsToSet {
     public Set<Type> possibleTypes() {
         return pts.possibleTypes();
     }
-    
+
     protected Object unwrapIfNecessary(Object obj) {
-        if(obj instanceof PointsToSetEqualsWrapper) {
+        if (obj instanceof PointsToSetEqualsWrapper) {
             PointsToSetEqualsWrapper wrapper = (PointsToSetEqualsWrapper) obj;
             obj = wrapper.pts;
         }
         return obj;
     }
-    
+
     /**
      * {@inheritDoc}
      */

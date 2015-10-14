@@ -19,58 +19,57 @@
 
 package ca.mcgill.sable.soot.ui;
 
+import ca.mcgill.sable.soot.launching.SootConfiguration;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import ca.mcgill.sable.soot.launching.SootConfiguration;
-
 public class SootConfigLabelProvider implements ILabelProvider {
 
-	/**
-	 * Constructor for OptionsTreeLabelProvider.
-	 */
-	public SootConfigLabelProvider() {
-		super();
-	}
+    /**
+     * Constructor for OptionsTreeLabelProvider.
+     */
+    public SootConfigLabelProvider() {
+        super();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(Object)
-	 */
-	public Image getImage(Object element) {
-		return null;
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ILabelProvider#getImage(Object)
+     */
+    public Image getImage(Object element) {
+        return null;
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(Object)
-	 */
-	public String getText(Object element) {
-		return ((SootConfiguration)element).getLabel();
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ILabelProvider#getText(Object)
+     */
+    public String getText(Object element) {
+        return ((SootConfiguration) element).getLabel();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(ILabelProviderListener)
-	 */
-	public void addListener(ILabelProviderListener listener) {
-	}
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(ILabelProviderListener)
+     */
+    public void addListener(ILabelProviderListener listener) {
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
-	 */
-	public void dispose() {
-	}
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+     */
+    public void dispose() {
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(Object, String)
-	 */
-	public boolean isLabelProperty(Object element, String property) {
-		return false;
-	}
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(Object, String)
+     */
+    public boolean isLabelProperty(Object element, String property) {
+        return false;
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(ILabelProviderListener)
-	 */
-	public void removeListener(ILabelProviderListener listener) {
-	}
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(ILabelProviderListener)
+     */
+    public void removeListener(ILabelProviderListener listener) {
+    }
 
 }

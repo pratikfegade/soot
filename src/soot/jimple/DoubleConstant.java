@@ -24,116 +24,100 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.DoubleType;
+import soot.Type;
+import soot.util.Switch;
 
-public class DoubleConstant extends RealConstant
-{
+public class DoubleConstant extends RealConstant {
     public final double value;
 
-    private DoubleConstant(double value)
-    {
+    private DoubleConstant(double value) {
         this.value = value;
     }
 
-    public static DoubleConstant v(double value)
-    {
+    public static DoubleConstant v(double value) {
         return new DoubleConstant(value);
     }
 
-    public boolean equals(Object c)
-    {
+    public boolean equals(Object c) {
         return (c instanceof DoubleConstant && ((DoubleConstant) c).value == this.value);
     }
 
-    /** Returns a hash code for this DoubleConstant object. */
-    public int hashCode()
-    {
+    /**
+     * Returns a hash code for this DoubleConstant object.
+     */
+    public int hashCode() {
         long v = Double.doubleToLongBits(value);
-        return (int)(v^(v>>>32));
+        return (int) (v ^ (v >>> 32));
     }
 
     // PTC 1999/06/28
-    public NumericConstant add(NumericConstant c)
-    {
+    public NumericConstant add(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return DoubleConstant.v(this.value + ((DoubleConstant)c).value);
+        return DoubleConstant.v(this.value + ((DoubleConstant) c).value);
     }
 
-    public NumericConstant subtract(NumericConstant c)
-    {
+    public NumericConstant subtract(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return DoubleConstant.v(this.value - ((DoubleConstant)c).value);
+        return DoubleConstant.v(this.value - ((DoubleConstant) c).value);
     }
 
-    public NumericConstant multiply(NumericConstant c)
-    {
+    public NumericConstant multiply(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return DoubleConstant.v(this.value * ((DoubleConstant)c).value);
+        return DoubleConstant.v(this.value * ((DoubleConstant) c).value);
     }
 
-    public NumericConstant divide(NumericConstant c)
-    {
+    public NumericConstant divide(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return DoubleConstant.v(this.value / ((DoubleConstant)c).value);
+        return DoubleConstant.v(this.value / ((DoubleConstant) c).value);
     }
 
-    public NumericConstant remainder(NumericConstant c)
-    {
+    public NumericConstant remainder(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return DoubleConstant.v(this.value % ((DoubleConstant)c).value);
+        return DoubleConstant.v(this.value % ((DoubleConstant) c).value);
     }
 
-    public NumericConstant equalEqual(NumericConstant c)
-    {
+    public NumericConstant equalEqual(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return IntConstant.v((this.value == ((DoubleConstant)c).value) ? 1 : 0);
+        return IntConstant.v((this.value == ((DoubleConstant) c).value) ? 1 : 0);
     }
 
-    public NumericConstant notEqual(NumericConstant c)
-    {
+    public NumericConstant notEqual(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return IntConstant.v((this.value != ((DoubleConstant)c).value) ? 1 : 0);
+        return IntConstant.v((this.value != ((DoubleConstant) c).value) ? 1 : 0);
     }
 
-    public NumericConstant lessThan(NumericConstant c)
-    {
+    public NumericConstant lessThan(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return IntConstant.v((this.value < ((DoubleConstant)c).value) ? 1 : 0);
+        return IntConstant.v((this.value < ((DoubleConstant) c).value) ? 1 : 0);
     }
 
-    public NumericConstant lessThanOrEqual(NumericConstant c)
-    {
+    public NumericConstant lessThanOrEqual(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return IntConstant.v((this.value <= ((DoubleConstant)c).value) ? 1 : 0);
+        return IntConstant.v((this.value <= ((DoubleConstant) c).value) ? 1 : 0);
     }
 
-    public NumericConstant greaterThan(NumericConstant c)
-    {
+    public NumericConstant greaterThan(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return IntConstant.v((this.value > ((DoubleConstant)c).value) ? 1 : 0);
+        return IntConstant.v((this.value > ((DoubleConstant) c).value) ? 1 : 0);
     }
 
-    public NumericConstant greaterThanOrEqual(NumericConstant c)
-    {
+    public NumericConstant greaterThanOrEqual(NumericConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
-        return IntConstant.v((this.value >= ((DoubleConstant)c).value) ? 1 : 0);
+        return IntConstant.v((this.value >= ((DoubleConstant) c).value) ? 1 : 0);
     }
 
     public IntConstant cmpg(RealConstant c) {
@@ -147,7 +131,7 @@ public class DoubleConstant extends RealConstant
         else /* this or c could be NaN */
             return IntConstant.v(1);
     }
-    
+
     public IntConstant cmpl(RealConstant c) {
         if (!(c instanceof DoubleConstant))
             throw new IllegalArgumentException("DoubleConstant expected");
@@ -159,31 +143,27 @@ public class DoubleConstant extends RealConstant
         else /* this or c could be NaN */
             return IntConstant.v(-1);
     }
-    
-    public NumericConstant negate()
-    {
+
+    public NumericConstant negate() {
         return DoubleConstant.v(-(this.value));
     }
 
-    public String toString()
-    {
+    public String toString() {
         String doubleString = new Double(value).toString();
-        
-        if(doubleString.equals("NaN") || 
-            doubleString.equals("Infinity") ||
-            doubleString.equals("-Infinity"))
+
+        if (doubleString.equals("NaN") ||
+                doubleString.equals("Infinity") ||
+                doubleString.equals("-Infinity"))
             return "#" + doubleString;
         else
             return doubleString;
     }
-    
-    public Type getType()
-    {
+
+    public Type getType() {
         return DoubleType.v();
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ConstantSwitch) sw).caseDoubleConstant(this);
     }
 }

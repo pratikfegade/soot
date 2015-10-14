@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TTableswitch extends Token
-{
-    public TTableswitch()
-    {
+public final class TTableswitch extends Token {
+    public TTableswitch() {
         super.setText("tableswitch");
     }
 
-    public TTableswitch(int line, int pos)
-    {
+    public TTableswitch(int line, int pos) {
         super.setText("tableswitch");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TTableswitch(getLine(), getPos());
+    public Object clone() {
+        return new TTableswitch(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTTableswitch(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TTableswitch text.");
     }
 }

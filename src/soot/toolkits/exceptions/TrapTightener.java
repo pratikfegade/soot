@@ -19,22 +19,16 @@
 
 package soot.toolkits.exceptions;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Scene;
-import soot.Singletons;
-import soot.Trap;
-import soot.Unit;
+import soot.*;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph.ExceptionDest;
 import soot.util.Chain;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A {@link BodyTransformer} that shrinks the protected area covered by each
@@ -46,7 +40,7 @@ import soot.util.Chain;
  * the {@link Trap}'s protected area is left completely empty, which will likely
  * cause the {@link UnreachableCodeEliminator} to remove the {@link Trap}
  * completely.
- *
+ * <p/>
  * The {@link TrapTightener} is used to reduce the risk of unverifiable code
  * which can result from the use of {@link ExceptionalUnitGraph}s from which
  * unrealizable exceptional control flow edges have been removed.
@@ -54,104 +48,101 @@ import soot.util.Chain;
 
 public final class TrapTightener extends TrapTransformer {
 
-	protected ThrowAnalysis throwAnalysis = null;
+    protected ThrowAnalysis throwAnalysis = null;
 
-	public TrapTightener(Singletons.Global g) {
-	}
+    public TrapTightener(Singletons.Global g) {
+    }
 
-	public static TrapTightener v() {
-		return soot.G.v().soot_toolkits_exceptions_TrapTightener();
-	}
+    public TrapTightener(ThrowAnalysis ta) {
+        this.throwAnalysis = ta;
+    }
 
-	public TrapTightener(ThrowAnalysis ta) {
-		this.throwAnalysis = ta;
-	}
+    public static TrapTightener v() {
+        return soot.G.v().soot_toolkits_exceptions_TrapTightener();
+    }
 
-	protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
-		if (this.throwAnalysis == null)
-			this.throwAnalysis = Scene.v().getDefaultThrowAnalysis();
+    protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
+        if (this.throwAnalysis == null)
+            this.throwAnalysis = Scene.v().getDefaultThrowAnalysis();
 
-		if (Options.v().verbose())
-			G.v().out.println("[" + body.getMethod().getName() + "] Tightening trap boundaries...");
+        if (Options.v().verbose())
+            G.v().out.println("[" + body.getMethod().getName() + "] Tightening trap boundaries...");
 
-		Chain<Trap> trapChain = body.getTraps();
-		Chain<Unit> unitChain = body.getUnits();
-		if (trapChain.size() > 0) {
-			ExceptionalUnitGraph graph = new ExceptionalUnitGraph(body, throwAnalysis);
-			Set<Unit> unitsWithMonitor = getUnitsWithMonitor(graph);
+        Chain<Trap> trapChain = body.getTraps();
+        Chain<Unit> unitChain = body.getUnits();
+        if (trapChain.size() > 0) {
+            ExceptionalUnitGraph graph = new ExceptionalUnitGraph(body, throwAnalysis);
+            Set<Unit> unitsWithMonitor = getUnitsWithMonitor(graph);
 
-			for (Iterator<Trap> trapIt = trapChain.iterator(); trapIt.hasNext();) {
-				Trap trap = trapIt.next();
-				boolean isCatchAll = trap.getException().getName().equals("java.lang.Throwable");
-				Unit firstTrappedUnit = trap.getBeginUnit();
-				Unit firstTrappedThrower = null;
-				Unit firstUntrappedUnit = trap.getEndUnit();
-				Unit lastTrappedUnit = unitChain.getPredOf(firstUntrappedUnit);
-				Unit lastTrappedThrower = null;
-				for (Unit u = firstTrappedUnit; u != null && u != firstUntrappedUnit; u = unitChain.getSuccOf(u)) {
-					if (mightThrowTo(graph, u, trap)) {
-						firstTrappedThrower = u;
-						break;
-					}
-					
-					// If this is the catch-all block and the current unit has an,
-					// active monitor, we need to keep the block
-					if (isCatchAll && unitsWithMonitor.contains(u))
-						break;
-				}
-				if (firstTrappedThrower != null) {
-					for (Unit u = lastTrappedUnit; u != null; u = unitChain.getPredOf(u)) {						
-						if (mightThrowTo(graph, u, trap)) {
-							lastTrappedThrower = u;
-							break;
-						}
-						
-						// If this is the catch-all block and the current unit has an,
-						// active monitor, we need to keep the block
-						if (isCatchAll && unitsWithMonitor.contains(u))
-							break;
-					}
-				}
-				// If no statement inside the trap can throw an exception, we
-				// remove the
-				// complete trap.
-				if (firstTrappedThrower == null)
-					trapIt.remove();
-				else {
-					if (firstTrappedThrower != null && firstTrappedUnit != firstTrappedThrower) {
-						trap.setBeginUnit(firstTrappedThrower);
-					}
-					if (lastTrappedThrower == null) {
-						lastTrappedThrower = firstTrappedUnit;
-					}
-					if (lastTrappedUnit != lastTrappedThrower) {
-						trap.setEndUnit(unitChain.getSuccOf(lastTrappedThrower));
-					}
-				}
-			}
-		}
-	}
+            for (Iterator<Trap> trapIt = trapChain.iterator(); trapIt.hasNext(); ) {
+                Trap trap = trapIt.next();
+                boolean isCatchAll = trap.getException().getName().equals("java.lang.Throwable");
+                Unit firstTrappedUnit = trap.getBeginUnit();
+                Unit firstTrappedThrower = null;
+                Unit firstUntrappedUnit = trap.getEndUnit();
+                Unit lastTrappedUnit = unitChain.getPredOf(firstUntrappedUnit);
+                Unit lastTrappedThrower = null;
+                for (Unit u = firstTrappedUnit; u != null && u != firstUntrappedUnit; u = unitChain.getSuccOf(u)) {
+                    if (mightThrowTo(graph, u, trap)) {
+                        firstTrappedThrower = u;
+                        break;
+                    }
 
-	/**
-	 * A utility routine which determines if a particular {@link Unit} might
-	 * throw an exception to a particular {@link Trap}, according to the
-	 * information supplied by a particular control flow graph.
-	 *
-	 * @param g
-	 *            The control flow graph providing information about exceptions.
-	 * @param u
-	 *            The unit being inquired about.
-	 * @param t
-	 *            The trap being inquired about.
-	 * @return <tt>true</tt> if <tt>u</tt> might throw an exception caught by
-	 *         <tt>t</tt>, according to <tt>g</tt.
-	 */
-	protected boolean mightThrowTo(ExceptionalUnitGraph g, Unit u, Trap t) {
-		for (ExceptionDest dest : g.getExceptionDests(u)) {
-			if (dest.getTrap() == t) {
-				return true;
-			}
-		}
-		return false;
-	}
+                    // If this is the catch-all block and the current unit has an,
+                    // active monitor, we need to keep the block
+                    if (isCatchAll && unitsWithMonitor.contains(u))
+                        break;
+                }
+                if (firstTrappedThrower != null) {
+                    for (Unit u = lastTrappedUnit; u != null; u = unitChain.getPredOf(u)) {
+                        if (mightThrowTo(graph, u, trap)) {
+                            lastTrappedThrower = u;
+                            break;
+                        }
+
+                        // If this is the catch-all block and the current unit has an,
+                        // active monitor, we need to keep the block
+                        if (isCatchAll && unitsWithMonitor.contains(u))
+                            break;
+                    }
+                }
+                // If no statement inside the trap can throw an exception, we
+                // remove the
+                // complete trap.
+                if (firstTrappedThrower == null)
+                    trapIt.remove();
+                else {
+                    if (firstTrappedThrower != null && firstTrappedUnit != firstTrappedThrower) {
+                        trap.setBeginUnit(firstTrappedThrower);
+                    }
+                    if (lastTrappedThrower == null) {
+                        lastTrappedThrower = firstTrappedUnit;
+                    }
+                    if (lastTrappedUnit != lastTrappedThrower) {
+                        trap.setEndUnit(unitChain.getSuccOf(lastTrappedThrower));
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * A utility routine which determines if a particular {@link Unit} might
+     * throw an exception to a particular {@link Trap}, according to the
+     * information supplied by a particular control flow graph.
+     *
+     * @param g The control flow graph providing information about exceptions.
+     * @param u The unit being inquired about.
+     * @param t The trap being inquired about.
+     * @return <tt>true</tt> if <tt>u</tt> might throw an exception caught by
+     * <tt>t</tt>, according to <tt>g</tt.
+     */
+    protected boolean mightThrowTo(ExceptionalUnitGraph g, Unit u, Trap t) {
+        for (ExceptionDest dest : g.getExceptionDests(u)) {
+            if (dest.getTrap() == t) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

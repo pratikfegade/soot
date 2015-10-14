@@ -18,36 +18,57 @@
  */
 
 package soot.util;
-import java.util.*;
 
-/** A map with sets as values.
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * A map with sets as values.
  *
  * @author Ondrej Lhotak
  */
 
-public interface MultiMap<K,V> {
-    public boolean isEmpty();
-    public int numKeys();
-    public boolean contains( K key, V value );
-    public boolean containsKey( K key );
-    public boolean containsValue( V value );
-    public boolean put( K key, V value );
-    public boolean putAll( K key, Set<V> values );
-    public void putAll( Map<K,Set<V>> m );
-    public void putAll( MultiMap<K,V> m );
-    public boolean remove( K key, V value );
-    public boolean remove( K key );
-    public boolean removeAll( K key, Set<V> values );
-    public Set<V> get( K o );
-    public Set<K> keySet();
-    public Set<V> values();
-    public boolean equals( Object o );
-    public int hashCode();
-    
+public interface MultiMap<K, V> {
+    boolean isEmpty();
+
+    int numKeys();
+
+    boolean contains(K key, V value);
+
+    boolean containsKey(K key);
+
+    boolean containsValue(V value);
+
+    boolean put(K key, V value);
+
+    boolean putAll(K key, Set<V> values);
+
+    void putAll(Map<K, Set<V>> m);
+
+    void putAll(MultiMap<K, V> m);
+
+    boolean remove(K key, V value);
+
+    boolean remove(K key);
+
+    boolean removeAll(K key, Set<V> values);
+
+    Set<V> get(K o);
+
+    Set<K> keySet();
+
+    Set<V> values();
+
+    boolean equals(Object o);
+
+    int hashCode();
+
     /**
      * Gets the number of keys in this MultiMap
+     *
      * @return The number of keys in this MultiMap
      */
-    public int size();
-	public void clear();
+    int size();
+
+    void clear();
 }

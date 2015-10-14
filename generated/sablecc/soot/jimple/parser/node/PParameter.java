@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PParameter extends Node
-{
+public abstract class PParameter extends Node {
     // Empty body
 }

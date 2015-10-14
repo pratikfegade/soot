@@ -21,7 +21,7 @@
  * Implementation of the paper "A Combined Pointer and Purity Analysis for
  * Java Programs" by Alexandru Salcianu and Martin Rinard, within the
  * Soot Optimization Framework.
- *
+ * <p/>
  * by Antoine Mine, 2005/01/24
  */
 
@@ -34,14 +34,14 @@ package soot.jimple.toolkits.annotation.purity;
  * arguments (structural equality).
  *
  */
-public interface PurityNode { 
+public interface PurityNode {
 
     /** Is it an inside node ? */
-    public boolean isInside();
+    boolean isInside();
 
     /** Is it a load node ? */
-    public boolean isLoad();
+    boolean isLoad();
 
     /** Is it a parameter or this node ? */
-    public boolean isParam();
+    boolean isParam();
 } 

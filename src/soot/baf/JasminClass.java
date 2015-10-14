@@ -25,54 +25,9 @@
 
 
 package soot.baf;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
-import soot.AbstractJasminClass;
-import soot.ArrayType;
-import soot.Body;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.G;
-import soot.IntType;
-import soot.Local;
-import soot.LongType;
-import soot.Modifier;
-import soot.NullType;
-import soot.PackManager;
-import soot.RefType;
-import soot.ShortType;
-import soot.SootClass;
-import soot.SootFieldRef;
-import soot.SootMethod;
-import soot.SootMethodRef;
-import soot.StmtAddressType;
-import soot.Timers;
-import soot.Trap;
-import soot.Type;
-import soot.TypeSwitch;
-import soot.Unit;
-import soot.UnitBox;
-import soot.Value;
-import soot.ValueBox;
-import soot.jimple.CaughtExceptionRef;
-import soot.jimple.ClassConstant;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FloatConstant;
-import soot.jimple.IdentityRef;
-import soot.jimple.IntConstant;
-import soot.jimple.JimpleBody;
-import soot.jimple.LongConstant;
-import soot.jimple.NullConstant;
-import soot.jimple.ParameterRef;
-import soot.jimple.StringConstant;
-import soot.jimple.ThisRef;
+import soot.*;
+import soot.jimple.*;
 import soot.options.Options;
 import soot.tagkit.JasminAttribute;
 import soot.tagkit.LineNumberTag;
@@ -84,52 +39,50 @@ import soot.toolkits.graph.DirectedGraph;
 import soot.util.ArraySet;
 import soot.util.Chain;
 
-public class JasminClass extends AbstractJasminClass
-{
-    
-    public JasminClass(SootClass sootClass)
-    {
+import java.util.*;
+
+public class JasminClass extends AbstractJasminClass {
+
+    public JasminClass(SootClass sootClass) {
         super(sootClass);
     }
 
-    protected void assignColorsToLocals(Body body)
-    {
+    protected void assignColorsToLocals(Body body) {
         super.assignColorsToLocals(body);
-        
-        if(Options.v().time())
+
+        if (Options.v().time())
             Timers.v().packTimer.end();
-                    
+
     }
 
-    protected void emitMethodBody(SootMethod method)
-    {
-        if(Options.v().time())
+    protected void emitMethodBody(SootMethod method) {
+        if (Options.v().time())
             Timers.v().buildJasminTimer.end();
-        
+
         Body activeBody = method.getActiveBody();
-        
-        if(!(activeBody instanceof BafBody)) {
-        	if(activeBody instanceof JimpleBody) {
-        		if(Options.v().verbose()) {
-        			G.v().out.println("Was expecting Baf body for "+method+" but found a Jimple body. Will convert body to Baf on the fly.");
-        		}
-        		activeBody = PackManager.v().convertJimpleBodyToBaf(method);
-        	} else 
-        		throw new RuntimeException("method: " + method.getName() + " has an invalid active body!");
-        } 
-        
+
+        if (!(activeBody instanceof BafBody)) {
+            if (activeBody instanceof JimpleBody) {
+                if (Options.v().verbose()) {
+                    G.v().out.println("Was expecting Baf body for " + method + " but found a Jimple body. Will convert body to Baf on the fly.");
+                }
+                activeBody = PackManager.v().convertJimpleBodyToBaf(method);
+            } else
+                throw new RuntimeException("method: " + method.getName() + " has an invalid active body!");
+        }
+
         BafBody body = (BafBody) activeBody;
-        
-        if(body == null)
+
+        if (body == null)
             throw new RuntimeException("method: " + method.getName() + " has no active body!");
-            
-        if(Options.v().time())
+
+        if (Options.v().time())
             Timers.v().buildJasminTimer.start();
-        
+
         Chain<Unit> instList = body.getUnits();
 
         int stackLimitIndex = -1;
-        
+
         subroutineToReturnAddressSlot = new HashMap<Unit, Integer>(10, 0.7f);
 
         // Determine the unitToLabel map
@@ -137,33 +90,30 @@ public class JasminClass extends AbstractJasminClass
             unitToLabel = new HashMap<Unit, String>(instList.size() * 2 + 1, 0.7f);
             labelCount = 0;
 
-            for (UnitBox uBox : body.getUnitBoxes(true))
-            {
+            for (UnitBox uBox : body.getUnitBoxes(true)) {
                 // Assign a label for each statement reference
                 {
                     InstBox box = (InstBox) uBox;
 
-                    if(!unitToLabel.containsKey(box.getUnit()))
+                    if (!unitToLabel.containsKey(box.getUnit()))
                         unitToLabel.put(box.getUnit(), "label" + labelCount++);
                 }
             }
         }
 
 
-
-
         // Emit the exceptions, recording the Units at the beginning
-	// of handlers so that later on we can recognize blocks that 
-	// begin with an exception on the stack.
-	Set<Unit> handlerUnits = new ArraySet<Unit>(body.getTraps().size());
+        // of handlers so that later on we can recognize blocks that
+        // begin with an exception on the stack.
+        Set<Unit> handlerUnits = new ArraySet<Unit>(body.getTraps().size());
         {
-        	for (Trap trap : body.getTraps()) {
-		handlerUnits.add(trap.getHandlerUnit());
-                if(trap.getBeginUnit() != trap.getEndUnit()) {
+            for (Trap trap : body.getTraps()) {
+                handlerUnits.add(trap.getHandlerUnit());
+                if (trap.getBeginUnit() != trap.getEndUnit()) {
                     emit(".catch " + slashify(trap.getException().getName()) + " from " +
-                        unitToLabel.get(trap.getBeginUnit()) + " to " + unitToLabel.get(trap.getEndUnit()) +
-                        " using " + unitToLabel.get(trap.getHandlerUnit()));
-		}
+                            unitToLabel.get(trap.getBeginUnit()) + " to " + unitToLabel.get(trap.getEndUnit()) +
+                            " using " + unitToLabel.get(trap.getHandlerUnit()));
+                }
             }
         }
 
@@ -173,21 +123,19 @@ public class JasminClass extends AbstractJasminClass
             int[] paramSlots = new int[method.getParameterCount()];
             int thisSlot = 0;
             Set<Local> assignedLocals = new HashSet<Local>();
-            
+
             localToSlot = new HashMap<Local, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
 
             //assignColorsToLocals(body);
-            
+
             // Determine slots for 'this' and parameters
             {
-                if(!method.isStatic())
-                {
+                if (!method.isStatic()) {
                     thisSlot = 0;
                     localCount++;
                 }
 
-                for(int i = 0; i < method.getParameterCount(); i++)
-                {
+                for (int i = 0; i < method.getParameterCount(); i++) {
                     paramSlots[i] = localCount;
                     localCount += sizeOfType(method.getParameterType(i));
                 }
@@ -195,70 +143,62 @@ public class JasminClass extends AbstractJasminClass
 
             // Handle identity statements
             {
-                for (Unit u : instList)
-                {
+                for (Unit u : instList) {
                     Inst s = (Inst) u;
-                    if(s instanceof IdentityInst && ((IdentityInst) s).getLeftOp() instanceof Local)
-                    {
+                    if (s instanceof IdentityInst && ((IdentityInst) s).getLeftOp() instanceof Local) {
                         Local l = (Local) ((IdentityInst) s).getLeftOp();
                         IdentityRef identity = (IdentityRef) ((IdentityInst) s).getRightOp();
 
                         int slot = 0;
-                                                
-                        if(identity instanceof ThisRef)
-                        {
-                            if(method.isStatic())
+
+                        if (identity instanceof ThisRef) {
+                            if (method.isStatic())
                                 throw new RuntimeException("Attempting to use 'this' in static method");
 
                             slot = thisSlot;
-                        }
-                        else if(identity instanceof ParameterRef)
+                        } else if (identity instanceof ParameterRef)
                             slot = paramSlots[((ParameterRef) identity).getIndex()];
                         else {
                             // Exception ref.  Skip over this
                             continue;
                         }
-                        
+
                         localToSlot.put(l, new Integer(slot));
                         assignedLocals.add(l);
-                        
+
                     }
                 }
             }
 
             // Assign the rest of the locals
             {
-                for (Local local : body.getLocals())
-                {
-                    if(assignedLocals.add(local))
-                    {
+                for (Local local : body.getLocals()) {
+                    if (assignedLocals.add(local)) {
                         localToSlot.put(local, new Integer(localCount));
-                        localCount += sizeOfType((Type)local.getType());
+                        localCount += sizeOfType(local.getType());
                     }
                 }
 
                 if (!Modifier.isNative(method.getModifiers())
-                    && !Modifier.isAbstract(method.getModifiers()))
-                  {
+                        && !Modifier.isAbstract(method.getModifiers())) {
                     emit("    .limit stack ?");
                     stackLimitIndex = code.size() - 1;
-                    
+
                     emit("    .limit locals " + localCount);
-                  }
+                }
             }
         }
 
         // Emit code in one pass
         {
             isEmittingMethodCode = true;
-            maxStackHeight = 0; 
+            maxStackHeight = 0;
             isNextGotoAJsr = false;
 
-            for (Unit u : instList)
-            {
+            for (Unit u : instList) {
                 Inst s = (Inst) u;
 
-                if(unitToLabel.containsKey(s))
+                if (unitToLabel.containsKey(s))
                     emit(unitToLabel.get(s) + ":");
 
                 // emit this statement
@@ -268,343 +208,294 @@ public class JasminClass extends AbstractJasminClass
             }
 
             isEmittingMethodCode = false;
-            
+
             // calculate max stack height
             {
                 maxStackHeight = 0;
-                if(activeBody.getUnits().size() !=  0 ) {
+                if (activeBody.getUnits().size() != 0) {
                     BlockGraph blockGraph = new BriefBlockGraph(activeBody);
                     List<Block> blocks = blockGraph.getBlocks();
 
-                    if(blocks.size() != 0) {
+                    if (blocks.size() != 0) {
                         // set the stack height of the entry points
-                        List<Block> entryPoints = ((DirectedGraph<Block>)blockGraph).getHeads();                
+                        List<Block> entryPoints = blockGraph.getHeads();
                         for (Block entryBlock : entryPoints) {
                             Integer initialHeight;
-                            if(handlerUnits.contains(entryBlock.getHead())) {
+                            if (handlerUnits.contains(entryBlock.getHead())) {
                                 initialHeight = new Integer(1);
                             } else {
                                 initialHeight = new Integer(0);
-                            }                                                
-                            if (blockToStackHeight == null){
+                            }
+                            if (blockToStackHeight == null) {
                                 blockToStackHeight = new HashMap<Block, Integer>();
                             }
                             blockToStackHeight.put(entryBlock, initialHeight);
-                            if (blockToLogicalStackHeight == null){
+                            if (blockToLogicalStackHeight == null) {
                                 blockToLogicalStackHeight = new HashMap<Block, Integer>();
                             }
-                            blockToLogicalStackHeight.put(entryBlock, initialHeight); 
-                        }                
-                                    
+                            blockToLogicalStackHeight.put(entryBlock, initialHeight);
+                        }
+
                         // dfs the block graph using the blocks in the entryPoints list  as roots 
                         for (Block nextBlock : entryPoints) {
                             calculateStackHeight(nextBlock);
                             calculateLogicalStackHeightCheck(nextBlock);
-                        }                
+                        }
                     }
                 }
             }
-            
+
             if (!Modifier.isNative(method.getModifiers())
-                && !Modifier.isAbstract(method.getModifiers()))
+                    && !Modifier.isAbstract(method.getModifiers()))
                 code.set(stackLimitIndex, "    .limit stack " + maxStackHeight);
         }
 
-	// emit code attributes
-	{
-	    for (Tag t : body.getTags()) {
-			if(t instanceof JasminAttribute) {
-			    emit(".code_attribute " + t.getName() +" \"" + ((JasminAttribute) t).getJasminValue(unitToLabel) +"\"");
-			}		
-	    }
-	}
+        // emit code attributes
+        {
+            for (Tag t : body.getTags()) {
+                if (t instanceof JasminAttribute) {
+                    emit(".code_attribute " + t.getName() + " \"" + ((JasminAttribute) t).getJasminValue(unitToLabel) + "\"");
+                }
+            }
+        }
     }
 
 
-    void emitInst(Inst inst)
-    {
-    	LineNumberTag lnTag = (LineNumberTag) inst.getTag("LineNumberTag");
-    	if(lnTag != null) emit(".line " + lnTag.getLineNumber());
-    	inst.apply(new InstSwitch()
-        {
-            public void caseReturnVoidInst(ReturnVoidInst i)
-            {
+    void emitInst(Inst inst) {
+        LineNumberTag lnTag = (LineNumberTag) inst.getTag("LineNumberTag");
+        if (lnTag != null) emit(".line " + lnTag.getLineNumber());
+        inst.apply(new InstSwitch() {
+            public void caseReturnVoidInst(ReturnVoidInst i) {
                 emit("return");
             }
 
-            public void caseReturnInst(ReturnInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void defaultCase(Type t)
-                    {
+            public void caseReturnInst(ReturnInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid return type " + t.toString());
-                     }
+                    }
 
-                     public void caseDoubleType(DoubleType t)
-                     {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dreturn");
-                     }
+                    }
 
-                     public void caseFloatType(FloatType t)
-                     {
+                    public void caseFloatType(FloatType t) {
                         emit("freturn");
-                     }
+                    }
 
-                     public void caseIntType(IntType t)
-                     {
+                    public void caseIntType(IntType t) {
                         emit("ireturn");
-                     }
+                    }
 
-                     public void caseByteType(ByteType t)
-                     {
+                    public void caseByteType(ByteType t) {
                         emit("ireturn");
-                     }
+                    }
 
-                     public void caseShortType(ShortType t)
-                     {
+                    public void caseShortType(ShortType t) {
                         emit("ireturn");
-                     }
+                    }
 
-                     public void caseCharType(CharType t)
-                     {
+                    public void caseCharType(CharType t) {
                         emit("ireturn");
-                     }
+                    }
 
-                     public void caseBooleanType(BooleanType t)
-                     {
+                    public void caseBooleanType(BooleanType t) {
                         emit("ireturn");
-                     }
+                    }
 
-                     public void caseLongType(LongType t)
-                     {
+                    public void caseLongType(LongType t) {
                         emit("lreturn");
-                     }
+                    }
 
-                     public void caseArrayType(ArrayType t)
-                     {
+                    public void caseArrayType(ArrayType t) {
                         emit("areturn");
-                     }
+                    }
 
-                     public void caseRefType(RefType t)
-                     {
+                    public void caseRefType(RefType t) {
                         emit("areturn");
-                     }
+                    }
 
-                     public void caseNullType(NullType t)
-                     {
+                    public void caseNullType(NullType t) {
                         emit("areturn");
-                     }
+                    }
 
                 });
             }
 
-            public void caseNopInst(NopInst i) { emit ("nop"); }
-
-            public void caseEnterMonitorInst(EnterMonitorInst i) 
-            { 
-                emit ("monitorenter"); 
-            }
-            
-            public void casePopInst(PopInst i) 
-                {
-                    if(i.getWordCount() == 2) {
-                        emit("pop2");
-                    }
-                    else
-                        emit("pop");
-                }
-                    
-
-            public void caseExitMonitorInst(ExitMonitorInst i) 
-            { 
-                emit ("monitorexit"); 
+            public void caseNopInst(NopInst i) {
+                emit("nop");
             }
 
-            public void caseGotoInst(GotoInst i)
-            { 
+            public void caseEnterMonitorInst(EnterMonitorInst i) {
+                emit("monitorenter");
+            }
+
+            public void casePopInst(PopInst i) {
+                if (i.getWordCount() == 2) {
+                    emit("pop2");
+                } else
+                    emit("pop");
+            }
+
+
+            public void caseExitMonitorInst(ExitMonitorInst i) {
+                emit("monitorexit");
+            }
+
+            public void caseGotoInst(GotoInst i) {
                 emit("goto " + unitToLabel.get(i.getTarget()));
             }
-            
-            public void caseJSRInst(JSRInst i)
-            { 
+
+            public void caseJSRInst(JSRInst i) {
                 emit("jsr " + unitToLabel.get(i.getTarget()));
             }
 
-            public void casePushInst(PushInst i)
-            {
-                if (i.getConstant() instanceof IntConstant)
-                {
-                    IntConstant v = (IntConstant)(i.getConstant());
-                    if(v.value == -1)
+            public void casePushInst(PushInst i) {
+                if (i.getConstant() instanceof IntConstant) {
+                    IntConstant v = (IntConstant) (i.getConstant());
+                    if (v.value == -1)
                         emit("iconst_m1");
-                    else if(v.value >= 0 && v.value <= 5)
+                    else if (v.value >= 0 && v.value <= 5)
                         emit("iconst_" + v.value);
-                    else if(v.value >= Byte.MIN_VALUE && 
+                    else if (v.value >= Byte.MIN_VALUE &&
                             v.value <= Byte.MAX_VALUE)
                         emit("bipush " + v.value);
-                    else if(v.value >= Short.MIN_VALUE && 
+                    else if (v.value >= Short.MIN_VALUE &&
                             v.value <= Short.MAX_VALUE)
                         emit("sipush " + v.value);
                     else
                         emit("ldc " + v.toString());
-                }
-                else if (i.getConstant() instanceof StringConstant)
-                {
+                } else if (i.getConstant() instanceof StringConstant) {
                     emit("ldc " + i.getConstant().toString());
-                }
-                else if (i.getConstant() instanceof ClassConstant)
-                {
-                    emit("ldc_w " + ((ClassConstant)i.getConstant()).getValue());
-                }
-                else if (i.getConstant() instanceof DoubleConstant)
-                {
-                    DoubleConstant v = (DoubleConstant)(i.getConstant());
+                } else if (i.getConstant() instanceof ClassConstant) {
+                    emit("ldc_w " + ((ClassConstant) i.getConstant()).getValue());
+                } else if (i.getConstant() instanceof DoubleConstant) {
+                    DoubleConstant v = (DoubleConstant) (i.getConstant());
 
-                    if((v.value == 0) && ((1.0/v.value) > 0.0))
+                    if ((v.value == 0) && ((1.0 / v.value) > 0.0))
                         emit("dconst_0");
-                    else if(v.value == 1)
+                    else if (v.value == 1)
                         emit("dconst_1");
                     else {
                         String s = doubleToString(v);
                         emit("ldc2_w " + s);
                     }
-                }
-                else if (i.getConstant() instanceof FloatConstant)
-                {
-                    FloatConstant v = (FloatConstant)(i.getConstant());
-                    if((v.value == 0) && ((1.0f/v.value) > 1.0f))
+                } else if (i.getConstant() instanceof FloatConstant) {
+                    FloatConstant v = (FloatConstant) (i.getConstant());
+                    if ((v.value == 0) && ((1.0f / v.value) > 1.0f))
                         emit("fconst_0");
-                    else if(v.value == 1)
+                    else if (v.value == 1)
                         emit("fconst_1");
-                    else if(v.value == 2)
+                    else if (v.value == 2)
                         emit("fconst_2");
                     else {
                         String s = floatToString(v);
                         emit("ldc " + s);
                     }
-                }
-                else if (i.getConstant() instanceof LongConstant)
-                {
-                    LongConstant v = (LongConstant)(i.getConstant());
-                    if(v.value == 0)
+                } else if (i.getConstant() instanceof LongConstant) {
+                    LongConstant v = (LongConstant) (i.getConstant());
+                    if (v.value == 0)
                         emit("lconst_0");
-                    else if(v.value == 1)
+                    else if (v.value == 1)
                         emit("lconst_1");
                     else
                         emit("ldc2_w " + v.toString());
-                }
-                else if (i.getConstant() instanceof NullConstant)
+                } else if (i.getConstant() instanceof NullConstant)
                     emit("aconst_null");
                 else
                     throw new RuntimeException("unsupported opcode");
             }
 
-            public void caseIdentityInst(IdentityInst i)
-            {
-                if(i.getRightOp() instanceof CaughtExceptionRef &&
-                    i.getLeftOp() instanceof Local)
-                {
+            public void caseIdentityInst(IdentityInst i) {
+                if (i.getRightOp() instanceof CaughtExceptionRef &&
+                        i.getLeftOp() instanceof Local) {
                     int slot = localToSlot.get(i.getLeftOp()).intValue();
 
-                    if(slot >= 0 && slot <= 3)
+                    if (slot >= 0 && slot <= 3)
                         emit("astore_" + slot);
                     else
                         emit("astore " + slot);
                 }
             }
 
-            public void caseStoreInst(StoreInst i)
-            {
-                    final int slot = 
+            public void caseStoreInst(StoreInst i) {
+                final int slot =
                         localToSlot.get(i.getLocal()).intValue();
 
-                    i.getOpType().apply(new TypeSwitch()
-                    {
-                        public void caseArrayType(ArrayType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("astore_" + slot);
-                            else
-                                emit("astore " + slot);
-                        }
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseArrayType(ArrayType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("astore_" + slot);
+                        else
+                            emit("astore " + slot);
+                    }
 
-                        public void caseDoubleType(DoubleType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("dstore_" + slot);
-                            else
-                                emit("dstore " + slot);
-                        }
+                    public void caseDoubleType(DoubleType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("dstore_" + slot);
+                        else
+                            emit("dstore " + slot);
+                    }
 
-                        public void caseFloatType(FloatType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("fstore_" + slot);
-                            else
-                                emit("fstore " + slot);
-                        }
+                    public void caseFloatType(FloatType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("fstore_" + slot);
+                        else
+                            emit("fstore " + slot);
+                    }
 
-                        public void caseIntType(IntType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("istore_" + slot);
-                            else
-                                emit("istore " + slot);
-                        }
+                    public void caseIntType(IntType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("istore_" + slot);
+                        else
+                            emit("istore " + slot);
+                    }
 
-			public void caseByteType(ByteType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("istore_" + slot);
-                            else
-                                emit("istore " + slot);
-                        }
+                    public void caseByteType(ByteType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("istore_" + slot);
+                        else
+                            emit("istore " + slot);
+                    }
 
-			public void caseShortType(ShortType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("istore_" + slot);
-                            else
-                                emit("istore " + slot);
-                        }
+                    public void caseShortType(ShortType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("istore_" + slot);
+                        else
+                            emit("istore " + slot);
+                    }
 
-			public void caseCharType(CharType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("istore_" + slot);
-                            else
-                                emit("istore " + slot);
-                        }
+                    public void caseCharType(CharType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("istore_" + slot);
+                        else
+                            emit("istore " + slot);
+                    }
 
-			public void caseBooleanType(BooleanType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("istore_" + slot);
-                            else
-                                emit("istore " + slot);
-                        }
+                    public void caseBooleanType(BooleanType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("istore_" + slot);
+                        else
+                            emit("istore " + slot);
+                    }
 
-                        public void caseLongType(LongType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("lstore_" + slot);
-                            else
-                                emit("lstore " + slot);
-                        }
+                    public void caseLongType(LongType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("lstore_" + slot);
+                        else
+                            emit("lstore " + slot);
+                    }
 
-                        public void caseRefType(RefType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("astore_" + slot);
-                            else
-                                emit("astore " + slot);
-                        }
+                    public void caseRefType(RefType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("astore_" + slot);
+                        else
+                            emit("astore " + slot);
+                    }
 
-                        public void caseStmtAddressType(StmtAddressType t)
-                        {
-                            isNextGotoAJsr = true;
-                            returnAddressSlot = slot;
+                    public void caseStmtAddressType(StmtAddressType t) {
+                        isNextGotoAJsr = true;
+                        returnAddressSlot = slot;
 
                                 /*
                                   if ( slot >= 0 && slot <= 3)
@@ -613,120 +504,104 @@ public class JasminClass extends AbstractJasminClass
                                   emit("astore " + slot,  );
 
                                 */
-                        }
+                    }
 
-                        public void caseNullType(NullType t)
-                        {
-                            if(slot >= 0 && slot <= 3)
-                                emit("astore_" + slot);
-                            else
-                                emit("astore " + slot);
-                        }
-                        
-                        public void defaultCase(Type t)
-                        {
-                            throw new RuntimeException("Invalid local type:" 
-                                                       + t);
-                        }
-                    });
+                    public void caseNullType(NullType t) {
+                        if (slot >= 0 && slot <= 3)
+                            emit("astore_" + slot);
+                        else
+                            emit("astore " + slot);
+                    }
+
+                    public void defaultCase(Type t) {
+                        throw new RuntimeException("Invalid local type:"
+                                + t);
+                    }
+                });
             }
 
-            public void caseLoadInst(LoadInst i)
-            {
-                final int slot = 
-                    localToSlot.get(i.getLocal()).intValue();
+            public void caseLoadInst(LoadInst i) {
+                final int slot =
+                        localToSlot.get(i.getLocal()).intValue();
 
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseArrayType(ArrayType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseArrayType(ArrayType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("aload_" + slot);
                         else
                             emit("aload " + slot);
                     }
-            
-                    public void defaultCase(Type t)
-                    {
-                        throw new 
-                            RuntimeException("invalid local type to load" + t);
+
+                    public void defaultCase(Type t) {
+                        throw new
+                                RuntimeException("invalid local type to load" + t);
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseDoubleType(DoubleType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("dload_" + slot);
                         else
                             emit("dload " + slot);
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseFloatType(FloatType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("fload_" + slot);
                         else
                             emit("fload " + slot);
                     }
-            
-                    public void caseIntType(IntType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+
+                    public void caseIntType(IntType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("iload_" + slot);
                         else
                             emit("iload " + slot);
                     }
 
-		    public void caseByteType(ByteType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseByteType(ByteType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("iload_" + slot);
                         else
                             emit("iload " + slot);
                     }
 
-		    public void caseShortType(ShortType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseShortType(ShortType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("iload_" + slot);
                         else
                             emit("iload " + slot);
                     }
 
-		    public void caseCharType(CharType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseCharType(CharType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("iload_" + slot);
                         else
                             emit("iload " + slot);
                     }
 
-		    public void caseBooleanType(BooleanType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseBooleanType(BooleanType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("iload_" + slot);
                         else
                             emit("iload " + slot);
                     }
 
-                    public void caseLongType(LongType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseLongType(LongType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("lload_" + slot);
                         else
                             emit("lload " + slot);
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseRefType(RefType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("aload_" + slot);
                         else
                             emit("aload " + slot);
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        if(slot >= 0 && slot <= 3)
+                    public void caseNullType(NullType t) {
+                        if (slot >= 0 && slot <= 3)
                             emit("aload_" + slot);
                         else
                             emit("aload " + slot);
@@ -734,955 +609,808 @@ public class JasminClass extends AbstractJasminClass
                 });
             }
 
-            public void caseArrayWriteInst(ArrayWriteInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseArrayType(ArrayType t)
-                    {
+            public void caseArrayWriteInst(ArrayWriteInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseArrayType(ArrayType t) {
                         emit("aastore");
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dastore");
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fastore");
                     }
 
-                    public void caseIntType(IntType t)
-                    {
+                    public void caseIntType(IntType t) {
                         emit("iastore");
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lastore");
                     }
 
-                    public void caseRefType(RefType t)
-                    {
+                    public void caseRefType(RefType t) {
                         emit("aastore");
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
+                    public void caseByteType(ByteType t) {
                         emit("bastore");
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
+                    public void caseBooleanType(BooleanType t) {
                         emit("bastore");
                     }
 
-                    public void caseCharType(CharType t)
-                    {
+                    public void caseCharType(CharType t) {
                         emit("castore");
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
+                    public void caseShortType(ShortType t) {
                         emit("sastore");
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("Invalid type: " + t);
-                    }});
-                    
-                }
+                    }
+                });
 
-            public void caseArrayReadInst(ArrayReadInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseArrayType(ArrayType ty)
-                    {
+            }
+
+            public void caseArrayReadInst(ArrayReadInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseArrayType(ArrayType ty) {
                         emit("aaload");
                     }
 
-                    public void caseBooleanType(BooleanType ty)
-                    {
+                    public void caseBooleanType(BooleanType ty) {
                         emit("baload");
                     }
 
-                    public void caseByteType(ByteType ty)
-                    {
+                    public void caseByteType(ByteType ty) {
                         emit("baload");
                     }
 
-                    public void caseCharType(CharType ty)
-                    {
+                    public void caseCharType(CharType ty) {
                         emit("caload");
                     }
 
-                    public void defaultCase(Type ty)
-                    {
+                    public void defaultCase(Type ty) {
                         throw new RuntimeException("invalid base type");
                     }
 
-                    public void caseDoubleType(DoubleType ty)
-                    {
+                    public void caseDoubleType(DoubleType ty) {
                         emit("daload");
                     }
 
-                    public void caseFloatType(FloatType ty)
-                    {
+                    public void caseFloatType(FloatType ty) {
                         emit("faload");
                     }
 
-                    public void caseIntType(IntType ty)
-                    {
+                    public void caseIntType(IntType ty) {
                         emit("iaload");
                     }
 
-                    public void caseLongType(LongType ty)
-                    {
+                    public void caseLongType(LongType ty) {
                         emit("laload");
                     }
 
-                    public void caseNullType(NullType ty)
-                    {
-                        emit("aaload");
-                    }
-                    public void caseRefType(RefType ty)
-                    {
+                    public void caseNullType(NullType ty) {
                         emit("aaload");
                     }
 
-                    public void caseShortType(ShortType ty)
-                    {
+                    public void caseRefType(RefType ty) {
+                        emit("aaload");
+                    }
+
+                    public void caseShortType(ShortType ty) {
                         emit("saload");
                     }
                 });
             }
 
-            public void caseIfNullInst(IfNullInst i)
-            {
+            public void caseIfNullInst(IfNullInst i) {
                 emit("ifnull " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfNonNullInst(IfNonNullInst i)
-            {
+            public void caseIfNonNullInst(IfNonNullInst i) {
                 emit("ifnonnull " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfEqInst(IfEqInst i)
-            {
+            public void caseIfEqInst(IfEqInst i) {
                 emit("ifeq " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfNeInst(IfNeInst i)
-            {
+            public void caseIfNeInst(IfNeInst i) {
                 emit("ifne " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfGtInst(IfGtInst i)
-            {
+            public void caseIfGtInst(IfGtInst i) {
                 emit("ifgt " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfGeInst(IfGeInst i)
-            {
+            public void caseIfGeInst(IfGeInst i) {
                 emit("ifge " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfLtInst(IfLtInst i)
-            {
+            public void caseIfLtInst(IfLtInst i) {
                 emit("iflt " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfLeInst(IfLeInst i)
-            {
+            public void caseIfLeInst(IfLeInst i) {
                 emit("ifle " + unitToLabel.get(i.getTarget()));
             }
 
-            public void caseIfCmpEqInst(final IfCmpEqInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseIntType(IntType t)
-                    {
-                        emit("if_icmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+            public void caseIfCmpEqInst(final IfCmpEqInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseIntType(IntType t) {
+                        emit("if_icmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
-                        emit("if_icmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseBooleanType(BooleanType t) {
+                        emit("if_icmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
-                        emit("if_icmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseShortType(ShortType t) {
+                        emit("if_icmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseCharType(CharType t)
-                    {
-                        emit("if_icmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseCharType(CharType t) {
+                        emit("if_icmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
-                        emit("if_icmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseByteType(ByteType t) {
+                        emit("if_icmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dcmpg");
-                        emit("ifeq " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lcmp");
-                        emit("ifeq " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fcmpg");
-                        emit("ifeq " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseArrayType(ArrayType t)
-                    {
-                        emit("if_acmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseArrayType(ArrayType t) {
+                        emit("if_acmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        emit("if_acmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseRefType(RefType t) {
+                        emit("if_acmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        emit("if_acmpeq " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseNullType(NullType t) {
+                        emit("if_acmpeq " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid type");
                     }
                 });
             }
 
-            public void caseIfCmpNeInst(final IfCmpNeInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseIntType(IntType t)
-                    {
-                        emit("if_icmpne " + 
-                             unitToLabel.get(i.getTarget()));
+            public void caseIfCmpNeInst(final IfCmpNeInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseIntType(IntType t) {
+                        emit("if_icmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
-                        emit("if_icmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseBooleanType(BooleanType t) {
+                        emit("if_icmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
-                        emit("if_icmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseShortType(ShortType t) {
+                        emit("if_icmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseCharType(CharType t)
-                    {
-                        emit("if_icmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseCharType(CharType t) {
+                        emit("if_icmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
-                        emit("if_icmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseByteType(ByteType t) {
+                        emit("if_icmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dcmpg");
-                        emit("ifne " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lcmp");
-                        emit("ifne " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fcmpg");
-                        emit("ifne " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseArrayType(ArrayType t)
-                    {
-                        emit("if_acmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseArrayType(ArrayType t) {
+                        emit("if_acmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        emit("if_acmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseRefType(RefType t) {
+                        emit("if_acmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        emit("if_acmpne " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseNullType(NullType t) {
+                        emit("if_acmpne " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid type");
                     }
                 });
             }
 
-            public void caseIfCmpGtInst(final IfCmpGtInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseIntType(IntType t)
-                    {
-                        emit("if_icmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+            public void caseIfCmpGtInst(final IfCmpGtInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseIntType(IntType t) {
+                        emit("if_icmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
-                        emit("if_icmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseBooleanType(BooleanType t) {
+                        emit("if_icmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
-                        emit("if_icmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseShortType(ShortType t) {
+                        emit("if_icmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseCharType(CharType t)
-                    {
-                        emit("if_icmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseCharType(CharType t) {
+                        emit("if_icmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
-                        emit("if_icmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseByteType(ByteType t) {
+                        emit("if_icmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dcmpg");
-                        emit("ifgt " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lcmp");
-                        emit("ifgt " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fcmpg");
-                        emit("ifgt " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseArrayType(ArrayType t)
-                    {
-                        emit("if_acmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseArrayType(ArrayType t) {
+                        emit("if_acmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        emit("if_acmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseRefType(RefType t) {
+                        emit("if_acmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        emit("if_acmpgt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseNullType(NullType t) {
+                        emit("if_acmpgt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid type");
                     }
                 });
             }
 
-            public void caseIfCmpGeInst(final IfCmpGeInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseIntType(IntType t)
-                    {
-                        emit("if_icmpge " + 
-                             unitToLabel.get(i.getTarget()));
+            public void caseIfCmpGeInst(final IfCmpGeInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseIntType(IntType t) {
+                        emit("if_icmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
-                        emit("if_icmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseBooleanType(BooleanType t) {
+                        emit("if_icmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
-                        emit("if_icmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseShortType(ShortType t) {
+                        emit("if_icmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseCharType(CharType t)
-                    {
-                        emit("if_icmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseCharType(CharType t) {
+                        emit("if_icmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
-                        emit("if_icmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseByteType(ByteType t) {
+                        emit("if_icmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dcmpg");
-                        emit("ifge " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lcmp");
-                        emit("ifge " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fcmpg");
-                        emit("ifge " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseArrayType(ArrayType t)
-                    {
-                        emit("if_acmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseArrayType(ArrayType t) {
+                        emit("if_acmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        emit("if_acmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseRefType(RefType t) {
+                        emit("if_acmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        emit("if_acmpge " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseNullType(NullType t) {
+                        emit("if_acmpge " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid type");
                     }
                 });
             }
 
-            public void caseIfCmpLtInst(final IfCmpLtInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseIntType(IntType t)
-                    {
-                        emit("if_icmplt " + 
-                             unitToLabel.get(i.getTarget()));
+            public void caseIfCmpLtInst(final IfCmpLtInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseIntType(IntType t) {
+                        emit("if_icmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
-                        emit("if_icmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseBooleanType(BooleanType t) {
+                        emit("if_icmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
-                        emit("if_icmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseShortType(ShortType t) {
+                        emit("if_icmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseCharType(CharType t)
-                    {
-                        emit("if_icmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseCharType(CharType t) {
+                        emit("if_icmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
-                        emit("if_icmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseByteType(ByteType t) {
+                        emit("if_icmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dcmpg");
-                        emit("iflt " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("iflt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lcmp");
-                        emit("iflt " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("iflt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fcmpg");
-                        emit("iflt " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("iflt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseArrayType(ArrayType t)
-                    {
-                        emit("if_acmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseArrayType(ArrayType t) {
+                        emit("if_acmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        emit("if_acmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseRefType(RefType t) {
+                        emit("if_acmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        emit("if_acmplt " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseNullType(NullType t) {
+                        emit("if_acmplt " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid type");
                     }
                 });
             }
 
-            public void caseIfCmpLeInst(final IfCmpLeInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    public void caseIntType(IntType t)
-                    {
-                        emit("if_icmple " + 
-                             unitToLabel.get(i.getTarget()));
+            public void caseIfCmpLeInst(final IfCmpLeInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    public void caseIntType(IntType t) {
+                        emit("if_icmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseBooleanType(BooleanType t)
-                    {
-                        emit("if_icmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseBooleanType(BooleanType t) {
+                        emit("if_icmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseShortType(ShortType t)
-                    {
-                        emit("if_icmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseShortType(ShortType t) {
+                        emit("if_icmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseCharType(CharType t)
-                    {
-                        emit("if_icmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseCharType(CharType t) {
+                        emit("if_icmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseByteType(ByteType t)
-                    {
-                        emit("if_icmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseByteType(ByteType t) {
+                        emit("if_icmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
+                    public void caseDoubleType(DoubleType t) {
                         emit("dcmpg");
-                        emit("ifle " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifle " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseLongType(LongType t)
-                    {
+                    public void caseLongType(LongType t) {
                         emit("lcmp");
-                        emit("ifle " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifle " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
+                    public void caseFloatType(FloatType t) {
                         emit("fcmpg");
-                        emit("ifle " + 
-                             unitToLabel.get(i.getTarget()));
+                        emit("ifle " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseArrayType(ArrayType t)
-                    {
-                        emit("if_acmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseArrayType(ArrayType t) {
+                        emit("if_acmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseRefType(RefType t)
-                    {
-                        emit("if_acmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseRefType(RefType t) {
+                        emit("if_acmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void caseNullType(NullType t)
-                    {
-                        emit("if_acmple " + 
-                             unitToLabel.get(i.getTarget()));
+                    public void caseNullType(NullType t) {
+                        emit("if_acmple " +
+                                unitToLabel.get(i.getTarget()));
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("invalid type");
                     }
                 });
             }
 
-            public void caseStaticGetInst(StaticGetInst i)
-            {
+            public void caseStaticGetInst(StaticGetInst i) {
                 SootFieldRef field = i.getFieldRef();
-                emit("getstatic " + 
-                     slashify(field.declaringClass().getName()) + "/" +
-                     field.name() + " " + 
-                     jasminDescriptorOf(field.type()));
+                emit("getstatic " +
+                        slashify(field.declaringClass().getName()) + "/" +
+                        field.name() + " " +
+                        jasminDescriptorOf(field.type()));
             }
 
-            public void caseStaticPutInst(StaticPutInst i)
-            {
-                emit("putstatic " + 
-                     slashify(i.getFieldRef().declaringClass().getName()) + 
-                     "/" + i.getFieldRef().name() + " " + 
-                     jasminDescriptorOf(i.getFieldRef().type()));
+            public void caseStaticPutInst(StaticPutInst i) {
+                emit("putstatic " +
+                        slashify(i.getFieldRef().declaringClass().getName()) +
+                        "/" + i.getFieldRef().name() + " " +
+                        jasminDescriptorOf(i.getFieldRef().type()));
             }
 
-            public void caseFieldGetInst(FieldGetInst i)
-            {
-                emit("getfield " + 
-                     slashify(i.getFieldRef().declaringClass().getName()) + 
-                     "/" + i.getFieldRef().name() + " " + 
-                     jasminDescriptorOf(i.getFieldRef().type()));
+            public void caseFieldGetInst(FieldGetInst i) {
+                emit("getfield " +
+                        slashify(i.getFieldRef().declaringClass().getName()) +
+                        "/" + i.getFieldRef().name() + " " +
+                        jasminDescriptorOf(i.getFieldRef().type()));
             }
 
-            public void caseFieldPutInst(FieldPutInst i)
-            {
-                emit("putfield " + 
-                     slashify(i.getFieldRef().declaringClass().getName()) + 
-                     "/" + i.getFieldRef().name() + " " + 
-                     jasminDescriptorOf(i.getFieldRef().type()));
+            public void caseFieldPutInst(FieldPutInst i) {
+                emit("putfield " +
+                        slashify(i.getFieldRef().declaringClass().getName()) +
+                        "/" + i.getFieldRef().name() + " " +
+                        jasminDescriptorOf(i.getFieldRef().type()));
             }
 
-            public void caseInstanceCastInst(InstanceCastInst i)
-            {
+            public void caseInstanceCastInst(InstanceCastInst i) {
                 Type castType = i.getCastType();
 
-                if(castType instanceof RefType)
+                if (castType instanceof RefType)
                     emit("checkcast " + slashify(castType.toString()));
-                else if(castType instanceof ArrayType)
+                else if (castType instanceof ArrayType)
                     emit("checkcast " + jasminDescriptorOf(castType));
             }
 
-            public void caseInstanceOfInst(InstanceOfInst i)
-            {
+            public void caseInstanceOfInst(InstanceOfInst i) {
                 Type checkType = i.getCheckType();
 
-                if(checkType instanceof RefType)
+                if (checkType instanceof RefType)
                     emit("instanceof " + slashify(checkType.toString()));
-                else if(checkType instanceof ArrayType)
+                else if (checkType instanceof ArrayType)
                     emit("instanceof " + jasminDescriptorOf(checkType));
             }
 
-            public void caseNewInst(NewInst i)
-            {
-                emit("new "+slashify(i.getBaseType().toString()));
+            public void caseNewInst(NewInst i) {
+                emit("new " + slashify(i.getBaseType().toString()));
             }
 
-            public void casePrimitiveCastInst(PrimitiveCastInst i)
-            {
+            public void casePrimitiveCastInst(PrimitiveCastInst i) {
                 emit(i.toString());
             }
 
-            public void caseDynamicInvokeInst(DynamicInvokeInst i)
-            {
+            public void caseDynamicInvokeInst(DynamicInvokeInst i) {
                 SootMethodRef m = i.getMethodRef();
                 SootMethodRef bsm = i.getBootstrapMethodRef();
                 String bsmArgString = "";
-                for (Iterator<Value> iterator = i.getBootstrapArgs().iterator(); iterator.hasNext();) {
-					Value val = iterator.next();
-					bsmArgString += "("+jasminDescriptorOf(val.getType())+")";
-					bsmArgString += escape(val.toString());
-										
-					if(iterator.hasNext()) bsmArgString += ",";
-					
-				}
-                emit("invokedynamic \"" + m.name() +"\" "+ jasminDescriptorOf(m) +
-                		" " + slashify(bsm.declaringClass().getName()) + "/" + bsm.name() + jasminDescriptorOf(bsm) +"("+bsmArgString+")");
-            }
-            
-            
-            private String escape(String bsmArgString) {
-				return bsmArgString.replace(",", "\\comma").replace(" ", "\\blank").replace("\t", "\\tab").replace("\n", "\\newline");
-			}
+                for (Iterator<Value> iterator = i.getBootstrapArgs().iterator(); iterator.hasNext(); ) {
+                    Value val = iterator.next();
+                    bsmArgString += "(" + jasminDescriptorOf(val.getType()) + ")";
+                    bsmArgString += escape(val.toString());
 
-			public void caseStaticInvokeInst(StaticInvokeInst i)
-            {
+                    if (iterator.hasNext()) bsmArgString += ",";
+
+                }
+                emit("invokedynamic \"" + m.name() + "\" " + jasminDescriptorOf(m) +
+                        " " + slashify(bsm.declaringClass().getName()) + "/" + bsm.name() + jasminDescriptorOf(bsm) + "(" + bsmArgString + ")");
+            }
+
+
+            private String escape(String bsmArgString) {
+                return bsmArgString.replace(",", "\\comma").replace(" ", "\\blank").replace("\t", "\\tab").replace("\n", "\\newline");
+            }
+
+            public void caseStaticInvokeInst(StaticInvokeInst i) {
                 SootMethodRef m = i.getMethodRef();
 
                 emit("invokestatic " + slashify(m.declaringClass().getName()) + "/" +
-                    m.name() + jasminDescriptorOf(m));
+                        m.name() + jasminDescriptorOf(m));
             }
-            
-            public void caseVirtualInvokeInst(VirtualInvokeInst i)
-            {
+
+            public void caseVirtualInvokeInst(VirtualInvokeInst i) {
                 SootMethodRef m = i.getMethodRef();
 
                 emit("invokevirtual " + slashify(m.declaringClass().getName()) + "/" +
-                    m.name() + jasminDescriptorOf(m));
+                        m.name() + jasminDescriptorOf(m));
             }
 
-            public void caseInterfaceInvokeInst(InterfaceInvokeInst i)
-            {
+            public void caseInterfaceInvokeInst(InterfaceInvokeInst i) {
                 SootMethodRef m = i.getMethodRef();
 
                 emit("invokeinterface " + slashify(m.declaringClass().getName()) + "/" +
-                    m.name() + jasminDescriptorOf(m) + " " + (argCountOf(m) + 1));
+                        m.name() + jasminDescriptorOf(m) + " " + (argCountOf(m) + 1));
             }
 
-            public void caseSpecialInvokeInst(SpecialInvokeInst i)
-            {
+            public void caseSpecialInvokeInst(SpecialInvokeInst i) {
                 SootMethodRef m = i.getMethodRef();
 
                 emit("invokespecial " + slashify(m.declaringClass().getName()) + "/" +
-                    m.name() + jasminDescriptorOf(m));
+                        m.name() + jasminDescriptorOf(m));
             }
 
-            public void caseThrowInst(ThrowInst i)
-            {
+            public void caseThrowInst(ThrowInst i) {
                 emit("athrow");
             }
 
-            public void caseCmpInst(CmpInst i)
-            {
+            public void caseCmpInst(CmpInst i) {
                 emit("lcmp");
             }
 
-            public void caseCmplInst(CmplInst i)
-            {
-                if(i.getOpType().equals(FloatType.v()))
+            public void caseCmplInst(CmplInst i) {
+                if (i.getOpType().equals(FloatType.v()))
                     emit("fcmpl");
                 else
                     emit("dcmpl");
             }
 
-            public void caseCmpgInst(CmpgInst i)
-            {
-                if(i.getOpType().equals(FloatType.v()))
+            public void caseCmpgInst(CmpgInst i) {
+                if (i.getOpType().equals(FloatType.v()))
                     emit("fcmpg");
                 else
                     emit("dcmpg");
             }
 
-            private void emitOpTypeInst(final String s, final OpTypeArgInst i)
-            {
-                i.getOpType().apply(new TypeSwitch()
-                {
-                    private void handleIntCase()
-                    {
-                        emit("i"+s);
+            private void emitOpTypeInst(final String s, final OpTypeArgInst i) {
+                i.getOpType().apply(new TypeSwitch() {
+                    private void handleIntCase() {
+                        emit("i" + s);
                     }
 
-                    public void caseIntType(IntType t) { handleIntCase(); }
-                    public void caseBooleanType(BooleanType t) { handleIntCase(); }
-                    public void caseShortType(ShortType t) { handleIntCase(); }
-                    public void caseCharType(CharType t) { handleIntCase(); }
-                    public void caseByteType(ByteType t) { handleIntCase(); }
-
-                    public void caseLongType(LongType t)
-                    {
-                        emit("l"+s);
+                    public void caseIntType(IntType t) {
+                        handleIntCase();
                     }
 
-                    public void caseDoubleType(DoubleType t)
-                    {
-                        emit("d"+s);
+                    public void caseBooleanType(BooleanType t) {
+                        handleIntCase();
                     }
 
-                    public void caseFloatType(FloatType t)
-                    {
-                        emit("f"+s);
+                    public void caseShortType(ShortType t) {
+                        handleIntCase();
                     }
 
-                    public void defaultCase(Type t)
-                    {
+                    public void caseCharType(CharType t) {
+                        handleIntCase();
+                    }
+
+                    public void caseByteType(ByteType t) {
+                        handleIntCase();
+                    }
+
+                    public void caseLongType(LongType t) {
+                        emit("l" + s);
+                    }
+
+                    public void caseDoubleType(DoubleType t) {
+                        emit("d" + s);
+                    }
+
+                    public void caseFloatType(FloatType t) {
+                        emit("f" + s);
+                    }
+
+                    public void defaultCase(Type t) {
                         throw new RuntimeException("Invalid argument type for div");
                     }
                 });
             }
 
-            public void caseAddInst(AddInst i)
-            {
+            public void caseAddInst(AddInst i) {
                 emitOpTypeInst("add", i);
             }
 
-            public void caseDivInst(DivInst i)
-            {
+            public void caseDivInst(DivInst i) {
                 emitOpTypeInst("div", i);
             }
 
-            public void caseSubInst(SubInst i)
-            {
+            public void caseSubInst(SubInst i) {
                 emitOpTypeInst("sub", i);
             }
 
-            public void caseMulInst(MulInst i)
-            {
+            public void caseMulInst(MulInst i) {
                 emitOpTypeInst("mul", i);
             }
 
-            public void caseRemInst(RemInst i)
-            {
+            public void caseRemInst(RemInst i) {
                 emitOpTypeInst("rem", i);
             }
 
-            public void caseShlInst(ShlInst i)
-            {
+            public void caseShlInst(ShlInst i) {
                 emitOpTypeInst("shl", i);
             }
 
-            public void caseAndInst(AndInst i)
-            {
+            public void caseAndInst(AndInst i) {
                 emitOpTypeInst("and", i);
             }
 
-            public void caseOrInst(OrInst i)
-            {
+            public void caseOrInst(OrInst i) {
                 emitOpTypeInst("or", i);
             }
 
-            public void caseXorInst(XorInst i)
-            {
+            public void caseXorInst(XorInst i) {
                 emitOpTypeInst("xor", i);
             }
 
-            public void caseShrInst(ShrInst i)
-            {
+            public void caseShrInst(ShrInst i) {
                 emitOpTypeInst("shr", i);
             }
 
-            public void caseUshrInst(UshrInst i)
-            {
+            public void caseUshrInst(UshrInst i) {
                 emitOpTypeInst("ushr", i);
             }
 
-            public void caseIncInst(IncInst i)
-            {
-                if(((ValueBox) i.getUseBoxes().get(0)).getValue() != ((ValueBox) i.getDefBoxes().get(0)).getValue())
+            public void caseIncInst(IncInst i) {
+                if (i.getUseBoxes().get(0).getValue() != i.getDefBoxes().get(0).getValue())
                     throw new RuntimeException("iinc def and use boxes don't match");
-                    
+
                 emit("iinc " + localToSlot.get(i.getLocal()) + " " + i.getConstant());
             }
 
-            public void caseArrayLengthInst(ArrayLengthInst i)
-            {
+            public void caseArrayLengthInst(ArrayLengthInst i) {
                 emit("arraylength");
             }
 
-            public void caseNegInst(NegInst i)
-            {
+            public void caseNegInst(NegInst i) {
                 emitOpTypeInst("neg", i);
             }
 
-            public void caseNewArrayInst(NewArrayInst i)
-            {
-                if(i.getBaseType() instanceof RefType)
+            public void caseNewArrayInst(NewArrayInst i) {
+                if (i.getBaseType() instanceof RefType)
                     emit("anewarray " + slashify(i.getBaseType().toString()));
-                else if(i.getBaseType() instanceof ArrayType)
+                else if (i.getBaseType() instanceof ArrayType)
                     emit("anewarray " + jasminDescriptorOf(i.getBaseType()));
                 else
                     emit("newarray " + i.getBaseType().toString());
             }
 
-            public void caseNewMultiArrayInst(NewMultiArrayInst i)
-            {
-                emit("multianewarray " + jasminDescriptorOf(i.getBaseType()) + " " + 
-                     i.getDimensionCount());
+            public void caseNewMultiArrayInst(NewMultiArrayInst i) {
+                emit("multianewarray " + jasminDescriptorOf(i.getBaseType()) + " " +
+                        i.getDimensionCount());
             }
 
-            public void caseLookupSwitchInst(LookupSwitchInst i)
-            {
+            public void caseLookupSwitchInst(LookupSwitchInst i) {
                 emit("lookupswitch");
 
                 List<IntConstant> lookupValues = i.getLookupValues();
                 List<Unit> targets = i.getTargets();
 
-                for(int j = 0; j < lookupValues.size(); j++)
-                    emit("  " + lookupValues.get(j) + " : " + 
-                         unitToLabel.get(targets.get(j)));
+                for (int j = 0; j < lookupValues.size(); j++)
+                    emit("  " + lookupValues.get(j) + " : " +
+                            unitToLabel.get(targets.get(j)));
 
                 emit("  default : " + unitToLabel.get(i.getDefaultTarget()));
             }
 
-            public void caseTableSwitchInst(TableSwitchInst i)
-                {
+            public void caseTableSwitchInst(TableSwitchInst i) {
                 emit("tableswitch " + i.getLowIndex() + " ; high = " + i.getHighIndex());
 
                 List<Unit> targets = i.getTargets();
 
-                for(int j = 0; j < targets.size(); j++)
+                for (int j = 0; j < targets.size(); j++)
                     emit("  " + unitToLabel.get(targets.get(j)));
 
                 emit("default : " + unitToLabel.get(i.getDefaultTarget()));
             }
 
-            private boolean isDwordType(Type t)
-            {
+            private boolean isDwordType(Type t) {
                 return t instanceof LongType || t instanceof DoubleType
-                    || t instanceof DoubleWordType;
+                        || t instanceof DoubleWordType;
             }
-            
-            public void caseDup1Inst(Dup1Inst i)
-            {
+
+            public void caseDup1Inst(Dup1Inst i) {
                 Type firstOpType = i.getOp1Type();
                 if (isDwordType(firstOpType))
                     emit("dup2"); // (form 2)
@@ -1690,22 +1418,21 @@ public class JasminClass extends AbstractJasminClass
                     emit("dup");
             }
 
-            public void caseDup2Inst(Dup2Inst i)
-            {
+            public void caseDup2Inst(Dup2Inst i) {
                 Type firstOpType = i.getOp1Type();
                 Type secondOpType = i.getOp2Type();
                 // The first two cases have no real bytecode equivalents.
                 // Use a pair of insts to simulate them.
-                if(isDwordType(firstOpType)) {
+                if (isDwordType(firstOpType)) {
                     emit("dup2"); // (form 2)
-                    if(isDwordType(secondOpType)) {
+                    if (isDwordType(secondOpType)) {
                         emit("dup2"); // (form 2 -- by simulation)
-                    } else 
+                    } else
                         emit("dup"); // also a simulation
-                } else if(isDwordType(secondOpType)) {
-                    if(isDwordType(firstOpType)) {
+                } else if (isDwordType(secondOpType)) {
+                    if (isDwordType(firstOpType)) {
                         emit("dup2"); // (form 2)
-                    } else 
+                    } else
                         emit("dup");
                     emit("dup2"); // (form 2 -- complete the simulation)
                 } else {
@@ -1713,26 +1440,24 @@ public class JasminClass extends AbstractJasminClass
                 }
             }
 
-            public void caseDup1_x1Inst(Dup1_x1Inst i)
-            {
+            public void caseDup1_x1Inst(Dup1_x1Inst i) {
                 Type opType = i.getOp1Type();
                 Type underType = i.getUnder1Type();
-                
-                if(isDwordType(opType)) {
-                    if(isDwordType(underType)) {
+
+                if (isDwordType(opType)) {
+                    if (isDwordType(underType)) {
                         emit("dup2_x2"); // (form 4)
-                    } else 
+                    } else
                         emit("dup2_x1"); // (form 2)
                 } else {
-                    if(isDwordType(underType)) 
+                    if (isDwordType(underType))
                         emit("dup_x2");  // (form 2)
-                    else 
+                    else
                         emit("dup_x1");  // (only one form)
-                }        
+                }
             }
 
-            public void caseDup1_x2Inst(Dup1_x2Inst i)
-            {
+            public void caseDup1_x2Inst(Dup1_x2Inst i) {
                 Type opType = i.getOp1Type();
                 Type under1Type = i.getUnder1Type();
                 Type under2Type = i.getUnder2Type();
@@ -1743,8 +1468,8 @@ public class JasminClass extends AbstractJasminClass
         
                   Form 1: [..., cat1_value3, cat1_value2, cat1_value1]->[..., cat1_value2, cat1_value1, cat1_value3, cat1_value2, cat1_value1]
                   Form 2: [..., cat1_value2, cat2_value1]->[..., cat2_value1, cat1_value2, cat2_value1]
-                */ 
-                
+                */
+
                 if (isDwordType(opType)) {
                     if (!isDwordType(under1Type) && !isDwordType(under2Type))
                         emit("dup2_x2"); // (form 2)
@@ -1758,8 +1483,7 @@ public class JasminClass extends AbstractJasminClass
                 emit("dup_x2"); // (form 1)
             }
 
-            public void caseDup2_x1Inst(Dup2_x1Inst i)
-            {
+            public void caseDup2_x1Inst(Dup2_x1Inst i) {
                 Type op1Type = i.getOp1Type();
                 Type op2Type = i.getOp2Type();
                 Type under1Type = i.getUnder1Type();
@@ -1770,7 +1494,7 @@ public class JasminClass extends AbstractJasminClass
         
                   Form 1: [..., cat1_value3, cat1_value2, cat1_value1]->[..., cat1_value2, cat1_value1, cat1_value3, cat1_value2, cat1_value1]
                   Form 2: [..., cat1_value2, cat2_value1]->[..., cat2_value1, cat1_value2, cat2_value1]
-                */ 
+                */
                 if (isDwordType(under1Type)) {
                     if (!isDwordType(op1Type) && !isDwordType(op2Type))
                         throw new RuntimeException("magic not implemented yet");
@@ -1778,16 +1502,14 @@ public class JasminClass extends AbstractJasminClass
                         emit("dup2_x2"); // (form 3)
                 } else {
                     if ((isDwordType(op1Type) && op2Type != null) || isDwordType(op2Type))
-                        throw new RuntimeException("magic not implemented yet");                    
+                        throw new RuntimeException("magic not implemented yet");
                 }
 
                 emit("dup2_x1"); // (form 1)
             }
 
-           
 
-            public void caseDup2_x2Inst(Dup2_x2Inst i)
-            {
+            public void caseDup2_x2Inst(Dup2_x2Inst i) {
                 Type op1Type = i.getOp1Type();
                 Type op2Type = i.getOp2Type();
                 Type under1Type = i.getUnder1Type();
@@ -1804,14 +1526,14 @@ public class JasminClass extends AbstractJasminClass
                 */
                 boolean malformed = true;
                 if (isDwordType(op1Type)) {
-                  if (op2Type == null && under1Type != null)
-                    if( (under2Type == null && isDwordType(under1Type)) 
-                        || (!isDwordType(under1Type) && under2Type != null && !isDwordType(under2Type)))
-                      malformed = false;
+                    if (op2Type == null && under1Type != null)
+                        if ((under2Type == null && isDwordType(under1Type))
+                                || (!isDwordType(under1Type) && under2Type != null && !isDwordType(under2Type)))
+                            malformed = false;
                 } else if (op1Type != null && op2Type != null && !isDwordType(op2Type)) {
-                  if ( (under2Type == null && isDwordType(under1Type)) 
-                      || (under1Type !=null && !isDwordType(under1Type) && under2Type !=null && !isDwordType(under2Type)))
-                    malformed = false;
+                    if ((under2Type == null && isDwordType(under1Type))
+                            || (under1Type != null && !isDwordType(under1Type) && under2Type != null && !isDwordType(under2Type)))
+                        malformed = false;
                 }
                 if (malformed)
                     throw new RuntimeException("magic not implemented yet");
@@ -1819,127 +1541,117 @@ public class JasminClass extends AbstractJasminClass
                 emit("dup2_x2"); // (form 1)
             }
 
-            public void caseSwapInst(SwapInst i)
-                {
-                    emit("swap");
-                }
-
+            public void caseSwapInst(SwapInst i) {
+                emit("swap");
+            }
 
 
         });
     }
-   
 
 
- 
-    private void calculateStackHeight(Block aBlock)
-    {
-        int blockHeight =  blockToStackHeight.get(aBlock).intValue();
-        if( blockHeight > maxStackHeight) {
+    private void calculateStackHeight(Block aBlock) {
+        int blockHeight = blockToStackHeight.get(aBlock).intValue();
+        if (blockHeight > maxStackHeight) {
             maxStackHeight = blockHeight;
         }
-        
+
         for (Unit u : aBlock) {
-          Inst nInst = (Inst) u;
-          
-          blockHeight -= nInst.getInMachineCount();
-	  
-          if(blockHeight < 0 ){            
-	      throw new RuntimeException("Negative Stack height has been attained in :"+ aBlock.getBody().getMethod().getSignature() +" \n" +
-                                       "StackHeight: " + blockHeight + "\n" +
-                                       "At instruction:" + nInst + "\n" +
-                                       "Block:\n" + aBlock +
-                                       "\n\nMethod: " + aBlock.getBody().getMethod().getName() 
-                                       + "\n" +  aBlock.getBody().getMethod()                                       
-                                       );
-          }
-          
-          blockHeight += nInst.getOutMachineCount();
-          if( blockHeight > maxStackHeight) {
-            maxStackHeight = blockHeight;
-          }
-          //G.v().out.println(">>> " + nInst + " " + blockHeight);            
+            Inst nInst = (Inst) u;
+
+            blockHeight -= nInst.getInMachineCount();
+
+            if (blockHeight < 0) {
+                throw new RuntimeException("Negative Stack height has been attained in :" + aBlock.getBody().getMethod().getSignature() + " \n" +
+                        "StackHeight: " + blockHeight + "\n" +
+                        "At instruction:" + nInst + "\n" +
+                        "Block:\n" + aBlock +
+                        "\n\nMethod: " + aBlock.getBody().getMethod().getName()
+                        + "\n" + aBlock.getBody().getMethod()
+                );
+            }
+
+            blockHeight += nInst.getOutMachineCount();
+            if (blockHeight > maxStackHeight) {
+                maxStackHeight = blockHeight;
+            }
+            //G.v().out.println(">>> " + nInst + " " + blockHeight);
         }
-        
-        
+
+
         for (Block b : aBlock.getSuccs()) {
             Integer i = blockToStackHeight.get(b);
-            if(i != null) {
-                if(i.intValue() != blockHeight) {
+            if (i != null) {
+                if (i.intValue() != blockHeight) {
                     throw new RuntimeException(aBlock.getBody().getMethod().getSignature() + ": incoherent stack height at block merge point " + b + aBlock + "\ncomputed blockHeight == " + blockHeight + " recorded blockHeight = " + i.intValue());
                 }
-                
+
             } else {
                 blockToStackHeight.put(b, new Integer(blockHeight));
                 calculateStackHeight(b);
-            }            
-        }        
+            }
+        }
     }
 
 
-    private void calculateLogicalStackHeightCheck(Block aBlock)
-    {
-        int blockHeight =  blockToLogicalStackHeight.get(aBlock).intValue();
+    private void calculateLogicalStackHeightCheck(Block aBlock) {
+        int blockHeight = blockToLogicalStackHeight.get(aBlock).intValue();
         for (Unit u : aBlock) {
             Inst nInst = (Inst) u;
-          
+
             blockHeight -= nInst.getInCount();
 
-            if(blockHeight < 0 ){            
+            if (blockHeight < 0) {
                 throw new RuntimeException("Negative Stack Logical height has been attained: \n" +
-                                           "StackHeight: " + blockHeight + 
-                                           "\nAt instruction:" + nInst +
-                                           "\nBlock:\n" + aBlock +
-                                           "\n\nMethod: " + aBlock.getBody().getMethod().getName() 
-                                           + "\n" +  aBlock.getBody().getMethod()                                       
-                                           );
-            }          
+                        "StackHeight: " + blockHeight +
+                        "\nAt instruction:" + nInst +
+                        "\nBlock:\n" + aBlock +
+                        "\n\nMethod: " + aBlock.getBody().getMethod().getName()
+                        + "\n" + aBlock.getBody().getMethod()
+                );
+            }
 
             blockHeight += nInst.getOutCount();
-            
+
             //G.v().out.println(">>> " + nInst + " " + blockHeight);            
         }
-        
+
         for (Block b : aBlock.getSuccs()) {
             Integer i = blockToLogicalStackHeight.get(b);
-            if(i != null) {
-                if(i.intValue() != blockHeight) {
+            if (i != null) {
+                if (i.intValue() != blockHeight) {
                     throw new RuntimeException("incoherent logical stack height at block merge point " + b + aBlock);
                 }
-                
+
             } else {
                 blockToLogicalStackHeight.put(b, new Integer(blockHeight));
                 calculateLogicalStackHeightCheck(b);
-            }            
-        }        
+            }
+        }
     }
 
 }
 
-class GroupIntPair
-{
+class GroupIntPair {
     Object group;
     int x;
-    
-    GroupIntPair(Object group, int x)
-    {
+
+    GroupIntPair(Object group, int x) {
         this.group = group;
         this.x = x;
     }
-    
-    public boolean equals(Object other)
-    {
-        if(other instanceof GroupIntPair)
+
+    public boolean equals(Object other) {
+        if (other instanceof GroupIntPair)
             return ((GroupIntPair) other).group.equals(this.group) &&
                     ((GroupIntPair) other).x == this.x;
         else
             return false;
     }
-    
-    public int hashCode()
-    {
+
+    public int hashCode() {
         return group.hashCode() + 1013 * x;
     }
-    
-    
+
+
 }

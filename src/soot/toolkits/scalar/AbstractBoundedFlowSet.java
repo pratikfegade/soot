@@ -26,7 +26,7 @@
 
 package soot.toolkits.scalar;
 
-/** 
+/**
  * provides functional code for most of the methods. Subclasses are invited to
  * provide a more efficient version. Most often this will be done in the
  * following way:<br>
@@ -41,24 +41,24 @@ package soot.toolkits.scalar;
  */
 
 public abstract class AbstractBoundedFlowSet<T> extends AbstractFlowSet<T> implements
-                                                               BoundedFlowSet<T> {
-  
-  public void complement() {
-    complement(this);
-  }
+        BoundedFlowSet<T> {
 
-  public void complement(FlowSet<T> dest) {
-    if (this == dest)
-      complement();
-    else {
-      BoundedFlowSet<T> tmp = (BoundedFlowSet<T>)topSet();
-      tmp.difference(this, dest);
+    public void complement() {
+        complement(this);
     }
-  }
 
-  public FlowSet<T> topSet() {
-    BoundedFlowSet<T> tmp = (BoundedFlowSet<T>)emptySet();
-    tmp.complement();
-    return tmp;
-  }
+    public void complement(FlowSet<T> dest) {
+        if (this == dest)
+            complement();
+        else {
+            BoundedFlowSet<T> tmp = (BoundedFlowSet<T>) topSet();
+            tmp.difference(this, dest);
+        }
+    }
+
+    public FlowSet<T> topSet() {
+        BoundedFlowSet<T> tmp = (BoundedFlowSet<T>) emptySet();
+        tmp.complement();
+        return tmp;
+    }
 }

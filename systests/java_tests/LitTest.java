@@ -1,7 +1,7 @@
 public class LitTest {
 
-    public static void main(String [] args) {
-    
+    public static void main(String[] args) {
+
         int i = 0;
         double j = 0.9;
         char x = 'c';

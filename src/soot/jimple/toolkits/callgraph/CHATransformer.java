@@ -25,27 +25,33 @@
 
 package soot.jimple.toolkits.callgraph;
 
-import soot.options.*;
-import soot.*;
-
-import java.util.*;
-
+import soot.G;
+import soot.Scene;
+import soot.SceneTransformer;
+import soot.Singletons;
 import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
+import soot.options.CHAOptions;
 
-/** Builds an invoke graph using Class Hierarchy Analysis. */
-public class CHATransformer extends SceneTransformer
-{
-    public CHATransformer( Singletons.Global g ) {}
-    public static CHATransformer v() { return G.v().soot_jimple_toolkits_callgraph_CHATransformer(); }
+import java.util.Map;
 
-    protected void internalTransform(String phaseName, Map<String, String> opts)
-    {
-        CHAOptions options = new CHAOptions( opts );
-        CallGraphBuilder cg = new CallGraphBuilder( DumbPointerAnalysis.v() );
+/**
+ * Builds an invoke graph using Class Hierarchy Analysis.
+ */
+public class CHATransformer extends SceneTransformer {
+    public CHATransformer(Singletons.Global g) {
+    }
+
+    public static CHATransformer v() {
+        return G.v().soot_jimple_toolkits_callgraph_CHATransformer();
+    }
+
+    protected void internalTransform(String phaseName, Map<String, String> opts) {
+        CHAOptions options = new CHAOptions(opts);
+        CallGraphBuilder cg = new CallGraphBuilder(DumbPointerAnalysis.v());
         cg.build();
-        if( options.verbose() ) {
-            G.v().out.println( "Number of reachable methods: "
-                    +Scene.v().getReachableMethods().size() );
+        if (options.verbose()) {
+            G.v().out.println("Number of reachable methods: "
+                    + Scene.v().getReachableMethods().size());
         }
     }
 }

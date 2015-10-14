@@ -20,138 +20,165 @@
 package soot.dava.toolkits.base.AST.analysis;
 
 
-import soot.*;
-import soot.jimple.*;
+import soot.Type;
+import soot.Value;
 import soot.dava.internal.AST.*;
-import soot.dava.internal.javaRep.*;
+import soot.dava.internal.javaRep.DVariableDeclarationStmt;
+import soot.jimple.*;
 
-public class AnalysisAdapter implements Analysis{
+public class AnalysisAdapter implements Analysis {
 
-    public void defaultCase(Object o){
-	//do nothing
-    }
-
-    public void caseASTMethodNode(ASTMethodNode node){
-	defaultCase(node);
-    }
-    public void caseASTSynchronizedBlockNode(ASTSynchronizedBlockNode node){
-	defaultCase(node);
+    public void defaultCase(Object o) {
+        //do nothing
     }
 
-    public void caseASTLabeledBlockNode (ASTLabeledBlockNode node){
-	defaultCase(node);
+    public void caseASTMethodNode(ASTMethodNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTUnconditionalLoopNode (ASTUnconditionalLoopNode node){
-	defaultCase(node);
-	}
-    public void caseASTSwitchNode(ASTSwitchNode node){
-	defaultCase(node);
-    }
-    public void caseASTIfNode(ASTIfNode node){
-	defaultCase(node);
-    }
-    public void caseASTIfElseNode(ASTIfElseNode node){
-	defaultCase(node);
-    }
-    public void caseASTWhileNode(ASTWhileNode node){
-	defaultCase(node);
-    }
-    public void caseASTForLoopNode(ASTForLoopNode node){
-	defaultCase(node);
+    public void caseASTSynchronizedBlockNode(ASTSynchronizedBlockNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTDoWhileNode(ASTDoWhileNode node){
-	defaultCase(node);
+    public void caseASTLabeledBlockNode(ASTLabeledBlockNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTTryNode(ASTTryNode node){
-	defaultCase(node);
+    public void caseASTUnconditionalLoopNode(ASTUnconditionalLoopNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTStatementSequenceNode(ASTStatementSequenceNode node){
-	defaultCase(node);
+    public void caseASTSwitchNode(ASTSwitchNode node) {
+        defaultCase(node);
     }
 
-
-    public void caseASTUnaryCondition(ASTUnaryCondition uc){
-	defaultCase(uc);
+    public void caseASTIfNode(ASTIfNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTBinaryCondition(ASTBinaryCondition bc){
-	defaultCase(bc);
+    public void caseASTIfElseNode(ASTIfElseNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTAndCondition(ASTAndCondition ac){
-	defaultCase(ac);
+    public void caseASTWhileNode(ASTWhileNode node) {
+        defaultCase(node);
     }
 
-    public void caseASTOrCondition(ASTOrCondition oc){
-	defaultCase(oc);
+    public void caseASTForLoopNode(ASTForLoopNode node) {
+        defaultCase(node);
+    }
+
+    public void caseASTDoWhileNode(ASTDoWhileNode node) {
+        defaultCase(node);
+    }
+
+    public void caseASTTryNode(ASTTryNode node) {
+        defaultCase(node);
+    }
+
+    public void caseASTStatementSequenceNode(ASTStatementSequenceNode node) {
+        defaultCase(node);
     }
 
 
-    public void caseType(Type t){
-	defaultCase(t);
+    public void caseASTUnaryCondition(ASTUnaryCondition uc) {
+        defaultCase(uc);
     }
-    public void caseDefinitionStmt(DefinitionStmt s){
-	defaultCase(s);
+
+    public void caseASTBinaryCondition(ASTBinaryCondition bc) {
+        defaultCase(bc);
     }
-    public void caseReturnStmt(ReturnStmt s){
-	defaultCase(s);
+
+    public void caseASTAndCondition(ASTAndCondition ac) {
+        defaultCase(ac);
     }
-    public void caseInvokeStmt(InvokeStmt s){
-	defaultCase(s);
+
+    public void caseASTOrCondition(ASTOrCondition oc) {
+        defaultCase(oc);
     }
-    public void caseThrowStmt(ThrowStmt s){
-	defaultCase(s);
+
+
+    public void caseType(Type t) {
+        defaultCase(t);
     }
-    public void caseDVariableDeclarationStmt(DVariableDeclarationStmt s){
-	defaultCase(s);
+
+    public void caseDefinitionStmt(DefinitionStmt s) {
+        defaultCase(s);
     }
-    public void caseStmt(Stmt s){
-	defaultCase(s);
+
+    public void caseReturnStmt(ReturnStmt s) {
+        defaultCase(s);
     }
-    public void caseValue(Value v){
-	defaultCase(v);
+
+    public void caseInvokeStmt(InvokeStmt s) {
+        defaultCase(s);
     }
-    public void caseExpr(Expr e){
-	defaultCase(e);
+
+    public void caseThrowStmt(ThrowStmt s) {
+        defaultCase(s);
     }
-    public void caseRef(Ref r){
-	defaultCase(r);
+
+    public void caseDVariableDeclarationStmt(DVariableDeclarationStmt s) {
+        defaultCase(s);
     }
-    public void caseBinopExpr(BinopExpr be){
-	defaultCase(be);
+
+    public void caseStmt(Stmt s) {
+        defaultCase(s);
     }
-    public void caseUnopExpr(UnopExpr ue){
-	defaultCase(ue);
+
+    public void caseValue(Value v) {
+        defaultCase(v);
     }
-    public void caseNewArrayExpr(NewArrayExpr nae){
-	defaultCase(nae);
+
+    public void caseExpr(Expr e) {
+        defaultCase(e);
     }
-    public void caseNewMultiArrayExpr(NewMultiArrayExpr nmae){
-	defaultCase(nmae);
+
+    public void caseRef(Ref r) {
+        defaultCase(r);
     }
-    public void caseInstanceOfExpr(InstanceOfExpr ioe){
-	defaultCase(ioe);
+
+    public void caseBinopExpr(BinopExpr be) {
+        defaultCase(be);
     }
-    public void caseInvokeExpr(InvokeExpr ie){
-	defaultCase(ie);
+
+    public void caseUnopExpr(UnopExpr ue) {
+        defaultCase(ue);
     }
-    public void caseInstanceInvokeExpr(InstanceInvokeExpr iie){
-	defaultCase(iie);
+
+    public void caseNewArrayExpr(NewArrayExpr nae) {
+        defaultCase(nae);
     }
-    public void caseCastExpr(CastExpr ce){
-	defaultCase(ce);
+
+    public void caseNewMultiArrayExpr(NewMultiArrayExpr nmae) {
+        defaultCase(nmae);
     }
-    public void caseArrayRef(ArrayRef ar){
-	defaultCase(ar);
+
+    public void caseInstanceOfExpr(InstanceOfExpr ioe) {
+        defaultCase(ioe);
     }
-    public void caseInstanceFieldRef(InstanceFieldRef ifr){
-	defaultCase(ifr);
+
+    public void caseInvokeExpr(InvokeExpr ie) {
+        defaultCase(ie);
     }
-    public void caseStaticFieldRef(StaticFieldRef sfr){
-	defaultCase(sfr);
+
+    public void caseInstanceInvokeExpr(InstanceInvokeExpr iie) {
+        defaultCase(iie);
+    }
+
+    public void caseCastExpr(CastExpr ce) {
+        defaultCase(ce);
+    }
+
+    public void caseArrayRef(ArrayRef ar) {
+        defaultCase(ar);
+    }
+
+    public void caseInstanceFieldRef(InstanceFieldRef ifr) {
+        defaultCase(ifr);
+    }
+
+    public void caseStaticFieldRef(StaticFieldRef sfr) {
+        defaultCase(sfr);
     }
 }

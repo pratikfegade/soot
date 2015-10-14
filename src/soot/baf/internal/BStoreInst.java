@@ -24,84 +24,75 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.baf.InstSwitch;
+import soot.baf.StoreInst;
+import soot.util.Switch;
 
-public class BStoreInst extends AbstractOpTypeInst implements StoreInst
-{
-   
+import java.util.Collections;
+import java.util.List;
+
+public class BStoreInst extends AbstractOpTypeInst implements StoreInst {
+
     ValueBox localBox;
     List defBoxes;
-   
-    public BStoreInst(Type opType, Local local)
-    {
-        super(opType);      
+
+    public BStoreInst(Type opType, Local local) {
+        super(opType);
         localBox = new BafLocalBox(local);
         defBoxes = Collections.singletonList(localBox);
     }
 
-    public int getInCount()
-    {
+    public int getInCount() {
         return 1;
     }
 
-    public Object clone() 
-    {
-        return new  BStoreInst(getOpType(), getLocal());
+    public Object clone() {
+        return new BStoreInst(getOpType(), getLocal());
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return AbstractJasminClass.sizeOfType(getOpType());
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 0;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 0;
     }
 
-    final public String getName() { return "store"; }
-    final String getParameters()
-    { return " " + localBox.getValue().toString(); }
-    protected void getParameters(UnitPrinter up ) {
+    final public String getName() {
+        return "store";
+    }
+
+    final String getParameters() {
+        return " " + localBox.getValue().toString();
+    }
+
+    protected void getParameters(UnitPrinter up) {
         up.literal(" ");
         localBox.toString(up);
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseStoreInst(this);
-    }   
- 
-   
+    }
 
-    public void setLocal(Local l)
-    {
-        localBox.setValue(l);
-    }   
-    
-    public Local getLocal()
-    {
+    public Local getLocal() {
         return (Local) localBox.getValue();
     }
 
+    public void setLocal(Local l) {
+        localBox.setValue(l);
+    }
 
-    public List getDefBoxes() 
-    {
+    public List getDefBoxes() {
         return defBoxes;
     }
 
-    
+
 }

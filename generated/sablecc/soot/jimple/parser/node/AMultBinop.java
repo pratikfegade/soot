@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AMultBinop extends PBinop
-{
+public final class AMultBinop extends PBinop {
     private TMult _mult_;
 
-    public AMultBinop()
-    {
+    public AMultBinop() {
         // Constructor
     }
 
     public AMultBinop(
-        @SuppressWarnings("hiding") TMult _mult_)
-    {
+            @SuppressWarnings("hiding") TMult _mult_) {
         // Constructor
         setMult(_mult_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMultBinop(
-            cloneNode(this._mult_));
+                cloneNode(this._mult_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMultBinop(this);
     }
 
-    public TMult getMult()
-    {
+    public TMult getMult() {
         return this._mult_;
     }
 
-    public void setMult(TMult node)
-    {
-        if(this._mult_ != null)
-        {
+    public void setMult(TMult node) {
+        if (this._mult_ != null) {
             this._mult_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AMultBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._mult_);
+                + toString(this._mult_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._mult_ == child)
-        {
+        if (this._mult_ == child) {
             this._mult_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AMultBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._mult_ == oldChild)
-        {
+        if (this._mult_ == oldChild) {
             setMult((TMult) newChild);
             return;
         }

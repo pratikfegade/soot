@@ -18,53 +18,49 @@
  */
 package soot.jimple.spark.ondemand.pautil;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import soot.jimple.spark.ondemand.genericutil.ArraySet;
 import soot.jimple.spark.ondemand.genericutil.HashSetMultiMap;
 import soot.jimple.spark.ondemand.genericutil.MultiMap;
 import soot.jimple.spark.ondemand.pautil.SootUtil.FieldToEdgesMap;
-import soot.jimple.spark.pag.FieldRefNode;
-import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.PAG;
-import soot.jimple.spark.pag.SparkField;
-import soot.jimple.spark.pag.VarNode;
+import soot.jimple.spark.pag.*;
 import soot.toolkits.scalar.Pair;
+
+import java.util.Iterator;
+import java.util.Set;
 
 public class ValidMatches {
 
-	// edges are in same direction as PAG, in the direction of value flow
-	private final MultiMap<VarNode, VarNode> vMatchEdges = new HashSetMultiMap<VarNode, VarNode>();
-	
-	private final MultiMap<VarNode, VarNode> vMatchBarEdges = new HashSetMultiMap<VarNode, VarNode>();
-	
-	public ValidMatches(PAG pag, FieldToEdgesMap fieldToStores) {
-		for (Iterator iter = pag.loadSources().iterator(); iter.hasNext();) {
-			FieldRefNode loadSource = (FieldRefNode) iter.next();
-			SparkField field = loadSource.getField();
-			VarNode loadBase = loadSource.getBase();
-			ArraySet<Pair<VarNode, VarNode>> storesOnField = fieldToStores.get(field);
-			for (Pair<VarNode, VarNode> store : storesOnField) {
-				VarNode storeBase = store.getO2();				
-				if (loadBase.getP2Set().hasNonEmptyIntersection(storeBase.getP2Set())) {
-					VarNode matchSrc = store.getO1();
-					Node[] loadTargets = pag.loadLookup(loadSource);
-					for (int i = 0; i < loadTargets.length; i++) {
-						VarNode matchTgt = (VarNode) loadTargets[i];
-						vMatchEdges.put(matchSrc, matchTgt);
-						vMatchBarEdges.put(matchTgt, matchSrc);
-					}
-				}				
-			}
-		}
-	}
-	
-	public Set<VarNode> vMatchLookup(VarNode src) {
-		return vMatchEdges.get(src);
-	}
+    // edges are in same direction as PAG, in the direction of value flow
+    private final MultiMap<VarNode, VarNode> vMatchEdges = new HashSetMultiMap<VarNode, VarNode>();
 
-	public Set<VarNode> vMatchInvLookup(VarNode src) {
-		return vMatchBarEdges.get(src);
-	}
+    private final MultiMap<VarNode, VarNode> vMatchBarEdges = new HashSetMultiMap<VarNode, VarNode>();
+
+    public ValidMatches(PAG pag, FieldToEdgesMap fieldToStores) {
+        for (Iterator iter = pag.loadSources().iterator(); iter.hasNext(); ) {
+            FieldRefNode loadSource = (FieldRefNode) iter.next();
+            SparkField field = loadSource.getField();
+            VarNode loadBase = loadSource.getBase();
+            ArraySet<Pair<VarNode, VarNode>> storesOnField = fieldToStores.get(field);
+            for (Pair<VarNode, VarNode> store : storesOnField) {
+                VarNode storeBase = store.getO2();
+                if (loadBase.getP2Set().hasNonEmptyIntersection(storeBase.getP2Set())) {
+                    VarNode matchSrc = store.getO1();
+                    Node[] loadTargets = pag.loadLookup(loadSource);
+                    for (int i = 0; i < loadTargets.length; i++) {
+                        VarNode matchTgt = (VarNode) loadTargets[i];
+                        vMatchEdges.put(matchSrc, matchTgt);
+                        vMatchBarEdges.put(matchTgt, matchSrc);
+                    }
+                }
+            }
+        }
+    }
+
+    public Set<VarNode> vMatchLookup(VarNode src) {
+        return vMatchEdges.get(src);
+    }
+
+    public Set<VarNode> vMatchInvLookup(VarNode src) {
+        return vMatchBarEdges.get(src);
+    }
 }

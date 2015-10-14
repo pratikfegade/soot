@@ -19,12 +19,15 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.*;
-import soot.jimple.*;
-import soot.dava.internal.SET.*;
 import soot.dava.internal.AST.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DAbruptStmt;
+import soot.jimple.Stmt;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 /*
@@ -55,112 +58,107 @@ PATTERN 2:
   TO MAKE CODE EFFECIENT BLOCK THE ANALYSIS TO GOING INTO STATEMENTS
   this is done by overriding the caseASTStatementSequenceNode
 */
-public class IfElseBreaker{
+public class IfElseBreaker {
     ASTIfNode newIfNode;
     List<Object> remainingBody;
 
-    public IfElseBreaker(){
-	newIfNode=null;
-	remainingBody=null;
+    public IfElseBreaker() {
+        newIfNode = null;
+        remainingBody = null;
     }
 
-    public boolean isIfElseBreakingPossiblePatternOne(ASTIfElseNode node){
-	List<Object> ifBody = node.getIfBody();
-	if(ifBody.size()!=1){
-	    //we are only interested if size is one
-	    return false;
-	}
-	
-	ASTNode onlyNode=(ASTNode)ifBody.get(0);
-	boolean check = checkStmt(onlyNode,node);
-	if(!check){
-	    return false;
-	}
+    public boolean isIfElseBreakingPossiblePatternOne(ASTIfElseNode node) {
+        List<Object> ifBody = node.getIfBody();
+        if (ifBody.size() != 1) {
+            //we are only interested if size is one
+            return false;
+        }
 
-	//breaking is possible
-	//break and store
-	newIfNode = new ASTIfNode(((ASTLabeledNode)node).get_Label(),node.get_Condition(),ifBody);
-	remainingBody = node.getElseBody();
-	
-	return true;
-    }
+        ASTNode onlyNode = (ASTNode) ifBody.get(0);
+        boolean check = checkStmt(onlyNode, node);
+        if (!check) {
+            return false;
+        }
 
+        //breaking is possible
+        //break and store
+        newIfNode = new ASTIfNode(node.get_Label(), node.get_Condition(), ifBody);
+        remainingBody = node.getElseBody();
 
-    public boolean isIfElseBreakingPossiblePatternTwo(ASTIfElseNode node){
-	List<Object> elseBody = node.getElseBody();
-	if(elseBody.size()!=1){
-	    //we are only interested if size is one
-	    return false;
-	}
-	
-	ASTNode onlyNode=(ASTNode)elseBody.get(0);
-	boolean check = checkStmt(onlyNode,node);
-	if(!check){
-	    return false;
-	}
-	//breaking is possible
-
-	ASTCondition cond = node.get_Condition();
-	//flip
-	cond.flip();
-
-	newIfNode = new ASTIfNode(((ASTLabeledNode)node).get_Label(),cond,elseBody);
-	remainingBody = node.getIfBody();
-	
-	return true;
+        return true;
     }
 
 
+    public boolean isIfElseBreakingPossiblePatternTwo(ASTIfElseNode node) {
+        List<Object> elseBody = node.getElseBody();
+        if (elseBody.size() != 1) {
+            //we are only interested if size is one
+            return false;
+        }
 
+        ASTNode onlyNode = (ASTNode) elseBody.get(0);
+        boolean check = checkStmt(onlyNode, node);
+        if (!check) {
+            return false;
+        }
+        //breaking is possible
 
-    private boolean checkStmt(ASTNode onlyNode,ASTIfElseNode node){
-	if(!(onlyNode instanceof ASTStatementSequenceNode)){
-	    //only interested in StmtSeq nodes
-	    return false;
-	}
-	
-	ASTStatementSequenceNode stmtNode=(ASTStatementSequenceNode)onlyNode;
-	List<Object> statements = stmtNode.getStatements();
-	if(statements.size()!=1){
-	    //need one stmt only
-	    return false;
-	}
-	
-	AugmentedStmt as = (AugmentedStmt)statements.get(0);
-	Stmt stmt = as.get_Stmt();
+        ASTCondition cond = node.get_Condition();
+        //flip
+        cond.flip();
 
-	if(!(stmt instanceof DAbruptStmt)){
-	    //interested in abrupt stmts only
-	    return false;
-	}
-	DAbruptStmt abStmt = (DAbruptStmt)stmt;
-	if(!(abStmt.is_Break() || abStmt.is_Continue())){
-	    //interested in breaks and continues only
-	    return false;
-	}
+        newIfNode = new ASTIfNode(node.get_Label(), cond, elseBody);
+        remainingBody = node.getIfBody();
 
-	//make sure that the break is not that of the if
-	//unliekly but good to check
-	SETNodeLabel ifLabel = ((ASTLabeledNode)node).get_Label();
-	
-	if (ifLabel!=null){
-	    if(ifLabel.toString()!=null){
-		if(abStmt.is_Break()){
-		    String breakLabel = abStmt.getLabel().toString();
-		    if(breakLabel!=null){
-			if(breakLabel.compareTo(ifLabel.toString())==0){
-			    //is a break of this label
-			    return false;
-			}
-		    }
-		}
-	    }
-	}
-	return true;
+        return true;
     }
 
 
+    private boolean checkStmt(ASTNode onlyNode, ASTIfElseNode node) {
+        if (!(onlyNode instanceof ASTStatementSequenceNode)) {
+            //only interested in StmtSeq nodes
+            return false;
+        }
 
+        ASTStatementSequenceNode stmtNode = (ASTStatementSequenceNode) onlyNode;
+        List<Object> statements = stmtNode.getStatements();
+        if (statements.size() != 1) {
+            //need one stmt only
+            return false;
+        }
+
+        AugmentedStmt as = (AugmentedStmt) statements.get(0);
+        Stmt stmt = as.get_Stmt();
+
+        if (!(stmt instanceof DAbruptStmt)) {
+            //interested in abrupt stmts only
+            return false;
+        }
+        DAbruptStmt abStmt = (DAbruptStmt) stmt;
+        if (!(abStmt.is_Break() || abStmt.is_Continue())) {
+            //interested in breaks and continues only
+            return false;
+        }
+
+        //make sure that the break is not that of the if
+        //unliekly but good to check
+        SETNodeLabel ifLabel = node.get_Label();
+
+        if (ifLabel != null) {
+            if (ifLabel.toString() != null) {
+                if (abStmt.is_Break()) {
+                    String breakLabel = abStmt.getLabel().toString();
+                    if (breakLabel != null) {
+                        if (breakLabel.compareTo(ifLabel.toString()) == 0) {
+                            //is a break of this label
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
 
     /*
@@ -171,39 +169,39 @@ public class IfElseBreaker{
       The new body is then returned;
 
     */
-    public List<Object> createNewBody(List<Object> oldSubBody, int nodeNumber){
-	if(newIfNode == null)
-	    return null;
+    public List<Object> createNewBody(List<Object> oldSubBody, int nodeNumber) {
+        if (newIfNode == null)
+            return null;
 
-	List<Object> newSubBody = new ArrayList<Object>();
+        List<Object> newSubBody = new ArrayList<Object>();
 
-	if(oldSubBody.size()<= nodeNumber){
-	    //something is wrong since the oldSubBody has lesser nodes than nodeNumber
-	    return null;
-	}
+        if (oldSubBody.size() <= nodeNumber) {
+            //something is wrong since the oldSubBody has lesser nodes than nodeNumber
+            return null;
+        }
 
-	Iterator<Object> oldIt = oldSubBody.iterator();
-	int index=0;
-	while(index!=nodeNumber){
-	    newSubBody.add(oldIt.next());
-	    index++;
-	}
+        Iterator<Object> oldIt = oldSubBody.iterator();
+        int index = 0;
+        while (index != nodeNumber) {
+            newSubBody.add(oldIt.next());
+            index++;
+        }
 
-	//check to see that the next is an ASTIfElseNode
-	ASTNode temp = (ASTNode)oldIt.next();
-	if(!(temp instanceof ASTIfElseNode))
-	    return null;
-	
-	newSubBody.add(newIfNode);
+        //check to see that the next is an ASTIfElseNode
+        ASTNode temp = (ASTNode) oldIt.next();
+        if (!(temp instanceof ASTIfElseNode))
+            return null;
 
-	newSubBody.addAll(remainingBody);
+        newSubBody.add(newIfNode);
+
+        newSubBody.addAll(remainingBody);
 
 
-	//copy any remaining nodes
-	while(oldIt.hasNext()){
-	    newSubBody.add(oldIt.next());
-	}
-	
-	return newSubBody;
+        //copy any remaining nodes
+        while (oldIt.hasNext()) {
+            newSubBody.add(oldIt.next());
+        }
+
+        return newSubBody;
     }
 }

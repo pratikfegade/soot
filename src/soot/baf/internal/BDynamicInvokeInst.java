@@ -26,65 +26,60 @@
 
 package soot.baf.internal;
 
+import soot.*;
+import soot.baf.DynamicInvokeInst;
+import soot.baf.InstSwitch;
+import soot.jimple.Jimple;
+import soot.util.Switch;
+
 import java.util.List;
 
-import org.objectweb.asm.Opcodes;
-
-import soot.*;
-import soot.baf.*;
-import soot.jimple.Jimple;
-import soot.util.*;
-
-@SuppressWarnings({ "serial", "unchecked" })
-public class BDynamicInvokeInst extends AbstractInvokeInst implements DynamicInvokeInst
-{	
+@SuppressWarnings({"serial", "unchecked"})
+public class BDynamicInvokeInst extends AbstractInvokeInst implements DynamicInvokeInst {
     protected final SootMethodRef bsmRef;
-	private final List<Value> bsmArgs;
-	protected int tag;
+    private final List<Value> bsmArgs;
+    protected int tag;
 
-	public BDynamicInvokeInst(SootMethodRef bsmMethodRef, List<Value> bsmArgs, SootMethodRef methodRef, int tag) { 
+    public BDynamicInvokeInst(SootMethodRef bsmMethodRef, List<Value> bsmArgs, SootMethodRef methodRef, int tag) {
         this.bsmRef = bsmMethodRef;
-		this.bsmArgs = bsmArgs;
-		this.methodRef = methodRef;
-		this.tag = tag;
-    }
-	
-    public int getInCount()
-    {
-        return methodRef.parameterTypes().size();
-        
+        this.bsmArgs = bsmArgs;
+        this.methodRef = methodRef;
+        this.tag = tag;
     }
 
-    public Object clone() 
-    {
-        return new  BDynamicInvokeInst(bsmRef, bsmArgs, methodRef, tag);
+    public int getInCount() {
+        return methodRef.parameterTypes().size();
+
     }
-   
-    public int getOutCount()
-    {
-        if(methodRef.returnType() instanceof VoidType)
+
+    public Object clone() {
+        return new BDynamicInvokeInst(bsmRef, bsmArgs, methodRef, tag);
+    }
+
+    public int getOutCount() {
+        if (methodRef.returnType() instanceof VoidType)
             return 0;
         else
             return 1;
     }
 
     public SootMethodRef getBootstrapMethodRef() {
-		return bsmRef;
-	}   
-    
-    public List<Value> getBootstrapArgs() {
-    	return bsmArgs;
+        return bsmRef;
     }
 
-    public String getName() { return "dynamicinvoke"; }
+    public List<Value> getBootstrapArgs() {
+        return bsmArgs;
+    }
 
-    public void apply(Switch sw)
-    {
+    public String getName() {
+        return "dynamicinvoke";
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseDynamicInvokeInst(this);
-    }   
-    
-    public String toString()
-    {
+    }
+
+    public String toString() {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append(Jimple.DYNAMICINVOKE);
@@ -95,9 +90,8 @@ public class BDynamicInvokeInst extends AbstractInvokeInst implements DynamicInv
         buffer.append(">");
         buffer.append(bsmRef.getSignature());
         buffer.append("(");
-        for(int i = 0; i < bsmArgs.size(); i++)
-        {
-            if(i != 0)
+        for (int i = 0; i < bsmArgs.size(); i++) {
+            if (i != 0)
                 buffer.append(", ");
 
             buffer.append(bsmArgs.get(i).toString());
@@ -106,27 +100,25 @@ public class BDynamicInvokeInst extends AbstractInvokeInst implements DynamicInv
 
         return buffer.toString();
     }
-    
-    public void toString(UnitPrinter up)
-    {
-        up.literal(Jimple.DYNAMICINVOKE);        
-        up.literal(" \"" + methodRef.name() + "\" <" + SootMethod.getSubSignature(""/* no method name here*/, methodRef.parameterTypes(), methodRef.returnType()) +"> ");        
+
+    public void toString(UnitPrinter up) {
+        up.literal(Jimple.DYNAMICINVOKE);
+        up.literal(" \"" + methodRef.name() + "\" <" + SootMethod.getSubSignature(""/* no method name here*/, methodRef.parameterTypes(), methodRef.returnType()) + "> ");
         up.methodRef(bsmRef);
         up.literal("(");
-        
-        for(int i = 0; i < bsmArgs.size(); i++)
-        {
-            if(i != 0)
+
+        for (int i = 0; i < bsmArgs.size(); i++) {
+            if (i != 0)
                 up.literal(", ");
-                
+
             bsmArgs.get(i).toString(up);
         }
 
         up.literal(")");
     }
 
-	@Override
-	public int getHandleTag() {
-		return tag;
-	}
+    @Override
+    public int getHandleTag() {
+        return tag;
+    }
 }

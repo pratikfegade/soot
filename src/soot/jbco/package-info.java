@@ -1,2 +1,1 @@
-@Deprecated
-package soot.jbco;
+@Deprecated package soot.jbco;

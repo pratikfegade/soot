@@ -1,6 +1,10 @@
 public class LineNumberTest {
-    
-    public static void main(String [] args) {
+
+    public LineNumberTest() {
+        super();
+    }
+
+    public static void main(String[] args) {
 
         //Object o = new Integer(9);
         int i = 10;
@@ -11,17 +15,12 @@ public class LineNumberTest {
             i = x + 1;
             i = y - 1;
             i = z * 2;
-        }
-        else if (i == 5){
+        } else if (i == 5) {
             z = 3;
             y = 4;
         }
-        while (i > 10 ) {
+        while (i > 10) {
             i = i - 3;
         }
-    }
-
-    public LineNumberTest(){
-        super();
     }
 }

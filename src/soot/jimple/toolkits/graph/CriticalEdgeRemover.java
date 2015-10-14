@@ -25,14 +25,13 @@
 
 
 package soot.jimple.toolkits.graph;
-import soot.options.*;
-
 
 import soot.*;
-import soot.util.*;
-import java.util.*;
+import soot.jimple.Jimple;
+import soot.options.Options;
+import soot.util.Chain;
 
-import soot.jimple.*;
+import java.util.*;
 
 /**
  * removes all critical edges.<br>
@@ -47,169 +46,172 @@ import soot.jimple.*;
  * Exceptions will be ignored.
  */
 public class CriticalEdgeRemover extends BodyTransformer {
-    public CriticalEdgeRemover( Singletons.Global g ) {}
-    public static CriticalEdgeRemover v() { return G.v().soot_jimple_toolkits_graph_CriticalEdgeRemover(); }
-
-  /**
-   * performs critical edge-removing.
-   */
-  protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
-    if(Options.v().verbose())
-      G.v().out.println("[" + b.getMethod().getName() +
-                         "]     Removing Critical Edges...");
-    removeCriticalEdges(b);
-    if(Options.v().verbose())
-      G.v().out.println("[" + b.getMethod().getName() +
-                         "]     Removing Critical Edges done.");
-
-  }
-
-  /**
-   * inserts a Jimple<code>Goto</code> to <code> target, directly after
-   * <code>node</code> in the given <code>unitChain</code>.<br>
-   * As we use <code>JGoto</code> the chain must contain Jimple-stmts.
-   *
-   * @param unitChain the Chain where we will insert the <code>Goto</code>.
-   * @param node the <code>Goto</code> will be inserted just after this node.
-   * @param target is the Unit the <code>goto</code> will jump to.
-   * @return the newly inserted <code>Goto</code>
-   */
-  private static Unit insertGotoAfter(Chain<Unit> unitChain, Unit node, Unit target) {
-    Unit newGoto = Jimple.v().newGotoStmt(target);
-    unitChain.insertAfter(newGoto, node);
-    return newGoto;
-  }
-
-  /**
-   * inserts a Jimple<code>Goto</code> to <code> target, directly before
-   * <code>node</code> in the given <code>unitChain</code>.<br>
-   * As we use <code>JGoto</code> the chain must contain Jimple-stmts.
-   *
-   * @param unitChain the Chain where we will insert the <code>Goto</code>.
-   * @param node the <code>Goto</code> will be inserted just before this node.
-   * @param target is the Unit the <code>goto</code> will jump to.
-   * @return the newly inserted <code>Goto</code>
-   */
-  /*note, that this method has slightly more overhead than the insertGotoAfter*/
-  private static Unit insertGotoBefore(Chain<Unit> unitChain, Unit node, Unit target)
-  {
-    Unit newGoto = Jimple.v().newGotoStmt(target);
-    unitChain.insertBefore(newGoto, node);
-    newGoto.redirectJumpsToThisTo(node);
-    return newGoto;
-  }
-
-  /**
-   * takes <code>node</code> and redirects all branches to <code>oldTarget</code>
-   * to <code>newTarget</code>.
-   *
-   * @param node the Unit where we redirect
-   * @param oldTarget
-   * @param newTarget
-   */
-  private static void redirectBranch(Unit node, Unit oldTarget, Unit newTarget) {
-    for (UnitBox targetBox : node.getUnitBoxes()) {
-      Unit target = targetBox.getUnit();
-      if (target == oldTarget)
-        targetBox.setUnit(newTarget);
+    public CriticalEdgeRemover(Singletons.Global g) {
     }
-  }
 
-  /**
-   * splits critical edges by introducing synthetic nodes.<br>
-   * This method <b>will modify</b> the <code>UnitGraph</code> of the body.
-   * Synthetic nodes are always <code>JGoto</code>s. Therefore the body must be
-   * in <tt>Jimple</tt>.<br>
-   * As a side-effect, after the transformation, the direct predecessor of a
-   * block/node with multiple predecessors will will not fall through anymore.
-   * This simplifies the algorithm and is nice to work with afterwards.
-   *
-   * @param b the Jimple-body that will be physicly modified so that there are
-   *          no critical edges anymore.
-   */
+    public static CriticalEdgeRemover v() {
+        return G.v().soot_jimple_toolkits_graph_CriticalEdgeRemover();
+    }
+
+    /**
+     * inserts a Jimple<code>Goto</code> to <code> target, directly after
+     * <code>node</code> in the given <code>unitChain</code>.<br>
+     * As we use <code>JGoto</code> the chain must contain Jimple-stmts.
+     *
+     * @param unitChain the Chain where we will insert the <code>Goto</code>.
+     * @param node      the <code>Goto</code> will be inserted just after this node.
+     * @param target    is the Unit the <code>goto</code> will jump to.
+     * @return the newly inserted <code>Goto</code>
+     */
+    private static Unit insertGotoAfter(Chain<Unit> unitChain, Unit node, Unit target) {
+        Unit newGoto = Jimple.v().newGotoStmt(target);
+        unitChain.insertAfter(newGoto, node);
+        return newGoto;
+    }
+
+    /**
+     * inserts a Jimple<code>Goto</code> to <code> target, directly before
+     * <code>node</code> in the given <code>unitChain</code>.<br>
+     * As we use <code>JGoto</code> the chain must contain Jimple-stmts.
+     *
+     * @param unitChain the Chain where we will insert the <code>Goto</code>.
+     * @param node      the <code>Goto</code> will be inserted just before this node.
+     * @param target    is the Unit the <code>goto</code> will jump to.
+     * @return the newly inserted <code>Goto</code>
+     */
+  /*note, that this method has slightly more overhead than the insertGotoAfter*/
+    private static Unit insertGotoBefore(Chain<Unit> unitChain, Unit node, Unit target) {
+        Unit newGoto = Jimple.v().newGotoStmt(target);
+        unitChain.insertBefore(newGoto, node);
+        newGoto.redirectJumpsToThisTo(node);
+        return newGoto;
+    }
+
+    /**
+     * takes <code>node</code> and redirects all branches to <code>oldTarget</code>
+     * to <code>newTarget</code>.
+     *
+     * @param node      the Unit where we redirect
+     * @param oldTarget
+     * @param newTarget
+     */
+    private static void redirectBranch(Unit node, Unit oldTarget, Unit newTarget) {
+        for (UnitBox targetBox : node.getUnitBoxes()) {
+            Unit target = targetBox.getUnit();
+            if (target == oldTarget)
+                targetBox.setUnit(newTarget);
+        }
+    }
+
+    /**
+     * performs critical edge-removing.
+     */
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        if (Options.v().verbose())
+            G.v().out.println("[" + b.getMethod().getName() +
+                    "]     Removing Critical Edges...");
+        removeCriticalEdges(b);
+        if (Options.v().verbose())
+            G.v().out.println("[" + b.getMethod().getName() +
+                    "]     Removing Critical Edges done.");
+
+    }
+
+    /**
+     * splits critical edges by introducing synthetic nodes.<br>
+     * This method <b>will modify</b> the <code>UnitGraph</code> of the body.
+     * Synthetic nodes are always <code>JGoto</code>s. Therefore the body must be
+     * in <tt>Jimple</tt>.<br>
+     * As a side-effect, after the transformation, the direct predecessor of a
+     * block/node with multiple predecessors will will not fall through anymore.
+     * This simplifies the algorithm and is nice to work with afterwards.
+     *
+     * @param b the Jimple-body that will be physicly modified so that there are
+     *          no critical edges anymore.
+     */
   /* note, that critical edges can only appear on edges between blocks!.
      Our algorithm will *not* take into account exceptions. (this is nearly
      impossible anyways) */
-  private void removeCriticalEdges(Body b) {
-    Chain<Unit> unitChain = b.getUnits();
-    int size = unitChain.size();
-    Map<Unit, List<Unit>> predecessors = new HashMap<Unit, List<Unit>>(2 * size + 1, 0.7f);
+    private void removeCriticalEdges(Body b) {
+        Chain<Unit> unitChain = b.getUnits();
+        int size = unitChain.size();
+        Map<Unit, List<Unit>> predecessors = new HashMap<Unit, List<Unit>>(2 * size + 1, 0.7f);
 
     /* First get the predecessors of each node (although direct predecessors are
      * predecessors too, we'll not include them in the lists) */
-    {
-      Iterator<Unit> unitIt = unitChain.snapshotIterator();
-      while (unitIt.hasNext()) {
-        Unit currentUnit = (Unit)unitIt.next();
+        {
+            Iterator<Unit> unitIt = unitChain.snapshotIterator();
+            while (unitIt.hasNext()) {
+                Unit currentUnit = unitIt.next();
 
-        Iterator<UnitBox> succsIt = currentUnit.getUnitBoxes().iterator();
-        while (succsIt.hasNext()) {
-          Unit target = succsIt.next().getUnit();
-          List<Unit> predList = predecessors.get(target);
-          if (predList == null) {
-            predList = new ArrayList<Unit>();
-            predList.add(currentUnit);
-            predecessors.put(target, predList);
-          } else
-            predList.add(currentUnit);
+                Iterator<UnitBox> succsIt = currentUnit.getUnitBoxes().iterator();
+                while (succsIt.hasNext()) {
+                    Unit target = succsIt.next().getUnit();
+                    List<Unit> predList = predecessors.get(target);
+                    if (predList == null) {
+                        predList = new ArrayList<Unit>();
+                        predList.add(currentUnit);
+                        predecessors.put(target, predList);
+                    } else
+                        predList.add(currentUnit);
+                }
+            }
         }
-      }
-    }
 
 
-    {
+        {
       /* for each node: if we have more than two predecessors, split these edges
        * if the node at the other end has more than one successor. */
 
       /* we need a snapshotIterator, as we'll modify the structure */
-      Iterator<Unit> unitIt = unitChain.snapshotIterator();
+            Iterator<Unit> unitIt = unitChain.snapshotIterator();
 
-      Unit currentUnit = null;
-      Unit directPredecessor;
-      while (unitIt.hasNext()) {
-        directPredecessor = currentUnit;
-        currentUnit = unitIt.next();
+            Unit currentUnit = null;
+            Unit directPredecessor;
+            while (unitIt.hasNext()) {
+                directPredecessor = currentUnit;
+                currentUnit = unitIt.next();
 
-        List<Unit> predList = predecessors.get(currentUnit);
-        int nbPreds = (predList == null)? 0: predList.size();
-        if (directPredecessor != null && directPredecessor.fallsThrough())
-          nbPreds++;
+                List<Unit> predList = predecessors.get(currentUnit);
+                int nbPreds = (predList == null) ? 0 : predList.size();
+                if (directPredecessor != null && directPredecessor.fallsThrough())
+                    nbPreds++;
 
-        if (nbPreds >= 2) {
+                if (nbPreds >= 2) {
           /* redirect the directPredecessor (if it falls through), so we can
            * easily insert the synthetic nodes. This redirection might not be
            * necessary, but is pleasant anyways (see the Javadoc for this
            * method)*/
-          if (directPredecessor != null && 
-              directPredecessor.fallsThrough()) {
-            directPredecessor = insertGotoAfter(unitChain, directPredecessor,
-                currentUnit);
-          }
+                    if (directPredecessor != null &&
+                            directPredecessor.fallsThrough()) {
+                        directPredecessor = insertGotoAfter(unitChain, directPredecessor,
+                                currentUnit);
+                    }
 
           /* if the predecessors have more than one successor insert the synthetic
            * node. */
-          Iterator<Unit> predIt = predList.iterator();
-          while (predIt.hasNext()) {
-            Unit predecessor = predIt.next();
+                    Iterator<Unit> predIt = predList.iterator();
+                    while (predIt.hasNext()) {
+                        Unit predecessor = predIt.next();
             /* Although in Jimple there should be only two ways of having more
              * than one successor (If and Case) we'll do it the hard way:) */
-            int nbSuccs = predecessor.getUnitBoxes().size();
-            nbSuccs += predecessor.fallsThrough()? 1: 0;
-            if (nbSuccs >= 2) {
+                        int nbSuccs = predecessor.getUnitBoxes().size();
+                        nbSuccs += predecessor.fallsThrough() ? 1 : 0;
+                        if (nbSuccs >= 2) {
               /* insert synthetic node (insertGotoAfter should be slightly
                * faster)*/
-              if (directPredecessor == null)
-                directPredecessor = insertGotoBefore(unitChain, currentUnit,
-                    currentUnit);
-              else
-                directPredecessor = insertGotoAfter(unitChain,
-                    directPredecessor, currentUnit);
+                            if (directPredecessor == null)
+                                directPredecessor = insertGotoBefore(unitChain, currentUnit,
+                                        currentUnit);
+                            else
+                                directPredecessor = insertGotoAfter(unitChain,
+                                        directPredecessor, currentUnit);
               /* update the branch */
-              redirectBranch(predecessor, currentUnit, directPredecessor);
+                            redirectBranch(predecessor, currentUnit, directPredecessor);
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }

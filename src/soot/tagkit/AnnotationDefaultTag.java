@@ -26,40 +26,44 @@
 package soot.tagkit;
 
 
-/** Represents the annotation default attribute attatched method
+/**
+ * Represents the annotation default attribute attatched method
  * - could have at most one annotation default each
  * for Java 1.5.
  */
 
-public class AnnotationDefaultTag implements Tag
-{
+public class AnnotationDefaultTag implements Tag {
     private AnnotationElem defaultVal;
-    
-    public AnnotationDefaultTag(AnnotationElem def){
+
+    public AnnotationDefaultTag(AnnotationElem def) {
         this.defaultVal = def;
     }
-    
+
     // should also print here number of annotations and perhaps the annotations themselves
     public String toString() {
-        return "Annotation Default: "+defaultVal;
+        return "Annotation Default: " + defaultVal;
     }
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "AnnotationDefaultTag";
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return "AnnotationDefault";
     }
-    
-    public AnnotationElem getDefaultVal(){
+
+    public AnnotationElem getDefaultVal() {
         return defaultVal;
     }
 
-    /** Returns the tag raw data. */
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "AnnotationDefaultTag has no value for bytecode" );
+        throw new RuntimeException("AnnotationDefaultTag has no value for bytecode");
     }
 
 }

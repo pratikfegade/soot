@@ -24,34 +24,28 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.*;
 
 @SuppressWarnings("serial")
-abstract public class AbstractIntLongBinopExpr extends AbstractBinopExpr
-{
-	
-	public static boolean isIntLikeType(Type t) {
-		return t.equals(IntType.v())
-				|| t.equals(ByteType.v())
-				|| t.equals(ShortType.v())
-	            || t.equals(CharType.v())
-	            || t.equals(BooleanType.v());
-	}
-	
-    public Type getType()
-    {
+abstract public class AbstractIntLongBinopExpr extends AbstractBinopExpr {
+
+    public static boolean isIntLikeType(Type t) {
+        return t.equals(IntType.v())
+                || t.equals(ByteType.v())
+                || t.equals(ShortType.v())
+                || t.equals(CharType.v())
+                || t.equals(BooleanType.v());
+    }
+
+    public Type getType() {
         Value op1 = op1Box.getValue();
         Value op2 = op2Box.getValue();
 
         if (isIntLikeType(op1.getType()) && isIntLikeType(op2.getType()))
-          return IntType.v();
-        else if(op1.getType().equals(LongType.v()) && op2.getType().equals(LongType.v()))
+            return IntType.v();
+        else if (op1.getType().equals(LongType.v()) && op2.getType().equals(LongType.v()))
             return LongType.v();
         else
             return UnknownType.v();

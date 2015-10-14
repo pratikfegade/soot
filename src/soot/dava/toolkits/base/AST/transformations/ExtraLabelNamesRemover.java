@@ -19,9 +19,9 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
 
-public class ExtraLabelNamesRemover extends DepthFirstAdapter{
+public class ExtraLabelNamesRemover extends DepthFirstAdapter {
 
     /*
       label_0:
@@ -47,11 +47,11 @@ public class ExtraLabelNamesRemover extends DepthFirstAdapter{
        THE JAVA LANGUAGE SAYS IT SHOULD BE TRUE
 
     */
-    public ExtraLabelNamesRemover(){
+    public ExtraLabelNamesRemover() {
     }
 
-    public ExtraLabelNamesRemover(boolean verbose){
-	super(verbose);
+    public ExtraLabelNamesRemover(boolean verbose) {
+        super(verbose);
     }
 
 

@@ -7,13 +7,13 @@ public class FinalStaticTest {
     public static final char c = 'c';
     public static final byte by = 1;
     public static final short sh = 2;
-    
+
     public static final String b = "Jennifer";
     public static final String q = "string with \" quotes";
-    public static final int [] arr = new int [] {1, 1, 2, 3, 5, 8, 13, 21};
+    public static final int[] arr = new int[]{1, 1, 2, 3, 5, 8, 13, 21};
     public static final Object o = new Object();
-    
-    public static void main(String [] args){
+
+    public static void main(String[] args) {
         System.out.println(x);
         System.out.println(y);
         System.out.println(z);

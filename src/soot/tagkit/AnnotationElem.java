@@ -28,37 +28,36 @@ package soot.tagkit;
 import soot.util.Switchable;
 
 
-/** 
+/**
  * Represents the base class of annotation elements
- * each annotation can have several elements 
+ * each annotation can have several elements
  * for Java 1.5.
  */
 
-public abstract class AnnotationElem implements Switchable
-{
+public abstract class AnnotationElem implements Switchable {
 
     char kind;
     String name;
 
-    public AnnotationElem(char k, String name){
+    public AnnotationElem(char k, String name) {
         this.kind = k;
         this.name = name;
     }
-    
-    public String toString(){
-        return "Annotation Element: kind: "+kind+" name: "+name;
+
+    public String toString() {
+        return "Annotation Element: kind: " + kind + " name: " + name;
     }
 
-    public char getKind(){
+    public char getKind() {
         return kind;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 

@@ -19,11 +19,16 @@
 
 package soot.toolkits.scalar;
 
-import java.util.*;
+import soot.G;
+import soot.Local;
+import soot.Unit;
+import soot.ValueBox;
+import soot.options.Options;
+import soot.toolkits.graph.DominatorsFinder;
+import soot.toolkits.graph.MHGDominatorsFinder;
+import soot.toolkits.graph.UnitGraph;
 
-import soot.*;
-import soot.options.*;
-import soot.toolkits.graph.*;
+import java.util.*;
 
 /**
  * Find all locals guaranteed to be defined at (just before) a given
@@ -31,15 +36,13 @@ import soot.toolkits.graph.*;
  *
  * @author Navindra Umanee
  **/
-public class GuaranteedDefs
-{
+public class GuaranteedDefs {
     protected Map<Unit, List> unitToGuaranteedDefs;
 
-    public GuaranteedDefs(UnitGraph graph)
-    {
-        if(Options.v().verbose())
+    public GuaranteedDefs(UnitGraph graph) {
+        if (Options.v().verbose())
             G.v().out.println("[" + graph.getBody().getMethod().getName() +
-                               "]     Constructing GuaranteedDefs...");
+                    "]     Constructing GuaranteedDefs...");
 
         GuaranteedDefsAnalysis analysis = new GuaranteedDefsAnalysis(graph);
 
@@ -48,11 +51,11 @@ public class GuaranteedDefs
             unitToGuaranteedDefs = new HashMap<Unit, List>(graph.size() * 2 + 1, 0.7f);
             Iterator<Unit> unitIt = graph.iterator();
 
-            while(unitIt.hasNext()){
-                Unit s = (Unit) unitIt.next();
+            while (unitIt.hasNext()) {
+                Unit s = unitIt.next();
                 FlowSet set = (FlowSet) analysis.getFlowBefore(s);
                 unitToGuaranteedDefs.put
-                    (s, Collections.unmodifiableList(set.toList()));
+                        (s, Collections.unmodifiableList(set.toList()));
             }
         }
     }
@@ -61,8 +64,7 @@ public class GuaranteedDefs
      * Returns a list of locals guaranteed to be defined at (just
      * before) program point <tt>s</tt>.
      **/
-    public List getGuaranteedDefs(Unit s)
-    {
+    public List getGuaranteedDefs(Unit s) {
         return unitToGuaranteedDefs.get(s);
     }
 }
@@ -71,31 +73,29 @@ public class GuaranteedDefs
  * Flow analysis to determine all locals guaranteed to be defined at a
  * given program point.
  **/
-class GuaranteedDefsAnalysis extends ForwardFlowAnalysis
-{
+class GuaranteedDefsAnalysis extends ForwardFlowAnalysis {
     FlowSet emptySet = new ArraySparseSet();
     Map<Unit, FlowSet> unitToGenerateSet;
 
-    GuaranteedDefsAnalysis(UnitGraph graph)
-    {
+    GuaranteedDefsAnalysis(UnitGraph graph) {
         super(graph);
         DominatorsFinder df = new MHGDominatorsFinder(graph);
         unitToGenerateSet = new HashMap<Unit, FlowSet>(graph.size() * 2 + 1, 0.7f);
 
         // pre-compute generate sets
-        for(Iterator unitIt = graph.iterator(); unitIt.hasNext();){
+        for (Iterator unitIt = graph.iterator(); unitIt.hasNext(); ) {
             Unit s = (Unit) unitIt.next();
             FlowSet genSet = emptySet.clone();
-            
-            for(Iterator domsIt = df.getDominators(s).iterator(); domsIt.hasNext();){
+
+            for (Iterator domsIt = df.getDominators(s).iterator(); domsIt.hasNext(); ) {
                 Unit dom = (Unit) domsIt.next();
-                for(Iterator boxIt = dom.getDefBoxes().iterator(); boxIt.hasNext();){
+                for (Iterator boxIt = dom.getDefBoxes().iterator(); boxIt.hasNext(); ) {
                     ValueBox box = (ValueBox) boxIt.next();
-                    if(box.getValue() instanceof Local)
+                    if (box.getValue() instanceof Local)
                         genSet.add(box.getValue(), genSet);
                 }
             }
-            
+
             unitToGenerateSet.put(s, genSet);
         }
 
@@ -105,27 +105,24 @@ class GuaranteedDefsAnalysis extends ForwardFlowAnalysis
     /**
      * All INs are initialized to the empty set.
      **/
-    protected Object newInitialFlow()
-    {
+    protected Object newInitialFlow() {
         return emptySet.clone();
     }
 
     /**
      * IN(Start) is the empty set
      **/
-    protected Object entryInitialFlow()
-    {
+    protected Object entryInitialFlow() {
         return emptySet.clone();
     }
 
     /**
      * OUT is the same as IN plus the genSet.
      **/
-    protected void flowThrough(Object inValue, Object unit, Object outValue)
-    {
+    protected void flowThrough(Object inValue, Object unit, Object outValue) {
         FlowSet
-            in = (FlowSet) inValue,
-            out = (FlowSet) outValue;
+                in = (FlowSet) inValue,
+                out = (FlowSet) outValue;
 
         // perform generation (kill set is empty)
         in.union(unitToGenerateSet.get(unit), out);
@@ -134,21 +131,19 @@ class GuaranteedDefsAnalysis extends ForwardFlowAnalysis
     /**
      * All paths == Intersection.
      **/
-    protected void merge(Object in1, Object in2, Object out)
-    {
+    protected void merge(Object in1, Object in2, Object out) {
         FlowSet
-            inSet1 = (FlowSet) in1,
-            inSet2 = (FlowSet) in2,
-            outSet = (FlowSet) out;
+                inSet1 = (FlowSet) in1,
+                inSet2 = (FlowSet) in2,
+                outSet = (FlowSet) out;
 
         inSet1.intersection(inSet2, outSet);
     }
 
-    protected void copy(Object source, Object dest)
-    {
+    protected void copy(Object source, Object dest) {
         FlowSet
-            sourceSet = (FlowSet) source,
-            destSet = (FlowSet) dest;
+                sourceSet = (FlowSet) source,
+                destSet = (FlowSet) dest;
 
         sourceSet.copy(destSet);
     }

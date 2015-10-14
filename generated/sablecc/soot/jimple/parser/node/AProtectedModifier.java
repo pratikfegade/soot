@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AProtectedModifier extends PModifier
-{
+public final class AProtectedModifier extends PModifier {
     private TProtected _protected_;
 
-    public AProtectedModifier()
-    {
+    public AProtectedModifier() {
         // Constructor
     }
 
     public AProtectedModifier(
-        @SuppressWarnings("hiding") TProtected _protected_)
-    {
+            @SuppressWarnings("hiding") TProtected _protected_) {
         // Constructor
         setProtected(_protected_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AProtectedModifier(
-            cloneNode(this._protected_));
+                cloneNode(this._protected_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAProtectedModifier(this);
     }
 
-    public TProtected getProtected()
-    {
+    public TProtected getProtected() {
         return this._protected_;
     }
 
-    public void setProtected(TProtected node)
-    {
-        if(this._protected_ != null)
-        {
+    public void setProtected(TProtected node) {
+        if (this._protected_ != null) {
             this._protected_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AProtectedModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._protected_);
+                + toString(this._protected_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._protected_ == child)
-        {
+        if (this._protected_ == child) {
             this._protected_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AProtectedModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._protected_ == oldChild)
-        {
+        if (this._protected_ == oldChild) {
             setProtected((TProtected) newChild);
             return;
         }

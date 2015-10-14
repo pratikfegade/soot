@@ -23,21 +23,20 @@ import java.util.HashSet;
 
 public class JimpleModifier {
 
-	 
-	public static boolean isModifier(String token) {
-		HashSet modifiers = new HashSet();
-		modifiers.add("abstract");
-		modifiers.add("final");
-		modifiers.add("native");
-		modifiers.add("public");
-		modifiers.add("protected");
-		modifiers.add("private");
-		modifiers.add("static");
-		modifiers.add("synchronized");
-		modifiers.add("transient");
-		modifiers.add("volatile");
-		
-		if (modifiers.contains(token)) return true;
-		else return false;
-	}
+
+    public static boolean isModifier(String token) {
+        HashSet modifiers = new HashSet();
+        modifiers.add("abstract");
+        modifiers.add("final");
+        modifiers.add("native");
+        modifiers.add("public");
+        modifiers.add("protected");
+        modifiers.add("private");
+        modifiers.add("static");
+        modifiers.add("synchronized");
+        modifiers.add("transient");
+        modifiers.add("volatile");
+
+        return modifiers.contains(token);
+    }
 }

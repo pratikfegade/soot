@@ -1,12 +1,13 @@
 public class ConsEx {
 
-    public static void main(String [] agrs){
-    }
-    
-    public ConsEx() throws MyException{
+    public ConsEx() throws MyException {
         throw new MyException();
     }
+
+    public static void main(String[] agrs) {
+    }
 }
-class MyException extends Exception{
+
+class MyException extends Exception {
 
 }

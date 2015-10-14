@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class APlusBinop extends PBinop
-{
+public final class APlusBinop extends PBinop {
     private TPlus _plus_;
 
-    public APlusBinop()
-    {
+    public APlusBinop() {
         // Constructor
     }
 
     public APlusBinop(
-        @SuppressWarnings("hiding") TPlus _plus_)
-    {
+            @SuppressWarnings("hiding") TPlus _plus_) {
         // Constructor
         setPlus(_plus_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new APlusBinop(
-            cloneNode(this._plus_));
+                cloneNode(this._plus_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAPlusBinop(this);
     }
 
-    public TPlus getPlus()
-    {
+    public TPlus getPlus() {
         return this._plus_;
     }
 
-    public void setPlus(TPlus node)
-    {
-        if(this._plus_ != null)
-        {
+    public void setPlus(TPlus node) {
+        if (this._plus_ != null) {
             this._plus_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class APlusBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._plus_);
+                + toString(this._plus_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._plus_ == child)
-        {
+        if (this._plus_ == child) {
             this._plus_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class APlusBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._plus_ == oldChild)
-        {
+        if (this._plus_ == oldChild) {
             setPlus((TPlus) newChild);
             return;
         }

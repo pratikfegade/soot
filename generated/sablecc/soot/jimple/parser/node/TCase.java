@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCase extends Token
-{
-    public TCase()
-    {
+public final class TCase extends Token {
+    public TCase() {
         super.setText("case");
     }
 
-    public TCase(int line, int pos)
-    {
+    public TCase(int line, int pos) {
         super.setText("case");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TCase(getLine(), getPos());
+    public Object clone() {
+        return new TCase(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTCase(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TCase text.");
     }
 }

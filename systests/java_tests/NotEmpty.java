@@ -1,12 +1,13 @@
-import java.util.*;
+import java.util.Stack;
+
 public class NotEmpty {
-    
-    public static void main (String [] args) {
+
+    public static void main(String[] args) {
         NotEmpty ne = new NotEmpty();
         ne.run();
     }
-    
-    private void run(){
+
+    private void run() {
         Stack s = new Stack();
 
         s.push("J");
@@ -21,5 +22,5 @@ public class NotEmpty {
         while (!s.isEmpty()) {
             System.out.println(s.pop());
         }
-    }    
+    }
 }

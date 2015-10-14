@@ -1,6 +1,6 @@
 public class PrimClassLit {
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         Class c = boolean.class;
         Class c1 = boolean[].class;
         Class c2 = int[].class;

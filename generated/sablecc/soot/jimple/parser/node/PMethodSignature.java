@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PMethodSignature extends Node
-{
+public abstract class PMethodSignature extends Node {
     // Empty body
 }

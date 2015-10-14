@@ -1,17 +1,20 @@
 <html>
 <title>
-Soot - Eclipse Plugin - Different Main
+    Soot - Eclipse Plugin - Different Main
 </title>
+
 <body>
 <h4>Getting Started</h4>
+
 <p>
-For extending Soot to use a customized Main class see <a href="http://www.sable.mcgill.ca/soot/">soot documentation</a>.
+    For extending Soot to use a customized Main class see <a href="http://www.sable.mcgill.ca/soot/">soot documentation</a>.
 </p>
 
 <hr>
 <h4>Making Eclipse Recognize Your Classes</h4>
 
-<p>Then you need to put your compiled classes (or a symlink to them) in the $ECLIPSE_HOME/plugins/ca.mcgill.sable.soot/ directory and edit the plugin.xml file to include a library tag with the path.</p>
+<p>Then you need to put your compiled classes (or a symlink to them) in the $ECLIPSE_HOME/plugins/ca.mcgill.sable.soot/ directory and edit
+    the plugin.xml file to include a library tag with the path.</p>
 <h4>For Example:</h4>
 Your classes are in a directory $ECLIPSE_HOME/plugins/ca.mcgill.sable.soot/myclasses/ <br>
 Add a line to the runtime section of the plugin.xml file: <b> &lt;library name="myclasses/"/&gt;</b>
@@ -30,21 +33,22 @@ Add a line to the runtime section of the plugin.xml file: <b> &lt;library name="
       &lt;library name="soot-plugin.jar"/&gt;
       &lt;library name="soot/classes/"/&gt;
  	  &lt;!--&lt;library name="sootclasses.jar"&gt;--&gt;
-<b>	  &lt;library name="myclasses/"/&gt;         &lt;--add this line</b>
+<b>      &lt;library name="myclasses/"/&gt; &lt;--add this line</b>
 	  &lt;library name="jasminclasses-sable-1.2.jar"/&gt;
    &lt;/runtime&gt;
    &lt;requires&lt;
 	&lt;import plugin="org.eclipse.core.resources"/&gt;
 	   ...
 &lt;/plugin&gt;
-</pre>														  
+</pre>
 
 <p>Alternatively you can add to the plugin.xml an absolute path to your classes directory (I think).</p>
 
 <hr>
 <h4>Restart Eclipse</h4>
 
-<p>Restart Eclipse. In the Soot Options Dialog there is a page called Soot Main Class. In the text box type the main class you wish to run and the plugin will run Soot with that class. </p>
+<p>Restart Eclipse. In the Soot Options Dialog there is a page called Soot Main Class. In the text box type the main class you wish to run
+    and the plugin will run Soot with that class. </p>
 
 </body>
 </html>

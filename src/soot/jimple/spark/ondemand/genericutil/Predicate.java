@@ -29,23 +29,27 @@ public abstract class Predicate<T> {
             return false;
         }
     };
-    
+
     public static final Predicate TRUE = FALSE.not();
-    
+
     @SuppressWarnings("unchecked")
     public static <T> Predicate<T> truePred() {
-        return (Predicate<T>)TRUE;
+        return (Predicate<T>) TRUE;
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Predicate<T> falsePred() {
-        return (Predicate<T>)FALSE;
+        return (Predicate<T>) FALSE;
     }
-    
-    /** Test whether an {@link Object} satisfies this {@link Predicate} */
+
+    /**
+     * Test whether an {@link Object} satisfies this {@link Predicate}
+     */
     public abstract boolean test(T obj_);
 
-    /** Return a predicate that is a negation of this predicate */
+    /**
+     * Return a predicate that is a negation of this predicate
+     */
     public Predicate<T> not() {
         final Predicate<T> originalPredicate = this;
         return new Predicate<T>() {

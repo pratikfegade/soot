@@ -25,72 +25,74 @@
 
 package soot.toolkits.scalar;
 
-import soot.options.*;
 import soot.*;
+import soot.options.Options;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A BodyTransformer that removes all unused local variables from a given Body.
  * Implemented as a singleton.
- * 
+ *
  * @see BodyTransformer
  * @see Body
  */
 public class UnusedLocalEliminator extends BodyTransformer {
-	public UnusedLocalEliminator(Singletons.Global g) {
-	}
+    public UnusedLocalEliminator(Singletons.Global g) {
+    }
 
-	public static UnusedLocalEliminator v() {
-		return G.v().soot_toolkits_scalar_UnusedLocalEliminator();
-	}
+    public static UnusedLocalEliminator v() {
+        return G.v().soot_toolkits_scalar_UnusedLocalEliminator();
+    }
 
-	protected void internalTransform(Body body, String phaseName, Map<String,String> options) {
-		if (Options.v().verbose())
-			G.v().out.println("[" + body.getMethod().getName()
-					+ "] Eliminating unused locals...");
+    protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
+        if (Options.v().verbose())
+            G.v().out.println("[" + body.getMethod().getName()
+                    + "] Eliminating unused locals...");
 
-		
-		int i = 0;
-		int n = body.getLocals().size();
-		int[] oldNumbers = new int[n];
-		Local[] locals = body.getLocals().toArray(new Local[n]);
-		for ( Local local :locals ) {
-			oldNumbers[i] = local.getNumber();
-			local.setNumber(i);		
-			i++;
-		}
-		
-		boolean[] usedLocals = new boolean[n];
 
-		// Traverse statements noting all the uses and defs
-		for (Unit s : body.getUnits()) {
-			for (ValueBox vb : s.getUseBoxes()) {
-				Value v = vb.getValue();
-				if (v instanceof Local) {
-					Local l = (Local) v;
-					usedLocals[l.getNumber()] = true;
-				}
-			}
-			for (ValueBox vb : s.getDefBoxes()) {
-				Value v = vb.getValue();
-				if (v instanceof Local) {
-					Local l = (Local) v;
-					usedLocals[l.getNumber()] = true;
-				}
-			}
-		}
+        int i = 0;
+        int n = body.getLocals().size();
+        int[] oldNumbers = new int[n];
+        Local[] locals = body.getLocals().toArray(new Local[n]);
+        for (Local local : locals) {
+            oldNumbers[i] = local.getNumber();
+            local.setNumber(i);
+            i++;
+        }
 
-		// Remove all locals that are unused.
-		List<Local> keep = new ArrayList<Local>(locals.length);
-		for ( Local local : locals ) {
-			int lno = local.getNumber();
-			local.setNumber(oldNumbers[lno]);
-			if ( usedLocals[lno] ) {
-				keep.add(local);
-			}
-		}
-		body.getLocals().clear();
-		body.getLocals().addAll(keep);
-	}
+        boolean[] usedLocals = new boolean[n];
+
+        // Traverse statements noting all the uses and defs
+        for (Unit s : body.getUnits()) {
+            for (ValueBox vb : s.getUseBoxes()) {
+                Value v = vb.getValue();
+                if (v instanceof Local) {
+                    Local l = (Local) v;
+                    usedLocals[l.getNumber()] = true;
+                }
+            }
+            for (ValueBox vb : s.getDefBoxes()) {
+                Value v = vb.getValue();
+                if (v instanceof Local) {
+                    Local l = (Local) v;
+                    usedLocals[l.getNumber()] = true;
+                }
+            }
+        }
+
+        // Remove all locals that are unused.
+        List<Local> keep = new ArrayList<Local>(locals.length);
+        for (Local local : locals) {
+            int lno = local.getNumber();
+            local.setNumber(oldNumbers[lno]);
+            if (usedLocals[lno]) {
+                keep.add(local);
+            }
+        }
+        body.getLocals().clear();
+        body.getLocals().addAll(keep);
+    }
 }

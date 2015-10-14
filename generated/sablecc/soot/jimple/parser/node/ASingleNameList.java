@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ASingleNameList extends PNameList
-{
+public final class ASingleNameList extends PNameList {
     private PName _name_;
 
-    public ASingleNameList()
-    {
+    public ASingleNameList() {
         // Constructor
     }
 
     public ASingleNameList(
-        @SuppressWarnings("hiding") PName _name_)
-    {
+            @SuppressWarnings("hiding") PName _name_) {
         // Constructor
         setName(_name_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASingleNameList(
-            cloneNode(this._name_));
+                cloneNode(this._name_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASingleNameList(this);
     }
 
-    public PName getName()
-    {
+    public PName getName() {
         return this._name_;
     }
 
-    public void setName(PName node)
-    {
-        if(this._name_ != null)
-        {
+    public void setName(PName node) {
+        if (this._name_ != null) {
             this._name_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ASingleNameList extends PNameList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._name_);
+                + toString(this._name_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._name_ == child)
-        {
+        if (this._name_ == child) {
             this._name_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ASingleNameList extends PNameList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._name_ == oldChild)
-        {
+        if (this._name_ == oldChild) {
             setName((PName) newChild);
             return;
         }

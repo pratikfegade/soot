@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCmpne extends Token
-{
-    public TCmpne()
-    {
+public final class TCmpne extends Token {
+    public TCmpne() {
         super.setText("!=");
     }
 
-    public TCmpne(int line, int pos)
-    {
+    public TCmpne(int line, int pos) {
         super.setText("!=");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TCmpne(getLine(), getPos());
+    public Object clone() {
+        return new TCmpne(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTCmpne(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TCmpne text.");
     }
 }

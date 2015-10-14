@@ -1,16 +1,18 @@
-import java.util.*;
+import java.util.Vector;
 
 
 public class AddAssignTest {
 
-    private Vector charSet = new Vector(27);
     String abc = "abcdefghijklmnopqrstuvwxyzJ";
+    private Vector charSet = new Vector(27);
+
     {
-        for (int i = 0; i < abc.length(); i++){
+        for (int i = 0; i < abc.length(); i++) {
             charSet.add((new Character(abc.charAt(i))).toString());
         }
     }
-    public static void main(String [] args) {
+
+    public static void main(String[] args) {
         AddAssignTest aat = new AddAssignTest();
         aat.run();
     }

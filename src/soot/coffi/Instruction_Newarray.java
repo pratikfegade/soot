@@ -24,15 +24,12 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
-/** Instruction subclasses are used to represent parsed bytecode; each
+
+/**
+ * Instruction subclasses are used to represent parsed bytecode; each
  * bytecode operation has a corresponding subclass of Instruction.
- * <p>
+ * <p/>
  * Each subclass is derived from one of
  * <ul><li>Instruction</li>
  * <li>Instruction_noargs (an Instruction with no embedded arguments)</li>
@@ -45,6 +42,7 @@ package soot.coffi;
  * <li>Instruction_intbranch (a short argument specifying a code offset)</li>
  * <li>Instruction_longbranch (an int argument specifying a code offset)</li>
  * </ul>
+ *
  * @author Clark Verbrugge
  * @see Instruction
  * @see Instruction_noargs
@@ -59,40 +57,70 @@ package soot.coffi;
  * @see Instruction_Unknown
  */
 class Instruction_Newarray extends Instruction {
-   public static final int T_BOOLEAN = 4;
-   public static final int T_CHAR = 5;
-   public static final int T_FLOAT = 6;
-   public static final int T_DOUBLE = 7;
-   public static final int T_BYTE = 8;
-   public static final int T_SHORT = 9;
-   public static final int T_INT = 10;
-   public static final int T_LONG = 11;
-   /** one of the T_* constants. */
-   public byte atype;
-   public Instruction_Newarray() { super((byte)ByteCode.NEWARRAY); name = "newarray"; }
-   public String toString(cp_info constant_pool[]) {
-      String args;
-      switch(atype) {
-      case T_BOOLEAN: args = "boolean"; break;
-      case T_CHAR: args = "char"; break;
-      case T_FLOAT: args = "float"; break;
-      case T_DOUBLE: args = "double"; break;
-      case T_BYTE: args = "byte"; break;
-      case T_SHORT: args = "short"; break;
-      case T_INT: args = "int"; break;
-      case T_LONG: args = "long"; break;
-      default: args = Integer.toString(atype); break;
-      }
-      return super.toString(constant_pool) + argsep + args;
-   }
-   public int nextOffset(int curr) { return curr+2; }
-   public int parse(byte bc[],int index) {
-      atype = bc[index];
-      return index+1;
-   }
-   public int compile(byte bc[],int index) {
-      bc[index++] = code;
-      bc[index] = atype;
-      return index+1;
-   }
+    public static final int T_BOOLEAN = 4;
+    public static final int T_CHAR = 5;
+    public static final int T_FLOAT = 6;
+    public static final int T_DOUBLE = 7;
+    public static final int T_BYTE = 8;
+    public static final int T_SHORT = 9;
+    public static final int T_INT = 10;
+    public static final int T_LONG = 11;
+    /**
+     * one of the T_* constants.
+     */
+    public byte atype;
+
+    public Instruction_Newarray() {
+        super((byte) ByteCode.NEWARRAY);
+        name = "newarray";
+    }
+
+    public String toString(cp_info constant_pool[]) {
+        String args;
+        switch (atype) {
+            case T_BOOLEAN:
+                args = "boolean";
+                break;
+            case T_CHAR:
+                args = "char";
+                break;
+            case T_FLOAT:
+                args = "float";
+                break;
+            case T_DOUBLE:
+                args = "double";
+                break;
+            case T_BYTE:
+                args = "byte";
+                break;
+            case T_SHORT:
+                args = "short";
+                break;
+            case T_INT:
+                args = "int";
+                break;
+            case T_LONG:
+                args = "long";
+                break;
+            default:
+                args = Integer.toString(atype);
+                break;
+        }
+        return super.toString(constant_pool) + argsep + args;
+    }
+
+    public int nextOffset(int curr) {
+        return curr + 2;
+    }
+
+    public int parse(byte bc[], int index) {
+        atype = bc[index];
+        return index + 1;
+    }
+
+    public int compile(byte bc[], int index) {
+        bc[index++] = code;
+        bc[index] = atype;
+        return index + 1;
+    }
 }

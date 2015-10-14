@@ -19,69 +19,70 @@
 
 
 package ca.mcgill.sable.graph.testing;
-import java.util.*;
+
+import java.util.ArrayList;
 
 public class TestNode {
 
-	private String data;
-	private ArrayList outputs = new ArrayList();
-	private ArrayList children = new ArrayList();
-	
-	/**
-	 * 
-	 */
-	public TestNode() {
-		super();
-	}
+    private String data;
+    private ArrayList outputs = new ArrayList();
+    private ArrayList children = new ArrayList();
 
-	public void addOutput(TestNode tn){
-		getOutputs().add(tn);
-	}
-	
-	public void addChild(TestNode tn){
-		getChildren().add(tn);
-	}
-	
-	/**
-	 * @return
-	 */
-	public String getData() {
-		return data;
-	}
+    /**
+     *
+     */
+    public TestNode() {
+        super();
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getOutputs() {
-		return outputs;
-	}
+    public void addOutput(TestNode tn) {
+        getOutputs().add(tn);
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setData(String string) {
-		data = string;
-	}
+    public void addChild(TestNode tn) {
+        getChildren().add(tn);
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setOutputs(ArrayList list) {
-		outputs = list;
-	}
+    /**
+     * @return
+     */
+    public String getData() {
+        return data;
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getChildren() {
-		return children;
-	}
+    /**
+     * @param string
+     */
+    public void setData(String string) {
+        data = string;
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setChildren(ArrayList list) {
-		children = list;
-	}
+    /**
+     * @return
+     */
+    public ArrayList getOutputs() {
+        return outputs;
+    }
+
+    /**
+     * @param list
+     */
+    public void setOutputs(ArrayList list) {
+        outputs = list;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getChildren() {
+        return children;
+    }
+
+    /**
+     * @param list
+     */
+    public void setChildren(ArrayList list) {
+        children = list;
+    }
 
 }

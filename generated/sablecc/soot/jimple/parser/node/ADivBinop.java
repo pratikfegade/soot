@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ADivBinop extends PBinop
-{
+public final class ADivBinop extends PBinop {
     private TDiv _div_;
 
-    public ADivBinop()
-    {
+    public ADivBinop() {
         // Constructor
     }
 
     public ADivBinop(
-        @SuppressWarnings("hiding") TDiv _div_)
-    {
+            @SuppressWarnings("hiding") TDiv _div_) {
         // Constructor
         setDiv(_div_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ADivBinop(
-            cloneNode(this._div_));
+                cloneNode(this._div_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseADivBinop(this);
     }
 
-    public TDiv getDiv()
-    {
+    public TDiv getDiv() {
         return this._div_;
     }
 
-    public void setDiv(TDiv node)
-    {
-        if(this._div_ != null)
-        {
+    public void setDiv(TDiv node) {
+        if (this._div_ != null) {
             this._div_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ADivBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._div_);
+                + toString(this._div_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._div_ == child)
-        {
+        if (this._div_ == child) {
             this._div_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ADivBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._div_ == oldChild)
-        {
+        if (this._div_ == oldChild) {
             setDiv((TDiv) newChild);
             return;
         }

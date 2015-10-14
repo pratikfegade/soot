@@ -33,16 +33,16 @@ public class CastInsertionVisitor extends polyglot.visit.AscriptionVisitor {
         polyglot.types.Type fromType = e.type();
         //System.out.println("from type: "+fromType);
 
-        if (toType == null){
+        if (toType == null) {
             return e;
         }
         if (toType.isVoid()) {
             return e;
         }
-        
+
         polyglot.util.Position p = e.position();
 
-        if (toType.equals(fromType)){
+        if (toType.equals(fromType)) {
             return e;
         }
 
@@ -60,26 +60,24 @@ public class CastInsertionVisitor extends polyglot.visit.AscriptionVisitor {
 
             //System.out.println("from type: "+fromType);
             //System.out.println("to type: "+toType);
-            if (fromType.isFloat() || fromType.isLong() || fromType.isDouble()){
-                if (toType.isFloat() || toType.isLong() || toType.isDouble() || toType.isInt()){
+            if (fromType.isFloat() || fromType.isLong() || fromType.isDouble()) {
+                if (toType.isFloat() || toType.isLong() || toType.isDouble() || toType.isInt()) {
                     newExpr = nf.Cast(p, nf.CanonicalTypeNode(p, toType), e).type(toType);
-                }
-                else {
+                } else {
                     newExpr = nf.Cast(p, nf.CanonicalTypeNode(p, toType), nf.Cast(p, nf.CanonicalTypeNode(p, ts.Int()), e).type(ts.Int())).type(toType);
                 }
-            }
-            else {
+            } else {
                 newExpr = nf.Cast(p, nf.CanonicalTypeNode(p, toType), e).type(toType);
             }
             return newExpr;
         }
-        
+
         return e;
-        
+
     }
-    
+
     public polyglot.ast.Node leaveCall(polyglot.ast.Node old, polyglot.ast.Node n, polyglot.visit.NodeVisitor v) throws polyglot.types.SemanticException {
-    
+
         n = super.leaveCall(old, n, v);
 
         return n;

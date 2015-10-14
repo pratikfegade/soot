@@ -19,38 +19,38 @@
 
 package soot.toolkits.graph;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * General interface for a dominators analysis.
  *
  * @author Navindra Umanee
  **/
-public interface DominatorsFinder<N>
-{
+public interface DominatorsFinder<N> {
     /**
      * Returns the graph to which the analysis pertains.
      **/
-    public DirectedGraph<N> getGraph();
-    
+    DirectedGraph<N> getGraph();
+
     /**
      * Returns a list of dominators for the given node in the graph.
      **/
-    public List<N> getDominators(N node);
+    List<N> getDominators(N node);
 
     /**
      * Returns the immediate dominator of node or null if the node has
      * no immediate dominator.
      **/
-    public N getImmediateDominator(N node);
+    N getImmediateDominator(N node);
 
     /**
      * True if "node" is dominated by "dominator" in the graph.
      **/
-    public boolean isDominatedBy(N node, N dominator);
+    boolean isDominatedBy(N node, N dominator);
 
     /**
      * True if "node" is dominated by all nodes in "dominators" in the graph.
      **/
-    public boolean isDominatedByAll(N node, Collection<N> dominators);
+    boolean isDominatedByAll(N node, Collection<N> dominators);
 }

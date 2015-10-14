@@ -24,20 +24,24 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface ConstantSwitch extends soot.util.Switch
-{
-    public abstract void caseDoubleConstant(DoubleConstant v);
-    public abstract void caseFloatConstant(FloatConstant v);
-    public abstract void caseIntConstant(IntConstant v);
-    public abstract void caseLongConstant(LongConstant v);
-    public abstract void caseNullConstant(NullConstant v);
-    public abstract void caseStringConstant(StringConstant v);
-    public abstract void caseClassConstant(ClassConstant v);
-    public abstract void caseMethodHandle(MethodHandle handle);
-    public abstract void defaultCase(Object object);
+public interface ConstantSwitch extends soot.util.Switch {
+    void caseDoubleConstant(DoubleConstant v);
+
+    void caseFloatConstant(FloatConstant v);
+
+    void caseIntConstant(IntConstant v);
+
+    void caseLongConstant(LongConstant v);
+
+    void caseNullConstant(NullConstant v);
+
+    void caseStringConstant(StringConstant v);
+
+    void caseClassConstant(ClassConstant v);
+
+    void caseMethodHandle(MethodHandle handle);
+
+    void defaultCase(Object object);
 }

@@ -24,47 +24,43 @@
  */
 
 
-
-
-
 package soot;
-import soot.util.*;
 
+import soot.util.Switch;
 
 
 /**
- *   Soot representation of the Java built-in type 'float'. Implemented as
- *   a singleton.
+ * Soot representation of the Java built-in type 'float'. Implemented as
+ * a singleton.
  */
 @SuppressWarnings("serial")
-public class FloatType extends PrimType
-{
-    public FloatType( Singletons.Global g ) {}
-    public static FloatType v() { return G.v().soot_FloatType(); }
+public class FloatType extends PrimType {
+    public FloatType(Singletons.Global g) {
+    }
 
-    public boolean equals(Object t)
-    {
+    public static FloatType v() {
+        return G.v().soot_FloatType();
+    }
+
+    public boolean equals(Object t) {
         return this == t;
     }
 
-    
-    public int hashCode()
-    {
+
+    public int hashCode() {
         return 0xA84373FA;
     }
-    
-    public String toString()
-    {       
+
+    public String toString() {
         return "float";
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((TypeSwitch) sw).caseFloatType(this);
     }
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Float");
+        return RefType.v("java.lang.Float");
     }
 }

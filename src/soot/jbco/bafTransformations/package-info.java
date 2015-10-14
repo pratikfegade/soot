@@ -1,2 +1,1 @@
-@Deprecated
-package soot.jbco.bafTransformations;
+@Deprecated package soot.jbco.bafTransformations;

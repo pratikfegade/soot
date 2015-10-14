@@ -19,50 +19,50 @@
 
 package ca.mcgill.sable.soot.launching;
 
+import org.eclipse.jface.action.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.eclipse.jface.action.*;
 
 /**
  * Launches Soot with -f J for selected files.
  */
 public class SootJimpleFileLauncher extends SootFileLauncher {
 
-	public void run(IAction action) {
-		super.run(action);
+    public void run(IAction action) {
+        super.run(action);
 
         super.handleMultipleFiles();
 
-		if (isDoNotContinue()) return;
-		setCmd();
-		runSootDirectly();
-		runFinish();
-	
-	}
-	
-	private void setCmd() {
-		
-		ArrayList commands = new ArrayList();
-		commands.add("--"+LaunchCommands.SOOT_CLASSPATH);
-		commands.add(getClasspathAppend());
-		commands.add("--"+LaunchCommands.OUTPUT_DIR);
-		commands.add(getOutputLocation());
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.KEEP_LINE_NUMBER);
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.XML_ATTRIBUTES);
-		getSootCommandList().addDoubleOpt("--"+LaunchCommands.OUTPUT, LaunchCommands.JIMPLE_OUT);
-	
+        if (isDoNotContinue()) return;
+        setCmd();
+        runSootDirectly();
+        runFinish();
 
-		if (isExtraCmd()) {
-			getSootCommandList().addSingleOpt("--"+getExtraCmd());
-		}
-        if (isSrcPrec()) {
-            getSootCommandList().addDoubleOpt("--"+LaunchCommands.SRC_PREC, getSrcPrec());
+    }
+
+    private void setCmd() {
+
+        ArrayList commands = new ArrayList();
+        commands.add("--" + LaunchCommands.SOOT_CLASSPATH);
+        commands.add(getClasspathAppend());
+        commands.add("--" + LaunchCommands.OUTPUT_DIR);
+        commands.add(getOutputLocation());
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.KEEP_LINE_NUMBER);
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.XML_ATTRIBUTES);
+        getSootCommandList().addDoubleOpt("--" + LaunchCommands.OUTPUT, LaunchCommands.JIMPLE_OUT);
+
+
+        if (isExtraCmd()) {
+            getSootCommandList().addSingleOpt("--" + getExtraCmd());
         }
-		Iterator it = getToProcessList().iterator();
-		while (it.hasNext()){
-			commands.add((String)it.next());
-		}
-		getSootCommandList().addSingleOpt(commands);
-	}
+        if (isSrcPrec()) {
+            getSootCommandList().addDoubleOpt("--" + LaunchCommands.SRC_PREC, getSrcPrec());
+        }
+        Iterator it = getToProcessList().iterator();
+        while (it.hasNext()) {
+            commands.add(it.next());
+        }
+        getSootCommandList().addSingleOpt(commands);
+    }
 }

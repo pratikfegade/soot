@@ -19,45 +19,46 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.ArrayList;
-
 import org.eclipse.jface.action.*;
+
+import java.util.ArrayList;
 
 /**
  * Launches Soot with -f dava on all class files in selected folder
  */
 public class DavaDecompileFolderLauncher extends SootFolderLauncher {
-	
-	/**
-	 * @see org.eclipse.ui.IActionDelegate#run(IAction)
-	 */
-	public void run(IAction action) {
-	  	super.run(action);
-	  	
-		setCmd();
-		runSootDirectly();
-		runFinish();
-	
-	}
-	
-	/**
-	 * Method getCmd.
-	 * @return String
-	 */
-	private void setCmd() {
-		ArrayList commands = new ArrayList();
-		commands.add("--"+LaunchCommands.SOOT_CLASSPATH);
-		commands.add(getProcessPath()+getSootClasspath().getSeparator()+getClasspathAppend());
-		commands.add("--"+LaunchCommands.OUTPUT_DIR);
-		commands.add(getOutputLocation());
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.KEEP_LINE_NUMBER);
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.XML_ATTRIBUTES);
-		
-		commands.add("--"+LaunchCommands.PROCESS_PATH);
-		commands.add(getProcessPath());
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.DAVA);
-		
-		getSootCommandList().addSingleOpt(commands);
-	}
+
+    /**
+     * @see org.eclipse.ui.IActionDelegate#run(IAction)
+     */
+    public void run(IAction action) {
+        super.run(action);
+
+        setCmd();
+        runSootDirectly();
+        runFinish();
+
+    }
+
+    /**
+     * Method getCmd.
+     *
+     * @return String
+     */
+    private void setCmd() {
+        ArrayList commands = new ArrayList();
+        commands.add("--" + LaunchCommands.SOOT_CLASSPATH);
+        commands.add(getProcessPath() + getSootClasspath().getSeparator() + getClasspathAppend());
+        commands.add("--" + LaunchCommands.OUTPUT_DIR);
+        commands.add(getOutputLocation());
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.KEEP_LINE_NUMBER);
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.XML_ATTRIBUTES);
+
+        commands.add("--" + LaunchCommands.PROCESS_PATH);
+        commands.add(getProcessPath());
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.DAVA);
+
+        getSootCommandList().addSingleOpt(commands);
+    }
 
 }	

@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ACharBaseType extends PBaseType
-{
+public final class ACharBaseType extends PBaseType {
     private TChar _char_;
 
-    public ACharBaseType()
-    {
+    public ACharBaseType() {
         // Constructor
     }
 
     public ACharBaseType(
-        @SuppressWarnings("hiding") TChar _char_)
-    {
+            @SuppressWarnings("hiding") TChar _char_) {
         // Constructor
         setChar(_char_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ACharBaseType(
-            cloneNode(this._char_));
+                cloneNode(this._char_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseACharBaseType(this);
     }
 
-    public TChar getChar()
-    {
+    public TChar getChar() {
         return this._char_;
     }
 
-    public void setChar(TChar node)
-    {
-        if(this._char_ != null)
-        {
+    public void setChar(TChar node) {
+        if (this._char_ != null) {
             this._char_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ACharBaseType extends PBaseType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._char_);
+                + toString(this._char_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._char_ == child)
-        {
+        if (this._char_ == child) {
             this._char_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ACharBaseType extends PBaseType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._char_ == oldChild)
-        {
+        if (this._char_ == oldChild) {
             setChar((TChar) newChild);
             return;
         }

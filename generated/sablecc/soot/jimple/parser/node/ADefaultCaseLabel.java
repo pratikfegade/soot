@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ADefaultCaseLabel extends PCaseLabel
-{
+public final class ADefaultCaseLabel extends PCaseLabel {
     private TDefault _default_;
 
-    public ADefaultCaseLabel()
-    {
+    public ADefaultCaseLabel() {
         // Constructor
     }
 
     public ADefaultCaseLabel(
-        @SuppressWarnings("hiding") TDefault _default_)
-    {
+            @SuppressWarnings("hiding") TDefault _default_) {
         // Constructor
         setDefault(_default_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ADefaultCaseLabel(
-            cloneNode(this._default_));
+                cloneNode(this._default_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseADefaultCaseLabel(this);
     }
 
-    public TDefault getDefault()
-    {
+    public TDefault getDefault() {
         return this._default_;
     }
 
-    public void setDefault(TDefault node)
-    {
-        if(this._default_ != null)
-        {
+    public void setDefault(TDefault node) {
+        if (this._default_ != null) {
             this._default_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ADefaultCaseLabel extends PCaseLabel
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._default_);
+                + toString(this._default_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._default_ == child)
-        {
+        if (this._default_ == child) {
             this._default_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ADefaultCaseLabel extends PCaseLabel
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._default_ == oldChild)
-        {
+        if (this._default_ == oldChild) {
             setDefault((TDefault) newChild);
             return;
         }

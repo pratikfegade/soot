@@ -24,54 +24,47 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.UnopExpr;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
-abstract public class AbstractUnopExpr implements UnopExpr
-{
+abstract public class AbstractUnopExpr implements UnopExpr {
     final ValueBox opBox;
 
-    protected AbstractUnopExpr(ValueBox opBox) { 
-    	this.opBox = opBox; 
+    protected AbstractUnopExpr(ValueBox opBox) {
+        this.opBox = opBox;
     }
 
     public abstract Object clone();
-    
+
     @Override
-    public Value getOp()
-    {
+    public Value getOp() {
         return opBox.getValue();
     }
 
     @Override
-    public void setOp(Value op)
-    {
+    public void setOp(Value op) {
         opBox.setValue(op);
     }
-    
+
     @Override
-    public ValueBox getOpBox()
-    {
+    public ValueBox getOpBox() {
         return opBox;
     }
 
     @Override
-    public final List<ValueBox> getUseBoxes()
-    {
+    public final List<ValueBox> getUseBoxes() {
         List<ValueBox> list = new ArrayList<ValueBox>();
 
         list.addAll(opBox.getValue().getUseBoxes());
         list.add(opBox);
-    
+
         return list;
     }
 

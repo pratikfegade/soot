@@ -18,26 +18,23 @@
  */
 
 package soot.util;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * Implements a hashset with comparison over identity.
- * 
+ *
  * @author Eric Bodden
- * @deprecated can be replaced 
- * 	with <code>java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<E,Boolean>())</code>
+ * @deprecated can be replaced
+ * with <code>java.util.Collections.newSetFromMap(new java.util.IdentityHashMap<E,Boolean>())</code>
  */
 @Deprecated
 public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
 
-    protected IdentityHashMap<E,E> delegate;
-    
+    protected IdentityHashMap<E, E> delegate;
+
     /**
-     * Creates a new, empty IdentityHashSet. 
+     * Creates a new, empty IdentityHashSet.
      */
     public IdentityHashSet() {
         delegate = new IdentityHashMap<E, E>();
@@ -46,6 +43,7 @@ public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
     /**
      * Creates a new IdentityHashSet containing the same elements as the given
      * collection.
+     *
      * @param original The original collection whose elements to inherit
      */
     public IdentityHashSet(Collection<E> original) {
@@ -82,7 +80,7 @@ public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
      */
     @Override
     public boolean add(E o) {
-        return delegate.put(o, o)==null;
+        return delegate.put(o, o) == null;
     }
 
     /**
@@ -90,7 +88,7 @@ public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
      */
     @Override
     public boolean remove(Object o) {
-        return delegate.remove(o)!=null;
+        return delegate.remove(o) != null;
     }
 
     /**
@@ -101,43 +99,43 @@ public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
         delegate.entrySet().clear();
     }
 
-	/* 
-	 * Equality based on identity.
-	 */
+    /*
+     * Equality based on identity.
+     */
     @Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = 1;
-		result = PRIME * result + ((delegate == null) ? 0 : delegate.hashCode());
-		return result;
-	}
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((delegate == null) ? 0 : delegate.hashCode());
+        return result;
+    }
 
-	/* 
-	 * Hash code based on identity.
-	 */
+    /*
+     * Hash code based on identity.
+     */
     @Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final IdentityHashSet<?> other = (IdentityHashSet<?>) obj;
-		if (delegate == null) {
-			if (other.delegate != null)
-				return false;
-		} else if (!delegate.equals(other.delegate))
-			return false;
-		return true;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final IdentityHashSet<?> other = (IdentityHashSet<?>) obj;
+        if (delegate == null) {
+            if (other.delegate != null)
+                return false;
+        } else if (!delegate.equals(other.delegate))
+            return false;
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-	public String toString() {
-		return delegate.keySet().toString();
-	}
-    
+    public String toString() {
+        return delegate.keySet().toString();
+    }
+
 }

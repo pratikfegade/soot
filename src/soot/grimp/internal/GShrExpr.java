@@ -24,26 +24,32 @@
  */
 
 
-
-
-
-
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.ExprSwitch;
+import soot.jimple.ShrExpr;
+import soot.util.Switch;
 
-public class GShrExpr extends AbstractGrimpIntLongBinopExpr implements ShrExpr
-{
-    public GShrExpr(Value op1, Value op2) { super(op1, op2); }
-    public String getSymbol() { return " >> "; }
-    public int getPrecedence() { return 650; }
-    public void apply(Switch sw) { ((ExprSwitch) sw).caseShrExpr(this); }
-     
-    public Object clone() 
-    {
+public class GShrExpr extends AbstractGrimpIntLongBinopExpr implements ShrExpr {
+    public GShrExpr(Value op1, Value op2) {
+        super(op1, op2);
+    }
+
+    public String getSymbol() {
+        return " >> ";
+    }
+
+    public int getPrecedence() {
+        return 650;
+    }
+
+    public void apply(Switch sw) {
+        ((ExprSwitch) sw).caseShrExpr(this);
+    }
+
+    public Object clone() {
         return new GShrExpr(Grimp.cloneIfNecessary(getOp1()), Grimp.cloneIfNecessary(getOp2()));
     }
 

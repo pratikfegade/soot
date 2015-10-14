@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AMinusBinop extends PBinop
-{
+public final class AMinusBinop extends PBinop {
     private TMinus _minus_;
 
-    public AMinusBinop()
-    {
+    public AMinusBinop() {
         // Constructor
     }
 
     public AMinusBinop(
-        @SuppressWarnings("hiding") TMinus _minus_)
-    {
+            @SuppressWarnings("hiding") TMinus _minus_) {
         // Constructor
         setMinus(_minus_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMinusBinop(
-            cloneNode(this._minus_));
+                cloneNode(this._minus_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMinusBinop(this);
     }
 
-    public TMinus getMinus()
-    {
+    public TMinus getMinus() {
         return this._minus_;
     }
 
-    public void setMinus(TMinus node)
-    {
-        if(this._minus_ != null)
-        {
+    public void setMinus(TMinus node) {
+        if (this._minus_ != null) {
             this._minus_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AMinusBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._minus_);
+                + toString(this._minus_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._minus_ == child)
-        {
+        if (this._minus_ == child) {
             this._minus_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AMinusBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._minus_ == oldChild)
-        {
+        if (this._minus_ == oldChild) {
             setMinus((TMinus) newChild);
             return;
         }

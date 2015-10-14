@@ -25,20 +25,7 @@
 
 package soot.jimple.toolkits.scalar.pre;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.EquivalentValue;
-import soot.G;
-import soot.Local;
-import soot.Scene;
-import soot.SideEffectTester;
-import soot.Singletons;
-import soot.Unit;
-import soot.Value;
+import soot.*;
 import soot.jimple.AssignStmt;
 import soot.jimple.IdentityStmt;
 import soot.jimple.Jimple;
@@ -52,6 +39,10 @@ import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.Chain;
 import soot.util.UnitMap;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Performs a partial redundancy elimination (= code motion). This is done, by
@@ -70,112 +61,112 @@ import soot.util.UnitMap;
  * @see soot.jimple.toolkits.graph.CriticalEdgeRemover
  */
 public class BusyCodeMotion extends BodyTransformer {
-	public BusyCodeMotion(Singletons.Global g) {
-	}
+    private static final String PREFIX = "$bcm";
 
-	public static BusyCodeMotion v() {
-		return G.v().soot_jimple_toolkits_scalar_pre_BusyCodeMotion();
-	}
+    public BusyCodeMotion(Singletons.Global g) {
+    }
 
-	private static final String PREFIX = "$bcm";
+    public static BusyCodeMotion v() {
+        return G.v().soot_jimple_toolkits_scalar_pre_BusyCodeMotion();
+    }
 
-	/**
-	 * performs the busy code motion.
-	 */
-	protected void internalTransform(Body b, String phaseName, Map<String, String> opts) {
-		BCMOptions options = new BCMOptions(opts);
-		HashMap<EquivalentValue, Local> expToHelper = new HashMap<EquivalentValue, Local>();
-		Chain<Unit> unitChain = b.getUnits();
+    /**
+     * performs the busy code motion.
+     */
+    protected void internalTransform(Body b, String phaseName, Map<String, String> opts) {
+        BCMOptions options = new BCMOptions(opts);
+        HashMap<EquivalentValue, Local> expToHelper = new HashMap<EquivalentValue, Local>();
+        Chain<Unit> unitChain = b.getUnits();
 
-		if (Options.v().verbose())
-			G.v().out.println("[" + b.getMethod().getName() + "]     performing Busy Code Motion...");
+        if (Options.v().verbose())
+            G.v().out.println("[" + b.getMethod().getName() + "]     performing Busy Code Motion...");
 
-		CriticalEdgeRemover.v().transform(b, phaseName + ".cer");
+        CriticalEdgeRemover.v().transform(b, phaseName + ".cer");
 
-		UnitGraph graph = new BriefUnitGraph(b);
+        UnitGraph graph = new BriefUnitGraph(b);
 
 		/* map each unit to its RHS. only take binary expressions */
-		Map<Unit, EquivalentValue> unitToEquivRhs = new UnitMap<EquivalentValue>(b, graph.size() + 1, 0.7f) {
-			protected EquivalentValue mapTo(Unit unit) {
-				Value tmp = SootFilter.noInvokeRhs(unit);
-				Value tmp2 = SootFilter.binop(tmp);
-				if (tmp2 == null)
-					tmp2 = SootFilter.concreteRef(tmp);
-				return SootFilter.equiVal(tmp2);
-			}
-		};
+        Map<Unit, EquivalentValue> unitToEquivRhs = new UnitMap<EquivalentValue>(b, graph.size() + 1, 0.7f) {
+            protected EquivalentValue mapTo(Unit unit) {
+                Value tmp = SootFilter.noInvokeRhs(unit);
+                Value tmp2 = SootFilter.binop(tmp);
+                if (tmp2 == null)
+                    tmp2 = SootFilter.concreteRef(tmp);
+                return SootFilter.equiVal(tmp2);
+            }
+        };
 
 		/* same as before, but without exception-throwing expressions */
-		Map<Unit, EquivalentValue> unitToNoExceptionEquivRhs = new UnitMap<EquivalentValue>(b, graph.size() + 1, 0.7f) {
-			protected EquivalentValue mapTo(Unit unit) {
-				Value tmp = SootFilter.binopRhs(unit);
-				tmp = SootFilter.noExceptionThrowing(tmp);
-				return SootFilter.equiVal(tmp);
-			}
-		};
+        Map<Unit, EquivalentValue> unitToNoExceptionEquivRhs = new UnitMap<EquivalentValue>(b, graph.size() + 1, 0.7f) {
+            protected EquivalentValue mapTo(Unit unit) {
+                Value tmp = SootFilter.binopRhs(unit);
+                tmp = SootFilter.noExceptionThrowing(tmp);
+                return SootFilter.equiVal(tmp);
+            }
+        };
 
 		/* if a more precise sideeffect-tester comes out, please change it here! */
-		SideEffectTester sideEffect;
-		if (Scene.v().hasCallGraph() && !options.naive_side_effect()) {
-			sideEffect = new PASideEffectTester();
-		} else {
-			sideEffect = new NaiveSideEffectTester();
-		}
-		sideEffect.newMethod(b.getMethod());
-		UpSafetyAnalysis upSafe = new UpSafetyAnalysis(graph, unitToEquivRhs, sideEffect);
-		DownSafetyAnalysis downSafe = new DownSafetyAnalysis(graph, unitToNoExceptionEquivRhs, sideEffect);
-		EarliestnessComputation earliest = new EarliestnessComputation(graph, upSafe, downSafe, sideEffect);
+        SideEffectTester sideEffect;
+        if (Scene.v().hasCallGraph() && !options.naive_side_effect()) {
+            sideEffect = new PASideEffectTester();
+        } else {
+            sideEffect = new NaiveSideEffectTester();
+        }
+        sideEffect.newMethod(b.getMethod());
+        UpSafetyAnalysis upSafe = new UpSafetyAnalysis(graph, unitToEquivRhs, sideEffect);
+        DownSafetyAnalysis downSafe = new DownSafetyAnalysis(graph, unitToNoExceptionEquivRhs, sideEffect);
+        EarliestnessComputation earliest = new EarliestnessComputation(graph, upSafe, downSafe, sideEffect);
 
-		LocalCreation localCreation = new LocalCreation(b.getLocals(), PREFIX);
+        LocalCreation localCreation = new LocalCreation(b.getLocals(), PREFIX);
 
-		Iterator<Unit> unitIt = unitChain.snapshotIterator();
+        Iterator<Unit> unitIt = unitChain.snapshotIterator();
 
-		{ /* insert the computations at the earliest positions */
-			while (unitIt.hasNext()) {
-				Unit currentUnit = unitIt.next();				
-				for (EquivalentValue equiVal : earliest.getFlowBefore(currentUnit)) {
-					// Value exp = equiVal.getValue();
-					/* get the unic helper-name for this expression */
-					Local helper = expToHelper.get(equiVal);
-					
-					// Make sure not to place any stuff inside the identity block at
-					// the beginning of the method
-					if (currentUnit instanceof IdentityStmt)
-						currentUnit = getFirstNonIdentityStmt(b);
-					
-					if (helper == null) {
-						helper = localCreation.newLocal(equiVal.getType());
-						expToHelper.put(equiVal, helper);
-					}
+        { /* insert the computations at the earliest positions */
+            while (unitIt.hasNext()) {
+                Unit currentUnit = unitIt.next();
+                for (EquivalentValue equiVal : earliest.getFlowBefore(currentUnit)) {
+                    // Value exp = equiVal.getValue();
+                    /* get the unic helper-name for this expression */
+                    Local helper = expToHelper.get(equiVal);
+
+                    // Make sure not to place any stuff inside the identity block at
+                    // the beginning of the method
+                    if (currentUnit instanceof IdentityStmt)
+                        currentUnit = getFirstNonIdentityStmt(b);
+
+                    if (helper == null) {
+                        helper = localCreation.newLocal(equiVal.getType());
+                        expToHelper.put(equiVal, helper);
+                    }
 
 					/* insert a new Assignment-stmt before the currentUnit */
-					Value insertValue = Jimple.cloneIfNecessary(equiVal.getValue());
-					Unit firstComp = Jimple.v().newAssignStmt(helper, insertValue);
-					unitChain.insertBefore(firstComp, currentUnit);
-				}
-			}
-		}
+                    Value insertValue = Jimple.cloneIfNecessary(equiVal.getValue());
+                    Unit firstComp = Jimple.v().newAssignStmt(helper, insertValue);
+                    unitChain.insertBefore(firstComp, currentUnit);
+                }
+            }
+        }
 
-		{ /* replace old computations by the helper-vars */
-			unitIt = unitChain.iterator();
-			while (unitIt.hasNext()) {
-				Unit currentUnit = unitIt.next();
-				EquivalentValue rhs = unitToEquivRhs.get(currentUnit);
-				if (rhs != null) {
-					Local helper = expToHelper.get(rhs);
-					if (helper != null)
-						((AssignStmt) currentUnit).setRightOp(helper);
-				}
-			}
-		}
-		if (Options.v().verbose())
-			G.v().out.println("[" + b.getMethod().getName() + "]     Busy Code Motion done!");
-	}
+        { /* replace old computations by the helper-vars */
+            unitIt = unitChain.iterator();
+            while (unitIt.hasNext()) {
+                Unit currentUnit = unitIt.next();
+                EquivalentValue rhs = unitToEquivRhs.get(currentUnit);
+                if (rhs != null) {
+                    Local helper = expToHelper.get(rhs);
+                    if (helper != null)
+                        ((AssignStmt) currentUnit).setRightOp(helper);
+                }
+            }
+        }
+        if (Options.v().verbose())
+            G.v().out.println("[" + b.getMethod().getName() + "]     Busy Code Motion done!");
+    }
 
-	private Unit getFirstNonIdentityStmt(Body b) {
-		for (Unit u : b.getUnits())
-			if (!(u instanceof IdentityStmt))
-				return u;
-		return null;
-	}
+    private Unit getFirstNonIdentityStmt(Body b) {
+        for (Unit u : b.getUnits())
+            if (!(u instanceof IdentityStmt))
+                return u;
+        return null;
+    }
 }

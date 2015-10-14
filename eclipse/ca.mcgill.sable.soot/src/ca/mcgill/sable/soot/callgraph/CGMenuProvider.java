@@ -22,50 +22,49 @@ package ca.mcgill.sable.soot.callgraph;
 
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.jface.action.*;
 import org.eclipse.gef.ui.actions.*;
+import org.eclipse.jface.action.*;
 import org.eclipse.ui.*;
-import ca.mcgill.sable.graph.*;
 
 
 public class CGMenuProvider extends ContextMenuProvider {
 
-	ActionRegistry registry;
-	EditPartViewer viewer;
-	IWorkbenchPart part;
-	
-	/**
-	 * @param viewer
-	 */
-	public CGMenuProvider(EditPartViewer viewer, ActionRegistry registry, IWorkbenchPart part) {
-		super(viewer);
-		setRegistry(registry);
-		this.part = part;
-	}
+    ActionRegistry registry;
+    EditPartViewer viewer;
+    IWorkbenchPart part;
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
-	 */
-	public void buildContextMenu(IMenuManager menu) {
-		GEFActionConstants.addStandardActionGroups(menu);
-		menu.add(getRegistry().getAction(ExpandAction.EXPAND));
-		menu.add(getRegistry().getAction(CollapseAction.COLLAPSE));
-		
-		menu.add(getRegistry().getAction(ShowCodeAction.SHOW_IN_CODE));
-	}
+    /**
+     * @param viewer
+     */
+    public CGMenuProvider(EditPartViewer viewer, ActionRegistry registry, IWorkbenchPart part) {
+        super(viewer);
+        setRegistry(registry);
+        this.part = part;
+    }
 
-	/**
-	 * @return
-	 */
-	public ActionRegistry getRegistry() {
-		return registry;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+     */
+    public void buildContextMenu(IMenuManager menu) {
+        GEFActionConstants.addStandardActionGroups(menu);
+        menu.add(getRegistry().getAction(ExpandAction.EXPAND));
+        menu.add(getRegistry().getAction(CollapseAction.COLLAPSE));
 
-	/**
-	 * @param registry
-	 */
-	public void setRegistry(ActionRegistry registry) {
-		this.registry = registry;
-	}
+        menu.add(getRegistry().getAction(ShowCodeAction.SHOW_IN_CODE));
+    }
+
+    /**
+     * @return
+     */
+    public ActionRegistry getRegistry() {
+        return registry;
+    }
+
+    /**
+     * @param registry
+     */
+    public void setRegistry(ActionRegistry registry) {
+        this.registry = registry;
+    }
 
 }

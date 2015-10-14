@@ -28,32 +28,32 @@ package soot.toolkits.scalar;
 
 import java.util.Iterator;
 
-/** 
- * Provides an interface of a flow universe, used by an implementation 
+/**
+ * Provides an interface of a flow universe, used by an implementation
  * of BoundedFlowSet to do complementation.
  */
 public interface FlowUniverse<E> extends Iterable<E> {
 
-  /**
-   * returns the number of elements of the universe.
-   *
-   * @return the size of the universe.
-   */
-  public int size();
+    /**
+     * returns the number of elements of the universe.
+     *
+     * @return the size of the universe.
+     */
+    int size();
 
-  /**
-   * returns an iterator over the elements of the universe.
-   *
-   * @return an Iterator over the elements.
-   */
-  public Iterator<E> iterator();
+    /**
+     * returns an iterator over the elements of the universe.
+     *
+     * @return an Iterator over the elements.
+     */
+    Iterator<E> iterator();
 
-  /**
-   * returns the elements of the universe in form of an array.<br>
-   * The returned array could be backed or not. If you want to be sure
-   * that it is unbacked, clone() it.
-   *
-   * @return the elements of the universe.
-   */
-  public E[] toArray();
+    /**
+     * returns the elements of the universe in form of an array.<br>
+     * The returned array could be backed or not. If you want to be sure
+     * that it is unbacked, clone() it.
+     *
+     * @return the elements of the universe.
+     */
+    E[] toArray();
 }

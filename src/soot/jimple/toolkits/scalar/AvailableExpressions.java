@@ -25,23 +25,34 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.*;
-import java.util.*;
-import soot.util.*;
 
-/** Provides an user-interface for the AvailableExpressionsAnalysis class.
- * Returns, for each statement, the list of expressions available before and after it. */
-public interface AvailableExpressions
-{
-    /** Returns a List containing the UnitValueBox pairs corresponding to expressions available before u. */
-    public List getAvailablePairsBefore(Unit u);
+import soot.Unit;
+import soot.util.Chain;
 
-    /** Returns a List containing the UnitValueBox pairs corresponding to expressions available after u. */
-    public List getAvailablePairsAfter(Unit u);
+import java.util.List;
 
-    /** Returns a Chain containing the EquivalentValue objects corresponding to expressions available before u. */
-    public Chain getAvailableEquivsBefore(Unit u);
+/**
+ * Provides an user-interface for the AvailableExpressionsAnalysis class.
+ * Returns, for each statement, the list of expressions available before and after it.
+ */
+public interface AvailableExpressions {
+    /**
+     * Returns a List containing the UnitValueBox pairs corresponding to expressions available before u.
+     */
+    List getAvailablePairsBefore(Unit u);
 
-    /** Returns a Chain containing the EquivalentValue objects corresponding to expressions available after u. */
-    public Chain getAvailableEquivsAfter(Unit u);
+    /**
+     * Returns a List containing the UnitValueBox pairs corresponding to expressions available after u.
+     */
+    List getAvailablePairsAfter(Unit u);
+
+    /**
+     * Returns a Chain containing the EquivalentValue objects corresponding to expressions available before u.
+     */
+    Chain getAvailableEquivsBefore(Unit u);
+
+    /**
+     * Returns a Chain containing the EquivalentValue objects corresponding to expressions available after u.
+     */
+    Chain getAvailableEquivsAfter(Unit u);
 }

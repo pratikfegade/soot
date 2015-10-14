@@ -24,16 +24,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
+import soot.Value;
+import soot.ValueBox;
 
-public interface ThrowStmt extends Stmt
-{
-    public ValueBox getOpBox();
-    public Value getOp();
-    public void setOp(Value op);
+public interface ThrowStmt extends Stmt {
+    ValueBox getOpBox();
+
+    Value getOp();
+
+    void setOp(Value op);
 }

@@ -1,7 +1,7 @@
 public class Unary {
 
-    
-    public static void main (String [] args){
+
+    public static void main(String[] args) {
         int i = 0;
         i++;
         i--;
@@ -15,11 +15,11 @@ public class Unary {
 
         int n = 0;
 
-        for (int m = 0; m < 10; m++){
-            n = 9+m;
+        for (int m = 0; m < 10; m++) {
+            n = 9 + m;
         }
 
-        int [] arr = new int [] {3, 4, 5};
+        int[] arr = new int[]{3, 4, 5};
         int h = 0;
         int x = arr[h++];
         h = 0;

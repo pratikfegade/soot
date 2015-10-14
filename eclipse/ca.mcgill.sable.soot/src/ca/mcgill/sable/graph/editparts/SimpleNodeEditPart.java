@@ -20,239 +20,230 @@
 
 package ca.mcgill.sable.graph.editparts;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
+import ca.mcgill.sable.graph.GraphPlugin;
+import ca.mcgill.sable.graph.model.Element;
+import ca.mcgill.sable.graph.model.SimpleNode;
 import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.geometry.*;
+import org.eclipse.draw2d.graph.*;
 import org.eclipse.gef.*;
 import org.eclipse.gef.editparts.*;
-import org.eclipse.draw2d.graph.*;
-import java.util.*;
-import ca.mcgill.sable.graph.model.*;
-import ca.mcgill.sable.graph.figures.*;
-import org.eclipse.draw2d.geometry.*;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
-import ca.mcgill.sable.graph.editpolicies.*;
-import ca.mcgill.sable.graph.*;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class SimpleNodeEditPart
-	extends AbstractGraphicalEditPart
-	implements NodeEditPart, PropertyChangeListener {
+        extends AbstractGraphicalEditPart
+        implements NodeEditPart, PropertyChangeListener {
 
-	private Object data;
-	
+    private Object data;
+    private boolean expanded;
+    private boolean topLevel;
+    private boolean bottomLevel;
 
-	public SimpleNodeEditPart() {
-		super();
-	}
+    public SimpleNodeEditPart() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	protected IFigure createFigure() {
-		RectangleFigure rect = new RectangleFigure();
-		ToolbarLayout layout = new ToolbarLayout();
-		layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
-		rect.setLayoutManager(layout);
-		
-		Label label = new Label();
-		label.getInsets().top = 1;
-		label.getInsets().bottom = 1;
-		label.getInsets().right = 1;
-		label.getInsets().left = 1;
-		rect.add(label);
-		
-		return rect;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+     */
+    protected IFigure createFigure() {
+        RectangleFigure rect = new RectangleFigure();
+        ToolbarLayout layout = new ToolbarLayout();
+        layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
+        rect.setLayoutManager(layout);
 
-	public void contributeNodesToGraph(DirectedGraph graph, HashMap map){
-		Node node = new Node(this);
-		node.width = getFigure().getBounds().width;//getNode().getWidth();
-		node.height = getFigure().getBounds().height;
-		graph.nodes.add(node);
-		map.put(this, node);
-	}
-	
-	public void contributeEdgesToGraph(DirectedGraph graph, HashMap map) {
-		List outgoing = getSourceConnections();
-		for (int i = 0; i < outgoing.size(); i++){
-			EdgeEditPart edge = (EdgeEditPart)outgoing.get(i);
-			edge.contributeToGraph(graph, map);
-		}
-	}
-	
-	public void applyGraphResults(DirectedGraph graph, HashMap map){
-		Node node = (Node)map.get(this);
-		if (node != null){
-			getFigure().setBounds(new Rectangle(node.x+10, node.y, node.width, node.height));//getFigure().getBounds().height));//getFigure().getBounds().height));
-			List outgoing = getSourceConnections();
-			for (int i = 0; i < outgoing.size(); i++){
-				EdgeEditPart edge = (EdgeEditPart)outgoing.get(i);
-				edge.applyGraphResults(graph, map);
-			}
-		}
-	
-	}
-	
-	
-	
-	public SimpleNode getNode(){
-		return (SimpleNode)getModel();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-	 */
-	protected void createEditPolicies() {
-	}
+        Label label = new Label();
+        label.getInsets().top = 1;
+        label.getInsets().bottom = 1;
+        label.getInsets().right = 1;
+        label.getInsets().left = 1;
+        rect.add(label);
 
-	public List getModelSourceConnections(){
-		return getNode().getOutputs();
-	}
-	
-	public List getModelTargetConnections(){
-		return getNode().getInputs();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-	 */
-	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
-		return new ChopboxAnchor(getFigure());
-	}
+        return rect;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
-	 */
-	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
-		return new ChopboxAnchor(getFigure());
-	}
+    public void contributeNodesToGraph(DirectedGraph graph, HashMap map) {
+        Node node = new Node(this);
+        node.width = getFigure().getBounds().width;//getNode().getWidth();
+        node.height = getFigure().getBounds().height;
+        graph.nodes.add(node);
+        map.put(this, node);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
-	 */
-	public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
-		return new ChopboxAnchor(getFigure());
-	}
+    public void contributeEdgesToGraph(DirectedGraph graph, HashMap map) {
+        List outgoing = getSourceConnections();
+        for (int i = 0; i < outgoing.size(); i++) {
+            EdgeEditPart edge = (EdgeEditPart) outgoing.get(i);
+            edge.contributeToGraph(graph, map);
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
-	 */
-	public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
-		return new ChopboxAnchor(getFigure());
-	}
+    public void applyGraphResults(DirectedGraph graph, HashMap map) {
+        Node node = (Node) map.get(this);
+        if (node != null) {
+            getFigure().setBounds(new Rectangle(node.x + 10, node.y, node.width, node.height));//getFigure().getBounds().height));//getFigure().getBounds().height));
+            List outgoing = getSourceConnections();
+            for (int i = 0; i < outgoing.size(); i++) {
+                EdgeEditPart edge = (EdgeEditPart) outgoing.get(i);
+                edge.applyGraphResults(graph, map);
+            }
+        }
 
-	public void activate(){
-		super.activate();
-		getNode().addPropertyChangeListener(this);
-	}
-	
-	public void deactivate(){
-		super.deactivate();
-		getNode().removePropertyChangeListener(this);
-	}
-	
-	
-	
-	public void propertyChange(PropertyChangeEvent event){
-		if (event.getPropertyName().equals(Element.DATA)){
-			//System.out.println("new val: "+event.getNewValue());
-			setData(event.getNewValue());
-			refreshVisuals();
-		}
-		else if (event.getPropertyName().equals(Element.INPUTS)){
-			refreshTargetConnections();
-		}
-		else if (event.getPropertyName().equals(Element.OUTPUTS)){
-			refreshSourceConnections();
-		}
-		
-	}
-	
-	public List getModelChildren(){
-		return getNode().getChildren();
-	}
-	
-	protected void refreshVisuals(){
-		Iterator it = getFigure().getChildren().iterator();
-		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof Label){
-				((Label)next).setText(getData().toString());
-				if (getData() != null){
-					getFigure().setSize((getData().toString().length()*7)+10, ((((Label)next).getBounds().height/2)+10));
-					getFigure().revalidate();
-					((GraphEditPart)getParent()).getFigure().revalidate();
-				}
-			}
-		}
-	}
+    }
 
-	private boolean expanded;
-	private boolean topLevel;
-	private boolean bottomLevel;
-	
-	public void switchToComplex(){
-		GraphPlugin.getDefault().getGenerator().expandGraph(getNode());
-		
-	}
+    public SimpleNode getNode() {
+        return (SimpleNode) getModel();
+    }
 
-	/**
-	 * @return
-	 */
-	public Object getData() {
-		return data;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setData(Object obj) {
-		data = obj;
-	}
-	
-	
-	/**
-	 * @return
-	 */
-	public boolean isBottomLevel() {
-		return bottomLevel;
-	}
+    public List getModelSourceConnections() {
+        return getNode().getOutputs();
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isExpanded() {
-		return expanded;
-	}
+    public List getModelTargetConnections() {
+        return getNode().getInputs();
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isTopLevel() {
-		return topLevel;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+     */
+    public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart arg0) {
+        return new ChopboxAnchor(getFigure());
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setBottomLevel(boolean b) {
-		bottomLevel = b;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart arg0) {
+        return new ChopboxAnchor(getFigure());
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setExpanded(boolean b) {
-		expanded = b;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+     */
+    public ConnectionAnchor getSourceConnectionAnchor(Request arg0) {
+        return new ChopboxAnchor(getFigure());
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setTopLevel(boolean b) {
-		topLevel = b;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+     */
+    public ConnectionAnchor getTargetConnectionAnchor(Request arg0) {
+        return new ChopboxAnchor(getFigure());
+    }
+
+    public void activate() {
+        super.activate();
+        getNode().addPropertyChangeListener(this);
+    }
+
+    public void deactivate() {
+        super.deactivate();
+        getNode().removePropertyChangeListener(this);
+    }
+
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals(Element.DATA)) {
+            //System.out.println("new val: "+event.getNewValue());
+            setData(event.getNewValue());
+            refreshVisuals();
+        } else if (event.getPropertyName().equals(Element.INPUTS)) {
+            refreshTargetConnections();
+        } else if (event.getPropertyName().equals(Element.OUTPUTS)) {
+            refreshSourceConnections();
+        }
+
+    }
+
+    public List getModelChildren() {
+        return getNode().getChildren();
+    }
+
+    protected void refreshVisuals() {
+        Iterator it = getFigure().getChildren().iterator();
+        while (it.hasNext()) {
+            Object next = it.next();
+            if (next instanceof Label) {
+                ((Label) next).setText(getData().toString());
+                if (getData() != null) {
+                    getFigure().setSize((getData().toString().length() * 7) + 10, ((((Label) next).getBounds().height / 2) + 10));
+                    getFigure().revalidate();
+                    ((GraphEditPart) getParent()).getFigure().revalidate();
+                }
+            }
+        }
+    }
+
+    public void switchToComplex() {
+        GraphPlugin.getDefault().getGenerator().expandGraph(getNode());
+
+    }
+
+    /**
+     * @return
+     */
+    public Object getData() {
+        return data;
+    }
+
+    /**
+     * @param string
+     */
+    public void setData(Object obj) {
+        data = obj;
+    }
+
+
+    /**
+     * @return
+     */
+    public boolean isBottomLevel() {
+        return bottomLevel;
+    }
+
+    /**
+     * @param b
+     */
+    public void setBottomLevel(boolean b) {
+        bottomLevel = b;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    /**
+     * @param b
+     */
+    public void setExpanded(boolean b) {
+        expanded = b;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isTopLevel() {
+        return topLevel;
+    }
+
+    /**
+     * @param b
+     */
+    public void setTopLevel(boolean b) {
+        topLevel = b;
+    }
 
 }

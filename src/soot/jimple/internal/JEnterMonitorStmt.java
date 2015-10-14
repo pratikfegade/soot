@@ -24,65 +24,62 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 
-import soot.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.util.Switch;
 
-public class JEnterMonitorStmt extends AbstractOpStmt 
-    implements EnterMonitorStmt
-{
-    public JEnterMonitorStmt(Value op)
-    {
+import java.util.List;
+
+public class JEnterMonitorStmt extends AbstractOpStmt
+        implements EnterMonitorStmt {
+    public JEnterMonitorStmt(Value op) {
         this(Jimple.v().newImmediateBox(op));
     }
 
-    protected JEnterMonitorStmt(ValueBox opBox)
-    {
+    protected JEnterMonitorStmt(ValueBox opBox) {
         super(opBox);
     }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new JEnterMonitorStmt(Jimple.cloneIfNecessary(getOp()));
     }
 
-    public String toString()
-    {
-        return Jimple.ENTERMONITOR + " "  + opBox.getValue().toString();
+    public String toString() {
+        return Jimple.ENTERMONITOR + " " + opBox.getValue().toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(Jimple.ENTERMONITOR);
         up.literal(" ");
         opBox.toString(up);
     }
-    
-    public void apply(Switch sw)
-    {
+
+    public void apply(Switch sw) {
         ((StmtSwitch) sw).caseEnterMonitorStmt(this);
 
     }
-    
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        ((ConvertToBaf)(getOp())).convertToBaf(context, out);
+
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getOp())).convertToBaf(context, out);
         Unit u = Baf.v().newEnterMonitorInst();
         u.addAllTagsOf(this);
         out.add(u);
     }
-  
-    
-    
-  public boolean fallsThrough(){return true;}
-  public boolean branches() { return false;}
-  
+
+
+    public boolean fallsThrough() {
+        return true;
+    }
+
+    public boolean branches() {
+        return false;
+    }
+
 }

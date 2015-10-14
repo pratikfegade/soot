@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AVoidType extends PType
-{
+public final class AVoidType extends PType {
     private TVoid _void_;
 
-    public AVoidType()
-    {
+    public AVoidType() {
         // Constructor
     }
 
     public AVoidType(
-        @SuppressWarnings("hiding") TVoid _void_)
-    {
+            @SuppressWarnings("hiding") TVoid _void_) {
         // Constructor
         setVoid(_void_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AVoidType(
-            cloneNode(this._void_));
+                cloneNode(this._void_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAVoidType(this);
     }
 
-    public TVoid getVoid()
-    {
+    public TVoid getVoid() {
         return this._void_;
     }
 
-    public void setVoid(TVoid node)
-    {
-        if(this._void_ != null)
-        {
+    public void setVoid(TVoid node) {
+        if (this._void_ != null) {
             this._void_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AVoidType extends PType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._void_);
+                + toString(this._void_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._void_ == child)
-        {
+        if (this._void_ == child) {
             this._void_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AVoidType extends PType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._void_ == oldChild)
-        {
+        if (this._void_ == oldChild) {
             setVoid((TVoid) newChild);
             return;
         }

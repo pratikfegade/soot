@@ -21,71 +21,66 @@
 package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
-
 import soot.dexpler.DexBody;
 
 public abstract class PseudoInstruction extends DexlibAbstractInstruction {
 
-  public PseudoInstruction(Instruction instruction, int codeAddress) {
-    super(instruction, codeAddress);
-  }
+    int dataFirstByte = -1;
+    int dataLastByte = -1;
+    int dataSize = -1;
+    byte[] data = null;
+    boolean loaded = false;
+    public PseudoInstruction(Instruction instruction, int codeAddress) {
+        super(instruction, codeAddress);
+    }
 
-  int dataFirstByte = -1;
-  int dataLastByte = -1;
-  int dataSize = -1;
-  byte[] data = null;
-  boolean loaded = false;
+    public boolean isLoaded() {
+        return loaded;
+    }
 
-  public boolean isLoaded() {
-    return loaded;
-  }
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
 
-  public void setLoaded(boolean loaded) {
-    this.loaded = loaded;
-  }
+    public byte[] getData() {
+        return data;
+    }
 
-  public byte[] getData() {
-    return data;
-  }
+    protected void setData(byte[] data) {
+        this.data = data;
+    }
 
-  protected void setData(byte[] data) {
-    this.data = data;
-  }
+    public int getDataFirstByte() {
+        if (dataFirstByte == -1)
+            throw new RuntimeException("Error: dataFirstByte was not set!");
+        return dataFirstByte;
+    }
 
-  public int getDataFirstByte() {
-    if (dataFirstByte == -1)
-      throw new RuntimeException("Error: dataFirstByte was not set!");
-    return dataFirstByte;
-  }
+    protected void setDataFirstByte(int dataFirstByte) {
+        this.dataFirstByte = dataFirstByte;
+    }
 
-  protected void setDataFirstByte(int dataFirstByte) {
-    this.dataFirstByte = dataFirstByte;
-  }
+    public int getDataLastByte() {
+        if (dataLastByte == -1)
+            throw new RuntimeException("Error: dataLastByte was not set!");
+        return dataLastByte;
+    }
 
-  public int getDataLastByte() {
-    if (dataLastByte == -1)
-      throw new RuntimeException("Error: dataLastByte was not set!");
-    return dataLastByte;
-  }
+    protected void setDataLastByte(int dataLastByte) {
+        this.dataLastByte = dataLastByte;
+    }
 
-  protected void setDataLastByte(int dataLastByte) {
-    this.dataLastByte = dataLastByte;
-  }
+    public int getDataSize() {
+        if (dataSize == -1)
+            throw new RuntimeException("Error: dataFirstByte was not set!");
+        return dataSize;
+    }
 
-  public int getDataSize() {
-    if (dataSize == -1)
-      throw new RuntimeException("Error: dataFirstByte was not set!");
-    return dataSize;
-  }
+    protected void setDataSize(int dataSize) {
+        this.dataSize = dataSize;
+    }
 
-  protected void setDataSize(int dataSize) {
-    this.dataSize = dataSize;
-  }
+    public abstract void computeDataOffsets(DexBody body);
 
-  public abstract void computeDataOffsets(DexBody body);
 
-  
-  
-  
-  
 }

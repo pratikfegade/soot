@@ -21,49 +21,48 @@
 package ca.mcgill.sable.graph.actions;
 
 import org.eclipse.gef.ui.actions.SelectionAction;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class SimpleSelectAction extends SelectionAction {
 
-	
-	private final static String SIMPLE_SELECT = "simple select";
-	private IWorkbenchPart part;
-	
-	/**
-	 * @param part
-	 */
-	public SimpleSelectAction(IWorkbenchPart part) {
-		super(part);
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled() {
-		return true;
-	}
-	
-	public void run(){
-	}
+    private final static String SIMPLE_SELECT = "simple select";
+    private IWorkbenchPart part;
 
-	/**
-	 * @return
-	 */
-	public IWorkbenchPart getPart() {
-		return part;
-	}
+    /**
+     * @param part
+     */
+    public SimpleSelectAction(IWorkbenchPart part) {
+        super(part);
+    }
 
-	/**
-	 * @param part
-	 */
-	public void setPart(IWorkbenchPart part) {
-		this.part = part;
-	}
-	
-	protected void init() { 
-		super.init(); 
-		setId( SIMPLE_SELECT );
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+     */
+    protected boolean calculateEnabled() {
+        return true;
+    }
+
+    public void run() {
+    }
+
+    /**
+     * @return
+     */
+    public IWorkbenchPart getPart() {
+        return part;
+    }
+
+    /**
+     * @param part
+     */
+    public void setPart(IWorkbenchPart part) {
+        this.part = part;
+    }
+
+    protected void init() {
+        super.init();
+        setId(SIMPLE_SELECT);
+    }
 
 }

@@ -25,95 +25,102 @@ import org.eclipse.swt.graphics.RGB;
 
 public class PosColAttribute {
 
-	private int startOffset;
-	private int endOffset;
+    private int startOffset;
+    private int endOffset;
     private int sourceStartOffset;
     private int sourceEndOffset;
-	
-	private int red;
-	private int green;
-	private int blue;
-	private int fg;
-	
-	public RGB getRGBColor(){
-		return new RGB(getRed(), getGreen(), getBlue());
-	}
-	
-	/**
-	 * @return
-	 */
-	public int getBlue() {
-		return blue;
-	}
 
-	/**
-	 * @return
-	 */
-	public int getEndOffset() {
-		return endOffset;
-	}
+    private int red;
+    private int green;
+    private int blue;
+    private int fg;
 
-	/**
-	 * @return
-	 */
-	public int getGreen() {
-		return green;
-	}
+    public RGB getRGBColor() {
+        return new RGB(getRed(), getGreen(), getBlue());
+    }
 
-	/**
-	 * @return
-	 */
-	public int getRed() {
-		return red;
-	}
+    /**
+     * @return
+     */
+    public int getBlue() {
+        return blue;
+    }
 
-	/**
-	 * @return
-	 */
-	public int getStartOffset() {
-		return startOffset;
-	}
+    /**
+     * @param i
+     */
+    public void setBlue(int i) {
+        blue = i;
+    }
 
-	/**
-	 * @param i
-	 */
-	public void setBlue(int i) {
-		blue = i;
-	}
+    /**
+     * @return
+     */
+    public int getEndOffset() {
+        return endOffset;
+    }
 
-	/**
-	 * @param i
-	 */
-	public void setEndOffset(int i) {
-		endOffset = i;
-	}
+    /**
+     * @param i
+     */
+    public void setEndOffset(int i) {
+        endOffset = i;
+    }
 
-	/**
-	 * @param i
-	 */
-	public void setGreen(int i) {
-		green = i;
-	}
+    /**
+     * @return
+     */
+    public int getGreen() {
+        return green;
+    }
 
-	/**
-	 * @param i
-	 */
-	public void setRed(int i) {
-		red = i;
-	}
+    /**
+     * @param i
+     */
+    public void setGreen(int i) {
+        green = i;
+    }
 
-	/**
-	 * @param i
-	 */
-	public void setStartOffset(int i) {
-		startOffset = i;
-	}
+    /**
+     * @return
+     */
+    public int getRed() {
+        return red;
+    }
+
+    /**
+     * @param i
+     */
+    public void setRed(int i) {
+        red = i;
+    }
+
+    /**
+     * @return
+     */
+    public int getStartOffset() {
+        return startOffset;
+    }
+
+    /**
+     * @param i
+     */
+    public void setStartOffset(int i) {
+        startOffset = i;
+    }
 
     /**
      * @return
      */
     public int getSourceEndOffset() {
         return sourceEndOffset;
+    }
+
+    /**
+     * @param i
+     */
+    public void setSourceEndOffset(int i) {
+        sourceEndOffset = i;
     }
 
     /**
@@ -126,29 +133,22 @@ public class PosColAttribute {
     /**
      * @param i
      */
-    public void setSourceEndOffset(int i) {
-        sourceEndOffset = i;
+    public void setSourceStartOffset(int i) {
+        sourceStartOffset = i;
+    }
+
+    /**
+     * @return
+     */
+    public int getFg() {
+        return fg;
     }
 
     /**
      * @param i
      */
-    public void setSourceStartOffset(int i) {
-        sourceStartOffset = i;
+    public void setFg(int i) {
+        fg = i;
     }
-
-	/**
-	 * @return
-	 */
-	public int getFg() {
-		return fg;
-	}
-
-	/**
-	 * @param i
-	 */
-	public void setFg(int i) {
-		fg = i;
-	}
 
 }

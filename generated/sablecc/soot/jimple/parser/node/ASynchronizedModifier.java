@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ASynchronizedModifier extends PModifier
-{
+public final class ASynchronizedModifier extends PModifier {
     private TSynchronized _synchronized_;
 
-    public ASynchronizedModifier()
-    {
+    public ASynchronizedModifier() {
         // Constructor
     }
 
     public ASynchronizedModifier(
-        @SuppressWarnings("hiding") TSynchronized _synchronized_)
-    {
+            @SuppressWarnings("hiding") TSynchronized _synchronized_) {
         // Constructor
         setSynchronized(_synchronized_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASynchronizedModifier(
-            cloneNode(this._synchronized_));
+                cloneNode(this._synchronized_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASynchronizedModifier(this);
     }
 
-    public TSynchronized getSynchronized()
-    {
+    public TSynchronized getSynchronized() {
         return this._synchronized_;
     }
 
-    public void setSynchronized(TSynchronized node)
-    {
-        if(this._synchronized_ != null)
-        {
+    public void setSynchronized(TSynchronized node) {
+        if (this._synchronized_ != null) {
             this._synchronized_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ASynchronizedModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._synchronized_);
+                + toString(this._synchronized_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._synchronized_ == child)
-        {
+        if (this._synchronized_ == child) {
             this._synchronized_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ASynchronizedModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._synchronized_ == oldChild)
-        {
+        if (this._synchronized_ == oldChild) {
             setSynchronized((TSynchronized) newChild);
             return;
         }

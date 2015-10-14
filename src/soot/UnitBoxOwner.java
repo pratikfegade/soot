@@ -19,20 +19,20 @@
 
 package soot;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * An implementor of this interface indicates that it may contain
  * UnitBoxes.
- * 
+ * <p/>
  * <p> Currently this is implemented by soot.shimple.PhiExpr and used by
  * soot.jimple.internal.JAssignStmt.
  *
  * @author Navindra Umanee
  **/
-public interface UnitBoxOwner
-{
-    public List<UnitBox> getUnitBoxes();
-    public void clearUnitBoxes();
+public interface UnitBoxOwner {
+    List<UnitBox> getUnitBoxes();
+
+    void clearUnitBoxes();
 }
     

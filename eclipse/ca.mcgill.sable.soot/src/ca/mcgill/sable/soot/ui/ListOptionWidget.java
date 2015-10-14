@@ -19,115 +19,120 @@
 
 package ca.mcgill.sable.soot.ui;
 
+import org.eclipse.swt.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.*;
 
 public class ListOptionWidget {
 
-	private Label label;
-	private Text text;
-	private String alias;
-	
-	
-	/**
-	 * Constructor for PathOptionClass.
-	 * @param parent
-	 * @param style
-	 */
-	public ListOptionWidget(Composite parent, int style, 
-	  OptionData data) {
-		
-		setAlias(data.getRealAlias());
-		
-		Group path = new Group(parent, SWT.RIGHT);
-		GridLayout gl = new GridLayout();
-		gl.numColumns = 3;	
-		
-		path.setLayout(gl);
+    private Label label;
+    private Text text;
+    private String alias;
 
-		// this makes widget fill horizontal space
-		GridData gridData2 = new GridData(GridData.FILL_HORIZONTAL);
-       	gridData2.horizontalSpan = 3;
 
-       	path.setLayoutData(gridData2);
-        			
-		setLabel(new Label(path, SWT.NONE));
-		setLabelText(data.getText());
-		setText(new Text(path,  SWT.MULTI | SWT.BORDER | SWT.V_SCROLL));
-		
+    /**
+     * Constructor for PathOptionClass.
+     *
+     * @param parent
+     * @param style
+     */
+    public ListOptionWidget(Composite parent, int style,
+                            OptionData data) {
 
-		if ((data.getInitText() == null) || (data.getInitText().length() == 0)){
-			getText().setText("");
-		}
-		else {
-			getText().setText(data.getInitText());
-		}
-		String listMessage = " Separate values on different lines.";
-		getText().setToolTipText(data.getTooltip().trim()+listMessage);		
-	
-		// this makes textbox fill available space		
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+        setAlias(data.getRealAlias());
+
+        Group path = new Group(parent, SWT.RIGHT);
+        GridLayout gl = new GridLayout();
+        gl.numColumns = 3;
+
+        path.setLayout(gl);
+
+        // this makes widget fill horizontal space
+        GridData gridData2 = new GridData(GridData.FILL_HORIZONTAL);
+        gridData2.horizontalSpan = 3;
+
+        path.setLayoutData(gridData2);
+
+        setLabel(new Label(path, SWT.NONE));
+        setLabelText(data.getText());
+        setText(new Text(path, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL));
+
+
+        if ((data.getInitText() == null) || (data.getInitText().length() == 0)) {
+            getText().setText("");
+        } else {
+            getText().setText(data.getInitText());
+        }
+        String listMessage = " Separate values on different lines.";
+        getText().setToolTipText(data.getTooltip().trim() + listMessage);
+
+        // this makes textbox fill available space
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
         gridData.horizontalSpan = 2;
-		gridData.heightHint = 35;
-		getText().setLayoutData(gridData);
-		
-		
-	}
+        gridData.heightHint = 35;
+        getText().setLayoutData(gridData);
 
 
-	public void setLabelText(String text) {
-		getLabel().setText(text);
-	}
+    }
 
-	/**
-	 * Returns the label.
-	 * @return Label
-	 */
-	public Label getLabel() {
-		return label;
-	}
 
-	/**
-	 * Returns the text.
-	 * @return Text
-	 */
-	public Text getText() {
-		return text;
-	}
+    public void setLabelText(String text) {
+        getLabel().setText(text);
+    }
 
-	/**
-	 * Sets the label.
-	 * @param label The label to set
-	 */
-	public void setLabel(Label label) {
-		this.label = label;
-	}
+    /**
+     * Returns the label.
+     *
+     * @return Label
+     */
+    public Label getLabel() {
+        return label;
+    }
 
-	/**
-	 * Sets the text.
-	 * @param text The text to set
-	 */
-	public void setText(Text text) {
-		this.text = text;
-	}
+    /**
+     * Sets the label.
+     *
+     * @param label The label to set
+     */
+    public void setLabel(Label label) {
+        this.label = label;
+    }
 
-	
+    /**
+     * Returns the text.
+     *
+     * @return Text
+     */
+    public Text getText() {
+        return text;
+    }
 
-	/**
-	 * Returns the alias.
-	 * @return String
-	 */
-	public String getAlias() {
-		return alias;
-	}
+    /**
+     * Sets the text.
+     *
+     * @param text The text to set
+     */
+    public void setText(Text text) {
+        this.text = text;
+    }
 
-	/**
-	 * Sets the alias.
-	 * @param alias The alias to set
-	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+
+    /**
+     * Returns the alias.
+     *
+     * @return String
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Sets the alias.
+     *
+     * @param alias The alias to set
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
 }

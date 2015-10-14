@@ -28,13 +28,7 @@ import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.ThreeRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction23x;
-
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.Local;
-import soot.LongType;
-import soot.Type;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
@@ -53,16 +47,16 @@ public class CmpInstruction extends TaggedInstruction {
     AssignStmt assign = null;
     Expr cmpExpr = null;
     Type type = null;
-  
-    public CmpInstruction (Instruction instruction, int codeAdress) {
+
+    public CmpInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        if(!(instruction instanceof Instruction23x))
-            throw new IllegalArgumentException("Expected Instruction23x but got: "+instruction.getClass());
+    public void jimplify(DexBody body) {
+        if (!(instruction instanceof Instruction23x))
+            throw new IllegalArgumentException("Expected Instruction23x but got: " + instruction.getClass());
 
-        Instruction23x cmpInstr = (Instruction23x)instruction;
+        Instruction23x cmpInstr = (Instruction23x) instruction;
         int dest = cmpInstr.getRegisterA();
 
         Local first = body.getRegisterLocal(cmpInstr.getRegisterB());
@@ -72,33 +66,33 @@ public class CmpInstruction extends TaggedInstruction {
         //Type type = null
         Opcode opcode = instruction.getOpcode();
         switch (opcode) {
-        case CMPL_DOUBLE:
-          setTag (new DoubleOpTag());
-          type = DoubleType.v();
-          cmpExpr = Jimple.v().newCmplExpr(first, second);
-          break;
-        case CMPL_FLOAT:
-          setTag (new FloatOpTag());
-          type = FloatType.v();
-            cmpExpr = Jimple.v().newCmplExpr(first, second);
-            break;
-        case CMPG_DOUBLE:
-          setTag (new DoubleOpTag());
-          type = DoubleType.v();
-          cmpExpr = Jimple.v().newCmpgExpr(first, second);
-          break;
-        case CMPG_FLOAT:
-          setTag (new FloatOpTag());
-          type = FloatType.v();
-            cmpExpr = Jimple.v().newCmpgExpr(first, second);
-            break;
-        case CMP_LONG:
-          setTag (new LongOpTag());
-          type = LongType.v();
-          cmpExpr = Jimple.v().newCmpExpr(first, second);
-          break;
-        default:
-            throw new RuntimeException("no opcode for CMP: 0x"+ Integer.toHexString(opcode.value));
+            case CMPL_DOUBLE:
+                setTag(new DoubleOpTag());
+                type = DoubleType.v();
+                cmpExpr = Jimple.v().newCmplExpr(first, second);
+                break;
+            case CMPL_FLOAT:
+                setTag(new FloatOpTag());
+                type = FloatType.v();
+                cmpExpr = Jimple.v().newCmplExpr(first, second);
+                break;
+            case CMPG_DOUBLE:
+                setTag(new DoubleOpTag());
+                type = DoubleType.v();
+                cmpExpr = Jimple.v().newCmpgExpr(first, second);
+                break;
+            case CMPG_FLOAT:
+                setTag(new FloatOpTag());
+                type = FloatType.v();
+                cmpExpr = Jimple.v().newCmpgExpr(first, second);
+                break;
+            case CMP_LONG:
+                setTag(new LongOpTag());
+                type = LongType.v();
+                cmpExpr = Jimple.v().newCmpExpr(first, second);
+                break;
+            default:
+                throw new RuntimeException("no opcode for CMP: 0x" + Integer.toHexString(opcode.value));
         }
 
         assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), cmpExpr);
@@ -107,14 +101,14 @@ public class CmpInstruction extends TaggedInstruction {
         setUnit(assign);
         addTags(assign);
         body.add(assign);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          getTag().getName();
-          BinopExpr bexpr = (BinopExpr)cmpExpr;
-          DalvikTyper.v().setType(bexpr.getOp1Box(), type, true);
-          DalvikTyper.v().setType(bexpr.getOp2Box(), type, true);
-          DalvikTyper.v().setType(((JAssignStmt)assign).leftBox, IntType.v(), false);
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            getTag().getName();
+            BinopExpr bexpr = (BinopExpr) cmpExpr;
+            DalvikTyper.v().setType(bexpr.getOp1Box(), type, true);
+            DalvikTyper.v().setType(bexpr.getOp2Box(), type, true);
+            DalvikTyper.v().setType(((JAssignStmt) assign).leftBox, IntType.v(), false);
         }
     }
 

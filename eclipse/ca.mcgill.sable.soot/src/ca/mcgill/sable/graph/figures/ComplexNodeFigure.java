@@ -20,17 +20,17 @@
 
 package ca.mcgill.sable.graph.figures;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.Figure;
 
 
 public class ComplexNodeFigure extends Figure {
 
 
-	public ComplexNodeFigure() {
-	
-		ToolbarLayout layout = new ToolbarLayout();
-		this.setLayoutManager(layout);
-	}
+    public ComplexNodeFigure() {
+
+        ToolbarLayout layout = new ToolbarLayout();
+        this.setLayoutManager(layout);
+    }
 
 }

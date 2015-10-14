@@ -19,116 +19,121 @@
 
 package ca.mcgill.sable.soot.ui;
 
-import java.util.ArrayList;
-
-import org.eclipse.swt.widgets.*;
-import org.eclipse.swt.layout.*;
 import org.eclipse.swt.*;
-import ca.mcgill.sable.soot.ui.*;
+import org.eclipse.swt.layout.*;
+import org.eclipse.swt.widgets.*;
+
+import java.util.ArrayList;
 
 public class StringOptionWidget implements ISootOptionWidget {
 
-	private Text text;
-	private Label label;
-	private String alias;
-	
-	
-	
-	/**
-	 * Constructor for StringOptionWidget.
-	 * @param parent
-	 * @param style
-	 */
-	public StringOptionWidget(Composite parent, int style, 
-		OptionData data) {
-		
-		setAlias(data.getRealAlias());
-		
-		Group path = new Group(parent, SWT.NONE);
-		GridLayout gl = new GridLayout();
-		gl.numColumns = 2;	
-		path.setLayout(gl);
-		// this makes widget fill horizontal space
-		GridData gridData2 = new GridData(GridData.FILL_HORIZONTAL);
-       	path.setLayoutData(gridData2);
-       
-  
-  		
-		setLabel(new Label(path, SWT.NONE));
-		setLabelText(data.getText());
-		setText(new Text(path,  SWT.SINGLE | SWT.BORDER));
-		
-		getText().setText(data.getInitText());
-		getText().setToolTipText(data.getTooltip().trim());	
-		getText().setSize(300, 20);	
-		
-		// this makes textbox fill available space		
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+    private Text text;
+    private Label label;
+    private String alias;
+
+
+    /**
+     * Constructor for StringOptionWidget.
+     *
+     * @param parent
+     * @param style
+     */
+    public StringOptionWidget(Composite parent, int style,
+                              OptionData data) {
+
+        setAlias(data.getRealAlias());
+
+        Group path = new Group(parent, SWT.NONE);
+        GridLayout gl = new GridLayout();
+        gl.numColumns = 2;
+        path.setLayout(gl);
+        // this makes widget fill horizontal space
+        GridData gridData2 = new GridData(GridData.FILL_HORIZONTAL);
+        path.setLayoutData(gridData2);
+
+
+        setLabel(new Label(path, SWT.NONE));
+        setLabelText(data.getText());
+        setText(new Text(path, SWT.SINGLE | SWT.BORDER));
+
+        getText().setText(data.getInitText());
+        getText().setToolTipText(data.getTooltip().trim());
+        getText().setSize(300, 20);
+
+        // this makes textbox fill available space
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
         gridData.horizontalSpan = 1;
-		getText().setLayoutData(gridData);
-		
-		
-	}
-	public ArrayList getControls(){
-		ArrayList controls = new ArrayList();
-		controls.add(getText());
-		return controls;
-	}
-	
-	public String getId(){
-		return getAlias();
-	}
-	
-	public void setLabelText(String text) {
-		getLabel().setText(text);
-	}
+        getText().setLayoutData(gridData);
 
-	/**
-	 * Returns the label.
-	 * @return Label
-	 */
-	public Label getLabel() {
-		return label;
-	}
 
-	/**
-	 * Returns the text.
-	 * @return Text
-	 */
-	public Text getText() {
-		return text;
-	}
+    }
 
-	/**
-	 * Sets the label.
-	 * @param label The label to set
-	 */
-	public void setLabel(Label label) {
-		this.label = label;
-	}
+    public ArrayList getControls() {
+        ArrayList controls = new ArrayList();
+        controls.add(getText());
+        return controls;
+    }
 
-	/**
-	 * Sets the text.
-	 * @param text The text to set
-	 */
-	public void setText(Text text) {
-		this.text = text;
-	}
+    public String getId() {
+        return getAlias();
+    }
 
-	/**
-	 * Returns the alias.
-	 * @return String
-	 */
-	public String getAlias() {
-		return alias;
-	}
+    public void setLabelText(String text) {
+        getLabel().setText(text);
+    }
 
-	/**
-	 * Sets the alias.
-	 * @param alias The alias to set
-	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    /**
+     * Returns the label.
+     *
+     * @return Label
+     */
+    public Label getLabel() {
+        return label;
+    }
+
+    /**
+     * Sets the label.
+     *
+     * @param label The label to set
+     */
+    public void setLabel(Label label) {
+        this.label = label;
+    }
+
+    /**
+     * Returns the text.
+     *
+     * @return Text
+     */
+    public Text getText() {
+        return text;
+    }
+
+    /**
+     * Sets the text.
+     *
+     * @param text The text to set
+     */
+    public void setText(Text text) {
+        this.text = text;
+    }
+
+    /**
+     * Returns the alias.
+     *
+     * @return String
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Sets the alias.
+     *
+     * @param alias The alias to set
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
 }

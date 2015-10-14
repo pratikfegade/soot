@@ -28,7 +28,6 @@ import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction23x;
-
 import soot.IntType;
 import soot.Local;
 import soot.dexpler.Debug;
@@ -44,36 +43,36 @@ import soot.jimple.Jimple;
 public class AgetInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
-  
-    public AgetInstruction (Instruction instruction, int codeAdress) {
+
+    public AgetInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) throws InvalidDalvikBytecodeException {
-        if(!(instruction instanceof Instruction23x))
-            throw new IllegalArgumentException("Expected Instruction23x but got: "+instruction.getClass());
+    public void jimplify(DexBody body) throws InvalidDalvikBytecodeException {
+        if (!(instruction instanceof Instruction23x))
+            throw new IllegalArgumentException("Expected Instruction23x but got: " + instruction.getClass());
 
-        Instruction23x aGetInstr = (Instruction23x)instruction;
+        Instruction23x aGetInstr = (Instruction23x) instruction;
         int dest = aGetInstr.getRegisterA();
-       
+
         Local arrayBase = body.getRegisterLocal(aGetInstr.getRegisterB());
         Local index = body.getRegisterLocal(aGetInstr.getRegisterC());
 
         ArrayRef arrayRef = Jimple.v().newArrayRef(arrayBase, index);
         Local l = body.getRegisterLocal(dest);
-        
+
         assign = Jimple.v().newAssignStmt(l, arrayRef);
         if (aGetInstr.getOpcode().value == Opcode.AGET_OBJECT.value)
-          assign.addTag(new ObjectOpTag());
+            assign.addTag(new ObjectOpTag());
 
         setUnit(assign);
         addTags(assign);
         body.add(assign);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
-          DalvikTyper.v().setType(arrayRef.getIndexBox(), IntType.v(), true);
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
+            DalvikTyper.v().setType(arrayRef.getIndexBox(), IntType.v(), true);
         }
     }
 

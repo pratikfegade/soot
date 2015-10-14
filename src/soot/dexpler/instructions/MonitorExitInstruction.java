@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
-
 import soot.Local;
 import soot.RefType;
 import soot.dexpler.Debug;
@@ -39,22 +38,22 @@ import soot.jimple.Jimple;
 public class MonitorExitInstruction extends DexlibAbstractInstruction {
 
     ExitMonitorStmt exitMonitorStmt = null;
-  
-    public MonitorExitInstruction (Instruction instruction, int codeAdress) {
+
+    public MonitorExitInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    public void jimplify(DexBody body) {
         int reg = ((OneRegisterInstruction) instruction).getRegisterA();
         Local object = body.getRegisterLocal(reg);
         exitMonitorStmt = Jimple.v().newExitMonitorStmt(object);
         setUnit(exitMonitorStmt);
         addTags(exitMonitorStmt);
         body.add(exitMonitorStmt);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ exitMonitorStmt);
-		    DalvikTyper.v().setType(exitMonitorStmt.getOpBox(), RefType.v("java.lang.Object"), true);
-		}
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + exitMonitorStmt);
+            DalvikTyper.v().setType(exitMonitorStmt.getOpBox(), RefType.v("java.lang.Object"), true);
+        }
     }
 }

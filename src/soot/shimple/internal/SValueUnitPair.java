@@ -19,7 +19,8 @@
 
 package soot.shimple.internal;
 
-import soot.*;
+import soot.Unit;
+import soot.Value;
 import soot.toolkits.scalar.ValueUnitPair;
 
 /**
@@ -28,40 +29,34 @@ import soot.toolkits.scalar.ValueUnitPair;
  *
  * @author Navindra Umanee
  **/
-public class SValueUnitPair extends ValueUnitPair implements SUnitBox
-{
-    public SValueUnitPair(Value value, Unit unit)
-    {
+public class SValueUnitPair extends ValueUnitPair implements SUnitBox {
+    protected boolean unitChanged = false;
+
+    public SValueUnitPair(Value value, Unit unit) {
         super(value, unit);
         setUnitChanged(true);
     }
 
-    public boolean isBranchTarget()
-    {
+    public boolean isBranchTarget() {
         return false;
     }
 
-    public void setUnit(Unit u)
-    {
+    public void setUnit(Unit u) {
         super.setUnit(u);
         setUnitChanged(true);
     }
 
-    protected boolean unitChanged = false;
-
     /**
      * @see SUnitBox#isUnitChanged()
      **/
-    public boolean isUnitChanged()
-    {
+    public boolean isUnitChanged() {
         return unitChanged;
     }
-    
+
     /**
      * @see SUnitBox#setUnitChanged(boolean)
      **/
-    public void setUnitChanged(boolean unitChanged)
-    {
+    public void setUnitChanged(boolean unitChanged) {
         this.unitChanged = unitChanged;
     }
 }

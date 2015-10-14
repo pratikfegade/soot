@@ -30,6 +30,5 @@ package soot;
  * Soot interface implemented by all classes representing
  * integer types [boolean, byte, short, char, and int].
  */
-public interface IntegerType
-{
+public interface IntegerType {
 }

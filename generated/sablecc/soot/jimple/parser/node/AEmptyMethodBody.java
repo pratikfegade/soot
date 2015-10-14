@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AEmptyMethodBody extends PMethodBody
-{
+public final class AEmptyMethodBody extends PMethodBody {
     private TSemicolon _semicolon_;
 
-    public AEmptyMethodBody()
-    {
+    public AEmptyMethodBody() {
         // Constructor
     }
 
     public AEmptyMethodBody(
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
-    {
+            @SuppressWarnings("hiding") TSemicolon _semicolon_) {
         // Constructor
         setSemicolon(_semicolon_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AEmptyMethodBody(
-            cloneNode(this._semicolon_));
+                cloneNode(this._semicolon_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAEmptyMethodBody(this);
     }
 
-    public TSemicolon getSemicolon()
-    {
+    public TSemicolon getSemicolon() {
         return this._semicolon_;
     }
 
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
+    public void setSemicolon(TSemicolon node) {
+        if (this._semicolon_ != null) {
             this._semicolon_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AEmptyMethodBody extends PMethodBody
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._semicolon_);
+                + toString(this._semicolon_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._semicolon_ == child)
-        {
+        if (this._semicolon_ == child) {
             this._semicolon_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AEmptyMethodBody extends PMethodBody
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._semicolon_ == oldChild)
-        {
+        if (this._semicolon_ == oldChild) {
             setSemicolon((TSemicolon) newChild);
             return;
         }

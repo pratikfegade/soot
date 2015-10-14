@@ -26,103 +26,93 @@
 
 package soot.jimple.internal;
 
+import soot.*;
+import soot.jimple.ExprSwitch;
+import soot.jimple.InstanceOfExpr;
+import soot.jimple.Jimple;
+import soot.util.Switch;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
-
 @SuppressWarnings("serial")
-public abstract class AbstractInstanceOfExpr implements InstanceOfExpr
-{
+public abstract class AbstractInstanceOfExpr implements InstanceOfExpr {
     final ValueBox opBox;
     Type checkType;
 
-    protected AbstractInstanceOfExpr(ValueBox opBox, Type checkType)
-    {
-        this.opBox = opBox; 
+    protected AbstractInstanceOfExpr(ValueBox opBox, Type checkType) {
+        this.opBox = opBox;
         this.checkType = checkType;
     }
-    
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof AbstractInstanceOfExpr)
-        {
-            AbstractInstanceOfExpr aie = (AbstractInstanceOfExpr)o;
+
+    public boolean equivTo(Object o) {
+        if (o instanceof AbstractInstanceOfExpr) {
+            AbstractInstanceOfExpr aie = (AbstractInstanceOfExpr) o;
             return opBox.getValue().equivTo(aie.opBox.getValue()) &&
-                checkType.equals(aie.checkType);
+                    checkType.equals(aie.checkType);
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return opBox.getValue().equivHashCode() * 101 + checkType.hashCode() * 17;
     }
 
     public abstract Object clone();
-    
-    public String toString()
-    {
+
+    public String toString() {
         return opBox.getValue().toString() + " " + Jimple.INSTANCEOF + " " + checkType.toString();
     }
-    
-    public void toString( UnitPrinter up ) {
+
+    public void toString(UnitPrinter up) {
         opBox.toString(up);
         up.literal(" ");
         up.literal(Jimple.INSTANCEOF);
         up.literal(" ");
         up.type(checkType);
     }
-    
+
     @Override
-    public Value getOp()
-    {
+    public Value getOp() {
         return opBox.getValue();
     }
 
     @Override
-    public void setOp(Value op)
-    {
+    public void setOp(Value op) {
         opBox.setValue(op);
     }
-    
+
     @Override
-    public ValueBox getOpBox()
-    {
+    public ValueBox getOpBox() {
         return opBox;
     }
 
     @Override
-    public final List<ValueBox> getUseBoxes()
-    {
+    public final List<ValueBox> getUseBoxes() {
         List<ValueBox> list = new ArrayList<ValueBox>();
 
         list.addAll(opBox.getValue().getUseBoxes());
         list.add(opBox);
-    
+
         return list;
     }
-    
-    public Type getType()
-    {
+
+    public Type getType() {
         return BooleanType.v();
     }
 
-    public Type getCheckType()
-    {
+    public Type getCheckType() {
         return checkType;
     }
 
-    public void setCheckType(Type checkType)
-    {
+    public void setCheckType(Type checkType) {
         this.checkType = checkType;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ExprSwitch) sw).caseInstanceOfExpr(this);
     }
 }

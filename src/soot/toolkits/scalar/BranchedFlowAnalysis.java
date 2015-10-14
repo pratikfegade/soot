@@ -35,39 +35,45 @@
 
 package soot.toolkits.scalar;
 
-import soot.*;
-import soot.toolkits.graph.*;
-import java.util.*;
+import soot.Unit;
+import soot.toolkits.graph.DirectedGraph;
 
-/** Abstract class providing functionality for branched flow analysis.
- *
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Abstract class providing functionality for branched flow analysis.
+ * <p/>
  * A branched flow analysis is one which can propagate different
  * information to the successors of a node.  This is useful for
  * propagating information past a statement like <code>if(x &gt;
  * 0)</code>: one successor has <code>x &gt; 0</code> while the other
- * successor has <code>x &le; 0</code>. */
-public abstract class BranchedFlowAnalysis<N extends Unit,A> extends AbstractFlowAnalysis<N,A>
-{
-    /** Maps graph nodes to OUT sets. */
+ * successor has <code>x &le; 0</code>.
+ */
+public abstract class BranchedFlowAnalysis<N extends Unit, A> extends AbstractFlowAnalysis<N, A> {
+    /**
+     * Maps graph nodes to OUT sets.
+     */
     protected Map<Unit, List<A>> unitToAfterFallFlow;
     protected Map<Unit, List<A>> unitToAfterBranchFlow;
 
-    public BranchedFlowAnalysis(DirectedGraph<N> graph)
-    {
+    public BranchedFlowAnalysis(DirectedGraph<N> graph) {
         super(graph);
 
         unitToAfterFallFlow = new HashMap<Unit, List<A>>(graph.size() * 2 + 1, 0.7f);
         unitToAfterBranchFlow = new HashMap<Unit, List<A>>(graph.size() * 2 + 1, 0.7f);
     }
 
-    /** Given the merge of the <code>in</code> sets, 
+    /**
+     * Given the merge of the <code>in</code> sets,
      * compute the <code>fallOut</code> and <code>branchOuts</code>
-     * set for <code>s</code>. */
-    protected abstract void flowThrough(A in, Unit s, 
+     * set for <code>s</code>.
+     */
+    protected abstract void flowThrough(A in, Unit s,
                                         List<A> fallOut, List<A> branchOuts);
 
-    public A getFallFlowAfter(Unit s)
-    {
+    public A getFallFlowAfter(Unit s) {
         List<A> fl = unitToAfterFallFlow.get(s);
 
         if (fl.isEmpty())
@@ -77,8 +83,7 @@ public abstract class BranchedFlowAnalysis<N extends Unit,A> extends AbstractFlo
     }
 
 
-    public List<A> getBranchFlowAfter(Unit s)
-    {
+    public List<A> getBranchFlowAfter(Unit s) {
         return (unitToAfterBranchFlow.get(s));
     }
 

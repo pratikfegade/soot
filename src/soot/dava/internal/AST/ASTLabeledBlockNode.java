@@ -20,80 +20,75 @@
 
 package soot.dava.internal.AST;
 
-import soot.*;
-import java.util.*;
-import soot.dava.internal.SET.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.UnitPrinter;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.toolkits.base.AST.analysis.Analysis;
 
-public class ASTLabeledBlockNode extends ASTLabeledNode
-{
+import java.util.ArrayList;
+import java.util.List;
+
+public class ASTLabeledBlockNode extends ASTLabeledNode {
     private List<Object> body;
-    public ASTLabeledBlockNode( SETNodeLabel label, List<Object> body){
-	super( label);
-	this.body = body;
-	
-	subBodies.add( body);
+
+    public ASTLabeledBlockNode(SETNodeLabel label, List<Object> body) {
+        super(label);
+        this.body = body;
+
+        subBodies.add(body);
     }
 
     /*
       Nomair A Naeem 20-FEB-2005
       Added for OrAggregatorOne/UselessLabeledBlockRemover
     */
-    public void replaceBody(List<Object> body){
-	this.body=body;
-	subBodies=new ArrayList<Object>();
-	subBodies.add(body);
+    public void replaceBody(List<Object> body) {
+        this.body = body;
+        subBodies = new ArrayList<Object>();
+        subBodies.add(body);
     }
 
-    public int size()
-    {
-	return body.size();
+    public int size() {
+        return body.size();
     }
 
-    public Object clone()
-    {
-	return new ASTLabeledBlockNode( get_Label(), body);
+    public Object clone() {
+        return new ASTLabeledBlockNode(get_Label(), body);
     }
 
-    public void toString( UnitPrinter up )
-    {
-        label_toString( up );
+    public void toString(UnitPrinter up) {
+        label_toString(up);
 
-        up.literal( "{" );
+        up.literal("{");
         up.newline();
- 
+
         up.incIndent();
-        body_toString( up, body );
+        body_toString(up, body);
         up.decIndent();
 
-        up.literal( "} //end " );
-        label_toString( up );
-
-
+        up.literal("} //end ");
+        label_toString(up);
 
 
         up.newline();
     }
 
-    public String toString()
-    {
-	StringBuffer b = new StringBuffer();
+    public String toString() {
+        StringBuffer b = new StringBuffer();
 
-	b.append( label_toString());
+        b.append(label_toString());
 
-	b.append( "{");
-	b.append( NEWLINE);
- 
-	b.append( body_toString(body));
+        b.append("{");
+        b.append(NEWLINE);
 
-	b.append( "} //");
-	b.append( label_toString());
+        b.append(body_toString(body));
 
+        b.append("} //");
+        b.append(label_toString());
 
 
-	b.append( NEWLINE);
+        b.append(NEWLINE);
 
-	return b.toString();
+        return b.toString();
     }
 
 
@@ -102,7 +97,7 @@ public class ASTLabeledBlockNode extends ASTLabeledNode
       Part of Visitor Design Implementation for AST
       See: soot.dava.toolkits.base.AST.analysis For details
     */
-    public void apply(Analysis a){
-	a.caseASTLabeledBlockNode(this);
+    public void apply(Analysis a) {
+        a.caseASTLabeledBlockNode(this);
     }
 }

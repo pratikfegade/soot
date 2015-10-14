@@ -2,28 +2,32 @@ package dk.brics.soot.intermediate.representation;
 
 public abstract class MethodCall extends Statement {
 
-    /** The target method */
+    /**
+     * The target method
+     */
     private Method target;
-    /** The arguments given */
+    /**
+     * The arguments given
+     */
     private Variable[] args;
 
     public MethodCall(Method target, Variable[] args) {
-    	this.target = target;
-    	this.args = args;
+        this.target = target;
+        this.args = args;
     }
 
-    
+
     public Method getTarget() {
-    	return target;
+        return target;
     }
 
 
-	public Variable[] getArgs() {
-		return args;
-	}
+    public Variable[] getArgs() {
+        return args;
+    }
 
 
-	public void setArgs(Variable[] args) {
-		this.args = args;
-	}
+    public void setArgs(Variable[] args) {
+        this.args = args;
+    }
 }

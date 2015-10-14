@@ -1,2 +1,1 @@
-@Deprecated
-package soot.jbco.jimpleTransformations;
+@Deprecated package soot.jbco.jimpleTransformations;

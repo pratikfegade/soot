@@ -20,118 +20,117 @@
 
 package ca.mcgill.sable.soot.editors.parser;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class JimpleBody {
 
-	private String text;
-	private ArrayList textArr;
-	private ArrayList methods;
-	private ArrayList fields;
-	
-	
-	public JimpleBody(String text, ArrayList textArr){
-		setText(text); 
-		setTextArr(textArr);
-	}
-	
-	public boolean isJimpleBody() {
-	
-		return true;
-	}
-	
-	
-	public void parseBody(){
-		
-		// getTextArr().get(1) -> class line
-		// ignore empty lines, first line with { and last
-		// line with }
-		setFields(new ArrayList());
-		setMethods(new ArrayList());
-		
-		Iterator it = getTextArr().iterator();
-		int counter = 0;
-		boolean inMethod = false;
-		while (it.hasNext()){
-			String temp = (String)it.next();
-			if ((temp.trim().equals("}")) && (inMethod)){
-				inMethod = false;
-			}
-			if (!inMethod){
-				if (counter < 2){
-				}
-				else if (JimpleField.isField(temp)){
-					getFields().add(temp);
-				}
-				else if (JimpleMethod.isMethod(temp)){
-					getMethods().add(temp);
-					if (temp.indexOf(";") != -1){
-					}
-					else{
-						inMethod = true;
-					}
-				}
-			}
-			counter++;
-		}
-		
-	}
-	
-	/**
-	 * @return String
-	 */
-	public String getText() {
-		return text;
-	}
+    private String text;
+    private ArrayList textArr;
+    private ArrayList methods;
+    private ArrayList fields;
 
-	/**
-	 * Sets the text.
-	 * @param text The text to set
-	 */
-	public void setText(String text) {
-		this.text = text;
-	}
 
-	/**
-	 * @return
-	 */
-	public ArrayList getTextArr() {
-		return textArr;
-	}
+    public JimpleBody(String text, ArrayList textArr) {
+        setText(text);
+        setTextArr(textArr);
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setTextArr(ArrayList list) {
-		textArr = list;
-	}
+    public boolean isJimpleBody() {
 
-	/**
-	 * @param list
-	 */
-	public void setFields(ArrayList list) {
-		fields = list;
-	}
+        return true;
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setMethods(ArrayList list) {
-		methods = list;
-	}
 
-	/**
-	 * @return
-	 */
-	public ArrayList getFields() {
-		return fields;
-	}
+    public void parseBody() {
 
-	/**
-	 * @return
-	 */
-	public ArrayList getMethods() {
-		return methods;
-	}
+        // getTextArr().get(1) -> class line
+        // ignore empty lines, first line with { and last
+        // line with }
+        setFields(new ArrayList());
+        setMethods(new ArrayList());
+
+        Iterator it = getTextArr().iterator();
+        int counter = 0;
+        boolean inMethod = false;
+        while (it.hasNext()) {
+            String temp = (String) it.next();
+            if ((temp.trim().equals("}")) && (inMethod)) {
+                inMethod = false;
+            }
+            if (!inMethod) {
+                if (counter < 2) {
+                } else if (JimpleField.isField(temp)) {
+                    getFields().add(temp);
+                } else if (JimpleMethod.isMethod(temp)) {
+                    getMethods().add(temp);
+                    if (temp.indexOf(";") != -1) {
+                    } else {
+                        inMethod = true;
+                    }
+                }
+            }
+            counter++;
+        }
+
+    }
+
+    /**
+     * @return String
+     */
+    public String getText() {
+        return text;
+    }
+
+    /**
+     * Sets the text.
+     *
+     * @param text The text to set
+     */
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getTextArr() {
+        return textArr;
+    }
+
+    /**
+     * @param list
+     */
+    public void setTextArr(ArrayList list) {
+        textArr = list;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getFields() {
+        return fields;
+    }
+
+    /**
+     * @param list
+     */
+    public void setFields(ArrayList list) {
+        fields = list;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getMethods() {
+        return methods;
+    }
+
+    /**
+     * @param list
+     */
+    public void setMethods(ArrayList list) {
+        methods = list;
+    }
 
 }

@@ -1,13 +1,12 @@
 public class IfTrueTest {
 
-    public static void main(String [] args){
-        
+    public static void main(String[] args) {
+
         int x = 0;
 
         if (true) {
             x = 8;
-        }
-        else {
+        } else {
             x = 9;
         }
     }

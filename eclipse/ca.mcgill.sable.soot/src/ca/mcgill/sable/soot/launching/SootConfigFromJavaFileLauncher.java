@@ -19,14 +19,13 @@
 
 package ca.mcgill.sable.soot.launching;
 
+import ca.mcgill.sable.soot.SootPlugin;
+import ca.mcgill.sable.soot.ui.SootConfigManagerDialog;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.*;
+
 import java.util.HashMap;
 import java.util.Iterator;
-
-import org.eclipse.jface.action.IAction;
-import ca.mcgill.sable.soot.*;
-import ca.mcgill.sable.soot.ui.SootConfigManagerDialog;
-
-import org.eclipse.jface.dialogs.*;
 
 
 /**
@@ -34,65 +33,64 @@ import org.eclipse.jface.dialogs.*;
  */
 public class SootConfigFromJavaFileLauncher extends SootFileLauncher {
 
-	public void run(IAction action) {
-		
-		super.run(action);
+    public void run(IAction action) {
+
+        super.run(action);
         super.setIsSrcPrec(true);
         super.setSrcPrec(LaunchCommands.JAVA_IN);
         super.handleMultipleFiles();
-        
-		if (isDoNotContinue()) return;
-		window = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
-		
-		SootConfigManagerDialog manager = new SootConfigManagerDialog(window.getShell());
-		manager.setEclipseDefList(setEclipseDefs());
-		manager.setLauncher(this);
-		manager.open();
-		
-		
-	}
-	
-	public void launch(String name, String mainClass) {
-		
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		
-		setSootCommandList(new SootCommandList());
-		
-		
-		SootSavedConfiguration ssc = new SootSavedConfiguration(name, settings.getArray(name));
-		ssc.setEclipseDefs(setEclipseDefs());
-		
-		getSootCommandList().addSingleOpt(ssc.toRunArray());
-		Iterator it = getToProcessList().iterator();
-		while (it.hasNext()){
-			getSootCommandList().addSingleOpt((String)it.next());
-		}
-		
-		if ((mainClass == null) || (mainClass.length() == 0)){
-			runSootDirectly();
-		}
-		else {
-			runSootDirectly(mainClass);
-		}
-		runFinish();
-	}
-	
-	private HashMap setEclipseDefs() {
-		
-		HashMap defs = new HashMap();
-		defs.put(LaunchCommands.OUTPUT_DIR, getOutputLocation());
-		
-		defs.put(LaunchCommands.SOOT_CLASSPATH, getClasspathAppend());
-		
-		if (isSrcPrec()) {
-			defs.put(LaunchCommands.SRC_PREC, getSrcPrec());
-		}
-		defs.put(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
 
-		defs.put(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
-	
-		return defs;
-	}
+        if (isDoNotContinue()) return;
+        window = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
 
-	
+        SootConfigManagerDialog manager = new SootConfigManagerDialog(window.getShell());
+        manager.setEclipseDefList(setEclipseDefs());
+        manager.setLauncher(this);
+        manager.open();
+
+
+    }
+
+    public void launch(String name, String mainClass) {
+
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+
+        setSootCommandList(new SootCommandList());
+
+
+        SootSavedConfiguration ssc = new SootSavedConfiguration(name, settings.getArray(name));
+        ssc.setEclipseDefs(setEclipseDefs());
+
+        getSootCommandList().addSingleOpt(ssc.toRunArray());
+        Iterator it = getToProcessList().iterator();
+        while (it.hasNext()) {
+            getSootCommandList().addSingleOpt((String) it.next());
+        }
+
+        if ((mainClass == null) || (mainClass.length() == 0)) {
+            runSootDirectly();
+        } else {
+            runSootDirectly(mainClass);
+        }
+        runFinish();
+    }
+
+    private HashMap setEclipseDefs() {
+
+        HashMap defs = new HashMap();
+        defs.put(LaunchCommands.OUTPUT_DIR, getOutputLocation());
+
+        defs.put(LaunchCommands.SOOT_CLASSPATH, getClasspathAppend());
+
+        if (isSrcPrec()) {
+            defs.put(LaunchCommands.SRC_PREC, getSrcPrec());
+        }
+        defs.put(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
+
+        defs.put(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
+
+        return defs;
+    }
+
+
 }

@@ -24,13 +24,9 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface EqExpr extends ConditionExpr
-{
+public interface EqExpr extends ConditionExpr {
 }
 
 

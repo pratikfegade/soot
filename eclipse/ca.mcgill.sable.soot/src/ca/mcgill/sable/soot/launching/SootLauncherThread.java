@@ -25,82 +25,89 @@ package ca.mcgill.sable.soot.launching;
  */
 public class SootLauncherThread extends Thread {
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 */
-	public SootLauncherThread() {
-		super();
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     */
+    public SootLauncherThread() {
+        super();
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param target
-	 */
-	public SootLauncherThread(Runnable target) {
-		super(target);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param target
+     */
+    public SootLauncherThread(Runnable target) {
+        super(target);
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param group
-	 * @param target
-	 */
-	public SootLauncherThread(ThreadGroup group, Runnable target) {
-		super(group, target);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param group
+     * @param target
+     */
+    public SootLauncherThread(ThreadGroup group, Runnable target) {
+        super(group, target);
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param name
-	 */
-	public SootLauncherThread(String name) {
-		super(name);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param name
+     */
+    public SootLauncherThread(String name) {
+        super(name);
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param group
-	 * @param name
-	 */
-	public SootLauncherThread(ThreadGroup group, String name) {
-		super(group, name);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param group
+     * @param name
+     */
+    public SootLauncherThread(ThreadGroup group, String name) {
+        super(group, name);
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param target
-	 * @param name
-	 */
-	public SootLauncherThread(Runnable target, String name) {
-		super(target, name);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param target
+     * @param name
+     */
+    public SootLauncherThread(Runnable target, String name) {
+        super(target, name);
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param group
-	 * @param target
-	 * @param name
-	 */
-	public SootLauncherThread(
-		ThreadGroup group,
-		Runnable target,
-		String name) {
-		super(group, target, name);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param group
+     * @param target
+     * @param name
+     */
+    public SootLauncherThread(
+            ThreadGroup group,
+            Runnable target,
+            String name) {
+        super(group, target, name);
+    }
 
-	/**
-	 * Constructor for SootLauncherThread.
-	 * @param group
-	 * @param target
-	 * @param name
-	 * @param stackSize
-	 */
-	public SootLauncherThread(
-		ThreadGroup group,
-		Runnable target,
-		String name,
-		long stackSize) {
-		super(group, target, name, stackSize);
-	}
+    /**
+     * Constructor for SootLauncherThread.
+     *
+     * @param group
+     * @param target
+     * @param name
+     * @param stackSize
+     */
+    public SootLauncherThread(
+            ThreadGroup group,
+            Runnable target,
+            String name,
+            long stackSize) {
+        super(group, target, name, stackSize);
+    }
 
 }

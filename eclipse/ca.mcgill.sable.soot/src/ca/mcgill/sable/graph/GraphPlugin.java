@@ -19,81 +19,84 @@
 
 package ca.mcgill.sable.graph;
 
-import org.eclipse.ui.plugin.*;
-import org.eclipse.core.runtime.*;
+import ca.mcgill.sable.graph.testing.GraphGenerator;
 import org.eclipse.core.resources.*;
-import java.util.*;
-import ca.mcgill.sable.graph.testing.*;
+import org.eclipse.core.runtime.*;
+import org.eclipse.ui.plugin.*;
+
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
  * The main plugin class to be used in the desktop.
  */
 public class GraphPlugin extends AbstractUIPlugin {
-	//The shared instance.
-	private static GraphPlugin plugin;
-	//Resource bundle.
-	private ResourceBundle resourceBundle;
-	
-	private GraphGenerator generator;
-	
-	/**
-	 * The constructor.
-	 */
-	public GraphPlugin(IPluginDescriptor descriptor) {
-		super(descriptor);
-		plugin = this;
-		try {
-			resourceBundle= ResourceBundle.getBundle("ca.mcgill.sable.graph.GraphPluginResources");
-		} catch (MissingResourceException x) {
-			resourceBundle = null;
-		}
-	}
+    //The shared instance.
+    private static GraphPlugin plugin;
+    //Resource bundle.
+    private ResourceBundle resourceBundle;
 
-	/**
-	 * Returns the shared instance.
-	 */
-	public static GraphPlugin getDefault() {
-		return plugin;
-	}
+    private GraphGenerator generator;
 
-	/**
-	 * Returns the workspace instance.
-	 */
-	public static IWorkspace getWorkspace() {
-		return ResourcesPlugin.getWorkspace();
-	}
+    /**
+     * The constructor.
+     */
+    public GraphPlugin(IPluginDescriptor descriptor) {
+        super(descriptor);
+        plugin = this;
+        try {
+            resourceBundle = ResourceBundle.getBundle("ca.mcgill.sable.graph.GraphPluginResources");
+        } catch (MissingResourceException x) {
+            resourceBundle = null;
+        }
+    }
 
-	/**
-	 * Returns the string from the plugin's resource bundle,
-	 * or 'key' if not found.
-	 */
-	public static String getResourceString(String key) {
-		ResourceBundle bundle= GraphPlugin.getDefault().getResourceBundle();
-		try {
-			return bundle.getString(key);
-		} catch (MissingResourceException e) {
-			return key;
-		}
-	}
+    /**
+     * Returns the shared instance.
+     */
+    public static GraphPlugin getDefault() {
+        return plugin;
+    }
 
-	/**
-	 * Returns the plugin's resource bundle,
-	 */
-	public ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-	/**
-	 * @return
-	 */
-	public GraphGenerator getGenerator() {
-		return generator;
-	}
+    /**
+     * Returns the workspace instance.
+     */
+    public static IWorkspace getWorkspace() {
+        return ResourcesPlugin.getWorkspace();
+    }
 
-	/**
-	 * @param generator
-	 */
-	public void setGenerator(GraphGenerator generator) {
-		this.generator = generator;
-	}
+    /**
+     * Returns the string from the plugin's resource bundle,
+     * or 'key' if not found.
+     */
+    public static String getResourceString(String key) {
+        ResourceBundle bundle = GraphPlugin.getDefault().getResourceBundle();
+        try {
+            return bundle.getString(key);
+        } catch (MissingResourceException e) {
+            return key;
+        }
+    }
+
+    /**
+     * Returns the plugin's resource bundle,
+     */
+    public ResourceBundle getResourceBundle() {
+        return resourceBundle;
+    }
+
+    /**
+     * @return
+     */
+    public GraphGenerator getGenerator() {
+        return generator;
+    }
+
+    /**
+     * @param generator
+     */
+    public void setGenerator(GraphGenerator generator) {
+        this.generator = generator;
+    }
 
 }

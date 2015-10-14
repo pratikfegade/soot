@@ -22,59 +22,61 @@ package ca.mcgill.sable.graph.model;
 
 public class Edge extends Element {
 
-	private SimpleNode src;
-	private SimpleNode tgt;
-	private String label;
-	
-	/**
-	 * @return Returns the label.
-	 */
-	public String getLabel() {
-		return label;
-	}
-	/**
-	 * @param label The label to set.
-	 */
-	public void setLabel(String label) {
-		this.label = label;
-		fireStructureChange(EDGE_LABEL, label);
-	}
-	/**
-	 * 
-	 */
-	public Edge(SimpleNode src, SimpleNode tgt) {
-		setSrc(src);
-		setTgt(tgt);
-		src.addOutput(this);
-		tgt.addInput(this);
-	}
+    private SimpleNode src;
+    private SimpleNode tgt;
+    private String label;
 
-	/**
-	 * @return
-	 */
-	public SimpleNode getSrc() {
-		return src;
-	}
+    /**
+     *
+     */
+    public Edge(SimpleNode src, SimpleNode tgt) {
+        setSrc(src);
+        setTgt(tgt);
+        src.addOutput(this);
+        tgt.addInput(this);
+    }
 
-	/**
-	 * @param node
-	 */
-	public void setSrc(SimpleNode node) {
-		src = node;
-	}
+    /**
+     * @return Returns the label.
+     */
+    public String getLabel() {
+        return label;
+    }
 
-	/**
-	 * @return
-	 */
-	public SimpleNode getTgt() {
-		return tgt;
-	}
+    /**
+     * @param label The label to set.
+     */
+    public void setLabel(String label) {
+        this.label = label;
+        fireStructureChange(EDGE_LABEL, label);
+    }
 
-	/**
-	 * @param node
-	 */
-	public void setTgt(SimpleNode node) {
-		tgt = node;
-	}
+    /**
+     * @return
+     */
+    public SimpleNode getSrc() {
+        return src;
+    }
+
+    /**
+     * @param node
+     */
+    public void setSrc(SimpleNode node) {
+        src = node;
+    }
+
+    /**
+     * @return
+     */
+    public SimpleNode getTgt() {
+        return tgt;
+    }
+
+    /**
+     * @param node
+     */
+    public void setTgt(SimpleNode node) {
+        tgt = node;
+    }
 
 }

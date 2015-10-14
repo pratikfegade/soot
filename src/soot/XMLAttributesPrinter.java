@@ -19,134 +19,127 @@
 
 package soot;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class XMLAttributesPrinter {
 
-	
-	private String useFilename;
-	private String outputDir;
-    
-	private void setOutputDir(String dir) {
-		outputDir = dir;
-	}
 
-	private String getOutputDir() {
-		return outputDir;
-	}
-	
-	public XMLAttributesPrinter(String filename, String outputDir) {
-		setInFilename(filename);
-		setOutputDir(outputDir);
-		initAttributesDir();
-		createUseFilename();
-	}
+    FileOutputStream streamOut = null;
+    PrintWriter writerOut = null;
+    private String useFilename;
+    private String outputDir;
 
-	private void initFile() {
-		try {
-		  streamOut = new FileOutputStream(getUseFilename());
-		  writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
-		  writerOut.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-		  writerOut.println("<attributes>");
-		}
-		catch(IOException e1) {
-		  G.v().out.println(e1.getMessage());
-		}
-									
-	}
+    public XMLAttributesPrinter(String filename, String outputDir) {
+        setInFilename(filename);
+        setOutputDir(outputDir);
+        initAttributesDir();
+        createUseFilename();
+    }
 
-	private void finishFile() {
-		  writerOut.println("</attributes>");
-		  writerOut.close();
-	}
-    
-	public void printAttrs(SootClass c, soot.xml.TagCollector tc) {
-		printAttrs(c, tc, false);
-	}
-    
-	public void printAttrs(SootClass c) {
-		printAttrs(c, new soot.xml.TagCollector(), true);
-	}
+    private String getOutputDir() {
+        return outputDir;
+    }
 
-	private void printAttrs(SootClass c, soot.xml.TagCollector tc, boolean includeBodyTags) {
+    private void setOutputDir(String dir) {
+        outputDir = dir;
+    }
+
+    private void initFile() {
+        try {
+            streamOut = new FileOutputStream(getUseFilename());
+            writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
+            writerOut.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+            writerOut.println("<attributes>");
+        } catch (IOException e1) {
+            G.v().out.println(e1.getMessage());
+        }
+
+    }
+
+    private void finishFile() {
+        writerOut.println("</attributes>");
+        writerOut.close();
+    }
+
+    public void printAttrs(SootClass c, soot.xml.TagCollector tc) {
+        printAttrs(c, tc, false);
+    }
+
+    public void printAttrs(SootClass c) {
+        printAttrs(c, new soot.xml.TagCollector(), true);
+    }
+
+    private void printAttrs(SootClass c, soot.xml.TagCollector tc, boolean includeBodyTags) {
         tc.collectKeyTags(c);
-		tc.collectTags(c, includeBodyTags);
+        tc.collectTags(c, includeBodyTags);
 
-	    // If there are no attributes, then the attribute file is not created.
-	    if (tc.isEmpty())
-			return;
-		initFile();
+        // If there are no attributes, then the attribute file is not created.
+        if (tc.isEmpty())
+            return;
+        initFile();
         tc.printTags(writerOut);
         tc.printKeys(writerOut);
-		finishFile();
-	}
-	 
-	FileOutputStream streamOut = null;
-	PrintWriter writerOut = null;
-	
-	private void initAttributesDir() {
-	
-		StringBuffer sb = new StringBuffer();
-		String attrDir = "attributes";
-		
-		sb.append(getOutputDir());
-		sb.append(System.getProperty("file.separator"));
-		sb.append(attrDir);
-		
-		File dir = new File(sb.toString());
+        finishFile();
+    }
 
-		if (!dir.exists()) {
-			try {
-				dir.mkdirs();
-			} 
-			catch (SecurityException se) {
-			        G.v().out.println("Unable to create " + attrDir);
-		                //System.exit(0);
-		        }
-		}
-				
-	}
+    private void initAttributesDir() {
 
-	private void createUseFilename() {
-		String tmp = getInFilename();
-		//G.v().out.println("attribute file name: "+tmp);
-		tmp = tmp.substring(0, tmp.lastIndexOf('.'));
-		int slash = tmp.lastIndexOf(System.getProperty("file.separator"));
-		if (slash != -1) {
-			tmp = tmp.substring((slash+1), tmp.length()); 
-		}
-	
-		StringBuffer sb = new StringBuffer();
-		String attrDir = "attributes";
-		sb.append(getOutputDir());
-		sb.append(System.getProperty("file.separator"));
-		sb.append(attrDir);
-		sb.append(System.getProperty("file.separator"));  
-		sb.append(tmp);
-		sb.append(".xml");
-		//tmp = sb.toString()+tmp+".xml";
-		setUseFilename(sb.toString());
-	}
+        StringBuffer sb = new StringBuffer();
+        String attrDir = "attributes";
 
-	private void setInFilename(String file) {
-		useFilename = file;
-	}
+        sb.append(getOutputDir());
+        sb.append(System.getProperty("file.separator"));
+        sb.append(attrDir);
 
-	private String getInFilename() {
-		return useFilename;
-	}
+        File dir = new File(sb.toString());
 
-	private void setUseFilename(String file) {
-		useFilename = file;
-	}
+        if (!dir.exists()) {
+            try {
+                dir.mkdirs();
+            } catch (SecurityException se) {
+                G.v().out.println("Unable to create " + attrDir);
+                //System.exit(0);
+            }
+        }
 
-	private String getUseFilename() {
-		return useFilename;
-	}
-		
-	
+    }
+
+    private void createUseFilename() {
+        String tmp = getInFilename();
+        //G.v().out.println("attribute file name: "+tmp);
+        tmp = tmp.substring(0, tmp.lastIndexOf('.'));
+        int slash = tmp.lastIndexOf(System.getProperty("file.separator"));
+        if (slash != -1) {
+            tmp = tmp.substring((slash + 1), tmp.length());
+        }
+
+        StringBuffer sb = new StringBuffer();
+        String attrDir = "attributes";
+        sb.append(getOutputDir());
+        sb.append(System.getProperty("file.separator"));
+        sb.append(attrDir);
+        sb.append(System.getProperty("file.separator"));
+        sb.append(tmp);
+        sb.append(".xml");
+        //tmp = sb.toString()+tmp+".xml";
+        setUseFilename(sb.toString());
+    }
+
+    private String getInFilename() {
+        return useFilename;
+    }
+
+    private void setInFilename(String file) {
+        useFilename = file;
+    }
+
+    private String getUseFilename() {
+        return useFilename;
+    }
+
+    private void setUseFilename(String file) {
+        useFilename = file;
+    }
+
+
 }

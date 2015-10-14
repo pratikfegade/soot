@@ -24,13 +24,9 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
+import soot.Value;
 
-public interface Expr extends Value
-{
+public interface Expr extends Value {
 }

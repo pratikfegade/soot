@@ -31,19 +31,17 @@ import java.util.*;
  * Computing Static Single Assignment Form and the Control Dependence
  * Graph</a>
  **/
-public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
-{
+public class CytronDominanceFrontier<N> implements DominanceFrontier<N> {
     protected DominatorTree<N> dt;
     protected Map<DominatorNode<N>, List<DominatorNode<N>>> nodeToFrontier;
-    
-    public CytronDominanceFrontier(DominatorTree<N> dt)
-    {
+
+    public CytronDominanceFrontier(DominatorTree<N> dt) {
         this.dt = dt;
         nodeToFrontier = new HashMap<DominatorNode<N>, List<DominatorNode<N>>>();
         for (DominatorNode<N> head : dt.getHeads()) {
             bottomUpDispatch(head);
         }
-        for(N gode : dt.graph) {
+        for (N gode : dt.graph) {
             DominatorNode<N> dode = dt.fetchDode(gode);
             if (dode == null) {
                 throw new RuntimeException("dode == null");
@@ -56,45 +54,42 @@ public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
         }
     }
 
-    public List<DominatorNode<N>> getDominanceFrontierOf(DominatorNode<N> node)
-    {
+    public List<DominatorNode<N>> getDominanceFrontierOf(DominatorNode<N> node) {
         List<DominatorNode<N>> frontier = nodeToFrontier.get(node);
-        if(frontier == null)
+        if (frontier == null)
             throw new RuntimeException("Frontier not defined for node: " + node);
         return new ArrayList<DominatorNode<N>>(frontier);
     }
 
-    protected boolean isFrontierKnown(DominatorNode<N> node)
-    {
+    protected boolean isFrontierKnown(DominatorNode<N> node) {
         return nodeToFrontier.containsKey(node);
     }
-    
+
     /**
      * Make sure we visit children first.  This is reverse topological
      * order.
      **/
-    protected void bottomUpDispatch(DominatorNode<N> node)
-    {
+    protected void bottomUpDispatch(DominatorNode<N> node) {
         // *** FIXME: It's annoying that this algorithm is so
         // *** inefficient in that in traverses the tree from the head
         // *** to the tail before it does anything.
-        
-        if(isFrontierKnown(node))
+
+        if (isFrontierKnown(node))
             return;
 
         for (DominatorNode<N> child : dt.getChildrenOf(node)) {
-            if(!isFrontierKnown(child))
+            if (!isFrontierKnown(child))
                 bottomUpDispatch(child);
         }
 
         processNode(node);
     }
-    
+
     /**
      * Calculate dominance frontier for a set of basic blocks.
-     *
+     * <p/>
      * <p> Uses the algorithm of Cytron et al., TOPLAS Oct. 91:
-     *
+     * <p/>
      * <pre>
      * for each X in a bottom-up traversal of the dominator tree do
      *
@@ -109,18 +104,17 @@ public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
      *      end
      * </pre>
      **/
-    protected void processNode(DominatorNode<N> node)
-    {
+    protected void processNode(DominatorNode<N> node) {
         List<DominatorNode<N>> dominanceFrontier = new ArrayList<DominatorNode<N>>();
-        
+
         // local
         {
             Iterator<DominatorNode<N>> succsIt = dt.getSuccsOf(node).iterator();
-            
-            while(succsIt.hasNext()){
+
+            while (succsIt.hasNext()) {
                 DominatorNode<N> succ = succsIt.next();
-                
-                if(!dt.isImmediateDominatorOf(node, succ))
+
+                if (!dt.isImmediateDominatorOf(node, succ))
                     dominanceFrontier.add(succ);
             }
         }
@@ -129,13 +123,13 @@ public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
         {
             for (DominatorNode<N> child : dt.getChildrenOf(node)) {
                 for (DominatorNode<N> childFront : getDominanceFrontierOf(child)) {
-                    if(!dt.isImmediateDominatorOf(node, childFront)){
+                    if (!dt.isImmediateDominatorOf(node, childFront)) {
                         dominanceFrontier.add(childFront);
                     }
                 }
             }
         }
-        
+
         nodeToFrontier.put(node, dominanceFrontier);
     }
 }

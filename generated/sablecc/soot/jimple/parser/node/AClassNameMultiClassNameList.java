@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AClassNameMultiClassNameList extends PClassNameList
-{
+public final class AClassNameMultiClassNameList extends PClassNameList {
     private PClassName _className_;
     private TComma _comma_;
     private PClassNameList _classNameList_;
 
-    public AClassNameMultiClassNameList()
-    {
+    public AClassNameMultiClassNameList() {
         // Constructor
     }
 
     public AClassNameMultiClassNameList(
-        @SuppressWarnings("hiding") PClassName _className_,
-        @SuppressWarnings("hiding") TComma _comma_,
-        @SuppressWarnings("hiding") PClassNameList _classNameList_)
-    {
+            @SuppressWarnings("hiding") PClassName _className_,
+            @SuppressWarnings("hiding") TComma _comma_,
+            @SuppressWarnings("hiding") PClassNameList _classNameList_) {
         // Constructor
         setClassName(_className_);
 
@@ -31,35 +28,28 @@ public final class AClassNameMultiClassNameList extends PClassNameList
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AClassNameMultiClassNameList(
-            cloneNode(this._className_),
-            cloneNode(this._comma_),
-            cloneNode(this._classNameList_));
+                cloneNode(this._className_),
+                cloneNode(this._comma_),
+                cloneNode(this._classNameList_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAClassNameMultiClassNameList(this);
     }
 
-    public PClassName getClassName()
-    {
+    public PClassName getClassName() {
         return this._className_;
     }
 
-    public void setClassName(PClassName node)
-    {
-        if(this._className_ != null)
-        {
+    public void setClassName(PClassName node) {
+        if (this._className_ != null) {
             this._className_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class AClassNameMultiClassNameList extends PClassNameList
         this._className_ = node;
     }
 
-    public TComma getComma()
-    {
+    public TComma getComma() {
         return this._comma_;
     }
 
-    public void setComma(TComma node)
-    {
-        if(this._comma_ != null)
-        {
+    public void setComma(TComma node) {
+        if (this._comma_ != null) {
             this._comma_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class AClassNameMultiClassNameList extends PClassNameList
         this._comma_ = node;
     }
 
-    public PClassNameList getClassNameList()
-    {
+    public PClassNameList getClassNameList() {
         return this._classNameList_;
     }
 
-    public void setClassNameList(PClassNameList node)
-    {
-        if(this._classNameList_ != null)
-        {
+    public void setClassNameList(PClassNameList node) {
+        if (this._classNameList_ != null) {
             this._classNameList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class AClassNameMultiClassNameList extends PClassNameList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._className_)
-            + toString(this._comma_)
-            + toString(this._classNameList_);
+                + toString(this._className_)
+                + toString(this._comma_)
+                + toString(this._classNameList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._className_ == child)
-        {
+        if (this._className_ == child) {
             this._className_ = null;
             return;
         }
 
-        if(this._comma_ == child)
-        {
+        if (this._comma_ == child) {
             this._comma_ = null;
             return;
         }
 
-        if(this._classNameList_ == child)
-        {
+        if (this._classNameList_ == child) {
             this._classNameList_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class AClassNameMultiClassNameList extends PClassNameList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._className_ == oldChild)
-        {
+        if (this._className_ == oldChild) {
             setClassName((PClassName) newChild);
             return;
         }
 
-        if(this._comma_ == oldChild)
-        {
+        if (this._comma_ == oldChild) {
             setComma((TComma) newChild);
             return;
         }
 
-        if(this._classNameList_ == oldChild)
-        {
+        if (this._classNameList_ == oldChild) {
             setClassNameList((PClassNameList) newChild);
             return;
         }

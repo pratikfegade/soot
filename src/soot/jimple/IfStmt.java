@@ -24,22 +24,26 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
+import soot.Unit;
+import soot.UnitBox;
+import soot.Value;
+import soot.ValueBox;
 
-public interface IfStmt extends Stmt
-{
-    public Value getCondition();
+public interface IfStmt extends Stmt {
+    Value getCondition();
+
     /**
-	 * condition must be soot.jimple.ConditionExpr
-	 */
-	public void setCondition(Value condition);
-    public ValueBox getConditionBox();
-    public Stmt getTarget();
-    public void setTarget(Unit target);
-    public UnitBox getTargetBox();
+     * condition must be soot.jimple.ConditionExpr
+     */
+    void setCondition(Value condition);
+
+    ValueBox getConditionBox();
+
+    Stmt getTarget();
+
+    void setTarget(Unit target);
+
+    UnitBox getTargetBox();
 }

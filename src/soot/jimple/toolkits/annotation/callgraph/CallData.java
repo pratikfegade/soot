@@ -19,7 +19,8 @@
 
 package soot.jimple.toolkits.annotation.callgraph;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CallData {
 
@@ -28,7 +29,7 @@ public class CallData {
     private final ArrayList<CallData> outputs = new ArrayList<CallData>();
     private String data;
 
-    public String toString(){
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("Data: ");
         sb.append(data);
@@ -38,38 +39,38 @@ public class CallData {
         //sb.append(outputs);
         return sb.toString();
     }
-    
-    public void addChild(CallData cd){
+
+    public void addChild(CallData cd) {
         children.add(cd);
     }
 
-    public void addOutput(CallData cd){
-        if (!outputs.contains(cd)){
+    public void addOutput(CallData cd) {
+        if (!outputs.contains(cd)) {
             outputs.add(cd);
         }
     }
 
-    public void setData(String d){
-        data = d;
-    } 
-
-    public String getData(){
+    public String getData() {
         return data;
     }
 
-    public ArrayList<CallData> getChildren(){
+    public void setData(String d) {
+        data = d;
+    }
+
+    public ArrayList<CallData> getChildren() {
         return children;
     }
 
-    public ArrayList<CallData> getOutputs(){
+    public ArrayList<CallData> getOutputs() {
         return outputs;
     }
 
-    public void addToMap(Object key, CallData val){
+    public void addToMap(Object key, CallData val) {
         map.put(key, val);
     }
 
-    public HashMap<Object, CallData> getMap(){
+    public HashMap<Object, CallData> getMap() {
         return map;
     }
 

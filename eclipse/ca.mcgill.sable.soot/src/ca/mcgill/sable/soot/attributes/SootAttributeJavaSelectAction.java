@@ -20,71 +20,70 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import java.util.*;
-
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.core.resources.*;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jface.text.source.IVerticalRulerInfo;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.*;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.eclipse.ui.part.*;
 
-import ca.mcgill.sable.soot.SootPlugin;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ResourceBundle;
 
 
 public class SootAttributeJavaSelectAction extends SootAttributeSelectAction {
 
-	public SootAttributeJavaSelectAction(ResourceBundle bundle, String prefix, ITextEditor editor, IVerticalRulerInfo rulerInfo) {	
-		super(bundle, prefix, editor, rulerInfo);
-	}
+    public SootAttributeJavaSelectAction(ResourceBundle bundle, String prefix, ITextEditor editor, IVerticalRulerInfo rulerInfo) {
+        super(bundle, prefix, editor, rulerInfo);
+    }
 
-	/* (non-Javadoc)
-	 * @see ca.mcgill.sable.soot.attributes.SootAttributeSelectAction#getMarkerLinks()
-	 */
-	public ArrayList getMarkerLinks(){
-		SootAttributesHandler handler = SootPlugin.getDefault().getManager().getAttributesHandlerForFile((IFile)getResource(getEditor()));
-		ArrayList links = handler.getJavaLinks(getLineNumber()+1);
-		Iterator it = links.iterator();
-		
-		return links;
-	}
-	
-	protected int getLinkLine(LinkAttribute la){
-		return la.getJavaLink();
-	}
+    /* (non-Javadoc)
+     * @see ca.mcgill.sable.soot.attributes.SootAttributeSelectAction#getMarkerLinks()
+     */
+    public ArrayList getMarkerLinks() {
+        SootAttributesHandler handler = SootPlugin.getDefault().getManager().getAttributesHandlerForFile((IFile) getResource(getEditor()));
+        ArrayList links = handler.getJavaLinks(getLineNumber() + 1);
+        Iterator it = links.iterator();
 
-	
-	public void findClass(String className){
-		setLinkToEditor(getEditor());		
-		String resource = removeExt(getResource(getEditor()).getName());
-		
-		String ext = getResource(getEditor()).getFileExtension();
-	
-		IProject proj = getResource(getEditor()).getProject();
-		String slashedClassName = className.replaceAll("\\.", System.getProperty("file.separator"));
-		String classNameToFind = (ext == null) ? slashedClassName : slashedClassName+"."+ext;
-		IJavaProject jProj = JavaCore.create(proj);
-		try {
-	
-			IPackageFragmentRoot [] roots = jProj.getAllPackageFragmentRoots();
-			for (int i = 0; i < roots.length; i++){
-				if (!(roots[i].getResource() instanceof IContainer)) continue;
-				IResource fileToFind = ((IContainer)roots[i].getResource()).findMember(classNameToFind);
-				if (fileToFind == null) continue;
-			
-				if (!fileToFind.equals(resource)){
-					try {
-						setLinkToEditor((AbstractTextEditor)SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput((IFile)fileToFind), fileToFind.getName()));
-					}
-					catch (PartInitException e){
-					}
-				}
-			}
-		}
-		catch (JavaModelException e){
-			setLinkToEditor(getEditor());
-		}
-	
-	}
+        return links;
+    }
+
+    protected int getLinkLine(LinkAttribute la) {
+        return la.getJavaLink();
+    }
+
+
+    public void findClass(String className) {
+        setLinkToEditor(getEditor());
+        String resource = removeExt(getResource(getEditor()).getName());
+
+        String ext = getResource(getEditor()).getFileExtension();
+
+        IProject proj = getResource(getEditor()).getProject();
+        String slashedClassName = className.replaceAll("\\.", System.getProperty("file.separator"));
+        String classNameToFind = (ext == null) ? slashedClassName : slashedClassName + "." + ext;
+        IJavaProject jProj = JavaCore.create(proj);
+        try {
+
+            IPackageFragmentRoot[] roots = jProj.getAllPackageFragmentRoots();
+            for (int i = 0; i < roots.length; i++) {
+                if (!(roots[i].getResource() instanceof IContainer)) continue;
+                IResource fileToFind = ((IContainer) roots[i].getResource()).findMember(classNameToFind);
+                if (fileToFind == null) continue;
+
+                if (!fileToFind.equals(resource)) {
+                    try {
+                        setLinkToEditor((AbstractTextEditor) SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(new FileEditorInput((IFile) fileToFind), fileToFind.getName()));
+                    } catch (PartInitException e) {
+                    }
+                }
+            }
+        } catch (JavaModelException e) {
+            setLinkToEditor(getEditor());
+        }
+
+    }
 }

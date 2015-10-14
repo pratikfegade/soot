@@ -3,48 +3,25 @@ package soot.util.backend;
 
 import org.objectweb.asm.ByteVector;
 import org.objectweb.asm.ClassWriter;
-
-import soot.ArrayType;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.Hierarchy;
-import soot.IntType;
-import soot.LongType;
-import soot.RefType;
-import soot.Scene;
-import soot.ShortType;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethodRef;
-import soot.Type;
-import soot.TypeSwitch;
-import soot.VoidType;
+import soot.*;
 import soot.baf.DoubleWordType;
 import soot.options.Options;
-import soot.tagkit.Attribute;
-import soot.tagkit.DoubleConstantValueTag;
-import soot.tagkit.FloatConstantValueTag;
-import soot.tagkit.IntegerConstantValueTag;
-import soot.tagkit.LongConstantValueTag;
-import soot.tagkit.StringConstantValueTag;
+import soot.tagkit.*;
 
 /**
  * Utility class for ASM-based back-ends.
  *
  * @author Tobias Hamann, Florian Kuebler, Dominik Helm, Lukas Sommer
- *
  */
 public class ASMBackendUtils {
 
-	/**
-	 * Convert class identifiers and signatures by 
-	 * replacing dots by slashes.
-	 * @param s String to convert 
-	 * @return Converted identifier
-	 */
+    /**
+     * Convert class identifiers and signatures by
+     * replacing dots by slashes.
+     *
+     * @param s String to convert
+     * @return Converted identifier
+     */
     public static String slashify(String s) {
         if (s == null) {
             return null;
@@ -53,8 +30,9 @@ public class ASMBackendUtils {
     }
 
     /**
-     * Compute type description for methods, comprising 
-     * parameter types and return type. 
+     * Compute type description for methods, comprising
+     * parameter types and return type.
+     *
      * @param m Method to determine type description
      * @return Method type description
      */
@@ -71,6 +49,7 @@ public class ASMBackendUtils {
 
     /**
      * Convert type to JVM style type description
+     *
      * @param type Type to convert
      * @return JVM style type description
      */
@@ -79,7 +58,7 @@ public class ASMBackendUtils {
         type.apply(new TypeSwitch() {
 
             public void defaultCase(Type t) {
-                throw new RuntimeException("Invalid type "+ t.toString());
+                throw new RuntimeException("Invalid type " + t.toString());
             }
 
             public void caseDoubleType(DoubleType t) {
@@ -134,20 +113,21 @@ public class ASMBackendUtils {
 
     /**
      * Get default value of a field for constant pool
+     *
      * @param field Field to get default value for
-     * @return Default value or <code>null</code> if 
+     * @return Default value or <code>null</code> if
      * there is no default value.
      */
     public static Object getDefaultValue(SootField field) {
         if (field.hasTag("StringConstantValueTag")) {
-        	/*
+            /*
         	 * Default value for string may only be returned if 
         	 * the field is of type String or a sub-type.
         	 */
-        	if(acceptsStringInitialValue(field)){
-        		return ((StringConstantValueTag) field
+            if (acceptsStringInitialValue(field)) {
+                return ((StringConstantValueTag) field
                         .getTag("StringConstantValueTag")).getStringValue();
-        	}
+            }
         } else if (field.hasTag("IntegerConstantValueTag")) {
             return ((IntegerConstantValueTag) field
                     .getTag("IntegerConstantValueTag")).getIntValue();
@@ -163,28 +143,30 @@ public class ASMBackendUtils {
         }
         return null;
     }
-    
+
     /**
-     * Determine if the field accepts a string default value, this 
+     * Determine if the field accepts a string default value, this
      * is only true for fields of type String or a sub-type of String
+     *
      * @param field Field
      * @return <code>true</code> if the field is of type String or sub-type,
-     * <code>false</code> otherwise. 
+     * <code>false</code> otherwise.
      */
-    public static boolean acceptsStringInitialValue(SootField field){
-    	if(field.getType() instanceof RefType){
-    		SootClass fieldClass = ((RefType)field.getType()).getSootClass();
-    		SootClass stringClass = Scene.v().getSootClassUnsafe("java.lang.String");
-    		if(stringClass != null){
-    			Hierarchy h = Scene.v().getActiveHierarchy();
-    			return h.isClassSubclassOfIncluding(fieldClass, stringClass);
-    		}
-    	}
-    	return false;
+    public static boolean acceptsStringInitialValue(SootField field) {
+        if (field.getType() instanceof RefType) {
+            SootClass fieldClass = ((RefType) field.getType()).getSootClass();
+            SootClass stringClass = Scene.v().getSootClassUnsafe("java.lang.String");
+            if (stringClass != null) {
+                Hierarchy h = Scene.v().getActiveHierarchy();
+                return h.isClassSubclassOfIncluding(fieldClass, stringClass);
+            }
+        }
+        return false;
     }
 
     /**
-     * Get the size in words for a type. 
+     * Get the size in words for a type.
+     *
      * @param t Type
      * @return Size in words
      */
@@ -200,6 +182,7 @@ public class ASMBackendUtils {
 
     /**
      * Create an ASM attribute from an Soot attribute
+     *
      * @param attr Soot attribute
      * @return ASM attribute
      */
@@ -220,17 +203,17 @@ public class ASMBackendUtils {
     }
 
     /**
-     * Translate internal numbering of java versions to real version 
+     * Translate internal numbering of java versions to real version
      * for debug messages.
+     *
      * @param javaVersion Internal java version number
      * @return Java version in the format "1.7"
      */
-    public static String translateJavaVersion(int javaVersion){
-    	if(javaVersion == Options.java_version_default){
-    		return "1.0";
-    	}
-    	else{
-    		return "1."+(javaVersion-1); 
-    	}
+    public static String translateJavaVersion(int javaVersion) {
+        if (javaVersion == Options.java_version_default) {
+            return "1.0";
+        } else {
+            return "1." + (javaVersion - 1);
+        }
     }
 }

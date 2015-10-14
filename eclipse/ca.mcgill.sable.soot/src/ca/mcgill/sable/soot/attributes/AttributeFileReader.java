@@ -19,61 +19,66 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class AttributeFileReader {
 
-	private String filename;
-	
-	/**
-	 * Method AttributeFileReader.
-	 * @param filename
-	 */
-	public AttributeFileReader(String filename) {
-		setFilename(filename);
-	}
-	
-	/**
-	 * Method readFile.
-	 * @return String
-	 * reads given file trimming white space
-	 */
-	public String readFile() {
-		StringBuffer file = new StringBuffer();
-		try {
-			BufferedReader br = new BufferedReader( new
-					FileReader(getFilename()));
-			while (true) {
-				String temp = br.readLine();
-				if (temp == null) break;
-				temp = temp.trim();
-				file.append(temp);
-							
-			}
-			
-		}
-		catch (IOException e1) {
-			System.out.println(e1.getMessage());
-		}
-		return file.toString();
-			
-	}
-	
-	/**
-	 * Returns the filename.
-	 * @return String
-	 */
-	public String getFilename() {
-		return filename;
-	}
+    private String filename;
 
-	/**
-	 * Sets the filename.
-	 * @param filename The filename to set
-	 */
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+    /**
+     * Method AttributeFileReader.
+     *
+     * @param filename
+     */
+    public AttributeFileReader(String filename) {
+        setFilename(filename);
+    }
+
+    /**
+     * Method readFile.
+     *
+     * @return String
+     * reads given file trimming white space
+     */
+    public String readFile() {
+        StringBuffer file = new StringBuffer();
+        try {
+            BufferedReader br = new BufferedReader(new
+                    FileReader(getFilename()));
+            while (true) {
+                String temp = br.readLine();
+                if (temp == null) break;
+                temp = temp.trim();
+                file.append(temp);
+
+            }
+
+        } catch (IOException e1) {
+            System.out.println(e1.getMessage());
+        }
+        return file.toString();
+
+    }
+
+    /**
+     * Returns the filename.
+     *
+     * @return String
+     */
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * Sets the filename.
+     *
+     * @param filename The filename to set
+     */
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
 }

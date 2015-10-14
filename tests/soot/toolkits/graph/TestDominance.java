@@ -26,22 +26,14 @@ package soot.toolkits.graph;
  *   http://www.gnu.org/licenses/lgpl-2.1.html
  */
 
+import org.junit.Test;
+import soot.toolkits.graph.pdg.MHGDominatorTree;
+
+import java.util.*;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.junit.Test;
-
-import soot.toolkits.graph.pdg.MHGDominatorTree;
 
 public class TestDominance {
 
@@ -54,8 +46,8 @@ public class TestDominance {
         return kids;
     }
 
-    public Map<Integer,DominatorNode<Node>> kid_map(DominatorNode<Node> dn) {
-        Map<Integer,DominatorNode<Node>> kids = new HashMap<Integer,DominatorNode<Node>>();
+    public Map<Integer, DominatorNode<Node>> kid_map(DominatorNode<Node> dn) {
+        Map<Integer, DominatorNode<Node>> kids = new HashMap<Integer, DominatorNode<Node>>();
         for (DominatorNode<Node> dkid : dn.getChildren()) {
             Node kid = dkid.getGode();
             kids.put(kid.id, dkid);
@@ -215,7 +207,7 @@ public class TestDominance {
         MHGPostDominatorsFinder<Node> pfinder = new MHGPostDominatorsFinder<Node>(g);
         tree = new MHGDominatorTree<Node>(pfinder);
 
-        Map<Integer,DominatorNode<Node>> heads = new HashMap<Integer,DominatorNode<Node>>();
+        Map<Integer, DominatorNode<Node>> heads = new HashMap<Integer, DominatorNode<Node>>();
         for (DominatorNode<Node> dhead : tree.getHeads()) {
             Node head = dhead.getGode();
             heads.put(head.id, dhead);
@@ -268,49 +260,51 @@ class Graph implements DirectedGraph<Node> {
         }
     }
 
-    /** 
-     *  Returns a list of entry points for this graph.
+    /**
+     * Returns a list of entry points for this graph.
      */
     public List<Node> getHeads() {
         return Collections.singletonList(this.root);
     }
 
-    /** Returns a list of exit points for this graph. */
+    /**
+     * Returns a list of exit points for this graph.
+     */
     public List<Node> getTails() {
         return tails;
     }
 
-    /** 
-     *  Returns a list of predecessors for the given node in the graph.
+    /**
+     * Returns a list of predecessors for the given node in the graph.
      */
-    public List<Node> getPredsOf(Node s){
-        return ((Node)s).preds;
+    public List<Node> getPredsOf(Node s) {
+        return s.preds;
     }
 
     /**
-     *  Returns a list of successors for the given node in the graph.
+     * Returns a list of successors for the given node in the graph.
      */
     public List<Node> getSuccsOf(Node s) {
-        return ((Node)s).succs;
+        return s.succs;
     }
 
     /**
-     *  Returns the node count for this graph.
+     * Returns the node count for this graph.
      */
     public int size() {
         if (this.nodes == null) {
-             this.nodes = this.dfs(this.root);
+            this.nodes = this.dfs(this.root);
         }
         return this.nodes.size();
     }
 
     /**
-     *  Returns an iterator for the nodes in this graph. No specific ordering
-     *  of the nodes is guaranteed.
+     * Returns an iterator for the nodes in this graph. No specific ordering
+     * of the nodes is guaranteed.
      */
     public Iterator<Node> iterator() {
         if (this.nodes == null) {
-             this.nodes = this.dfs(this.root);
+            this.nodes = this.dfs(this.root);
         }
         Iterator<Node> i = this.nodes.iterator();
         return i;
@@ -363,7 +357,7 @@ class Node {
         if (o == null) {
             return false;
         } else if (o instanceof Node) {
-            return this.Equals((Node)o);
+            return this.Equals((Node) o);
         }
         return false;
     }

@@ -25,12 +25,12 @@ public class CompareInstructions {
     }
 
     void comparef(float f1) {
-       if (f == f1) {
-           f = 0.0f;
-       }
-       if (f != f1) {
-           f = 1.0f;
-       }
+        if (f == f1) {
+            f = 0.0f;
+        }
+        if (f != f1) {
+            f = 1.0f;
+        }
     }
 
     void compared(double d1) {
@@ -86,14 +86,14 @@ public class CompareInstructions {
             s = 3;
         }
     }
-    
+
     void comparenull(Object o1) {
-    	if (o == null){
-    		o = new Object();
-    	}
-    	if (o1 != null){
-    		o = null;
-    	}
+        if (o == null) {
+            o = new Object();
+        }
+        if (o1 != null) {
+            o = null;
+        }
     }
 
 }

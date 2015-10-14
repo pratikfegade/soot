@@ -27,43 +27,46 @@
 package soot.toolkits.graph;
 
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
- *   Defines the notion of a directed graph.
- *   @param N node type
+ * Defines the notion of a directed graph.
+ *
+ * @param N node type
  */
-public interface DirectedGraph<N> extends Iterable<N>
-{
-    /** 
-     *  Returns a list of entry points for this graph.
+public interface DirectedGraph<N> extends Iterable<N> {
+    /**
+     * Returns a list of entry points for this graph.
      */
-    public List<N> getHeads();
-
-    /** Returns a list of exit points for this graph. */
-    public List<N> getTails();
-
-    /** 
-     *  Returns a list of predecessors for the given node in the graph.
-     */
-    public List<N> getPredsOf(N s);
+    List<N> getHeads();
 
     /**
-     *  Returns a list of successors for the given node in the graph.
+     * Returns a list of exit points for this graph.
      */
-    public List<N> getSuccsOf(N s);
+    List<N> getTails();
 
     /**
-     *  Returns the node count for this graph.
+     * Returns a list of predecessors for the given node in the graph.
      */
-    public int size();
+    List<N> getPredsOf(N s);
 
     /**
-     *  Returns an iterator for the nodes in this graph. No specific ordering
-     *  of the nodes is guaranteed.
+     * Returns a list of successors for the given node in the graph.
      */
-    public Iterator<N> iterator();
+    List<N> getSuccsOf(N s);
+
+    /**
+     * Returns the node count for this graph.
+     */
+    int size();
+
+    /**
+     * Returns an iterator for the nodes in this graph. No specific ordering
+     * of the nodes is guaranteed.
+     */
+    Iterator<N> iterator();
 }
 
  

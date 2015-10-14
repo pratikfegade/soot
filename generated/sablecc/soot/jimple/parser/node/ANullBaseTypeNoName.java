@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ANullBaseTypeNoName extends PBaseTypeNoName
-{
+public final class ANullBaseTypeNoName extends PBaseTypeNoName {
     private TNullType _nullType_;
 
-    public ANullBaseTypeNoName()
-    {
+    public ANullBaseTypeNoName() {
         // Constructor
     }
 
     public ANullBaseTypeNoName(
-        @SuppressWarnings("hiding") TNullType _nullType_)
-    {
+            @SuppressWarnings("hiding") TNullType _nullType_) {
         // Constructor
         setNullType(_nullType_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANullBaseTypeNoName(
-            cloneNode(this._nullType_));
+                cloneNode(this._nullType_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANullBaseTypeNoName(this);
     }
 
-    public TNullType getNullType()
-    {
+    public TNullType getNullType() {
         return this._nullType_;
     }
 
-    public void setNullType(TNullType node)
-    {
-        if(this._nullType_ != null)
-        {
+    public void setNullType(TNullType node) {
+        if (this._nullType_ != null) {
             this._nullType_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ANullBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._nullType_);
+                + toString(this._nullType_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._nullType_ == child)
-        {
+        if (this._nullType_ == child) {
             this._nullType_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ANullBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._nullType_ == oldChild)
-        {
+        if (this._nullType_ == oldChild) {
             setNullType((TNullType) newChild);
             return;
         }

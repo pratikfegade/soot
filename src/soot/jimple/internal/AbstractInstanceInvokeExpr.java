@@ -26,48 +26,47 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.SootMethodRef;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.InstanceInvokeExpr;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("serial")
-public abstract class AbstractInstanceInvokeExpr extends AbstractInvokeExpr 
-                      implements InstanceInvokeExpr
-{
-    final protected ValueBox baseBox;    
-    
+public abstract class AbstractInstanceInvokeExpr extends AbstractInvokeExpr
+        implements InstanceInvokeExpr {
+    final protected ValueBox baseBox;
+
     protected AbstractInstanceInvokeExpr(SootMethodRef methodRef, ValueBox baseBox, ValueBox[] argBoxes) {
-    	super(methodRef, argBoxes);
-    	this.baseBox = baseBox;
+        super(methodRef, argBoxes);
+        this.baseBox = baseBox;
     }
-    
-    public Value getBase()
-    {
+
+    public Value getBase() {
         return baseBox.getValue();
     }
 
-    public ValueBox getBaseBox()
-    {
-        return baseBox;
-    }
-
-    public void setBase(Value base)
-    {
+    public void setBase(Value base) {
         baseBox.setValue(base);
     }
 
+    public ValueBox getBaseBox() {
+        return baseBox;
+    }
+
     @Override
-    public List<ValueBox> getUseBoxes()
-    {
-        List<ValueBox> list = new ArrayList<ValueBox>();    
+    public List<ValueBox> getUseBoxes() {
+        List<ValueBox> list = new ArrayList<ValueBox>();
         Collections.addAll(list, argBoxes);
         for (ValueBox element : argBoxes) {
-            list.addAll(element.getValue().getUseBoxes());            
+            list.addAll(element.getValue().getUseBoxes());
         }
         list.addAll(baseBox.getValue().getUseBoxes());
         list.add(baseBox);
-        
+
         return list;
     }
 }

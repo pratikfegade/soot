@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ABooleanBaseType extends PBaseType
-{
+public final class ABooleanBaseType extends PBaseType {
     private TBoolean _boolean_;
 
-    public ABooleanBaseType()
-    {
+    public ABooleanBaseType() {
         // Constructor
     }
 
     public ABooleanBaseType(
-        @SuppressWarnings("hiding") TBoolean _boolean_)
-    {
+            @SuppressWarnings("hiding") TBoolean _boolean_) {
         // Constructor
         setBoolean(_boolean_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ABooleanBaseType(
-            cloneNode(this._boolean_));
+                cloneNode(this._boolean_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseABooleanBaseType(this);
     }
 
-    public TBoolean getBoolean()
-    {
+    public TBoolean getBoolean() {
         return this._boolean_;
     }
 
-    public void setBoolean(TBoolean node)
-    {
-        if(this._boolean_ != null)
-        {
+    public void setBoolean(TBoolean node) {
+        if (this._boolean_ != null) {
             this._boolean_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ABooleanBaseType extends PBaseType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._boolean_);
+                + toString(this._boolean_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._boolean_ == child)
-        {
+        if (this._boolean_ == child) {
             this._boolean_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ABooleanBaseType extends PBaseType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._boolean_ == oldChild)
-        {
+        if (this._boolean_ == oldChild) {
             setBoolean((TBoolean) newChild);
             return;
         }

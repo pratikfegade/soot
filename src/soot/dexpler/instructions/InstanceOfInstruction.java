@@ -24,15 +24,11 @@
 
 package soot.dexpler.instructions;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
 import soot.Type;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
@@ -42,20 +38,23 @@ import soot.jimple.AssignStmt;
 import soot.jimple.InstanceOfExpr;
 import soot.jimple.Jimple;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class InstanceOfInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
 
-    public InstanceOfInstruction (Instruction instruction, int codeAdress) {
+    public InstanceOfInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        Instruction22c i = (Instruction22c)instruction;
+    public void jimplify(DexBody body) {
+        Instruction22c i = (Instruction22c) instruction;
         int dest = i.getRegisterA();
         int source = i.getRegisterB();
 
-        Type t = DexType.toSoot((TypeReference)(i.getReference()));
+        Type t = DexType.toSoot((TypeReference) (i.getReference()));
 
         InstanceOfExpr e = Jimple.v().newInstanceOfExpr(body.getRegisterLocal(source), t);
         assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), e);
@@ -63,10 +62,10 @@ public class InstanceOfInstruction extends DexlibAbstractInstruction {
         addTags(assign);
         body.add(assign);
 
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          //DalvikTyper.v().?
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            //DalvikTyper.v().?
         }
     }
 

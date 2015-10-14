@@ -20,50 +20,50 @@
 
 package ca.mcgill.sable.soot.cfg.actions;
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.gef.ui.actions.EditorPartAction;
-import org.eclipse.ui.IEditorPart;
-import ca.mcgill.sable.soot.*;
-import soot.toolkits.graph.interaction.*;
-
 import org.eclipse.jface.resource.*;
+import org.eclipse.ui.IEditorPart;
+import soot.toolkits.graph.interaction.InteractionHandler;
 
 public class StopInteractionAction extends EditorPartAction {
 
-	public static final String STOP_INTERACTION = "stop interaction"; 
-	/**
-	 * @param editor
-	 */
-	public StopInteractionAction(IEditorPart editor) {
-		super(editor);
-		setImageDescriptor(SootPlugin.getImageDescriptor("stop_icon.gif"));
-		setToolTipText("Stop Interaction");
-	}
-	
+    public static final String STOP_INTERACTION = "stop interaction";
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled() {
-		return true;
-	}
+    /**
+     * @param editor
+     */
+    public StopInteractionAction(IEditorPart editor) {
+        super(editor);
+        setImageDescriptor(SootPlugin.getImageDescriptor("stop_icon.gif"));
+        setToolTipText("Stop Interaction");
+    }
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.jface.action.IAction#run()
-	 * steps forward through flowsets unless method 
-	 * is finished
-	 */
-	public void run(){
-		InteractionHandler.v().stopInteraction(true);
-		InteractionHandler.v().setInteractionCon();
-	}
-	
-	public void setEditorPart(IEditorPart part){
-		super.setEditorPart(part);
-	}
-	
-	protected void init() { 
-		super.init(); 
-		setId( STOP_INTERACTION);
-	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+     */
+    protected boolean calculateEnabled() {
+        return true;
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.action.IAction#run()
+     * steps forward through flowsets unless method
+     * is finished
+     */
+    public void run() {
+        InteractionHandler.v().stopInteraction(true);
+        InteractionHandler.v().setInteractionCon();
+    }
+
+    public void setEditorPart(IEditorPart part) {
+        super.setEditorPart(part);
+    }
+
+    protected void init() {
+        super.init();
+        setId(STOP_INTERACTION);
+    }
 }

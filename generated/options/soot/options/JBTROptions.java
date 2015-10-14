@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,68 +20,72 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Type Assigner. */
-public class JBTROptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Type Assigner.
+ */
+public class JBTROptions {
     private Map<String, String> options;
 
-    public JBTROptions( Map<String, String> options ) {
+    public JBTROptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Ignore wrong static-ness --
-    
+
+    /**
+     * Ignore wrong static-ness --
+     * <p/>
      * Ignores errors due to wrong staticness.
-    
-     * Some projects have been shown to contain invalid bytecode that 
-     * tries to access a static field or method in a non-static way or 
-     * the other way around. The VM's bytecode verifier will reject 
-     * such bytecode when loaded into the VM. This option, when 
-     * enabled, causes to create Jimple bodies in such cases 
-     * nontheless, ignoring the error. 
+     * <p/>
+     * Some projects have been shown to contain invalid bytecode that
+     * tries to access a static field or method in a non-static way or
+     * the other way around. The VM's bytecode verifier will reject
+     * such bytecode when loaded into the VM. This option, when
+     * enabled, causes to create Jimple bodies in such cases
+     * nontheless, ignoring the error.
      */
     public boolean ignore_wrong_staticness() {
-        return soot.PhaseOptions.getBoolean( options, "ignore-wrong-staticness" );
+        return soot.PhaseOptions.getBoolean(options, "ignore-wrong-staticness");
     }
-    
-    /** Use older type assigner --
-    
+
+    /**
+     * Use older type assigner --
+     * <p/>
      * Enables the older type assigner.
-    
-     * This enables the older type assigner that was in use until May 
-     * 2008. The current type assigner is a reimplementation by Ben 
-     * Bellamy that uses an entirely new and faster algorithm which 
-     * always assigns the most narrow type possible. If 
-     * compare-type-assigners is on, this option causes the older type 
-     * assigner to execute first. (Otherwise the newer one is executed 
-     * first.) 
+     * <p/>
+     * This enables the older type assigner that was in use until May
+     * 2008. The current type assigner is a reimplementation by Ben
+     * Bellamy that uses an entirely new and faster algorithm which
+     * always assigns the most narrow type possible. If
+     * compare-type-assigners is on, this option causes the older type
+     * assigner to execute first. (Otherwise the newer one is executed
+     * first.)
      */
     public boolean use_older_type_assigner() {
-        return soot.PhaseOptions.getBoolean( options, "use-older-type-assigner" );
+        return soot.PhaseOptions.getBoolean(options, "use-older-type-assigner");
     }
-    
-    /** Compare type assigners --
-    
+
+    /**
+     * Compare type assigners --
+     * <p/>
      * Compares Ben Bellamy's and the older type assigner.
-    
-     * Enables comparison (both runtime and results) of Ben Bellamy's 
-     * type assigner with the older type assigner that was in Soot. 
+     * <p/>
+     * Enables comparison (both runtime and results) of Ben Bellamy's
+     * type assigner with the older type assigner that was in Soot.
      */
     public boolean compare_type_assigners() {
-        return soot.PhaseOptions.getBoolean( options, "compare-type-assigners" );
+        return soot.PhaseOptions.getBoolean(options, "compare-type-assigners");
     }
-    
+
 }
         

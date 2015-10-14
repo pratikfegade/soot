@@ -24,26 +24,34 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Type;
+import soot.Value;
+import soot.jimple.ExprSwitch;
+import soot.jimple.GeExpr;
+import soot.jimple.Jimple;
+import soot.util.Switch;
 
-public class JGeExpr extends AbstractJimpleIntBinopExpr implements GeExpr
-{
-    public JGeExpr(Value op1, Value op2) { super(op1, op2); }
-    public final String getSymbol() { return " >= "; }
-    public void apply(Switch sw) { ((ExprSwitch) sw).caseGeExpr(this); }
-    Object makeBafInst(Type opType) { throw new RuntimeException("unsupported conversion: "+this); }
+public class JGeExpr extends AbstractJimpleIntBinopExpr implements GeExpr {
+    public JGeExpr(Value op1, Value op2) {
+        super(op1, op2);
+    }
+
+    public final String getSymbol() {
+        return " >= ";
+    }
+
+    public void apply(Switch sw) {
+        ((ExprSwitch) sw).caseGeExpr(this);
+    }
+
+    Object makeBafInst(Type opType) {
+        throw new RuntimeException("unsupported conversion: " + this);
+    }
     //    Object makeBafInst(Type opType) { return Baf.v().newGeInst(this.getOp1().getType()); }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new JGeExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));
     }
 

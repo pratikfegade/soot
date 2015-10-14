@@ -29,23 +29,23 @@ import org.eclipse.ui.editors.text.FileDocumentProvider;
 public class JimpleDocumentProvider extends FileDocumentProvider {
 
 
-	public JimpleDocumentProvider() {
-		super();
-	}
+    public JimpleDocumentProvider() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * Method declared on AbstractDocumentProvider
-	 */
-	protected IDocument createDocument(Object element) throws CoreException {
-		IDocument document = super.createDocument(element);
-		if (document != null) {
-			IDocumentPartitioner partitioner =
-				new DefaultPartitioner(
-					new JimplePartitionScanner(),
-					new String[] { JimplePartitionScanner.JIMPLE_STRING});
-			partitioner.connect(document);
-			document.setDocumentPartitioner(partitioner);
-		}
-		return document;
-	}
+    /* (non-Javadoc)
+     * Method declared on AbstractDocumentProvider
+     */
+    protected IDocument createDocument(Object element) throws CoreException {
+        IDocument document = super.createDocument(element);
+        if (document != null) {
+            IDocumentPartitioner partitioner =
+                    new DefaultPartitioner(
+                            new JimplePartitionScanner(),
+                            new String[]{JimplePartitionScanner.JIMPLE_STRING});
+            partitioner.connect(document);
+            document.setDocumentPartitioner(partitioner);
+        }
+        return document;
+    }
 }

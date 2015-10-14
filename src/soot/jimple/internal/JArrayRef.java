@@ -24,62 +24,55 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.*;
-import soot.tagkit.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.tagkit.Tag;
+import soot.util.Switch;
 
-public class JArrayRef implements ArrayRef, ConvertToBaf
-{
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class JArrayRef implements ArrayRef, ConvertToBaf {
     protected ValueBox baseBox;
     protected ValueBox indexBox;
 
-    public JArrayRef(Value base, Value index)
-    {
+    public JArrayRef(Value base, Value index) {
         this(Jimple.v().newLocalBox(base),
-             Jimple.v().newImmediateBox(index));
+                Jimple.v().newImmediateBox(index));
     }
 
-    protected JArrayRef(ValueBox baseBox, ValueBox indexBox)
-    {
+    protected JArrayRef(ValueBox baseBox, ValueBox indexBox) {
         this.baseBox = baseBox;
         this.indexBox = indexBox;
     }
-    
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new JArrayRef(Jimple.cloneIfNecessary(getBase()), Jimple.cloneIfNecessary(getIndex()));
     }
 
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof ArrayRef)
-          {
-            return (getBase().equivTo(((ArrayRef)o).getBase())
-                    && getIndex().equivTo(((ArrayRef)o).getIndex()));
-          }
+    public boolean equivTo(Object o) {
+        if (o instanceof ArrayRef) {
+            return (getBase().equivTo(((ArrayRef) o).getBase())
+                    && getIndex().equivTo(((ArrayRef) o).getIndex()));
+        }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return getBase().equivHashCode() * 101 + getIndex().equivHashCode() + 17;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return baseBox.getValue().toString() + "[" + indexBox.getValue().toString() + "]";
     }
-    
+
     public void toString(UnitPrinter up) {
         baseBox.toString(up);
         up.literal("[");
@@ -87,38 +80,31 @@ public class JArrayRef implements ArrayRef, ConvertToBaf
         up.literal("]");
     }
 
-    public Value getBase()
-    {
+    public Value getBase() {
         return baseBox.getValue();
     }
 
-    public void setBase(Local base)
-    {
+    public void setBase(Local base) {
         baseBox.setValue(base);
     }
 
-    public ValueBox getBaseBox()
-    {
+    public ValueBox getBaseBox() {
         return baseBox;
     }
 
-    public Value getIndex()
-    {
+    public Value getIndex() {
         return indexBox.getValue();
     }
 
-    public void setIndex(Value index)
-    {
+    public void setIndex(Value index) {
         indexBox.setValue(index);
     }
 
-    public ValueBox getIndexBox()
-    {
+    public ValueBox getIndexBox() {
         return indexBox;
     }
 
-    public List getUseBoxes()
-    {
+    public List getUseBoxes() {
         List useBoxes = new ArrayList();
 
         useBoxes.addAll(baseBox.getValue().getUseBoxes());
@@ -130,53 +116,50 @@ public class JArrayRef implements ArrayRef, ConvertToBaf
         return useBoxes;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         Value base = baseBox.getValue();
         Type type = base.getType();
 
-        if(type.equals(UnknownType.v()))
+        if (type.equals(UnknownType.v()))
             return UnknownType.v();
-        else if(type.equals(NullType.v()))
+        else if (type.equals(NullType.v()))
             return NullType.v();
         else {
-        	//use makeArrayType on non-array type references when they propagate to this point.
-        	//kludge, most likely not correct.
-        	//may stop spark from complaining when it gets passed phantoms.
-        	// ideally I'd want to find out just how they manage to get this far.
-        	ArrayType arrayType;
-        	if (type instanceof ArrayType)
-        		arrayType = (ArrayType) type;
-        	else
-        		arrayType = (ArrayType) type.makeArrayType();
+            //use makeArrayType on non-array type references when they propagate to this point.
+            //kludge, most likely not correct.
+            //may stop spark from complaining when it gets passed phantoms.
+            // ideally I'd want to find out just how they manage to get this far.
+            ArrayType arrayType;
+            if (type instanceof ArrayType)
+                arrayType = (ArrayType) type;
+            else
+                arrayType = type.makeArrayType();
 
-            if(arrayType.numDimensions == 1)
+            if (arrayType.numDimensions == 1)
                 return arrayType.baseType;
             else
                 return ArrayType.v(arrayType.baseType, arrayType.numDimensions - 1);
         }
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((RefSwitch) sw).caseArrayRef(this);
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        ((ConvertToBaf)getBase()).convertToBaf(context, out);
-        ((ConvertToBaf)getIndex()).convertToBaf(context, out);
-	
-	Unit currentUnit = context.getCurrentUnit();
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) getBase()).convertToBaf(context, out);
+        ((ConvertToBaf) getIndex()).convertToBaf(context, out);
 
-	Unit x;
+        Unit currentUnit = context.getCurrentUnit();
+
+        Unit x;
 
         out.add(x = Baf.v().newArrayReadInst(getType()));
 
-	Iterator it = currentUnit.getTags().iterator();
-	while(it.hasNext()) {
-	    x.addTag((Tag) it.next());
-	}
+        Iterator it = currentUnit.getTags().iterator();
+        while (it.hasNext()) {
+            x.addTag((Tag) it.next());
+        }
 
     }
 }

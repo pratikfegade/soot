@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
-
 import soot.Immediate;
 import soot.Local;
 import soot.dexpler.DexBody;
@@ -37,7 +36,7 @@ import soot.jimple.Jimple;
 
 public abstract class ConditionalJumpInstruction extends JumpInstruction implements DeferableInstruction {
 
-    public ConditionalJumpInstruction (Instruction instruction, int codeAdress) {
+    public ConditionalJumpInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
@@ -53,20 +52,20 @@ public abstract class ConditionalJumpInstruction extends JumpInstruction impleme
             body.add(s);
             setUnit(s);
         } else {
-          // set marker unit to swap real gotostmt with otherwise
-          body.addDeferredJimplification(this);
-          markerUnit = Jimple.v().newNopStmt();
-          unit = markerUnit;
+            // set marker unit to swap real gotostmt with otherwise
+            body.addDeferredJimplification(this);
+            markerUnit = Jimple.v().newNopStmt();
+            unit = markerUnit;
 //          beginUnit = markerUnit;
 //          endUnit = markerUnit;
 //          beginUnit = markerUnit;
-          body.add(markerUnit);
+            body.add(markerUnit);
 //          Unit end = Jimple.v().newNopStmt();
 //          body.add(end);
 //          endUnit = end;
         }
     }
-    
+
     // DalvikTyper.v() here?
 
     public void deferredJimplify(DexBody body) {
@@ -77,12 +76,12 @@ public abstract class ConditionalJumpInstruction extends JumpInstruction impleme
 
     /**
      * Get comparison expression depending on opcode against zero or null.
-     *
+     * <p/>
      * If the register is used as an object this will create a comparison with
      * null, not zero.
      *
      * @param body the containing DexBody
-     * @param reg the register to compare against zero.
+     * @param reg  the register to compare against zero.
      */
     protected ConditionExpr getComparisonExpr(DexBody body, int reg) {
         Local one = body.getRegisterLocal(reg);
@@ -92,34 +91,34 @@ public abstract class ConditionalJumpInstruction extends JumpInstruction impleme
     /**
      * Get comparison expression depending on opcode between two immediates
      *
-     * @param one first immediate
+     * @param one   first immediate
      * @param other second immediate
      * @throws RuntimeException if this is not a IfTest or IfTestz instruction.
      */
     protected ConditionExpr getComparisonExpr(Immediate one, Immediate other) {
-      Opcode opcode = instruction.getOpcode();
+        Opcode opcode = instruction.getOpcode();
 
-        switch(opcode) {
-        case IF_EQ:
-        case IF_EQZ:
-            return Jimple.v().newEqExpr(one, other);
-        case IF_NE:
-        case IF_NEZ:
-            return Jimple.v().newNeExpr(one, other);
-        case IF_LT:
-        case IF_LTZ:
-            return Jimple.v().newLtExpr(one, other);
-        case IF_GE:
-        case IF_GEZ:
-            return Jimple.v().newGeExpr(one, other);
-        case IF_GT:
-        case IF_GTZ:
-            return Jimple.v().newGtExpr(one, other);
-        case IF_LE:
-        case IF_LEZ:
-            return Jimple.v().newLeExpr(one, other);
-        default:
-            throw new RuntimeException("Instruction is not an IfTest(z) instruction.");
+        switch (opcode) {
+            case IF_EQ:
+            case IF_EQZ:
+                return Jimple.v().newEqExpr(one, other);
+            case IF_NE:
+            case IF_NEZ:
+                return Jimple.v().newNeExpr(one, other);
+            case IF_LT:
+            case IF_LTZ:
+                return Jimple.v().newLtExpr(one, other);
+            case IF_GE:
+            case IF_GEZ:
+                return Jimple.v().newGeExpr(one, other);
+            case IF_GT:
+            case IF_GTZ:
+                return Jimple.v().newGtExpr(one, other);
+            case IF_LE:
+            case IF_LEZ:
+                return Jimple.v().newLeExpr(one, other);
+            default:
+                throw new RuntimeException("Instruction is not an IfTest(z) instruction.");
         }
     }
 }

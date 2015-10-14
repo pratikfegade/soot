@@ -19,42 +19,42 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.ArrayList;
-
 import org.eclipse.jface.action.*;
+
+import java.util.ArrayList;
 
 /**
  * Launches Soot with -f dava on all classes in output dir of project
  */
 public class DavaDecompileProjectLauncher extends SootProjectLauncher {
 
-	
-	public void run(IAction action) {
-		
-		super.run(action);
 
-		setCmd();
-		runSootDirectly();
-		runFinish();
-	}
-	
-	private void setCmd() {
-		
-		ArrayList commands = new ArrayList();
-		commands.add("--"+LaunchCommands.SOOT_CLASSPATH);
-		commands.add(getProcess_path()+getSootClasspath().getSeparator()+getClasspathAppend());
-			
-		commands.add("--"+LaunchCommands.OUTPUT_DIR);
-		commands.add(getOutputLocation());
-		
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.KEEP_LINE_NUMBER);
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.XML_ATTRIBUTES);
-		
-		commands.add("--"+LaunchCommands.PROCESS_PATH);
-		commands.add(getProcess_path());
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.DAVA);
-		
-		getSootCommandList().addSingleOpt(commands);	
-	}
+    public void run(IAction action) {
+
+        super.run(action);
+
+        setCmd();
+        runSootDirectly();
+        runFinish();
+    }
+
+    private void setCmd() {
+
+        ArrayList commands = new ArrayList();
+        commands.add("--" + LaunchCommands.SOOT_CLASSPATH);
+        commands.add(getProcess_path() + getSootClasspath().getSeparator() + getClasspathAppend());
+
+        commands.add("--" + LaunchCommands.OUTPUT_DIR);
+        commands.add(getOutputLocation());
+
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.KEEP_LINE_NUMBER);
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.XML_ATTRIBUTES);
+
+        commands.add("--" + LaunchCommands.PROCESS_PATH);
+        commands.add(getProcess_path());
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.DAVA);
+
+        getSootCommandList().addSingleOpt(commands);
+    }
 
 }

@@ -22,15 +22,14 @@ import soot.Body;
 import soot.toolkits.graph.BlockGraph;
 
 
-public class EnhancedBlockGraph extends BlockGraph 
-{
-   
-    public  EnhancedBlockGraph(Body body) {
+public class EnhancedBlockGraph extends BlockGraph {
+
+    public EnhancedBlockGraph(Body body) {
         this(new EnhancedUnitGraph(body));
     }
 
 
-    public  EnhancedBlockGraph(EnhancedUnitGraph unitGraph) {
+    public EnhancedBlockGraph(EnhancedUnitGraph unitGraph) {
         super(unitGraph);
 
         soot.util.PhaseDumper.v().dumpGraph(this, mBody);

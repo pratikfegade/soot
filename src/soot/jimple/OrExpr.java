@@ -24,11 +24,7 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface OrExpr extends BinopExpr
-{
+public interface OrExpr extends BinopExpr {
 }

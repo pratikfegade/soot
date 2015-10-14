@@ -2,11 +2,10 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ANonstaticInvokeExpr extends PInvokeExpr
-{
+public final class ANonstaticInvokeExpr extends PInvokeExpr {
     private PNonstaticInvoke _nonstaticInvoke_;
     private PLocalName _localName_;
     private TDot _dot_;
@@ -15,20 +14,18 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
     private PArgList _argList_;
     private TRParen _rParen_;
 
-    public ANonstaticInvokeExpr()
-    {
+    public ANonstaticInvokeExpr() {
         // Constructor
     }
 
     public ANonstaticInvokeExpr(
-        @SuppressWarnings("hiding") PNonstaticInvoke _nonstaticInvoke_,
-        @SuppressWarnings("hiding") PLocalName _localName_,
-        @SuppressWarnings("hiding") TDot _dot_,
-        @SuppressWarnings("hiding") PMethodSignature _methodSignature_,
-        @SuppressWarnings("hiding") TLParen _lParen_,
-        @SuppressWarnings("hiding") PArgList _argList_,
-        @SuppressWarnings("hiding") TRParen _rParen_)
-    {
+            @SuppressWarnings("hiding") PNonstaticInvoke _nonstaticInvoke_,
+            @SuppressWarnings("hiding") PLocalName _localName_,
+            @SuppressWarnings("hiding") TDot _dot_,
+            @SuppressWarnings("hiding") PMethodSignature _methodSignature_,
+            @SuppressWarnings("hiding") TLParen _lParen_,
+            @SuppressWarnings("hiding") PArgList _argList_,
+            @SuppressWarnings("hiding") TRParen _rParen_) {
         // Constructor
         setNonstaticInvoke(_nonstaticInvoke_);
 
@@ -47,39 +44,32 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANonstaticInvokeExpr(
-            cloneNode(this._nonstaticInvoke_),
-            cloneNode(this._localName_),
-            cloneNode(this._dot_),
-            cloneNode(this._methodSignature_),
-            cloneNode(this._lParen_),
-            cloneNode(this._argList_),
-            cloneNode(this._rParen_));
+                cloneNode(this._nonstaticInvoke_),
+                cloneNode(this._localName_),
+                cloneNode(this._dot_),
+                cloneNode(this._methodSignature_),
+                cloneNode(this._lParen_),
+                cloneNode(this._argList_),
+                cloneNode(this._rParen_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANonstaticInvokeExpr(this);
     }
 
-    public PNonstaticInvoke getNonstaticInvoke()
-    {
+    public PNonstaticInvoke getNonstaticInvoke() {
         return this._nonstaticInvoke_;
     }
 
-    public void setNonstaticInvoke(PNonstaticInvoke node)
-    {
-        if(this._nonstaticInvoke_ != null)
-        {
+    public void setNonstaticInvoke(PNonstaticInvoke node) {
+        if (this._nonstaticInvoke_ != null) {
             this._nonstaticInvoke_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -89,22 +79,17 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
         this._nonstaticInvoke_ = node;
     }
 
-    public PLocalName getLocalName()
-    {
+    public PLocalName getLocalName() {
         return this._localName_;
     }
 
-    public void setLocalName(PLocalName node)
-    {
-        if(this._localName_ != null)
-        {
+    public void setLocalName(PLocalName node) {
+        if (this._localName_ != null) {
             this._localName_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -114,22 +99,17 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
         this._localName_ = node;
     }
 
-    public TDot getDot()
-    {
+    public TDot getDot() {
         return this._dot_;
     }
 
-    public void setDot(TDot node)
-    {
-        if(this._dot_ != null)
-        {
+    public void setDot(TDot node) {
+        if (this._dot_ != null) {
             this._dot_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -139,22 +119,17 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
         this._dot_ = node;
     }
 
-    public PMethodSignature getMethodSignature()
-    {
+    public PMethodSignature getMethodSignature() {
         return this._methodSignature_;
     }
 
-    public void setMethodSignature(PMethodSignature node)
-    {
-        if(this._methodSignature_ != null)
-        {
+    public void setMethodSignature(PMethodSignature node) {
+        if (this._methodSignature_ != null) {
             this._methodSignature_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -164,22 +139,17 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
         this._methodSignature_ = node;
     }
 
-    public TLParen getLParen()
-    {
+    public TLParen getLParen() {
         return this._lParen_;
     }
 
-    public void setLParen(TLParen node)
-    {
-        if(this._lParen_ != null)
-        {
+    public void setLParen(TLParen node) {
+        if (this._lParen_ != null) {
             this._lParen_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -189,22 +159,17 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
         this._lParen_ = node;
     }
 
-    public PArgList getArgList()
-    {
+    public PArgList getArgList() {
         return this._argList_;
     }
 
-    public void setArgList(PArgList node)
-    {
-        if(this._argList_ != null)
-        {
+    public void setArgList(PArgList node) {
+        if (this._argList_ != null) {
             this._argList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -214,22 +179,17 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
         this._argList_ = node;
     }
 
-    public TRParen getRParen()
-    {
+    public TRParen getRParen() {
         return this._rParen_;
     }
 
-    public void setRParen(TRParen node)
-    {
-        if(this._rParen_ != null)
-        {
+    public void setRParen(TRParen node) {
+        if (this._rParen_ != null) {
             this._rParen_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -240,60 +200,51 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._nonstaticInvoke_)
-            + toString(this._localName_)
-            + toString(this._dot_)
-            + toString(this._methodSignature_)
-            + toString(this._lParen_)
-            + toString(this._argList_)
-            + toString(this._rParen_);
+                + toString(this._nonstaticInvoke_)
+                + toString(this._localName_)
+                + toString(this._dot_)
+                + toString(this._methodSignature_)
+                + toString(this._lParen_)
+                + toString(this._argList_)
+                + toString(this._rParen_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._nonstaticInvoke_ == child)
-        {
+        if (this._nonstaticInvoke_ == child) {
             this._nonstaticInvoke_ = null;
             return;
         }
 
-        if(this._localName_ == child)
-        {
+        if (this._localName_ == child) {
             this._localName_ = null;
             return;
         }
 
-        if(this._dot_ == child)
-        {
+        if (this._dot_ == child) {
             this._dot_ = null;
             return;
         }
 
-        if(this._methodSignature_ == child)
-        {
+        if (this._methodSignature_ == child) {
             this._methodSignature_ = null;
             return;
         }
 
-        if(this._lParen_ == child)
-        {
+        if (this._lParen_ == child) {
             this._lParen_ = null;
             return;
         }
 
-        if(this._argList_ == child)
-        {
+        if (this._argList_ == child) {
             this._argList_ = null;
             return;
         }
 
-        if(this._rParen_ == child)
-        {
+        if (this._rParen_ == child) {
             this._rParen_ = null;
             return;
         }
@@ -302,47 +253,39 @@ public final class ANonstaticInvokeExpr extends PInvokeExpr
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._nonstaticInvoke_ == oldChild)
-        {
+        if (this._nonstaticInvoke_ == oldChild) {
             setNonstaticInvoke((PNonstaticInvoke) newChild);
             return;
         }
 
-        if(this._localName_ == oldChild)
-        {
+        if (this._localName_ == oldChild) {
             setLocalName((PLocalName) newChild);
             return;
         }
 
-        if(this._dot_ == oldChild)
-        {
+        if (this._dot_ == oldChild) {
             setDot((TDot) newChild);
             return;
         }
 
-        if(this._methodSignature_ == oldChild)
-        {
+        if (this._methodSignature_ == oldChild) {
             setMethodSignature((PMethodSignature) newChild);
             return;
         }
 
-        if(this._lParen_ == oldChild)
-        {
+        if (this._lParen_ == oldChild) {
             setLParen((TLParen) newChild);
             return;
         }
 
-        if(this._argList_ == oldChild)
-        {
+        if (this._argList_ == oldChild) {
             setArgList((PArgList) newChild);
             return;
         }
 
-        if(this._rParen_ == oldChild)
-        {
+        if (this._rParen_ == oldChild) {
             setRParen((TRParen) newChild);
             return;
         }

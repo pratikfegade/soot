@@ -21,108 +21,87 @@
 package soot.dava;
 
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-
-import soot.Body;
-import soot.CompilationDeathException;
-import soot.G;
-import soot.Local;
-import soot.Singletons;
-import soot.SootMethod;
-import soot.Type;
+import soot.*;
 import soot.jimple.Jimple;
 import soot.util.IterableSet;
 
+import java.io.*;
 
 
-public class Dava
-{
-    public Dava( Singletons.Global g ) {}
-    public static Dava v() { return G.v().soot_dava_Dava(); }
+public class Dava {
     private static final String LOG_TO_FILE = null;
     private static final PrintStream LOG_TO_SCREEN = null;
-
     private Writer iOut = null;
     private IterableSet currentPackageContext = null;
     private String currentPackage;
-    
-    public void set_CurrentPackage( String cp)
-    {
-	currentPackage = cp;
+    public Dava(Singletons.Global g) {
     }
 
-    public String get_CurrentPackage()
-    {
-	return currentPackage;
+    public static Dava v() {
+        return G.v().soot_dava_Dava();
     }
 
-    public void set_CurrentPackageContext( IterableSet cpc)
-    {
-	currentPackageContext = cpc;
+    public String get_CurrentPackage() {
+        return currentPackage;
     }
 
-    public IterableSet get_CurrentPackageContext()
-    {
-	return currentPackageContext;
+    public void set_CurrentPackage(String cp) {
+        currentPackage = cp;
     }
 
-    public DavaBody newBody(SootMethod m)
-    {
-        return new DavaBody( m);
+    public IterableSet get_CurrentPackageContext() {
+        return currentPackageContext;
     }
 
-    /** Returns a DavaBody constructed from the given body b. */
-    public DavaBody newBody(Body b)
-    {
+    public void set_CurrentPackageContext(IterableSet cpc) {
+        currentPackageContext = cpc;
+    }
+
+    public DavaBody newBody(SootMethod m) {
+        return new DavaBody(m);
+    }
+
+    /**
+     * Returns a DavaBody constructed from the given body b.
+     */
+    public DavaBody newBody(Body b) {
         return new DavaBody(b);
     }
-    
-    public Local newLocal(String name, Type t)
-    {
+
+    public Local newLocal(String name, Type t) {
         return Jimple.v().newLocal(name, t);
     }
 
-    public void log( String s)
-    {
-	if (LOG_TO_SCREEN != null) {
-	    LOG_TO_SCREEN.println( s);
-	    LOG_TO_SCREEN.flush();
-	}
+    public void log(String s) {
+        if (LOG_TO_SCREEN != null) {
+            LOG_TO_SCREEN.println(s);
+            LOG_TO_SCREEN.flush();
+        }
 
-	if (LOG_TO_FILE != null) {
-	    if (iOut == null) 
-		try {
-		    iOut = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( LOG_TO_FILE), "US-ASCII"));
-		}
-		catch (FileNotFoundException fnfe) {
-		    G.v().out.println( "Unable to open " + LOG_TO_FILE);
-		    fnfe.printStackTrace();
+        if (LOG_TO_FILE != null) {
+            if (iOut == null)
+                try {
+                    iOut = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(LOG_TO_FILE), "US-ASCII"));
+                } catch (FileNotFoundException fnfe) {
+                    G.v().out.println("Unable to open " + LOG_TO_FILE);
+                    fnfe.printStackTrace();
                     throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
-		}
-		catch (UnsupportedEncodingException uee) {
-		    G.v().out.println( "This system doesn't support US-ASCII encoding!!");
-		    uee.printStackTrace();
+                } catch (UnsupportedEncodingException uee) {
+                    G.v().out.println("This system doesn't support US-ASCII encoding!!");
+                    uee.printStackTrace();
                     throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
-		}
+                }
 
-	    try {
-		iOut.write( s);
-		iOut.write( "\n");
-		iOut.flush();
-	    }
-	    catch (IOException ioe) {
-		G.v().out.println( "Unable to write to " + LOG_TO_FILE);
-		ioe.printStackTrace();
+            try {
+                iOut.write(s);
+                iOut.write("\n");
+                iOut.flush();
+            } catch (IOException ioe) {
+                G.v().out.println("Unable to write to " + LOG_TO_FILE);
+                ioe.printStackTrace();
                 throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
-	    }
-	}
+            }
+        }
     }
 }
 

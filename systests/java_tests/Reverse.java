@@ -1,9 +1,9 @@
 public class Reverse {
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         System.out.println(toHexString(34));
     }
-    
+
     public static String toHexString(int i) {
         StringBuffer buf = new StringBuffer(8);
         do {

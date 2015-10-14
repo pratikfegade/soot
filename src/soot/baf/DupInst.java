@@ -25,13 +25,14 @@
 
 package soot.baf;
 
-import soot.*;
-import java.util.*;
+import soot.Type;
+
+import java.util.List;
 
 
-public interface DupInst extends Inst
-{ 
-    public List<Type> getOpTypes();    
-    public List<Type> getUnderTypes();
-    
+public interface DupInst extends Inst {
+    List<Type> getOpTypes();
+
+    List<Type> getUnderTypes();
+
 }

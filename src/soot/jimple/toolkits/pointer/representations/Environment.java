@@ -20,139 +20,133 @@
 /**
  * Environment simulates the VM environment such as objects representing
  * classes, methods, fields, and so on. There is only one:
- *
- *  java.lang.ClassLoader object,
- *  java.lang.Class       object,
- *  java.lang.Field       object,
- *  java.lang.Method      object,
- *  java.lang.Constructor object,
- *  java.lang.Process     object,
- *  java.lang.Thread      object,
- *  java.io.FileSystem    object
- *
+ * <p/>
+ * java.lang.ClassLoader object,
+ * java.lang.Class       object,
+ * java.lang.Field       object,
+ * java.lang.Method      object,
+ * java.lang.Constructor object,
+ * java.lang.Process     object,
+ * java.lang.Thread      object,
+ * java.io.FileSystem    object
+ * <p/>
  * String objects are special, since there are other string constants.
  * An unknown object has the least type, same as array.
- * 
+ * <p/>
  * This class defines all abstract object as constants.
- * Temporary variables can be obtained from NativeHelper. 
+ * Temporary variables can be obtained from NativeHelper.
  *
  * @author Feng Qian
  */
 
 package soot.jimple.toolkits.pointer.representations;
 
-import soot.*;
+import soot.G;
+import soot.Singletons;
 
 public class Environment {
-    public Environment( Singletons.Global g ) {}
-    public static Environment v() { return G.v().soot_jimple_toolkits_pointer_representations_Environment(); }
+    private final ConstantObject clsloaders =
+            new GeneralConstObject(TypeConstants.v().CLASSLOADERCLASS, "classloader");
+    private final ConstantObject processes =
+            new GeneralConstObject(TypeConstants.v().PROCESSCLASS, "process");
+    private final ConstantObject threads =
+            new GeneralConstObject(TypeConstants.v().THREADCLASS, "thread");
+    private final ConstantObject filesystem =
+            new GeneralConstObject(TypeConstants.v().FILESYSTEMCLASS, "filesystem");
+    /* representing all possible java.lang.Class type objects,
+     * mostly used by reflection.
+     */
+    private final ConstantObject classobject =
+            new GeneralConstObject(TypeConstants.v().CLASSCLASS, "unknownclass");
+    /* representing all possible java.lang.String objects, used by
+     * any getName() or similiar methods.
+     */
+    private final ConstantObject stringobject =
+            new GeneralConstObject(TypeConstants.v().STRINGCLASS, "unknownstring");
+    /* to get finer resolution, it is worth to distinguish arrays and general
+     * scalars.
+     * WARNING: making array with java.lang.Object type may be a problem!
+     */
+    private final ConstantObject leastarray =
+            new GeneralConstObject(TypeConstants.v().LEASTCLASS, "leastarray");
+    /* makes a general unknown object,
+     * WARNING: unknown object must have the least type, it won't be
+     *          useful when resolve virtual calls.
+     *          Null type is a good candidate for this.
+     */
+    private final ConstantObject leastobject =
+            new GeneralConstObject(TypeConstants.v().LEASTCLASS, "leastobject");
+    /* provides an abstract java.lang.reflect.Field object.
+     */
+    private final ConstantObject fieldobject =
+            new GeneralConstObject(TypeConstants.v().FIELDCLASS, "field");
+    /* provides an abstract java.lang.reflect.Method object
+     */
+    private final ConstantObject methodobject =
+            new GeneralConstObject(TypeConstants.v().METHODCLASS, "method");
+    /* provides an abstract java.lang.reflect.Constructor object
+     */
+    private final ConstantObject constructorobject =
+            new GeneralConstObject(TypeConstants.v().CONSTRUCTORCLASS, "constructor");
+    /* represents the PrivilegedActionException thrown by
+     * AccessController.doPrivileged
+     */
+    private final ConstantObject privilegedActionException =
+            new GeneralConstObject(TypeConstants.v().PRIVILEGEDACTIONEXCEPTION, "constructor");
 
-  private final ConstantObject clsloaders =
-    new GeneralConstObject(TypeConstants.v().CLASSLOADERCLASS, "classloader");
-  
-  private final ConstantObject processes  =
-    new GeneralConstObject(TypeConstants.v().PROCESSCLASS, "process");
+    public Environment(Singletons.Global g) {
+    }
 
-  private final ConstantObject threads    =
-    new GeneralConstObject(TypeConstants.v().THREADCLASS, "thread");
+    public static Environment v() {
+        return G.v().soot_jimple_toolkits_pointer_representations_Environment();
+    }
 
-  private final ConstantObject filesystem =
-    new GeneralConstObject(TypeConstants.v().FILESYSTEMCLASS, "filesystem");
+    /********************* INTERFACE to NATIVE METHODS *******************/
+    public ConstantObject getClassLoaderObject() {
+        return clsloaders;
+    }
 
-  /* representing all possible java.lang.Class type objects,
-   * mostly used by reflection.
-   */
-  private final ConstantObject classobject =
-    new GeneralConstObject(TypeConstants.v().CLASSCLASS, "unknownclass");
+    public ConstantObject getProcessObject() {
+        return processes;
+    }
 
-  /* representing all possible java.lang.String objects, used by
-   * any getName() or similiar methods.
-   */
-  private final ConstantObject stringobject =
-    new GeneralConstObject(TypeConstants.v().STRINGCLASS, "unknownstring");
+    public ConstantObject getThreadObject() {
+        return threads;
+    }
 
-  /* to get finer resolution, it is worth to distinguish arrays and general
-   * scalars.
-   * WARNING: making array with java.lang.Object type may be a problem!
-   */
-  private final ConstantObject leastarray =
-    new GeneralConstObject(TypeConstants.v().LEASTCLASS, "leastarray");
+    public ConstantObject getClassObject() {
+        return classobject;
+    }
 
-  /* makes a general unknown object,
-   * WARNING: unknown object must have the least type, it won't be
-   *          useful when resolve virtual calls.
-   *          Null type is a good candidate for this.
-   */
-  private final ConstantObject leastobject =
-    new GeneralConstObject(TypeConstants.v().LEASTCLASS, "leastobject");
+    public ConstantObject getStringObject() {
+        return stringobject;
+    }
 
-  /* provides an abstract java.lang.reflect.Field object.
-   */
-  private final ConstantObject fieldobject =
-    new GeneralConstObject(TypeConstants.v().FIELDCLASS, "field");
+    public ConstantObject getLeastArrayObject() {
+        return leastarray;
+    }
 
-  /* provides an abstract java.lang.reflect.Method object
-   */
-  private final ConstantObject methodobject =
-    new GeneralConstObject(TypeConstants.v().METHODCLASS, "method");
-  
-  /* provides an abstract java.lang.reflect.Constructor object
-   */
-  private final ConstantObject constructorobject =
-    new GeneralConstObject(TypeConstants.v().CONSTRUCTORCLASS, "constructor");
+    public ConstantObject getLeastObject() {
+        return leastobject;
+    }
 
-  /* represents the PrivilegedActionException thrown by
-   * AccessController.doPrivileged
-   */
-  private final ConstantObject privilegedActionException =
-    new GeneralConstObject(TypeConstants.v().PRIVILEGEDACTIONEXCEPTION, "constructor");
+    public ConstantObject getFieldObject() {
+        return fieldobject;
+    }
 
-  /********************* INTERFACE to NATIVE METHODS *******************/
-  public ConstantObject getClassLoaderObject(){
-    return clsloaders;
-  }
+    public ConstantObject getMethodObject() {
+        return methodobject;
+    }
 
-  public ConstantObject getProcessObject(){
-    return processes;
-  }
+    public ConstantObject getConstructorObject() {
+        return constructorobject;
+    }
 
-  public ConstantObject getThreadObject(){
-    return threads;
-  }
+    public ConstantObject getFileSystemObject() {
+        return filesystem;
+    }
 
-  public ConstantObject getClassObject(){
-    return classobject;
-  }
-
-  public ConstantObject getStringObject(){
-    return stringobject;
-  }
-
-  public ConstantObject getLeastArrayObject(){
-    return leastarray;
-  }
-  
-  public ConstantObject getLeastObject(){
-    return leastobject;
-  }
-
-  public ConstantObject getFieldObject(){
-    return fieldobject;
-  }
-
-  public ConstantObject getMethodObject(){
-    return methodobject;
-  }
-
-  public ConstantObject getConstructorObject(){
-    return constructorobject;
-  }
-
-  public ConstantObject getFileSystemObject(){
-    return filesystem;
-  }
-
-  public ConstantObject getPrivilegedActionExceptionObject(){
-    return privilegedActionException;
-  }
+    public ConstantObject getPrivilegedActionExceptionObject() {
+        return privilegedActionException;
+    }
 }

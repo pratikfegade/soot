@@ -1,13 +1,14 @@
 package soot.asm.backend;
 
-import org.objectweb.asm.*;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.util.TraceClassVisitor;
 
 /**
  * Test for less-than and greater-equal bytecode instructions
  *
  * @author Tobias Hamann, Florian Kuebler, Dominik Helm, Lukas Sommer
- *
  */
 public class CompareArithmeticInstructions2Test extends AbstractASMBackendTest {
 
@@ -18,8 +19,8 @@ public class CompareArithmeticInstructions2Test extends AbstractASMBackendTest {
         MethodVisitor mv;
 
         cw.visit(V1_1, ACC_PUBLIC + ACC_SUPER,
-        		"soot/asm/backend/targets/CompareArithmeticInstructions2",
-        		null, "java/lang/Object", null);
+                "soot/asm/backend/targets/CompareArithmeticInstructions2",
+                null, "java/lang/Object", null);
         cw.visitSource("CompareArithmeticInstructions2.java", null);
 
         {
@@ -286,12 +287,12 @@ public class CompareArithmeticInstructions2Test extends AbstractASMBackendTest {
 
     @Override
     protected String getTargetFolder() {
-		return "./testclasses";
+        return "./testclasses";
     }
 
     @Override
     protected String getClassPathFolder() {
-		return "./testclasses";
+        return "./testclasses";
     }
 
 }

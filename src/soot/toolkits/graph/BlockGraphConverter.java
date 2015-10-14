@@ -21,7 +21,10 @@ package soot.toolkits.graph;
 
 import soot.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This utility class can convert any BlockGraph to a single-headed
@@ -29,7 +32,7 @@ import java.util.*;
  * nodes.  It can also fully reverse the graph, something that might
  * be useful e.g. when computing control dependences with a dominators
  * algorithm.
- *
+ * <p/>
  * <p>
  * Note: This class may be retracted in a future release when a suitable
  * replacement becomes available.
@@ -37,23 +40,21 @@ import java.util.*;
  *
  * @author Navindra Umanee
  **/
-public class BlockGraphConverter
-{
+public class BlockGraphConverter {
     /**
      * Transforms a multi-headed and/or multi-tailed BlockGraph to a
      * single-headed singled-tailed BlockGraph by inserting a dummy
      * start and stop nodes.
      **/
-    public static void addStartStopNodesTo(BlockGraph graph)
-    {
+    public static void addStartStopNodesTo(BlockGraph graph) {
         ADDSTART:
         {
             List<Block> heads = graph.getHeads();
 
-            if(heads.size() == 0)
+            if (heads.size() == 0)
                 break ADDSTART;
-            
-            if((heads.size() == 1) && (heads.get(0) instanceof DummyBlock))
+
+            if ((heads.size() == 1) && (heads.get(0) instanceof DummyBlock))
                 break ADDSTART;
 
             List<Block> blocks = graph.getBlocks();
@@ -61,25 +62,25 @@ public class BlockGraphConverter
             head.makeHeadBlock(heads);
 
             graph.mHeads = Collections.<Block>singletonList(head);
-                        		
-            for( Block block : blocks ) {
-            	block.setIndexInMethod(block.getIndexInMethod() + 1);
+
+            for (Block block : blocks) {
+                block.setIndexInMethod(block.getIndexInMethod() + 1);
             }
-            
-		    List<Block> newBlocks = new ArrayList<Block>();
-		    newBlocks.add(head);
-		    newBlocks.addAll(blocks);
-		    graph.mBlocks = newBlocks;
+
+            List<Block> newBlocks = new ArrayList<Block>();
+            newBlocks.add(head);
+            newBlocks.addAll(blocks);
+            graph.mBlocks = newBlocks;
         }
 
         ADDSTOP:
         {
             List<Block> tails = graph.getTails();
 
-            if(tails.size() == 0)
+            if (tails.size() == 0)
                 break ADDSTOP;
-            
-            if((tails.size() == 1) && (tails.get(0) instanceof DummyBlock))
+
+            if ((tails.size() == 1) && (tails.get(0) instanceof DummyBlock))
                 break ADDSTOP;
 
             List<Block> blocks = graph.getBlocks();
@@ -99,15 +100,14 @@ public class BlockGraphConverter
      * labels.  This utility could be useful when calculating control
      * dependences with a dominators algorithm.
      **/
-    public static void reverse(BlockGraph graph)
-    {
+    public static void reverse(BlockGraph graph) {
         // Issue: Do we change indexInMethod?  No...
         // Issue: Do we reverse the Units list in the Block?
         // Issue: Do we need to implement an equals method in Block?
         //        When are two Blocks from two different BlockGraphs
         //        equal?
 
-        for(Iterator<Block> blocksIt = graph.getBlocks().iterator(); blocksIt.hasNext();){
+        for (Iterator<Block> blocksIt = graph.getBlocks().iterator(); blocksIt.hasNext(); ) {
             Block block = blocksIt.next();
             List<Block> succs = block.getSuccs();
             List<Block> preds = block.getPreds();
@@ -122,10 +122,9 @@ public class BlockGraphConverter
         graph.mTails = new ArrayList<Block>(heads);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         // assumes 2 args:  Class + Method
-        
+
         Scene.v().loadClassAndSupport(args[0]);
         SootClass sc = Scene.v().getSootClass(args[0]);
         SootMethod sm = sc.getMethod(args[1]);
@@ -137,7 +136,7 @@ public class BlockGraphConverter
         BlockGraphConverter.reverse(cfg);
         System.out.println(cfg);
     }
-    
+
 }
 
 /**
@@ -145,55 +144,50 @@ public class BlockGraphConverter
  *
  * @author Navindra Umanee
  **/
-class DummyBlock extends Block
-{
-    DummyBlock(Body body, int indexInMethod)
-    {
+class DummyBlock extends Block {
+    DummyBlock(Body body, int indexInMethod) {
         super(null, null, body, indexInMethod, 0, null);
     }
 
-    void makeHeadBlock(List<Block> oldHeads)
-    {
+    void makeHeadBlock(List<Block> oldHeads) {
         setPreds(new ArrayList<Block>());
         setSuccs(new ArrayList<Block>(oldHeads));
 
         Iterator<Block> headsIt = oldHeads.iterator();
-        while(headsIt.hasNext()){
+        while (headsIt.hasNext()) {
             Block oldHead = headsIt.next();
 
             List<Block> newPreds = new ArrayList<Block>();
             newPreds.add(this);
 
             List<Block> oldPreds = oldHead.getPreds();
-            if(oldPreds != null)
+            if (oldPreds != null)
                 newPreds.addAll(oldPreds);
-            
+
             oldHead.setPreds(newPreds);
         }
     }
 
-    void makeTailBlock(List<Block> oldTails)
-    {
+    void makeTailBlock(List<Block> oldTails) {
         setSuccs(new ArrayList<Block>());
         setPreds(new ArrayList<Block>(oldTails));
 
         Iterator<Block> tailsIt = oldTails.iterator();
-        while(tailsIt.hasNext()){
+        while (tailsIt.hasNext()) {
             Block oldTail = tailsIt.next();
 
             List<Block> newSuccs = new ArrayList<Block>();
             newSuccs.add(this);
 
             List<Block> oldSuccs = oldTail.getSuccs();
-            if(oldSuccs != null)
+            if (oldSuccs != null)
                 newSuccs.addAll(oldSuccs);
 
             oldTail.setSuccs(newSuccs);
         }
-    }    
+    }
 
-    public Iterator<Unit> iterator()
-    {
+    public Iterator<Unit> iterator() {
         return (Collections.<Unit>emptyList()).iterator();
     }
 }

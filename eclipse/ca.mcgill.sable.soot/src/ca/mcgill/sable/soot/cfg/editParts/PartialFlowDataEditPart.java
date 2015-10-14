@@ -19,102 +19,104 @@
 
 package ca.mcgill.sable.soot.cfg.editParts;
 
+import ca.mcgill.sable.soot.cfg.figures.CFGPartialFlowFigure;
+import ca.mcgill.sable.soot.cfg.model.CFGElement;
+import ca.mcgill.sable.soot.cfg.model.CFGPartialFlowData;
+import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.geometry.*;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import org.eclipse.draw2d.*;
-import ca.mcgill.sable.soot.cfg.figures.*;
-import ca.mcgill.sable.soot.cfg.model.*;
-import java.util.*;
-import org.eclipse.draw2d.geometry.*;
+import java.util.Iterator;
+import java.util.List;
 
 public class PartialFlowDataEditPart
-	extends AbstractGraphicalEditPart
-	implements PropertyChangeListener {
+        extends AbstractGraphicalEditPart
+        implements PropertyChangeListener {
 
-	
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	public void propertyChange(PropertyChangeEvent evt) {
-		if (evt.getPropertyName().equals(CFGElement.PART_FLOW_CHILDREN)){
-			refreshChildren();
-			refreshVisuals();
-		}
-	}
-	
-	
-	protected void refreshVisuals(){
-		Iterator it = getChildren().iterator();
-		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof FlowInfoEditPart){
-				((CFGPartialFlowFigure)getFigure()).add(((FlowInfoEditPart)next).getFigure());
-			}
-			
-		}
-	}
-	
-	
-	public void updateSize(int width){
-		int w = ((CFGPartialFlowFigure)getFigure()).getBounds().width;
-		
-		w += width;
-		
-		((FlowDataEditPart)getParent()).updateSize(w+10);
-		((CFGPartialFlowFigure)getFigure()).setSize(w+10, getFigure().getBounds().height);
-		
-	}
-	
-	public void resetChildColors(){
-		Iterator it = getChildren().iterator();
-		while (it.hasNext()){
-			Object next = it.next();
-			if (next instanceof FlowInfoEditPart){
-				((FlowInfoEditPart)next).resetColors();
-			}
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
-	 */
-	protected IFigure createFigure() {
-		return new CFGPartialFlowFigure();
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
-	 */
-	protected void createEditPolicies() {
-			
-	}
+    /* (non-Javadoc)
+     * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+     */
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(CFGElement.PART_FLOW_CHILDREN)) {
+            refreshChildren();
+            refreshVisuals();
+        }
+    }
 
-	public List getModelChildren(){
-		return getPartialFlowData().getChildren();
-	}
-	
-	public void activate(){
-		super.activate();
-		getPartialFlowData().addPropertyChangeListener(this);
-	}
-	
-	public void deactivate(){
-		super.deactivate();
-		getPartialFlowData().removePropertyChangeListener(this);
-	}
-	/**
-	 * @return
-	 */
-	public CFGPartialFlowData getPartialFlowData() {
-		return (CFGPartialFlowData)getModel();
-	}
 
-	
-	public void handleClickEvent(Object evt){
-		System.out.println(getParent().getClass());
-		((FlowDataEditPart)getParent()).handleClickEvent(evt);
-	}
+    protected void refreshVisuals() {
+        Iterator it = getChildren().iterator();
+        while (it.hasNext()) {
+            Object next = it.next();
+            if (next instanceof FlowInfoEditPart) {
+                ((CFGPartialFlowFigure) getFigure()).add(((FlowInfoEditPart) next).getFigure());
+            }
+
+        }
+    }
+
+
+    public void updateSize(int width) {
+        int w = ((CFGPartialFlowFigure) getFigure()).getBounds().width;
+
+        w += width;
+
+        ((FlowDataEditPart) getParent()).updateSize(w + 10);
+        ((CFGPartialFlowFigure) getFigure()).setSize(w + 10, getFigure().getBounds().height);
+
+    }
+
+    public void resetChildColors() {
+        Iterator it = getChildren().iterator();
+        while (it.hasNext()) {
+            Object next = it.next();
+            if (next instanceof FlowInfoEditPart) {
+                ((FlowInfoEditPart) next).resetColors();
+            }
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
+     */
+    protected IFigure createFigure() {
+        return new CFGPartialFlowFigure();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
+     */
+    protected void createEditPolicies() {
+
+    }
+
+    public List getModelChildren() {
+        return getPartialFlowData().getChildren();
+    }
+
+    public void activate() {
+        super.activate();
+        getPartialFlowData().addPropertyChangeListener(this);
+    }
+
+    public void deactivate() {
+        super.deactivate();
+        getPartialFlowData().removePropertyChangeListener(this);
+    }
+
+    /**
+     * @return
+     */
+    public CFGPartialFlowData getPartialFlowData() {
+        return (CFGPartialFlowData) getModel();
+    }
+
+
+    public void handleClickEvent(Object evt) {
+        System.out.println(getParent().getClass());
+        ((FlowDataEditPart) getParent()).handleClickEvent(evt);
+    }
 }

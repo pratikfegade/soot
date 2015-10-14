@@ -20,14 +20,7 @@
 
 package soot.toolkits.astmetrics;
 
-import polyglot.ast.Block;
-import polyglot.ast.Do;
-import polyglot.ast.For;
-import polyglot.ast.If;
-import polyglot.ast.Labeled;
-import polyglot.ast.Node;
-import polyglot.ast.Stmt;
-import polyglot.ast.While;
+import polyglot.ast.*;
 import polyglot.visit.NodeVisitor;
 
 /*
@@ -36,104 +29,102 @@ import polyglot.visit.NodeVisitor;
  */
 public class ConstructNumbersMetric extends ASTMetric {
 
-	private int numIf, numIfElse;
-	
-	private int numLabeledBlocks;
-	
-	private int doLoop, forLoop, whileLoop, whileTrue;
-	
-	public ConstructNumbersMetric(Node node){
-		super(node);
-	}
-	
-	
-	public void reset() {
-		numIf = numIfElse = 0;
-		numLabeledBlocks=0;
-		doLoop=forLoop=whileLoop=whileTrue=0;
-	}
+    private int numIf, numIfElse;
 
-	public void addMetrics(ClassData data) {
-		// TODO Auto-generated method stub
-		//conditionals
-		data.addMetric(new MetricData("If",new Integer(numIf)));
-		data.addMetric(new MetricData("IfElse",new Integer(numIfElse)));
-		data.addMetric(new MetricData("Total-Conditionals",new Integer(numIf+numIfElse)));
-		
-		//labels
-		data.addMetric(new MetricData("LabelBlock",new Integer(numLabeledBlocks)));
-		
-		//loops
-		data.addMetric(new MetricData("Do",new Integer(doLoop)));
-		data.addMetric(new MetricData("For",new Integer(forLoop)));
-		data.addMetric(new MetricData("While",new Integer(whileLoop)));
-		data.addMetric(new MetricData("UnConditional",new Integer(whileTrue)));
-		data.addMetric(new MetricData("Total Loops",new Integer(whileTrue+whileLoop+forLoop+doLoop)));
-	}
-	
-	
-	public NodeVisitor enter(Node parent, Node n){
+    private int numLabeledBlocks;
+
+    private int doLoop, forLoop, whileLoop, whileTrue;
+
+    public ConstructNumbersMetric(Node node) {
+        super(node);
+    }
+
+
+    public void reset() {
+        numIf = numIfElse = 0;
+        numLabeledBlocks = 0;
+        doLoop = forLoop = whileLoop = whileTrue = 0;
+    }
+
+    public void addMetrics(ClassData data) {
+        // TODO Auto-generated method stub
+        //conditionals
+        data.addMetric(new MetricData("If", new Integer(numIf)));
+        data.addMetric(new MetricData("IfElse", new Integer(numIfElse)));
+        data.addMetric(new MetricData("Total-Conditionals", new Integer(numIf + numIfElse)));
+
+        //labels
+        data.addMetric(new MetricData("LabelBlock", new Integer(numLabeledBlocks)));
+
+        //loops
+        data.addMetric(new MetricData("Do", new Integer(doLoop)));
+        data.addMetric(new MetricData("For", new Integer(forLoop)));
+        data.addMetric(new MetricData("While", new Integer(whileLoop)));
+        data.addMetric(new MetricData("UnConditional", new Integer(whileTrue)));
+        data.addMetric(new MetricData("Total Loops", new Integer(whileTrue + whileLoop + forLoop + doLoop)));
+    }
+
+
+    public NodeVisitor enter(Node parent, Node n) {
 
 		/*
-		 * Num if and ifelse
+         * Num if and ifelse
 		 */
-		if(n instanceof If){
-			//check if there is the "optional" else branch present
-			If ifNode = (If)n;
-			Stmt temp = ifNode.alternative();
-			if(temp == null){
-				//else branch is empty
-				//System.out.println("This was an if stmt"+n);
-				numIf++;
-			}
-			else{
-				//else branch has something
-				//System.out.println("This was an ifElse stmt"+n);
-				numIfElse++;
-			}
-		}
+        if (n instanceof If) {
+            //check if there is the "optional" else branch present
+            If ifNode = (If) n;
+            Stmt temp = ifNode.alternative();
+            if (temp == null) {
+                //else branch is empty
+                //System.out.println("This was an if stmt"+n);
+                numIf++;
+            } else {
+                //else branch has something
+                //System.out.println("This was an ifElse stmt"+n);
+                numIfElse++;
+            }
+        }
 		
 		/*
 		 * Num Labeled Blocks
 		 */
-		if (n instanceof Labeled){
-				Stmt s = ((Labeled)n).statement();
-				//System.out.println("labeled"+((Labeled)n).label());
-				if(s instanceof Block){
-					//System.out.println("labeled block with label"+((Labeled)n).label());
-					numLabeledBlocks++;
-				}
-		}
+        if (n instanceof Labeled) {
+            Stmt s = ((Labeled) n).statement();
+            //System.out.println("labeled"+((Labeled)n).label());
+            if (s instanceof Block) {
+                //System.out.println("labeled block with label"+((Labeled)n).label());
+                numLabeledBlocks++;
+            }
+        }
 		
 		/*
 		 * Do
-		 */	
-		if(n instanceof Do){
-			//System.out.println((Do)n);
-			doLoop++;
-		}
+		 */
+        if (n instanceof Do) {
+            //System.out.println((Do)n);
+            doLoop++;
+        }
 		/*
 		 * For
-		 */	
-		if(n instanceof For){
-			//System.out.println((For)n);
-			forLoop++;
-		}
+		 */
+        if (n instanceof For) {
+            //System.out.println((For)n);
+            forLoop++;
+        }
 
 		/*
 		 * While and While True loop
-		 */	
-		if(n instanceof While){
-			//System.out.println((While)n);
-			if(((While)n).condIsConstantTrue())
-				whileTrue++;
-			else
-				whileLoop++;
-		}
+		 */
+        if (n instanceof While) {
+            //System.out.println((While)n);
+            if (((While) n).condIsConstantTrue())
+                whileTrue++;
+            else
+                whileLoop++;
+        }
 
 
-		
-		return enter(n);
-	}
+        return enter(n);
+    }
 
 }

@@ -20,47 +20,45 @@
 
 package ca.mcgill.sable.soot.cfg.actions;
 
+import org.eclipse.gef.*;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.gef.*;
 
 
 public class FlowSelectAction extends SelectionAction {
 
-	
-	public static final String FLOW_SELECT = "flow select"; 
-	
-	/**
-	 * @param part
-	 */
-	public FlowSelectAction(IWorkbenchPart part) {
-		super(part);
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled() {
-		return true;
-	}
-	
-	public void setEditorPart(IEditorPart part){
-	}
-	
-	protected void init() { 
-		super.init(); 
-		setId( FLOW_SELECT );
-	}
-	
-	public void run(){
-		try {
-			EditPart part = (EditPart)getSelectedObjects().get(0);
-			System.out.println("part selected: "+part.getClass());
-		}
-		catch(ClassCastException e1){
-		}
-		catch(IndexOutOfBoundsException e2){
-		}
-	}
+    public static final String FLOW_SELECT = "flow select";
+
+    /**
+     * @param part
+     */
+    public FlowSelectAction(IWorkbenchPart part) {
+        super(part);
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+     */
+    protected boolean calculateEnabled() {
+        return true;
+    }
+
+    public void setEditorPart(IEditorPart part) {
+    }
+
+    protected void init() {
+        super.init();
+        setId(FLOW_SELECT);
+    }
+
+    public void run() {
+        try {
+            EditPart part = (EditPart) getSelectedObjects().get(0);
+            System.out.println("part selected: " + part.getClass());
+        } catch (ClassCastException e1) {
+        } catch (IndexOutOfBoundsException e2) {
+        }
+    }
 }

@@ -20,35 +20,36 @@
 package soot.shimple.toolkits.graph;
 
 import soot.*;
-import soot.shimple.*;
-import soot.toolkits.graph.*;
-import java.util.*;
+import soot.shimple.Shimple;
+import soot.shimple.ShimpleBody;
 import soot.shimple.toolkits.graph.ValueGraph.Node;
+import soot.toolkits.graph.BlockGraph;
+import soot.toolkits.graph.CompleteBlockGraph;
 
-public class SimpleGlobalValueNumberer implements GlobalValueNumberer
-{
+import java.util.*;
+
+public class SimpleGlobalValueNumberer implements GlobalValueNumberer {
     protected BlockGraph cfg;
     protected ValueGraph vg;
     protected Set<Partition> partitions;
     protected Map<Node, Partition> nodeToPartition;
 
     protected int currentPartitionNumber;
-    
-    public SimpleGlobalValueNumberer(BlockGraph cfg)
-    {
+    protected List<Partition> newPartitions;
+
+    public SimpleGlobalValueNumberer(BlockGraph cfg) {
         this.cfg = cfg;
         vg = new ValueGraph(cfg);
         partitions = new HashSet<Partition>(); // not deterministic
         nodeToPartition = new HashMap<Node, Partition>();
         currentPartitionNumber = 0;
-        
+
         initPartition();
         iterPartition();
     }
 
     // testing
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         // assumes 2 args:  Class + Method
 
         Scene.v().loadClassAndSupport(args[0]);
@@ -60,32 +61,29 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
         SimpleGlobalValueNumberer sgvn = new SimpleGlobalValueNumberer(cfg);
         System.out.println(sgvn);
     }
-    
-    public int getGlobalValueNumber(Local local)
-    {
+
+    public int getGlobalValueNumber(Local local) {
         Node node = vg.getNode(local);
         return nodeToPartition.get(node).getPartitionNumber();
     }
-    
-    public boolean areEqual(Local local1, Local local2)
-    {
+
+    public boolean areEqual(Local local1, Local local2) {
         Node node1 = vg.getNode(local1);
         Node node2 = vg.getNode(local2);
 
         return (nodeToPartition.get(node1) == nodeToPartition.get(node2));
     }
-    
-    protected void initPartition()
-    {
+
+    protected void initPartition() {
         Map<String, Partition> labelToPartition = new HashMap<String, Partition>();
-        
+
         Iterator<Node> topNodesIt = vg.getTopNodes().iterator();
-        while(topNodesIt.hasNext()){
+        while (topNodesIt.hasNext()) {
             Node node = topNodesIt.next();
             String label = node.getLabel();
-            
+
             Partition partition = labelToPartition.get(label);
-            if(partition == null){
+            if (partition == null) {
                 partition = new Partition();
                 partitions.add(partition);
                 labelToPartition.put(label, partition);
@@ -96,14 +94,11 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
         }
     }
 
-    protected List<Partition> newPartitions;
-    
-    protected void iterPartition()
-    {
+    protected void iterPartition() {
         newPartitions = new ArrayList<Partition>();
 
         Iterator<Partition> partitionsIt = partitions.iterator();
-        while(partitionsIt.hasNext()){
+        while (partitionsIt.hasNext()) {
             Partition partition = partitionsIt.next();
             processPartition(partition);
         }
@@ -111,21 +106,20 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
         partitions.addAll(newPartitions);
     }
 
-    protected void processPartition(Partition partition)
-    {
+    protected void processPartition(Partition partition) {
         int size = partition.size();
 
-        if(size == 0)
+        if (size == 0)
             return;
 
         Node firstNode = (Node) partition.get(0);
         Partition newPartition = new Partition();
         boolean processNewPartition = false;
-        
-        for(int i = 1; i < size; i++){
+
+        for (int i = 1; i < size; i++) {
             Node node = (Node) partition.get(i);
 
-            if(!childrenAreInSamePartition(firstNode, node)){
+            if (!childrenAreInSamePartition(firstNode, node)) {
                 partition.remove(i);
                 size--;
                 newPartition.add(node);
@@ -135,40 +129,38 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
             }
         }
 
-        if(processNewPartition)
+        if (processNewPartition)
             processPartition(newPartition);
     }
-    
-    protected boolean childrenAreInSamePartition(Node node1, Node node2)
-    {
+
+    protected boolean childrenAreInSamePartition(Node node1, Node node2) {
         boolean ordered = node1.isOrdered();
-        if(ordered != node2.isOrdered())
+        if (ordered != node2.isOrdered())
             throw new RuntimeException("Assertion failed.");
 
         List<Node> children1 = node1.getChildren();
         List<Node> children2 = node2.getChildren();
 
         int numberOfChildren = children1.size();
-        if(children2.size() != numberOfChildren)
+        if (children2.size() != numberOfChildren)
             return false;
-        
-        if(ordered){
-            for(int i = 0; i < numberOfChildren; i++){
+
+        if (ordered) {
+            for (int i = 0; i < numberOfChildren; i++) {
                 Node child1 = children1.get(i);
                 Node child2 = children2.get(i);
-                if(nodeToPartition.get(child1) != nodeToPartition.get(child2))
+                if (nodeToPartition.get(child1) != nodeToPartition.get(child2))
                     return false;
             }
-        }
-        else{
-            for(int i = 0; i < numberOfChildren; i++){
+        } else {
+            for (int i = 0; i < numberOfChildren; i++) {
                 Node child1 = children1.get(i);
-                for(int j = i; j < numberOfChildren; j++){
+                for (int j = i; j < numberOfChildren; j++) {
                     Node child2 = children2.get(j);
 
-                    if(nodeToPartition.get(child1) ==
-                       nodeToPartition.get(child2)){
-                        if(j != i){
+                    if (nodeToPartition.get(child1) ==
+                            nodeToPartition.get(child2)) {
+                        if (j != i) {
                             children2.remove(j);
                             children2.add(i, child2);
                         }
@@ -176,7 +168,7 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
                     }
 
                     // last iteration, no match
-                    if((j + 1) == numberOfChildren)
+                    if ((j + 1) == numberOfChildren)
                         return false;
                 }
             }
@@ -185,15 +177,14 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
         return true;
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuffer tmp = new StringBuffer();
 
         Body b = cfg.getBody();
         Iterator localsIt = b.getLocals().iterator();
 
-        while(localsIt.hasNext()){
-            Local local = (Local)localsIt.next();
+        while (localsIt.hasNext()) {
+            Local local = (Local) localsIt.next();
             tmp.append(local + "\t" + getGlobalValueNumber(local) + "\n");
         }
 
@@ -212,22 +203,19 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
             }
         }
         */
-        
+
         return tmp.toString();
     }
-    
-    protected class Partition extends ArrayList
-    {
+
+    protected class Partition extends ArrayList {
         protected int partitionNumber;
-        
-        protected Partition()
-        {
+
+        protected Partition() {
             super();
             partitionNumber = currentPartitionNumber++;
         }
 
-        protected int getPartitionNumber()
-        {
+        protected int getPartitionNumber() {
             return partitionNumber;
         }
     }

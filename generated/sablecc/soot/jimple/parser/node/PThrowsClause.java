@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PThrowsClause extends Node
-{
+public abstract class PThrowsClause extends Node {
     // Empty body
 }

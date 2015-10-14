@@ -1,27 +1,27 @@
 public class DominatorExample {
 
-    public static void main (String [] args){
-        
+    public static void main(String[] args) {
+
         int x = 9;
-        
-        for (int i = 9; i < 10; i++){
-            x++;    
+
+        for (int i = 9; i < 10; i++) {
+            x++;
         }
 
-        for (;;){
+        for (; ; ) {
             if (x < 4) break;
             x--;
         }
 
         do {
             x += 2;
-        }while(x < 15);
+        } while (x < 15);
 
-        while (x > 10){
+        while (x > 10) {
             x -= 3;
         }
 
-        while (true){
+        while (true) {
             if (x > 47) break;
             x *= 3;
         }
@@ -32,8 +32,8 @@ public class DominatorExample {
             System.out.println(x);
         }
 
-        int [] arr = new int[9];
-        for (int m = 0; m < 10; m++){
+        int[] arr = new int[9];
+        for (int m = 0; m < 10; m++) {
             x = 4;
             arr[4] = 8;
             arr[4] = m;

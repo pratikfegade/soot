@@ -1,19 +1,21 @@
 public class Test91 {
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         Test91 t91 = new Test91();
         t91.run();
     }
 
-    public void run(){
+    public void run() {
         class MyClass {
-            public MyClass(int x){
-                System.out.println("x="+x);
+            public MyClass(int x) {
+                System.out.println("x=" + x);
             }
-            public MyClass(int x, int y){
-                System.out.println("x*y="+x*y);
+
+            public MyClass(int x, int y) {
+                System.out.println("x*y=" + x * y);
             }
-            public void run(){
+
+            public void run() {
                 System.out.println("running");
             }
         }

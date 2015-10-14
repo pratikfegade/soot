@@ -24,18 +24,14 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
 import soot.G;
 
-/** Instruction subclasses are used to represent parsed bytecode; each
+/**
+ * Instruction subclasses are used to represent parsed bytecode; each
  * bytecode operation has a corresponding subclass of Instruction.
- * <p>
+ * <p/>
  * Each subclass is derived from one of
  * <ul><li>Instruction</li>
  * <li>Instruction_noargs (an Instruction with no embedded arguments)</li>
@@ -48,6 +44,7 @@ import soot.G;
  * <li>Instruction_intbranch (a short argument specifying a code offset)</li>
  * <li>Instruction_longbranch (an int argument specifying a code offset)</li>
  * </ul>
+ *
  * @author Clark Verbrugge
  * @see Instruction
  * @see Instruction_noargs
@@ -64,41 +61,40 @@ import soot.G;
 //INSERTED Instruction_Invokedynamic
 
 class Instruction_Invokedynamic extends Instruction_intindex {
-   public Instruction_Invokedynamic() {
-      super((byte)ByteCode.INVOKEDYNAMIC);
-      name = "invokedynamic";
-      //branches = true;
-      calls = true;
-   }
+    public short invoke_dynamic_index;
    /*Instruction[] branchpoints(Instruction next) {
      public Instruction i[] = new Instruction[1];
      i[0] = null;
      return i;
      }*/
-   
-   public short invoke_dynamic_index;
-   
-   public short reserved;
-   
-   public int parse(byte bc[],int index) {
-	      invoke_dynamic_index = getShort(bc, index);
-	      index += 2;
-	      reserved = getShort(bc, index);
-	      if(reserved>0) {
-	    	  G.v().out.println("reserved value in invokedynamic is "+reserved);
-	      }
-	      index += 2;
-	      return index;
-   }
-   
-   public int compile(byte bc[],int index) {
-	      bc[index++] = code;
-	      shortToBytes(invoke_dynamic_index,bc,index);
-	      index += 2;
-	      shortToBytes(reserved,bc,index);
-	      index += 2;
-	      return index;
-   }
+    public short reserved;
+
+    public Instruction_Invokedynamic() {
+        super((byte) ByteCode.INVOKEDYNAMIC);
+        name = "invokedynamic";
+        //branches = true;
+        calls = true;
+    }
+
+    public int parse(byte bc[], int index) {
+        invoke_dynamic_index = getShort(bc, index);
+        index += 2;
+        reserved = getShort(bc, index);
+        if (reserved > 0) {
+            G.v().out.println("reserved value in invokedynamic is " + reserved);
+        }
+        index += 2;
+        return index;
+    }
+
+    public int compile(byte bc[], int index) {
+        bc[index++] = code;
+        shortToBytes(invoke_dynamic_index, bc, index);
+        index += 2;
+        shortToBytes(reserved, bc, index);
+        index += 2;
+        return index;
+    }
 
 
 }

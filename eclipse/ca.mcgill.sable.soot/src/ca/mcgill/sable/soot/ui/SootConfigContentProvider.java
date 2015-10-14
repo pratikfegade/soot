@@ -19,85 +19,77 @@
 
 package ca.mcgill.sable.soot.ui;
 
+import ca.mcgill.sable.soot.launching.SootConfiguration;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import ca.mcgill.sable.soot.launching.SootConfiguration;
 public class SootConfigContentProvider implements ITreeContentProvider {
 
 
-	protected static final Object[] EMPTY_ARRAY = new Object[0];
+    protected static final Object[] EMPTY_ARRAY = new Object[0];
 
-	
-	/**
-	 * Constructor for OptionsTreeContentProvider.
-	 */
-	public SootConfigContentProvider() {
-		super();
-	}
 
-	/**
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(Object)
-	 */
-	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof SootConfiguration) {
-			SootConfiguration opt = (SootConfiguration)parentElement;
-			if (opt.getChildren() != null) {
-				return opt.getChildren().toArray();
-			}
-			else {
-				return EMPTY_ARRAY;
-			}
-		}
-		else {
-			return EMPTY_ARRAY;
-		}
-		
-	}
-	
+    /**
+     * Constructor for OptionsTreeContentProvider.
+     */
+    public SootConfigContentProvider() {
+        super();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(Object)
-	 */
-	public Object getParent(Object element) {
-		return ((SootConfiguration)element).getParent();
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(Object)
+     */
+    public Object[] getChildren(Object parentElement) {
+        if (parentElement instanceof SootConfiguration) {
+            SootConfiguration opt = (SootConfiguration) parentElement;
+            if (opt.getChildren() != null) {
+                return opt.getChildren().toArray();
+            } else {
+                return EMPTY_ARRAY;
+            }
+        } else {
+            return EMPTY_ARRAY;
+        }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(Object)
-	 */
-	public boolean hasChildren(Object element) {
-		if (element instanceof SootConfiguration) {
-			if (((SootConfiguration)element).getChildren() != null) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		} 
-		else {
-			return false;
-		}
-	}
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(Object)
-	 */
-	public Object[] getElements(Object inputElement) {
-		return getChildren(inputElement);
-	}
 
-	/**
-	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-	 */
-	public void dispose() {
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(Object)
+     */
+    public Object getParent(Object element) {
+        return ((SootConfiguration) element).getParent();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(Viewer, Object, Object)
-	 */
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(Object)
+     */
+    public boolean hasChildren(Object element) {
+        if (element instanceof SootConfiguration) {
+            return ((SootConfiguration) element).getChildren() != null;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(Object)
+     */
+    public Object[] getElements(Object inputElement) {
+        return getChildren(inputElement);
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+     */
+    public void dispose() {
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(Viewer, Object, Object)
+     */
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+
+    }
 
 }

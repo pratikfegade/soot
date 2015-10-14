@@ -24,11 +24,7 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface NopStmt extends Stmt
-{
+public interface NopStmt extends Stmt {
 }

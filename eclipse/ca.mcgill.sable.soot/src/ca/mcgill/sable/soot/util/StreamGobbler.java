@@ -20,114 +20,123 @@
 
 package ca.mcgill.sable.soot.util;
 
-import java.io.*;
-
-
+import ca.mcgill.sable.soot.SootPlugin;
+import ca.mcgill.sable.soot.launching.ISootOutputEventConstants;
+import ca.mcgill.sable.soot.launching.SootOutputEvent;
 import org.eclipse.swt.widgets.Display;
 
-import ca.mcgill.sable.soot.*;
-import ca.mcgill.sable.soot.launching.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class StreamGobbler extends Thread {
 
-	public static final int OUTPUT_STREAM_TYPE = 0;
-	public static final int ERROR_STREAM_TYPE = 1;
-	
-	private InputStream is;
-	private int type;
-	private Display display;
-	
-	
-	public StreamGobbler(Display display, InputStream is, int type) {
-		setIs(is);
-		setType(type);
-		setDisplay(display);
-		
-	}
-	
-	public void run() {
-		try {
-			InputStreamReader isr = new InputStreamReader(getIs());
-			BufferedReader br = new BufferedReader(isr);
-			
-			while (true) {
-				String temp = br.readLine();
-				
-				if (temp == null) break;
-		
-				SootOutputEvent se = new SootOutputEvent(this, ISootOutputEventConstants.SOOT_NEW_TEXT_EVENT);
-       			se.setTextToAppend(temp);
-       			final SootOutputEvent toSend = se;
+    public static final int OUTPUT_STREAM_TYPE = 0;
+    public static final int ERROR_STREAM_TYPE = 1;
 
-       			getDisplay().asyncExec(new Runnable(){
-       				public void run() {
-       					SootPlugin.getDefault().fireSootOutputEvent(toSend);
-       					
-       				};
-       			});
-       			se = new SootOutputEvent(this, ISootOutputEventConstants.SOOT_NEW_TEXT_EVENT);
-       			se.setTextToAppend("\n");
-       			final SootOutputEvent newline = se;
-       			getDisplay().asyncExec(new Runnable(){
-       				public void run() {
-       					SootPlugin.getDefault().fireSootOutputEvent(newline);
-       				};
-       			});
- 
-			}
-		}
-		catch(IOException e1) {
-			System.out.println(e1.getMessage());
-		}
-	}
-	
-	/**
-	 * Returns the is.
-	 * @return InputStream
-	 */
-	public InputStream getIs() {
-		return is;
-	}
+    private InputStream is;
+    private int type;
+    private Display display;
 
-	/**
-	 * Returns the type.
-	 * @return int
-	 */
-	public int getType() {
-		return type;
-	}
 
-	/**
-	 * Sets the is.
-	 * @param is The is to set
-	 */
-	public void setIs(InputStream is) {
-		this.is = is;
-	}
+    public StreamGobbler(Display display, InputStream is, int type) {
+        setIs(is);
+        setType(type);
+        setDisplay(display);
 
-	/**
-	 * Sets the type.
-	 * @param type The type to set
-	 */
-	public void setType(int type) {
-		this.type = type;
-	}
+    }
 
-	/**
-	 * Returns the display.
-	 * @return Display
-	 */
-	public Display getDisplay() {
-		return display;
-	}
+    public void run() {
+        try {
+            InputStreamReader isr = new InputStreamReader(getIs());
+            BufferedReader br = new BufferedReader(isr);
 
-	/**
-	 * Sets the display.
-	 * @param display The display to set
-	 */
-	public void setDisplay(Display display) {
-		this.display = display;
-	}
+            while (true) {
+                String temp = br.readLine();
+
+                if (temp == null) break;
+
+                SootOutputEvent se = new SootOutputEvent(this, ISootOutputEventConstants.SOOT_NEW_TEXT_EVENT);
+                se.setTextToAppend(temp);
+                final SootOutputEvent toSend = se;
+
+                getDisplay().asyncExec(new Runnable() {
+                    public void run() {
+                        SootPlugin.getDefault().fireSootOutputEvent(toSend);
+
+                    }
+
+                });
+                se = new SootOutputEvent(this, ISootOutputEventConstants.SOOT_NEW_TEXT_EVENT);
+                se.setTextToAppend("\n");
+                final SootOutputEvent newline = se;
+                getDisplay().asyncExec(new Runnable() {
+                    public void run() {
+                        SootPlugin.getDefault().fireSootOutputEvent(newline);
+                    }
+
+                });
+
+            }
+        } catch (IOException e1) {
+            System.out.println(e1.getMessage());
+        }
+    }
+
+    /**
+     * Returns the is.
+     *
+     * @return InputStream
+     */
+    public InputStream getIs() {
+        return is;
+    }
+
+    /**
+     * Sets the is.
+     *
+     * @param is The is to set
+     */
+    public void setIs(InputStream is) {
+        this.is = is;
+    }
+
+    /**
+     * Returns the type.
+     *
+     * @return int
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * Sets the type.
+     *
+     * @param type The type to set
+     */
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    /**
+     * Returns the display.
+     *
+     * @return Display
+     */
+    public Display getDisplay() {
+        return display;
+    }
+
+    /**
+     * Sets the display.
+     *
+     * @param display The display to set
+     */
+    public void setDisplay(Display display) {
+        this.display = display;
+    }
 
 }

@@ -20,51 +20,52 @@
 
 package ca.mcgill.sable.soot.cfg.actions;
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.gef.ui.actions.EditorPartAction;
-import org.eclipse.ui.IEditorPart;
-import ca.mcgill.sable.soot.*;
-import soot.toolkits.graph.interaction.*;
 import org.eclipse.jface.resource.*;
+import org.eclipse.ui.IEditorPart;
+import soot.toolkits.graph.interaction.InteractionHandler;
 
 
 public class NextMethodAction extends EditorPartAction {
 
-	public static final String NEXT_METHOD = "next method"; 
-	/**
-	 * @param editor
-	 */
-	public NextMethodAction(IEditorPart editor) {
-		super(editor);
-		setImageDescriptor(SootPlugin.getImageDescriptor("next_method.gif"));
-		setToolTipText("Next Method");
-	}
-	
+    public static final String NEXT_METHOD = "next method";
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled() {
-		return true;
-	}
+    /**
+     * @param editor
+     */
+    public NextMethodAction(IEditorPart editor) {
+        super(editor);
+        setImageDescriptor(SootPlugin.getImageDescriptor("next_method.gif"));
+        setToolTipText("Next Method");
+    }
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.jface.action.IAction#run()
-	 * continues to the next method if the current 
-	 * one is finished
-	 */
-	public void run(){
-		if (InteractionHandler.v().doneCurrent()){
-			InteractionHandler.v().setInteractionCon();
-		}
-	}
-	
-	public void setEditorPart(IEditorPart part){
-		super.setEditorPart(part);
-	}
-	
-	protected void init() { 
-		super.init(); 
-		setId( NEXT_METHOD );
-	}
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+     */
+    protected boolean calculateEnabled() {
+        return true;
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.action.IAction#run()
+     * continues to the next method if the current
+     * one is finished
+     */
+    public void run() {
+        if (InteractionHandler.v().doneCurrent()) {
+            InteractionHandler.v().setInteractionCon();
+        }
+    }
+
+    public void setEditorPart(IEditorPart part) {
+        super.setEditorPart(part);
+    }
+
+    protected void init() {
+        super.init();
+        setId(NEXT_METHOD);
+    }
 }

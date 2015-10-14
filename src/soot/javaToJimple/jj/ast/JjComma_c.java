@@ -19,37 +19,38 @@
 
 package soot.javaToJimple.jj.ast;
 
-import polyglot.ast.*;
-import polyglot.visit.*;
-import polyglot.ext.jl.ast.*;
-import polyglot.util.*;
-import java.util.*;
+import polyglot.ast.Expr;
+import polyglot.ast.Term;
+import polyglot.ext.jl.ast.Expr_c;
+import polyglot.util.Position;
+import polyglot.visit.CFGBuilder;
+
+import java.util.List;
 
 public class JjComma_c extends Expr_c implements Expr {
 
     private Expr first;
     private Expr second;
-    
-    public JjComma_c(Position pos, Expr first, Expr second){
+
+    public JjComma_c(Position pos, Expr first, Expr second) {
         super(pos);
         this.first = first;
         this.second = second;
     }
 
-    public Expr first(){
+    public Expr first() {
         return first;
     }
 
-    public Expr second(){
+    public Expr second() {
         return second;
     }
 
-    public List acceptCFG(CFGBuilder v, List succs)
-    {
+    public List acceptCFG(CFGBuilder v, List succs) {
         return succs;
-    }           
+    }
 
-    public Term entry(){
+    public Term entry() {
         return first.entry();
     }
 }

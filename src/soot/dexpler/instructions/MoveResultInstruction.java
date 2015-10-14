@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
-
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
@@ -37,21 +36,20 @@ import soot.jimple.internal.JAssignStmt;
 import soot.tagkit.Tag;
 
 public class MoveResultInstruction extends DexlibAbstractInstruction {
-//    private Local local;
+    AssignStmt assign = null;
+    //    private Local local;
 //    private Expr expr;
     private Tag tag;
-    
-    AssignStmt assign = null;
 
-    public MoveResultInstruction (Instruction instruction, int codeAdress) {
+    public MoveResultInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    public void jimplify(DexBody body) {
 //        if (local != null && expr != null)
 //            throw new RuntimeException("Both local and expr are set to move.");
 
-        int dest = ((OneRegisterInstruction)instruction).getRegisterA();
+        int dest = ((OneRegisterInstruction) instruction).getRegisterA();
 
 //        if (local != null)
 //            assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), local);
@@ -65,16 +63,16 @@ public class MoveResultInstruction extends DexlibAbstractInstruction {
         if (tag != null)
             assign.addTag(tag);
         body.add(assign);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          JAssignStmt jassign = (JAssignStmt)assign;
-          DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            JAssignStmt jassign = (JAssignStmt) assign;
+            DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
         }
     }
 
-//    public void setLocalToMove(Local l) {
+    //    public void setLocalToMove(Local l) {
 //        local = l;
 //    }
 //    public void setExpr(Expr e) {

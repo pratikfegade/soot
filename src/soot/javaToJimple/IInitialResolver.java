@@ -18,25 +18,26 @@
  */
 package soot.javaToJimple;
 
+import soot.SootClass;
+import soot.Type;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import soot.SootClass;
-import soot.Type;
-
 public interface IInitialResolver {
-	
-	public void formAst(String fullPath, List<String> locations, String className);
-	
-	public Dependencies resolveFromJavaFile(SootClass sc);
-	
-	public class Dependencies {
-		public final Set<Type> typesToHierarchy, typesToSignature;
-		public Dependencies() {
-			typesToHierarchy = new HashSet<Type>();
-			typesToSignature = new HashSet<Type>();
-		}
-	}
+
+    void formAst(String fullPath, List<String> locations, String className);
+
+    Dependencies resolveFromJavaFile(SootClass sc);
+
+    class Dependencies {
+        public final Set<Type> typesToHierarchy, typesToSignature;
+
+        public Dependencies() {
+            typesToHierarchy = new HashSet<Type>();
+            typesToSignature = new HashSet<Type>();
+        }
+    }
 
 }

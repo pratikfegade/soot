@@ -18,60 +18,67 @@
  */
 
 package soot;
+
 import soot.javaToJimple.IInitialResolver;
 import soot.javaToJimple.IInitialResolver.Dependencies;
-import soot.options.*;
-import java.io.*;
-import java.util.*;
+import soot.options.Options;
 
-/** A class source for resolving from .class files through coffi.
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A class source for resolving from .class files through coffi.
  */
-public class CoffiClassSource extends ClassSource
-{
+public class CoffiClassSource extends ClassSource {
     protected final InputStream classFile;
-	private final String fileName;
-	private final String zipFileName;
-	
-    public CoffiClassSource( String className, InputStream classFile, String fileName, String zipFileName ) {
-        super( className );
+    private final String fileName;
+    private final String zipFileName;
+
+    public CoffiClassSource(String className, InputStream classFile, String fileName, String zipFileName) {
+        super(className);
         this.classFile = classFile;
         this.fileName = fileName;
         this.zipFileName = zipFileName;
     }
-    public Dependencies resolve( SootClass sc ) {
-        if(Options.v().verbose())
-            G.v().out.println("resolving [from .class]: " + className );
+
+    public Dependencies resolve(SootClass sc) {
+        if (Options.v().verbose())
+            G.v().out.println("resolving [from .class]: " + className);
         List<Type> references = new ArrayList<Type>();
         soot.coffi.Util.v().resolveFromClassFile(sc, classFile, fileName, references);
 
         try {
             classFile.close();
-        } catch (IOException e) { throw new RuntimeException("!?"); }
-        
+        } catch (IOException e) {
+            throw new RuntimeException("!?");
+        }
+
         addSourceFileTag(sc);
-        
+
         IInitialResolver.Dependencies deps = new IInitialResolver.Dependencies();
         deps.typesToSignature.addAll(references);
         return deps;
     }
-    
-    protected void addSourceFileTag(soot.SootClass sc){
-    	if (fileName == null && zipFileName == null)
-    		return;
-    	
+
+    protected void addSourceFileTag(soot.SootClass sc) {
+        if (fileName == null && zipFileName == null)
+            return;
+
         soot.tagkit.SourceFileTag tag = null;
         if (sc.hasTag("SourceFileTag")) {
-            tag = (soot.tagkit.SourceFileTag)sc.getTag("SourceFileTag");
-        }
-        else {
+            tag = (soot.tagkit.SourceFileTag) sc.getTag("SourceFileTag");
+        } else {
             tag = new soot.tagkit.SourceFileTag();
             sc.addTag(tag);
         }
-        
+
         // Sets sourceFile only when it hasn't been set before
         if (tag.getSourceFile() == null) {
             String name = zipFileName == null ? new File(fileName).getName() : new File(zipFileName).getName();
-            tag.setSourceFile(name); 
+            tag.setSourceFile(name);
         }
     }
 }

@@ -18,9 +18,13 @@
  */
 
 package soot.util;
-import java.util.*;
 
-/** A class that numbers objects, so they can be placed in bitsets.
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/**
+ * A class that numbers objects, so they can be placed in bitsets.
  *
  * @author Ondrej Lhotak
  * @author xiao, generalize it.
@@ -30,56 +34,57 @@ public class ArrayNumberer<E extends Numberable> implements IterableNumberer<E> 
     @SuppressWarnings("unchecked")
     protected E[] numberToObj = (E[]) new Numberable[1024];
     protected int lastNumber = 0;
-    
+
     private void resize(int n) {
-    	E[] old = numberToObj;    	
-    	numberToObj = Arrays.copyOf(numberToObj, n);
-    	Arrays.fill(old, null);
+        E[] old = numberToObj;
+        numberToObj = Arrays.copyOf(numberToObj, n);
+        Arrays.fill(old, null);
     }
-    
-    public void add( E o ) {
-        if( o.getNumber() != 0 ) return;
-        
+
+    public void add(E o) {
+        if (o.getNumber() != 0) return;
+
         ++lastNumber;
-        if( lastNumber >= numberToObj.length ) {
-        	resize(numberToObj.length*2);
+        if (lastNumber >= numberToObj.length) {
+            resize(numberToObj.length * 2);
         }
         numberToObj[lastNumber] = o;
-        o.setNumber( lastNumber );
+        o.setNumber(lastNumber);
     }
 
-    public long get( E o ) {
-        if( o == null ) return 0;
+    public long get(E o) {
+        if (o == null) return 0;
         int ret = o.getNumber();
-        if( ret == 0 ) throw new RuntimeException( "unnumbered: "+o );
+        if (ret == 0) throw new RuntimeException("unnumbered: " + o);
         return ret;
     }
 
-	public E get( long number ) {
-        if( number == 0 ) return null;
-		E ret = numberToObj[(int) number];
-        if( ret == null ) throw new RuntimeException( "no object with number "+number );
+    public E get(long number) {
+        if (number == 0) return null;
+        E ret = numberToObj[(int) number];
+        if (ret == null) throw new RuntimeException("no object with number " + number);
         return ret;
     }
 
-    public int size() { 
-    	return lastNumber; 
+    public int size() {
+        return lastNumber;
     }
 
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             int cur = 1;
+
             public final boolean hasNext() {
                 return cur <= lastNumber && cur < numberToObj.length && numberToObj[cur] != null;
             }
 
-    		public final E next() { 
-                if ( hasNext() ) {
-                	return numberToObj[cur++];
+            public final E next() {
+                if (hasNext()) {
+                    return numberToObj[cur++];
                 }
                 throw new NoSuchElementException();
             }
-    		
+
             public final void remove() {
                 throw new UnsupportedOperationException();
             }

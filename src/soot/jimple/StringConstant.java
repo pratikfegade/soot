@@ -24,52 +24,45 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.RefType;
+import soot.Type;
+import soot.util.StringTools;
+import soot.util.Switch;
 
-public class StringConstant extends Constant
-{
+public class StringConstant extends Constant {
     public final String value;
 
-    private StringConstant(String s)
-    {
+    private StringConstant(String s) {
         this.value = s;
     }
 
-    public static StringConstant v(String value)
-    {
+    public static StringConstant v(String value) {
         return new StringConstant(value);
     }
 
     // In this case, equals should be structural equality.
-    public boolean equals(Object c)
-    {
+    public boolean equals(Object c) {
         return (c instanceof StringConstant && ((StringConstant) c).value.equals(this.value));
     }
 
-    /** Returns a hash code for this StringConstant object. */
-    public int hashCode()
-    {
+    /**
+     * Returns a hash code for this StringConstant object.
+     */
+    public int hashCode() {
         return value.hashCode();
     }
 
-    public String toString()
-    {
+    public String toString() {
         return StringTools.getQuotedStringOf(value);
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return RefType.v("java.lang.String");
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ConstantSwitch) sw).caseStringConstant(this);
     }
 }

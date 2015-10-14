@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AGotoStatement extends PStatement
-{
+public final class AGotoStatement extends PStatement {
     private PGotoStmt _gotoStmt_;
 
-    public AGotoStatement()
-    {
+    public AGotoStatement() {
         // Constructor
     }
 
     public AGotoStatement(
-        @SuppressWarnings("hiding") PGotoStmt _gotoStmt_)
-    {
+            @SuppressWarnings("hiding") PGotoStmt _gotoStmt_) {
         // Constructor
         setGotoStmt(_gotoStmt_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AGotoStatement(
-            cloneNode(this._gotoStmt_));
+                cloneNode(this._gotoStmt_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAGotoStatement(this);
     }
 
-    public PGotoStmt getGotoStmt()
-    {
+    public PGotoStmt getGotoStmt() {
         return this._gotoStmt_;
     }
 
-    public void setGotoStmt(PGotoStmt node)
-    {
-        if(this._gotoStmt_ != null)
-        {
+    public void setGotoStmt(PGotoStmt node) {
+        if (this._gotoStmt_ != null) {
             this._gotoStmt_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AGotoStatement extends PStatement
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._gotoStmt_);
+                + toString(this._gotoStmt_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._gotoStmt_ == child)
-        {
+        if (this._gotoStmt_ == child) {
             this._gotoStmt_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AGotoStatement extends PStatement
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._gotoStmt_ == oldChild)
-        {
+        if (this._gotoStmt_ == oldChild) {
             setGotoStmt((PGotoStmt) newChild);
             return;
         }

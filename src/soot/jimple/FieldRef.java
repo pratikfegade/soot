@@ -25,16 +25,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
+import soot.SootField;
+import soot.SootFieldRef;
 
-public interface FieldRef extends ConcreteRef
-{
-    public SootFieldRef getFieldRef();
-    public void setFieldRef(SootFieldRef sfr);
-    public SootField getField();
+public interface FieldRef extends ConcreteRef {
+    SootFieldRef getFieldRef();
+
+    void setFieldRef(SootFieldRef sfr);
+
+    SootField getField();
 }

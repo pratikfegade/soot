@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AInstanceofExpression extends PExpression
-{
+public final class AInstanceofExpression extends PExpression {
     private PImmediate _immediate_;
     private TInstanceof _instanceof_;
     private PNonvoidType _nonvoidType_;
 
-    public AInstanceofExpression()
-    {
+    public AInstanceofExpression() {
         // Constructor
     }
 
     public AInstanceofExpression(
-        @SuppressWarnings("hiding") PImmediate _immediate_,
-        @SuppressWarnings("hiding") TInstanceof _instanceof_,
-        @SuppressWarnings("hiding") PNonvoidType _nonvoidType_)
-    {
+            @SuppressWarnings("hiding") PImmediate _immediate_,
+            @SuppressWarnings("hiding") TInstanceof _instanceof_,
+            @SuppressWarnings("hiding") PNonvoidType _nonvoidType_) {
         // Constructor
         setImmediate(_immediate_);
 
@@ -31,35 +28,28 @@ public final class AInstanceofExpression extends PExpression
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AInstanceofExpression(
-            cloneNode(this._immediate_),
-            cloneNode(this._instanceof_),
-            cloneNode(this._nonvoidType_));
+                cloneNode(this._immediate_),
+                cloneNode(this._instanceof_),
+                cloneNode(this._nonvoidType_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAInstanceofExpression(this);
     }
 
-    public PImmediate getImmediate()
-    {
+    public PImmediate getImmediate() {
         return this._immediate_;
     }
 
-    public void setImmediate(PImmediate node)
-    {
-        if(this._immediate_ != null)
-        {
+    public void setImmediate(PImmediate node) {
+        if (this._immediate_ != null) {
             this._immediate_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class AInstanceofExpression extends PExpression
         this._immediate_ = node;
     }
 
-    public TInstanceof getInstanceof()
-    {
+    public TInstanceof getInstanceof() {
         return this._instanceof_;
     }
 
-    public void setInstanceof(TInstanceof node)
-    {
-        if(this._instanceof_ != null)
-        {
+    public void setInstanceof(TInstanceof node) {
+        if (this._instanceof_ != null) {
             this._instanceof_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class AInstanceofExpression extends PExpression
         this._instanceof_ = node;
     }
 
-    public PNonvoidType getNonvoidType()
-    {
+    public PNonvoidType getNonvoidType() {
         return this._nonvoidType_;
     }
 
-    public void setNonvoidType(PNonvoidType node)
-    {
-        if(this._nonvoidType_ != null)
-        {
+    public void setNonvoidType(PNonvoidType node) {
+        if (this._nonvoidType_ != null) {
             this._nonvoidType_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class AInstanceofExpression extends PExpression
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._immediate_)
-            + toString(this._instanceof_)
-            + toString(this._nonvoidType_);
+                + toString(this._immediate_)
+                + toString(this._instanceof_)
+                + toString(this._nonvoidType_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._immediate_ == child)
-        {
+        if (this._immediate_ == child) {
             this._immediate_ = null;
             return;
         }
 
-        if(this._instanceof_ == child)
-        {
+        if (this._instanceof_ == child) {
             this._instanceof_ = null;
             return;
         }
 
-        if(this._nonvoidType_ == child)
-        {
+        if (this._nonvoidType_ == child) {
             this._nonvoidType_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class AInstanceofExpression extends PExpression
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._immediate_ == oldChild)
-        {
+        if (this._immediate_ == oldChild) {
             setImmediate((PImmediate) newChild);
             return;
         }
 
-        if(this._instanceof_ == oldChild)
-        {
+        if (this._instanceof_ == oldChild) {
             setInstanceof((TInstanceof) newChild);
             return;
         }
 
-        if(this._nonvoidType_ == oldChild)
-        {
+        if (this._nonvoidType_ == oldChild) {
             setNonvoidType((PNonvoidType) newChild);
             return;
         }

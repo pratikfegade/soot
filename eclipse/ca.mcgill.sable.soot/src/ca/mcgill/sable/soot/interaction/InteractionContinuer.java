@@ -19,47 +19,46 @@
 
 package ca.mcgill.sable.soot.interaction;
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import soot.toolkits.graph.interaction.*;
-import ca.mcgill.sable.soot.*;
+import soot.toolkits.graph.interaction.InteractionHandler;
 
 public class InteractionContinuer implements IWorkbenchWindowActionDelegate {
 
-	public InteractionContinuer() {
-		super();
-	}
+    public InteractionContinuer() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
-	 */
-	public void dispose() {
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
+     */
+    public void dispose() {
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
-	 */
-	public void init(IWorkbenchWindow window) {
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+     */
+    public void init(IWorkbenchWindow window) {
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
-	public synchronized void run(IAction action) {
-		if (SootPlugin.getDefault().getDataKeeper().inMiddle()){
-			SootPlugin.getDefault().getDataKeeper().stepForward();
-		}
-		else {
-			InteractionHandler.v().setInteractionCon();
-		}
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+     */
+    public synchronized void run(IAction action) {
+        if (SootPlugin.getDefault().getDataKeeper().inMiddle()) {
+            SootPlugin.getDefault().getDataKeeper().stepForward();
+        } else {
+            InteractionHandler.v().setInteractionCon();
+        }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+     */
+    public void selectionChanged(IAction action, ISelection selection) {
+    }
 
 }

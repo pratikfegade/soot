@@ -1,24 +1,31 @@
 package olhotak.liveness;
 
-import soot.*;
-import soot.util.*;
-import java.util.*;
-import soot.jimple.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
+import soot.Local;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.BackwardFlowAnalysis;
+import soot.toolkits.scalar.FlowSet;
 
-class LiveVariablesAnalysis extends BackwardFlowAnalysis
-{
-    protected void copy(Object src, Object dest)
-    {
-        FlowSet srcSet  = (FlowSet) src;
+import java.util.Iterator;
+
+class LiveVariablesAnalysis extends BackwardFlowAnalysis {
+    LiveVariablesAnalysis(DirectedGraph g) {
+        super(g);
+
+        doAnalysis();
+    }
+
+    protected void copy(Object src, Object dest) {
+        FlowSet srcSet = (FlowSet) src;
         FlowSet destSet = (FlowSet) dest;
-            
+
         srcSet.copy(destSet);
     }
 
-    protected void merge(Object src1, Object src2, Object dest)
-    {
+    protected void merge(Object src1, Object src2, Object dest) {
         FlowSet srcSet1 = (FlowSet) src1;
         FlowSet srcSet2 = (FlowSet) src2;
         FlowSet destSet = (FlowSet) dest;
@@ -27,12 +34,11 @@ class LiveVariablesAnalysis extends BackwardFlowAnalysis
     }
 
     protected void flowThrough(Object srcValue, Object unit,
-            Object destValue)
-    {
+                               Object destValue) {
         FlowSet dest = (FlowSet) destValue;
-        FlowSet src  = (FlowSet) srcValue;
-        Unit    s    = (Unit)    unit;
-        src.copy (dest);
+        FlowSet src = (FlowSet) srcValue;
+        Unit s = (Unit) unit;
+        src.copy(dest);
 
         // Take out kill set
         Iterator boxIt = s.getDefBoxes().iterator();
@@ -53,20 +59,11 @@ class LiveVariablesAnalysis extends BackwardFlowAnalysis
         }
     }
 
-    protected Object entryInitialFlow()
-    {
-        return new ArraySparseSet();
-    }
-        
-    protected Object newInitialFlow()
-    {
+    protected Object entryInitialFlow() {
         return new ArraySparseSet();
     }
 
-    LiveVariablesAnalysis(DirectedGraph g)
-    {
-        super(g);
-
-        doAnalysis();
+    protected Object newInitialFlow() {
+        return new ArraySparseSet();
     }
 }

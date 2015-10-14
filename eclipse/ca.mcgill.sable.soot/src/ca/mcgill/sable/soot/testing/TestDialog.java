@@ -37,109 +37,109 @@
  */
 package ca.mcgill.sable.soot.testing;
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.layout.*;
-import ca.mcgill.sable.soot.SootPlugin;
+import org.eclipse.swt.widgets.*;
 
 public class TestDialog extends Dialog {
-	protected IAdaptable input;
-	
-	private Label text_label;
-	
-		private Button jimp_button;
-	
-		private Button jasmin_button;
-	
-		private Button njimple_button;
-	
-		private Button jimple_button;
-	
-		private Button baf_button;
-	
-		private Button b_button;
-	
-		private Button grimp_button;
-	
-		private Button grimple_button;
-	
-		private Button class_button;
-	
-		private Button dava_button;
-	
-		private Button xml_button;
-	
-		private Label annotation_label;
-		private Text annotation_text;
-	
+    protected IAdaptable input;
 
-	public TestDialog(Shell parentShell, IAdaptable input) {
-		super(parentShell);
-		
-		this.input = input;
-	}
+    private Label text_label;
 
-	protected Control createDialogArea(Composite parent) {
-		Composite composite = (Composite)super.createDialogArea(parent);
-	
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 3;
-		composite.setLayout(layout);
-		this.getShell().setText("Select Soot Output Type:");
-		
-		jimp_button = new Button(composite, SWT.RADIO);
-		jimp_button.setText("jimp");
+    private Button jimp_button;
 
-		jasmin_button = new Button(composite, SWT.RADIO);
-		jasmin_button.setText("jasmin");
+    private Button jasmin_button;
 
-		njimple_button = new Button(composite, SWT.RADIO);
-		njimple_button.setText("njimple");
+    private Button njimple_button;
 
-		jimple_button = new Button(composite, SWT.RADIO);
-		jimple_button.setText("jimple");
+    private Button jimple_button;
 
-		baf_button = new Button(composite, SWT.RADIO);
-		baf_button.setText("baf");
+    private Button baf_button;
 
-		b_button = new Button(composite, SWT.RADIO);
-		b_button.setText("b");
+    private Button b_button;
 
-		grimp_button = new Button(composite, SWT.RADIO);
-		grimp_button.setText("grimp");
+    private Button grimp_button;
 
-		grimple_button = new Button(composite, SWT.RADIO);
-		grimple_button.setText("grimple");
+    private Button grimple_button;
 
-		class_button = new Button(composite, SWT.RADIO);
-		class_button.setText("class");
+    private Button class_button;
 
-		dava_button = new Button(composite, SWT.RADIO);
-		dava_button.setText("dava");
+    private Button dava_button;
 
-		xml_button = new Button(composite, SWT.RADIO);
-		xml_button.setText("xml");
+    private Button xml_button;
 
-		annotation_label = new Label(composite, SWT.CENTER);
-		annotation_label.setText("annotation");
-			
-		annotation_text = new Text(composite, SWT.CENTER | SWT.BORDER);
-		annotation_text.setSize(200,15);
-								
-		return composite;
-		
-	}
-	
-	protected void okPressed() {
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		
-		
-		super.okPressed();
-				
-	}
+    private Label annotation_label;
+    private Text annotation_text;
+
+
+    public TestDialog(Shell parentShell, IAdaptable input) {
+        super(parentShell);
+
+        this.input = input;
+    }
+
+    protected Control createDialogArea(Composite parent) {
+        Composite composite = (Composite) super.createDialogArea(parent);
+
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 3;
+        composite.setLayout(layout);
+        this.getShell().setText("Select Soot Output Type:");
+
+        jimp_button = new Button(composite, SWT.RADIO);
+        jimp_button.setText("jimp");
+
+        jasmin_button = new Button(composite, SWT.RADIO);
+        jasmin_button.setText("jasmin");
+
+        njimple_button = new Button(composite, SWT.RADIO);
+        njimple_button.setText("njimple");
+
+        jimple_button = new Button(composite, SWT.RADIO);
+        jimple_button.setText("jimple");
+
+        baf_button = new Button(composite, SWT.RADIO);
+        baf_button.setText("baf");
+
+        b_button = new Button(composite, SWT.RADIO);
+        b_button.setText("b");
+
+        grimp_button = new Button(composite, SWT.RADIO);
+        grimp_button.setText("grimp");
+
+        grimple_button = new Button(composite, SWT.RADIO);
+        grimple_button.setText("grimple");
+
+        class_button = new Button(composite, SWT.RADIO);
+        class_button.setText("class");
+
+        dava_button = new Button(composite, SWT.RADIO);
+        dava_button.setText("dava");
+
+        xml_button = new Button(composite, SWT.RADIO);
+        xml_button.setText("xml");
+
+        annotation_label = new Label(composite, SWT.CENTER);
+        annotation_label.setText("annotation");
+
+        annotation_text = new Text(composite, SWT.CENTER | SWT.BORDER);
+        annotation_text.setSize(200, 15);
+
+        return composite;
+
+    }
+
+    protected void okPressed() {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+
+
+        super.okPressed();
+
+    }
 
 }
 

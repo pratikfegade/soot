@@ -26,7 +26,7 @@ import soot.jimple.ThrowStmt;
 /**
  * <p>A source of information about the exceptions that
  * {@link Unit}s might throw.</p>
- *
+ * <p/>
  * <p>The <code>Unit</code>s corresponding to <code>athrow</code>
  * instructions may throw exceptions either explicitly&mdash;because
  * the exception is the <code>athrow</code>'s argument&mdash; or
@@ -41,11 +41,10 @@ import soot.jimple.ThrowStmt;
 
 public interface ThrowAnalysis {
     /**
-     * Returns a set representing the {@link Throwable} types that 
+     * Returns a set representing the {@link Throwable} types that
      * the specified unit might throw.
      *
      * @param u {@link Unit} whose exceptions are to be returned.
-     *
      * @return a representation of the <code>Throwable</code> types that
      * <code>u</code> might throw.
      */
@@ -58,7 +57,6 @@ public interface ThrowAnalysis {
      *
      * @param t {@link ThrowInst} whose explicit exceptions are
      *          to be returned.
-     *
      * @return a representation of the possible types of
      * <code>t</code>'s <code>Throwable</code> operand.
      */
@@ -71,7 +69,6 @@ public interface ThrowAnalysis {
      *
      * @param t {@link ThrowStmt} whose explicit exceptions are
      *          to be returned.
-     *
      * @return a representation of the possible types of
      * <code>t</code>'s <code>Throwable</code> operand.
      */
@@ -86,8 +83,7 @@ public interface ThrowAnalysis {
      *
      * @param t {@link ThrowStmt} whose implicit exceptions are
      *          to be returned.
-     *
-     * @return a representation of the types of exceptions that 
+     * @return a representation of the types of exceptions that
      * <code>t</code> might throw implicitly.
      */
     ThrowableSet mightThrowImplicitly(ThrowInst t);
@@ -101,8 +97,7 @@ public interface ThrowAnalysis {
      *
      * @param t {@link ThrowStmt} whose implicit exceptions are
      *          to be returned.
-     *
-     * @return a representation of the types of exceptions that 
+     * @return a representation of the types of exceptions that
      * <code>t</code> might throw implicitly.
      */
     ThrowableSet mightThrowImplicitly(ThrowStmt t);

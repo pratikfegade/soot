@@ -26,69 +26,83 @@
 
 package soot.toolkits.scalar;
 
-import java.util.Collections;
-import java.util.IdentityHashMap;
-import java.util.Map;
-
 import soot.options.Options;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.interaction.InteractionHandler;
 
-/** An abstract class providing a metaframework for carrying out
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Map;
+
+/**
+ * An abstract class providing a metaframework for carrying out
  * dataflow analysis.  This class provides common methods and fields
  * required by the BranchedFlowAnalysis and FlowAnalysis abstract classes.
+ *
  * @param <N> node type of the directed graph
  * @param <A> abstraction type
  */
-public abstract class AbstractFlowAnalysis<N,A>
-{
-    /** Maps graph nodes to IN sets. */
+public abstract class AbstractFlowAnalysis<N, A> {
+    /**
+     * Maps graph nodes to IN sets.
+     */
     protected Map<N, A> unitToBeforeFlow;
 
-    /** Filtered: Maps graph nodes to IN sets. */
-    protected Map<N,A> filterUnitToBeforeFlow = Collections.emptyMap();
+    /**
+     * Filtered: Maps graph nodes to IN sets.
+     */
+    protected Map<N, A> filterUnitToBeforeFlow = Collections.emptyMap();
 
-    /** The graph being analysed. */
+    /**
+     * The graph being analysed.
+     */
     protected DirectedGraph<N> graph;
 
-    /** Constructs a flow analysis on the given <code>DirectedGraph</code>. */
-    public AbstractFlowAnalysis(DirectedGraph<N> graph)
-    {
-        unitToBeforeFlow = new IdentityHashMap<N,A>(graph.size() * 2 + 1);
+    /**
+     * Constructs a flow analysis on the given <code>DirectedGraph</code>.
+     */
+    public AbstractFlowAnalysis(DirectedGraph<N> graph) {
+        unitToBeforeFlow = new IdentityHashMap<N, A>(graph.size() * 2 + 1);
         this.graph = graph;
-        if (Options.v().interactive_mode()){
+        if (Options.v().interactive_mode()) {
             InteractionHandler.v().handleCfgEvent(graph);
         }
     }
 
-    /** 
+    /**
      * Returns the flow object corresponding to the initial values for
-     * each graph node. 
+     * each graph node.
      */
     protected abstract A newInitialFlow();
 
     /**
      * Returns the initial flow value for entry/exit graph nodes.
-	 * 
-	 * This is equal to {@link #newInitialFlow()}
-	 */
+     * <p/>
+     * This is equal to {@link #newInitialFlow()}
+     */
     protected A entryInitialFlow() {
-    	return newInitialFlow();
+        return newInitialFlow();
     }
 
     /**
      * Determines whether <code>entryInitialFlow()</code>
      * is applied to trap handlers.
      */
-    protected boolean treatTrapHandlersAsEntries() { return false; }
+    protected boolean treatTrapHandlersAsEntries() {
+        return false;
+    }
 
-    /** Returns true if this analysis is forwards. */
+    /**
+     * Returns true if this analysis is forwards.
+     */
     protected abstract boolean isForward();
 
-    /** Compute the merge of the <code>in1</code> and <code>in2</code> sets, putting the result into <code>out</code>. 
+    /**
+     * Compute the merge of the <code>in1</code> and <code>in2</code> sets, putting the result into <code>out</code>.
      * The behavior of this function depends on the implementation ( it may be necessary to check whether
-     * <code>in1</code> and <code>in2</code> are equal or aliased ). 
-     * Used by the doAnalysis method. */
+     * <code>in1</code> and <code>in2</code> are equal or aliased ).
+     * Used by the doAnalysis method.
+     */
     protected abstract void merge(A in1, A in2, A out);
 
     /**
@@ -97,20 +111,25 @@ public abstract class AbstractFlowAnalysis<N,A>
      * the node.
      */
     protected void merge(N succNode, A in1, A in2, A out) {
-    	merge(in1,in2,out);
+        merge(in1, in2, out);
     }
 
-    
-    /** Creates a copy of the <code>source</code> flow object in <code>dest</code>. */
+
+    /**
+     * Creates a copy of the <code>source</code> flow object in <code>dest</code>.
+     */
     protected abstract void copy(A source, A dest);
 
-    /** Carries out the actual flow analysis.  
-     * Typically called from a concrete FlowAnalysis's constructor.*/
+    /**
+     * Carries out the actual flow analysis.
+     * Typically called from a concrete FlowAnalysis's constructor.
+     */
     protected abstract void doAnalysis();
 
-    /** Accessor function returning value of IN set for s. */
-    public A getFlowBefore(N s)
-    {
+    /**
+     * Accessor function returning value of IN set for s.
+     */
+    public A getFlowBefore(N s) {
         return unitToBeforeFlow.get(s);
     }
 

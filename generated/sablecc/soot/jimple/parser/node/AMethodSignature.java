@@ -2,11 +2,10 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AMethodSignature extends PMethodSignature
-{
+public final class AMethodSignature extends PMethodSignature {
     private TCmplt _cmplt_;
     private PClassName _className_;
     private TColon _first_;
@@ -17,22 +16,20 @@ public final class AMethodSignature extends PMethodSignature
     private TRParen _rParen_;
     private TCmpgt _cmpgt_;
 
-    public AMethodSignature()
-    {
+    public AMethodSignature() {
         // Constructor
     }
 
     public AMethodSignature(
-        @SuppressWarnings("hiding") TCmplt _cmplt_,
-        @SuppressWarnings("hiding") PClassName _className_,
-        @SuppressWarnings("hiding") TColon _first_,
-        @SuppressWarnings("hiding") PType _type_,
-        @SuppressWarnings("hiding") PName _methodName_,
-        @SuppressWarnings("hiding") TLParen _lParen_,
-        @SuppressWarnings("hiding") PParameterList _parameterList_,
-        @SuppressWarnings("hiding") TRParen _rParen_,
-        @SuppressWarnings("hiding") TCmpgt _cmpgt_)
-    {
+            @SuppressWarnings("hiding") TCmplt _cmplt_,
+            @SuppressWarnings("hiding") PClassName _className_,
+            @SuppressWarnings("hiding") TColon _first_,
+            @SuppressWarnings("hiding") PType _type_,
+            @SuppressWarnings("hiding") PName _methodName_,
+            @SuppressWarnings("hiding") TLParen _lParen_,
+            @SuppressWarnings("hiding") PParameterList _parameterList_,
+            @SuppressWarnings("hiding") TRParen _rParen_,
+            @SuppressWarnings("hiding") TCmpgt _cmpgt_) {
         // Constructor
         setCmplt(_cmplt_);
 
@@ -55,41 +52,34 @@ public final class AMethodSignature extends PMethodSignature
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMethodSignature(
-            cloneNode(this._cmplt_),
-            cloneNode(this._className_),
-            cloneNode(this._first_),
-            cloneNode(this._type_),
-            cloneNode(this._methodName_),
-            cloneNode(this._lParen_),
-            cloneNode(this._parameterList_),
-            cloneNode(this._rParen_),
-            cloneNode(this._cmpgt_));
+                cloneNode(this._cmplt_),
+                cloneNode(this._className_),
+                cloneNode(this._first_),
+                cloneNode(this._type_),
+                cloneNode(this._methodName_),
+                cloneNode(this._lParen_),
+                cloneNode(this._parameterList_),
+                cloneNode(this._rParen_),
+                cloneNode(this._cmpgt_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMethodSignature(this);
     }
 
-    public TCmplt getCmplt()
-    {
+    public TCmplt getCmplt() {
         return this._cmplt_;
     }
 
-    public void setCmplt(TCmplt node)
-    {
-        if(this._cmplt_ != null)
-        {
+    public void setCmplt(TCmplt node) {
+        if (this._cmplt_ != null) {
             this._cmplt_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -99,22 +89,17 @@ public final class AMethodSignature extends PMethodSignature
         this._cmplt_ = node;
     }
 
-    public PClassName getClassName()
-    {
+    public PClassName getClassName() {
         return this._className_;
     }
 
-    public void setClassName(PClassName node)
-    {
-        if(this._className_ != null)
-        {
+    public void setClassName(PClassName node) {
+        if (this._className_ != null) {
             this._className_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -124,22 +109,17 @@ public final class AMethodSignature extends PMethodSignature
         this._className_ = node;
     }
 
-    public TColon getFirst()
-    {
+    public TColon getFirst() {
         return this._first_;
     }
 
-    public void setFirst(TColon node)
-    {
-        if(this._first_ != null)
-        {
+    public void setFirst(TColon node) {
+        if (this._first_ != null) {
             this._first_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -149,22 +129,17 @@ public final class AMethodSignature extends PMethodSignature
         this._first_ = node;
     }
 
-    public PType getType()
-    {
+    public PType getType() {
         return this._type_;
     }
 
-    public void setType(PType node)
-    {
-        if(this._type_ != null)
-        {
+    public void setType(PType node) {
+        if (this._type_ != null) {
             this._type_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -174,22 +149,17 @@ public final class AMethodSignature extends PMethodSignature
         this._type_ = node;
     }
 
-    public PName getMethodName()
-    {
+    public PName getMethodName() {
         return this._methodName_;
     }
 
-    public void setMethodName(PName node)
-    {
-        if(this._methodName_ != null)
-        {
+    public void setMethodName(PName node) {
+        if (this._methodName_ != null) {
             this._methodName_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -199,22 +169,17 @@ public final class AMethodSignature extends PMethodSignature
         this._methodName_ = node;
     }
 
-    public TLParen getLParen()
-    {
+    public TLParen getLParen() {
         return this._lParen_;
     }
 
-    public void setLParen(TLParen node)
-    {
-        if(this._lParen_ != null)
-        {
+    public void setLParen(TLParen node) {
+        if (this._lParen_ != null) {
             this._lParen_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -224,22 +189,17 @@ public final class AMethodSignature extends PMethodSignature
         this._lParen_ = node;
     }
 
-    public PParameterList getParameterList()
-    {
+    public PParameterList getParameterList() {
         return this._parameterList_;
     }
 
-    public void setParameterList(PParameterList node)
-    {
-        if(this._parameterList_ != null)
-        {
+    public void setParameterList(PParameterList node) {
+        if (this._parameterList_ != null) {
             this._parameterList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -249,22 +209,17 @@ public final class AMethodSignature extends PMethodSignature
         this._parameterList_ = node;
     }
 
-    public TRParen getRParen()
-    {
+    public TRParen getRParen() {
         return this._rParen_;
     }
 
-    public void setRParen(TRParen node)
-    {
-        if(this._rParen_ != null)
-        {
+    public void setRParen(TRParen node) {
+        if (this._rParen_ != null) {
             this._rParen_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -274,22 +229,17 @@ public final class AMethodSignature extends PMethodSignature
         this._rParen_ = node;
     }
 
-    public TCmpgt getCmpgt()
-    {
+    public TCmpgt getCmpgt() {
         return this._cmpgt_;
     }
 
-    public void setCmpgt(TCmpgt node)
-    {
-        if(this._cmpgt_ != null)
-        {
+    public void setCmpgt(TCmpgt node) {
+        if (this._cmpgt_ != null) {
             this._cmpgt_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -300,74 +250,63 @@ public final class AMethodSignature extends PMethodSignature
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._cmplt_)
-            + toString(this._className_)
-            + toString(this._first_)
-            + toString(this._type_)
-            + toString(this._methodName_)
-            + toString(this._lParen_)
-            + toString(this._parameterList_)
-            + toString(this._rParen_)
-            + toString(this._cmpgt_);
+                + toString(this._cmplt_)
+                + toString(this._className_)
+                + toString(this._first_)
+                + toString(this._type_)
+                + toString(this._methodName_)
+                + toString(this._lParen_)
+                + toString(this._parameterList_)
+                + toString(this._rParen_)
+                + toString(this._cmpgt_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._cmplt_ == child)
-        {
+        if (this._cmplt_ == child) {
             this._cmplt_ = null;
             return;
         }
 
-        if(this._className_ == child)
-        {
+        if (this._className_ == child) {
             this._className_ = null;
             return;
         }
 
-        if(this._first_ == child)
-        {
+        if (this._first_ == child) {
             this._first_ = null;
             return;
         }
 
-        if(this._type_ == child)
-        {
+        if (this._type_ == child) {
             this._type_ = null;
             return;
         }
 
-        if(this._methodName_ == child)
-        {
+        if (this._methodName_ == child) {
             this._methodName_ = null;
             return;
         }
 
-        if(this._lParen_ == child)
-        {
+        if (this._lParen_ == child) {
             this._lParen_ = null;
             return;
         }
 
-        if(this._parameterList_ == child)
-        {
+        if (this._parameterList_ == child) {
             this._parameterList_ = null;
             return;
         }
 
-        if(this._rParen_ == child)
-        {
+        if (this._rParen_ == child) {
             this._rParen_ = null;
             return;
         }
 
-        if(this._cmpgt_ == child)
-        {
+        if (this._cmpgt_ == child) {
             this._cmpgt_ = null;
             return;
         }
@@ -376,59 +315,49 @@ public final class AMethodSignature extends PMethodSignature
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._cmplt_ == oldChild)
-        {
+        if (this._cmplt_ == oldChild) {
             setCmplt((TCmplt) newChild);
             return;
         }
 
-        if(this._className_ == oldChild)
-        {
+        if (this._className_ == oldChild) {
             setClassName((PClassName) newChild);
             return;
         }
 
-        if(this._first_ == oldChild)
-        {
+        if (this._first_ == oldChild) {
             setFirst((TColon) newChild);
             return;
         }
 
-        if(this._type_ == oldChild)
-        {
+        if (this._type_ == oldChild) {
             setType((PType) newChild);
             return;
         }
 
-        if(this._methodName_ == oldChild)
-        {
+        if (this._methodName_ == oldChild) {
             setMethodName((PName) newChild);
             return;
         }
 
-        if(this._lParen_ == oldChild)
-        {
+        if (this._lParen_ == oldChild) {
             setLParen((TLParen) newChild);
             return;
         }
 
-        if(this._parameterList_ == oldChild)
-        {
+        if (this._parameterList_ == oldChild) {
             setParameterList((PParameterList) newChild);
             return;
         }
 
-        if(this._rParen_ == oldChild)
-        {
+        if (this._rParen_ == oldChild) {
             setRParen((TRParen) newChild);
             return;
         }
 
-        if(this._cmpgt_ == oldChild)
-        {
+        if (this._cmpgt_ == oldChild) {
             setCmpgt((TCmpgt) newChild);
             return;
         }

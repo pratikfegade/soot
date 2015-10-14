@@ -25,62 +25,60 @@
 
 
 package soot.jimple.toolkits.scalar;
-import java.util.Iterator;
-import java.util.Map;
 
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Singletons;
-import soot.Trap;
-import soot.Unit;
+import soot.*;
 import soot.jimple.JimpleBody;
 import soot.jimple.NopStmt;
 import soot.options.Options;
 import soot.util.Chain;
 
-public class NopEliminator extends BodyTransformer
-{
-    public NopEliminator( Singletons.Global g ) {}
-    public static NopEliminator v() { return G.v().soot_jimple_toolkits_scalar_NopEliminator(); }
+import java.util.Iterator;
+import java.util.Map;
 
-    /** Removes {@link NopStmt}s from the passed body (which must be
-	a {@link JimpleBody}).  Complexity is linear 
-        with respect to the statements.
-    */
-    
-    protected void internalTransform(Body b, String phaseName, Map<String, String> options)
-    {
-        JimpleBody body = (JimpleBody)b;
-        
-        if(Options.v().verbose())
+public class NopEliminator extends BodyTransformer {
+    public NopEliminator(Singletons.Global g) {
+    }
+
+    public static NopEliminator v() {
+        return G.v().soot_jimple_toolkits_scalar_NopEliminator();
+    }
+
+    /**
+     * Removes {@link NopStmt}s from the passed body (which must be
+     * a {@link JimpleBody}).  Complexity is linear
+     * with respect to the statements.
+     */
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        JimpleBody body = (JimpleBody) b;
+
+        if (Options.v().verbose())
             G.v().out.println("[" + body.getMethod().getName() +
-                "] Removing nops...");
-                
+                    "] Removing nops...");
+
         Chain<Unit> units = body.getUnits();
-        
+
         // Just do one trivial pass.
         {
             Iterator<Unit> stmtIt = units.snapshotIterator();
-            
-            while(stmtIt.hasNext()) 
-            {
+
+            while (stmtIt.hasNext()) {
                 Unit u = stmtIt.next();
-				if (u instanceof NopStmt) {
-					// Hack: do not remove nop, if is is used for a Trap which
-					// is at the very end of the code.
-					boolean keepNop = false;
-					if (b.getUnits().getLast() == u) {
-						for (Trap t : b.getTraps()) {
-							if (t.getEndUnit() == u) {
-								keepNop = true;
-							}
-						}
-					}
-					if (!keepNop) {
-						units.remove(u);
-					}
-				}
+                if (u instanceof NopStmt) {
+                    // Hack: do not remove nop, if is is used for a Trap which
+                    // is at the very end of the code.
+                    boolean keepNop = false;
+                    if (b.getUnits().getLast() == u) {
+                        for (Trap t : b.getTraps()) {
+                            if (t.getEndUnit() == u) {
+                                keepNop = true;
+                            }
+                        }
+                    }
+                    if (!keepNop) {
+                        units.remove(u);
+                    }
+                }
             }
         }
     }

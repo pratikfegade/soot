@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AMultiParameterList extends PParameterList
-{
+public final class AMultiParameterList extends PParameterList {
     private PParameter _parameter_;
     private TComma _comma_;
     private PParameterList _parameterList_;
 
-    public AMultiParameterList()
-    {
+    public AMultiParameterList() {
         // Constructor
     }
 
     public AMultiParameterList(
-        @SuppressWarnings("hiding") PParameter _parameter_,
-        @SuppressWarnings("hiding") TComma _comma_,
-        @SuppressWarnings("hiding") PParameterList _parameterList_)
-    {
+            @SuppressWarnings("hiding") PParameter _parameter_,
+            @SuppressWarnings("hiding") TComma _comma_,
+            @SuppressWarnings("hiding") PParameterList _parameterList_) {
         // Constructor
         setParameter(_parameter_);
 
@@ -31,35 +28,28 @@ public final class AMultiParameterList extends PParameterList
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMultiParameterList(
-            cloneNode(this._parameter_),
-            cloneNode(this._comma_),
-            cloneNode(this._parameterList_));
+                cloneNode(this._parameter_),
+                cloneNode(this._comma_),
+                cloneNode(this._parameterList_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMultiParameterList(this);
     }
 
-    public PParameter getParameter()
-    {
+    public PParameter getParameter() {
         return this._parameter_;
     }
 
-    public void setParameter(PParameter node)
-    {
-        if(this._parameter_ != null)
-        {
+    public void setParameter(PParameter node) {
+        if (this._parameter_ != null) {
             this._parameter_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class AMultiParameterList extends PParameterList
         this._parameter_ = node;
     }
 
-    public TComma getComma()
-    {
+    public TComma getComma() {
         return this._comma_;
     }
 
-    public void setComma(TComma node)
-    {
-        if(this._comma_ != null)
-        {
+    public void setComma(TComma node) {
+        if (this._comma_ != null) {
             this._comma_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class AMultiParameterList extends PParameterList
         this._comma_ = node;
     }
 
-    public PParameterList getParameterList()
-    {
+    public PParameterList getParameterList() {
         return this._parameterList_;
     }
 
-    public void setParameterList(PParameterList node)
-    {
-        if(this._parameterList_ != null)
-        {
+    public void setParameterList(PParameterList node) {
+        if (this._parameterList_ != null) {
             this._parameterList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class AMultiParameterList extends PParameterList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._parameter_)
-            + toString(this._comma_)
-            + toString(this._parameterList_);
+                + toString(this._parameter_)
+                + toString(this._comma_)
+                + toString(this._parameterList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._parameter_ == child)
-        {
+        if (this._parameter_ == child) {
             this._parameter_ = null;
             return;
         }
 
-        if(this._comma_ == child)
-        {
+        if (this._comma_ == child) {
             this._comma_ = null;
             return;
         }
 
-        if(this._parameterList_ == child)
-        {
+        if (this._parameterList_ == child) {
             this._parameterList_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class AMultiParameterList extends PParameterList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._parameter_ == oldChild)
-        {
+        if (this._parameter_ == oldChild) {
             setParameter((PParameter) newChild);
             return;
         }
 
-        if(this._comma_ == oldChild)
-        {
+        if (this._comma_ == oldChild) {
             setComma((TComma) newChild);
             return;
         }
 
-        if(this._parameterList_ == oldChild)
-        {
+        if (this._parameterList_ == oldChild) {
             setParameterList((PParameterList) newChild);
             return;
         }

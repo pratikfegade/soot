@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ACmpgtBinop extends PBinop
-{
+public final class ACmpgtBinop extends PBinop {
     private TCmpgt _cmpgt_;
 
-    public ACmpgtBinop()
-    {
+    public ACmpgtBinop() {
         // Constructor
     }
 
     public ACmpgtBinop(
-        @SuppressWarnings("hiding") TCmpgt _cmpgt_)
-    {
+            @SuppressWarnings("hiding") TCmpgt _cmpgt_) {
         // Constructor
         setCmpgt(_cmpgt_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ACmpgtBinop(
-            cloneNode(this._cmpgt_));
+                cloneNode(this._cmpgt_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseACmpgtBinop(this);
     }
 
-    public TCmpgt getCmpgt()
-    {
+    public TCmpgt getCmpgt() {
         return this._cmpgt_;
     }
 
-    public void setCmpgt(TCmpgt node)
-    {
-        if(this._cmpgt_ != null)
-        {
+    public void setCmpgt(TCmpgt node) {
+        if (this._cmpgt_ != null) {
             this._cmpgt_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ACmpgtBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._cmpgt_);
+                + toString(this._cmpgt_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._cmpgt_ == child)
-        {
+        if (this._cmpgt_ == child) {
             this._cmpgt_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ACmpgtBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._cmpgt_ == oldChild)
-        {
+        if (this._cmpgt_ == oldChild) {
             setCmpgt((TCmpgt) newChild);
             return;
         }

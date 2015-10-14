@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ALongBaseType extends PBaseType
-{
+public final class ALongBaseType extends PBaseType {
     private TLong _long_;
 
-    public ALongBaseType()
-    {
+    public ALongBaseType() {
         // Constructor
     }
 
     public ALongBaseType(
-        @SuppressWarnings("hiding") TLong _long_)
-    {
+            @SuppressWarnings("hiding") TLong _long_) {
         // Constructor
         setLong(_long_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ALongBaseType(
-            cloneNode(this._long_));
+                cloneNode(this._long_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseALongBaseType(this);
     }
 
-    public TLong getLong()
-    {
+    public TLong getLong() {
         return this._long_;
     }
 
-    public void setLong(TLong node)
-    {
-        if(this._long_ != null)
-        {
+    public void setLong(TLong node) {
+        if (this._long_ != null) {
             this._long_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ALongBaseType extends PBaseType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._long_);
+                + toString(this._long_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._long_ == child)
-        {
+        if (this._long_ == child) {
             this._long_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ALongBaseType extends PBaseType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._long_ == oldChild)
-        {
+        if (this._long_ == oldChild) {
             setLong((TLong) newChild);
             return;
         }

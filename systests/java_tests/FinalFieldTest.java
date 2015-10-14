@@ -1,10 +1,11 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FinalFieldTest {
 
     private final LinkedList attributes = new LinkedList(new MyAttributeColl());
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         System.out.println("Hi");
         FinalFieldTest fft = new FinalFieldTest();
         fft.run();
@@ -15,8 +16,8 @@ public class FinalFieldTest {
     }
 
     private class MyAttributeColl extends ArrayList {
-    
-        public String toString(){
+
+        public String toString() {
             return "Jennifer";
         }
     }

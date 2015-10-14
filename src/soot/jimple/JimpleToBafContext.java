@@ -24,62 +24,52 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.baf.*;
-import java.util.*;
+import soot.Local;
+import soot.Unit;
+import soot.baf.BafBody;
 
-public class JimpleToBafContext
-{
+import java.util.HashMap;
+import java.util.Map;
+
+public class JimpleToBafContext {
     private Map<Local, Local> jimpleLocalToBafLocal = new HashMap<Local, Local>();
     private BafBody bafBody;
     private Unit mCurrentUnit;
 
     /**
-       An approximation of the local count is required in order to allocate a reasonably sized hash map. 
+     * An approximation of the local count is required in order to allocate a reasonably sized hash map.
      */
-     
-    public JimpleToBafContext(int localCount)
-    {
-       jimpleLocalToBafLocal = new HashMap<Local, Local>(localCount * 2 + 1, 0.7f);
+
+    public JimpleToBafContext(int localCount) {
+        jimpleLocalToBafLocal = new HashMap<Local, Local>(localCount * 2 + 1, 0.7f);
     }
 
-
-    public void setCurrentUnit(Unit u )
-    {
-	mCurrentUnit = u;
+    public Unit getCurrentUnit() {
+        return mCurrentUnit;
     }
 
-    public Unit getCurrentUnit()
-    {
-	return mCurrentUnit;
+    public void setCurrentUnit(Unit u) {
+        mCurrentUnit = u;
     }
 
-    
-    public Local getBafLocalOfJimpleLocal(Local jimpleLocal)
-    {
+    public Local getBafLocalOfJimpleLocal(Local jimpleLocal) {
         return jimpleLocalToBafLocal.get(jimpleLocal);
     }
-    
-    public void setBafLocalOfJimpleLocal(Local jimpleLocal, Local bafLocal)
-    {
+
+    public void setBafLocalOfJimpleLocal(Local jimpleLocal, Local bafLocal) {
         jimpleLocalToBafLocal.put(jimpleLocal, bafLocal);
-    }       
-    
-    public BafBody getBafBody()
-    {
+    }
+
+    public BafBody getBafBody() {
         return bafBody;
     }
-    
-    public void setBafBody(BafBody bafBody)
-    {
+
+    public void setBafBody(BafBody bafBody) {
         this.bafBody = bafBody;
     }
-    
+
 }
 
 

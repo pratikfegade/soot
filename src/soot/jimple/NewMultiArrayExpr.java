@@ -24,24 +24,32 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
-import java.util.*;
+import soot.ArrayType;
+import soot.Type;
+import soot.Value;
+import soot.ValueBox;
+import soot.util.Switch;
 
-public interface NewMultiArrayExpr extends Expr, AnyNewExpr
-{
-    public ArrayType getBaseType();
-    public void setBaseType(ArrayType baseType);
-    public ValueBox getSizeBox(int index);
-    public int getSizeCount();
-    public Value getSize(int index);
-    public List<Value> getSizes();
-    public void setSize(int index, Value size);
-    public Type getType();
-    public void apply(Switch sw);
+import java.util.List;
+
+public interface NewMultiArrayExpr extends Expr, AnyNewExpr {
+    ArrayType getBaseType();
+
+    void setBaseType(ArrayType baseType);
+
+    ValueBox getSizeBox(int index);
+
+    int getSizeCount();
+
+    Value getSize(int index);
+
+    List<Value> getSizes();
+
+    void setSize(int index, Value size);
+
+    Type getType();
+
+    void apply(Switch sw);
 }

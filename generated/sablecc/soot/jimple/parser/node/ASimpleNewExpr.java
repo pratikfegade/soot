@@ -2,23 +2,20 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ASimpleNewExpr extends PNewExpr
-{
+public final class ASimpleNewExpr extends PNewExpr {
     private TNew _new_;
     private PBaseType _baseType_;
 
-    public ASimpleNewExpr()
-    {
+    public ASimpleNewExpr() {
         // Constructor
     }
 
     public ASimpleNewExpr(
-        @SuppressWarnings("hiding") TNew _new_,
-        @SuppressWarnings("hiding") PBaseType _baseType_)
-    {
+            @SuppressWarnings("hiding") TNew _new_,
+            @SuppressWarnings("hiding") PBaseType _baseType_) {
         // Constructor
         setNew(_new_);
 
@@ -27,34 +24,27 @@ public final class ASimpleNewExpr extends PNewExpr
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASimpleNewExpr(
-            cloneNode(this._new_),
-            cloneNode(this._baseType_));
+                cloneNode(this._new_),
+                cloneNode(this._baseType_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASimpleNewExpr(this);
     }
 
-    public TNew getNew()
-    {
+    public TNew getNew() {
         return this._new_;
     }
 
-    public void setNew(TNew node)
-    {
-        if(this._new_ != null)
-        {
+    public void setNew(TNew node) {
+        if (this._new_ != null) {
             this._new_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -64,22 +54,17 @@ public final class ASimpleNewExpr extends PNewExpr
         this._new_ = node;
     }
 
-    public PBaseType getBaseType()
-    {
+    public PBaseType getBaseType() {
         return this._baseType_;
     }
 
-    public void setBaseType(PBaseType node)
-    {
-        if(this._baseType_ != null)
-        {
+    public void setBaseType(PBaseType node) {
+        if (this._baseType_ != null) {
             this._baseType_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -90,25 +75,21 @@ public final class ASimpleNewExpr extends PNewExpr
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._new_)
-            + toString(this._baseType_);
+                + toString(this._new_)
+                + toString(this._baseType_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._new_ == child)
-        {
+        if (this._new_ == child) {
             this._new_ = null;
             return;
         }
 
-        if(this._baseType_ == child)
-        {
+        if (this._baseType_ == child) {
             this._baseType_ = null;
             return;
         }
@@ -117,17 +98,14 @@ public final class ASimpleNewExpr extends PNewExpr
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._new_ == oldChild)
-        {
+        if (this._new_ == oldChild) {
             setNew((TNew) newChild);
             return;
         }
 
-        if(this._baseType_ == oldChild)
-        {
+        if (this._baseType_ == oldChild) {
             setBaseType((PBaseType) newChild);
             return;
         }

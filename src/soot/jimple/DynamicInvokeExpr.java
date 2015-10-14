@@ -24,27 +24,26 @@
  */
 
 
-
-
-
 package soot.jimple;
-
-import java.util.List;
 
 import soot.SootMethodRef;
 import soot.Value;
 
-public interface DynamicInvokeExpr extends InvokeExpr
-{
-	public SootMethodRef getBootstrapMethodRef();
-	public List<Value> getBootstrapArgs();
-    public Value getBootstrapArg(int index);
-    public int getBootstrapArgCount();
-    
+import java.util.List;
+
+public interface DynamicInvokeExpr extends InvokeExpr {
+    SootMethodRef getBootstrapMethodRef();
+
+    List<Value> getBootstrapArgs();
+
+    Value getBootstrapArg(int index);
+
+    int getBootstrapArgCount();
+
     /*
      * Tag of the method handle, see JVM-spec. 5.4.3.5.
      */
-    public int getHandleTag();
+    int getHandleTag();
 }
 
 

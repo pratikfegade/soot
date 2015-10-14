@@ -24,16 +24,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
+import soot.Value;
+import soot.ValueBox;
 
-public interface RetStmt extends Stmt
-{
-    public Value getStmtAddress();
-    public ValueBox getStmtAddressBox();
-    public void setStmtAddress(Value stmtAddress);
+public interface RetStmt extends Stmt {
+    Value getStmtAddress();
+
+    void setStmtAddress(Value stmtAddress);
+
+    ValueBox getStmtAddressBox();
 }

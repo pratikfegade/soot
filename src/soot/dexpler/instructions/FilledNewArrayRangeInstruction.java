@@ -24,12 +24,9 @@
 
 package soot.dexpler.instructions;
 
-import static soot.dexpler.Util.isFloatLike;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction3rc;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
 import soot.ArrayType;
 import soot.Type;
 import soot.dexpler.Debug;
@@ -37,23 +34,21 @@ import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
 import soot.dexpler.IDalvikTyper;
 import soot.dexpler.typing.DalvikTyper;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.Jimple;
-import soot.jimple.NewArrayExpr;
+import soot.jimple.*;
+
+import static soot.dexpler.Util.isFloatLike;
 
 public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
 
-    public FilledNewArrayRangeInstruction (Instruction instruction, int codeAdress) {
+    public FilledNewArrayRangeInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        if(!(instruction instanceof Instruction3rc))
-            throw new IllegalArgumentException("Expected Instruction3rc but got: "+instruction.getClass());
+    public void jimplify(DexBody body) {
+        if (!(instruction instanceof Instruction3rc))
+            throw new IllegalArgumentException("Expected Instruction3rc but got: " + instruction.getClass());
 
-        Instruction3rc filledNewArrayInstr = (Instruction3rc)instruction;
+        Instruction3rc filledNewArrayInstr = (Instruction3rc) instruction;
 
 //        NopStmt nopStmtBeginning = Jimple.v().newNopStmt();
 //        body.add(nopStmtBeginning);
@@ -62,11 +57,11 @@ public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
         Type t = DexType.toSoot((TypeReference) filledNewArrayInstr.getReference());
         // NewArrayExpr needs the ElementType as it increases the array dimension by 1
         Type arrayType = ((ArrayType) t).getElementType();
-System.out.println("array element type (narr range): "+ arrayType);
+        System.out.println("array element type (narr range): " + arrayType);
         NewArrayExpr arrayExpr = Jimple.v().newNewArrayExpr(arrayType, IntConstant.v(usedRegister));
         arrayLocal = body.getStoreResultLocal();
         AssignStmt assignStmt = Jimple.v().newAssignStmt(arrayLocal, arrayExpr);
-        body.add (assignStmt);
+        body.add(assignStmt);
 
         for (int i = 0; i < usedRegister; i++) {
             ArrayRef arrayRef = Jimple.v().newArrayRef(arrayLocal, IntConstant.v(i));
@@ -79,15 +74,15 @@ System.out.println("array element type (narr range): "+ arrayType);
 //        body.add(nopStmtEnd);
 
 //        defineBlock(nopStmtBeginning,nopStmtEnd);
-        setUnit (assignStmt);
+        setUnit(assignStmt);
 
 //        body.setDanglingInstruction(this);
-        
+
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assignStmt);
-          int op = (int)instruction.getOpcode().value;
-          DalvikTyper.v().setType(assignStmt.getLeftOpBox(), arrayExpr.getType(), false);
-          //DalvikTyper.v().addConstraint(assignStmt.getLeftOpBox(), assignStmt.getRightOpBox());
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assignStmt);
+            int op = (int) instruction.getOpcode().value;
+            DalvikTyper.v().setType(assignStmt.getLeftOpBox(), arrayExpr.getType(), false);
+            //DalvikTyper.v().addConstraint(assignStmt.getLeftOpBox(), assignStmt.getRightOpBox());
         }
 
     }

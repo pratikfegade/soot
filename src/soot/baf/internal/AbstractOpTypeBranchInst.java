@@ -24,66 +24,55 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.*;
-import soot.baf.*;
+import soot.baf.Baf;
 
-public abstract class AbstractOpTypeBranchInst extends AbstractBranchInst
-{
+public abstract class AbstractOpTypeBranchInst extends AbstractBranchInst {
     protected Type opType;
 
-  
 
-
-    AbstractOpTypeBranchInst(Type opType, UnitBox targetBox)
-    {
+    AbstractOpTypeBranchInst(Type opType, UnitBox targetBox) {
         super(targetBox);
-        if(opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
+        if (opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
             opType = RefType.v();
 
 
         this.opType = opType;
     }
 
-    public int getInCount()
-    {
-            return 2;
-    }
-    
-    public int getOutCount()
-    {
-            return 0;
+    public int getInCount() {
+        return 2;
     }
 
-    public Type getOpType()
-    {
+    public int getOutCount() {
+        return 0;
+    }
+
+    public Type getOpType() {
         return opType;
     }
-    
-    public void setOpType(Type t)
-    {
+
+    public void setOpType(Type t) {
         opType = t;
-        if(opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
+        if (opType instanceof NullType || opType instanceof ArrayType || opType instanceof RefType)
             opType = RefType.v();
     }
 
-   
-    public String toString()
-    {
-      // do stuff with opType later.
-        return getName() + "." + Baf.bafDescriptorOf(opType)+
-           " " + getTarget();
-          
-    }    
-    public void toString( UnitPrinter up ) {
-        up.literal( getName() );
-        up.literal( "." );
-        up.literal( Baf.bafDescriptorOf(opType) );
-        up.literal( " " );
+
+    public String toString() {
+        // do stuff with opType later.
+        return getName() + "." + Baf.bafDescriptorOf(opType) +
+                " " + getTarget();
+
+    }
+
+    public void toString(UnitPrinter up) {
+        up.literal(getName());
+        up.literal(".");
+        up.literal(Baf.bafDescriptorOf(opType));
+        up.literal(" ");
         targetBox.toString(up);
     }
 }

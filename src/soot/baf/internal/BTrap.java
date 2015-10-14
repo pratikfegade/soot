@@ -24,28 +24,23 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
+import soot.AbstractTrap;
+import soot.SootClass;
+import soot.Unit;
+import soot.baf.Baf;
 
-public class BTrap extends AbstractTrap
-{
-    public BTrap(SootClass exception, Unit beginStmt, Unit endStmt, Unit handlerStmt)
-    {
+public class BTrap extends AbstractTrap {
+    public BTrap(SootClass exception, Unit beginStmt, Unit endStmt, Unit handlerStmt) {
         super(exception, Baf.v().newInstBox(beginStmt),
-              Baf.v().newInstBox(endStmt),
-              Baf.v().newInstBox(handlerStmt));
+                Baf.v().newInstBox(endStmt),
+                Baf.v().newInstBox(handlerStmt));
     }
-    
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new BTrap(exception, getBeginUnit(), getEndUnit(), getHandlerUnit());
     }
-    
-    
-    
+
+
 }

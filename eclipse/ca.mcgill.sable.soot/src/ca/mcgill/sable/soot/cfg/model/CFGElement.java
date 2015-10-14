@@ -22,98 +22,100 @@ package ca.mcgill.sable.soot.cfg.model;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
 import org.eclipse.ui.views.properties.IPropertySource;
-import java.beans.*;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 
 public class CFGElement implements IPropertySource {
 
-	public static final String TEXT = "node text";
-	public static final String CHILDREN = "children";
-	public static final String INPUTS = "inputs";
-	public static final String OUTPUTS = "outputs";
-	public static final String HEAD = "head";
-	public static final String TAIL = "tail";
-	public static final String BEFORE_INFO = "before";
-	public static final String AFTER_INFO = "after";
-	public static final String NEW_FLOW_DATA = "new_flow_data";
-	public static final String FLOW_INFO = "flow_info";
-	public static final String FLOW_CHILDREN = "flow_children";
-	public static final String PART_FLOW_CHILDREN = "part flow_children";
-	
-	public static final String NODE_DATA = "node_data";
-	
-	public static final String REVEAL = "reveal";
-	public static final String HIGHLIGHT = "highlight";
-	
-	protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
-	
-	public void addPropertyChangeListener(PropertyChangeListener l){
-		listeners.addPropertyChangeListener(l);
-	}
-	
-	protected void firePropertyChange(String name, Object oldVal, Object newVal){
-		listeners.firePropertyChange(name, oldVal, newVal);
-	}
-	
-	protected void firePropertyChange(String name, Object newVal){
-		firePropertyChange(name, null, newVal);
-	}
-	
-	public void removePropertyChangeListener(PropertyChangeListener l){
-		listeners.removePropertyChangeListener(l);
-	}
-	
-	public void fireStructureChange(String name, Object newVal){
-		firePropertyChange(name, null, newVal);
-	}
-	
-	/**
-	 * 
-	 */
-	public CFGElement() {
-		super();
-	}
+    public static final String TEXT = "node text";
+    public static final String CHILDREN = "children";
+    public static final String INPUTS = "inputs";
+    public static final String OUTPUTS = "outputs";
+    public static final String HEAD = "head";
+    public static final String TAIL = "tail";
+    public static final String BEFORE_INFO = "before";
+    public static final String AFTER_INFO = "after";
+    public static final String NEW_FLOW_DATA = "new_flow_data";
+    public static final String FLOW_INFO = "flow_info";
+    public static final String FLOW_CHILDREN = "flow_children";
+    public static final String PART_FLOW_CHILDREN = "part flow_children";
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
-	 */
-	public Object getEditableValue() {
-		return this;
-	}
+    public static final String NODE_DATA = "node_data";
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
-	 */
-	public IPropertyDescriptor[] getPropertyDescriptors() {
-		return new IPropertyDescriptor[1];
-	}
+    public static final String REVEAL = "reveal";
+    public static final String HIGHLIGHT = "highlight";
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
-	 */
-	public Object getPropertyValue(Object id) {
-		return null;
-	}
+    protected PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
-	 */
-	public boolean isPropertySet(Object id) {
-		return false;
-	}
+    /**
+     *
+     */
+    public CFGElement() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
-	 */
-	public void resetPropertyValue(Object id) {
-		
-	}
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        listeners.addPropertyChangeListener(l);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
-	 */
-	public void setPropertyValue(Object id, Object value) {
-		
-	}
+    protected void firePropertyChange(String name, Object oldVal, Object newVal) {
+        listeners.firePropertyChange(name, oldVal, newVal);
+    }
+
+    protected void firePropertyChange(String name, Object newVal) {
+        firePropertyChange(name, null, newVal);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        listeners.removePropertyChangeListener(l);
+    }
+
+    public void fireStructureChange(String name, Object newVal) {
+        firePropertyChange(name, null, newVal);
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#getEditableValue()
+     */
+    public Object getEditableValue() {
+        return this;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyDescriptors()
+     */
+    public IPropertyDescriptor[] getPropertyDescriptors() {
+        return new IPropertyDescriptor[1];
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#getPropertyValue(java.lang.Object)
+     */
+    public Object getPropertyValue(Object id) {
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#isPropertySet(java.lang.Object)
+     */
+    public boolean isPropertySet(Object id) {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#resetPropertyValue(java.lang.Object)
+     */
+    public void resetPropertyValue(Object id) {
+
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.views.properties.IPropertySource#setPropertyValue(java.lang.Object, java.lang.Object)
+     */
+    public void setPropertyValue(Object id, Object value) {
+
+    }
 
 }

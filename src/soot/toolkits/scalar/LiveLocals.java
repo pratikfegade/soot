@@ -24,47 +24,46 @@
  */
 
 
-
-
-
-
 package soot.toolkits.scalar;
 
-import soot.*;
+import soot.Local;
+import soot.Unit;
 import soot.toolkits.graph.UnitGraph;
 
-import java.util.*;
+import java.util.List;
 
 
 /**
- *   Provides an interface for querying for the list of Locals that are
- *   live before an after a given unit in a method.
+ * Provides an interface for querying for the list of Locals that are
+ * live before an after a given unit in a method.
  */
-public interface LiveLocals
-{
-	static final public class Factory {
-		private Factory() {}
-		public static LiveLocals newLiveLocals(UnitGraph graph) {
-			return new SimpleLiveLocals(graph);
-		}
-	}
-	
+public interface LiveLocals {
     /**
-     *   Returns the list of Locals that are live before the specified
-     *   Unit. 
-     *   @param s the Unit that defines this query.
-     *   @return a list of Locals that are live before the specified unit in the method.
+     * Returns the list of Locals that are live before the specified
+     * Unit.
+     *
+     * @param s the Unit that defines this query.
+     * @return a list of Locals that are live before the specified unit in the method.
      */
-    public List<Local> getLiveLocalsBefore(Unit s);
-
+    List<Local> getLiveLocalsBefore(Unit s);
 
     /**
-     *   Returns the list of Locals that are live after the specified
-     *   Unit. 
-     *   @param s the Unit that defines this query.
-     *   @return a list of Locals that are live after the specified unit in the method.
+     * Returns the list of Locals that are live after the specified
+     * Unit.
+     *
+     * @param s the Unit that defines this query.
+     * @return a list of Locals that are live after the specified unit in the method.
      */
-    public List<Local> getLiveLocalsAfter(Unit s);
+    List<Local> getLiveLocalsAfter(Unit s);
+
+    final class Factory {
+        private Factory() {
+        }
+
+        public static LiveLocals newLiveLocals(UnitGraph graph) {
+            return new SimpleLiveLocals(graph);
+        }
+    }
 }
 
 

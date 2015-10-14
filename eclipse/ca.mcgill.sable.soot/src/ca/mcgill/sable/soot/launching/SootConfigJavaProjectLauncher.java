@@ -19,14 +19,13 @@
 
 package ca.mcgill.sable.soot.launching;
 
+import ca.mcgill.sable.soot.SootPlugin;
+import ca.mcgill.sable.soot.ui.SootConfigManagerDialog;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.*;
+
 import java.util.HashMap;
 import java.util.Iterator;
-
-import org.eclipse.jface.action.IAction;
-import ca.mcgill.sable.soot.*;
-import ca.mcgill.sable.soot.ui.SootConfigManagerDialog;
-
-import org.eclipse.jface.dialogs.*;
 
 /**
  * Launches a saved Soot configuration on the all the
@@ -34,88 +33,86 @@ import org.eclipse.jface.dialogs.*;
  */
 public class SootConfigJavaProjectLauncher extends SootProjectLauncher {
 
-	public void run(IAction action) {
-		
-		super.run(action);
-		
-		SootConfigManagerDialog manager = new SootConfigManagerDialog(getWindow().getShell());
-		manager.setEclipseDefList(setEclipseDefs());
-		manager.setLauncher(this);
-		manager.open();
-		
-		
-	}
-	
-	public void launch(String name, String mainClass) {
-		
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		
-		setSootCommandList(new SootCommandList());
-		
-		SootSavedConfiguration ssc = new SootSavedConfiguration(name, settings.getArray(name));
-		ssc.setEclipseDefs(setRunEclipseDefs());
-		
-		getSootCommandList().addSingleOpt(ssc.toRunArray());
-		
-		if ((mainClass == null) || (mainClass.length() == 0)){
-			runSootDirectly();
-		}
-		else {
-			runSootDirectly(mainClass);
-		}
-		runFinish();
-	}
-	
-	private HashMap setEclipseDefs() {
-		
-		HashMap defs = new HashMap();
-		defs.put(LaunchCommands.OUTPUT_DIR, getOutputLocation());
-		Iterator it = getJavaProcessPath().iterator();
-		String cp = (String)it.next();
-		while (it.hasNext()){
-			cp = cp + getSootClasspath().getSeparator() + (String)it.next();
-		}
-		cp = cp + getSootClasspath().getSeparator() + getClasspathAppend();
-		defs.put(LaunchCommands.SOOT_CLASSPATH, cp);
-		defs.put(LaunchCommands.PROCESS_PATH, getJavaProcessPath());
-		defs.put(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
-		defs.put(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
-		
-		defs.put(LaunchCommands.SRC_PREC, "java");
-		
-		return defs;
-	}
-	
-	private HashMap setRunEclipseDefs() {
-		
-		HashMap defs = new HashMap();
-		defs.put(LaunchCommands.OUTPUT_DIR, getOutputLocation());
-		Iterator it = getJavaProcessPath().iterator();
-		String cp = (String)it.next();
-		while (it.hasNext()){
-			cp = cp + getSootClasspath().getSeparator() + (String)it.next();
-		}
-		cp = cp + getSootClasspath().getSeparator() + getClasspathAppend();
-		defs.put(LaunchCommands.SOOT_CLASSPATH, cp);
-		Iterator it2 = getJavaProcessPath().iterator();
-		String pPath = "";
-		while (it2.hasNext()){
-			String next = (String)it2.next();
-			if (pPath.equals("")){
-				pPath = next;
-			}
-			else {
-				pPath = pPath + "\r\n" + next;
-			}
-			
-		}
-		defs.put(LaunchCommands.PROCESS_PATH, pPath);
-		defs.put(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
-		defs.put(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
-	
-		defs.put(LaunchCommands.SRC_PREC, "java");
-		return defs;
-	}
-	
-	
+    public void run(IAction action) {
+
+        super.run(action);
+
+        SootConfigManagerDialog manager = new SootConfigManagerDialog(getWindow().getShell());
+        manager.setEclipseDefList(setEclipseDefs());
+        manager.setLauncher(this);
+        manager.open();
+
+
+    }
+
+    public void launch(String name, String mainClass) {
+
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+
+        setSootCommandList(new SootCommandList());
+
+        SootSavedConfiguration ssc = new SootSavedConfiguration(name, settings.getArray(name));
+        ssc.setEclipseDefs(setRunEclipseDefs());
+
+        getSootCommandList().addSingleOpt(ssc.toRunArray());
+
+        if ((mainClass == null) || (mainClass.length() == 0)) {
+            runSootDirectly();
+        } else {
+            runSootDirectly(mainClass);
+        }
+        runFinish();
+    }
+
+    private HashMap setEclipseDefs() {
+
+        HashMap defs = new HashMap();
+        defs.put(LaunchCommands.OUTPUT_DIR, getOutputLocation());
+        Iterator it = getJavaProcessPath().iterator();
+        String cp = (String) it.next();
+        while (it.hasNext()) {
+            cp = cp + getSootClasspath().getSeparator() + it.next();
+        }
+        cp = cp + getSootClasspath().getSeparator() + getClasspathAppend();
+        defs.put(LaunchCommands.SOOT_CLASSPATH, cp);
+        defs.put(LaunchCommands.PROCESS_PATH, getJavaProcessPath());
+        defs.put(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
+        defs.put(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
+
+        defs.put(LaunchCommands.SRC_PREC, "java");
+
+        return defs;
+    }
+
+    private HashMap setRunEclipseDefs() {
+
+        HashMap defs = new HashMap();
+        defs.put(LaunchCommands.OUTPUT_DIR, getOutputLocation());
+        Iterator it = getJavaProcessPath().iterator();
+        String cp = (String) it.next();
+        while (it.hasNext()) {
+            cp = cp + getSootClasspath().getSeparator() + it.next();
+        }
+        cp = cp + getSootClasspath().getSeparator() + getClasspathAppend();
+        defs.put(LaunchCommands.SOOT_CLASSPATH, cp);
+        Iterator it2 = getJavaProcessPath().iterator();
+        String pPath = "";
+        while (it2.hasNext()) {
+            String next = (String) it2.next();
+            if (pPath.equals("")) {
+                pPath = next;
+            } else {
+                pPath = pPath + "\r\n" + next;
+            }
+
+        }
+        defs.put(LaunchCommands.PROCESS_PATH, pPath);
+        defs.put(LaunchCommands.KEEP_LINE_NUMBER, new Boolean(true));
+        defs.put(LaunchCommands.XML_ATTRIBUTES, new Boolean(true));
+
+        defs.put(LaunchCommands.SRC_PREC, "java");
+        return defs;
+    }
+
+
 }

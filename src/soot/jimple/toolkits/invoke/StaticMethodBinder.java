@@ -24,90 +24,92 @@
  */
 
 package soot.jimple.toolkits.invoke;
-import soot.options.*;
 
 import soot.*;
 import soot.jimple.*;
-import soot.jimple.toolkits.scalar.*;
 import soot.jimple.toolkits.callgraph.*;
+import soot.jimple.toolkits.scalar.LocalNameStandardizer;
+import soot.options.SMBOptions;
+import soot.util.Chain;
+
 import java.util.*;
-import soot.util.*;
 
-/** Uses the Scene's currently-active InvokeGraph to statically bind monomorphic call sites. */
-public class StaticMethodBinder extends SceneTransformer
-{
-    public StaticMethodBinder( Singletons.Global g ) {}
-    public static StaticMethodBinder v() { return G.v().soot_jimple_toolkits_invoke_StaticMethodBinder(); }
+/**
+ * Uses the Scene's currently-active InvokeGraph to statically bind monomorphic call sites.
+ */
+public class StaticMethodBinder extends SceneTransformer {
+    public StaticMethodBinder(Singletons.Global g) {
+    }
 
-    protected void internalTransform(String phaseName, Map opts)
-    {
-        Filter instanceInvokesFilter = new Filter( new InstanceInvokeEdgesPred() );
-        SMBOptions options = new SMBOptions( opts );
-        String modifierOptions = PhaseOptions.getString( opts, "allowed-modifier-changes");
+    public static StaticMethodBinder v() {
+        return G.v().soot_jimple_toolkits_invoke_StaticMethodBinder();
+    }
+
+    protected void internalTransform(String phaseName, Map opts) {
+        Filter instanceInvokesFilter = new Filter(new InstanceInvokeEdgesPred());
+        SMBOptions options = new SMBOptions(opts);
+        String modifierOptions = PhaseOptions.getString(opts, "allowed-modifier-changes");
         HashMap instanceToStaticMap = new HashMap();
 
         CallGraph cg = Scene.v().getCallGraph();
         Hierarchy hierarchy = Scene.v().getActiveHierarchy();
 
         Iterator classesIt = Scene.v().getApplicationClasses().iterator();
-        while (classesIt.hasNext())
-        {
-            SootClass c = (SootClass)classesIt.next();
-            
-            LinkedList methodsList = new LinkedList(); 
-            for( Iterator it = c.methodIterator(); it.hasNext(); ) {
+        while (classesIt.hasNext()) {
+            SootClass c = (SootClass) classesIt.next();
+
+            LinkedList methodsList = new LinkedList();
+            for (Iterator it = c.methodIterator(); it.hasNext(); ) {
                 methodsList.add(it.next());
             }
 
-            while (!methodsList.isEmpty())
-            {
-                SootMethod container = (SootMethod)methodsList.removeFirst();
+            while (!methodsList.isEmpty()) {
+                SootMethod container = (SootMethod) methodsList.removeFirst();
 
                 if (!container.isConcrete())
                     continue;
 
-                if (!instanceInvokesFilter.wrap( cg.edgesOutOf(container) ).hasNext())
+                if (!instanceInvokesFilter.wrap(cg.edgesOutOf(container)).hasNext())
                     continue;
 
-                JimpleBody b = (JimpleBody)container.getActiveBody();
-                
-                List<Unit> unitList = new ArrayList<Unit>(); unitList.addAll(b.getUnits());
+                JimpleBody b = (JimpleBody) container.getActiveBody();
+
+                List<Unit> unitList = new ArrayList<Unit>();
+                unitList.addAll(b.getUnits());
                 Iterator<Unit> unitIt = unitList.iterator();
 
-                while (unitIt.hasNext())
-                {
-                    Stmt s = (Stmt)unitIt.next();
+                while (unitIt.hasNext()) {
+                    Stmt s = (Stmt) unitIt.next();
                     if (!s.containsInvokeExpr())
                         continue;
 
 
                     InvokeExpr ie = s.getInvokeExpr();
 
-                    if (ie instanceof StaticInvokeExpr || 
-                        ie instanceof SpecialInvokeExpr)
+                    if (ie instanceof StaticInvokeExpr ||
+                            ie instanceof SpecialInvokeExpr)
                         continue;
 
-                    Iterator targets = new Targets( 
-                            instanceInvokesFilter.wrap( cg.edgesOutOf(s) ) );
-                    if( !targets.hasNext() ) continue;
-                    SootMethod target = (SootMethod)targets.next();
-                    if( targets.hasNext() ) continue;
+                    Iterator targets = new Targets(
+                            instanceInvokesFilter.wrap(cg.edgesOutOf(s)));
+                    if (!targets.hasNext()) continue;
+                    SootMethod target = (SootMethod) targets.next();
+                    if (targets.hasNext()) continue;
 
                     // Ok, we have an Interface or VirtualInvoke going to 1.
 
-                    
+
                     if (!AccessManager.ensureAccess(container, target, modifierOptions))
                         continue;
-                    
+
                     if (!target.getDeclaringClass().isApplicationClass() || !target.isConcrete())
                         continue;
 
                     // Don't modify java.lang.Object
-                    if (target.getDeclaringClass()==Scene.v().getSootClass("java.lang.Object"))
+                    if (target.getDeclaringClass() == Scene.v().getSootClass("java.lang.Object"))
                         continue;
 
-                    if (!instanceToStaticMap.containsKey(target))
-                    {
+                    if (!instanceToStaticMap.containsKey(target)) {
                         List newParameterTypes = new ArrayList();
                         newParameterTypes.add(RefType.v(target.getDeclaringClass().getName()));
 
@@ -115,37 +117,36 @@ public class StaticMethodBinder extends SceneTransformer
 
                         // Check for signature conflicts.
                         String newName = target.getName() + "_static";
-                        while (target.getDeclaringClass().declaresMethod(newName, 
-                                                newParameterTypes,
-                                                target.getReturnType()))
+                        while (target.getDeclaringClass().declaresMethod(newName,
+                                newParameterTypes,
+                                target.getReturnType()))
                             newName = newName + "_static";
 
                         SootMethod ct = new SootMethod(newName, newParameterTypes,
-                                                       target.getReturnType(), target.getModifiers() | Modifier.STATIC,
-                                                       target.getExceptions());
+                                target.getReturnType(), target.getModifiers() | Modifier.STATIC,
+                                target.getExceptions());
                         target.getDeclaringClass().addMethod(ct);
 
                         methodsList.addLast(ct);
 
-                        ct.setActiveBody((Body)target.getActiveBody().clone());
+                        ct.setActiveBody((Body) target.getActiveBody().clone());
 
                         // Make the invoke graph take into account the newly-cloned body.
                         {
                             Iterator oldUnits = target.getActiveBody().getUnits().iterator();
                             Iterator newUnits = ct.getActiveBody().getUnits().iterator();
 
-                            while (newUnits.hasNext())
-                            {
+                            while (newUnits.hasNext()) {
                                 Stmt oldStmt, newStmt;
-                                oldStmt = (Stmt)oldUnits.next(); 
-                                newStmt = (Stmt)newUnits.next();
+                                oldStmt = (Stmt) oldUnits.next();
+                                newStmt = (Stmt) newUnits.next();
 
-                                Iterator edges = cg.edgesOutOf( oldStmt );
-                                while( edges.hasNext() ) {
+                                Iterator edges = cg.edgesOutOf(oldStmt);
+                                while (edges.hasNext()) {
                                     Edge e = (Edge) edges.next();
-                                    cg.addEdge( new Edge(
-                                        ct, newStmt, e.tgt(), e.kind() ) );
-                                    cg.removeEdge( e );                                        
+                                    cg.addEdge(new Edge(
+                                            ct, newStmt, e.tgt(), e.kind()));
+                                    cg.removeEdge(e);
                                 }
                             }
                         }
@@ -160,55 +161,47 @@ public class StaticMethodBinder extends SceneTransformer
                             Chain units = newBody.getUnits();
 
                             Iterator unitsIt = newBody.getUnits().snapshotIterator();
-                            while (unitsIt.hasNext())
-                            {
-                                Stmt st = (Stmt)unitsIt.next();
-                                if (st instanceof IdentityStmt)
-                                {
-                                    IdentityStmt is = (IdentityStmt)st;
-                                    if (is.getRightOp() instanceof ThisRef)
-                                    {
-                                    	units.swapWith(st, Jimple.v().newIdentityStmt(is.getLeftOp(),
-                                    		Jimple.v().newParameterRef(is.getRightOp().getType(), 0)));
-                                    }
-                                    else
-                                    {
-                                        if (is.getRightOp() instanceof ParameterRef)
-                                        {
-                                            ParameterRef ro = (ParameterRef)is.getRightOp();
+                            while (unitsIt.hasNext()) {
+                                Stmt st = (Stmt) unitsIt.next();
+                                if (st instanceof IdentityStmt) {
+                                    IdentityStmt is = (IdentityStmt) st;
+                                    if (is.getRightOp() instanceof ThisRef) {
+                                        units.swapWith(st, Jimple.v().newIdentityStmt(is.getLeftOp(),
+                                                Jimple.v().newParameterRef(is.getRightOp().getType(), 0)));
+                                    } else {
+                                        if (is.getRightOp() instanceof ParameterRef) {
+                                            ParameterRef ro = (ParameterRef) is.getRightOp();
                                             ro.setIndex(ro.getIndex() + 1);
                                         }
                                     }
                                 }
                             }
-                            
+
                         }
 
                         instanceToStaticMap.put(target, ct);
                     }
 
-                    SootMethod clonedTarget = (SootMethod)instanceToStaticMap.get(target);
-                    Value thisToAdd = ((InstanceInvokeExpr)ie).getBase();
+                    SootMethod clonedTarget = (SootMethod) instanceToStaticMap.get(target);
+                    Value thisToAdd = ((InstanceInvokeExpr) ie).getBase();
 
                     // Insert casts to please the verifier.
-                    if (options.insert_redundant_casts())
-                    {
+                    if (options.insert_redundant_casts()) {
                         // The verifier will complain if targetUsesThis, and:
                         //    the argument passed to the method is not the same type.
                         // For instance, Bottle.price_static takes a cost.
                         // Cost is an interface implemented by Bottle.
                         SootClass localType, parameterType;
-                        localType = ((RefType)((InstanceInvokeExpr)ie).getBase().getType()).getSootClass();
+                        localType = ((RefType) ((InstanceInvokeExpr) ie).getBase().getType()).getSootClass();
                         parameterType = target.getDeclaringClass();
 
                         if (localType.isInterface() ||
-                             hierarchy.isClassSuperclassOf(localType, parameterType))
-                        {
+                                hierarchy.isClassSuperclassOf(localType, parameterType)) {
                             Local castee = Jimple.v().newLocal("__castee", parameterType.getType());
                             b.getLocals().add(castee);
                             b.getUnits().insertBefore(Jimple.v().newAssignStmt(castee,
-                                                         Jimple.v().newCastExpr(((InstanceInvokeExpr)ie).getBase(),
-                                                                                parameterType.getType())), s);
+                                    Jimple.v().newCastExpr(((InstanceInvokeExpr) ie).getBase(),
+                                            parameterType.getType())), s);
                             thisToAdd = castee;
                         }
                     }
@@ -220,57 +213,52 @@ public class StaticMethodBinder extends SceneTransformer
                         newArgs.addAll(ie.getArgs());
 
                         StaticInvokeExpr sie = Jimple.v().newStaticInvokeExpr
-                            (clonedTarget.makeRef(), newArgs);
-                        
+                                (clonedTarget.makeRef(), newArgs);
+
                         ValueBox ieBox = s.getInvokeExprBox();
                         ieBox.setValue(sie);
 
-                        cg.addEdge( new Edge( container, s, clonedTarget ) );
+                        cg.addEdge(new Edge(container, s, clonedTarget));
                     }
 
                     // (If enabled), add a null pointer check.
-                    if (options.insert_null_checks())
-                    {
+                    if (options.insert_null_checks()) {
                         boolean caught = TrapManager.isExceptionCaughtAt
-                            (Scene.v().getSootClass("java.lang.NullPointerException"), s, b);
+                                (Scene.v().getSootClass("java.lang.NullPointerException"), s, b);
 
                         /* Ah ha.  Caught again! */
-                        if (caught)
-                        {
+                        if (caught) {
                             /* In this case, we don't use throwPoint;
                              * instead, put the code right there. */
-                            Stmt insertee = Jimple.v().newIfStmt(Jimple.v().newNeExpr(((InstanceInvokeExpr)ie).getBase(), 
-                                NullConstant.v()), s);
+                            Stmt insertee = Jimple.v().newIfStmt(Jimple.v().newNeExpr(((InstanceInvokeExpr) ie).getBase(),
+                                    NullConstant.v()), s);
 
                             b.getUnits().insertBefore(insertee, s);
 
                             // This sucks (but less than before).
-                            ((IfStmt)insertee).setTarget(s);
+                            ((IfStmt) insertee).setTarget(s);
 
                             ThrowManager.addThrowAfter(b, insertee);
-                        }
-                        else
-                        {
-                            Stmt throwPoint = 
-                                ThrowManager.getNullPointerExceptionThrower(b);
+                        } else {
+                            Stmt throwPoint =
+                                    ThrowManager.getNullPointerExceptionThrower(b);
                             b.getUnits().insertBefore
-                                (Jimple.v().newIfStmt(Jimple.v().newEqExpr(((InstanceInvokeExpr)ie).getBase(), 
-                                NullConstant.v()), throwPoint),
-                                 s);
+                                    (Jimple.v().newIfStmt(Jimple.v().newEqExpr(((InstanceInvokeExpr) ie).getBase(),
+                                                    NullConstant.v()), throwPoint),
+                                            s);
                         }
                     }
-                    
+
                     // Add synchronizing stuff.
                     {
-                        if (target.isSynchronized())
-                        {
+                        if (target.isSynchronized()) {
                             clonedTarget.setModifiers(clonedTarget.getModifiers() & ~Modifier.SYNCHRONIZED);
-                            SynchronizerManager.v().synchronizeStmtOn(s, b, (Local)((InstanceInvokeExpr)ie).getBase());
+                            SynchronizerManager.v().synchronizeStmtOn(s, b, (Local) ((InstanceInvokeExpr) ie).getBase());
                         }
                     }
 
                     // Resolve name collisions.
-                        LocalNameStandardizer.v().transform(b, phaseName + ".lns");
+                    LocalNameStandardizer.v().transform(b, phaseName + ".lns");
                 }
             }
         }

@@ -2,31 +2,26 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TQuotedName extends Token
-{
-    public TQuotedName(String text)
-    {
+public final class TQuotedName extends Token {
+    public TQuotedName(String text) {
         setText(text);
     }
 
-    public TQuotedName(String text, int line, int pos)
-    {
+    public TQuotedName(String text, int line, int pos) {
         setText(text);
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TQuotedName(getText(), getLine(), getPos());
+    public Object clone() {
+        return new TQuotedName(getText(), getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTQuotedName(this);
     }
 }

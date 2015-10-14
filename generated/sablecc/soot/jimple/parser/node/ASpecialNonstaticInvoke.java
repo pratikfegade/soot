@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ASpecialNonstaticInvoke extends PNonstaticInvoke
-{
+public final class ASpecialNonstaticInvoke extends PNonstaticInvoke {
     private TSpecialinvoke _specialinvoke_;
 
-    public ASpecialNonstaticInvoke()
-    {
+    public ASpecialNonstaticInvoke() {
         // Constructor
     }
 
     public ASpecialNonstaticInvoke(
-        @SuppressWarnings("hiding") TSpecialinvoke _specialinvoke_)
-    {
+            @SuppressWarnings("hiding") TSpecialinvoke _specialinvoke_) {
         // Constructor
         setSpecialinvoke(_specialinvoke_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASpecialNonstaticInvoke(
-            cloneNode(this._specialinvoke_));
+                cloneNode(this._specialinvoke_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASpecialNonstaticInvoke(this);
     }
 
-    public TSpecialinvoke getSpecialinvoke()
-    {
+    public TSpecialinvoke getSpecialinvoke() {
         return this._specialinvoke_;
     }
 
-    public void setSpecialinvoke(TSpecialinvoke node)
-    {
-        if(this._specialinvoke_ != null)
-        {
+    public void setSpecialinvoke(TSpecialinvoke node) {
+        if (this._specialinvoke_ != null) {
             this._specialinvoke_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ASpecialNonstaticInvoke extends PNonstaticInvoke
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._specialinvoke_);
+                + toString(this._specialinvoke_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._specialinvoke_ == child)
-        {
+        if (this._specialinvoke_ == child) {
             this._specialinvoke_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ASpecialNonstaticInvoke extends PNonstaticInvoke
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._specialinvoke_ == oldChild)
-        {
+        if (this._specialinvoke_ == oldChild) {
             setSpecialinvoke((TSpecialinvoke) newChild);
             return;
         }

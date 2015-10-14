@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AInterfaceFileType extends PFileType
-{
+public final class AInterfaceFileType extends PFileType {
     private TInterface _interface_;
 
-    public AInterfaceFileType()
-    {
+    public AInterfaceFileType() {
         // Constructor
     }
 
     public AInterfaceFileType(
-        @SuppressWarnings("hiding") TInterface _interface_)
-    {
+            @SuppressWarnings("hiding") TInterface _interface_) {
         // Constructor
         setInterface(_interface_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AInterfaceFileType(
-            cloneNode(this._interface_));
+                cloneNode(this._interface_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAInterfaceFileType(this);
     }
 
-    public TInterface getInterface()
-    {
+    public TInterface getInterface() {
         return this._interface_;
     }
 
-    public void setInterface(TInterface node)
-    {
-        if(this._interface_ != null)
-        {
+    public void setInterface(TInterface node) {
+        if (this._interface_ != null) {
             this._interface_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AInterfaceFileType extends PFileType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._interface_);
+                + toString(this._interface_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._interface_ == child)
-        {
+        if (this._interface_ == child) {
             this._interface_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AInterfaceFileType extends PFileType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._interface_ == oldChild)
-        {
+        if (this._interface_ == oldChild) {
             setInterface((TInterface) newChild);
             return;
         }

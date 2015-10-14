@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ASingleArgList extends PArgList
-{
+public final class ASingleArgList extends PArgList {
     private PImmediate _immediate_;
 
-    public ASingleArgList()
-    {
+    public ASingleArgList() {
         // Constructor
     }
 
     public ASingleArgList(
-        @SuppressWarnings("hiding") PImmediate _immediate_)
-    {
+            @SuppressWarnings("hiding") PImmediate _immediate_) {
         // Constructor
         setImmediate(_immediate_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASingleArgList(
-            cloneNode(this._immediate_));
+                cloneNode(this._immediate_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASingleArgList(this);
     }
 
-    public PImmediate getImmediate()
-    {
+    public PImmediate getImmediate() {
         return this._immediate_;
     }
 
-    public void setImmediate(PImmediate node)
-    {
-        if(this._immediate_ != null)
-        {
+    public void setImmediate(PImmediate node) {
+        if (this._immediate_ != null) {
             this._immediate_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ASingleArgList extends PArgList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._immediate_);
+                + toString(this._immediate_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._immediate_ == child)
-        {
+        if (this._immediate_ == child) {
             this._immediate_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ASingleArgList extends PArgList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._immediate_ == oldChild)
-        {
+        if (this._immediate_ == oldChild) {
             setImmediate((PImmediate) newChild);
             return;
         }

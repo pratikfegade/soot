@@ -19,14 +19,16 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import soot.*;
-import java.util.*;
-import soot.jimple.*;
-import soot.dava.internal.SET.*;
+import soot.G;
 import soot.dava.internal.AST.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DAbruptStmt;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.jimple.Stmt;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /*
@@ -63,147 +65,144 @@ we need a reference to the parent node of this if
   TO MAKE CODE EFFECIENT BLOCK THE ANALYSIS TO GOING INTO STATEMENTS
   this is done by overriding the caseASTStatementSequenceNode
 */
-public class OrAggregatorTwo extends DepthFirstAdapter{
+public class OrAggregatorTwo extends DepthFirstAdapter {
 
-	
-	
-    public OrAggregatorTwo(){
-    	DEBUG=false;
-    }
-    public OrAggregatorTwo(boolean verbose){
-	super(verbose);
-		DEBUG=false;
+
+    public OrAggregatorTwo() {
+        DEBUG = false;
     }
 
-    public void caseASTStatementSequenceNode(ASTStatementSequenceNode node){
+    public OrAggregatorTwo(boolean verbose) {
+        super(verbose);
+        DEBUG = false;
     }
 
-    public void outASTIfElseNode(ASTIfElseNode node){
-	//check whether the else body has another if and nothing else
+    public void caseASTStatementSequenceNode(ASTStatementSequenceNode node) {
+    }
 
-	List<Object> ifBody = node.getIfBody();
-	List<Object> elseBody = node.getElseBody();
+    public void outASTIfElseNode(ASTIfElseNode node) {
+        //check whether the else body has another if and nothing else
 
-	List<Object> innerIfBody=checkElseHasOnlyIf(elseBody);
-	
-	if(innerIfBody==null){
-	    //pattern 1 did not match
+        List<Object> ifBody = node.getIfBody();
+        List<Object> elseBody = node.getElseBody();
+
+        List<Object> innerIfBody = checkElseHasOnlyIf(elseBody);
+
+        if (innerIfBody == null) {
+            //pattern 1 did not match
 
 
-	    //check for pattern 2
-	    matchPatternTwo(node);
+            //check for pattern 2
+            matchPatternTwo(node);
 
-	    return;
-	}
-	//pattern 1 is fine till now
-	//compare the ifBody with the innerIfBody
-	//They need to match exactly
+            return;
+        }
+        //pattern 1 is fine till now
+        //compare the ifBody with the innerIfBody
+        //They need to match exactly
 
-	if(ifBody.toString().compareTo(innerIfBody.toString())!=0){
-	    matchPatternTwo(node);
-	    return;
-	}
+        if (ifBody.toString().compareTo(innerIfBody.toString()) != 0) {
+            matchPatternTwo(node);
+            return;
+        }
 
-	ASTCondition leftCond = node.get_Condition();
-	ASTCondition rightCond= getRightCond(elseBody);
-	ASTCondition newCond = new ASTOrCondition(leftCond,rightCond);
+        ASTCondition leftCond = node.get_Condition();
+        ASTCondition rightCond = getRightCond(elseBody);
+        ASTCondition newCond = new ASTOrCondition(leftCond, rightCond);
 
 	/*
-	  The outer if and inner if could both have labels.
+      The outer if and inner if could both have labels.
 	  Note that if the inner if had a label which was broken from inside its body
 	  the two bodies would not have been the same since the outerifbody could not have
 	  the same label.
 
 	  We therefore keep the outerIfElse label 
 	*/
-	//System.out.println("OR AGGREGATOR TWO");
-	node.set_Condition(newCond);
+        //System.out.println("OR AGGREGATOR TWO");
+        node.set_Condition(newCond);
 	
 	/*
 	  Always have to follow with a parse to remove unwanted empty ElseBodies
 	*/
-	node.replaceElseBody(new ArrayList<Object>());
+        node.replaceElseBody(new ArrayList<Object>());
 
 
-	G.v().ASTTransformations_modified = true;
+        G.v().ASTTransformations_modified = true;
     }
 
 
-    public ASTCondition getRightCond(List<Object> elseBody){
-	//We know from checkElseHasOnlyIf that there is only one node
-	//in this body and it is an ASTIfNode
-	ASTIfNode innerIfNode = (ASTIfNode)elseBody.get(0);
-	return innerIfNode.get_Condition();
+    public ASTCondition getRightCond(List<Object> elseBody) {
+        //We know from checkElseHasOnlyIf that there is only one node
+        //in this body and it is an ASTIfNode
+        ASTIfNode innerIfNode = (ASTIfNode) elseBody.get(0);
+        return innerIfNode.get_Condition();
     }
 
 
-
-    public List<Object> checkElseHasOnlyIf(List<Object> elseBody){
-	if(elseBody.size()!=1){
-	    //there should only be on IfNode here
-	    return null;
-	}
-	//there is only one node check that its a ASTIFNode
-	ASTNode temp = (ASTNode)elseBody.get(0);
-	if(!(temp instanceof ASTIfNode)){
-	    //should have been an If node to match the pattern
-	    return null;
-	}
-	ASTIfNode innerIfNode = (ASTIfNode)temp;
-	List<Object> innerIfBody = innerIfNode.getIfBody();
-	return innerIfBody;
+    public List<Object> checkElseHasOnlyIf(List<Object> elseBody) {
+        if (elseBody.size() != 1) {
+            //there should only be on IfNode here
+            return null;
+        }
+        //there is only one node check that its a ASTIFNode
+        ASTNode temp = (ASTNode) elseBody.get(0);
+        if (!(temp instanceof ASTIfNode)) {
+            //should have been an If node to match the pattern
+            return null;
+        }
+        ASTIfNode innerIfNode = (ASTIfNode) temp;
+        List<Object> innerIfBody = innerIfNode.getIfBody();
+        return innerIfBody;
     }
 
 
+    public void matchPatternTwo(ASTIfElseNode node) {
+        debug("OrAggregatorTwo", "matchPatternTwo", "Did not match patternOne...trying patternTwo");
+        List<Object> ifBody = node.getIfBody();
+        if (ifBody.size() != 1) {
+            //we are only interested if size is one
+            return;
+        }
+        ASTNode onlyNode = (ASTNode) ifBody.get(0);
+        if (!(onlyNode instanceof ASTStatementSequenceNode)) {
+            //only interested in StmtSeq nodes
+            return;
+        }
+        ASTStatementSequenceNode stmtNode = (ASTStatementSequenceNode) onlyNode;
+        List<Object> statements = stmtNode.getStatements();
+        if (statements.size() != 1) {
+            //there is more than one statement
+            return;
+        }
 
+        //there is only one statement
+        AugmentedStmt as = (AugmentedStmt) statements.get(0);
+        Stmt stmt = as.get_Stmt();
 
-    public void matchPatternTwo(ASTIfElseNode node){
-		debug("OrAggregatorTwo","matchPatternTwo","Did not match patternOne...trying patternTwo");
-	List<Object> ifBody = node.getIfBody();
-	if(ifBody.size()!=1){
-	    //we are only interested if size is one
-	    return;
-	}
-	ASTNode onlyNode=(ASTNode)ifBody.get(0);
-	if(!(onlyNode instanceof ASTStatementSequenceNode)){
-	    //only interested in StmtSeq nodes
-	    return;
-	}
-	ASTStatementSequenceNode stmtNode=(ASTStatementSequenceNode)onlyNode;
-	List<Object> statements = stmtNode.getStatements();
-	if(statements.size()!=1){
-	    //there is more than one statement
-	    return;
-	}
+        if (!(stmt instanceof DAbruptStmt)) {
+            //this is not a break/continue stmt
+            return;
+        }
+        DAbruptStmt abStmt = (DAbruptStmt) stmt;
+        if (!(abStmt.is_Break() || abStmt.is_Continue())) {
+            //not a break/continue
+            return;
+        }
 
-	//there is only one statement 
-	AugmentedStmt as = (AugmentedStmt)statements.get(0);
-	Stmt stmt = as.get_Stmt();
+        //pattern matched
+        //flip condition and switch bodies
+        ASTCondition cond = node.get_Condition();
+        cond.flip();
 
-	if(!(stmt instanceof DAbruptStmt)){
-	    //this is not a break/continue stmt
-	    return;
-	}
-	DAbruptStmt abStmt = (DAbruptStmt)stmt;
-	if(!(abStmt.is_Break() || abStmt.is_Continue())){
-	    //not a break/continue
-	    return;
-	}
+        List<Object> elseBody = node.getElseBody();
+        SETNodeLabel label = node.get_Label();
 
-	//pattern matched
-	//flip condition and switch bodies
-	ASTCondition cond = node.get_Condition();
-	cond.flip();
+        node.replace(label, cond, elseBody, ifBody);
+        debug("", "", "REVERSED CONDITIONS AND BODIES");
+        debug("", "", "elseBody is" + elseBody);
+        debug("", "", "ifBody is" + ifBody);
 
-	List<Object> elseBody = node.getElseBody();	
-	SETNodeLabel label = node.get_Label();
-
-	node.replace(label,cond,elseBody,ifBody);
-	debug("","","REVERSED CONDITIONS AND BODIES");
-	debug("","","elseBody is"+elseBody);
-	debug("","","ifBody is"+ifBody);
-	
-	G.v().ASTIfElseFlipped = true;
+        G.v().ASTIfElseFlipped = true;
     }
 
 

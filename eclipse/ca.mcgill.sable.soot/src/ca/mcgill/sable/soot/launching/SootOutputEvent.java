@@ -27,27 +27,27 @@ import java.util.EventObject;
  */
 public class SootOutputEvent extends EventObject {
 
-	private int event_type;
-	private String textToAppend;
-	
-	public void setTextToAppend(String text) {
-		textToAppend = text;
-	}
-	
-	public String getTextToAppend() {
-		return textToAppend;
-	}
-	
-	public SootOutputEvent(Object eventSource, int type) {
-		super(eventSource);
-		setEventType(type);
-	}
-	
-	public void setEventType(int type) {
-		event_type = type;
-	}
-	
-	public int getEventType() {
-		return event_type;
-	}
+    private int event_type;
+    private String textToAppend;
+
+    public SootOutputEvent(Object eventSource, int type) {
+        super(eventSource);
+        setEventType(type);
+    }
+
+    public String getTextToAppend() {
+        return textToAppend;
+    }
+
+    public void setTextToAppend(String text) {
+        textToAppend = text;
+    }
+
+    public int getEventType() {
+        return event_type;
+    }
+
+    public void setEventType(int type) {
+        event_type = type;
+    }
 }

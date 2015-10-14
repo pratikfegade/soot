@@ -18,9 +18,6 @@
  */
 package soot.jimple.spark.ondemand;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import soot.RefType;
 import soot.SootField;
 import soot.jimple.spark.internal.TypeManager;
@@ -30,14 +27,14 @@ import soot.jimple.spark.ondemand.pautil.SootUtil.CallSiteAndContext;
 import soot.jimple.spark.pag.ArrayElement;
 import soot.jimple.spark.pag.SparkField;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class IncrementalTypesHeuristic implements FieldCheckHeuristic {
 
-    private final TypeManager manager;
-
     private static final boolean EXCLUDE_TYPES = false;
-
-    private static final String[] EXCLUDED_NAMES = new String[] { "ca.mcgill.sable.soot.SootMethod" };
-
+    private static final String[] EXCLUDED_NAMES = new String[]{"ca.mcgill.sable.soot.SootMethod"};
+    private final TypeManager manager;
     private Set<RefType> typesToCheck = new HashSet<RefType>();
 
     private Set<RefType> notBothEndsTypes = new HashSet<RefType>();
@@ -45,9 +42,14 @@ public class IncrementalTypesHeuristic implements FieldCheckHeuristic {
     private RefType newTypeOnQuery = null;
 
 
+    public IncrementalTypesHeuristic(TypeManager manager) {
+        super();
+        this.manager = manager;
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see AAA.algs.Heuristic#newQuery()
      */
     public boolean runNewPass() {
@@ -68,7 +70,7 @@ public class IncrementalTypesHeuristic implements FieldCheckHeuristic {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see AAA.algs.Heuristic#validateMatchesForField(soot.jimple.spark.pag.SparkField)
      */
     public boolean validateMatchesForField(SparkField field) {
@@ -96,11 +98,6 @@ public class IncrementalTypesHeuristic implements FieldCheckHeuristic {
         }
         // System.err.println("false for " + field);
         return false;
-    }
-
-    public IncrementalTypesHeuristic(TypeManager manager) {
-        super();
-        this.manager = manager;
     }
 
     public String toString() {

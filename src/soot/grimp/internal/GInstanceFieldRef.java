@@ -25,50 +25,42 @@
  */
 
 
-
-
-
-
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
+import soot.SootFieldRef;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.grimp.Precedence;
+import soot.jimple.internal.AbstractInstanceFieldRef;
 
 public class GInstanceFieldRef extends AbstractInstanceFieldRef
-    implements Precedence
-{
-    public GInstanceFieldRef(Value base, SootFieldRef fieldRef)
-    {
+        implements Precedence {
+    public GInstanceFieldRef(Value base, SootFieldRef fieldRef) {
         super(Grimp.v().newObjExprBox(base), fieldRef);
     }
 
-    private String toString(Value op, String opString, String rightString)
-    {
+    private String toString(Value op, String opString, String rightString) {
         String leftOp = opString;
 
-        if (op instanceof Precedence && 
-            ((Precedence)op).getPrecedence() < getPrecedence()) 
+        if (op instanceof Precedence &&
+                ((Precedence) op).getPrecedence() < getPrecedence())
             leftOp = "(" + leftOp + ")";
         return leftOp + rightString;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return toString(getBase(), getBase().toString(),
-                        "." + fieldRef.getSignature());
+                "." + fieldRef.getSignature());
     }
 
-    public int getPrecedence()
-    {
+    public int getPrecedence() {
         return 950;
     }
-    
-    public Object  clone() 
-    {
-        return new GInstanceFieldRef(Grimp.cloneIfNecessary(getBase()), 
-            fieldRef);
+
+    public Object clone() {
+        return new GInstanceFieldRef(Grimp.cloneIfNecessary(getBase()),
+                fieldRef);
     }
 
-    
+
 }

@@ -20,51 +20,41 @@
 
 package ca.mcgill.sable.soot.callgraph;
 
-import org.eclipse.gef.ui.actions.EditorPartAction;
-
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.jface.resource.*;
-import org.eclipse.ui.*;
 import org.eclipse.jface.action.*;
+import org.eclipse.jface.resource.*;
 import org.eclipse.jface.viewers.*;
-
 import org.eclipse.swt.printing.*;
-
-import soot.toolkits.graph.interaction.InteractionHandler;
-
-import org.eclipse.ui.IEditorPart;
-
-import soot.toolkits.graph.interaction.InteractionHandler;
-
-import ca.mcgill.sable.soot.SootPlugin;
-
 import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorPart;
+import soot.toolkits.graph.interaction.InteractionHandler;
 
 public class CollapseAllAction implements IEditorActionDelegate {
 
-	public static final String COLLAPSE_ALL = "collapse all"; 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled() {
-		return true;
-	}
-	public CollapseAllAction() {
-	}
-	
-	public void run(IAction action){
-		InteractionHandler.v().setCgReset(true);
-		InteractionHandler.v().setInteractionCon();
-		
-	}
-	
-	public void setActiveEditor(IAction action, IEditorPart part){
-	}
-	
-	protected void init() { 
-	}
-	
-	public void selectionChanged(IAction action, ISelection sel){
-	}
+    public static final String COLLAPSE_ALL = "collapse all";
+
+    public CollapseAllAction() {
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+     */
+    protected boolean calculateEnabled() {
+        return true;
+    }
+
+    public void run(IAction action) {
+        InteractionHandler.v().setCgReset(true);
+        InteractionHandler.v().setInteractionCon();
+
+    }
+
+    public void setActiveEditor(IAction action, IEditorPart part) {
+    }
+
+    protected void init() {
+    }
+
+    public void selectionChanged(IAction action, ISelection sel) {
+    }
 
 }

@@ -19,69 +19,67 @@
 
 package soot.dava.internal.SET;
 
-import java.util.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.dava.internal.asg.*;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.jimple.GotoStmt;
+import soot.util.IterableSet;
 
-public abstract class SETControlFlowNode extends SETNode
-{
+import java.util.HashSet;
+import java.util.Iterator;
+
+public abstract class SETControlFlowNode extends SETNode {
     private AugmentedStmt characterizingStmt;
 
-    public SETControlFlowNode( AugmentedStmt characterizingStmt, IterableSet body)
-    {
-	super( body);
-	this.characterizingStmt = characterizingStmt;
+    public SETControlFlowNode(AugmentedStmt characterizingStmt, IterableSet body) {
+        super(body);
+        this.characterizingStmt = characterizingStmt;
     }
 
-    public AugmentedStmt get_CharacterizingStmt()
-    {
-	return characterizingStmt;
+    public AugmentedStmt get_CharacterizingStmt() {
+        return characterizingStmt;
     }
 
-    protected boolean resolve( SETNode parent)
-    {
-	Iterator<IterableSet> sbit = parent.get_SubBodies().iterator();
-	while (sbit.hasNext()) {
-	    IterableSet subBody = sbit.next();
-	    
-	    if (subBody.contains( get_EntryStmt()) == false)
-		continue;
+    protected boolean resolve(SETNode parent) {
+        Iterator<IterableSet> sbit = parent.get_SubBodies().iterator();
+        while (sbit.hasNext()) {
+            IterableSet subBody = sbit.next();
 
-	    IterableSet childChain = parent.get_Body2ChildChain().get( subBody);
-	    HashSet childUnion = new HashSet();
+            if (subBody.contains(get_EntryStmt()) == false)
+                continue;
 
-	    Iterator ccit = childChain.iterator();
-	    while (ccit.hasNext()) {
-		
-		SETNode child = (SETNode) ccit.next();
-		IterableSet childBody = child.get_Body();
-		childUnion.addAll( childBody);
+            IterableSet childChain = parent.get_Body2ChildChain().get(subBody);
+            HashSet childUnion = new HashSet();
 
-		if (childBody.contains( characterizingStmt)) {
-		    
-		    Iterator bit = get_Body().snapshotIterator();
-		    while (bit.hasNext()) {
-			AugmentedStmt as = (AugmentedStmt) bit.next();
+            Iterator ccit = childChain.iterator();
+            while (ccit.hasNext()) {
 
-			if (childBody.contains( as) == false) 
-			    remove_AugmentedStmt( as);
+                SETNode child = (SETNode) ccit.next();
+                IterableSet childBody = child.get_Body();
+                childUnion.addAll(childBody);
 
-			else if ((child instanceof SETControlFlowNode) && ((child instanceof SETUnconditionalWhileNode) == false)) {
-			    SETControlFlowNode scfn = (SETControlFlowNode) child;
+                if (childBody.contains(characterizingStmt)) {
 
-			    if ((scfn.get_CharacterizingStmt() == as) ||
-				((as.cpreds.size() == 1) && (as.get_Stmt() instanceof GotoStmt) && (scfn.get_CharacterizingStmt() == as.cpreds.get(0))))
+                    Iterator bit = get_Body().snapshotIterator();
+                    while (bit.hasNext()) {
+                        AugmentedStmt as = (AugmentedStmt) bit.next();
 
-				remove_AugmentedStmt( as);
-			}
-		    }
+                        if (childBody.contains(as) == false)
+                            remove_AugmentedStmt(as);
 
-		    return true;
-		}
-	    }
-	}
+                        else if ((child instanceof SETControlFlowNode) && ((child instanceof SETUnconditionalWhileNode) == false)) {
+                            SETControlFlowNode scfn = (SETControlFlowNode) child;
 
-	return true;
+                            if ((scfn.get_CharacterizingStmt() == as) ||
+                                    ((as.cpreds.size() == 1) && (as.get_Stmt() instanceof GotoStmt) && (scfn.get_CharacterizingStmt() == as.cpreds.get(0))))
+
+                                remove_AugmentedStmt(as);
+                        }
+                    }
+
+                    return true;
+                }
+            }
+        }
+
+        return true;
     }
 }

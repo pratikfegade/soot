@@ -18,143 +18,142 @@
  */
 package ca.mcgill.sable.soot.ui;
 
-import java.util.*;
-
 import org.eclipse.swt.widgets.*;
-import ca.mcgill.sable.soot.ui.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class EnableGroup {
 
-	private String phaseAlias;
-	private String subPhaseAlias; 
-	private BooleanOptionWidget leader;
-	private ArrayList controls;
-	private boolean phaseOptType;
-	
-	public EnableGroup(){
-		
-	}
-	
-	public void addControl(ISootOptionWidget c){
-		if (getControls() == null){
-			setControls(new ArrayList());
-		}
-		getControls().add(c);
-	}
-	
-	public void addControls(ArrayList c){
-		if (getControls() == null){
-			setControls(new ArrayList());
-		}
-		getControls().addAll(c);
-	}
-	
-	public boolean isLeader(BooleanOptionWidget l){
-		if (l.equals(getLeader())) return true;
-		return false;
-	}
-	
-	public void changeControlState(boolean enabled){
-		if (getControls() == null) return;
-		Iterator it = getControls().iterator();
-		while (it.hasNext()){
-			ISootOptionWidget control = (ISootOptionWidget)it.next();
-			if (control.getControls() == null) continue;
-			Iterator conIt = control.getControls().iterator();
-			while (conIt.hasNext()){
-				Object obj = conIt.next();
-				((Control)obj).setEnabled(enabled);
-			}
-			
-		}
-	}
-	
-	/**
-	 * @return
-	 */
-	public ArrayList getControls() {
-		return controls;
-	}
+    private String phaseAlias;
+    private String subPhaseAlias;
+    private BooleanOptionWidget leader;
+    private ArrayList controls;
+    private boolean phaseOptType;
 
-	/**
-	 * @return
-	 */
-	public BooleanOptionWidget getLeader() {
-		return leader;
-	}
+    public EnableGroup() {
 
-	/**
-	 * @param list
-	 */
-	private void setControls(ArrayList list) {
-		controls = list;
-	}
+    }
 
-	/**
-	 * @param button
-	 */
-	public void setLeader(BooleanOptionWidget button) {
-		leader = button;
-	}
-	
-	public String toString(){
-		StringBuffer sb = new StringBuffer();
-		sb.append("Phase: "+getPhaseAlias()+" SubPhase: "+getSubPhaseAlias());
-		sb.append("Leader: "+getLeader().getAlias()+" sel: "+getLeader().getButton().getSelection()+" enabled: "+getLeader().getButton().isEnabled()+"\n");
-		if (getControls() != null){
-			Iterator it = getControls().iterator();
-			while (it.hasNext()){
-				ISootOptionWidget next = (ISootOptionWidget)it.next();
-				sb.append("control: "+next.getId()+"\n");
-				if (next instanceof BooleanOptionWidget){
-					sb.append("control is boolean and enable state: "+((BooleanOptionWidget)next).getButton().isEnabled()+"\n");
-				}
-			}
-		}
-		return sb.toString();
-	}
+    public void addControl(ISootOptionWidget c) {
+        if (getControls() == null) {
+            setControls(new ArrayList());
+        }
+        getControls().add(c);
+    }
 
-	/**
-	 * @return
-	 */
-	public String getPhaseAlias() {
-		return phaseAlias;
-	}
+    public void addControls(ArrayList c) {
+        if (getControls() == null) {
+            setControls(new ArrayList());
+        }
+        getControls().addAll(c);
+    }
 
-	/**
-	 * @return
-	 */
-	public String getSubPhaseAlias() {
-		return subPhaseAlias;
-	}
+    public boolean isLeader(BooleanOptionWidget l) {
+        return l.equals(getLeader());
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setPhaseAlias(String string) {
-		phaseAlias = string;
-	}
+    public void changeControlState(boolean enabled) {
+        if (getControls() == null) return;
+        Iterator it = getControls().iterator();
+        while (it.hasNext()) {
+            ISootOptionWidget control = (ISootOptionWidget) it.next();
+            if (control.getControls() == null) continue;
+            Iterator conIt = control.getControls().iterator();
+            while (conIt.hasNext()) {
+                Object obj = conIt.next();
+                ((Control) obj).setEnabled(enabled);
+            }
 
-	/**
-	 * @param string
-	 */
-	public void setSubPhaseAlias(String string) {
-		subPhaseAlias = string;
-	}
+        }
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isPhaseOptType() {
-		return phaseOptType;
-	}
+    /**
+     * @return
+     */
+    public ArrayList getControls() {
+        return controls;
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setPhaseOptType(boolean b) {
-		phaseOptType = b;
-	}
+    /**
+     * @param list
+     */
+    private void setControls(ArrayList list) {
+        controls = list;
+    }
+
+    /**
+     * @return
+     */
+    public BooleanOptionWidget getLeader() {
+        return leader;
+    }
+
+    /**
+     * @param button
+     */
+    public void setLeader(BooleanOptionWidget button) {
+        leader = button;
+    }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Phase: " + getPhaseAlias() + " SubPhase: " + getSubPhaseAlias());
+        sb.append("Leader: " + getLeader().getAlias() + " sel: " + getLeader().getButton().getSelection() + " enabled: " + getLeader().getButton().isEnabled() + "\n");
+        if (getControls() != null) {
+            Iterator it = getControls().iterator();
+            while (it.hasNext()) {
+                ISootOptionWidget next = (ISootOptionWidget) it.next();
+                sb.append("control: " + next.getId() + "\n");
+                if (next instanceof BooleanOptionWidget) {
+                    sb.append("control is boolean and enable state: " + ((BooleanOptionWidget) next).getButton().isEnabled() + "\n");
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * @return
+     */
+    public String getPhaseAlias() {
+        return phaseAlias;
+    }
+
+    /**
+     * @param string
+     */
+    public void setPhaseAlias(String string) {
+        phaseAlias = string;
+    }
+
+    /**
+     * @return
+     */
+    public String getSubPhaseAlias() {
+        return subPhaseAlias;
+    }
+
+    /**
+     * @param string
+     */
+    public void setSubPhaseAlias(String string) {
+        subPhaseAlias = string;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isPhaseOptType() {
+        return phaseOptType;
+    }
+
+    /**
+     * @param b
+     */
+    public void setPhaseOptType(boolean b) {
+        phaseOptType = b;
+    }
 
 }

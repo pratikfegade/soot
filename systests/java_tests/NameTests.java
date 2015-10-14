@@ -3,7 +3,9 @@ public class NameTests {
         NameTests nt = new NameTests();
         nt.run(new NameTests());
     }
-    
-    private void run(NameTests nameTests) { NameTests n = new NameTests(); }
-    
+
+    private void run(NameTests nameTests) {
+        NameTests n = new NameTests();
+    }
+
 }

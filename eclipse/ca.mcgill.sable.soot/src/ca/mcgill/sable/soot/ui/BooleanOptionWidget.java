@@ -19,104 +19,111 @@
 
 package ca.mcgill.sable.soot.ui;
 
-import java.util.*;
-import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
+import org.eclipse.swt.widgets.*;
+
+import java.util.ArrayList;
 
 public class BooleanOptionWidget implements ISootOptionWidget {
 
-	private Button button;
-	private String alias;
-	private String labelText;
-	private Composite dialogParent;
-	private OptionData data;
+    private Button button;
+    private String alias;
+    private String labelText;
+    private Composite dialogParent;
+    private OptionData data;
 
-	
-	public BooleanOptionWidget(Composite parent, int style,
-	 OptionData data){
-		
-		setAlias(data.getRealAlias());
-		setData(data);
-		
-		setButton(new Button(parent, SWT.CHECK));
-		
-		getButton().setSelection(data.isDefaultVal());
-		getButton().setText(data.getText());
-		getButton().setToolTipText(data.getTooltip().trim());
-		
-	}
-	
-	public ArrayList getControls() {
-		ArrayList controls = new ArrayList();
-		controls.add(getButton());
-		return controls;
-	}
-	
-	public String getId(){
-		return getAlias();
-	}
-	
 
-	/**
-	 * Returns the button.
-	 * @return Button
-	 */
-	public Button getButton() {
-		return button;
-	}
+    public BooleanOptionWidget(Composite parent, int style,
+                               OptionData data) {
 
-	/**
-	 * Sets the button.
-	 * @param button The button to set
-	 */
-	public void setButton(Button button) {
-		this.button = button;
-	}
+        setAlias(data.getRealAlias());
+        setData(data);
 
-	/**
-	 * Returns the alias.
-	 * @return String
-	 */
-	public String getAlias() {
-		return alias;
-	}
+        setButton(new Button(parent, SWT.CHECK));
 
-	/**
-	 * Sets the alias.
-	 * @param alias The alias to set
-	 */
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+        getButton().setSelection(data.isDefaultVal());
+        getButton().setText(data.getText());
+        getButton().setToolTipText(data.getTooltip().trim());
 
-	/**
-	 * Returns the labelText.
-	 * @return String
-	 */
-	public String getLabelText() {
-		return labelText;
-	}
+    }
 
-	/**
-	 * Sets the labelText.
-	 * @param labelText The labelText to set
-	 */
-	public void setLabelText(String labelText) {
-		this.labelText = labelText;
-	}
+    public ArrayList getControls() {
+        ArrayList controls = new ArrayList();
+        controls.add(getButton());
+        return controls;
+    }
 
-	/**
-	 * @return
-	 */
-	public OptionData getData() {
-		return data;
-	}
+    public String getId() {
+        return getAlias();
+    }
 
-	/**
-	 * @param data
-	 */
-	public void setData(OptionData data) {
-		this.data = data;
-	}
+
+    /**
+     * Returns the button.
+     *
+     * @return Button
+     */
+    public Button getButton() {
+        return button;
+    }
+
+    /**
+     * Sets the button.
+     *
+     * @param button The button to set
+     */
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    /**
+     * Returns the alias.
+     *
+     * @return String
+     */
+    public String getAlias() {
+        return alias;
+    }
+
+    /**
+     * Sets the alias.
+     *
+     * @param alias The alias to set
+     */
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+
+    /**
+     * Returns the labelText.
+     *
+     * @return String
+     */
+    public String getLabelText() {
+        return labelText;
+    }
+
+    /**
+     * Sets the labelText.
+     *
+     * @param labelText The labelText to set
+     */
+    public void setLabelText(String labelText) {
+        this.labelText = labelText;
+    }
+
+    /**
+     * @return
+     */
+    public OptionData getData() {
+        return data;
+    }
+
+    /**
+     * @param data
+     */
+    public void setData(OptionData data) {
+        this.data = data;
+    }
 
 }

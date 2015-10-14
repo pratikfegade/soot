@@ -25,24 +25,33 @@
 
 package soot.baf;
 
-import soot.*;
-import java.util.*;
+import soot.Unit;
+import soot.UnitBox;
 
-public interface TableSwitchInst extends Inst
-{
-    public Unit getDefaultTarget();
-    public void setDefaultTarget(Unit defTarget);
-    public UnitBox getDefaultTargetBox();
-    
-    public int getLowIndex();
-    public void setLowIndex(int index);
-    
-    public int getHighIndex();
-    public void setHighIndex(int index);
-    
-    public List<Unit> getTargets();
-    public Unit getTarget(int index);
-    public void setTarget(int index, Unit target);
-    public void setTargets(List<Unit> targets);
-    public UnitBox getTargetBox(int index);
+import java.util.List;
+
+public interface TableSwitchInst extends Inst {
+    Unit getDefaultTarget();
+
+    void setDefaultTarget(Unit defTarget);
+
+    UnitBox getDefaultTargetBox();
+
+    int getLowIndex();
+
+    void setLowIndex(int index);
+
+    int getHighIndex();
+
+    void setHighIndex(int index);
+
+    List<Unit> getTargets();
+
+    void setTargets(List<Unit> targets);
+
+    Unit getTarget(int index);
+
+    void setTarget(int index, Unit target);
+
+    UnitBox getTargetBox(int index);
 }

@@ -1,7 +1,7 @@
 public class BitNotCond {
 
-    public static void main(String [] args){
-    
+    public static void main(String[] args) {
+
         int x = 9;
         int y = 10;
 

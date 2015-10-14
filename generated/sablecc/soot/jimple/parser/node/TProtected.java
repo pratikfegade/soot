@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TProtected extends Token
-{
-    public TProtected()
-    {
+public final class TProtected extends Token {
+    public TProtected() {
         super.setText("protected");
     }
 
-    public TProtected(int line, int pos)
-    {
+    public TProtected(int line, int pos) {
         super.setText("protected");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TProtected(getLine(), getPos());
+    public Object clone() {
+        return new TProtected(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTProtected(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TProtected text.");
     }
 }

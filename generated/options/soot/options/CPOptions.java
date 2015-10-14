@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,48 +20,51 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Copy Propagator. */
-public class CPOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Copy Propagator.
+ */
+public class CPOptions {
     private Map<String, String> options;
 
-    public CPOptions( Map<String, String> options ) {
+    public CPOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Only Regular Locals --
-    
+
+    /**
+     * Only Regular Locals --
+     * <p/>
      * .
-    
-     * Only propagate copies through ``regular'' locals, that is, 
-     * those declared in the source bytecode. 
+     * <p/>
+     * Only propagate copies through ``regular'' locals, that is,
+     * those declared in the source bytecode.
      */
     public boolean only_regular_locals() {
-        return soot.PhaseOptions.getBoolean( options, "only-regular-locals" );
+        return soot.PhaseOptions.getBoolean(options, "only-regular-locals");
     }
-    
-    /** Only Stack Locals --
-    
+
+    /**
+     * Only Stack Locals --
+     * <p/>
      * .
-    
-     * Only propagate copies through locals that represent stack 
-     * locations in the original bytecode. 
+     * <p/>
+     * Only propagate copies through locals that represent stack
+     * locations in the original bytecode.
      */
     public boolean only_stack_locals() {
-        return soot.PhaseOptions.getBoolean( options, "only-stack-locals" );
+        return soot.PhaseOptions.getBoolean(options, "only-stack-locals");
     }
-    
+
 }
         

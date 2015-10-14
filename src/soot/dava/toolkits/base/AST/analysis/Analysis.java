@@ -20,51 +20,86 @@
 package soot.dava.toolkits.base.AST.analysis;
 
 
-import soot.*;
-import soot.jimple.*;
+import soot.Type;
+import soot.Value;
 import soot.dava.internal.AST.*;
-import soot.dava.internal.javaRep.*;
+import soot.dava.internal.javaRep.DVariableDeclarationStmt;
+import soot.jimple.*;
 
-public interface Analysis{
+public interface Analysis {
 
-    public void caseASTMethodNode(ASTMethodNode node);
-    public void caseASTSynchronizedBlockNode(ASTSynchronizedBlockNode node);
-    public void caseASTLabeledBlockNode (ASTLabeledBlockNode node);
-    public void caseASTUnconditionalLoopNode (ASTUnconditionalLoopNode node);
-    public void caseASTSwitchNode(ASTSwitchNode node);
-    public void caseASTIfNode(ASTIfNode node);
-    public void caseASTIfElseNode(ASTIfElseNode node);
-    public void caseASTWhileNode(ASTWhileNode node);
-    public void caseASTForLoopNode(ASTForLoopNode node);
-    public void caseASTDoWhileNode(ASTDoWhileNode node);
-    public void caseASTTryNode(ASTTryNode node);
-    public void caseASTStatementSequenceNode(ASTStatementSequenceNode node);
-    
-    public void caseASTUnaryCondition(ASTUnaryCondition uc);
-    public void caseASTBinaryCondition(ASTBinaryCondition bc);
-    public void caseASTAndCondition(ASTAndCondition ac);
-    public void caseASTOrCondition(ASTOrCondition oc);
-    
+    void caseASTMethodNode(ASTMethodNode node);
 
-    public void caseType(Type t);
-    public void caseDefinitionStmt(DefinitionStmt s);
-    public void caseReturnStmt(ReturnStmt s);
-    public void caseInvokeStmt(InvokeStmt s);
-    public void caseThrowStmt(ThrowStmt s);
-    public void caseDVariableDeclarationStmt(DVariableDeclarationStmt s);
-    public void caseStmt(Stmt s);
-    public void caseValue(Value v);
-    public void caseExpr(Expr e);
-    public void caseRef(Ref r);
-    public void caseBinopExpr(BinopExpr be);
-    public void caseUnopExpr(UnopExpr ue);
-    public void caseNewArrayExpr(NewArrayExpr nae);
-    public void caseNewMultiArrayExpr(NewMultiArrayExpr nmae);
-    public void caseInstanceOfExpr(InstanceOfExpr ioe);
-    public void caseInvokeExpr(InvokeExpr ie);
-    public void caseInstanceInvokeExpr(InstanceInvokeExpr iie);
-    public void caseCastExpr(CastExpr ce);
-    public void caseArrayRef(ArrayRef ar);
-    public void caseInstanceFieldRef(InstanceFieldRef ifr);
-    public void caseStaticFieldRef(StaticFieldRef sfr);
+    void caseASTSynchronizedBlockNode(ASTSynchronizedBlockNode node);
+
+    void caseASTLabeledBlockNode(ASTLabeledBlockNode node);
+
+    void caseASTUnconditionalLoopNode(ASTUnconditionalLoopNode node);
+
+    void caseASTSwitchNode(ASTSwitchNode node);
+
+    void caseASTIfNode(ASTIfNode node);
+
+    void caseASTIfElseNode(ASTIfElseNode node);
+
+    void caseASTWhileNode(ASTWhileNode node);
+
+    void caseASTForLoopNode(ASTForLoopNode node);
+
+    void caseASTDoWhileNode(ASTDoWhileNode node);
+
+    void caseASTTryNode(ASTTryNode node);
+
+    void caseASTStatementSequenceNode(ASTStatementSequenceNode node);
+
+    void caseASTUnaryCondition(ASTUnaryCondition uc);
+
+    void caseASTBinaryCondition(ASTBinaryCondition bc);
+
+    void caseASTAndCondition(ASTAndCondition ac);
+
+    void caseASTOrCondition(ASTOrCondition oc);
+
+
+    void caseType(Type t);
+
+    void caseDefinitionStmt(DefinitionStmt s);
+
+    void caseReturnStmt(ReturnStmt s);
+
+    void caseInvokeStmt(InvokeStmt s);
+
+    void caseThrowStmt(ThrowStmt s);
+
+    void caseDVariableDeclarationStmt(DVariableDeclarationStmt s);
+
+    void caseStmt(Stmt s);
+
+    void caseValue(Value v);
+
+    void caseExpr(Expr e);
+
+    void caseRef(Ref r);
+
+    void caseBinopExpr(BinopExpr be);
+
+    void caseUnopExpr(UnopExpr ue);
+
+    void caseNewArrayExpr(NewArrayExpr nae);
+
+    void caseNewMultiArrayExpr(NewMultiArrayExpr nmae);
+
+    void caseInstanceOfExpr(InstanceOfExpr ioe);
+
+    void caseInvokeExpr(InvokeExpr ie);
+
+    void caseInstanceInvokeExpr(InstanceInvokeExpr iie);
+
+    void caseCastExpr(CastExpr ce);
+
+    void caseArrayRef(ArrayRef ar);
+
+    void caseInstanceFieldRef(InstanceFieldRef ifr);
+
+    void caseStaticFieldRef(StaticFieldRef sfr);
 }

@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ACmpleBinop extends PBinop
-{
+public final class ACmpleBinop extends PBinop {
     private TCmple _cmple_;
 
-    public ACmpleBinop()
-    {
+    public ACmpleBinop() {
         // Constructor
     }
 
     public ACmpleBinop(
-        @SuppressWarnings("hiding") TCmple _cmple_)
-    {
+            @SuppressWarnings("hiding") TCmple _cmple_) {
         // Constructor
         setCmple(_cmple_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ACmpleBinop(
-            cloneNode(this._cmple_));
+                cloneNode(this._cmple_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseACmpleBinop(this);
     }
 
-    public TCmple getCmple()
-    {
+    public TCmple getCmple() {
         return this._cmple_;
     }
 
-    public void setCmple(TCmple node)
-    {
-        if(this._cmple_ != null)
-        {
+    public void setCmple(TCmple node) {
+        if (this._cmple_ != null) {
             this._cmple_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ACmpleBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._cmple_);
+                + toString(this._cmple_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._cmple_ == child)
-        {
+        if (this._cmple_ == child) {
             this._cmple_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ACmpleBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._cmple_ == oldChild)
-        {
+        if (this._cmple_ == oldChild) {
             setCmple((TCmple) newChild);
             return;
         }

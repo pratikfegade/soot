@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TExitmonitor extends Token
-{
-    public TExitmonitor()
-    {
+public final class TExitmonitor extends Token {
+    public TExitmonitor() {
         super.setText("exitmonitor");
     }
 
-    public TExitmonitor(int line, int pos)
-    {
+    public TExitmonitor(int line, int pos) {
         super.setText("exitmonitor");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TExitmonitor(getLine(), getPos());
+    public Object clone() {
+        return new TExitmonitor(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTExitmonitor(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TExitmonitor text.");
     }
 }

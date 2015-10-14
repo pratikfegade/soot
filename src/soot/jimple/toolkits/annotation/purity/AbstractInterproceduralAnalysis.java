@@ -21,18 +21,27 @@
  * Implementation of the paper "A Combined Pointer and Purity Analysis for
  * Java Programs" by Alexandru Salcianu and Martin Rinard, within the
  * Soot Optimization Framework.
- *
+ * <p/>
  * by Antoine Mine, 2005/01/24
  */
 
 package soot.jimple.toolkits.annotation.purity;
+
+import soot.G;
+import soot.SootMethod;
+import soot.SourceLocator;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.Orderer;
+import soot.toolkits.graph.PseudoTopologicalOrderer;
+import soot.util.dot.DotGraph;
+import soot.util.dot.DotGraphEdge;
+import soot.util.dot.DotGraphNode;
+
+import java.io.File;
 import java.util.*;
-import java.io.*;
-import soot.*;
-import soot.util.dot.*;
-import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.toolkits.graph.*;
 
 /**
  * Inter-procedural iterator skeleton for summary-based analysis
@@ -70,27 +79,51 @@ public abstract class AbstractInterproceduralAnalysis {
 
     public static final boolean doCheck = false;
 
-    protected CallGraph     cg;        		// analysed call-graph
-    protected DirectedGraph dg;        		// filtered trimed call-graph
-    protected Map data;                		// SootMethod -> summary
-    protected Map<Object,Integer> order;    // SootMethod -> topo order
-    protected Map unanalysed;          		// SootMethod -> summary
+    protected CallGraph cg;                // analysed call-graph
+    protected DirectedGraph dg;                // filtered trimed call-graph
+    protected Map data;                        // SootMethod -> summary
+    protected Map<Object, Integer> order;    // SootMethod -> topo order
+    protected Map unanalysed;                // SootMethod -> summary
 
+
+    /**
+     * The constructor performs some preprocessing, but you have to call
+     * doAnalysis to preform the real stuff.
+     */
+    public AbstractInterproceduralAnalysis(CallGraph cg,
+                                           SootMethodFilter filter,
+                                           Iterator heads,
+                                           boolean verbose) {
+        this.cg = cg;
+        this.dg = new DirectedCallGraph(cg, filter, heads, verbose);
+        this.data = new HashMap();
+        this.unanalysed = new HashMap();
+
+        // construct reverse pseudo topological order on filtered methods
+        this.order = new HashMap();
+        Orderer o = new PseudoTopologicalOrderer();
+        Iterator it = (o.newList(dg, true)).iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            this.order.put(it.next(), new Integer(i));
+            i++;
+        }
+    }
 
     /** Initial summary value for analysed funtions. */
     protected abstract Object newInitialSummary();
-    
+
     /**
      * Whenever the analyse requires the summary of a method you filtered-out,
      * this function is called instead of analyseMethod.
      *
-     * <p> Note: This function is called at most once per filtered-out 
+     * <p> Note: This function is called at most once per filtered-out
      * method. It is the equivalent of entryInitialFlow!
-     * 
+     *
      */
     protected abstract Object summaryOfUnanalysedMethod(SootMethod method);
 
-    /** 
+    /**
      * Compute the summary for a method by analysing its body.
      *
      * Will be called only on methods not filtered-out.
@@ -99,11 +132,11 @@ public abstract class AbstractInterproceduralAnalysis {
      * @param dst is where to put the computed method summary
      */
     protected abstract void analyseMethod(SootMethod method,
-					  Object     dst);
+                                          Object dst);
 
     /**
-     * Interprocedural analysis will call applySummary repeatedly as a 
-     * consequence to analyseCall. Once for each possible target method 
+     * Interprocedural analysis will call applySummary repeatedly as a
+     * consequence to analyseCall. Once for each possible target method
      * of the callStmt statement, provided with its summary.
      *
      * @param src summary valid before the call statement
@@ -114,33 +147,33 @@ public abstract class AbstractInterproceduralAnalysis {
      * @see analyseCall
      */
     protected abstract void applySummary(Object src,
-					 Stmt   callStmt,
-					 Object summary,
-					 Object dst);
+                                         Stmt callStmt,
+                                         Object summary,
+                                         Object dst);
 
-    /** 
-     * Merge in1 and in2 into out. 
+    /**
+     * Merge in1 and in2 into out.
      *
      * <p> Note: in1 or in2 can be aliased to out (e.g., analyseCall).
      */
     protected abstract void merge(Object in1, Object in2, Object out);
-    
+
     /** Copy src into dst. */
     protected abstract void copy(Object sr, Object dst);
 
-    /** 
+    /**
      * Called by drawAsOneDot to fill dot subgraph out with the contents
      * of summary o.
      *
      * @param prefix gives you a unique string to prefix your node names
      * and avoid name-clash
      */
-    protected void fillDotGraph(String prefix, Object o, DotGraph out)
-    { throw new Error("abstract function AbstractInterproceduralAnalysis.fillDotGraph called but not implemented."); }
- 
+    protected void fillDotGraph(String prefix, Object o, DotGraph out) {
+        throw new Error("abstract function AbstractInterproceduralAnalysis.fillDotGraph called but not implemented.");
+    }
 
-   /**
-     * Analyse the call callStmt in the context src, and put the resul into 
+    /**
+     * Analyse the call callStmt in the context src, and put the resul into
      * dst.
      * This will repeatidly calling summaryOfUnanalysedMethod and applySummary,
      * and then merging the results using merge.
@@ -149,55 +182,27 @@ public abstract class AbstractInterproceduralAnalysis {
      * @see applySummary
      */
     protected void analyseCall(Object src,
-			       Stmt   callStmt,
-			       Object dst)
-    {
-	Object accum = newInitialSummary();
-	Iterator it = cg.edgesOutOf(callStmt);
-	copy(accum, dst);
-	while (it.hasNext()) {
-	    Edge edge = (Edge)it.next();
-	    SootMethod m = edge.tgt();
-	    Object elem;
-	    if (data.containsKey(m)) {
-		// analysed method
-		elem = data.get(m);
-	    }
-	    else {
-		// unanalysed method
-		if (!unanalysed.containsKey(m)) 
-		    unanalysed.put(m, summaryOfUnanalysedMethod(m));
-		elem = unanalysed.get(m);
-	    }
-	    applySummary(src, callStmt, elem, accum);
-	    merge(dst, accum, dst);
-	}
-    }
-
-
-    /**
-     * The constructor performs some preprocessing, but you have to call
-     * doAnalysis to preform the real stuff.
-     */
-    public AbstractInterproceduralAnalysis(CallGraph        cg,
-					   SootMethodFilter filter,
-					   Iterator         heads,
-					   boolean          verbose)
-    {
-	this.cg         = cg;
-	this.dg         = new DirectedCallGraph(cg, filter, heads, verbose);
-	this.data       = new HashMap();
-	this.unanalysed = new HashMap();
-
-	// construct reverse pseudo topological order on filtered methods
-	this.order = new HashMap();
-	Orderer o = new PseudoTopologicalOrderer();
-	Iterator it = (o.newList(dg,true)).iterator();
-	int i = 0;
-	while (it.hasNext()) {
-	    this.order.put(it.next(), new Integer(i));
-	    i++;
-	}
+                               Stmt callStmt,
+                               Object dst) {
+        Object accum = newInitialSummary();
+        Iterator it = cg.edgesOutOf(callStmt);
+        copy(accum, dst);
+        while (it.hasNext()) {
+            Edge edge = (Edge) it.next();
+            SootMethod m = edge.tgt();
+            Object elem;
+            if (data.containsKey(m)) {
+                // analysed method
+                elem = data.get(m);
+            } else {
+                // unanalysed method
+                if (!unanalysed.containsKey(m))
+                    unanalysed.put(m, summaryOfUnanalysedMethod(m));
+                elem = unanalysed.get(m);
+            }
+            applySummary(src, callStmt, elem, accum);
+            merge(dst, accum, dst);
+        }
     }
 
     /**
@@ -211,50 +216,49 @@ public abstract class AbstractInterproceduralAnalysis {
      * @param name output filename
      * @see fillDotGraph
      */
-    public void drawAsOneDot(String name)
-    {
-	DotGraph dot = new DotGraph(name);
-	dot.setGraphLabel(name);
-	dot.setGraphAttribute("compound","true");
-	//dot.setGraphAttribute("rankdir","LR");
-	int id = 0;
-	Map<SootMethod, Integer> idmap = new HashMap<SootMethod, Integer>();
+    public void drawAsOneDot(String name) {
+        DotGraph dot = new DotGraph(name);
+        dot.setGraphLabel(name);
+        dot.setGraphAttribute("compound", "true");
+        //dot.setGraphAttribute("rankdir","LR");
+        int id = 0;
+        Map<SootMethod, Integer> idmap = new HashMap<SootMethod, Integer>();
 
-	// draw sub-graph cluster
-	Iterator it = dg.iterator();
-	while (it.hasNext()) {
-	    SootMethod       m = (SootMethod)it.next();
-	    DotGraph       sub = dot.createSubGraph("cluster"+id);
-	    DotGraphNode label = sub.drawNode("head"+id);
-	    idmap.put(m, new Integer(id));
-	    sub.setGraphLabel("");
-	    label.setLabel("("+order.get(m)+") "+m.toString());
-	    label.setAttribute("fontsize","18");
-	    label.setShape("box");
-	    if (data.containsKey(m))
-		fillDotGraph("X"+id, data.get(m), sub);
-	    id++;
-	}
+        // draw sub-graph cluster
+        Iterator it = dg.iterator();
+        while (it.hasNext()) {
+            SootMethod m = (SootMethod) it.next();
+            DotGraph sub = dot.createSubGraph("cluster" + id);
+            DotGraphNode label = sub.drawNode("head" + id);
+            idmap.put(m, new Integer(id));
+            sub.setGraphLabel("");
+            label.setLabel("(" + order.get(m) + ") " + m.toString());
+            label.setAttribute("fontsize", "18");
+            label.setShape("box");
+            if (data.containsKey(m))
+                fillDotGraph("X" + id, data.get(m), sub);
+            id++;
+        }
 
-	// connect edges
-	it = dg.iterator();
-	while (it.hasNext()) {
-	    SootMethod   m = (SootMethod)it.next();
-	    Iterator   itt = dg.getSuccsOf(m).iterator();
-	    while (itt.hasNext()) {
-		SootMethod mm = (SootMethod)itt.next();
-		DotGraphEdge edge = dot.drawEdge("head"+idmap.get(m),
-						 "head"+idmap.get(mm));
-		edge.setAttribute("ltail","cluster"+idmap.get(m));
-		edge.setAttribute("lhead","cluster"+idmap.get(mm));
-	    }
+        // connect edges
+        it = dg.iterator();
+        while (it.hasNext()) {
+            SootMethod m = (SootMethod) it.next();
+            Iterator itt = dg.getSuccsOf(m).iterator();
+            while (itt.hasNext()) {
+                SootMethod mm = (SootMethod) itt.next();
+                DotGraphEdge edge = dot.drawEdge("head" + idmap.get(m),
+                        "head" + idmap.get(mm));
+                edge.setAttribute("ltail", "cluster" + idmap.get(m));
+                edge.setAttribute("lhead", "cluster" + idmap.get(mm));
+            }
 
-	}
+        }
 
 
-	File f = new File (SourceLocator.v().getOutputDir(),
-			   name+DotGraph.DOT_EXTENSION);
-	dot.plot(f.getPath());
+        File f = new File(SourceLocator.v().getOutputDir(),
+                name + DotGraph.DOT_EXTENSION);
+        dot.plot(f.getPath());
     }
 
     /**
@@ -267,50 +271,49 @@ public abstract class AbstractInterproceduralAnalysis {
      *
      * @see fillDotGraph
      */
-    public void drawAsManyDot(String prefix, boolean drawUnanalysed)
-    {
-	Iterator it = data.keySet().iterator();
-	while (it.hasNext()) {
-	    SootMethod m = (SootMethod)it.next();
-	    DotGraph dot = new DotGraph(m.toString());
-	    dot.setGraphLabel(m.toString());
-	    fillDotGraph("X", data.get(m), dot);
-	    File f = new File (SourceLocator.v().getOutputDir(),
-			       prefix+m.toString()+DotGraph.DOT_EXTENSION);
-	    dot.plot(f.getPath());
-	}
-	
-	if (drawUnanalysed) {
-	    it = unanalysed.keySet().iterator();
-	    while (it.hasNext()) {
-		SootMethod m = (SootMethod)it.next();
-		DotGraph dot = new DotGraph(m.toString());
-		dot.setGraphLabel(m.toString()+" (unanalysed)");
-		fillDotGraph("X", unanalysed.get(m), dot);
-		File f = new File (SourceLocator.v().getOutputDir(),
-				   prefix+m.toString()+"_u"+
-				   DotGraph.DOT_EXTENSION);
-		dot.plot(f.getPath());
-	    }
-	}
+    public void drawAsManyDot(String prefix, boolean drawUnanalysed) {
+        Iterator it = data.keySet().iterator();
+        while (it.hasNext()) {
+            SootMethod m = (SootMethod) it.next();
+            DotGraph dot = new DotGraph(m.toString());
+            dot.setGraphLabel(m.toString());
+            fillDotGraph("X", data.get(m), dot);
+            File f = new File(SourceLocator.v().getOutputDir(),
+                    prefix + m.toString() + DotGraph.DOT_EXTENSION);
+            dot.plot(f.getPath());
+        }
+
+        if (drawUnanalysed) {
+            it = unanalysed.keySet().iterator();
+            while (it.hasNext()) {
+                SootMethod m = (SootMethod) it.next();
+                DotGraph dot = new DotGraph(m.toString());
+                dot.setGraphLabel(m.toString() + " (unanalysed)");
+                fillDotGraph("X", unanalysed.get(m), dot);
+                File f = new File(SourceLocator.v().getOutputDir(),
+                        prefix + m.toString() + "_u" +
+                                DotGraph.DOT_EXTENSION);
+                dot.plot(f.getPath());
+            }
+        }
     }
 
     /**
      * Query the analysis result.
      */
-    public Object getSummaryFor(SootMethod m)
-    {
-	if (data.containsKey(m)) return data.get(m);
-	if (unanalysed.containsKey(m)) return unanalysed.get(m);
-	return newInitialSummary();
+    public Object getSummaryFor(SootMethod m) {
+        if (data.containsKey(m)) return data.get(m);
+        if (unanalysed.containsKey(m)) return unanalysed.get(m);
+        return newInitialSummary();
     }
 
     /**
      * Get an iterator over the list of SootMethod with an associated summary.
      * (Does not contain filtered-out or native methods.)
      */
-    public Iterator getAnalysedMethods()
-    { return data.keySet().iterator(); }
+    public Iterator getAnalysedMethods() {
+        return data.keySet().iterator();
+    }
 
     /**
      * Carry out the analysis.
@@ -319,71 +322,69 @@ public abstract class AbstractInterproceduralAnalysis {
      * just after super(cg).
      * Then , you will be able to call drawAsDot, for instance.
      */
-    protected void doAnalysis(boolean verbose)
-    {
-	// queue class
-	class IntComparator implements Comparator {
-	    public int compare(Object o1, Object o2) 
-	    {
-		Integer v1 = order.get(o1);
-		Integer v2 = order.get(o2);
-		return v1.intValue()-v2.intValue();
-	    }
-	};
-	SortedSet queue = new TreeSet(new IntComparator());
-	
-	// init
-	Iterator it = order.keySet().iterator();
-	while (it.hasNext()) {
-	    Object o = it.next();
-	    data.put(o, newInitialSummary());
-	    queue.add(o);
-	}
+    protected void doAnalysis(boolean verbose) {
+        // queue class
+        class IntComparator implements Comparator {
+            public int compare(Object o1, Object o2) {
+                Integer v1 = order.get(o1);
+                Integer v2 = order.get(o2);
+                return v1.intValue() - v2.intValue();
+            }
+        }
+        SortedSet queue = new TreeSet(new IntComparator());
 
-	Map<SootMethod,Integer> nb = new HashMap<SootMethod,Integer>(); // only for debug pretty-printing
+        // init
+        Iterator it = order.keySet().iterator();
+        while (it.hasNext()) {
+            Object o = it.next();
+            data.put(o, newInitialSummary());
+            queue.add(o);
+        }
 
-	// fixpoint iterations
-	while (!queue.isEmpty()) {
-	    SootMethod m = (SootMethod)queue.first();
-	    queue.remove(m);
-	    Object newSummary = newInitialSummary();
-	    Object oldSummary = data.get(m);
+        Map<SootMethod, Integer> nb = new HashMap<SootMethod, Integer>(); // only for debug pretty-printing
 
-	    if (nb.containsKey(m)) nb.put(m,new Integer(nb.get(m).intValue()+1));
-	    else nb.put(m,new Integer(1));
-	    if (verbose)
-		G.v().out.println(" |- processing "+m.toString()+" ("+nb.get(m)+"-st time)");
+        // fixpoint iterations
+        while (!queue.isEmpty()) {
+            SootMethod m = (SootMethod) queue.first();
+            queue.remove(m);
+            Object newSummary = newInitialSummary();
+            Object oldSummary = data.get(m);
 
-	    analyseMethod(m,newSummary);
-	    if (!oldSummary.equals(newSummary)) {
-		// summary for m changed!
-		data.put(m,newSummary);
-		queue.addAll(dg.getPredsOf(m));
-	    }
-	}
+            if (nb.containsKey(m)) nb.put(m, new Integer(nb.get(m).intValue() + 1));
+            else nb.put(m, new Integer(1));
+            if (verbose)
+                G.v().out.println(" |- processing " + m.toString() + " (" + nb.get(m) + "-st time)");
 
-	// fixpoint verification
-	if (doCheck) {
-	    it = order.keySet().iterator();
-	    while (it.hasNext()) {
-		SootMethod m = (SootMethod)it.next();
-		Object newSummary = newInitialSummary();
-		Object oldSummary = data.get(m);
-		analyseMethod(m,newSummary);
-		if (!oldSummary.equals(newSummary)) {
-		    G.v().out.println("inter-procedural fixpoint not reached for method "+m.toString());
-		    DotGraph gm  = new DotGraph("false_fixpoint");
-		    DotGraph gmm = new	DotGraph("next_iterate");
-		    gm.setGraphLabel("false fixpoint: "+m.toString());
-		    gmm.setGraphLabel("fixpoint next iterate: "+m.toString());
-		    fillDotGraph("", oldSummary, gm);
-		    fillDotGraph("", newSummary, gmm);
-		    gm.plot(m.toString()+"_false_fixpoint.dot");
-		    gmm.plot(m.toString()+"_false_fixpoint_next.dot");
-		    throw new Error("AbstractInterproceduralAnalysis sanity check failed!!!");
-		}
-	    }
-	}
+            analyseMethod(m, newSummary);
+            if (!oldSummary.equals(newSummary)) {
+                // summary for m changed!
+                data.put(m, newSummary);
+                queue.addAll(dg.getPredsOf(m));
+            }
+        }
+
+        // fixpoint verification
+        if (doCheck) {
+            it = order.keySet().iterator();
+            while (it.hasNext()) {
+                SootMethod m = (SootMethod) it.next();
+                Object newSummary = newInitialSummary();
+                Object oldSummary = data.get(m);
+                analyseMethod(m, newSummary);
+                if (!oldSummary.equals(newSummary)) {
+                    G.v().out.println("inter-procedural fixpoint not reached for method " + m.toString());
+                    DotGraph gm = new DotGraph("false_fixpoint");
+                    DotGraph gmm = new DotGraph("next_iterate");
+                    gm.setGraphLabel("false fixpoint: " + m.toString());
+                    gmm.setGraphLabel("fixpoint next iterate: " + m.toString());
+                    fillDotGraph("", oldSummary, gm);
+                    fillDotGraph("", newSummary, gmm);
+                    gm.plot(m.toString() + "_false_fixpoint.dot");
+                    gmm.plot(m.toString() + "_false_fixpoint_next.dot");
+                    throw new Error("AbstractInterproceduralAnalysis sanity check failed!!!");
+                }
+            }
+        }
 
     }
 }

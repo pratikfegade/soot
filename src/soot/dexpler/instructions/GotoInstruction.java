@@ -25,17 +25,16 @@
 package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
-
 import soot.dexpler.DexBody;
 import soot.jimple.GotoStmt;
 import soot.jimple.Jimple;
 
 public class GotoInstruction extends JumpInstruction implements DeferableInstruction {
-    public GotoInstruction (Instruction instruction, int codeAdress) {
+    public GotoInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    public void jimplify(DexBody body) {
         // check if target instruction has been jimplified
         if (getTargetInstruction(body).getUnit() != null) {
             body.add(gotoStatement());

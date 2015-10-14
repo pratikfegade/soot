@@ -19,8 +19,6 @@
 
 package soot.jimple.validation;
 
-import java.util.List;
-
 import soot.Body;
 import soot.Unit;
 import soot.jimple.IdentityStmt;
@@ -29,65 +27,65 @@ import soot.jimple.ThisRef;
 import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
 
+import java.util.List;
+
 /**
  * This validator checks whether each ParameterRef and ThisRef is used exactly once.
- * 
+ *
  * @author Marc Miltenberger
  */
 public enum IdentityValidator implements BodyValidator {
-	INSTANCE;
+    INSTANCE;
 
-	public static IdentityValidator v() {
-		return INSTANCE;
-	}
+    public static IdentityValidator v() {
+        return INSTANCE;
+    }
 
-	@Override
-	/**
-	 * Checks whether each ParameterRef and ThisRef is used exactly once.
-	 */
-	public void validate(Body body, List<ValidationException> exception) {
-		boolean hasThisLocal = false;
-		int paramCount = body.getMethod().getParameterCount();
-		boolean[] parameterRefs = new boolean[paramCount];
-		
-		for (Unit u : body.getUnits()) {
-			if (u instanceof IdentityStmt) {
-				IdentityStmt id = (IdentityStmt) u;
-				if (id.getRightOp() instanceof ThisRef) {
-					hasThisLocal = true;
-				}
-				if (id.getRightOp() instanceof ParameterRef) {
-					ParameterRef ref = (ParameterRef) id.getRightOp();
-					if (ref.getIndex() < 0 || ref.getIndex() >= paramCount)
-					{
-						if (paramCount == 0)
-							exception.add(new ValidationException(id, "This method has no parameters, so no parameter reference is allowed"));
-						else
-							exception.add(new ValidationException(id, String.format("Parameter reference index must be between 0 and %d (inclusive)", paramCount - 1)));
-						return;
-					}
-					if (parameterRefs[ref.getIndex()]) {
-						exception.add(new ValidationException(id, String.format("Only one local for parameter %d is allowed", ref.getIndex())));
-					}
-					parameterRefs[ref.getIndex()] = true;
-				}
-			}
-		}
-		
-		if (!body.getMethod().isStatic() && !hasThisLocal) {
-			exception.add(new ValidationException(body, String.format("The method %s is not static, but does not have a this local", body.getMethod().getSignature())));
-		}
-		
-		for (int i = 0; i < paramCount; i++) {
-			if (!parameterRefs[i])
-			{
-				exception.add(new ValidationException(body, String.format("There is no parameter local for parameter number %d", i)));
-			}
-		}
-	}
+    @Override
+    /**
+     * Checks whether each ParameterRef and ThisRef is used exactly once.
+     */
+    public void validate(Body body, List<ValidationException> exception) {
+        boolean hasThisLocal = false;
+        int paramCount = body.getMethod().getParameterCount();
+        boolean[] parameterRefs = new boolean[paramCount];
 
-	@Override
-	public boolean isBasicValidator() {
-		return true;
-	}
+        for (Unit u : body.getUnits()) {
+            if (u instanceof IdentityStmt) {
+                IdentityStmt id = (IdentityStmt) u;
+                if (id.getRightOp() instanceof ThisRef) {
+                    hasThisLocal = true;
+                }
+                if (id.getRightOp() instanceof ParameterRef) {
+                    ParameterRef ref = (ParameterRef) id.getRightOp();
+                    if (ref.getIndex() < 0 || ref.getIndex() >= paramCount) {
+                        if (paramCount == 0)
+                            exception.add(new ValidationException(id, "This method has no parameters, so no parameter reference is allowed"));
+                        else
+                            exception.add(new ValidationException(id, String.format("Parameter reference index must be between 0 and %d (inclusive)", paramCount - 1)));
+                        return;
+                    }
+                    if (parameterRefs[ref.getIndex()]) {
+                        exception.add(new ValidationException(id, String.format("Only one local for parameter %d is allowed", ref.getIndex())));
+                    }
+                    parameterRefs[ref.getIndex()] = true;
+                }
+            }
+        }
+
+        if (!body.getMethod().isStatic() && !hasThisLocal) {
+            exception.add(new ValidationException(body, String.format("The method %s is not static, but does not have a this local", body.getMethod().getSignature())));
+        }
+
+        for (int i = 0; i < paramCount; i++) {
+            if (!parameterRefs[i]) {
+                exception.add(new ValidationException(body, String.format("There is no parameter local for parameter number %d", i)));
+            }
+        }
+    }
+
+    @Override
+    public boolean isBasicValidator() {
+        return true;
+    }
 }

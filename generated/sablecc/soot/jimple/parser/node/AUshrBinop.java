@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AUshrBinop extends PBinop
-{
+public final class AUshrBinop extends PBinop {
     private TUshr _ushr_;
 
-    public AUshrBinop()
-    {
+    public AUshrBinop() {
         // Constructor
     }
 
     public AUshrBinop(
-        @SuppressWarnings("hiding") TUshr _ushr_)
-    {
+            @SuppressWarnings("hiding") TUshr _ushr_) {
         // Constructor
         setUshr(_ushr_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AUshrBinop(
-            cloneNode(this._ushr_));
+                cloneNode(this._ushr_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAUshrBinop(this);
     }
 
-    public TUshr getUshr()
-    {
+    public TUshr getUshr() {
         return this._ushr_;
     }
 
-    public void setUshr(TUshr node)
-    {
-        if(this._ushr_ != null)
-        {
+    public void setUshr(TUshr node) {
+        if (this._ushr_ != null) {
             this._ushr_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AUshrBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._ushr_);
+                + toString(this._ushr_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._ushr_ == child)
-        {
+        if (this._ushr_ == child) {
             this._ushr_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AUshrBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._ushr_ == oldChild)
-        {
+        if (this._ushr_ == oldChild) {
             setUshr((TUshr) newChild);
             return;
         }

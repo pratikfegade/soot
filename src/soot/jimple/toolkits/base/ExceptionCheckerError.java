@@ -19,54 +19,54 @@
 
 package soot.jimple.toolkits.base;
 
-import soot.*;
-import soot.jimple.*;
-import soot.tagkit.*;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.jimple.Stmt;
+import soot.tagkit.SourceLnPosTag;
 
 public class ExceptionCheckerError extends Exception {
 
-    public ExceptionCheckerError(SootMethod m, SootClass sc, Stmt s, SourceLnPosTag pos){
+    private SootMethod method;
+    private SootClass excType;
+    private Stmt throwing;
+    private SourceLnPosTag position;
+    public ExceptionCheckerError(SootMethod m, SootClass sc, Stmt s, SourceLnPosTag pos) {
         method(m);
         excType(sc);
         throwing(s);
         position(pos);
     }
-        
-    private SootMethod method;
-    private SootClass excType;
-    private Stmt throwing;
-    private SourceLnPosTag position;
-    
-    public SootMethod method(){
+
+    public SootMethod method() {
         return method;
     }
 
-    public void method(SootMethod sm){
+    public void method(SootMethod sm) {
         method = sm;
     }
 
-    public SootClass excType(){
+    public SootClass excType() {
         return excType;
     }
 
-    public void excType(SootClass sc){
+    public void excType(SootClass sc) {
         excType = sc;
     }
 
-    public Stmt throwing(){
+    public Stmt throwing() {
         return throwing;
     }
 
-    public void throwing(Stmt s){
+    public void throwing(Stmt s) {
         throwing = s;
     }
 
-    public SourceLnPosTag position(){
+    public SourceLnPosTag position() {
         return position;
     }
 
-    public void position(SourceLnPosTag pos){
+    public void position(SourceLnPosTag pos) {
         position = pos;
     }
-    
+
 }

@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PCaseStmt extends Node
-{
+public abstract class PCaseStmt extends Node {
     // Empty body
 }

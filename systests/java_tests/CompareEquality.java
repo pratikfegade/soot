@@ -1,6 +1,6 @@
 public class CompareEquality {
-    public static void main(String [] args) {
-    
+    public static void main(String[] args) {
+
         CompareEquality c = new CompareEquality();
         c.run();
     }
@@ -12,8 +12,8 @@ public class CompareEquality {
         short s = 4;
         byte by = 2;
         float f = 0.9F;
-        double d = 0.9;    
-    
+        double d = 0.9;
+
         if (d == f) {
         }
         if (d == i) {
@@ -32,7 +32,7 @@ public class CompareEquality {
         if (f == f) {
         }
 
-        if (f != f){
+        if (f != f) {
         }
     }
 }

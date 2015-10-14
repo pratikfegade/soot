@@ -26,27 +26,27 @@
 
 package soot.jimple.toolkits.pointer.nativemethods;
 
-import soot.*;
+import soot.SootMethod;
 
 public class NativeMethodNotSupportedException
-  extends RuntimeException {
+        extends RuntimeException {
 
-  private String msg;
+    private String msg;
 
-  public NativeMethodNotSupportedException(SootMethod method){
-    String message = "The following native method is not supported: \n  "
-      +method.getSignature();
-    this.msg = message;
-  }
+    public NativeMethodNotSupportedException(SootMethod method) {
+        String message = "The following native method is not supported: \n  "
+                + method.getSignature();
+        this.msg = message;
+    }
 
-  public NativeMethodNotSupportedException(String message){
-    this.msg = message;
-  }
+    public NativeMethodNotSupportedException(String message) {
+        this.msg = message;
+    }
 
-  public NativeMethodNotSupportedException(){
-  }
+    public NativeMethodNotSupportedException() {
+    }
 
-  public String toString(){
-    return msg;
-  }
+    public String toString() {
+        return msg;
+    }
 }

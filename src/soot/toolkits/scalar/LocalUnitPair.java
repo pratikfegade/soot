@@ -24,64 +24,52 @@
  */
 
 
-
-
-
-
 package soot.toolkits.scalar;
 
-import soot.*;
+import soot.Local;
+import soot.Unit;
 
 
 /**
- *   Utility class used to package a Local and a Unit together.
+ * Utility class used to package a Local and a Unit together.
  */
-public class LocalUnitPair
-{
+public class LocalUnitPair {
     Local local;
     Unit unit;
 
     /**
-     *  Constructs a LocalUnitPair from a Unit object and a Local object.
-     *  @param local some Local
-     *  @param unit some Unit.
+     * Constructs a LocalUnitPair from a Unit object and a Local object.
+     *
+     * @param local some Local
+     * @param unit  some Unit.
      */
-    public LocalUnitPair(Local local, Unit unit)
-    {
+    public LocalUnitPair(Local local, Unit unit) {
         this.local = local;
         this.unit = unit;
     }
 
     /**
-     *   Two LocalUnitPairs are equal iff they hold the same Unit objects and
-     *   the same Local objects within them.
-     *   @param other another LocalUnitPair
-     *   @return true if other contains the same objects as this.
+     * Two LocalUnitPairs are equal iff they hold the same Unit objects and
+     * the same Local objects within them.
+     *
+     * @param other another LocalUnitPair
+     * @return true if other contains the same objects as this.
      */
-    public boolean equals(Object other)
-    {
-        if(other instanceof LocalUnitPair &&
-            ((LocalUnitPair) other).local == this.local &&
-            ((LocalUnitPair) other).unit == this.unit)
-        {
-            return true;
-        }
-        else
-            return false;
+    public boolean equals(Object other) {
+        return other instanceof LocalUnitPair &&
+                ((LocalUnitPair) other).local == this.local &&
+                ((LocalUnitPair) other).unit == this.unit;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         return local.hashCode() * 101 + unit.hashCode() + 17;
     }
-    
-    public Local getLocal()
-    {
-    	return local;
+
+    public Local getLocal() {
+        return local;
     }
-    
-    public Unit getUnit()
-    {
-    	return unit;
+
+    public Unit getUnit() {
+        return unit;
     }
 }

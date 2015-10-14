@@ -19,65 +19,62 @@
 
 package soot.dava.internal.SET;
 
-import soot.*;
+import soot.Value;
+import soot.dava.internal.AST.ASTNode;
+import soot.dava.internal.AST.ASTSwitchNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.toolkits.base.finders.SwitchNode;
+import soot.util.IterableSet;
+
 import java.util.*;
 
-import soot.util.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.AST.*;
-import soot.dava.toolkits.base.finders.*;
-
-public class SETSwitchNode extends SETDagNode
-{
+public class SETSwitchNode extends SETDagNode {
     private List<SwitchNode> switchNodeList;
     private Value key;
-    public SETSwitchNode( AugmentedStmt characterizingStmt, Value key, IterableSet body, List<SwitchNode> switchNodeList, IterableSet junkBody)
-    {
-	super( characterizingStmt, body);
 
-	this.key = key;
-	this.switchNodeList = switchNodeList;
-	Iterator<SwitchNode> it = switchNodeList.iterator();
-	while (it.hasNext())
-	    add_SubBody(  it.next().get_Body());
+    public SETSwitchNode(AugmentedStmt characterizingStmt, Value key, IterableSet body, List<SwitchNode> switchNodeList, IterableSet junkBody) {
+        super(characterizingStmt, body);
 
-	add_SubBody( junkBody);
-    }
-    
+        this.key = key;
+        this.switchNodeList = switchNodeList;
+        Iterator<SwitchNode> it = switchNodeList.iterator();
+        while (it.hasNext())
+            add_SubBody(it.next().get_Body());
 
-    public IterableSet get_NaturalExits()
-    {
-	return new IterableSet();
+        add_SubBody(junkBody);
     }
 
-    public ASTNode emit_AST()
-    {
-	LinkedList<Object> indexList = new LinkedList<Object>();
-	Map<Object, List<Object>> index2ASTBody = new HashMap<Object, List<Object>>();
-	
-	Iterator<SwitchNode> it = switchNodeList.iterator();
-	while (it.hasNext()) {
-	    SwitchNode sn = it.next();
 
-	    Object lastIndex = sn.get_IndexSet().last();
-	    Iterator iit = sn.get_IndexSet().iterator();
-	    while (iit.hasNext()) {
-		Object index = iit.next();
-
-		indexList.addLast( index);
-
-		if (index != lastIndex) 
-		    index2ASTBody.put( index, null);
-		else
-		    index2ASTBody.put( index, emit_ASTBody( get_Body2ChildChain().get( sn.get_Body())));
-	    }
-	}
-
-	return new ASTSwitchNode( get_Label(), key, indexList, index2ASTBody);
+    public IterableSet get_NaturalExits() {
+        return new IterableSet();
     }
 
-    public AugmentedStmt get_EntryStmt()
-    {
-	return get_CharacterizingStmt();
+    public ASTNode emit_AST() {
+        LinkedList<Object> indexList = new LinkedList<Object>();
+        Map<Object, List<Object>> index2ASTBody = new HashMap<Object, List<Object>>();
+
+        Iterator<SwitchNode> it = switchNodeList.iterator();
+        while (it.hasNext()) {
+            SwitchNode sn = it.next();
+
+            Object lastIndex = sn.get_IndexSet().last();
+            Iterator iit = sn.get_IndexSet().iterator();
+            while (iit.hasNext()) {
+                Object index = iit.next();
+
+                indexList.addLast(index);
+
+                if (index != lastIndex)
+                    index2ASTBody.put(index, null);
+                else
+                    index2ASTBody.put(index, emit_ASTBody(get_Body2ChildChain().get(sn.get_Body())));
+            }
+        }
+
+        return new ASTSwitchNode(get_Label(), key, indexList, index2ASTBody);
+    }
+
+    public AugmentedStmt get_EntryStmt() {
+        return get_CharacterizingStmt();
     }
 }

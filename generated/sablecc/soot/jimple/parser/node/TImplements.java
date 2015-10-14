@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TImplements extends Token
-{
-    public TImplements()
-    {
+public final class TImplements extends Token {
+    public TImplements() {
         super.setText("implements");
     }
 
-    public TImplements(int line, int pos)
-    {
+    public TImplements(int line, int pos) {
         super.setText("implements");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TImplements(getLine(), getPos());
+    public Object clone() {
+        return new TImplements(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTImplements(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TImplements text.");
     }
 }

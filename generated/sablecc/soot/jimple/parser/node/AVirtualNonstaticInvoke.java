@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AVirtualNonstaticInvoke extends PNonstaticInvoke
-{
+public final class AVirtualNonstaticInvoke extends PNonstaticInvoke {
     private TVirtualinvoke _virtualinvoke_;
 
-    public AVirtualNonstaticInvoke()
-    {
+    public AVirtualNonstaticInvoke() {
         // Constructor
     }
 
     public AVirtualNonstaticInvoke(
-        @SuppressWarnings("hiding") TVirtualinvoke _virtualinvoke_)
-    {
+            @SuppressWarnings("hiding") TVirtualinvoke _virtualinvoke_) {
         // Constructor
         setVirtualinvoke(_virtualinvoke_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AVirtualNonstaticInvoke(
-            cloneNode(this._virtualinvoke_));
+                cloneNode(this._virtualinvoke_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAVirtualNonstaticInvoke(this);
     }
 
-    public TVirtualinvoke getVirtualinvoke()
-    {
+    public TVirtualinvoke getVirtualinvoke() {
         return this._virtualinvoke_;
     }
 
-    public void setVirtualinvoke(TVirtualinvoke node)
-    {
-        if(this._virtualinvoke_ != null)
-        {
+    public void setVirtualinvoke(TVirtualinvoke node) {
+        if (this._virtualinvoke_ != null) {
             this._virtualinvoke_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AVirtualNonstaticInvoke extends PNonstaticInvoke
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._virtualinvoke_);
+                + toString(this._virtualinvoke_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._virtualinvoke_ == child)
-        {
+        if (this._virtualinvoke_ == child) {
             this._virtualinvoke_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AVirtualNonstaticInvoke extends PNonstaticInvoke
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._virtualinvoke_ == oldChild)
-        {
+        if (this._virtualinvoke_ == oldChild) {
             setVirtualinvoke((TVirtualinvoke) newChild);
             return;
         }

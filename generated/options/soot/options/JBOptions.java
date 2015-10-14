@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,49 +20,52 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Jimple Body Creation. */
-public class JBOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Jimple Body Creation.
+ */
+public class JBOptions {
     private Map<String, String> options;
 
-    public JBOptions( Map<String, String> options ) {
+    public JBOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Use Original Names --
-    
+
+    /**
+     * Use Original Names --
+     * <p/>
      * .
-    
-     * Retain the original names for local variables when the source 
-     * includes those names. Otherwise, Soot gives variables generic 
-     * names based on their types. 
+     * <p/>
+     * Retain the original names for local variables when the source
+     * includes those names. Otherwise, Soot gives variables generic
+     * names based on their types.
      */
     public boolean use_original_names() {
-        return soot.PhaseOptions.getBoolean( options, "use-original-names" );
+        return soot.PhaseOptions.getBoolean(options, "use-original-names");
     }
-    
-    /** Preserve source-level annotations --
-    
+
+    /**
+     * Preserve source-level annotations --
+     * <p/>
      * .
-    
-     * Preserves annotations of retention type SOURCE. (for everything 
-     * but package and local variable annotations) 
+     * <p/>
+     * Preserves annotations of retention type SOURCE. (for everything
+     * but package and local variable annotations)
      */
     public boolean preserve_source_annotations() {
-        return soot.PhaseOptions.getBoolean( options, "preserve-source-annotations" );
+        return soot.PhaseOptions.getBoolean(options, "preserve-source-annotations");
     }
-    
+
 }
         

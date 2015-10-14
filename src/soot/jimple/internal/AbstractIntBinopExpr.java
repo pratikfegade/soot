@@ -24,19 +24,14 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
+import soot.IntType;
+import soot.Type;
 
 @SuppressWarnings("serial")
-abstract public class AbstractIntBinopExpr extends AbstractBinopExpr
-{
-    public Type getType()
-    {
+abstract public class AbstractIntBinopExpr extends AbstractBinopExpr {
+    public Type getType() {
         return IntType.v();
     }
 }

@@ -7,7 +7,7 @@ public class InnerHell {
 }
 
 class MyButton extends AbstractButton {
-    class AccessibleMyButton extends AccessibleJComponent { 
+    class AccessibleMyButton extends AccessibleJComponent {
     }
 }
 

@@ -20,153 +20,150 @@
 
 package ca.mcgill.sable.soot.editors;
 
-import java.util.*;
-
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
-import ca.mcgill.sable.soot.SootPlugin;
 
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class JimpleOutlineLabelProvider implements ILabelProvider {
 
-	private HashMap imageCache;
-	
-	/**
-	 * Constructor for OptionsTreeLabelProvider.
-	 */
-	public JimpleOutlineLabelProvider() {
-		super();
-	}
+    private HashMap imageCache;
 
-	/**
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getImage(Object)
-	 */
-	public Image getImage(Object element) {
-		
-		ImageDescriptor descriptor = null;
-		if (element instanceof JimpleOutlineObject){
-			
-			switch (((JimpleOutlineObject)element).getType()){
-				case JimpleOutlineObject.CLASS: {
-					descriptor = SootPlugin.getImageDescriptor("class_obj.gif");
-					break;
-				}
-				case JimpleOutlineObject.INTERFACE: {
-					descriptor = SootPlugin.getImageDescriptor("int_obj.gif");
-					break;
-				}
-				case JimpleOutlineObject.PUBLIC_METHOD:{
-					descriptor = SootPlugin.getImageDescriptor("public_co.gif");
-					break;
-				}
-				case JimpleOutlineObject.PROTECTED_METHOD:{
-					descriptor = SootPlugin.getImageDescriptor("protected_co.gif");
-					break;
-				}
-				case JimpleOutlineObject.PRIVATE_METHOD:{
-					descriptor = SootPlugin.getImageDescriptor("private_co.gif");
-					break;
-				}
-				case JimpleOutlineObject.NONE_METHOD: {
-					descriptor = SootPlugin.getImageDescriptor("default_co.gif");
-					break;
-				}
-				case JimpleOutlineObject.PUBLIC_FIELD: {
-					descriptor = SootPlugin.getImageDescriptor("field_public_obj.gif");
-					break;
-				}
-				case JimpleOutlineObject.PROTECTED_FIELD: {
-					descriptor = SootPlugin.getImageDescriptor("field_protected_obj.gif");
-					break;
-				}
-				case JimpleOutlineObject.PRIVATE_FIELD: {
-					descriptor = SootPlugin.getImageDescriptor("field_private_obj.gif");
-					break;
-				}	
-				case JimpleOutlineObject.NONE_FIELD: {
-					descriptor = SootPlugin.getImageDescriptor("field_default_obj.gif");
-					break;
-				}				
-				default:{
-					return null;
-					
-				}
-			}
-		}
-		if (getImageCache() == null){
-			setImageCache(new HashMap());
-			
-		}
-		Image image = (Image)getImageCache().get(descriptor);
-		if (image == null) {
-		  	image = descriptor.createImage();
-		   	getImageCache().put(descriptor, image);
-            
-		}
-		
-	
-		return image;
-		
-		
-		
-	}
+    /**
+     * Constructor for OptionsTreeLabelProvider.
+     */
+    public JimpleOutlineLabelProvider() {
+        super();
+    }
 
-	/**
-	 * @see org.eclipse.jface.viewers.ILabelProvider#getText(Object)
-	 */
-	public String getText(Object element) {
-		return ((JimpleOutlineObject)element).getLabel();
-	}
+    /**
+     * @see org.eclipse.jface.viewers.ILabelProvider#getImage(Object)
+     */
+    public Image getImage(Object element) {
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(ILabelProviderListener)
-	 */
-	public void addListener(ILabelProviderListener listener) {
-	}
+        ImageDescriptor descriptor = null;
+        if (element instanceof JimpleOutlineObject) {
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
-	 */
-	public void dispose() {
-		if (getImageCache() != null){
-			Iterator it = getImageCache().values().iterator();
-			while (it.hasNext()){
-				((Image)it.next()).dispose();	
-			}
-			getImageCache().clear();
-		}
-	}
+            switch (((JimpleOutlineObject) element).getType()) {
+                case JimpleOutlineObject.CLASS: {
+                    descriptor = SootPlugin.getImageDescriptor("class_obj.gif");
+                    break;
+                }
+                case JimpleOutlineObject.INTERFACE: {
+                    descriptor = SootPlugin.getImageDescriptor("int_obj.gif");
+                    break;
+                }
+                case JimpleOutlineObject.PUBLIC_METHOD: {
+                    descriptor = SootPlugin.getImageDescriptor("public_co.gif");
+                    break;
+                }
+                case JimpleOutlineObject.PROTECTED_METHOD: {
+                    descriptor = SootPlugin.getImageDescriptor("protected_co.gif");
+                    break;
+                }
+                case JimpleOutlineObject.PRIVATE_METHOD: {
+                    descriptor = SootPlugin.getImageDescriptor("private_co.gif");
+                    break;
+                }
+                case JimpleOutlineObject.NONE_METHOD: {
+                    descriptor = SootPlugin.getImageDescriptor("default_co.gif");
+                    break;
+                }
+                case JimpleOutlineObject.PUBLIC_FIELD: {
+                    descriptor = SootPlugin.getImageDescriptor("field_public_obj.gif");
+                    break;
+                }
+                case JimpleOutlineObject.PROTECTED_FIELD: {
+                    descriptor = SootPlugin.getImageDescriptor("field_protected_obj.gif");
+                    break;
+                }
+                case JimpleOutlineObject.PRIVATE_FIELD: {
+                    descriptor = SootPlugin.getImageDescriptor("field_private_obj.gif");
+                    break;
+                }
+                case JimpleOutlineObject.NONE_FIELD: {
+                    descriptor = SootPlugin.getImageDescriptor("field_default_obj.gif");
+                    break;
+                }
+                default: {
+                    return null;
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(Object, String)
-	 */
-	public boolean isLabelProperty(Object element, String property) {
-		return false;
-	}
+                }
+            }
+        }
+        if (getImageCache() == null) {
+            setImageCache(new HashMap());
 
-	/**
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(ILabelProviderListener)
-	 */
-	public void removeListener(ILabelProviderListener listener) {
-	}
+        }
+        Image image = (Image) getImageCache().get(descriptor);
+        if (image == null) {
+            image = descriptor.createImage();
+            getImageCache().put(descriptor, image);
 
-	/**
-	 * @return
-	 */
-	public HashMap getImageCache() {
-		return imageCache;
-	}
+        }
 
-	/**
-	 * @param map
-	 */
-	public void setImageCache(HashMap map) {
-		imageCache = map;
-	}
+
+        return image;
+
+
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.ILabelProvider#getText(Object)
+     */
+    public String getText(Object element) {
+        return ((JimpleOutlineObject) element).getLabel();
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(ILabelProviderListener)
+     */
+    public void addListener(ILabelProviderListener listener) {
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
+     */
+    public void dispose() {
+        if (getImageCache() != null) {
+            Iterator it = getImageCache().values().iterator();
+            while (it.hasNext()) {
+                ((Image) it.next()).dispose();
+            }
+            getImageCache().clear();
+        }
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(Object, String)
+     */
+    public boolean isLabelProperty(Object element, String property) {
+        return false;
+    }
+
+    /**
+     * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(ILabelProviderListener)
+     */
+    public void removeListener(ILabelProviderListener listener) {
+    }
+
+    /**
+     * @return
+     */
+    public HashMap getImageCache() {
+        return imageCache;
+    }
+
+    /**
+     * @param map
+     */
+    public void setImageCache(HashMap map) {
+        imageCache = map;
+    }
 
 }

@@ -19,63 +19,64 @@
 
 
 package ca.mcgill.sable.soot.cfg.model;
-import java.util.*;
+
+import java.util.ArrayList;
 
 
 public class CFGNodeData extends CFGElement {
 
-	private ArrayList text;
-	private boolean head;
-	private boolean tail;
-	
-	
-	public CFGNodeData() {
-		super();
-	}
+    private ArrayList text;
+    private boolean head;
+    private boolean tail;
 
-	/**
-	 * @return
-	 */
-	public ArrayList getText() {
-		return text;
-	}
 
-	/**
-	 * @param list
-	 */
-	public void setText(ArrayList list) {
-		text = list;
-		firePropertyChange(TEXT, text);
-	}
+    public CFGNodeData() {
+        super();
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isHead() {
-		return head;
-	}
+    /**
+     * @return
+     */
+    public ArrayList getText() {
+        return text;
+    }
 
-	/**
-	 * @return
-	 */
-	public boolean isTail() {
-		return tail;
-	}
+    /**
+     * @param list
+     */
+    public void setText(ArrayList list) {
+        text = list;
+        firePropertyChange(TEXT, text);
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setHead(boolean b) {
-		head = b;
-		firePropertyChange(HEAD, new Boolean(head));
-	}
+    /**
+     * @return
+     */
+    public boolean isHead() {
+        return head;
+    }
 
-	/**
-	 * @param b
-	 */
-	public void setTail(boolean b) {
-		tail = b;
-		firePropertyChange(TAIL, new Boolean(tail));
-	}
+    /**
+     * @param b
+     */
+    public void setHead(boolean b) {
+        head = b;
+        firePropertyChange(HEAD, new Boolean(head));
+    }
+
+    /**
+     * @return
+     */
+    public boolean isTail() {
+        return tail;
+    }
+
+    /**
+     * @param b
+     */
+    public void setTail(boolean b) {
+        tail = b;
+        firePropertyChange(TAIL, new Boolean(tail));
+    }
 
 }

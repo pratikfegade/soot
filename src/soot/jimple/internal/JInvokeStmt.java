@@ -24,69 +24,57 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
-import soot.baf.*;
+import soot.util.Switch;
 
-public class JInvokeStmt extends AbstractStmt implements InvokeStmt
-{
+import java.util.ArrayList;
+import java.util.List;
+
+public class JInvokeStmt extends AbstractStmt implements InvokeStmt {
     final ValueBox invokeExprBox;
 
-    public JInvokeStmt(Value c)
-    {
+    public JInvokeStmt(Value c) {
         this(Jimple.v().newInvokeExprBox(c));
     }
 
-    protected JInvokeStmt(ValueBox invokeExprBox)
-    {
+    protected JInvokeStmt(ValueBox invokeExprBox) {
         this.invokeExprBox = invokeExprBox;
     }
 
- 
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new JInvokeStmt(Jimple.cloneIfNecessary(getInvokeExpr()));
     }
 
-    public boolean containsInvokeExpr()
-    {
+    public boolean containsInvokeExpr() {
         return true;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return invokeExprBox.getValue().toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         invokeExprBox.toString(up);
     }
-    
-    public void setInvokeExpr(Value invokeExpr)
-    {
-        invokeExprBox.setValue(invokeExpr);
-    }
 
-    public InvokeExpr getInvokeExpr()
-    {
+    public InvokeExpr getInvokeExpr() {
         return (InvokeExpr) invokeExprBox.getValue();
     }
 
-    public ValueBox getInvokeExprBox()
-    {
+    public void setInvokeExpr(Value invokeExpr) {
+        invokeExprBox.setValue(invokeExpr);
+    }
+
+    public ValueBox getInvokeExprBox() {
         return invokeExprBox;
     }
 
-    public List<ValueBox> getUseBoxes()
-    {
+    public List<ValueBox> getUseBoxes() {
         List<ValueBox> list = new ArrayList<ValueBox>();
 
         list.addAll(invokeExprBox.getValue().getUseBoxes());
@@ -95,27 +83,29 @@ public class JInvokeStmt extends AbstractStmt implements InvokeStmt
         return list;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((StmtSwitch) sw).caseInvokeStmt(this);
     }
-   
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
+
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
         InvokeExpr ie = getInvokeExpr();
-        
-	context.setCurrentUnit(this);
-	
+
+        context.setCurrentUnit(this);
+
         ((ConvertToBaf) ie).convertToBaf(context, out);
-        if(!ie.getMethodRef().returnType().equals(VoidType.v()))
-        {
+        if (!ie.getMethodRef().returnType().equals(VoidType.v())) {
             Unit u = Baf.v().newPopInst(ie.getMethodRef().returnType());
             u.addAllTagsOf(this);
             out.add(u);
-	}
-    }    
+        }
+    }
 
-    public boolean fallsThrough() {return true;}
-    public boolean branches() {return false;}
+    public boolean fallsThrough() {
+        return true;
+    }
+
+    public boolean branches() {
+        return false;
+    }
 
 }

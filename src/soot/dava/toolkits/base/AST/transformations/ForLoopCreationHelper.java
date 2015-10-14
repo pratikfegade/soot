@@ -19,14 +19,17 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.*;
-import soot.*;
-import soot.jimple.*;
-import soot.dava.internal.SET.*;
-import soot.dava.internal.asg.*;
+import soot.Value;
 import soot.dava.internal.AST.*;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.jimple.ConditionExpr;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.Stmt;
 
-public class ForLoopCreationHelper{
+import java.util.*;
+
+public class ForLoopCreationHelper {
 
     ASTStatementSequenceNode stmtSeqNode;
     ASTWhileNode whileNode;
@@ -47,14 +50,13 @@ public class ForLoopCreationHelper{
      * field. The boolean (although redundant) indicates when such an update stmt should be removed
      */
     List<Object> myStmts;//stores the statementseq list of statements whose last stmt has to be removed
-    boolean removeLast=false;//the last stmt in the above stmts is removed if this boolean is true
+    boolean removeLast = false;//the last stmt in the above stmts is removed if this boolean is true
 
-    
 
-    public ForLoopCreationHelper(ASTStatementSequenceNode stmtSeqNode, ASTWhileNode whileNode){
-	this.stmtSeqNode=stmtSeqNode;
-	this.whileNode=whileNode;
-	varToStmtMap = new HashMap<String, Integer>();
+    public ForLoopCreationHelper(ASTStatementSequenceNode stmtSeqNode, ASTWhileNode whileNode) {
+        this.stmtSeqNode = stmtSeqNode;
+        this.whileNode = whileNode;
+        varToStmtMap = new HashMap<String, Integer>();
     }
 
 
@@ -67,49 +69,47 @@ public class ForLoopCreationHelper{
       The new body is then returned;
 
     */
-    public List<Object> createNewBody(List<Object> oldSubBody, int nodeNumber){
-	List<Object> newSubBody = new ArrayList<Object>();
+    public List<Object> createNewBody(List<Object> oldSubBody, int nodeNumber) {
+        List<Object> newSubBody = new ArrayList<Object>();
 
-	if(oldSubBody.size()<= nodeNumber){
-	    //something is wrong since the oldSubBody has lesser nodes than nodeNumber
-	    return null;
-	}
+        if (oldSubBody.size() <= nodeNumber) {
+            //something is wrong since the oldSubBody has lesser nodes than nodeNumber
+            return null;
+        }
 
-	Iterator<Object> oldIt = oldSubBody.iterator();
-	int index=0;
-	while(index!=nodeNumber){
-	    newSubBody.add(oldIt.next());
-	    index++;
-	}
+        Iterator<Object> oldIt = oldSubBody.iterator();
+        int index = 0;
+        while (index != nodeNumber) {
+            newSubBody.add(oldIt.next());
+            index++;
+        }
 
-	//check to see that the next is a stmtseq and the one afteris while node
-	ASTNode temp = (ASTNode)oldIt.next();
-	if(!(temp instanceof ASTStatementSequenceNode))
-	    return null;
-	temp = (ASTNode)oldIt.next();
-	if(!(temp instanceof ASTWhileNode))
-	    return null;
-	
-	//add new stmtseqnode to the newSubBody
-	if(newStmtSeqNode!=null){
-	    newSubBody.add(newStmtSeqNode);
-	}
-	else{
-	    //System.out.println("Stmt seq was empty hence not putting a node in");
-	}
+        //check to see that the next is a stmtseq and the one afteris while node
+        ASTNode temp = (ASTNode) oldIt.next();
+        if (!(temp instanceof ASTStatementSequenceNode))
+            return null;
+        temp = (ASTNode) oldIt.next();
+        if (!(temp instanceof ASTWhileNode))
+            return null;
 
-	//add new For Loop Node
-	newSubBody.add(forNode);
+        //add new stmtseqnode to the newSubBody
+        if (newStmtSeqNode != null) {
+            newSubBody.add(newStmtSeqNode);
+        } else {
+            //System.out.println("Stmt seq was empty hence not putting a node in");
+        }
+
+        //add new For Loop Node
+        newSubBody.add(forNode);
 
 
-	//copy any remaining nodes
-	while(oldIt.hasNext()){
-	    newSubBody.add(oldIt.next());
-	}
-	
-	return newSubBody;
+        //copy any remaining nodes
+        while (oldIt.hasNext()) {
+            newSubBody.add(oldIt.next());
+        }
+
+        return newSubBody;
     }
-
 
 
     /*
@@ -122,33 +122,32 @@ public class ForLoopCreationHelper{
       i.e. we are conservatively checking when a def can be 
       moved into a for loop body
     */
-    private List<String> getDefs(){
-	if(stmtSeqNode==null){
-	    return null;
-	}
-	
-	List<String> toReturn= new ArrayList<String>();
+    private List<String> getDefs() {
+        if (stmtSeqNode == null) {
+            return null;
+        }
 
-	List<Object> statements = stmtSeqNode.getStatements();
-	Iterator<Object> stmtIt = statements.iterator();
-	int stmtNum=0;
-	while(stmtIt.hasNext()){
-	    AugmentedStmt as = (AugmentedStmt)stmtIt.next();
-	    Stmt s = as.get_Stmt();
-	    
-	    //check if this is a def
-	    if(s instanceof DefinitionStmt){
-		Value left = ((DefinitionStmt)s).getLeftOp();
-		toReturn.add(left.toString());
-		varToStmtMap.put(left.toString(),new Integer(stmtNum));
-	    }
-	    else{
-		toReturn = new ArrayList<String>();
-		varToStmtMap = new HashMap<String, Integer>();
-	    }
-	    stmtNum++;
-	}//going through all statements
-	return toReturn;
+        List<String> toReturn = new ArrayList<String>();
+
+        List<Object> statements = stmtSeqNode.getStatements();
+        Iterator<Object> stmtIt = statements.iterator();
+        int stmtNum = 0;
+        while (stmtIt.hasNext()) {
+            AugmentedStmt as = (AugmentedStmt) stmtIt.next();
+            Stmt s = as.get_Stmt();
+
+            //check if this is a def
+            if (s instanceof DefinitionStmt) {
+                Value left = ((DefinitionStmt) s).getLeftOp();
+                toReturn.add(left.toString());
+                varToStmtMap.put(left.toString(), new Integer(stmtNum));
+            } else {
+                toReturn = new ArrayList<String>();
+                varToStmtMap = new HashMap<String, Integer>();
+            }
+            stmtNum++;
+        }//going through all statements
+        return toReturn;
     }
 
     /*
@@ -156,56 +155,53 @@ public class ForLoopCreationHelper{
       Make a list of all vars being uses in the conditions
       Since any of them could be being used to drive the loop
     */
-    private List<String> getCondUses(){
-	if(whileNode == null){
-	    return null;
-	}
-	ASTCondition cond = whileNode.get_Condition();
+    private List<String> getCondUses() {
+        if (whileNode == null) {
+            return null;
+        }
+        ASTCondition cond = whileNode.get_Condition();
 
-	return getCond(cond);
+        return getCond(cond);
     }
 
-    private List<String> getCond(ASTCondition cond){
-	List<String> toReturn=new ArrayList<String>();
-	
-	if(cond instanceof ASTUnaryCondition){
-	    toReturn.add(((ASTUnaryCondition)cond).toString());
-	}
-	else if (cond instanceof ASTBinaryCondition){
-	    ConditionExpr condExpr = ((ASTBinaryCondition)cond).getConditionExpr();
-	    toReturn.add(condExpr.getOp1().toString());
-	    toReturn.add(condExpr.getOp2().toString());
-	}
-	else if (cond instanceof ASTAggregatedCondition){
-	    toReturn.addAll(getCond(((ASTAggregatedCondition)cond).getLeftOp()));
-	    toReturn.addAll(getCond(((ASTAggregatedCondition)cond).getRightOp()));
-	}
-	return toReturn;
+    private List<String> getCond(ASTCondition cond) {
+        List<String> toReturn = new ArrayList<String>();
+
+        if (cond instanceof ASTUnaryCondition) {
+            toReturn.add(cond.toString());
+        } else if (cond instanceof ASTBinaryCondition) {
+            ConditionExpr condExpr = ((ASTBinaryCondition) cond).getConditionExpr();
+            toReturn.add(condExpr.getOp1().toString());
+            toReturn.add(condExpr.getOp2().toString());
+        } else if (cond instanceof ASTAggregatedCondition) {
+            toReturn.addAll(getCond(((ASTAggregatedCondition) cond).getLeftOp()));
+            toReturn.addAll(getCond(((ASTAggregatedCondition) cond).getRightOp()));
+        }
+        return toReturn;
 
     }
 
 
+    private List<String> getCommonVars(List<String> defs, List<String> condUses) {
 
-    private List<String> getCommonVars(List<String> defs, List<String> condUses){
+        List<String> toReturn = new ArrayList<String>();
+        Iterator<String> defIt = defs.iterator();
 
-	List<String> toReturn = new ArrayList<String>();
-	Iterator<String> defIt = defs.iterator();
+        while (defIt.hasNext()) {
+            String defString = defIt.next();
+            Iterator<String> condIt = condUses.iterator();
+            while (condIt.hasNext()) {
+                String condString = condIt.next();
 
-	while(defIt.hasNext()){
-	    String defString = defIt.next();
-	    Iterator<String> condIt = condUses.iterator();
-	    while(condIt.hasNext()){
-		String condString = condIt.next();
-		
-		if(condString.compareTo(defString)==0){
-		    //match
-		    toReturn.add(defString);
-		    break;
-		}
-	    }
-	}
+                if (condString.compareTo(defString) == 0) {
+                    //match
+                    toReturn.add(defString);
+                    break;
+                }
+            }
+        }
 
-	return toReturn;
+        return toReturn;
     }
 
 
@@ -218,27 +214,27 @@ public class ForLoopCreationHelper{
 
       else return FALSE;
     */
-    public boolean checkPattern(){
-	List<String> defs = getDefs();
-	if(defs==null){
-	    return false;
-	}
-	if(defs.size()==0){
-	    return false;
-	}
+    public boolean checkPattern() {
+        List<String> defs = getDefs();
+        if (defs == null) {
+            return false;
+        }
+        if (defs.size() == 0) {
+            return false;
+        }
 
-	List<String> condUses = getCondUses();
-	if(condUses==null){
-	    return false;
-	}
-	if(condUses.size()==0){
-	    return false;
-	}
+        List<String> condUses = getCondUses();
+        if (condUses == null) {
+            return false;
+        }
+        if (condUses.size() == 0) {
+            return false;
+        }
 
 	/*
-	  find common vars between the defs and the condition
+      find common vars between the defs and the condition
 	*/
-	List<String> commonVars = getCommonVars(defs,condUses);
+        List<String> commonVars = getCommonVars(defs, condUses);
 
 	/*
 	  Find the update list
@@ -246,36 +242,34 @@ public class ForLoopCreationHelper{
 	  some update stmt whose var should be added to commonVars
 	*/
 
-	List<Object> update = getUpdate(defs,condUses,commonVars);
-	if(update==null  || update.size() == 0){
-	    //System.out.println("Aborting because of update");
-	    return false;
-	}
+        List<Object> update = getUpdate(defs, condUses, commonVars);
+        if (update == null || update.size() == 0) {
+            //System.out.println("Aborting because of update");
+            return false;
+        }
 
-	if(commonVars==null || commonVars.size()==0){
-	    //System.out.println("Aborting because of commonVars");
-	    return false;
-	}
-	
-	//there are some vars which are 
-	//1, defined in the stmtseq node
-	//2, used in the condition
-	//System.out.println(commonVars);
+        if (commonVars == null || commonVars.size() == 0) {
+            //System.out.println("Aborting because of commonVars");
+            return false;
+        }
 
-
-
-	//create new stmtSeqNode and get the init list for the for loop
-	List<Object> init= createNewStmtSeqNodeAndGetInit(commonVars);
-	if(init.size()==0){
-	    //System.out.println("Aborting because of init size");
-	    return false;
-	}
+        //there are some vars which are
+        //1, defined in the stmtseq node
+        //2, used in the condition
+        //System.out.println(commonVars);
 
 
+        //create new stmtSeqNode and get the init list for the for loop
+        List<Object> init = createNewStmtSeqNodeAndGetInit(commonVars);
+        if (init.size() == 0) {
+            //System.out.println("Aborting because of init size");
+            return false;
+        }
 
-	ASTCondition condition = whileNode.get_Condition();
-	List<Object> body = (List<Object>)whileNode.get_SubBodies().get(0);
-	SETNodeLabel label = ((ASTLabeledNode)whileNode).get_Label();
+
+        ASTCondition condition = whileNode.get_Condition();
+        List<Object> body = (List<Object>) whileNode.get_SubBodies().get(0);
+        SETNodeLabel label = whileNode.get_Label();
 
 
 
@@ -284,166 +278,161 @@ public class ForLoopCreationHelper{
 	  if it is and it is not used outside the for loop then 
 	  we need to declare it as int i = bla bla instead of i = bla bla
 	*/
-	//init=analyzeInit(init);
-	
-	//about to create loop make sure to remove the update stmt
-	if(removeLast){
-	    //System.out.println("Removing"+myStmts.get(myStmts.size()-1));
-	    myStmts.remove(myStmts.size()-1);
-	    removeLast=false;
-	}
+        //init=analyzeInit(init);
 
-	forNode = new ASTForLoopNode(label,init,condition,update,body);
-	return true;
+        //about to create loop make sure to remove the update stmt
+        if (removeLast) {
+            //System.out.println("Removing"+myStmts.get(myStmts.size()-1));
+            myStmts.remove(myStmts.size() - 1);
+            removeLast = false;
+        }
+
+        forNode = new ASTForLoopNode(label, init, condition, update, body);
+        return true;
     }
 
 
+    private List<Object> getUpdate(List<String> defs, List<String> condUses, List<String> commonUses) {
+        List<Object> toReturn = new ArrayList<Object>();
+
+        //most naive approach
+        List<Object> subBodies = whileNode.get_SubBodies();
+        if (subBodies.size() != 1) {
+            //whileNode should always have oneSubBody
+            return toReturn;
+        }
+
+        List subBody = (List) subBodies.get(0);
+        Iterator it = subBody.iterator();
+        while (it.hasNext()) {
+            ASTNode temp = (ASTNode) it.next();
+
+            if (it.hasNext()) {
+                //not the last node in the loop body
+                continue;
+            }
+
+            //this is the last node in the loop body
+
+            if (!(temp instanceof ASTStatementSequenceNode)) {
+                //not a statementsequence node
+                //System.out.println("Aborting because last node is not a stmtseqnode");
+                return null;
+            }
+
+            List<Object> stmts = ((ASTStatementSequenceNode) temp).getStatements();
+            AugmentedStmt last = (AugmentedStmt) stmts.get(stmts.size() - 1);
+            Stmt lastStmt = last.get_Stmt();
+
+            if (!(lastStmt instanceof DefinitionStmt)) {
+                //not a definition stmt
+                //System.out.println("Aborting because last stmt is not definition stmt");
+                return null;
+            }
 
 
-    private List<Object> getUpdate(List<String> defs,List<String> condUses, List<String> commonUses){
-	List<Object> toReturn = new ArrayList<Object>();
+            //check if it assigns to a def
+            Value left = ((DefinitionStmt) lastStmt).getLeftOp();
+            Iterator<String> defIt = defs.iterator();
+            while (defIt.hasNext()) {
+                String defString = defIt.next();
+                if (left.toString().compareTo(defString) == 0) {
+                    //match
+                    toReturn.add(last);
 
-	//most naive approach
-	List<Object> subBodies = whileNode.get_SubBodies();
-	if(subBodies.size()!=1){
-	    //whileNode should always have oneSubBody
-	    return toReturn;
-	}
+                    myStmts = stmts;
+                    removeLast = true;
+                    //stmts.remove(stmts.size()-1);
 
-	List subBody = (List)subBodies.get(0);
-	Iterator it = subBody.iterator();
-	while(it.hasNext()){
-	    ASTNode temp = (ASTNode)it.next();
+                    //see if commonUses has this otherwise add it
+                    Iterator<String> coIt = commonUses.iterator();
+                    boolean matched = false;
+                    while (coIt.hasNext()) {
+                        if (defString.compareTo(coIt.next()) == 0) {
+                            matched = true;
+                        }
+                    }
+                    if (!matched) {
+                        //it is not in commonUses
+                        commonUses.add(defString);
+                    }
 
-	    if(it.hasNext()){
-		//not the last node in the loop body
-		continue;
-	    }
+                    return toReturn;
+                }
+            }
 
-	    //this is the last node in the loop body
+            //the code gets here only in the case when none of the def strings matched the updated variable
+            Iterator<String> condIt = condUses.iterator();
+            while (condIt.hasNext()) {
+                String condString = condIt.next();
+                if (left.toString().compareTo(condString) == 0) {
+                    //match
+                    toReturn.add(last);
 
-	    if(!(temp instanceof ASTStatementSequenceNode)){
-		//not a statementsequence node
-		//System.out.println("Aborting because last node is not a stmtseqnode");
-		return null;
-	    }
+                    myStmts = stmts;
+                    removeLast = true;
+                    //stmts.remove(stmts.size()-1);
 
-	    List<Object> stmts = ((ASTStatementSequenceNode)temp).getStatements();
-	    AugmentedStmt last = (AugmentedStmt)stmts.get(stmts.size()-1);
-	    Stmt lastStmt = last.get_Stmt();
+                    //see if commonUses has this otherwise add it
+                    Iterator<String> coIt = commonUses.iterator();
+                    boolean matched = false;
+                    while (coIt.hasNext()) {
+                        if (condString.compareTo(coIt.next()) == 0) {
+                            matched = true;
+                        }
+                    }
+                    if (!matched) {
+                        //it is not in commonUses
+                        commonUses.add(condString);
+                    }
+                    return toReturn;
+                }
+            }
+        }//going through ASTNodes
 
-	    if(!(lastStmt instanceof DefinitionStmt)){
-		//not a definition stmt
-		//System.out.println("Aborting because last stmt is not definition stmt");
-		return null;
-	    }
-
-
-
-
-	    //check if it assigns to a def
-	    Value left = ((DefinitionStmt)lastStmt).getLeftOp();
-	    Iterator<String> defIt = defs.iterator();
-	    while(defIt.hasNext()){
-		String defString = defIt.next();
-		if(left.toString().compareTo(defString)==0){
-		    //match
-		    toReturn.add(last);
-
-		    myStmts=stmts;
-		    removeLast=true;
-		    //stmts.remove(stmts.size()-1);
-		    
-		    //see if commonUses has this otherwise add it
-		    Iterator<String> coIt = commonUses.iterator();
-		    boolean matched=false;
-		    while(coIt.hasNext()){
-			if (defString.compareTo(coIt.next())==0){
-			    matched=true;
-			}
-		    }
-		    if(!matched){
-			//it is not in commonUses
-			commonUses.add(defString);
-		    }
-		    
-		    return toReturn;
-		}
-	    }
-
-	    //the code gets here only in the case when none of the def strings matched the updated variable
-	    Iterator<String> condIt = condUses.iterator();
-	    while(condIt.hasNext()){
-		String condString = condIt.next();
-		if(left.toString().compareTo(condString)==0){
-		    //match
-		    toReturn.add(last);
-
-		    myStmts=stmts;
-		    removeLast=true;		    
-		    //stmts.remove(stmts.size()-1);
-		    
-		    //see if commonUses has this otherwise add it
-		    Iterator<String> coIt = commonUses.iterator();
-		    boolean matched=false;
-		    while(coIt.hasNext()){
-			if (condString.compareTo(coIt.next())==0){
-			    matched=true;
-			}
-		    }
-		    if(!matched){
-			//it is not in commonUses
-			commonUses.add(condString);
-		    }
-		    return toReturn;
-		}
-	    }
-	}//going through ASTNodes
-	
-	return toReturn;
+        return toReturn;
     }
 
 
-    private List<Object> createNewStmtSeqNodeAndGetInit(List<String> commonVars){
-	//get stmt number of each def of commonVar keeping the lowest
-	int currentLowestPosition=999;
-	Iterator<String> it = commonVars.iterator();
-	while(it.hasNext()){
-	    String temp = it.next();
-	    Integer tempInt = varToStmtMap.get(temp);
-	    if(tempInt !=null){
-		if(tempInt.intValue()<currentLowestPosition){
-		    currentLowestPosition=tempInt.intValue();
-		}
-	    }
-	}
+    private List<Object> createNewStmtSeqNodeAndGetInit(List<String> commonVars) {
+        //get stmt number of each def of commonVar keeping the lowest
+        int currentLowestPosition = 999;
+        Iterator<String> it = commonVars.iterator();
+        while (it.hasNext()) {
+            String temp = it.next();
+            Integer tempInt = varToStmtMap.get(temp);
+            if (tempInt != null) {
+                if (tempInt.intValue() < currentLowestPosition) {
+                    currentLowestPosition = tempInt.intValue();
+                }
+            }
+        }
 
-	List<Object> stmts = new ArrayList<Object>();
-	
-	
-	List<Object> statements = stmtSeqNode.getStatements();
-	Iterator<Object> stmtIt = statements.iterator();
-	int stmtNum=0;
-
-	while(stmtNum<currentLowestPosition   && stmtIt.hasNext()){
-	    stmts.add(stmtIt.next());
-	    stmtNum++;
-	}
-
-	if(stmts.size()>0){
-	    newStmtSeqNode = new ASTStatementSequenceNode(stmts);
-	}
-	else{
-	    newStmtSeqNode = null;
-	}
+        List<Object> stmts = new ArrayList<Object>();
 
 
-	List<Object> init = new ArrayList<Object>();
-	while(stmtIt.hasNext()){
-	    init.add(stmtIt.next());
-	}
-	
-	return init;
+        List<Object> statements = stmtSeqNode.getStatements();
+        Iterator<Object> stmtIt = statements.iterator();
+        int stmtNum = 0;
+
+        while (stmtNum < currentLowestPosition && stmtIt.hasNext()) {
+            stmts.add(stmtIt.next());
+            stmtNum++;
+        }
+
+        if (stmts.size() > 0) {
+            newStmtSeqNode = new ASTStatementSequenceNode(stmts);
+        } else {
+            newStmtSeqNode = null;
+        }
+
+
+        List<Object> init = new ArrayList<Object>();
+        while (stmtIt.hasNext()) {
+            init.add(stmtIt.next());
+        }
+
+        return init;
     }
 
 

@@ -18,10 +18,6 @@
  */
 package soot.jimple.spark.ondemand;
 
-import java.util.HashSet;
-import java.util.Set;
-
-
 import soot.RefType;
 import soot.Scene;
 import soot.SootField;
@@ -31,22 +27,19 @@ import soot.jimple.spark.ondemand.pautil.SootUtil;
 import soot.jimple.spark.pag.ArrayElement;
 import soot.jimple.spark.pag.SparkField;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class InnerTypesIncrementalHeuristic implements FieldCheckHeuristic {
 
     private final TypeManager manager;
 
     private final Set<RefType> typesToCheck = new HashSet<RefType>();
-
-    private String newTypeOnQuery = null;
-
     private final Set<RefType> bothEndsTypes = new HashSet<RefType>();
-
     private final Set<RefType> notBothEndsTypes = new HashSet<RefType>();
-
-    private int numPasses = 0;
-
     private final int passesInDirection;
-
+    private String newTypeOnQuery = null;
+    private int numPasses = 0;
     private boolean allNotBothEnds = false;
 
     public InnerTypesIncrementalHeuristic(TypeManager manager, int maxPasses) {
@@ -62,11 +55,11 @@ public class InnerTypesIncrementalHeuristic implements FieldCheckHeuristic {
             if (newTypeOnQuery != null) {
                 String topLevelTypeStr = Util.topLevelTypeString(newTypeOnQuery);
                 boolean added;
-                if(Scene.v().containsType(topLevelTypeStr)) {
+                if (Scene.v().containsType(topLevelTypeStr)) {
                     RefType refType = Scene.v().getRefType(topLevelTypeStr);
                     added = typesToCheck.add(refType);
                 } else {
-                	added = false;
+                    added = false;
                 }
                 newTypeOnQuery = null;
                 return added;
@@ -97,10 +90,10 @@ public class InnerTypesIncrementalHeuristic implements FieldCheckHeuristic {
         String declaringTypeStr = declaringType.toString();
         String topLevel = Util.topLevelTypeString(declaringTypeStr);
         RefType refType;
-        if(Scene.v().containsType(topLevel)) {
+        if (Scene.v().containsType(topLevel)) {
             refType = Scene.v().getRefType(topLevel);
         } else {
-        	refType=null;
+            refType = null;
         }
         for (RefType checkedType : typesToCheck) {
             if (manager.castNeverFails(checkedType, refType)) {

@@ -19,142 +19,146 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import ca.mcgill.sable.soot.interaction.*;
-
+import ca.mcgill.sable.soot.util.StreamGobbler;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.*;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Display;
-import ca.mcgill.sable.soot.util.*;
-import java.util.*;
-import org.eclipse.jface.dialogs.*;
+
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  * Runs Soot and creates Handler for Soot output.
  */
 public class SootRunner implements IRunnableWithProgress {
 
-	Display display;
-	String [] cmd;
-	String mainClass;
-	ArrayList cfgList;
-	private SootLauncher parent;
-	
-	/**
-	 * Constructor for SootRunner.
-	 */
-	public SootRunner(String [] cmd, Display display , String mainClass) {
-		setDisplay(display);
-		setCmd(cmd);
-		setMainClass(mainClass);
-		
-	}
+    Display display;
+    String[] cmd;
+    String mainClass;
+    ArrayList cfgList;
+    private SootLauncher parent;
 
-	/**
-	 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(IProgressMonitor)
-	 */
-	public void run(IProgressMonitor monitor)
-		throws InvocationTargetException, InterruptedException {
-		try {
-		
-			final PipedInputStream pis = new PipedInputStream();
-			
-      		final PipedOutputStream pos = new PipedOutputStream(pis);
-      		final PrintStream sootOut = new PrintStream(pos);
-      		
-            final String [] cmdFinal = getCmd();
-            
+    /**
+     * Constructor for SootRunner.
+     */
+    public SootRunner(String[] cmd, Display display, String mainClass) {
+        setDisplay(display);
+        setCmd(cmd);
+        setMainClass(mainClass);
+
+    }
+
+    /**
+     * @see org.eclipse.jface.operation.IRunnableWithProgress#run(IProgressMonitor)
+     */
+    public void run(IProgressMonitor monitor)
+            throws InvocationTargetException, InterruptedException {
+        try {
+
+            final PipedInputStream pis = new PipedInputStream();
+
+            final PipedOutputStream pos = new PipedOutputStream(pis);
+            final PrintStream sootOut = new PrintStream(pos);
+
+            final String[] cmdFinal = getCmd();
+
             SootThread sootThread = new SootThread(getDisplay(), getMainClass(), this);
-            
+
             sootThread.setCmd(cmdFinal);
             sootThread.setSootOut(sootOut);
             sootThread.start();
-             
-        	StreamGobbler out = new StreamGobbler(getDisplay(), pis, StreamGobbler.OUTPUT_STREAM_TYPE);
-        	out.start();
-      	
-        	sootThread.join();
-        	getParent().setCfgList(getCfgList());
-      	}
-      	catch (Exception e) {
-      		System.out.println(e.getStackTrace());
-      	}
-	}
-	
 
-	/**
-	 * Returns the cmd.
-	 * @return String[]
-	 */
-	public String[] getCmd() {
-		return cmd;
-	}
+            StreamGobbler out = new StreamGobbler(getDisplay(), pis, StreamGobbler.OUTPUT_STREAM_TYPE);
+            out.start();
 
-	/**
-	 * Returns the display.
-	 * @return Display
-	 */
-	public Display getDisplay() {
-		return display;
-	}
+            sootThread.join();
+            getParent().setCfgList(getCfgList());
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+    }
 
-	/**
-	 * Sets the cmd.
-	 * @param cmd The cmd to set
-	 */
-	public void setCmd(String[] cmd) {
-		this.cmd = cmd;
-	}
 
-	/**
-	 * Sets the display.
-	 * @param display The display to set
-	 */
-	public void setDisplay(Display display) {
-		this.display = display;
-	}
+    /**
+     * Returns the cmd.
+     *
+     * @return String[]
+     */
+    public String[] getCmd() {
+        return cmd;
+    }
 
-	/**
-	 * @return
-	 */
-	public String getMainClass() {
-		return mainClass;
-	}
+    /**
+     * Sets the cmd.
+     *
+     * @param cmd The cmd to set
+     */
+    public void setCmd(String[] cmd) {
+        this.cmd = cmd;
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setMainClass(String string) {
-		mainClass = string;
-	}
+    /**
+     * Returns the display.
+     *
+     * @return Display
+     */
+    public Display getDisplay() {
+        return display;
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getCfgList() {
-		return cfgList;
-	}
+    /**
+     * Sets the display.
+     *
+     * @param display The display to set
+     */
+    public void setDisplay(Display display) {
+        this.display = display;
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setCfgList(ArrayList list) {
-		cfgList = list;
-	}
+    /**
+     * @return
+     */
+    public String getMainClass() {
+        return mainClass;
+    }
 
-	/**
-	 * @return
-	 */
-	public SootLauncher getParent() {
-		return parent;
-	}
+    /**
+     * @param string
+     */
+    public void setMainClass(String string) {
+        mainClass = string;
+    }
 
-	/**
-	 * @param launcher
-	 */
-	public void setParent(SootLauncher launcher) {
-		parent = launcher;
-	}
+    /**
+     * @return
+     */
+    public ArrayList getCfgList() {
+        return cfgList;
+    }
+
+    /**
+     * @param list
+     */
+    public void setCfgList(ArrayList list) {
+        cfgList = list;
+    }
+
+    /**
+     * @return
+     */
+    public SootLauncher getParent() {
+        return parent;
+    }
+
+    /**
+     * @param launcher
+     */
+    public void setParent(SootLauncher launcher) {
+        parent = launcher;
+    }
 
 }

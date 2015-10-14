@@ -18,45 +18,48 @@
  */
 
 import soot.*;
-import soot.tagkit.*;
-import soot.toolkits.graph.*;
-import java.util.*;
-import soot.toolkits.scalar.*;
-import soot.jimple.*;
+import soot.jimple.Stmt;
+import soot.tagkit.ColorTag;
+import soot.toolkits.graph.CompleteUnitGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class NullnessAnalysisColorer extends BodyTransformer {
-    protected void internalTransform (Body b, String phaseName, Map options) {
+    protected void internalTransform(Body b, String phaseName, Map options) {
         NullnessAnalysis analysis = new NullnessAnalysis
-            (new CompleteUnitGraph(b));
+                (new CompleteUnitGraph(b));
 
         Iterator it = b.getUnits().iterator();
 
         while (it.hasNext()) {
-            Stmt s = (Stmt)it.next();
-            
+            Stmt s = (Stmt) it.next();
+
             Iterator usesIt = s.getUseBoxes().iterator();
-            FlowSet beforeSet = (FlowSet)analysis.getFlowBefore(s);
-                
+            FlowSet beforeSet = (FlowSet) analysis.getFlowBefore(s);
+
             while (usesIt.hasNext()) {
-                ValueBox vBox = (ValueBox)usesIt.next();
+                ValueBox vBox = (ValueBox) usesIt.next();
                 addColorTags(vBox, beforeSet, s, analysis);
             }
 
             Iterator defsIt = s.getDefBoxes().iterator();
-            FlowSet afterSet = (FlowSet)analysis.getFallFlowAfter(s);
+            FlowSet afterSet = (FlowSet) analysis.getFallFlowAfter(s);
 
-            while (defsIt.hasNext()){
-                ValueBox vBox = (ValueBox)defsIt.next();
+            while (defsIt.hasNext()) {
+                ValueBox vBox = (ValueBox) defsIt.next();
                 addColorTags(vBox, afterSet, s, analysis);
             }
         }
     }
-    
-    private void addColorTags(ValueBox vBox, FlowSet set, 
+
+    private void addColorTags(ValueBox vBox, FlowSet set,
                               Stmt s, NullnessAnalysis analysis) {
         Value val = vBox.getValue();
         if (val.getType() instanceof RefLikeType &&
-                ((ArraySparseSet)set).contains(val))
+                set.contains(val))
             vBox.addTag(new ColorTag(ColorTag.GREEN));
     }
 }

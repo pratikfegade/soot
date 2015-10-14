@@ -24,54 +24,47 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.Unit;
+import soot.baf.Baf;
+import soot.baf.IfLtInst;
+import soot.baf.InstSwitch;
+import soot.util.Switch;
 
-public class BIfLtInst extends AbstractBranchInst implements IfLtInst
-{
-    public BIfLtInst(Unit target)
-    {
+public class BIfLtInst extends AbstractBranchInst implements IfLtInst {
+    public BIfLtInst(Unit target) {
         super(Baf.v().newInstBox(target));
     }
-    
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 1;
     }
 
 
-    public Object clone() 
-    {
-        return new  BIfLtInst(getTarget());
+    public Object clone() {
+        return new BIfLtInst(getTarget());
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 1;
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 0;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 0;
     }
 
 
-    public String getName() { return "iflt"; }
+    public String getName() {
+        return "iflt";
+    }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseIfLtInst(this);
-    }    
+    }
 }
 

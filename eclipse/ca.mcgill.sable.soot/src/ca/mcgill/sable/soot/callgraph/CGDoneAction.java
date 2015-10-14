@@ -19,50 +19,48 @@
 
 package ca.mcgill.sable.soot.callgraph;
 
-import org.eclipse.gef.ui.actions.EditorPartAction;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.jface.resource.*;
-import org.eclipse.ui.*;
 import org.eclipse.jface.action.*;
+import org.eclipse.jface.resource.*;
 import org.eclipse.jface.viewers.*;
-
 import org.eclipse.swt.printing.*;
-
+import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorPart;
 import soot.toolkits.graph.interaction.InteractionHandler;
 
 
 public class CGDoneAction implements IEditorActionDelegate {
 
-	public static final String DONE = "done"; 
-	/**
-	 * @param editor
-	 */
-	public CGDoneAction() {
-	}
-	
-	public void setActiveEditor(IAction action, IEditorPart editor){
-		
-	}
+    public static final String DONE = "done";
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
-	 */
-	protected boolean calculateEnabled() {
-		return true;
-	}
+    /**
+     * @param editor
+     */
+    public CGDoneAction() {
+    }
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.eclipse.jface.action.IAction#run()
-	 * steps forward through flowsets unless method 
-	 * is finished
-	 */
-	public void run(IAction action){
-		InteractionHandler.v().cgDone(true);
-		InteractionHandler.v().setInteractionCon();
-	}		
-	
-	public void selectionChanged(IAction action, ISelection sel){
-	}
-	
+    public void setActiveEditor(IAction action, IEditorPart editor) {
+
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
+     */
+    protected boolean calculateEnabled() {
+        return true;
+    }
+
+    /*
+     *  (non-Javadoc)
+     * @see org.eclipse.jface.action.IAction#run()
+     * steps forward through flowsets unless method
+     * is finished
+     */
+    public void run(IAction action) {
+        InteractionHandler.v().cgDone(true);
+        InteractionHandler.v().setInteractionCon();
+    }
+
+    public void selectionChanged(IAction action, ISelection sel) {
+    }
+
 }

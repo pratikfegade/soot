@@ -24,85 +24,76 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.*;
-import java.util.*;
 
-abstract class AbstractInvokeInst extends AbstractInst
-{
+import java.util.Iterator;
+
+abstract class AbstractInvokeInst extends AbstractInst {
     SootMethodRef methodRef;
 
-    public SootMethodRef getMethodRef()
-    {
+    public SootMethodRef getMethodRef() {
         return methodRef;
     }
 
-    public SootMethod getMethod()
-    {
+    public SootMethod getMethod() {
         return methodRef.resolve();
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return methodRef.returnType();
     }
 
-    public String toString()
-    {
+    public String toString() {
         return getName() + getParameters();
     }
 
     abstract public String getName();
-    String getParameters()
-        { return " " + methodRef.getSignature(); }
+
+    String getParameters() {
+        return " " + methodRef.getSignature();
+    }
+
     protected void getParameters(UnitPrinter up) {
         up.literal(" ");
         up.methodRef(methodRef);
     }
 
-    
 
-  
-  public int getInCount()
-  {
-    return getMethodRef().parameterTypes().size();
-  }
-  
-
-  public int getOutCount()
-  {
-    if(getMethodRef().returnType() instanceof VoidType) 
-      return 0;
-    else
-      return 1;
-  }
-  
-
-
-  public int getInMachineCount()
-  {
-    int count = 0;
-    
-    Iterator it = getMethodRef().parameterTypes().iterator();
-    while(it.hasNext()) {
-      count += AbstractJasminClass.sizeOfType((Type) it.next());            
+    public int getInCount() {
+        return getMethodRef().parameterTypes().size();
     }
-    return count;
-  }
-  
 
-  public int getOutMachineCount()
-  {
-    if(getMethodRef().returnType() instanceof VoidType) 
-      return 0;
-    else
-      return AbstractJasminClass.sizeOfType(getMethodRef().returnType());
-  } 
 
-  public boolean containsInvokeExpr() { return true; }
+    public int getOutCount() {
+        if (getMethodRef().returnType() instanceof VoidType)
+            return 0;
+        else
+            return 1;
+    }
+
+
+    public int getInMachineCount() {
+        int count = 0;
+
+        Iterator it = getMethodRef().parameterTypes().iterator();
+        while (it.hasNext()) {
+            count += AbstractJasminClass.sizeOfType((Type) it.next());
+        }
+        return count;
+    }
+
+
+    public int getOutMachineCount() {
+        if (getMethodRef().returnType() instanceof VoidType)
+            return 0;
+        else
+            return AbstractJasminClass.sizeOfType(getMethodRef().returnType());
+    }
+
+    public boolean containsInvokeExpr() {
+        return true;
+    }
 
 }

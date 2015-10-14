@@ -1,16 +1,15 @@
 public strictfp class StrictClass {
 
-    private int x;
-    protected int y;
-
     public static int j;
+    protected int y;
     volatile int k;
+    private int x;
 
-    public StrictClass (){
+    public StrictClass() {
         float f = 0.9F;
     }
 
-    public static void main(String [] args){
+    public static void main(String[] args) {
         StrictClass s = new StrictClass();
     }
 }

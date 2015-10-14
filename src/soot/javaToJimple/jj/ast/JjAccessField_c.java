@@ -20,50 +20,51 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.*;
-import polyglot.visit.*;
-import polyglot.ext.jl.ast.*;
-import polyglot.util.*;
-import java.util.*;
+import polyglot.ext.jl.ast.Expr_c;
+import polyglot.util.Position;
+import polyglot.visit.CFGBuilder;
+import polyglot.visit.NodeVisitor;
+
+import java.util.List;
 
 public class JjAccessField_c extends Expr_c implements Expr {
 
     private Call getMeth;
     private Call setMeth;
     private Field field;
-    
-    public JjAccessField_c(Position pos, Call getMeth, Call setMeth, Field field){
+
+    public JjAccessField_c(Position pos, Call getMeth, Call setMeth, Field field) {
         super(pos);
         this.getMeth = getMeth;
         this.setMeth = setMeth;
         this.field = field;
     }
 
-    public Call getMeth(){
+    public Call getMeth() {
         return getMeth;
     }
 
-    public Call setMeth(){
+    public Call setMeth() {
         return setMeth;
     }
 
     public Field field() {
         return field;
     }
-    
-    public String toString(){
-        return field+" "+getMeth+" "+setMeth;
-    }
-    
-    public List acceptCFG(CFGBuilder v, List succs)
-    {
-        return succs;
-    }           
 
-    public Term entry(){
+    public String toString() {
+        return field + " " + getMeth + " " + setMeth;
+    }
+
+    public List acceptCFG(CFGBuilder v, List succs) {
+        return succs;
+    }
+
+    public Term entry() {
         return field.entry();
     }
 
-    public Node visitChildren(NodeVisitor v){
+    public Node visitChildren(NodeVisitor v) {
         visitChild(field, v);
         visitChild(getMeth, v);
         visitChild(setMeth, v);

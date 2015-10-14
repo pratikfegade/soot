@@ -24,100 +24,95 @@
  */
 
 
-
-
-
 package soot.jimple.toolkits.base;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Trap;
+import soot.Unit;
+import soot.jimple.StmtBody;
+import soot.util.Chain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Zonation
-{
+public class Zonation {
     private int zoneCount;
     private Map<Unit, Zone> unitToZone;
-    
-    public Zonation(StmtBody body)
-    {
+
+    public Zonation(StmtBody body) {
         Chain<Unit> units = body.getUnits();
         Map<Unit, List<Trap>> unitToTrapBoundaries = new HashMap<Unit, List<Trap>>();
-                    
+
         // Build trap boundaries
         for (Trap t : body.getTraps()) {
-        	addTrapBoundary(t.getBeginUnit(), t, unitToTrapBoundaries);
-        	addTrapBoundary(t.getEndUnit(), t, unitToTrapBoundaries);
+            addTrapBoundary(t.getBeginUnit(), t, unitToTrapBoundaries);
+            addTrapBoundary(t.getEndUnit(), t, unitToTrapBoundaries);
         }
-        
+
         // Traverse units, assigning each to a zone
         {
             Map<List<Trap>, Zone> trapListToZone = new HashMap<List<Trap>, Zone>(10, 0.7f);
             List<Trap> currentTraps = new ArrayList<Trap>();
             Zone currentZone;
-            
+
             zoneCount = 0;
             unitToZone = new HashMap<Unit, Zone>(units.size() * 2 + 1, 0.7f);
-            
+
             // Initialize first empty zone
-                currentZone = new Zone("0");
-                trapListToZone.put(new ArrayList<Trap>(), currentZone);
-            
+            currentZone = new Zone("0");
+            trapListToZone.put(new ArrayList<Trap>(), currentZone);
+
             for (Unit u : units) {
                 // Process trap boundaries
                 {
                     List<Trap> trapBoundaries = unitToTrapBoundaries.get(u);
-                    if(trapBoundaries != null && !trapBoundaries.isEmpty())
-                    {
-                    	for (Trap trap : trapBoundaries) {
-                            if(currentTraps.contains(trap))
+                    if (trapBoundaries != null && !trapBoundaries.isEmpty()) {
+                        for (Trap trap : trapBoundaries) {
+                            if (currentTraps.contains(trap))
                                 currentTraps.remove(trap);
                             else
                                 currentTraps.add(trap);
                         }
-                                          
-                        if(trapListToZone.containsKey(currentTraps))
+
+                        if (trapListToZone.containsKey(currentTraps))
                             currentZone = trapListToZone.get(currentTraps);
-                        else
-                        {   
+                        else {
                             // Create a new zone
                             zoneCount++;
                             currentZone = new Zone(new Integer(zoneCount).toString());
-                            
+
                             trapListToZone.put(currentTraps, currentZone);
                         }
-                                                    
+
                     }
                 }
-                    
+
                 unitToZone.put(u, currentZone);
             }
         }
-        
+
     }
-    
+
     private void addTrapBoundary(Unit unit, Trap t, Map<Unit, List<Trap>> unitToTrapBoundaries) {
         List<Trap> boundary = unitToTrapBoundaries.get(unit);
         if (boundary == null) {
-        	boundary = new ArrayList<Trap>();
-        	unitToTrapBoundaries.put(unit, boundary);
+            boundary = new ArrayList<Trap>();
+            unitToTrapBoundaries.put(unit, boundary);
         }
         boundary.add(t);
-	}
+    }
 
-	public Zone getZoneOf(Unit u)
-    {
+    public Zone getZoneOf(Unit u) {
         Zone z = unitToZone.get(u);
-        
-        if(z == null)
+
+        if (z == null)
             throw new RuntimeException("null zone!");
 
-        return z; 
+        return z;
     }
-    
-    public int getZoneCount()
-    {
+
+    public int getZoneCount() {
         return zoneCount;
     }
 }

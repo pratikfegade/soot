@@ -5,12 +5,12 @@ import soot.util.dot.DotGraph;
 
 public class FooCallgraphCreator {
 
-	public FooCallgraphCreator(Method[] methods) {
-		// TODO Auto-generated constructor stub
-	}
+    public FooCallgraphCreator(Method[] methods) {
+        // TODO Auto-generated constructor stub
+    }
 
-	public DotGraph getCallGraphAsDot() {
-		return null;
-	}
+    public DotGraph getCallGraphAsDot() {
+        return null;
+    }
 
 }

@@ -19,40 +19,40 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import ca.mcgill.sable.soot.util.*;
-//import org.eclipse.core.resources.*;
+import ca.mcgill.sable.soot.util.StringToDom;
 import org.w3c.dom.Document;
 
+//import org.eclipse.core.resources.*;
 
 
 public class SootAttributeFilesReader {
 
-	/**
-	 * @see java.lang.Object#Object()
-	 */
-	public SootAttributeFilesReader() {
-	}
+    /**
+     * @see java.lang.Object#Object()
+     */
+    public SootAttributeFilesReader() {
+    }
 
-	public AttributeDomProcessor readFile(String full_filename) {
-		AttributeFileReader afr = new AttributeFileReader(full_filename);
-		String file = afr.readFile();
-		if ((file == null) || (file.length() == 0)) return null;
-		
-		file = file.replaceAll("\"", "\\\"");
-		
-		StringToDom domMaker = new StringToDom();
-		domMaker.getDocFromString(file);
-		Document domDoc = domMaker.getDomDoc();
-		
-		AttributeDomProcessor adp = new AttributeDomProcessor(domDoc);
-		adp.processAttributesDom();
-		return adp;
-					
-	}
-	
-	
-	public String fileToNoExt(String filename) {
-		
-		return filename.substring(0, filename.lastIndexOf('.'));
-	}
+    public AttributeDomProcessor readFile(String full_filename) {
+        AttributeFileReader afr = new AttributeFileReader(full_filename);
+        String file = afr.readFile();
+        if ((file == null) || (file.length() == 0)) return null;
+
+        file = file.replaceAll("\"", "\\\"");
+
+        StringToDom domMaker = new StringToDom();
+        domMaker.getDocFromString(file);
+        Document domDoc = domMaker.getDomDoc();
+
+        AttributeDomProcessor adp = new AttributeDomProcessor(domDoc);
+        adp.processAttributesDom();
+        return adp;
+
+    }
+
+
+    public String fileToNoExt(String filename) {
+
+        return filename.substring(0, filename.lastIndexOf('.'));
+    }
 }

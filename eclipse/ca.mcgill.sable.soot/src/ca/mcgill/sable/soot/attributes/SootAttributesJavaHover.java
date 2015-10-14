@@ -20,123 +20,119 @@
 package ca.mcgill.sable.soot.attributes;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import org.eclipse.ui.*;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.MarkerUtilities;
-
-
-
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.ui.text.java.hover.*;
 import org.eclipse.jdt.core.*;
-import ca.mcgill.sable.soot.*;
+import org.eclipse.jdt.ui.text.java.hover.*;
+import org.eclipse.ui.*;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
+import org.eclipse.ui.texteditor.MarkerUtilities;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class SootAttributesJavaHover extends AbstractSootAttributesHover implements IJavaEditorTextHover {
 
-	private ArrayList fileNames;
-	
-	public IJavaElement getJavaElement(AbstractTextEditor textEditor) {
-		IEditorInput input= textEditor.getEditorInput();
-		return (IJavaElement) ((IAdaptable) input).getAdapter(IJavaElement.class);
-	
-	}
-	
+    private ArrayList fileNames;
 
-	protected void computeAttributes() {
-		setAttrsHandler(new SootAttributesHandler());
-		createAttrFileNames();
-		SootAttributeFilesReader safr = new SootAttributeFilesReader();
-		Iterator it = fileNames.iterator();
-		while (it.hasNext()){
-			String fileName = ((IPath)it.next()).toOSString();
-			AttributeDomProcessor adp = safr.readFile(fileName);
-			if (adp != null) {
-				
-				getAttrsHandler().setAttrList(adp.getAttributes());
-			}
-		}
-		
-		SootPlugin.getDefault().getManager().addToFileWithAttributes((IFile)getRec(), getAttrsHandler());
-			
-		
-	}
-	private String createAttrFileNames() {
-		fileNames = new ArrayList();
-		StringBuffer sb = new StringBuffer();
-		sb.append(SootPlugin.getWorkspace().getRoot().getProject(getSelectedProj()).getLocation().toOSString());
-		sb.append(sep);
-		sb.append("sootOutput");
-		sb.append(sep);
-		sb.append("attributes");
-		sb.append(sep);
-		String dir = sb.toString();
-		IContainer c = (IContainer)SootPlugin.getWorkspace().getRoot().getProject(getSelectedProj()).getFolder("sootOutput"+sep+"attributes"+sep);
-		try {
-		
-			IResource [] files = c.members();
-			for (int i = 0; i < files.length; i++){
-				Iterator it = getPackFileNames().iterator();
-				while (it.hasNext()){
-					
-					String fileNameToMatch = (String)it.next();
-					if (files[i].getName().matches(fileNameToMatch+"[$].*") || files[i].getName().matches(fileNameToMatch+"\\."+"xml")){
-						fileNames.add(files[i].getLocation());
-					}
-				}
-			}
-		}
-		catch(CoreException e){
-		}
-		sb.append(getPackFileName());
-		sb.append(".xml");
-	
-		return sb.toString();
-	}
-	
-	protected void addSootAttributeMarkers() {
-		
-		if (getAttrsHandler() == null)return;
-		if (getAttrsHandler().getAttrList() == null) return;
-		Iterator it = getAttrsHandler().getAttrList().iterator();
-		HashMap markerAttr = new HashMap();
-		
-		while (it.hasNext()) {
-			SootAttribute sa = (SootAttribute)it.next();
-			if (((sa.getAllTextAttrs("<br>") == null) || (sa.getAllTextAttrs("<br>").length() == 0)) && 
-				((sa.getAllLinkAttrs() == null) || (sa.getAllLinkAttrs().size() ==0))) continue;
-			
-			markerAttr.put(IMarker.LINE_NUMBER, new Integer(sa.getJavaStartLn()));
-		
-			try {
-				MarkerUtilities.createMarker(getRec(), markerAttr, "ca.mcgill.sable.soot.sootattributemarker");
-			}
-			catch(CoreException e) {
-				System.out.println(e.getMessage());
-			}
-		
-		}
+    public IJavaElement getJavaElement(AbstractTextEditor textEditor) {
+        IEditorInput input = textEditor.getEditorInput();
+        return (IJavaElement) ((IAdaptable) input).getAdapter(IJavaElement.class);
 
-	}
-	
-	
-	protected String getAttributes(AbstractTextEditor editor) {
-		JavaAttributesComputer jac = new JavaAttributesComputer();
-		SootAttributesHandler handler = jac.getAttributesHandler(editor);
+    }
 
-        if (handler != null){    
-        
-        	return handler.getJavaAttribute(getLineNum());
-		}
-		else {
-			return null;
-		}
-	}
-    
+
+    protected void computeAttributes() {
+        setAttrsHandler(new SootAttributesHandler());
+        createAttrFileNames();
+        SootAttributeFilesReader safr = new SootAttributeFilesReader();
+        Iterator it = fileNames.iterator();
+        while (it.hasNext()) {
+            String fileName = ((IPath) it.next()).toOSString();
+            AttributeDomProcessor adp = safr.readFile(fileName);
+            if (adp != null) {
+
+                getAttrsHandler().setAttrList(adp.getAttributes());
+            }
+        }
+
+        SootPlugin.getDefault().getManager().addToFileWithAttributes((IFile) getRec(), getAttrsHandler());
+
+
+    }
+
+    private String createAttrFileNames() {
+        fileNames = new ArrayList();
+        StringBuffer sb = new StringBuffer();
+        sb.append(SootPlugin.getWorkspace().getRoot().getProject(getSelectedProj()).getLocation().toOSString());
+        sb.append(sep);
+        sb.append("sootOutput");
+        sb.append(sep);
+        sb.append("attributes");
+        sb.append(sep);
+        String dir = sb.toString();
+        IContainer c = (IContainer) SootPlugin.getWorkspace().getRoot().getProject(getSelectedProj()).getFolder("sootOutput" + sep + "attributes" + sep);
+        try {
+
+            IResource[] files = c.members();
+            for (int i = 0; i < files.length; i++) {
+                Iterator it = getPackFileNames().iterator();
+                while (it.hasNext()) {
+
+                    String fileNameToMatch = (String) it.next();
+                    if (files[i].getName().matches(fileNameToMatch + "[$].*") || files[i].getName().matches(fileNameToMatch + "\\." + "xml")) {
+                        fileNames.add(files[i].getLocation());
+                    }
+                }
+            }
+        } catch (CoreException e) {
+        }
+        sb.append(getPackFileName());
+        sb.append(".xml");
+
+        return sb.toString();
+    }
+
+    protected void addSootAttributeMarkers() {
+
+        if (getAttrsHandler() == null) return;
+        if (getAttrsHandler().getAttrList() == null) return;
+        Iterator it = getAttrsHandler().getAttrList().iterator();
+        HashMap markerAttr = new HashMap();
+
+        while (it.hasNext()) {
+            SootAttribute sa = (SootAttribute) it.next();
+            if (((sa.getAllTextAttrs("<br>") == null) || (sa.getAllTextAttrs("<br>").length() == 0)) &&
+                    ((sa.getAllLinkAttrs() == null) || (sa.getAllLinkAttrs().size() == 0))) continue;
+
+            markerAttr.put(IMarker.LINE_NUMBER, new Integer(sa.getJavaStartLn()));
+
+            try {
+                MarkerUtilities.createMarker(getRec(), markerAttr, "ca.mcgill.sable.soot.sootattributemarker");
+            } catch (CoreException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+
+    }
+
+
+    protected String getAttributes(AbstractTextEditor editor) {
+        JavaAttributesComputer jac = new JavaAttributesComputer();
+        SootAttributesHandler handler = jac.getAttributesHandler(editor);
+
+        if (handler != null) {
+
+            return handler.getJavaAttribute(getLineNum());
+        } else {
+            return null;
+        }
+    }
+
 
 }

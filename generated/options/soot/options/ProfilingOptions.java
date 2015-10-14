@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,39 +20,41 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Profiling Generator. */
-public class ProfilingOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Profiling Generator.
+ */
+public class ProfilingOptions {
     private Map<String, String> options;
 
-    public ProfilingOptions( Map<String, String> options ) {
+    public ProfilingOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Not Main Entry --
-    
+
+    /**
+     * Not Main Entry --
+     * <p/>
      * Instrument runBenchmark() instead of main().
-    
-     * Insert the calls to the MultiCounter at the beginning and end 
-     * of methods with the signature long 
-     * runBenchmark(java.lang.String[]) instead of the signature void 
+     * <p/>
+     * Insert the calls to the MultiCounter at the beginning and end
+     * of methods with the signature long
+     * runBenchmark(java.lang.String[]) instead of the signature void
      * main(java.lang.String[]).
      */
     public boolean notmainentry() {
-        return soot.PhaseOptions.getBoolean( options, "notmainentry" );
+        return soot.PhaseOptions.getBoolean(options, "notmainentry");
     }
-    
+
 }
         

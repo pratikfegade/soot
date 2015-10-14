@@ -19,38 +19,41 @@
 
 package soot.javaToJimple;
 
-import java.util.*;
-
 import polyglot.util.IdentityKey;
 
-public class AnonLocalClassInfo{
+import java.util.ArrayList;
+
+public class AnonLocalClassInfo {
 
     private boolean inStaticMethod;
     private ArrayList<IdentityKey> finalLocalsAvail;
     private ArrayList<IdentityKey> finalLocalsUsed;
 
-    public boolean inStaticMethod(){
+    public boolean inStaticMethod() {
         return inStaticMethod;
     }
-    public void inStaticMethod(boolean b){
+
+    public void inStaticMethod(boolean b) {
         inStaticMethod = b;
     }
 
-    public ArrayList<IdentityKey> finalLocalsAvail(){
+    public ArrayList<IdentityKey> finalLocalsAvail() {
         return finalLocalsAvail;
     }
-    public void finalLocalsAvail(ArrayList<IdentityKey> list){
+
+    public void finalLocalsAvail(ArrayList<IdentityKey> list) {
         finalLocalsAvail = list;
     }
 
-    public ArrayList<IdentityKey> finalLocalsUsed(){
+    public ArrayList<IdentityKey> finalLocalsUsed() {
         return finalLocalsUsed;
     }
-    public void finalLocalsUsed(ArrayList<IdentityKey> list){
+
+    public void finalLocalsUsed(ArrayList<IdentityKey> list) {
         finalLocalsUsed = list;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("static: ");
         sb.append(inStaticMethod);

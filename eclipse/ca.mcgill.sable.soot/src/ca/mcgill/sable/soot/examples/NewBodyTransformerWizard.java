@@ -19,13 +19,12 @@
 package ca.mcgill.sable.soot.examples;
 
 /**
- * 
  * @author Eric Bodden
  */
 public class NewBodyTransformerWizard extends NewSootExampleWizard {
 
-	public NewBodyTransformerWizard() {
-		super("BodyTransformer.java","MyMain.java");
-	}
+    public NewBodyTransformerWizard() {
+        super("BodyTransformer.java", "MyMain.java");
+    }
 
 }

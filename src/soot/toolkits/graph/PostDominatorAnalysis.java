@@ -19,11 +19,14 @@
 
 package soot.toolkits.graph;
 
-import soot.*;
-import java.util.*;
-
+import soot.Unit;
 import soot.jimple.Stmt;
-import soot.toolkits.scalar.*;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.BackwardFlowAnalysis;
+import soot.toolkits.scalar.FlowSet;
+
+import java.util.Iterator;
+import java.util.List;
 
 // STEP 1: What are we computing?
 // SETS OF Units that are post-dominators => Use ArraySparseSet.
@@ -35,32 +38,32 @@ import soot.toolkits.scalar.*;
 // FORWARDS
 //
 //
+
 /**
  * @deprecated use {@link MHGPostDominatorsFinder} instead
  */
 @Deprecated
-public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Unit>> {
+public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit, FlowSet<Unit>> {
 
     private UnitGraph g;
     private FlowSet<Unit> allNodes;
-    
-    public PostDominatorAnalysis(UnitGraph g)
-    {
+
+    public PostDominatorAnalysis(UnitGraph g) {
         super(g);
         this.g = g;
 
         initAllNodes();
 
         doAnalysis();
-        
+
     }
 
-    private void initAllNodes(){
+    private void initAllNodes() {
         allNodes = new ArraySparseSet<Unit>();
         Iterator<Unit> it = g.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             allNodes.add(it.next());
-        } 
+        }
     }
 
 
@@ -68,38 +71,35 @@ public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Uni
 // INTERSECTION
 
     @Override
-    protected void merge(FlowSet<Unit> in1, FlowSet<Unit> in2, FlowSet<Unit> out)
-    {
-        in1.intersection(in2, out);	
+    protected void merge(FlowSet<Unit> in1, FlowSet<Unit> in2, FlowSet<Unit> out) {
+        in1.intersection(in2, out);
     }
-    
+
     @Override
-    protected void copy(FlowSet<Unit> source, FlowSet<Unit> dest) {        
+    protected void copy(FlowSet<Unit> source, FlowSet<Unit> dest) {
         source.copy(dest);
 
     }
-   
-// STEP 5: Define flow equations.
+
+    // STEP 5: Define flow equations.
 // dom(s) = s U ( ForAll Y in pred(s): Intersection (dom(y)))
 // ie: dom(s) = s and whoever dominates all the predeccessors of s
 // 
     @Override
-    protected void flowThrough(FlowSet<Unit> in, Unit s, FlowSet<Unit> out)
-    {
-        if (isUnitEndNode(s)){
+    protected void flowThrough(FlowSet<Unit> in, Unit s, FlowSet<Unit> out) {
+        if (isUnitEndNode(s)) {
 //            System.out.println("s: "+s+" is end node");
             out.clear();
             out.add(s);
 //            System.out.println("in: "+in+" out: "+out);
-        }
-        else {
-        
+        } else {
+
 //            System.out.println("s: "+s+" is not start node");
             //FlowSet domsOfSuccs = (FlowSet) allNodes.clone();
-        
+
             // for each pred of s
             Iterator<Unit> succsIt = g.getSuccsOf(s).iterator();
-            while (succsIt.hasNext()){
+            while (succsIt.hasNext()) {
                 Unit succ = succsIt.next();
                 // get the unitToBeforeFlow and find the intersection
 //                System.out.println("succ: "+succ);
@@ -109,33 +109,30 @@ public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Uni
                 in.intersection(next, in);
 //                System.out.println("in after intersect: "+in);
             }
-        
+
             // intersected with in
-       
+
 //            System.out.println("out init: "+out);
             out.intersection(in, out);
             out.add(s);
 //            System.out.println("out after: "+out);
         }
     }
-    
-    private boolean isUnitEndNode(Unit s){
+
+    private boolean isUnitEndNode(Unit s) {
         //System.out.println("head: "+g.getHeads().get(0));
-        if( g.getTails().contains(s) )
-        	return true;
-        return false;
+        return g.getTails().contains(s);
     }
 
-// STEP 6: Determine value for start/end node, and
+    // STEP 6: Determine value for start/end node, and
 // initial approximation.
 // dom(startNode) = startNode
 // dom(node) = allNodes
 //
     @Override
-    protected FlowSet<Unit> entryInitialFlow()
-    {
+    protected FlowSet<Unit> entryInitialFlow() {
 
-    	FlowSet<Unit> fs = new ArraySparseSet<Unit>();
+        FlowSet<Unit> fs = new ArraySparseSet<Unit>();
         List<Unit> tails = g.getTails();
 //        if (tails.size() != 1) {
 //            throw new RuntimeException("Expect one end node only.");
@@ -145,18 +142,16 @@ public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Uni
     }
 
     @Override
-    protected FlowSet<Unit> newInitialFlow()
-    {
+    protected FlowSet<Unit> newInitialFlow() {
         return allNodes.clone();
     }
-    
-	/**
-	 * Returns true if s post-dominates t.
-	 */
-	public boolean postDominates(Stmt s, Stmt t) {
-		return getFlowBefore(t).contains(s);
-	}
 
-        
+    /**
+     * Returns true if s post-dominates t.
+     */
+    public boolean postDominates(Stmt s, Stmt t) {
+        return getFlowBefore(t).contains(s);
+    }
+
 
 }

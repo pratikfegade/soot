@@ -24,18 +24,18 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.RefType;
+import soot.Type;
+import soot.util.Switch;
 
-public interface NewExpr extends Expr, AnyNewExpr
-{
-    public RefType getBaseType();
-    public void setBaseType(RefType type);
-    public Type getType();
-    public void apply(Switch sw);
+public interface NewExpr extends Expr, AnyNewExpr {
+    RefType getBaseType();
+
+    void setBaseType(RefType type);
+
+    Type getType();
+
+    void apply(Switch sw);
 }

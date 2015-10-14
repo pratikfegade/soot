@@ -21,47 +21,47 @@ package ca.mcgill.sable.soot.cfg.model;
 
 public class CFGEdge extends CFGElement {
 
-	private CFGNode from;
-	private CFGNode to;
-	
-	public CFGEdge(CFGNode from, CFGNode to) {
-		setFrom(from);
-		setTo(to);
-		getFrom().addOutput(this);
-		getTo().addInput(this);
-	}
+    private CFGNode from;
+    private CFGNode to;
 
-	/**
-	 * @return
-	 */
-	public CFGNode getFrom() {
-		return from;
-	}
+    public CFGEdge(CFGNode from, CFGNode to) {
+        setFrom(from);
+        setTo(to);
+        getFrom().addOutput(this);
+        getTo().addInput(this);
+    }
 
-	/**
-	 * @return
-	 */
-	public CFGNode getTo() {
-		return to;
-	}
+    /**
+     * @return
+     */
+    public CFGNode getFrom() {
+        return from;
+    }
 
-	/**
-	 * @param node
-	 */
-	public void setFrom(CFGNode node) {
-		from = node;
-	}
+    /**
+     * @param node
+     */
+    public void setFrom(CFGNode node) {
+        from = node;
+    }
 
-	/**
-	 * @param node
-	 */
-	public void setTo(CFGNode node) {
-		to = node;
-		
-	}
-	
-	public String toString(){
-		return "from: "+getFrom()+" to: "+getTo();
-	}
+    /**
+     * @return
+     */
+    public CFGNode getTo() {
+        return to;
+    }
+
+    /**
+     * @param node
+     */
+    public void setTo(CFGNode node) {
+        to = node;
+
+    }
+
+    public String toString() {
+        return "from: " + getFrom() + " to: " + getTo();
+    }
 
 }

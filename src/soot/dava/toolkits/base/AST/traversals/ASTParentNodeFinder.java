@@ -31,13 +31,14 @@
 package soot.dava.toolkits.base.AST.traversals;
 
 
-import java.util.*;
-
 import soot.Unit;
-import soot.jimple.*;
 import soot.dava.internal.AST.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.dava.internal.javaRep.DVariableDeclarationStmt;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.jimple.*;
+
+import java.util.HashMap;
+import java.util.Stack;
 
 
 /*
@@ -51,183 +52,166 @@ import soot.dava.toolkits.base.AST.analysis.*;
  * stmt for instance from its parent.
  */
 
-public class ASTParentNodeFinder extends DepthFirstAdapter{
+public class ASTParentNodeFinder extends DepthFirstAdapter {
 
     HashMap<Unit, ASTNode> parentOf;
     Stack<ASTNode> parentStack;
 
-    public ASTParentNodeFinder(){
-	parentOf = new HashMap<Unit, ASTNode>();
-	parentStack = new Stack<ASTNode>();
+    public ASTParentNodeFinder() {
+        parentOf = new HashMap<Unit, ASTNode>();
+        parentStack = new Stack<ASTNode>();
     }
 
-    public ASTParentNodeFinder(boolean verbose){
-	super(verbose);
-	parentOf = new HashMap<Unit, ASTNode>();
-	parentStack = new Stack<ASTNode>();
+    public ASTParentNodeFinder(boolean verbose) {
+        super(verbose);
+        parentOf = new HashMap<Unit, ASTNode>();
+        parentStack = new Stack<ASTNode>();
     }
 
-    public void inASTMethodNode(ASTMethodNode node){
-	parentOf.put(node,null);
-	parentStack.push(node);
+    public void inASTMethodNode(ASTMethodNode node) {
+        parentOf.put(node, null);
+        parentStack.push(node);
     }
 
-    public void outASTMethodNode(ASTMethodNode node){
-	parentStack.pop();
-    }
-
-
-    public void inASTSynchronizedBlockNode(ASTSynchronizedBlockNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTSynchronizedBlockNode(ASTSynchronizedBlockNode node){
-	parentStack.pop();
+    public void outASTMethodNode(ASTMethodNode node) {
+        parentStack.pop();
     }
 
 
-    public void inASTLabeledBlockNode (ASTLabeledBlockNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTLabeledBlockNode (ASTLabeledBlockNode node){
-	parentStack.pop();
+    public void inASTSynchronizedBlockNode(ASTSynchronizedBlockNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
 
-
-
-    public void inASTUnconditionalLoopNode (ASTUnconditionalLoopNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTUnconditionalLoopNode (ASTUnconditionalLoopNode node){
-	parentStack.pop();
+    public void outASTSynchronizedBlockNode(ASTSynchronizedBlockNode node) {
+        parentStack.pop();
     }
 
 
-
-    public void inASTSwitchNode(ASTSwitchNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTSwitchNode(ASTSwitchNode node){
-	parentStack.pop();
+    public void inASTLabeledBlockNode(ASTLabeledBlockNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
 
-
-
-
-    public void inASTIfNode(ASTIfNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTIfNode(ASTIfNode node){
-	parentStack.pop();
+    public void outASTLabeledBlockNode(ASTLabeledBlockNode node) {
+        parentStack.pop();
     }
 
 
-
-
-    public void inASTIfElseNode(ASTIfElseNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTIfElseNode(ASTIfElseNode node){
-	parentStack.pop();
+    public void inASTUnconditionalLoopNode(ASTUnconditionalLoopNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
 
-
-
-
-    public void inASTWhileNode(ASTWhileNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTWhileNode(ASTWhileNode node){
-	parentStack.pop();
+    public void outASTUnconditionalLoopNode(ASTUnconditionalLoopNode node) {
+        parentStack.pop();
     }
 
 
-
-
-
-
-
-    public void inASTForLoopNode(ASTForLoopNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
+    public void inASTSwitchNode(ASTSwitchNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
-    public void outASTForLoopNode(ASTForLoopNode node){
-	parentStack.pop();
+
+    public void outASTSwitchNode(ASTSwitchNode node) {
+        parentStack.pop();
     }
 
 
-
-
-    public void inASTDoWhileNode(ASTDoWhileNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTDoWhileNode(ASTDoWhileNode node){
-	parentStack.pop();
+    public void inASTIfNode(ASTIfNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
 
-
-
-
-
-
-
-    public void inASTTryNode(ASTTryNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
-    }
-    public void outASTTryNode(ASTTryNode node){
-	parentStack.pop();
+    public void outASTIfNode(ASTIfNode node) {
+        parentStack.pop();
     }
 
 
-
-
-
-
-    public void inASTStatementSequenceNode(ASTStatementSequenceNode node){
-	parentOf.put(node,parentStack.peek());
-	parentStack.push(node);
+    public void inASTIfElseNode(ASTIfElseNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
-    public void outASTStatementSequenceNode(ASTStatementSequenceNode node){
-	parentStack.pop();
+
+    public void outASTIfElseNode(ASTIfElseNode node) {
+        parentStack.pop();
     }
 
 
-
-
-    public void inDefinitionStmt(DefinitionStmt s){
-	parentOf.put(s,parentStack.peek());
+    public void inASTWhileNode(ASTWhileNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
 
-    public void inReturnStmt(ReturnStmt s){
-	parentOf.put(s,parentStack.peek());
-    }
-
-    public void inInvokeStmt(InvokeStmt s){
-	parentOf.put(s,parentStack.peek());
+    public void outASTWhileNode(ASTWhileNode node) {
+        parentStack.pop();
     }
 
 
-
-
-    public void inThrowStmt(ThrowStmt s){
-	parentOf.put(s,parentStack.peek());
+    public void inASTForLoopNode(ASTForLoopNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
     }
 
-    public void inDVariableDeclarationStmt(DVariableDeclarationStmt s){
-	parentOf.put(s,parentStack.peek());
+    public void outASTForLoopNode(ASTForLoopNode node) {
+        parentStack.pop();
     }
 
 
-    public void inStmt(Stmt s){
-	parentOf.put(s,parentStack.peek());
+    public void inASTDoWhileNode(ASTDoWhileNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
+    }
+
+    public void outASTDoWhileNode(ASTDoWhileNode node) {
+        parentStack.pop();
+    }
+
+
+    public void inASTTryNode(ASTTryNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
+    }
+
+    public void outASTTryNode(ASTTryNode node) {
+        parentStack.pop();
+    }
+
+
+    public void inASTStatementSequenceNode(ASTStatementSequenceNode node) {
+        parentOf.put(node, parentStack.peek());
+        parentStack.push(node);
+    }
+
+    public void outASTStatementSequenceNode(ASTStatementSequenceNode node) {
+        parentStack.pop();
+    }
+
+
+    public void inDefinitionStmt(DefinitionStmt s) {
+        parentOf.put(s, parentStack.peek());
+    }
+
+    public void inReturnStmt(ReturnStmt s) {
+        parentOf.put(s, parentStack.peek());
+    }
+
+    public void inInvokeStmt(InvokeStmt s) {
+        parentOf.put(s, parentStack.peek());
+    }
+
+
+    public void inThrowStmt(ThrowStmt s) {
+        parentOf.put(s, parentStack.peek());
+    }
+
+    public void inDVariableDeclarationStmt(DVariableDeclarationStmt s) {
+        parentOf.put(s, parentStack.peek());
+    }
+
+
+    public void inStmt(Stmt s) {
+        parentOf.put(s, parentStack.peek());
     }
 
 
@@ -237,7 +221,7 @@ public class ASTParentNodeFinder extends DepthFirstAdapter{
      * of that object. The parent can safely be casted to ASTNode as long as the parent
      * returned is non null
      */
-    public Object getParentOf(Object statementOrNode){
-	return parentOf.get(statementOrNode);
+    public Object getParentOf(Object statementOrNode) {
+        return parentOf.get(statementOrNode);
     }
 }

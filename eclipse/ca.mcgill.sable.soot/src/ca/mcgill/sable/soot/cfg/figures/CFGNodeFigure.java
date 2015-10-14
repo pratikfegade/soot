@@ -20,144 +20,128 @@
 package ca.mcgill.sable.soot.cfg.figures;
 
 import org.eclipse.draw2d.*;
-import java.util.*;
+import org.eclipse.draw2d.text.*;
+import org.eclipse.jface.resource.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
-import ca.mcgill.sable.soot.*;
-import org.eclipse.draw2d.text.*;
-import ca.mcgill.sable.soot.editors.*;
-import org.eclipse.jface.resource.*;
 
 public class CFGNodeFigure extends Figure {
 
-	private Panel nodeFigure;//RectangleFigure rect;
-
-	private XYAnchor srcAnchor;
-	private XYAnchor tgtAnchor;	
-
-	private CFGNodeDataFigure data;
-	private CFGFlowFigure before;
-	private CFGFlowFigure after;
-	
-	private boolean hasBefore;
-	private boolean hasAfter;
-	
-	Font f = new Font(null, "Arial", 8, SWT.NORMAL);
-		
-	
-	/**
-	 * 
-	 */
-	public CFGNodeFigure() {
-		super();
-		
-		ToolbarLayout layout2 = new ToolbarLayout();
-		layout2.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
-	
-		this.setLayoutManager(layout2);
-		
-		layout2.setStretchMinorAxis(false);
-	
-	}
-
-	
-	private int getLineBreak(String text){
-		return text.lastIndexOf(" ", 50);
-	}
-	
+    Font f = new Font(null, "Arial", 8, SWT.NORMAL);
+    Image indicatorImage = null;
+    Label indicatorFigure = null;
+    private Panel nodeFigure;//RectangleFigure rect;
+    private XYAnchor srcAnchor;
+    private XYAnchor tgtAnchor;
+    private CFGNodeDataFigure data;
+    private CFGFlowFigure before;
+    private CFGFlowFigure after;
+    private boolean hasBefore;
+    private boolean hasAfter;
 
 
-	/**
-	 * @return
-	 */
-	public Panel getNodeFigure() {
-		return nodeFigure;
-	}
+    /**
+     *
+     */
+    public CFGNodeFigure() {
+        super();
 
-	/**
-	 * @param panel
-	 */
-	public void setNodeFigure(Panel panel) {
-		nodeFigure = panel;
-	}
+        ToolbarLayout layout2 = new ToolbarLayout();
+        layout2.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
+
+        this.setLayoutManager(layout2);
+
+        layout2.setStretchMinorAxis(false);
+
+    }
+
+    private int getLineBreak(String text) {
+        return text.lastIndexOf(" ", 50);
+    }
+
+    /**
+     * @return
+     */
+    public Panel getNodeFigure() {
+        return nodeFigure;
+    }
+
+    /**
+     * @param panel
+     */
+    public void setNodeFigure(Panel panel) {
+        nodeFigure = panel;
+    }
+
+    /**
+     * @return
+     */
+    public CFGFlowFigure getAfter() {
+        return after;
+    }
+
+    /**
+     * @param figure
+     */
+    public void setAfter(CFGFlowFigure figure) {
+        after = figure;
+    }
+
+    /**
+     * @return
+     */
+    public CFGFlowFigure getBefore() {
+        return before;
+    }
+
+    /**
+     * @param figure
+     */
+    public void setBefore(CFGFlowFigure figure) {
+        before = figure;
+    }
+
+    /**
+     * @return
+     */
+    public CFGNodeDataFigure getData() {
+        return data;
+    }
+
+    /**
+     * @param figure
+     */
+    public void setData(CFGNodeDataFigure figure) {
+        data = figure;
+    }
+
+    /**
+     * @return
+     */
+    public XYAnchor getSrcAnchor() {
+        int x = this.getBounds().x;
+        int y = this.getBounds().y;
+        int width = this.getBounds().width;
+        int height = this.getBounds().height;
+        org.eclipse.draw2d.geometry.Point p = new org.eclipse.draw2d.geometry.Point(x + width / 2, y + height);
+        return new XYAnchor(p);
+    }
+
+    /**
+     * @return
+     */
+    public XYAnchor getTgtAnchor() {
+        return tgtAnchor;
+    }
+
+    public void addIndicator() {
 
 
+    }
 
-	
+    public void removeIndicator() {
 
-	/**
-	 * @param figure
-	 */
-	public void setAfter(CFGFlowFigure figure) {
-		after = figure;
-	}
+    }
 
-	/**
-	 * @param figure
-	 */
-	public void setBefore(CFGFlowFigure figure) {
-		before = figure;
-	}
-
-	/**
-	 * @param figure
-	 */
-	public void setData(CFGNodeDataFigure figure) {
-		data = figure;
-	}
-
-	/**
-	 * @return
-	 */
-	public CFGFlowFigure getAfter() {
-		return after;
-	}
-
-	/**
-	 * @return
-	 */
-	public CFGFlowFigure getBefore() {
-		return before;
-	}
-
-	/**
-	 * @return
-	 */
-	public CFGNodeDataFigure getData() {
-		return data;
-	}
-
-	/**
-	 * @return
-	 */
-	public XYAnchor getSrcAnchor() {
-		int x = this.getBounds().x;
-		int y = this.getBounds().y;
-		int width = this.getBounds().width;
-		int height = this.getBounds().height;
-		org.eclipse.draw2d.geometry.Point p = new org.eclipse.draw2d.geometry.Point(x+width/2, y+height);
-		return new XYAnchor(p);
-	}
-
-	/**
-	 * @return
-	 */
-	public XYAnchor getTgtAnchor() {
-		return tgtAnchor;
-	}
-
-	Image indicatorImage = null;
-	Label indicatorFigure = null;
-	
-
-	public void addIndicator(){
-		
-	
-	}
-	
-	public void removeIndicator(){
-		
-	}
-	
 
 }

@@ -32,12 +32,12 @@ import soot.dexpler.DexBody;
  *
  * @author Michael Markert <michael.markert@googlemail.com>
  */
-public interface DanglingInstruction  {
+public interface DanglingInstruction {
     /**
      * Finalize this instruction taking the successor into consideration.
      *
-     * @param body to finalize into
+     * @param body      to finalize into
      * @param successor the direct successor of this instruction
      */
-    public void finalize(DexBody body, DexlibAbstractInstruction successor);
+    void finalize(DexBody body, DexlibAbstractInstruction successor);
 }

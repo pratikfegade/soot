@@ -24,44 +24,41 @@
  */
 
 
-
-
-
 package soot;
-import soot.util.*;
+
+import soot.util.Switch;
 
 /**
- *   Soot representation of the Java built-in type 'short'. Implemented as
- *   a singleton.
+ * Soot representation of the Java built-in type 'short'. Implemented as
+ * a singleton.
  */
 @SuppressWarnings("serial")
-public class ShortType extends PrimType implements IntegerType
-{
-    public ShortType( Singletons.Global g ) {}
-    public static ShortType v() { return G.v().soot_ShortType(); }
+public class ShortType extends PrimType implements IntegerType {
+    public ShortType(Singletons.Global g) {
+    }
 
-    public int hashCode()
-    {
+    public static ShortType v() {
+        return G.v().soot_ShortType();
+    }
+
+    public int hashCode() {
         return 0x8B817DD3;
     }
-    
-    public boolean equals(Object t)
-    {
+
+    public boolean equals(Object t) {
         return this == t;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "short";
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((TypeSwitch) sw).caseShortType(this);
     }
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Short");
+        return RefType.v("java.lang.Short");
     }
 }

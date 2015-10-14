@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ARetStatement extends PStatement
-{
+public final class ARetStatement extends PStatement {
     private TRet _ret_;
     private PImmediate _immediate_;
     private TSemicolon _semicolon_;
 
-    public ARetStatement()
-    {
+    public ARetStatement() {
         // Constructor
     }
 
     public ARetStatement(
-        @SuppressWarnings("hiding") TRet _ret_,
-        @SuppressWarnings("hiding") PImmediate _immediate_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
-    {
+            @SuppressWarnings("hiding") TRet _ret_,
+            @SuppressWarnings("hiding") PImmediate _immediate_,
+            @SuppressWarnings("hiding") TSemicolon _semicolon_) {
         // Constructor
         setRet(_ret_);
 
@@ -31,35 +28,28 @@ public final class ARetStatement extends PStatement
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ARetStatement(
-            cloneNode(this._ret_),
-            cloneNode(this._immediate_),
-            cloneNode(this._semicolon_));
+                cloneNode(this._ret_),
+                cloneNode(this._immediate_),
+                cloneNode(this._semicolon_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseARetStatement(this);
     }
 
-    public TRet getRet()
-    {
+    public TRet getRet() {
         return this._ret_;
     }
 
-    public void setRet(TRet node)
-    {
-        if(this._ret_ != null)
-        {
+    public void setRet(TRet node) {
+        if (this._ret_ != null) {
             this._ret_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class ARetStatement extends PStatement
         this._ret_ = node;
     }
 
-    public PImmediate getImmediate()
-    {
+    public PImmediate getImmediate() {
         return this._immediate_;
     }
 
-    public void setImmediate(PImmediate node)
-    {
-        if(this._immediate_ != null)
-        {
+    public void setImmediate(PImmediate node) {
+        if (this._immediate_ != null) {
             this._immediate_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class ARetStatement extends PStatement
         this._immediate_ = node;
     }
 
-    public TSemicolon getSemicolon()
-    {
+    public TSemicolon getSemicolon() {
         return this._semicolon_;
     }
 
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
+    public void setSemicolon(TSemicolon node) {
+        if (this._semicolon_ != null) {
             this._semicolon_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class ARetStatement extends PStatement
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._ret_)
-            + toString(this._immediate_)
-            + toString(this._semicolon_);
+                + toString(this._ret_)
+                + toString(this._immediate_)
+                + toString(this._semicolon_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._ret_ == child)
-        {
+        if (this._ret_ == child) {
             this._ret_ = null;
             return;
         }
 
-        if(this._immediate_ == child)
-        {
+        if (this._immediate_ == child) {
             this._immediate_ = null;
             return;
         }
 
-        if(this._semicolon_ == child)
-        {
+        if (this._semicolon_ == child) {
             this._semicolon_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class ARetStatement extends PStatement
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._ret_ == oldChild)
-        {
+        if (this._ret_ == oldChild) {
             setRet((TRet) newChild);
             return;
         }
 
-        if(this._immediate_ == oldChild)
-        {
+        if (this._immediate_ == oldChild) {
             setImmediate((PImmediate) newChild);
             return;
         }
 
-        if(this._semicolon_ == oldChild)
-        {
+        if (this._semicolon_ == oldChild) {
             setSemicolon((TSemicolon) newChild);
             return;
         }

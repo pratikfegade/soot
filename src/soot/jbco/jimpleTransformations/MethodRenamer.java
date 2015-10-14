@@ -19,228 +19,230 @@
 
 package soot.jbco.jimpleTransformations;
 
-import java.util.*;
 import soot.*;
 import soot.jbco.IJbcoTransform;
-import soot.jbco.util.*;
-import soot.jimple.*;
+import soot.jbco.util.BodyBuilder;
+import soot.jbco.util.Rand;
+import soot.jimple.InvokeExpr;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * @author Michael Batchelder
- * 
+ *         <p/>
  *         Created on 24-Jan-2006
  */
 public class MethodRenamer extends SceneTransformer implements IJbcoTransform {
 
-	public static String dependancies[] = new String[] { "wjtp.jbco_mr" };
+    private static final char stringChars[][] = {{'S', '5', '$'},
+            {'l', '1', 'I'}, {'_'}};
+    public static String dependancies[] = new String[]{"wjtp.jbco_mr"};
+    public static String name = "wjtp.jbco_mr";
+    public static Vector<?> namesToNotRename = new Vector<Object>();
+    public static HashMap<String, String> oldToNewMethodNames = new HashMap<String, String>();
+    private static Hierarchy hierarchy;
 
-	public String[] getDependancies() {
-		return dependancies;
-	}
+    /*
+     * @return String newly generated junk name that DOES NOT exist yet
+     */
+    public static String getNewName() {
+        int size = 5;
+        int tries = 0;
+        int index = Rand.getInt(stringChars.length);
+        int length = stringChars[index].length;
 
-	public static String name = "wjtp.jbco_mr";
+        String result = null;
+        char cNewName[] = new char[size];
+        do {
+            if (tries == size) {
+                cNewName = new char[++size];
+                tries = 0;
+            }
 
-	public String getName() {
-		return name;
-	}
+            do {
+                cNewName[0] = stringChars[index][Rand.getInt(length)];
+            } while (!Character.isJavaIdentifierStart(cNewName[0]));
 
-	public void outputSummary() {
-	}
+            // generate random string
+            for (int i = 1; i < cNewName.length; i++) {
+                int rand = Rand.getInt(length);
+                cNewName[i] = stringChars[index][rand];
+            }
 
-	private static final char stringChars[][] = { { 'S', '5', '$' },
-			{ 'l', '1', 'I' }, { '_' } };
-	
-	public static Vector<?> namesToNotRename = new Vector<Object>();
-	public static HashMap<String, String> oldToNewMethodNames = new HashMap<String, String>();
-	private static Hierarchy hierarchy;
+            result = String.copyValueOf(cNewName);
+            tries++;
+        } while (oldToNewMethodNames.containsValue(result)
+                || BodyBuilder.nameList.contains(result));
 
-	protected void internalTransform(String phaseName,
-			Map<String, String> options) {
-		if (output)
-			out.println("Transforming Method Names...");
+        BodyBuilder.nameList.add(result);
 
-		soot.jbco.util.BodyBuilder.retrieveAllBodies();
-		soot.jbco.util.BodyBuilder.retrieveAllNames();
+        return result;
+    }
 
-		Scene scene = G.v().soot_Scene();
-		scene.releaseActiveHierarchy();
-		hierarchy = scene.getActiveHierarchy();
+    private static boolean allowsRename(SootClass c, SootMethod m) {
 
-		// iterate through application classes, rename methods with junk
-		for (SootClass c : scene.getApplicationClasses()) {
-			Vector<String> fields = new Vector<String>();
-			Iterator<SootField> fIt = c.getFields().iterator();
-			while (fIt.hasNext()) {
-				fields.add(fIt.next().getName());
-			}
+        if (soot.jbco.Main.getWeight(MethodRenamer.name, m.getName()) == 0)
+            return false;
 
-			for (SootMethod m : c.getMethods()) {
-				String subSig = m.getSubSignature();
+        String subSig = m.getSubSignature();
+        if (subSig.equals("void main(java.lang.String[])") && m.isPublic()
+                && m.isStatic()) {
+            return false; // skip the main method - it needs to be named 'main'
+        } else if (subSig.indexOf("void <init>(") >= 0
+                || subSig.equals("void <clinit>()")) {
+            return false; // skip constructors for now
+        } else {
+            for (SootClass _c : hierarchy.getSuperclassesOfIncluding(c
+                    .getSuperclass())) {
+                if (_c.isLibraryClass() && _c.declaresMethod(subSig)
+                        && hierarchy.isVisible(c, _c.getMethod(subSig))) {
+                    return false;
+                }
+            }
 
-				if (!allowsRename(c, m))
-					continue;
+            do {
+                if (checkInterfacesForMethod(c, m))
+                    return false;
+            } while (c.hasSuperclass() && (c = c.getSuperclass()) != null);
+        }
 
-				boolean rename = true;
-				for (SootClass _c : hierarchy.getSuperclassesOfIncluding(c
-						.getSuperclass())) {
-					if (_c.declaresMethod(subSig)
-							&& hierarchy.isVisible(c, _c.getMethod(subSig))
-							&& _c.isLibraryClass()) {
-						if (output)
-							out.println("\t" + _c.getName() + "'s method "
-									+ subSig + " is overridden in "
-									+ c.getName());
-						rename = false;
-						break;
-					}
-				}
+        return true;
+    }
 
-				if (rename) {
-					// TODO: This is flawed since it all methods of a similar
-					// name will get same name
-					String newName = oldToNewMethodNames.get(m.getName());
-					if (newName == null) {
-						if (fields.size() > 0) {
-							int rand = Rand.getInt(fields.size());
-							newName = fields.remove(rand);
-							if (oldToNewMethodNames.containsValue(newName))
-								newName = getNewName();
-						} else {
-							newName = getNewName();
-						}
-					}
-					oldToNewMethodNames.put(m.getName(), newName);
-					if (output)
-						out.println("\tChanged " + m.getSignature() + " to "
-								+ newName);
-					m.setName(newName);
-				}
-			}
-		}
+    private static boolean checkInterfacesForMethod(SootClass c, SootMethod m) {
+        for (SootClass sc : c.getInterfaces()) {
+            if (sc.isLibraryClass()
+                    && sc.declaresMethod(m.getName(), m.getParameterTypes(),
+                    m.getReturnType()))
+                return true;
+        }
+        return false;
+    }
 
-		for (SootClass c : scene.getApplicationClasses()) {
-			for (SootMethod m : c.getMethods()) {
-				if (!m.isConcrete() || m.getDeclaringClass().isLibraryClass())
-					continue;
-				Body aBody = null;
-				try {
-					aBody = m.getActiveBody();
-				} catch (Exception exc) {
-					// no active body present
-					continue;
-				}
-				Iterator<Unit> uIt = aBody.getUnits().iterator();
-				while (uIt.hasNext()) {
-					Iterator<ValueBox> ubIt = uIt.next().getUseBoxes()
-							.iterator();
-					while (ubIt.hasNext()) {
-						Value v = ubIt.next().getValue();
-						if (!(v instanceof InvokeExpr))
-							continue;
+    public String[] getDependancies() {
+        return dependancies;
+    }
 
-						InvokeExpr ie = (InvokeExpr) v;
+    public String getName() {
+        return name;
+    }
 
-						try {
-							// if the method won't resolve, then we know it's
-							// not a lib method
-							ie.getMethod();
-							continue;
-						} catch (Exception e) {
-						}
+    public void outputSummary() {
+    }
 
-						SootMethodRef r = ie.getMethodRef();
-						String newName = oldToNewMethodNames.get(r.name());
-						if (newName == null)
-							continue;
+    protected void internalTransform(String phaseName,
+                                     Map<String, String> options) {
+        if (output)
+            out.println("Transforming Method Names...");
 
-						r = scene.makeMethodRef(r.declaringClass(), newName,
-								r.parameterTypes(), r.returnType(),
-								r.isStatic());
-						ie.setMethodRef(r);
-					}
-				}
-			}
-		}
+        soot.jbco.util.BodyBuilder.retrieveAllBodies();
+        soot.jbco.util.BodyBuilder.retrieveAllNames();
 
-		scene.releaseActiveHierarchy();
-		scene.getActiveHierarchy();
-		scene.setFastHierarchy(new FastHierarchy());
-	}
+        Scene scene = G.v().soot_Scene();
+        scene.releaseActiveHierarchy();
+        hierarchy = scene.getActiveHierarchy();
 
-	/*
-	 * @return String newly generated junk name that DOES NOT exist yet
-	 */
-	public static String getNewName() {
-		int size = 5;
-		int tries = 0;
-		int index = Rand.getInt(stringChars.length);
-		int length = stringChars[index].length;
+        // iterate through application classes, rename methods with junk
+        for (SootClass c : scene.getApplicationClasses()) {
+            Vector<String> fields = new Vector<String>();
+            Iterator<SootField> fIt = c.getFields().iterator();
+            while (fIt.hasNext()) {
+                fields.add(fIt.next().getName());
+            }
 
-		String result = null;
-		char cNewName[] = new char[size];
-		do {
-			if (tries == size) {
-				cNewName = new char[++size];
-				tries = 0;
-			}
+            for (SootMethod m : c.getMethods()) {
+                String subSig = m.getSubSignature();
 
-			do {
-				cNewName[0] = stringChars[index][Rand.getInt(length)];
-			} while (!Character.isJavaIdentifierStart(cNewName[0]));
+                if (!allowsRename(c, m))
+                    continue;
 
-			// generate random string
-			for (int i = 1; i < cNewName.length; i++) {
-				int rand = Rand.getInt(length);
-				cNewName[i] = stringChars[index][rand];
-			}
+                boolean rename = true;
+                for (SootClass _c : hierarchy.getSuperclassesOfIncluding(c
+                        .getSuperclass())) {
+                    if (_c.declaresMethod(subSig)
+                            && hierarchy.isVisible(c, _c.getMethod(subSig))
+                            && _c.isLibraryClass()) {
+                        if (output)
+                            out.println("\t" + _c.getName() + "'s method "
+                                    + subSig + " is overridden in "
+                                    + c.getName());
+                        rename = false;
+                        break;
+                    }
+                }
 
-			result = String.copyValueOf(cNewName);
-			tries++;
-		} while (oldToNewMethodNames.containsValue(result)
-				|| BodyBuilder.nameList.contains(result));
+                if (rename) {
+                    // TODO: This is flawed since it all methods of a similar
+                    // name will get same name
+                    String newName = oldToNewMethodNames.get(m.getName());
+                    if (newName == null) {
+                        if (fields.size() > 0) {
+                            int rand = Rand.getInt(fields.size());
+                            newName = fields.remove(rand);
+                            if (oldToNewMethodNames.containsValue(newName))
+                                newName = getNewName();
+                        } else {
+                            newName = getNewName();
+                        }
+                    }
+                    oldToNewMethodNames.put(m.getName(), newName);
+                    if (output)
+                        out.println("\tChanged " + m.getSignature() + " to "
+                                + newName);
+                    m.setName(newName);
+                }
+            }
+        }
 
-		BodyBuilder.nameList.add(result);
+        for (SootClass c : scene.getApplicationClasses()) {
+            for (SootMethod m : c.getMethods()) {
+                if (!m.isConcrete() || m.getDeclaringClass().isLibraryClass())
+                    continue;
+                Body aBody = null;
+                try {
+                    aBody = m.getActiveBody();
+                } catch (Exception exc) {
+                    // no active body present
+                    continue;
+                }
+                Iterator<Unit> uIt = aBody.getUnits().iterator();
+                while (uIt.hasNext()) {
+                    Iterator<ValueBox> ubIt = uIt.next().getUseBoxes()
+                            .iterator();
+                    while (ubIt.hasNext()) {
+                        Value v = ubIt.next().getValue();
+                        if (!(v instanceof InvokeExpr))
+                            continue;
 
-		return result;
-	}
+                        InvokeExpr ie = (InvokeExpr) v;
 
-	private static boolean allowsRename(SootClass c, SootMethod m) {
+                        try {
+                            // if the method won't resolve, then we know it's
+                            // not a lib method
+                            ie.getMethod();
+                            continue;
+                        } catch (Exception e) {
+                        }
 
-		if (soot.jbco.Main.getWeight(MethodRenamer.name, m.getName()) == 0)
-			return false;
+                        SootMethodRef r = ie.getMethodRef();
+                        String newName = oldToNewMethodNames.get(r.name());
+                        if (newName == null)
+                            continue;
 
-		String subSig = m.getSubSignature();
-		if (subSig.equals("void main(java.lang.String[])") && m.isPublic()
-				&& m.isStatic()) {
-			return false; // skip the main method - it needs to be named 'main'
-		} else if (subSig.indexOf("void <init>(") >= 0
-				|| subSig.equals("void <clinit>()")) {
-			return false; // skip constructors for now
-		} else {
-			for (SootClass _c : hierarchy.getSuperclassesOfIncluding(c
-					.getSuperclass())) {
-				if (_c.isLibraryClass() && _c.declaresMethod(subSig)
-						&& hierarchy.isVisible(c, _c.getMethod(subSig))) {
-					return false;
-				}
-			}
+                        r = scene.makeMethodRef(r.declaringClass(), newName,
+                                r.parameterTypes(), r.returnType(),
+                                r.isStatic());
+                        ie.setMethodRef(r);
+                    }
+                }
+            }
+        }
 
-			do {
-				if (checkInterfacesForMethod(c, m))
-					return false;
-			} while (c.hasSuperclass() && (c = c.getSuperclass()) != null);
-		}
-
-		return true;
-	}
-
-	private static boolean checkInterfacesForMethod(SootClass c, SootMethod m) {
-		for (SootClass sc : c.getInterfaces()) {
-			if (sc.isLibraryClass()
-					&& sc.declaresMethod(m.getName(), m.getParameterTypes(),
-							m.getReturnType()))
-				return true;
-		}
-		return false;
-	}
+        scene.releaseActiveHierarchy();
+        scene.getActiveHierarchy();
+        scene.setFastHierarchy(new FastHierarchy());
+    }
 }

@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
-
 import soot.Body;
 import soot.Local;
 import soot.RefType;
@@ -42,21 +41,21 @@ public class MoveExceptionInstruction extends DexlibAbstractInstruction implemen
 
     private Type realType;
     private IdentityStmt stmtToRetype;
-    
-    public MoveExceptionInstruction (Instruction instruction, int codeAdress) {
+
+    public MoveExceptionInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        int dest = ((OneRegisterInstruction)instruction).getRegisterA();
+    public void jimplify(DexBody body) {
+        int dest = ((OneRegisterInstruction) instruction).getRegisterA();
         Local l = body.getRegisterLocal(dest);
         stmtToRetype = Jimple.v().newIdentityStmt(l, Jimple.v().newCaughtExceptionRef());
         setUnit(stmtToRetype);
         addTags(stmtToRetype);
         body.add(stmtToRetype);
-        
+
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ stmtToRetype);
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + stmtToRetype);
             DalvikTyper.v().setType(stmtToRetype.getLeftOpBox(), RefType.v("java.lang.Throwable"), false);
         }
     }
@@ -70,9 +69,9 @@ public class MoveExceptionInstruction extends DexlibAbstractInstruction implemen
         if (realType == null)
             throw new RuntimeException("Real type of this instruction has not been set or was already retyped: " + this);
         if (body.getUnits().contains(stmtToRetype)) {
-	        Local l = (Local)(stmtToRetype.getLeftOp());
-	        l.setType(realType);
-	        realType = null;
+            Local l = (Local) (stmtToRetype.getLeftOp());
+            l.setType(realType);
+            realType = null;
         }
     }
 
@@ -82,6 +81,6 @@ public class MoveExceptionInstruction extends DexlibAbstractInstruction implemen
         int dest = i.getRegisterA();
         return register == dest;
     }
-    
+
 
 }

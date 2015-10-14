@@ -2,21 +2,18 @@
 
 package soot.jimple.parser.parser;
 
-import soot.jimple.parser.node.*;
+import soot.jimple.parser.node.Token;
 
 @SuppressWarnings("serial")
-public class ParserException extends Exception
-{
+public class ParserException extends Exception {
     Token token;
 
-    public ParserException(@SuppressWarnings("hiding") Token token, String  message)
-    {
+    public ParserException(@SuppressWarnings("hiding") Token token, String message) {
         super(message);
         this.token = token;
     }
 
-    public Token getToken()
-    {
+    public Token getToken() {
         return this.token;
     }
 }

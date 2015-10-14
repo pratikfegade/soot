@@ -20,242 +20,253 @@
 package ca.mcgill.sable.soot.attributes;
 
 
-import java.util.ArrayList;
-
+import org.eclipse.core.resources.*;
 import org.eclipse.jface.text.*;
-import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.ui.*;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.CoreException;
-import ca.mcgill.sable.soot.SootPlugin;
+
+import java.util.ArrayList;
 
 public abstract class AbstractSootAttributesHover implements ITextHover {
 
-	private IEditorPart editor;
-	private int lineNum;
-	private String fileName;
-	private String packFileName;
-	private ArrayList packFileNames;
-	private boolean editorHasChanged;
-	private String selectedProj;
-	private SootAttributesHandler attrsHandler;
-	private IResource rec;
-	private ITextViewer viewer;
-	private IDocument document;
-	public static final String sep = System.getProperty("file.separator");
-	
-	/**
-	 * Method setEditor.
-	 * @param ed
-	 */
-	public void setEditor(IEditorPart ed) {
-		editor = ed;
-	}
-	
+    public static final String sep = System.getProperty("file.separator");
+    private IEditorPart editor;
+    private int lineNum;
+    private String fileName;
+    private String packFileName;
+    private ArrayList packFileNames;
+    private boolean editorHasChanged;
+    private String selectedProj;
+    private SootAttributesHandler attrsHandler;
+    private IResource rec;
+    private ITextViewer viewer;
+    private IDocument document;
 
-	
-	/**
-	 * Method getAttributes.
-	 * @return String
-	 * sub classes must implement this method
-	 * if more then one attribute return 
-	 * each attribute separated by newlines
-	 */
-	protected abstract String getAttributes(AbstractTextEditor editor);
-	
-	/**
-	 * @see org.eclipse.jface.text.ITextHover#getHoverInfo(ITextViewer, IRegion)
-	 */
-	public String getHoverInfo(ITextViewer textViewer, org.eclipse.jface.text.IRegion hoverRegion) {
-		
-		// this prevents showing incorrect tags - at least temporaily
-		// and hopefully if the editor has ever changed
-	
-					
-		getHoverRegion(textViewer, hoverRegion.getOffset());
-		String attr = null;
-		attr = getAttributes((AbstractTextEditor)getEditor());
-	
-		return attr;
-		
-	}
+    /**
+     * Method getAttributes.
+     *
+     * @return String
+     * sub classes must implement this method
+     * if more then one attribute return
+     * each attribute separated by newlines
+     */
+    protected abstract String getAttributes(AbstractTextEditor editor);
 
-	/**
-	 * @see org.eclipse.jface.text.ITextHover#getHoverRegion(ITextViewer, int)
-	 */
-	public org.eclipse.jface.text.IRegion getHoverRegion(ITextViewer textViewer, int offset) {
-	    try {
-			setLineNum(textViewer.getDocument().getLineOfOffset(offset)+1);
-			setDocument(textViewer.getDocument());
-			return textViewer.getDocument().getLineInformationOfOffset(offset);
-		} catch (BadLocationException e) {
-			return null;
-		}
+    /**
+     * @see org.eclipse.jface.text.ITextHover#getHoverInfo(ITextViewer, IRegion)
+     */
+    public String getHoverInfo(ITextViewer textViewer, org.eclipse.jface.text.IRegion hoverRegion) {
 
-	}
-	
-	
-	/**
-	 * Returns the lineNum.
-	 * @return int
-	 */
-	public int getLineNum() {
-		return lineNum;
-	}
+        // this prevents showing incorrect tags - at least temporaily
+        // and hopefully if the editor has ever changed
 
-	/**
-	 * Sets the lineNum.
-	 * @param lineNum The lineNum to set
-	 */
-	public void setLineNum(int lineNum) {
-		this.lineNum = lineNum;
-	}
 
-	/**
-	 * Returns the fileName.
-	 * @return String
-	 */
-	public String getFileName() {
-		return fileName;
-	}
+        getHoverRegion(textViewer, hoverRegion.getOffset());
+        String attr = null;
+        attr = getAttributes((AbstractTextEditor) getEditor());
 
-	/**
-	 * Sets the fileName.
-	 * @param fileName The fileName to set
-	 */
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+        return attr;
 
-	/**
-	 * Returns the packFileName.
-	 * @return String
-	 */
-	public String getPackFileName() {
-		return packFileName;
-	}
+    }
 
-	/**
-	 * Sets the packFileName.
-	 * @param packFileName The packFileName to set
-	 */
-	public void setPackFileName(String packFileName) {
-		this.packFileName = packFileName;
-	}
+    /**
+     * @see org.eclipse.jface.text.ITextHover#getHoverRegion(ITextViewer, int)
+     */
+    public org.eclipse.jface.text.IRegion getHoverRegion(ITextViewer textViewer, int offset) {
+        try {
+            setLineNum(textViewer.getDocument().getLineOfOffset(offset) + 1);
+            setDocument(textViewer.getDocument());
+            return textViewer.getDocument().getLineInformationOfOffset(offset);
+        } catch (BadLocationException e) {
+            return null;
+        }
 
-	/**
-	 * Returns the editorHasChanged.
-	 * @return boolean
-	 */
-	public boolean isEditorHasChanged() {
-		return editorHasChanged;
-	}
+    }
 
-	/**
-	 * Sets the editorHasChanged.
-	 * @param editorHasChanged The editorHasChanged to set
-	 */
-	public void setEditorHasChanged(boolean editorHasChanged) {
-		this.editorHasChanged = editorHasChanged;
-	}
+    /**
+     * Returns the lineNum.
+     *
+     * @return int
+     */
+    public int getLineNum() {
+        return lineNum;
+    }
 
-	/**
-	 * Returns the selectedProj.
-	 * @return String
-	 */
-	public String getSelectedProj() {
-		return selectedProj;
-	}
+    /**
+     * Sets the lineNum.
+     *
+     * @param lineNum The lineNum to set
+     */
+    public void setLineNum(int lineNum) {
+        this.lineNum = lineNum;
+    }
 
-	/**
-	 * Sets the selectedProj.
-	 * @param selectedProj The selectedProj to set
-	 */
-	public void setSelectedProj(String selectedProj) {
-		this.selectedProj = selectedProj;
-	}
+    /**
+     * Returns the fileName.
+     *
+     * @return String
+     */
+    public String getFileName() {
+        return fileName;
+    }
 
-	/**
-	 * Returns the attrsHandler.
-	 * @return SootAttributesHandler
-	 */
-	public SootAttributesHandler getAttrsHandler() {
-		return attrsHandler;
-	}
+    /**
+     * Sets the fileName.
+     *
+     * @param fileName The fileName to set
+     */
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-	/**
-	 * Sets the attrsHandler.
-	 * @param attrsHandler The attrsHandler to set
-	 */
-	public void setAttrsHandler(SootAttributesHandler attrsHandler) {
-		this.attrsHandler = attrsHandler;
-	}
+    /**
+     * Returns the packFileName.
+     *
+     * @return String
+     */
+    public String getPackFileName() {
+        return packFileName;
+    }
 
-	/**
-	 * Returns the editor.
-	 * @return IEditorPart
-	 */
-	public IEditorPart getEditor() {
-		return editor;
-	}
+    /**
+     * Sets the packFileName.
+     *
+     * @param packFileName The packFileName to set
+     */
+    public void setPackFileName(String packFileName) {
+        this.packFileName = packFileName;
+    }
 
-	/**
-	 * Returns the rec.
-	 * @return IResource
-	 */
-	public IResource getRec() {
-		return rec;
-	}
+    /**
+     * Returns the editorHasChanged.
+     *
+     * @return boolean
+     */
+    public boolean isEditorHasChanged() {
+        return editorHasChanged;
+    }
 
-	/**
-	 * Sets the rec.
-	 * @param rec The rec to set
-	 */
-	public void setRec(IResource rec) {
-		this.rec = rec;
-	}
+    /**
+     * Sets the editorHasChanged.
+     *
+     * @param editorHasChanged The editorHasChanged to set
+     */
+    public void setEditorHasChanged(boolean editorHasChanged) {
+        this.editorHasChanged = editorHasChanged;
+    }
 
-	/**
-	 * @return
-	 */
-	public IDocument getDocument() {
-		return document;
-	}
+    /**
+     * Returns the selectedProj.
+     *
+     * @return String
+     */
+    public String getSelectedProj() {
+        return selectedProj;
+    }
 
-	/**
-	 * @return
-	 */
-	public ITextViewer getViewer() {
-		return viewer;
-	}
+    /**
+     * Sets the selectedProj.
+     *
+     * @param selectedProj The selectedProj to set
+     */
+    public void setSelectedProj(String selectedProj) {
+        this.selectedProj = selectedProj;
+    }
 
-	/**
-	 * @param document
-	 */
-	public void setDocument(IDocument document) {
-		this.document = document;
-	}
+    /**
+     * Returns the attrsHandler.
+     *
+     * @return SootAttributesHandler
+     */
+    public SootAttributesHandler getAttrsHandler() {
+        return attrsHandler;
+    }
 
-	/**
-	 * @param viewer
-	 */
-	public void setViewer(ITextViewer viewer) {
-		this.viewer = viewer;
-	}
+    /**
+     * Sets the attrsHandler.
+     *
+     * @param attrsHandler The attrsHandler to set
+     */
+    public void setAttrsHandler(SootAttributesHandler attrsHandler) {
+        this.attrsHandler = attrsHandler;
+    }
 
-	/**
-	 * @return
-	 */
-	public ArrayList getPackFileNames() {
-		return packFileNames;
-	}
+    /**
+     * Returns the editor.
+     *
+     * @return IEditorPart
+     */
+    public IEditorPart getEditor() {
+        return editor;
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setPackFileNames(ArrayList list) {
-		packFileNames = list;
-	}
+    /**
+     * Method setEditor.
+     *
+     * @param ed
+     */
+    public void setEditor(IEditorPart ed) {
+        editor = ed;
+    }
+
+    /**
+     * Returns the rec.
+     *
+     * @return IResource
+     */
+    public IResource getRec() {
+        return rec;
+    }
+
+    /**
+     * Sets the rec.
+     *
+     * @param rec The rec to set
+     */
+    public void setRec(IResource rec) {
+        this.rec = rec;
+    }
+
+    /**
+     * @return
+     */
+    public IDocument getDocument() {
+        return document;
+    }
+
+    /**
+     * @param document
+     */
+    public void setDocument(IDocument document) {
+        this.document = document;
+    }
+
+    /**
+     * @return
+     */
+    public ITextViewer getViewer() {
+        return viewer;
+    }
+
+    /**
+     * @param viewer
+     */
+    public void setViewer(ITextViewer viewer) {
+        this.viewer = viewer;
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getPackFileNames() {
+        return packFileNames;
+    }
+
+    /**
+     * @param list
+     */
+    public void setPackFileNames(ArrayList list) {
+        packFileNames = list;
+    }
 
 }

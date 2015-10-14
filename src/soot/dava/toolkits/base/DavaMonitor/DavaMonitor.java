@@ -21,79 +21,76 @@ package soot.dava.toolkits.base.DavaMonitor;
 
 import java.util.HashMap;
 
-public class DavaMonitor
-{
+public class DavaMonitor {
     private static final DavaMonitor instance = new DavaMonitor();
 
     private final HashMap<Object, Lock> ref, lockTable;
 
-    private DavaMonitor() 
-    {
-	ref = new HashMap<Object, Lock>( 1, 0.7f);
-	lockTable = new HashMap<Object, Lock>( 1, 0.7f);
+    private DavaMonitor() {
+        ref = new HashMap<Object, Lock>(1, 0.7f);
+        lockTable = new HashMap<Object, Lock>(1, 0.7f);
     }
 
-    public static DavaMonitor v() { return instance; }
-
-    public synchronized void enter( Object o) throws NullPointerException
-    {
-	Thread currentThread = Thread.currentThread();
-
-	if (o == null)
-	    throw new NullPointerException();
-
-	Lock lock = ref.get( o);
-
-	if (lock == null) {
-	    lock = new Lock();
-	    ref.put( o, lock);
-	}
-
-	if (lock.level == 0) {
-	    lock.level = 1;
-	    lock.owner = currentThread;
-	    return;
-	}
-	
-	if (lock.owner == currentThread) {
-	    lock.level++;
-	    return;
-	}
-	
-	lockTable.put( currentThread, lock);
-	lock.enQ( currentThread);
-	
-	while ((lock.level > 0) || (lock.nextThread() != currentThread)) {
-	    try {
-		wait();
-	    }
-	    catch (InterruptedException e) {
-			throw new RuntimeException(e);
-	    }
-	    
-	    currentThread = Thread.currentThread();
-	    lock = lockTable.get( currentThread);
-	}
-	
-	lock.deQ( currentThread);
-	
-	lock.level = 1;
-	lock.owner = currentThread;
+    public static DavaMonitor v() {
+        return instance;
     }
 
-    public synchronized void exit( Object o) throws NullPointerException, IllegalMonitorStateException
-    {
-	if (o == null)
-	    throw new NullPointerException();
+    public synchronized void enter(Object o) throws NullPointerException {
+        Thread currentThread = Thread.currentThread();
 
-	Lock lock = ref.get( o);
+        if (o == null)
+            throw new NullPointerException();
 
-	if ((lock == null) || (lock.level == 0) || (lock.owner != Thread.currentThread()))
-	    throw new IllegalMonitorStateException();
-	
-	lock.level--;
-	
-	if (lock.level == 0)
-	    notifyAll();
+        Lock lock = ref.get(o);
+
+        if (lock == null) {
+            lock = new Lock();
+            ref.put(o, lock);
+        }
+
+        if (lock.level == 0) {
+            lock.level = 1;
+            lock.owner = currentThread;
+            return;
+        }
+
+        if (lock.owner == currentThread) {
+            lock.level++;
+            return;
+        }
+
+        lockTable.put(currentThread, lock);
+        lock.enQ(currentThread);
+
+        while ((lock.level > 0) || (lock.nextThread() != currentThread)) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            currentThread = Thread.currentThread();
+            lock = lockTable.get(currentThread);
+        }
+
+        lock.deQ(currentThread);
+
+        lock.level = 1;
+        lock.owner = currentThread;
+    }
+
+    public synchronized void exit(Object o) throws NullPointerException, IllegalMonitorStateException {
+        if (o == null)
+            throw new NullPointerException();
+
+        Lock lock = ref.get(o);
+
+        if ((lock == null) || (lock.level == 0) || (lock.owner != Thread.currentThread()))
+            throw new IllegalMonitorStateException();
+
+        lock.level--;
+
+        if (lock.level == 0)
+            notifyAll();
     }
 }

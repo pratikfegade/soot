@@ -20,17 +20,10 @@
 
 package soot.toolkits.graph;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
-  * Calculate dominators for basic blocks.
+ * Calculate dominators for basic blocks.
  * <p> Uses the algorithm contained in Dragon book, pg. 670-1.
  * <pre>
  *       D(n0) := { n0 }
@@ -46,111 +39,104 @@ import java.util.Map;
  * @author Navindra Umanee
  * @author Eric Bodden
  **/
-public class MHGDominatorsFinder<N> implements DominatorsFinder<N>
-{
+public class MHGDominatorsFinder<N> implements DominatorsFinder<N> {
     protected DirectedGraph<N> graph;
     protected BitSet fullSet;
     protected List<N> heads;
-    protected Map<N,BitSet> nodeToFlowSet;
-    protected Map<N,Integer> nodeToIndex;
-    protected Map<Integer,N> indexToNode;
+    protected Map<N, BitSet> nodeToFlowSet;
+    protected Map<N, Integer> nodeToIndex;
+    protected Map<Integer, N> indexToNode;
     protected int lastIndex = 0;
 
-    public MHGDominatorsFinder(DirectedGraph<N> graph)
-    {
+    public MHGDominatorsFinder(DirectedGraph<N> graph) {
         this.graph = graph;
         doAnalysis();
     }
 
-    protected void doAnalysis()
-    {
+    protected void doAnalysis() {
         heads = graph.getHeads();
         nodeToFlowSet = new HashMap<N, BitSet>();
         nodeToIndex = new HashMap<N, Integer>();
-        indexToNode = new HashMap<Integer,N>();
-    
+        indexToNode = new HashMap<Integer, N>();
+
         //build full set
         fullSet = new BitSet(graph.size());
         fullSet.flip(0, graph.size());//set all to true
-        
+
         //set up domain for intersection: head nodes are only dominated by themselves,
         //other nodes are dominated by everything else
-        for(Iterator<N> i = graph.iterator(); i.hasNext();){
+        for (Iterator<N> i = graph.iterator(); i.hasNext(); ) {
             N o = i.next();
-            if(heads.contains(o)){
+            if (heads.contains(o)) {
                 BitSet self = new BitSet();
                 self.set(indexOf(o));
                 nodeToFlowSet.put(o, self);
-            }
-            else{
+            } else {
                 nodeToFlowSet.put(o, fullSet);
             }
         }
-    
+
         boolean changed = true;
-        do{
+        do {
             changed = false;
-            for(Iterator<N> i = graph.iterator(); i.hasNext();){
+            for (Iterator<N> i = graph.iterator(); i.hasNext(); ) {
                 N o = i.next();
-                if(heads.contains(o)) continue;
-    
+                if (heads.contains(o)) continue;
+
                 //initialize to the "neutral element" for the intersection
                 //this clone() is fast on BitSets (opposed to on HashSets)
-				BitSet predsIntersect = (BitSet) fullSet.clone();
-    
+                BitSet predsIntersect = (BitSet) fullSet.clone();
+
                 //intersect over all predecessors
-                for(Iterator<N> j = graph.getPredsOf(o).iterator(); j.hasNext();){
+                for (Iterator<N> j = graph.getPredsOf(o).iterator(); j.hasNext(); ) {
                     BitSet predSet = nodeToFlowSet.get(j.next());
                     predsIntersect.and(predSet);
                 }
-    
+
                 BitSet oldSet = nodeToFlowSet.get(o);
                 //each node dominates itself
                 predsIntersect.set(indexOf(o));
-                if(!predsIntersect.equals(oldSet)){
+                if (!predsIntersect.equals(oldSet)) {
                     nodeToFlowSet.put(o, predsIntersect);
                     changed = true;
                 }
             }
-        } while(changed);
+        } while (changed);
     }
-    
+
     protected int indexOf(N o) {
         Integer index = nodeToIndex.get(o);
-        if(index==null) {
+        if (index == null) {
             index = lastIndex;
-            nodeToIndex.put(o,index);
-            indexToNode.put(index,o);
+            nodeToIndex.put(o, index);
+            indexToNode.put(index, o);
             lastIndex++;
         }
         return index;
     }
-    
-    public DirectedGraph<N> getGraph()
-    {
+
+    public DirectedGraph<N> getGraph() {
         return graph;
     }
-    
-    public List<N> getDominators(N node)
-    {
+
+    public List<N> getDominators(N node) {
         //reconstruct list of dominators from bitset
         List<N> result = new ArrayList<N>();
         BitSet bitSet = nodeToFlowSet.get(node);
-        for(int i=0;i<bitSet.length();i++) {
-            if(bitSet.get(i)) {
+        for (int i = 0; i < bitSet.length(); i++) {
+            if (bitSet.get(i)) {
                 result.add(indexToNode.get(i));
             }
         }
         return result;
     }
 
-    public N getImmediateDominator(N node)
-    {
+    public N getImmediateDominator(N node) {
         // root node
-        if(getGraph().getHeads().contains(node))
+        if (getGraph().getHeads().contains(node))
             return null;
 
-	// could be memoised, I guess
+        // could be memoised, I guess
 
         List<N> dominatorsList = getDominators(node);
         dominatorsList.remove(node);
@@ -158,27 +144,25 @@ public class MHGDominatorsFinder<N> implements DominatorsFinder<N>
         Iterator<N> dominatorsIt = dominatorsList.iterator();
         N immediateDominator = null;
 
-        while((immediateDominator == null) && dominatorsIt.hasNext()){
+        while ((immediateDominator == null) && dominatorsIt.hasNext()) {
             N dominator = dominatorsIt.next();
 
-            if(isDominatedByAll(dominator, dominatorsList))
+            if (isDominatedByAll(dominator, dominatorsList))
                 immediateDominator = dominator;
         }
 
         // This can indeed happen with postdominators on methods that have
         // multiple points of return
 //        assert immediateDominator!=null;
-        
+
         return immediateDominator;
     }
 
-    public boolean isDominatedBy(N node, N dominator)
-    {
+    public boolean isDominatedBy(N node, N dominator) {
         return getDominators(node).contains(dominator);
     }
 
-    public boolean isDominatedByAll(N node, Collection<N> dominators)
-    {
+    public boolean isDominatedByAll(N node, Collection<N> dominators) {
         return getDominators(node).containsAll(dominators);
     }
 

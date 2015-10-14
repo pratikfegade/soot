@@ -19,26 +19,27 @@
 
 package ca.mcgill.sable.soot.editors;
 
+import org.eclipse.jface.text.rules.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.text.rules.*;
 public class JimplePartitionScanner extends RuleBasedPartitionScanner {
-	public final static String JIMPLE_STRING = "__jimple_string";
+    public final static String JIMPLE_STRING = "__jimple_string";
     public final static String SKIP = "__skip";
-	
-	public JimplePartitionScanner() {
 
-		List rules = new ArrayList();
+    public JimplePartitionScanner() {
 
-		IToken string = new Token(JIMPLE_STRING);
-		IToken skip = new Token(SKIP);
+        List rules = new ArrayList();
 
-		rules.add(new SingleLineRule("\"", "\"", string, '\\'));
-		rules.add(new SingleLineRule("'", "'", skip, '\\'));
+        IToken string = new Token(JIMPLE_STRING);
+        IToken skip = new Token(SKIP);
 
-		IPredicateRule[] result= new IPredicateRule[rules.size()];
-		rules.toArray(result);
-		setPredicateRules(result);
-	}
+        rules.add(new SingleLineRule("\"", "\"", string, '\\'));
+        rules.add(new SingleLineRule("'", "'", skip, '\\'));
+
+        IPredicateRule[] result = new IPredicateRule[rules.size()];
+        rules.toArray(result);
+        setPredicateRules(result);
+    }
 }

@@ -25,16 +25,15 @@
 package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
-
 import soot.dexpler.DexBody;
 
 public class InvokeInterfaceInstruction extends MethodInvocationInstruction {
 
-    public InvokeInterfaceInstruction (Instruction instruction, int codeAdress) {
+    public InvokeInterfaceInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    public void jimplify(DexBody body) {
         // use Nop as begin marker
 //        NopStmt nop = Jimple.v().newNopStmt();
 //        defineBlock(nop);
@@ -42,7 +41,7 @@ public class InvokeInterfaceInstruction extends MethodInvocationInstruction {
 //        body.add(nop);
 //        beginUnit = nop;
 
-    	jimplifyInterface(body);
+        jimplifyInterface(body);
         // setUnit() is called in MethodInvocationInstruction
     }
 }

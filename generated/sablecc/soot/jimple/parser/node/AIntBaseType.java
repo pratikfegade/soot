@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AIntBaseType extends PBaseType
-{
+public final class AIntBaseType extends PBaseType {
     private TInt _int_;
 
-    public AIntBaseType()
-    {
+    public AIntBaseType() {
         // Constructor
     }
 
     public AIntBaseType(
-        @SuppressWarnings("hiding") TInt _int_)
-    {
+            @SuppressWarnings("hiding") TInt _int_) {
         // Constructor
         setInt(_int_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AIntBaseType(
-            cloneNode(this._int_));
+                cloneNode(this._int_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAIntBaseType(this);
     }
 
-    public TInt getInt()
-    {
+    public TInt getInt() {
         return this._int_;
     }
 
-    public void setInt(TInt node)
-    {
-        if(this._int_ != null)
-        {
+    public void setInt(TInt node) {
+        if (this._int_ != null) {
             this._int_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AIntBaseType extends PBaseType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._int_);
+                + toString(this._int_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._int_ == child)
-        {
+        if (this._int_ == child) {
             this._int_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AIntBaseType extends PBaseType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._int_ == oldChild)
-        {
+        if (this._int_ == oldChild) {
             setInt((TInt) newChild);
             return;
         }

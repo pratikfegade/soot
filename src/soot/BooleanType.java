@@ -24,45 +24,42 @@
  */
 
 
-
-
-
 package soot;
-import soot.util.*;
+
+import soot.util.Switch;
 
 
 /**
- *   Soot representation of the Java built-in type 'boolean'. Implemented as
- *   a singleton.
+ * Soot representation of the Java built-in type 'boolean'. Implemented as
+ * a singleton.
  */
 @SuppressWarnings("serial")
-public class BooleanType extends PrimType implements IntegerType
-{
-    public BooleanType( Singletons.Global g ) {}
-    public static BooleanType v() { return G.v().soot_BooleanType(); }
+public class BooleanType extends PrimType implements IntegerType {
+    public BooleanType(Singletons.Global g) {
+    }
 
-    public boolean equals(Object t)
-    {
+    public static BooleanType v() {
+        return G.v().soot_BooleanType();
+    }
+
+    public boolean equals(Object t) {
         return this == t;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         return 0x1C4585DA;
     }
-    
-    public String toString()
-    {
+
+    public String toString() {
         return "boolean";
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((TypeSwitch) sw).caseBooleanType(this);
     }
-    
+
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Boolean");
+        return RefType.v("java.lang.Boolean");
     }
 }

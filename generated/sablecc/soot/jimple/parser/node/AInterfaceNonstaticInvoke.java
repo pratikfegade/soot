@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AInterfaceNonstaticInvoke extends PNonstaticInvoke
-{
+public final class AInterfaceNonstaticInvoke extends PNonstaticInvoke {
     private TInterfaceinvoke _interfaceinvoke_;
 
-    public AInterfaceNonstaticInvoke()
-    {
+    public AInterfaceNonstaticInvoke() {
         // Constructor
     }
 
     public AInterfaceNonstaticInvoke(
-        @SuppressWarnings("hiding") TInterfaceinvoke _interfaceinvoke_)
-    {
+            @SuppressWarnings("hiding") TInterfaceinvoke _interfaceinvoke_) {
         // Constructor
         setInterfaceinvoke(_interfaceinvoke_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AInterfaceNonstaticInvoke(
-            cloneNode(this._interfaceinvoke_));
+                cloneNode(this._interfaceinvoke_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAInterfaceNonstaticInvoke(this);
     }
 
-    public TInterfaceinvoke getInterfaceinvoke()
-    {
+    public TInterfaceinvoke getInterfaceinvoke() {
         return this._interfaceinvoke_;
     }
 
-    public void setInterfaceinvoke(TInterfaceinvoke node)
-    {
-        if(this._interfaceinvoke_ != null)
-        {
+    public void setInterfaceinvoke(TInterfaceinvoke node) {
+        if (this._interfaceinvoke_ != null) {
             this._interfaceinvoke_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AInterfaceNonstaticInvoke extends PNonstaticInvoke
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._interfaceinvoke_);
+                + toString(this._interfaceinvoke_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._interfaceinvoke_ == child)
-        {
+        if (this._interfaceinvoke_ == child) {
             this._interfaceinvoke_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AInterfaceNonstaticInvoke extends PNonstaticInvoke
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._interfaceinvoke_ == oldChild)
-        {
+        if (this._interfaceinvoke_ == oldChild) {
             setInterfaceinvoke((TInterfaceinvoke) newChild);
             return;
         }

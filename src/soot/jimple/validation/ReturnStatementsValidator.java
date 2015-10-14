@@ -1,27 +1,23 @@
 package soot.jimple.validation;
 
-import java.util.List;
-
 import soot.Body;
 import soot.Unit;
-import soot.jimple.GotoStmt;
-import soot.jimple.RetStmt;
-import soot.jimple.ReturnStmt;
-import soot.jimple.ReturnVoidStmt;
-import soot.jimple.ThrowStmt;
+import soot.jimple.*;
 import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
 
+import java.util.List;
+
 public enum ReturnStatementsValidator implements BodyValidator {
-	INSTANCE;	
-	
-	public static ReturnStatementsValidator v() {
-		return INSTANCE;
-	}
+    INSTANCE;
+
+    public static ReturnStatementsValidator v() {
+        return INSTANCE;
+    }
 
 
-	@Override
-	/**
+    @Override
+    /**
      * Checks the following invariants on this Jimple body:
      * <ol>
      * <li> this-references may only occur in instance methods
@@ -30,20 +26,20 @@ public enum ReturnStatementsValidator implements BodyValidator {
      *      if they occur at all
      * </ol>
      */
-	public void validate(Body body, List<ValidationException> exception) {
-	    /**
-	     * Checks that this Jimple body actually contains a return statement
-	     */
-		for (Unit u : body.getUnits())
-			if ((u instanceof ReturnStmt) || (u instanceof ReturnVoidStmt)
-					|| (u instanceof RetStmt)
-					|| (u instanceof ThrowStmt))
-				return;
+    public void validate(Body body, List<ValidationException> exception) {
+        /**
+         * Checks that this Jimple body actually contains a return statement
+         */
+        for (Unit u : body.getUnits())
+            if ((u instanceof ReturnStmt) || (u instanceof ReturnVoidStmt)
+                    || (u instanceof RetStmt)
+                    || (u instanceof ThrowStmt))
+                return;
 
 
         // A method can have an infinite loop 
-		// and no return statement:
-		//
+        // and no return statement:
+        //
         //  public class Infinite {
         //  public static void main(String[] args) {
         //  int i = 0; while (true) {i += 1;}      } }
@@ -54,12 +50,12 @@ public enum ReturnStatementsValidator implements BodyValidator {
             return;
 
         exception.add(new ValidationException(body.getMethod(), "The method does not contain a return statement", "Body of method " + body.getMethod().getSignature()
-				+ " does not contain a return statement"));
+                + " does not contain a return statement"));
     }
 
 
-	@Override
-	public boolean isBasicValidator() {
-		return true;
-	}
+    @Override
+    public boolean isBasicValidator() {
+        return true;
+    }
 }

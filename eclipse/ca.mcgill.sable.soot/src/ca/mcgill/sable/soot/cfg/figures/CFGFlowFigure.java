@@ -19,21 +19,21 @@
 
 package ca.mcgill.sable.soot.cfg.figures;
 
-import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.*;
+import org.eclipse.draw2d.Figure;
 
 
 public class CFGFlowFigure extends Figure {
 
-	Panel background;
-	
-	public CFGFlowFigure() {
-		super();
-		FlowLayout layout = new FlowLayout(false);
-		layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
-		layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
-		
-		this.setLayoutManager(layout);
-	}
+    Panel background;
+
+    public CFGFlowFigure() {
+        super();
+        FlowLayout layout = new FlowLayout(false);
+        layout.setMinorAlignment(FlowLayout.ALIGN_CENTER);
+        layout.setMajorAlignment(FlowLayout.ALIGN_CENTER);
+
+        this.setLayoutManager(layout);
+    }
 
 }

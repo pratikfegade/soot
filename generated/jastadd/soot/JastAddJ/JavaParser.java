@@ -1,28 +1,13 @@
 package soot.JastAddJ;
 
-import java.util.HashSet;
-import java.io.File;
-import java.util.*;
-import beaver.*;
-import java.util.ArrayList;
-import java.util.zip.*;
-import java.io.*;
-import java.io.FileNotFoundException;
-import java.util.Collection;
-import soot.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.coffi.ClassFile;
-import soot.coffi.method_info;
-import soot.coffi.CONSTANT_Utf8_info;
-import soot.tagkit.SourceFileTag;
-import soot.coffi.CoffiMethodSource;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
-  * @ast interface
- * 
+ * @ast interface
  */
 public interface JavaParser {
 
-     
+
     CompilationUnit parse(InputStream is, String fileName) throws IOException, beaver.Parser.Exception;
 }

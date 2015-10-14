@@ -27,9 +27,7 @@
 package soot.toolkits.graph;
 
 
-import java.util.*;
-
-
+import java.util.HashMap;
 
 
 /**
@@ -38,14 +36,13 @@ import java.util.*;
  * process of adding edges.
  */
 
-public class MemoryEfficientGraph<N> extends HashMutableDirectedGraph<N>
-{
+public class MemoryEfficientGraph<N> extends HashMutableDirectedGraph<N> {
 
     HashMap<N, N> self = new HashMap<N, N>();
 
     public void addNode(N o) {
         super.addNode(o);
-        self.put(o,o);
+        self.put(o, o);
     }
 
     public void removeNode(N o) {

@@ -26,86 +26,86 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.util.*;
-import java.util.*;
+import soot.Local;
+import soot.Type;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.util.Switch;
 
-public class BafLocal implements Local
-{
+import java.util.Collections;
+import java.util.List;
+
+public class BafLocal implements Local {
     String name;
     Type type;
 
     int fixedHashCode;
     boolean isHashCodeChosen;
-        
-    public BafLocal(String name, Type t)
-    {
+    private int number = 0;
+
+    public BafLocal(String name, Type t) {
         this.name = name;
         this.type = t;
     }
 
     /* JimpleLocals are *NOT* equivalent to Baf Locals! */
-    public boolean equivTo(Object o)
-    {
-        return this.equals( o );
+    public boolean equivTo(Object o) {
+        return this.equals(o);
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return name.hashCode() * 101 + type.hashCode() * 17;
     }
 
-    public Object clone()
-    {
+    public Object clone() {
         return new BafLocal(name, type);
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
     @Override
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
     @Override
-    public void setType(Type t)
-    {
+    public void setType(Type t) {
         this.type = t;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return getName();
     }
 
-    public void toString( UnitPrinter up ) {
-        up.local( this );
+    public void toString(UnitPrinter up) {
+        up.local(this);
     }
-    
+
     @Override
-    public List<ValueBox> getUseBoxes()
-    {
+    public List<ValueBox> getUseBoxes() {
         return Collections.emptyList();
     }
 
-    public void apply(Switch s)
-    {
+    public void apply(Switch s) {
         throw new RuntimeException("invalid case switch");
     }
-    public final int getNumber() { return number; }
-    public final void setNumber( int number ) { this.number = number; }
 
-    private int number = 0;
+    public final int getNumber() {
+        return number;
+    }
+
+    public final void setNumber(int number) {
+        this.number = number;
+    }
 }

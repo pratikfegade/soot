@@ -18,100 +18,113 @@
  */
 
 package soot.jimple.toolkits.callgraph;
+
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.SpecialInvokeExpr;
+import soot.util.LargeNumberedMap;
+import soot.util.NumberedString;
+import soot.util.SmallNumberedMap;
+import soot.util.queue.ChunkedQueue;
 
 import java.util.*;
 
-import soot.util.*;
-import soot.util.queue.*;
-
-/** Resolves virtual calls.
+/**
+ * Resolves virtual calls.
+ *
  * @author Ondrej Lhotak
  */
-public final class VirtualCalls
-{ 
-    public VirtualCalls( Singletons.Global g ) {}
-    public static VirtualCalls v() { return G.v().soot_jimple_toolkits_callgraph_VirtualCalls(); }
-
+public final class VirtualCalls {
+    public final NumberedString sigClinit =
+            Scene.v().getSubSigNumberer().findOrAdd("void <clinit>()");
+    public final NumberedString sigStart =
+            Scene.v().getSubSigNumberer().findOrAdd("void start()");
+    public final NumberedString sigRun =
+            Scene.v().getSubSigNumberer().findOrAdd("void run()");
     private final LargeNumberedMap<Type, SmallNumberedMap<SootMethod>> typeToVtbl =
-        new LargeNumberedMap<Type, SmallNumberedMap<SootMethod>>( Scene.v().getTypeNumberer() );
+            new LargeNumberedMap<Type, SmallNumberedMap<SootMethod>>(Scene.v().getTypeNumberer());
+    private final Map<Type, List<Type>> baseToSubTypes = new HashMap<Type, List<Type>>();
 
-    public SootMethod resolveSpecial( SpecialInvokeExpr iie, NumberedString subSig, SootMethod container ) {
+    public VirtualCalls(Singletons.Global g) {
+    }
+
+    public static VirtualCalls v() {
+        return G.v().soot_jimple_toolkits_callgraph_VirtualCalls();
+    }
+
+    public SootMethod resolveSpecial(SpecialInvokeExpr iie, NumberedString subSig, SootMethod container) {
         SootMethod target = iie.getMethod();
         /* cf. JVM spec, invokespecial instruction */
-        if( Scene.v().getOrMakeFastHierarchy()
-                .canStoreType( container.getDeclaringClass().getType(),
-                    target.getDeclaringClass().getType() )
-            && container.getDeclaringClass().getType() !=
-                target.getDeclaringClass().getType() 
-            && !target.getName().equals( "<init>" ) 
-            && subSig != sigClinit ) {
+        if (Scene.v().getOrMakeFastHierarchy()
+                .canStoreType(container.getDeclaringClass().getType(),
+                        target.getDeclaringClass().getType())
+                && container.getDeclaringClass().getType() !=
+                target.getDeclaringClass().getType()
+                && !target.getName().equals("<init>")
+                && subSig != sigClinit) {
 
             return resolveNonSpecial(
                     container.getDeclaringClass().getSuperclass().getType(),
-                    subSig );
+                    subSig);
         } else {
             return target;
         }
     }
 
-    public SootMethod resolveNonSpecial( RefType t, NumberedString subSig ) {
-        SmallNumberedMap<SootMethod> vtbl = typeToVtbl.get( t );
-        if( vtbl == null ) {
-            typeToVtbl.put( t, vtbl =
-                    new SmallNumberedMap<SootMethod>( Scene.v().getMethodNumberer() ) );
+    public SootMethod resolveNonSpecial(RefType t, NumberedString subSig) {
+        SmallNumberedMap<SootMethod> vtbl = typeToVtbl.get(t);
+        if (vtbl == null) {
+            typeToVtbl.put(t, vtbl =
+                    new SmallNumberedMap<SootMethod>(Scene.v().getMethodNumberer()));
         }
-        SootMethod ret = vtbl.get( subSig );
-        if( ret != null ) return ret;
+        SootMethod ret = vtbl.get(subSig);
+        if (ret != null) return ret;
         SootClass cls = t.getSootClass();
-        SootMethod m = cls.getMethodUnsafe( subSig );
-        if( m != null ) {
-            if( m.isConcrete() || m.isNative() || m.isPhantom() ) {
+        SootMethod m = cls.getMethodUnsafe(subSig);
+        if (m != null) {
+            if (m.isConcrete() || m.isNative() || m.isPhantom()) {
                 ret = m;
             }
         } else {
-            if( cls.hasSuperclass() ) {
-                ret = resolveNonSpecial( cls.getSuperclass().getType(), subSig );
+            if (cls.hasSuperclass()) {
+                ret = resolveNonSpecial(cls.getSuperclass().getType(), subSig);
             }
         }
-        vtbl.put( subSig, ret );
+        vtbl.put(subSig, ret);
         return ret;
     }
 
-    private final Map<Type,List<Type>> baseToSubTypes = new HashMap<Type,List<Type>>();
-
-    public void resolve( Type t, Type declaredType, NumberedString subSig, SootMethod container, ChunkedQueue<SootMethod> targets ) {
+    public void resolve(Type t, Type declaredType, NumberedString subSig, SootMethod container, ChunkedQueue<SootMethod> targets) {
         resolve(t, declaredType, null, subSig, container, targets);
     }
-    public void resolve( Type t, Type declaredType, Type sigType, NumberedString subSig, SootMethod container, ChunkedQueue<SootMethod> targets ) {
-        if( declaredType instanceof ArrayType ) declaredType = RefType.v("java.lang.Object");
-        if( sigType instanceof ArrayType ) sigType = RefType.v("java.lang.Object");
-        if( t instanceof ArrayType ) t = RefType.v( "java.lang.Object" );
-        if( declaredType != null && !Scene.v().getOrMakeFastHierarchy()
-                .canStoreType( t, declaredType ) ) {
+
+    public void resolve(Type t, Type declaredType, Type sigType, NumberedString subSig, SootMethod container, ChunkedQueue<SootMethod> targets) {
+        if (declaredType instanceof ArrayType) declaredType = RefType.v("java.lang.Object");
+        if (sigType instanceof ArrayType) sigType = RefType.v("java.lang.Object");
+        if (t instanceof ArrayType) t = RefType.v("java.lang.Object");
+        if (declaredType != null && !Scene.v().getOrMakeFastHierarchy()
+                .canStoreType(t, declaredType)) {
             return;
         }
-        if( sigType != null && !Scene.v().getOrMakeFastHierarchy()
-                .canStoreType( t, sigType ) ) {
+        if (sigType != null && !Scene.v().getOrMakeFastHierarchy()
+                .canStoreType(t, sigType)) {
             return;
         }
-        if( t instanceof RefType ) {
-            SootMethod target = resolveNonSpecial( (RefType) t, subSig );
-            if( target != null ) targets.add( target );
-        } else if( t instanceof AnySubType ) {
-            RefType base = ((AnySubType)t).getBase();
+        if (t instanceof RefType) {
+            SootMethod target = resolveNonSpecial((RefType) t, subSig);
+            if (target != null) targets.add(target);
+        } else if (t instanceof AnySubType) {
+            RefType base = ((AnySubType) t).getBase();
 
             List<Type> subTypes = baseToSubTypes.get(base);
-            if( subTypes != null ) {
-                for( Iterator<Type> stIt = subTypes.iterator(); stIt.hasNext(); ) {
+            if (subTypes != null) {
+                for (Iterator<Type> stIt = subTypes.iterator(); stIt.hasNext(); ) {
                     final Type st = stIt.next();
-                    resolve( st, declaredType, sigType, subSig, container, targets );
+                    resolve(st, declaredType, sigType, subSig, container, targets);
                 }
                 return;
             }
 
-            baseToSubTypes.put(base, subTypes = new ArrayList<Type>() );
+            baseToSubTypes.put(base, subTypes = new ArrayList<Type>());
 
             subTypes.add(base);
 
@@ -120,37 +133,30 @@ public final class VirtualCalls
             FastHierarchy fh = Scene.v().getOrMakeFastHierarchy();
             SootClass cl = base.getSootClass();
 
-            if( workset.add( cl ) ) worklist.add( cl );
-            while( !worklist.isEmpty() ) {
+            if (workset.add(cl)) worklist.add(cl);
+            while (!worklist.isEmpty()) {
                 cl = worklist.removeFirst();
-                if( cl.isInterface() ) {
-                    for( Iterator<SootClass> cIt = fh.getAllImplementersOfInterface(cl).iterator(); cIt.hasNext(); ) {
+                if (cl.isInterface()) {
+                    for (Iterator<SootClass> cIt = fh.getAllImplementersOfInterface(cl).iterator(); cIt.hasNext(); ) {
                         final SootClass c = cIt.next();
-                        if( workset.add( c ) ) worklist.add( c );
+                        if (workset.add(c)) worklist.add(c);
                     }
                 } else {
-                    if( cl.isConcrete() ) {
-                        resolve( cl.getType(), declaredType, sigType, subSig, container, targets );
+                    if (cl.isConcrete()) {
+                        resolve(cl.getType(), declaredType, sigType, subSig, container, targets);
                         subTypes.add(cl.getType());
                     }
-                    for( Iterator<SootClass> cIt = fh.getSubclassesOf( cl ).iterator(); cIt.hasNext(); ) {
+                    for (Iterator<SootClass> cIt = fh.getSubclassesOf(cl).iterator(); cIt.hasNext(); ) {
                         final SootClass c = cIt.next();
-                        if( workset.add( c ) ) worklist.add( c );
+                        if (workset.add(c)) worklist.add(c);
                     }
                 }
             }
-        } else if( t instanceof NullType ) {
+        } else if (t instanceof NullType) {
         } else {
-            throw new RuntimeException( "oops "+t );
+            throw new RuntimeException("oops " + t);
         }
     }
-    
-    public final NumberedString sigClinit =
-        Scene.v().getSubSigNumberer().findOrAdd("void <clinit>()");
-    public final NumberedString sigStart =
-        Scene.v().getSubSigNumberer().findOrAdd("void start()");
-    public final NumberedString sigRun =
-        Scene.v().getSubSigNumberer().findOrAdd("void run()");
 }
 
 

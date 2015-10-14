@@ -24,28 +24,21 @@
  */
 
 
-
-
-
-
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.internal.JAssignStmt;
 
-public class GAssignStmt extends JAssignStmt
-{
-    public GAssignStmt(Value variable, Value rvalue)
-    {
+public class GAssignStmt extends JAssignStmt {
+    public GAssignStmt(Value variable, Value rvalue) {
         super(Grimp.v().newVariableBox(variable),
-             Grimp.v().newRValueBox(rvalue));
+                Grimp.v().newRValueBox(rvalue));
     }
-    
-    public Object clone() 
-    { 
-        return new GAssignStmt(Grimp.cloneIfNecessary(getLeftOp()), 
-            Grimp.cloneIfNecessary(getRightOp()));
+
+    public Object clone() {
+        return new GAssignStmt(Grimp.cloneIfNecessary(getLeftOp()),
+                Grimp.cloneIfNecessary(getRightOp()));
     }
 }
 

@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AVolatileModifier extends PModifier
-{
+public final class AVolatileModifier extends PModifier {
     private TVolatile _volatile_;
 
-    public AVolatileModifier()
-    {
+    public AVolatileModifier() {
         // Constructor
     }
 
     public AVolatileModifier(
-        @SuppressWarnings("hiding") TVolatile _volatile_)
-    {
+            @SuppressWarnings("hiding") TVolatile _volatile_) {
         // Constructor
         setVolatile(_volatile_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AVolatileModifier(
-            cloneNode(this._volatile_));
+                cloneNode(this._volatile_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAVolatileModifier(this);
     }
 
-    public TVolatile getVolatile()
-    {
+    public TVolatile getVolatile() {
         return this._volatile_;
     }
 
-    public void setVolatile(TVolatile node)
-    {
-        if(this._volatile_ != null)
-        {
+    public void setVolatile(TVolatile node) {
+        if (this._volatile_ != null) {
             this._volatile_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AVolatileModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._volatile_);
+                + toString(this._volatile_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._volatile_ == child)
-        {
+        if (this._volatile_ == child) {
             this._volatile_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AVolatileModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._volatile_ == oldChild)
-        {
+        if (this._volatile_ == oldChild) {
             setVolatile((TVolatile) newChild);
             return;
         }

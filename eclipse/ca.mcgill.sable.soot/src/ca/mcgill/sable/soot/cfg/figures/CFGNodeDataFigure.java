@@ -19,152 +19,140 @@
 
 package ca.mcgill.sable.soot.cfg.figures;
 
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.draw2d.*;
-import java.util.*;
+import org.eclipse.draw2d.geometry.*;
+import org.eclipse.draw2d.text.*;
+import org.eclipse.jface.resource.*;
 import org.eclipse.swt.*;
 import org.eclipse.swt.graphics.*;
-import ca.mcgill.sable.soot.*;
-import org.eclipse.draw2d.text.*;
-import ca.mcgill.sable.soot.editors.*;
-import org.eclipse.draw2d.geometry.*;
-import org.eclipse.jface.resource.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CFGNodeDataFigure extends Figure {
 
-	private Panel nodeFigure;//RectangleFigure rect;
-	private RectangleFigure rect;
-	
-	private ArrayList data;
-	
-	
-	Font f = new Font(null, "Arial", 8, SWT.NORMAL);
-		
+    Font f = new Font(null, "Arial", 8, SWT.NORMAL);
+    Image stopImage = null;
+    Image highlightImage = null;
+    Label indicatorLabel;
+    private Panel nodeFigure;//RectangleFigure rect;
+    private RectangleFigure rect;
+    private ArrayList data;
+    private soot.Unit unit;
 
-	public CFGNodeDataFigure() {
-		super();
-		setRect(new RectangleFigure());
-	
-		this.add(getRect());
-		
-		getRect().setBackgroundColor(SootPlugin.getDefault().getColorManager().getColor(new RGB(255, 255 ,255)));
-		ToolbarLayout layout = new ToolbarLayout();
-		layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
-		layout.setVertical(false);
-		
-		this.setLayoutManager(layout);
-		
-		getRect().setLayoutManager(layout);
-	}
-	
+    public CFGNodeDataFigure() {
+        super();
+        setRect(new RectangleFigure());
 
-	private soot.Unit unit;
-	
-	public void updateFigure(){
-		if (getData() == null) return;
-		
-		int height = 0;
-		int width = 0;
-		Iterator it = getData().iterator();
-		while (it.hasNext()){
-			unit = (soot.Unit)it.next();
-			String next = unit.toString();
-			
-			Label l = new Label(next);
-			l.setFont(f);
-			l.getInsets().top = 1;
-			l.getInsets().bottom = 1;
-			l.getInsets().right = 1;
-			l.getInsets().left = 1;
-			height = height + l.getSize().height/2;
-			int length = next.length()*7;
-			width = length > width ? length : width;
-			getRect().add(l);
-			
-		}
-			
-		getRect().setSize(width+10, height+10);
-		this.setSize(width+10, height+10);
-		
-	}
+        this.add(getRect());
 
-	
-	/**
-	 * @return
-	 */
-	public RectangleFigure getRect() {
-		return rect;
-	}
+        getRect().setBackgroundColor(SootPlugin.getDefault().getColorManager().getColor(new RGB(255, 255, 255)));
+        ToolbarLayout layout = new ToolbarLayout();
+        layout.setMinorAlignment(ToolbarLayout.ALIGN_CENTER);
+        layout.setVertical(false);
 
-	Image stopImage = null;
-	Image highlightImage = null;
-	
-	public void addStopIcon(){
-		if (stopImage == null){
-			ImageDescriptor desc = SootPlugin.getImageDescriptor("stop_icon.gif");
-			stopImage = desc.createImage();
-		}
-		((Label)getRect().getChildren().get(0)).setIcon(stopImage);
-	}
-	
-	Label indicatorLabel;
-	
-	public void addIndicator(){
-		if (highlightImage == null){
-			ImageDescriptor desc = SootPlugin.getImageDescriptor("indicator.gif");
-			highlightImage = desc.createImage();
-		}
-		
-		indicatorLabel = new Label(highlightImage);
-		this.add(indicatorLabel, 0);
-	}
-	
-	public void removeIndicator(){
-		if (this.getChildren().get(0).equals(indicatorLabel)){
-			this.remove(indicatorLabel);
-		}
-	}
-	
-	public void removeStopIcon(){
-		((Label)getRect().getChildren().get(0)).setIcon(null);
-	}
-	
-	
+        this.setLayoutManager(layout);
 
-	/**
-	 * @return
-	 */
-	public ArrayList getData() {
-		return data;
-	}
+        getRect().setLayoutManager(layout);
+    }
 
-	/**
-	 * @param list
-	 */
-	public void setData(ArrayList list) {
-		data = list;
-	}
+    public void updateFigure() {
+        if (getData() == null) return;
 
+        int height = 0;
+        int width = 0;
+        Iterator it = getData().iterator();
+        while (it.hasNext()) {
+            unit = (soot.Unit) it.next();
+            String next = unit.toString();
 
-	/**
-	 * @param figure
-	 */
-	public void setRect(RectangleFigure figure) {
-		rect = figure;
-	}
+            Label l = new Label(next);
+            l.setFont(f);
+            l.getInsets().top = 1;
+            l.getInsets().bottom = 1;
+            l.getInsets().right = 1;
+            l.getInsets().left = 1;
+            height = height + l.getSize().height / 2;
+            int length = next.length() * 7;
+            width = length > width ? length : width;
+            getRect().add(l);
 
-	
-	/**
-	 * @return
-	 */
-	public soot.Unit getUnit() {
-		return unit;
-	}
+        }
 
-	/**
-	 * @param unit
-	 */
-	public void setUnit(soot.Unit unit) {
-		this.unit = unit;
-	}
+        getRect().setSize(width + 10, height + 10);
+        this.setSize(width + 10, height + 10);
+
+    }
+
+    /**
+     * @return
+     */
+    public RectangleFigure getRect() {
+        return rect;
+    }
+
+    /**
+     * @param figure
+     */
+    public void setRect(RectangleFigure figure) {
+        rect = figure;
+    }
+
+    public void addStopIcon() {
+        if (stopImage == null) {
+            ImageDescriptor desc = SootPlugin.getImageDescriptor("stop_icon.gif");
+            stopImage = desc.createImage();
+        }
+        ((Label) getRect().getChildren().get(0)).setIcon(stopImage);
+    }
+
+    public void addIndicator() {
+        if (highlightImage == null) {
+            ImageDescriptor desc = SootPlugin.getImageDescriptor("indicator.gif");
+            highlightImage = desc.createImage();
+        }
+
+        indicatorLabel = new Label(highlightImage);
+        this.add(indicatorLabel, 0);
+    }
+
+    public void removeIndicator() {
+        if (this.getChildren().get(0).equals(indicatorLabel)) {
+            this.remove(indicatorLabel);
+        }
+    }
+
+    public void removeStopIcon() {
+        ((Label) getRect().getChildren().get(0)).setIcon(null);
+    }
+
+    /**
+     * @return
+     */
+    public ArrayList getData() {
+        return data;
+    }
+
+    /**
+     * @param list
+     */
+    public void setData(ArrayList list) {
+        data = list;
+    }
+
+    /**
+     * @return
+     */
+    public soot.Unit getUnit() {
+        return unit;
+    }
+
+    /**
+     * @param unit
+     */
+    public void setUnit(soot.Unit unit) {
+        this.unit = unit;
+    }
 
 }

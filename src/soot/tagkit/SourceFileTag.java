@@ -28,57 +28,52 @@ package soot.tagkit;
 
 import java.io.UnsupportedEncodingException;
 
-public class SourceFileTag implements Tag
-{
+public class SourceFileTag implements Tag {
     private String sourceFile;
     private String absolutePath;
-    
+
     public SourceFileTag(String sourceFile) {
-    	this(sourceFile,null);
+        this(sourceFile, null);
     }
 
-    public SourceFileTag(String sourceFile, String path)
-    {
-	    this.sourceFile = sourceFile.intern();
+    public SourceFileTag(String sourceFile, String path) {
+        this.sourceFile = sourceFile.intern();
         this.absolutePath = path;
     }
 
-    public SourceFileTag(){
+    public SourceFileTag() {
     }
 
-    public String getName()
-    {
-	return "SourceFileTag";
+    public String getName() {
+        return "SourceFileTag";
     }
 
-    public byte[] getValue()
-    {
-	try {
-		return sourceFile.getBytes("UTF8");
-	} catch (UnsupportedEncodingException e) {
-		return new byte[0];
-	}
+    public byte[] getValue() {
+        try {
+            return sourceFile.getBytes("UTF8");
+        } catch (UnsupportedEncodingException e) {
+            return new byte[0];
+        }
     }
 
-    public void setSourceFile(String srcFile){
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(String srcFile) {
         sourceFile = srcFile.intern();
     }
-    public String getSourceFile()
-    {
-	return sourceFile;
-    }
 
-    public void setAbsolutePath(String path){
-        absolutePath = path;
-    }
-
-    public String getAbsolutePath(){
+    public String getAbsolutePath() {
         return absolutePath;
     }
 
-    public String toString()
-    {
-	return sourceFile;
+    public void setAbsolutePath(String path) {
+        absolutePath = path;
+    }
+
+    public String toString() {
+        return sourceFile;
     }
 }
 

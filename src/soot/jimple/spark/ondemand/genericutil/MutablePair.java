@@ -21,11 +21,13 @@ package soot.jimple.spark.ondemand.genericutil;
 
 /**
  * A mutable pair of objects.
- * 
+ *
  * @author manu
- * 
  */
 public class MutablePair<T, U> {
+
+    private T o1;
+    private U o2;
 
     public MutablePair(T o1, U o2) {
         this.o1 = o1;
@@ -52,16 +54,12 @@ public class MutablePair<T, U> {
         return o1;
     }
 
-    public U getO2() {
-        return o2;
-    }
-
-    private T o1;
-
-    private U o2;
-
     public void setO1(T o1) {
         this.o1 = o1;
+    }
+
+    public U getO2() {
+        return o2;
     }
 
     public void setO2(U o2) {

@@ -33,23 +33,23 @@ import soot.toolkits.graph.DirectedGraph;
  */
 public abstract class ForwardFlowAnalysis<N, A> extends FlowAnalysis<N, A> {
 
-	/**
-	 * Construct the analysis from a DirectedGraph representation of a Body.
-	 */
-	public ForwardFlowAnalysis(DirectedGraph<N> graph) {
-		super(graph);
-	}
+    /**
+     * Construct the analysis from a DirectedGraph representation of a Body.
+     */
+    public ForwardFlowAnalysis(DirectedGraph<N> graph) {
+        super(graph);
+    }
 
-	@Override
-	protected boolean isForward() {
-		return true;
-	}
+    @Override
+    protected boolean isForward() {
+        return true;
+    }
 
-	@Override
-	protected void doAnalysis() {
-		int i = doAnalysis(GraphView.FORWARD, InteractionFlowHandler.FORWARD, unitToBeforeFlow, unitToAfterFlow);
+    @Override
+    protected void doAnalysis() {
+        int i = doAnalysis(GraphView.FORWARD, InteractionFlowHandler.FORWARD, unitToBeforeFlow, unitToAfterFlow);
 
-		soot.Timers.v().totalFlowNodes += graph.size();
-		soot.Timers.v().totalFlowComputations += i;
-	}
+        soot.Timers.v().totalFlowNodes += graph.size();
+        soot.Timers.v().totalFlowComputations += i;
+    }
 }

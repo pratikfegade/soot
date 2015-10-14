@@ -1,21 +1,20 @@
-
 public class CallGraphExample {
 
-	public static void main(String[] args) {
-		Class1 o = new Class1();
-		o.foo();
-		o.goo();
-		
-		o = new Class2();
-		o.foo();
-		
-		CallGraphExample cge = new CallGraphExample();
-		cge.bar(o);
-	}
-	
-	public void bar (Class1 o){
-		o.foo();
-	}
+    public static void main(String[] args) {
+        Class1 o = new Class1();
+        o.foo();
+        o.goo();
+
+        o = new Class2();
+        o.foo();
+
+        CallGraphExample cge = new CallGraphExample();
+        cge.bar(o);
+    }
+
+    public void bar(Class1 o) {
+        o.foo();
+    }
 }
 
 class Class1 {

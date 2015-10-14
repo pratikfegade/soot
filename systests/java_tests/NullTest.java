@@ -1,11 +1,12 @@
-import java.util.*;
+import java.util.ArrayList;
+
 public class NullTest {
 
-    public static void main( String [] args) {
-    
+    public static void main(String[] args) {
+
         ArrayList i = null;
         ArrayList j = null;
-        
+
         if (i == null & j == null) {
             i = new ArrayList();
         }

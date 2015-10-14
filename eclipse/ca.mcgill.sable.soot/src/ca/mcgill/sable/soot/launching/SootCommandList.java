@@ -19,87 +19,94 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 /**
- * Handles command list by making Strings separated by spaces into 
+ * Handles command list by making Strings separated by spaces into
  * list
  */
 public class SootCommandList {
 
-	private ArrayList list;
-	private static final String SPACE =  " ";
-	
-	/**
-	 * Constructor for SootCommandList.
-	 */
-	public SootCommandList() {
-		setList(new ArrayList());
-	}
-	
-	/**
-	 * @param key
-	 */
-	public void addSingleOpt(ArrayList key){
-		getList().addAll(key);	
-	}
-	
-	/**
-	 * Method addSingleOpt.
-	 * @param key
-	 */
-	public void addSingleOpt(String key) {
-		StringTokenizer st = new StringTokenizer(key);
-		while (st.hasMoreTokens()) {
-			String token = st.nextToken();	
-			getList().add(token);
-		}
-	}
-	
-	/**
-	 * Method addDoubleOpt.
-	 * @param key
-	 * @param val
-	 */
-	public void addDoubleOpt(String key, String val) {
-		addSingleOpt(key);
-		addSingleOpt(val);
-	}
-	
-	public void addDashes(){
-	
-		ArrayList withDashes = new ArrayList();
-			
-		Iterator it = getList().iterator();
-		while (it.hasNext()) {
-			String temp = (String)it.next();
-			temp = "-- "+temp;
-			withDashes.add(temp);	
-		}
-		
-		setList(withDashes);
-	}
+    private static final String SPACE = " ";
+    private ArrayList list;
 
-	public void printList(){
-		Iterator it = list.iterator();
-		while (it.hasNext()){
-			System.out.println(it.next());
-		}
-	}
-	/**
-	 * Returns the list.
-	 * @return ArrayList
-	 */
-	public ArrayList getList() {
-		return list;
-	}
+    /**
+     * Constructor for SootCommandList.
+     */
+    public SootCommandList() {
+        setList(new ArrayList());
+    }
 
-	/**
-	 * Sets the list.
-	 * @param list The list to set
-	 */
-	public void setList(ArrayList list) {
-		this.list = list;
-	}
+    /**
+     * @param key
+     */
+    public void addSingleOpt(ArrayList key) {
+        getList().addAll(key);
+    }
+
+    /**
+     * Method addSingleOpt.
+     *
+     * @param key
+     */
+    public void addSingleOpt(String key) {
+        StringTokenizer st = new StringTokenizer(key);
+        while (st.hasMoreTokens()) {
+            String token = st.nextToken();
+            getList().add(token);
+        }
+    }
+
+    /**
+     * Method addDoubleOpt.
+     *
+     * @param key
+     * @param val
+     */
+    public void addDoubleOpt(String key, String val) {
+        addSingleOpt(key);
+        addSingleOpt(val);
+    }
+
+    public void addDashes() {
+
+        ArrayList withDashes = new ArrayList();
+
+        Iterator it = getList().iterator();
+        while (it.hasNext()) {
+            String temp = (String) it.next();
+            temp = "-- " + temp;
+            withDashes.add(temp);
+        }
+
+        setList(withDashes);
+    }
+
+    public void printList() {
+        Iterator it = list.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+    }
+
+    /**
+     * Returns the list.
+     *
+     * @return ArrayList
+     */
+    public ArrayList getList() {
+        return list;
+    }
+
+    /**
+     * Sets the list.
+     *
+     * @param list The list to set
+     */
+    public void setList(ArrayList list) {
+        this.list = list;
+    }
 
 }

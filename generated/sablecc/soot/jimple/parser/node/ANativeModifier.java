@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ANativeModifier extends PModifier
-{
+public final class ANativeModifier extends PModifier {
     private TNative _native_;
 
-    public ANativeModifier()
-    {
+    public ANativeModifier() {
         // Constructor
     }
 
     public ANativeModifier(
-        @SuppressWarnings("hiding") TNative _native_)
-    {
+            @SuppressWarnings("hiding") TNative _native_) {
         // Constructor
         setNative(_native_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANativeModifier(
-            cloneNode(this._native_));
+                cloneNode(this._native_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANativeModifier(this);
     }
 
-    public TNative getNative()
-    {
+    public TNative getNative() {
         return this._native_;
     }
 
-    public void setNative(TNative node)
-    {
-        if(this._native_ != null)
-        {
+    public void setNative(TNative node) {
+        if (this._native_ != null) {
             this._native_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ANativeModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._native_);
+                + toString(this._native_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._native_ == child)
-        {
+        if (this._native_ == child) {
             this._native_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ANativeModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._native_ == oldChild)
-        {
+        if (this._native_ == oldChild) {
             setNative((TNative) newChild);
             return;
         }

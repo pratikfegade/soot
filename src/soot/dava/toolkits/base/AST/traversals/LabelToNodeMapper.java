@@ -19,20 +19,10 @@
 
 package soot.dava.toolkits.base.AST.traversals;
 
-import java.util.HashMap;
-
-import soot.dava.internal.AST.ASTDoWhileNode;
-import soot.dava.internal.AST.ASTForLoopNode;
-import soot.dava.internal.AST.ASTIfElseNode;
-import soot.dava.internal.AST.ASTIfNode;
-import soot.dava.internal.AST.ASTLabeledBlockNode;
-import soot.dava.internal.AST.ASTLabeledNode;
-import soot.dava.internal.AST.ASTSwitchNode;
-import soot.dava.internal.AST.ASTSynchronizedBlockNode;
-import soot.dava.internal.AST.ASTTryNode;
-import soot.dava.internal.AST.ASTUnconditionalLoopNode;
-import soot.dava.internal.AST.ASTWhileNode;
+import soot.dava.internal.AST.*;
 import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+
+import java.util.HashMap;
 
 /*
  * For each labeled node make a mapping of the label (a string)
@@ -46,67 +36,67 @@ import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
  *        
  */
 public class LabelToNodeMapper extends DepthFirstAdapter {
-	private final HashMap<String, ASTLabeledNode> labelsToNode;
-	
-	public LabelToNodeMapper(){
-		labelsToNode = new HashMap<String, ASTLabeledNode>();
-	}
-	
-	public LabelToNodeMapper(boolean verbose){
-		super(verbose);
-		labelsToNode = new HashMap<String, ASTLabeledNode>();
-	}
-	
-	/*
-	 * If the returned object is non null it is safe to cast it to ASTLabeledNode
-	 */
-	public Object getTarget(String label){
-		return labelsToNode.get(label);
-	}
-	
-	private void addToMap(ASTLabeledNode node){
-		String str = node.get_Label().toString();
-		if(str != null)
-			labelsToNode.put(str,node);		
-	}
-	
-	public void inASTLabeledBlockNode(ASTLabeledBlockNode node){
-		addToMap(node);
-	}
-	
-	public void inASTTryNode(ASTTryNode node){
-		addToMap(node);
-	}
-	
-	public void inASTUnconditionalLoopNode (ASTUnconditionalLoopNode node){
-		addToMap(node);
-	}
-	
-	public void inASTDoWhileNode (ASTDoWhileNode node){
-		addToMap(node);
-	}
-	
-	public void inASTForLoopNode(ASTForLoopNode node){
-		addToMap(node);
-	}
-	
-	public void inASTIfElseNode(ASTIfElseNode node){
-		addToMap(node);
-	}
-	
-	public void inASTIfNode(ASTIfNode node){
-		addToMap(node);
-	}
-	
-	public void inASTWhileNode(ASTWhileNode node){
-		addToMap(node);
-	}
-	
-	public void inASTSwitchNode(ASTSwitchNode node){
-		addToMap(node);
-	}
-	
-	public void inASTSynchronizedBlockNode(ASTSynchronizedBlockNode node){
-		addToMap(node);
-	}
+    private final HashMap<String, ASTLabeledNode> labelsToNode;
+
+    public LabelToNodeMapper() {
+        labelsToNode = new HashMap<String, ASTLabeledNode>();
+    }
+
+    public LabelToNodeMapper(boolean verbose) {
+        super(verbose);
+        labelsToNode = new HashMap<String, ASTLabeledNode>();
+    }
+
+    /*
+     * If the returned object is non null it is safe to cast it to ASTLabeledNode
+     */
+    public Object getTarget(String label) {
+        return labelsToNode.get(label);
+    }
+
+    private void addToMap(ASTLabeledNode node) {
+        String str = node.get_Label().toString();
+        if (str != null)
+            labelsToNode.put(str, node);
+    }
+
+    public void inASTLabeledBlockNode(ASTLabeledBlockNode node) {
+        addToMap(node);
+    }
+
+    public void inASTTryNode(ASTTryNode node) {
+        addToMap(node);
+    }
+
+    public void inASTUnconditionalLoopNode(ASTUnconditionalLoopNode node) {
+        addToMap(node);
+    }
+
+    public void inASTDoWhileNode(ASTDoWhileNode node) {
+        addToMap(node);
+    }
+
+    public void inASTForLoopNode(ASTForLoopNode node) {
+        addToMap(node);
+    }
+
+    public void inASTIfElseNode(ASTIfElseNode node) {
+        addToMap(node);
+    }
+
+    public void inASTIfNode(ASTIfNode node) {
+        addToMap(node);
+    }
+
+    public void inASTWhileNode(ASTWhileNode node) {
+        addToMap(node);
+    }
+
+    public void inASTSwitchNode(ASTSwitchNode node) {
+        addToMap(node);
+    }
+
+    public void inASTSynchronizedBlockNode(ASTSynchronizedBlockNode node) {
+        addToMap(node);
+    }
 }

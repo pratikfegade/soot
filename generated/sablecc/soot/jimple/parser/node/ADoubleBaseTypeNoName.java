@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ADoubleBaseTypeNoName extends PBaseTypeNoName
-{
+public final class ADoubleBaseTypeNoName extends PBaseTypeNoName {
     private TDouble _double_;
 
-    public ADoubleBaseTypeNoName()
-    {
+    public ADoubleBaseTypeNoName() {
         // Constructor
     }
 
     public ADoubleBaseTypeNoName(
-        @SuppressWarnings("hiding") TDouble _double_)
-    {
+            @SuppressWarnings("hiding") TDouble _double_) {
         // Constructor
         setDouble(_double_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ADoubleBaseTypeNoName(
-            cloneNode(this._double_));
+                cloneNode(this._double_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseADoubleBaseTypeNoName(this);
     }
 
-    public TDouble getDouble()
-    {
+    public TDouble getDouble() {
         return this._double_;
     }
 
-    public void setDouble(TDouble node)
-    {
-        if(this._double_ != null)
-        {
+    public void setDouble(TDouble node) {
+        if (this._double_ != null) {
             this._double_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ADoubleBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._double_);
+                + toString(this._double_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._double_ == child)
-        {
+        if (this._double_ == child) {
             this._double_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ADoubleBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._double_ == oldChild)
-        {
+        if (this._double_ == oldChild) {
             setDouble((TDouble) newChild);
             return;
         }

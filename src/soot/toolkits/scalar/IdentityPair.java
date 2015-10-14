@@ -21,7 +21,7 @@ package soot.toolkits.scalar;
 
 /**
  * Just a pair of arbitrary objects.
- * 
+ *
  * @author Ondrej Lhotak
  * @author Manu Sridharan (genericized it)
  */
@@ -51,7 +51,7 @@ public class IdentityPair<T, U> {
         result = prime * result + System.identityHashCode(o2);
         return result;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -67,9 +67,7 @@ public class IdentityPair<T, U> {
         final IdentityPair other = (IdentityPair) obj;
         if (o1 != other.o1)
             return false;
-        if (o2 != other.o2)
-            return false;
-        return true;
+        return o2 == other.o2;
     }
 
     public T getO1() {

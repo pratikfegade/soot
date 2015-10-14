@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
-
 import soot.Local;
 import soot.RefType;
 import soot.dexpler.Debug;
@@ -39,22 +38,22 @@ import soot.jimple.Jimple;
 public class MonitorEnterInstruction extends DexlibAbstractInstruction {
 
     EnterMonitorStmt enterMonitorStmt = null;
-  
-    public MonitorEnterInstruction (Instruction instruction, int codeAdress) {
+
+    public MonitorEnterInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    public void jimplify(DexBody body) {
         int reg = ((OneRegisterInstruction) instruction).getRegisterA();
         Local object = body.getRegisterLocal(reg);
         enterMonitorStmt = Jimple.v().newEnterMonitorStmt(object);
         setUnit(enterMonitorStmt);
         addTags(enterMonitorStmt);
         body.add(enterMonitorStmt);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ enterMonitorStmt);
-			DalvikTyper.v().setType(enterMonitorStmt.getOpBox(), RefType.v("java.lang.Object"), true);
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + enterMonitorStmt);
+            DalvikTyper.v().setType(enterMonitorStmt.getOpBox(), RefType.v("java.lang.Object"), true);
         }
     }
 }

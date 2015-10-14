@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AShortBaseTypeNoName extends PBaseTypeNoName
-{
+public final class AShortBaseTypeNoName extends PBaseTypeNoName {
     private TShort _short_;
 
-    public AShortBaseTypeNoName()
-    {
+    public AShortBaseTypeNoName() {
         // Constructor
     }
 
     public AShortBaseTypeNoName(
-        @SuppressWarnings("hiding") TShort _short_)
-    {
+            @SuppressWarnings("hiding") TShort _short_) {
         // Constructor
         setShort(_short_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AShortBaseTypeNoName(
-            cloneNode(this._short_));
+                cloneNode(this._short_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAShortBaseTypeNoName(this);
     }
 
-    public TShort getShort()
-    {
+    public TShort getShort() {
         return this._short_;
     }
 
-    public void setShort(TShort node)
-    {
-        if(this._short_ != null)
-        {
+    public void setShort(TShort node) {
+        if (this._short_ != null) {
             this._short_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AShortBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._short_);
+                + toString(this._short_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._short_ == child)
-        {
+        if (this._short_ == child) {
             this._short_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AShortBaseTypeNoName extends PBaseTypeNoName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._short_ == oldChild)
-        {
+        if (this._short_ == oldChild) {
             setShort((TShort) newChild);
             return;
         }

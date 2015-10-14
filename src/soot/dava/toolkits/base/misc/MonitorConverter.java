@@ -20,65 +20,69 @@
 package soot.dava.toolkits.base.misc;
 
 import soot.*;
-import java.util.*;
-import soot.dava.*;
-import soot.jimple.*;
-import soot.grimp.internal.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
+import soot.dava.DavaBody;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DStaticInvokeExpr;
+import soot.dava.internal.javaRep.DVirtualInvokeExpr;
+import soot.grimp.internal.GInvokeStmt;
+import soot.jimple.EnterMonitorStmt;
+import soot.jimple.MonitorStmt;
 
-public class MonitorConverter
-{
-    public MonitorConverter( Singletons.Global g )
-    {
-	SootClass davaMonitor = new SootClass(
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+
+public class MonitorConverter {
+    private final SootMethod v, enter, exit;
+
+    public MonitorConverter(Singletons.Global g) {
+        SootClass davaMonitor = new SootClass(
                 "soot.dava.toolkits.base.DavaMonitor.DavaMonitor",
-                Modifier.PUBLIC );
+                Modifier.PUBLIC);
         davaMonitor.setSuperclass(
                 Scene.v().loadClassAndSupport("java.lang.Object"));
 
         LinkedList objectSingleton = new LinkedList();
-        objectSingleton.add( RefType.v("java.lang.Object") );
-	v = new SootMethod(
+        objectSingleton.add(RefType.v("java.lang.Object"));
+        v = new SootMethod(
                 "v",
                 new LinkedList(),
                 RefType.v("soot.dava.toolkits.base.DavaMonitor.DavaMonitor"),
-                Modifier.PUBLIC | Modifier.STATIC );
-	enter = new SootMethod(
+                Modifier.PUBLIC | Modifier.STATIC);
+        enter = new SootMethod(
                 "enter",
                 objectSingleton,
                 VoidType.v(),
-                Modifier.PUBLIC | Modifier.SYNCHRONIZED );
-	exit = new SootMethod(
+                Modifier.PUBLIC | Modifier.SYNCHRONIZED);
+        exit = new SootMethod(
                 "exit",
                 objectSingleton,
                 VoidType.v(),
-                Modifier.PUBLIC | Modifier.SYNCHRONIZED );
-        davaMonitor.addMethod( v );
-        davaMonitor.addMethod( enter );
-        davaMonitor.addMethod( exit );
+                Modifier.PUBLIC | Modifier.SYNCHRONIZED);
+        davaMonitor.addMethod(v);
+        davaMonitor.addMethod(enter);
+        davaMonitor.addMethod(exit);
 
-        Scene.v().addClass( davaMonitor );
+        Scene.v().addClass(davaMonitor);
     }
 
-    public static MonitorConverter v() { return G.v().soot_dava_toolkits_base_misc_MonitorConverter(); }
+    public static MonitorConverter v() {
+        return G.v().soot_dava_toolkits_base_misc_MonitorConverter();
+    }
 
-    private final SootMethod v, enter, exit; 
+    public void convert(DavaBody body) {
+        for (AugmentedStmt mas : body.get_MonitorFacts()) {
+            MonitorStmt ms = (MonitorStmt) mas.get_Stmt();
 
-    public void convert( DavaBody body)
-    {
-    	for (AugmentedStmt mas : body.get_MonitorFacts()) {
-	    MonitorStmt ms = (MonitorStmt) mas.get_Stmt();
+            body.addToImportList("soot.dava.toolkits.base.DavaMonitor.DavaMonitor");
 
-	    body.addToImportList("soot.dava.toolkits.base.DavaMonitor.DavaMonitor");
-	    
-	    ArrayList arg = new ArrayList();
-	    arg.add( ms.getOp());
+            ArrayList arg = new ArrayList();
+            arg.add(ms.getOp());
 
-	    if (ms instanceof EnterMonitorStmt)
-		mas.set_Stmt( new GInvokeStmt( new DVirtualInvokeExpr( new DStaticInvokeExpr( v.makeRef(), new ArrayList()), enter.makeRef(), arg, new HashSet<Object>())));
-	    else
-		mas.set_Stmt( new GInvokeStmt( new DVirtualInvokeExpr( new DStaticInvokeExpr( v.makeRef(), new ArrayList()), exit.makeRef(), arg, new HashSet<Object>())));
-	}
+            if (ms instanceof EnterMonitorStmt)
+                mas.set_Stmt(new GInvokeStmt(new DVirtualInvokeExpr(new DStaticInvokeExpr(v.makeRef(), new ArrayList()), enter.makeRef(), arg, new HashSet<Object>())));
+            else
+                mas.set_Stmt(new GInvokeStmt(new DVirtualInvokeExpr(new DStaticInvokeExpr(v.makeRef(), new ArrayList()), exit.makeRef(), arg, new HashSet<Object>())));
+        }
     }
 }

@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TColonEquals extends Token
-{
-    public TColonEquals()
-    {
+public final class TColonEquals extends Token {
+    public TColonEquals() {
         super.setText(":=");
     }
 
-    public TColonEquals(int line, int pos)
-    {
+    public TColonEquals(int line, int pos) {
         super.setText(":=");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TColonEquals(getLine(), getPos());
+    public Object clone() {
+        return new TColonEquals(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTColonEquals(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TColonEquals text.");
     }
 }

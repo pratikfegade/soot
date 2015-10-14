@@ -22,27 +22,27 @@ import soot.jimple.spark.pag.Node;
 
 /**
  * An abstract class for hiding different encoding methods, e.g. Geom, HeapIns, PtIns.
- * 
- * @author xiao
  *
+ * @author xiao
  */
-public abstract class IEncodingBroker 
-{
-	/**
-	 * Generate a node of proper kind.
-	 * @param v
-	 * @return
-	 */
-	public abstract IVarAbstraction generateNode( Node v );
-	
-	/**
-	 * Build the initial encoding of the pointer assignments and points-to facts.
-	 */
-	public abstract void initFlowGraph( GeomPointsTo ptAnalyzer );
-	
-	/**
-	 * Return the signature of the implemented sub-class, may be useful in somewhere.
-	 * @return
-	 */
-	public abstract String getSignature();
+public abstract class IEncodingBroker {
+    /**
+     * Generate a node of proper kind.
+     *
+     * @param v
+     * @return
+     */
+    public abstract IVarAbstraction generateNode(Node v);
+
+    /**
+     * Build the initial encoding of the pointer assignments and points-to facts.
+     */
+    public abstract void initFlowGraph(GeomPointsTo ptAnalyzer);
+
+    /**
+     * Return the signature of the implemented sub-class, may be useful in somewhere.
+     *
+     * @return
+     */
+    public abstract String getSignature();
 }

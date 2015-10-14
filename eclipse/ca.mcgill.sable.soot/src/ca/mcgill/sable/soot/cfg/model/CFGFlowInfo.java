@@ -22,25 +22,25 @@ package ca.mcgill.sable.soot.cfg.model;
 
 public class CFGFlowInfo extends CFGElement {
 
-	private String text;
-	
-	public CFGFlowInfo() {
-		super();
-	}
+    private String text;
 
-	/**
-	 * @return
-	 */
-	public String getText() {
-		return text;
-	}
+    public CFGFlowInfo() {
+        super();
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setText(String string) {
-		text = string;
-		firePropertyChange(FLOW_INFO, text);  
-	}
+    /**
+     * @return
+     */
+    public String getText() {
+        return text;
+    }
+
+    /**
+     * @param string
+     */
+    public void setText(String string) {
+        text = string;
+        firePropertyChange(FLOW_INFO, text);
+    }
 
 }

@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AShlBinop extends PBinop
-{
+public final class AShlBinop extends PBinop {
     private TShl _shl_;
 
-    public AShlBinop()
-    {
+    public AShlBinop() {
         // Constructor
     }
 
     public AShlBinop(
-        @SuppressWarnings("hiding") TShl _shl_)
-    {
+            @SuppressWarnings("hiding") TShl _shl_) {
         // Constructor
         setShl(_shl_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AShlBinop(
-            cloneNode(this._shl_));
+                cloneNode(this._shl_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAShlBinop(this);
     }
 
-    public TShl getShl()
-    {
+    public TShl getShl() {
         return this._shl_;
     }
 
-    public void setShl(TShl node)
-    {
-        if(this._shl_ != null)
-        {
+    public void setShl(TShl node) {
+        if (this._shl_ != null) {
             this._shl_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AShlBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._shl_);
+                + toString(this._shl_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._shl_ == child)
-        {
+        if (this._shl_ == child) {
             this._shl_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AShlBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._shl_ == oldChild)
-        {
+        if (this._shl_ == oldChild) {
             setShl((TShl) newChild);
             return;
         }

@@ -19,22 +19,27 @@
 
 package soot.jimple.spark.fieldrw;
 
-import soot.*;
-import soot.tagkit.*;
+import soot.G;
+import soot.Singletons;
+import soot.tagkit.ImportantTagAggregator;
+import soot.tagkit.Tag;
 
-public class FieldReadTagAggregator extends ImportantTagAggregator
-{    
-    public FieldReadTagAggregator( Singletons.Global g ) {}
-    public static FieldReadTagAggregator v() { return G.v().soot_jimple_spark_fieldrw_FieldReadTagAggregator(); }
-
-    /** Decide whether this tag should be aggregated by this aggregator. */
-    public boolean wantTag(Tag t)
-    {
-	return (t instanceof FieldReadTag);
+public class FieldReadTagAggregator extends ImportantTagAggregator {
+    public FieldReadTagAggregator(Singletons.Global g) {
     }
-    
-    public String aggregatedName()
-    {
+
+    public static FieldReadTagAggregator v() {
+        return G.v().soot_jimple_spark_fieldrw_FieldReadTagAggregator();
+    }
+
+    /**
+     * Decide whether this tag should be aggregated by this aggregator.
+     */
+    public boolean wantTag(Tag t) {
+        return (t instanceof FieldReadTag);
+    }
+
+    public String aggregatedName() {
         return "FieldRead";
     }
 }

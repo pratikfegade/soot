@@ -24,55 +24,50 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.AbstractJasminClass;
+import soot.Type;
+import soot.Unit;
+import soot.baf.Baf;
+import soot.baf.IfCmpLtInst;
+import soot.baf.InstSwitch;
+import soot.util.Switch;
 
-public class BIfCmpLtInst extends AbstractOpTypeBranchInst 
-                          implements IfCmpLtInst
-{
-    public BIfCmpLtInst(Type opType, Unit target)
-    {
+public class BIfCmpLtInst extends AbstractOpTypeBranchInst
+        implements IfCmpLtInst {
+    public BIfCmpLtInst(Type opType, Unit target) {
         super(opType, Baf.v().newInstBox(target));
     }
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 2;
     }
 
 
-    public Object clone() 
-    {
-        return new  BIfCmpLtInst(getOpType(), getTarget());
+    public Object clone() {
+        return new BIfCmpLtInst(getOpType(), getTarget());
     }
 
-    public int getInMachineCount()
-    {
-        return 2*AbstractJasminClass.sizeOfType(getOpType());
+    public int getInMachineCount() {
+        return 2 * AbstractJasminClass.sizeOfType(getOpType());
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 0;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 0;
     }
 
 
+    public String getName() {
+        return "ifcmplt";
+    }
 
-    public String getName() { return "ifcmplt"; }
-
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseIfCmpLtInst(this);
-    }    
+    }
 }
 

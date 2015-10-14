@@ -25,32 +25,36 @@
 
 package soot;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-/** An abstract class which acts on the whole Scene. */
-public abstract class SceneTransformer extends Transformer
-{
-    /** Performs the transformation on the Scene, under the given phaseName. */
-    public final void transform(String phaseName, Map<String, String> options)
-    {
+/**
+ * An abstract class which acts on the whole Scene.
+ */
+public abstract class SceneTransformer extends Transformer {
+    /**
+     * Performs the transformation on the Scene, under the given phaseName.
+     */
+    public final void transform(String phaseName, Map<String, String> options) {
         if (!PhaseOptions.getBoolean(options, "enabled"))
             return;
 
         internalTransform(phaseName, options);
     }
-    public final void transform(String phaseName)
-    {
+
+    public final void transform(String phaseName) {
         HashMap<String, String> dummyOptions = new HashMap<String, String>();
-        dummyOptions.put( "enabled", "true" );
+        dummyOptions.put("enabled", "true");
         transform(phaseName, dummyOptions);
     }
 
-    public final void transform()
-    {
+    public final void transform() {
         transform("");
     }
-    
-    /** Performs the transformation on the Scene, under the given phaseName and with the given Options. */
+
+    /**
+     * Performs the transformation on the Scene, under the given phaseName and with the given Options.
+     */
     protected abstract void internalTransform(String phaseName, Map<String, String> options);
 
 }

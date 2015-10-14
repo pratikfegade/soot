@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TAbstract extends Token
-{
-    public TAbstract()
-    {
+public final class TAbstract extends Token {
+    public TAbstract() {
         super.setText("abstract");
     }
 
-    public TAbstract(int line, int pos)
-    {
+    public TAbstract(int line, int pos) {
         super.setText("abstract");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TAbstract(getLine(), getPos());
+    public Object clone() {
+        return new TAbstract(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTAbstract(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TAbstract text.");
     }
 }

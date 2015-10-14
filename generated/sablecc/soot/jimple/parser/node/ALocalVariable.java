@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ALocalVariable extends PVariable
-{
+public final class ALocalVariable extends PVariable {
     private PLocalName _localName_;
 
-    public ALocalVariable()
-    {
+    public ALocalVariable() {
         // Constructor
     }
 
     public ALocalVariable(
-        @SuppressWarnings("hiding") PLocalName _localName_)
-    {
+            @SuppressWarnings("hiding") PLocalName _localName_) {
         // Constructor
         setLocalName(_localName_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ALocalVariable(
-            cloneNode(this._localName_));
+                cloneNode(this._localName_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseALocalVariable(this);
     }
 
-    public PLocalName getLocalName()
-    {
+    public PLocalName getLocalName() {
         return this._localName_;
     }
 
-    public void setLocalName(PLocalName node)
-    {
-        if(this._localName_ != null)
-        {
+    public void setLocalName(PLocalName node) {
+        if (this._localName_ != null) {
             this._localName_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ALocalVariable extends PVariable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._localName_);
+                + toString(this._localName_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._localName_ == child)
-        {
+        if (this._localName_ == child) {
             this._localName_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ALocalVariable extends PVariable
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._localName_ == oldChild)
-        {
+        if (this._localName_ == oldChild) {
             setLocalName((PLocalName) newChild);
             return;
         }

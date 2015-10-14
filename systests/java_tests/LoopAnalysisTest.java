@@ -1,6 +1,6 @@
 public class LoopAnalysisTest {
 
-    public static void main(String [] agrs){
+    public static void main(String[] agrs) {
         int i = 1;
         do {
             if (i == 1) break;
@@ -10,6 +10,6 @@ public class LoopAnalysisTest {
             System.out.println(i);
             System.out.println(i);
             System.out.println(i);
-        }while(true);   
+        } while (true);
     }
 }

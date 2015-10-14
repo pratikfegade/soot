@@ -19,13 +19,12 @@
 package ca.mcgill.sable.soot.examples;
 
 /**
- * 
  * @author Eric Bodden
  */
 public class NewCreateSootClassWizard extends NewSootExampleWizard {
 
-	public NewCreateSootClassWizard() {
-		super("AnnotateClass.java","MyMain.java");
-	}
+    public NewCreateSootClassWizard() {
+        super("AnnotateClass.java", "MyMain.java");
+    }
 
 }

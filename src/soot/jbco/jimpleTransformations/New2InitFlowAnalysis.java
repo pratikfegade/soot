@@ -19,46 +19,51 @@
 
 package soot.jbco.jimpleTransformations;
 
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
-import soot.*;
-import soot.jimple.*;
+import soot.Local;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.NewExpr;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.BackwardFlowAnalysis;
+import soot.toolkits.scalar.FlowSet;
 
 /**
- * @author Michael Batchelder 
- * 
- * Created on 10-Jul-2006 
+ * @author Michael Batchelder
+ *         <p/>
+ *         Created on 10-Jul-2006
  */
-public class New2InitFlowAnalysis extends BackwardFlowAnalysis<Unit,FlowSet> {
+public class New2InitFlowAnalysis extends BackwardFlowAnalysis<Unit, FlowSet> {
 
-  FlowSet emptySet = new ArraySparseSet();
-  
-  public New2InitFlowAnalysis(DirectedGraph<Unit> graph) {
-    super(graph);
-    
-    doAnalysis();
-  }
+    FlowSet emptySet = new ArraySparseSet();
 
-  @Override
-  protected void flowThrough(FlowSet in, Unit d, FlowSet out) {    
-    in.copy(out);
-    
-    if (d instanceof DefinitionStmt) {
-      DefinitionStmt ds = (DefinitionStmt)d;
-      if (ds.getRightOp() instanceof NewExpr) {
-        Value v = ds.getLeftOp();
-        if (v instanceof Local && in.contains(v))
-          out.remove(v);
-      }
-    }    
-    else {
-    	for (ValueBox useBox : d.getUseBoxes()) {
-    		Value v = useBox.getValue();
-    		if (v instanceof Local) {
-    			out.add(v);
-    		}
-    	}
+    public New2InitFlowAnalysis(DirectedGraph<Unit> graph) {
+        super(graph);
+
+        doAnalysis();
     }
+
+    @Override
+    protected void flowThrough(FlowSet in, Unit d, FlowSet out) {
+        in.copy(out);
+
+        if (d instanceof DefinitionStmt) {
+            DefinitionStmt ds = (DefinitionStmt) d;
+            if (ds.getRightOp() instanceof NewExpr) {
+                Value v = ds.getLeftOp();
+                if (v instanceof Local && in.contains(v))
+                    out.remove(v);
+            }
+        } else {
+            for (ValueBox useBox : d.getUseBoxes()) {
+                Value v = useBox.getValue();
+                if (v instanceof Local) {
+                    out.add(v);
+                }
+            }
+        }
     /*else if (d instanceof InvokeStmt) {
         InvokeExpr ie = ((InvokeStmt)d).getInvokeExpr();
         if (ie instanceof SpecialInvokeExpr) {
@@ -67,25 +72,25 @@ public class New2InitFlowAnalysis extends BackwardFlowAnalysis<Unit,FlowSet> {
             outf.add(v);
         }
     }*/
-  }
+    }
 
-  @Override
-  protected FlowSet newInitialFlow() {
-    return emptySet.clone();
-  }
-  
-  @Override
-  protected FlowSet entryInitialFlow() {
-    return emptySet.clone();
-  }
+    @Override
+    protected FlowSet newInitialFlow() {
+        return emptySet.clone();
+    }
 
-  @Override
-  protected void merge(FlowSet in1, FlowSet in2, FlowSet out) {
-    in1.union(in2, out);
-  }
+    @Override
+    protected FlowSet entryInitialFlow() {
+        return emptySet.clone();
+    }
 
-  @Override
-  protected void copy(FlowSet source, FlowSet dest) {
-    source.copy(dest);
-  }
+    @Override
+    protected void merge(FlowSet in1, FlowSet in2, FlowSet out) {
+        in1.union(in2, out);
+    }
+
+    @Override
+    protected void copy(FlowSet source, FlowSet dest) {
+        source.copy(dest);
+    }
 }

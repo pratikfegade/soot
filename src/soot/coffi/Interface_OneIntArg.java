@@ -26,7 +26,6 @@
 
 package soot.coffi;
 
-public interface Interface_OneIntArg
-{
-    public int getIntArg();
+public interface Interface_OneIntArg {
+    int getIntArg();
 }

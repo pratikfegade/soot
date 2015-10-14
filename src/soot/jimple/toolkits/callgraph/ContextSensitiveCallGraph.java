@@ -18,35 +18,45 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import soot.*;
-import java.util.*;
 
-/** Represents a context-sensitive call graph for querying by client analyses.
+import soot.Context;
+import soot.SootMethod;
+import soot.Unit;
+
+import java.util.Iterator;
+
+/**
+ * Represents a context-sensitive call graph for querying by client analyses.
+ *
  * @author Ondrej Lhotak
  */
-public interface ContextSensitiveCallGraph 
-{ 
-    /** Returns all MethodOrMethodContext's (context,method pairs) that are 
+public interface ContextSensitiveCallGraph {
+    /**
+     * Returns all MethodOrMethodContext's (context,method pairs) that are
      * the source of some edge.
      */
-    public Iterator edgeSources();
+    Iterator edgeSources();
 
-    /** Returns all ContextSensitiveEdge's in the call graph.
+    /**
+     * Returns all ContextSensitiveEdge's in the call graph.
      */
-    public Iterator allEdges();
+    Iterator allEdges();
 
-    /** Returns all ContextSensitiveEdge's out of unit srcUnit in method src
+    /**
+     * Returns all ContextSensitiveEdge's out of unit srcUnit in method src
      * in context srcCtxt.
      */
-    public Iterator edgesOutOf(Context srcCtxt, SootMethod src, Unit srcUnit);
+    Iterator edgesOutOf(Context srcCtxt, SootMethod src, Unit srcUnit);
 
-    /** Returns all ContextSensitiveEdge's out of method src
+    /**
+     * Returns all ContextSensitiveEdge's out of method src
      * in context srcCtxt.
      */
-    public Iterator edgesOutOf(Context srcCtxt, SootMethod src);
+    Iterator edgesOutOf(Context srcCtxt, SootMethod src);
 
-    /** Returns all ContextSensitiveEdge's into method tgt in context tgtCtxt.
+    /**
+     * Returns all ContextSensitiveEdge's into method tgt in context tgtCtxt.
      */
-    public Iterator edgesInto(Context tgtCtxt, SootMethod tgt);
+    Iterator edgesInto(Context tgtCtxt, SootMethod tgt);
 }
 

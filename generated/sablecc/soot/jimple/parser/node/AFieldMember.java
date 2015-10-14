@@ -2,28 +2,28 @@
 
 package soot.jimple.parser.node;
 
-import java.util.*;
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
-public final class AFieldMember extends PMember
-{
+public final class AFieldMember extends PMember {
     private final LinkedList<PModifier> _modifier_ = new LinkedList<PModifier>();
     private PType _type_;
     private PName _name_;
     private TSemicolon _semicolon_;
 
-    public AFieldMember()
-    {
+    public AFieldMember() {
         // Constructor
     }
 
     public AFieldMember(
-        @SuppressWarnings("hiding") List<PModifier> _modifier_,
-        @SuppressWarnings("hiding") PType _type_,
-        @SuppressWarnings("hiding") PName _name_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
-    {
+            @SuppressWarnings("hiding") List<PModifier> _modifier_,
+            @SuppressWarnings("hiding") PType _type_,
+            @SuppressWarnings("hiding") PName _name_,
+            @SuppressWarnings("hiding") TSemicolon _semicolon_) {
         // Constructor
         setModifier(_modifier_);
 
@@ -36,33 +36,27 @@ public final class AFieldMember extends PMember
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFieldMember(
-            cloneList(this._modifier_),
-            cloneNode(this._type_),
-            cloneNode(this._name_),
-            cloneNode(this._semicolon_));
+                cloneList(this._modifier_),
+                cloneNode(this._type_),
+                cloneNode(this._name_),
+                cloneNode(this._semicolon_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFieldMember(this);
     }
 
-    public LinkedList<PModifier> getModifier()
-    {
+    public LinkedList<PModifier> getModifier() {
         return this._modifier_;
     }
 
-    public void setModifier(List<PModifier> list)
-    {
+    public void setModifier(List<PModifier> list) {
         this._modifier_.clear();
         this._modifier_.addAll(list);
-        for(PModifier e : list)
-        {
-            if(e.parent() != null)
-            {
+        for (PModifier e : list) {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -70,22 +64,17 @@ public final class AFieldMember extends PMember
         }
     }
 
-    public PType getType()
-    {
+    public PType getType() {
         return this._type_;
     }
 
-    public void setType(PType node)
-    {
-        if(this._type_ != null)
-        {
+    public void setType(PType node) {
+        if (this._type_ != null) {
             this._type_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -95,22 +84,17 @@ public final class AFieldMember extends PMember
         this._type_ = node;
     }
 
-    public PName getName()
-    {
+    public PName getName() {
         return this._name_;
     }
 
-    public void setName(PName node)
-    {
-        if(this._name_ != null)
-        {
+    public void setName(PName node) {
+        if (this._name_ != null) {
             this._name_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,22 +104,17 @@ public final class AFieldMember extends PMember
         this._name_ = node;
     }
 
-    public TSemicolon getSemicolon()
-    {
+    public TSemicolon getSemicolon() {
         return this._semicolon_;
     }
 
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
+    public void setSemicolon(TSemicolon node) {
+        if (this._semicolon_ != null) {
             this._semicolon_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -146,38 +125,32 @@ public final class AFieldMember extends PMember
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._modifier_)
-            + toString(this._type_)
-            + toString(this._name_)
-            + toString(this._semicolon_);
+                + toString(this._modifier_)
+                + toString(this._type_)
+                + toString(this._name_)
+                + toString(this._semicolon_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._modifier_.remove(child))
-        {
+        if (this._modifier_.remove(child)) {
             return;
         }
 
-        if(this._type_ == child)
-        {
+        if (this._type_ == child) {
             this._type_ = null;
             return;
         }
 
-        if(this._name_ == child)
-        {
+        if (this._name_ == child) {
             this._name_ = null;
             return;
         }
 
-        if(this._semicolon_ == child)
-        {
+        if (this._semicolon_ == child) {
             this._semicolon_ = null;
             return;
         }
@@ -186,15 +159,11 @@ public final class AFieldMember extends PMember
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        for(ListIterator<PModifier> i = this._modifier_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PModifier> i = this._modifier_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PModifier) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
@@ -207,20 +176,17 @@ public final class AFieldMember extends PMember
             }
         }
 
-        if(this._type_ == oldChild)
-        {
+        if (this._type_ == oldChild) {
             setType((PType) newChild);
             return;
         }
 
-        if(this._name_ == oldChild)
-        {
+        if (this._name_ == oldChild) {
             setName((PName) newChild);
             return;
         }
 
-        if(this._semicolon_ == oldChild)
-        {
+        if (this._semicolon_ == oldChild) {
             setSemicolon((TSemicolon) newChild);
             return;
         }

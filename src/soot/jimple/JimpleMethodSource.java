@@ -25,26 +25,24 @@
 
 
 package soot.jimple;
-import soot.options.*;
-import soot.*;
-import soot.jimple.parser.*;
 
-public class JimpleMethodSource implements MethodSource
-{
+import soot.*;
+import soot.jimple.parser.JimpleAST;
+import soot.options.Options;
+
+public class JimpleMethodSource implements MethodSource {
     JimpleAST mJimpleAST;
 
-    public JimpleMethodSource(JimpleAST aJimpleAST)
-    {
+    public JimpleMethodSource(JimpleAST aJimpleAST) {
         mJimpleAST = aJimpleAST;
     }
 
-    public Body getBody(SootMethod m, String phaseName)
-    {  
-        JimpleBody jb = (JimpleBody)mJimpleAST.getBody(m);
+    public Body getBody(SootMethod m, String phaseName) {
+        JimpleBody jb = (JimpleBody) mJimpleAST.getBody(m);
 
-        if(Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("[" + m.getName() + "] Retrieving JimpleBody from AST...");
-    
+
 
         PackManager.v().getPack("jb").apply(jb);
         return jb;

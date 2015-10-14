@@ -18,54 +18,55 @@
  */
 
 package soot.javaToJimple;
-import java.util.*;
 
 import polyglot.ast.Node;
 import polyglot.util.IdentityKey;
 
-public class LocalUsesChecker extends polyglot.visit.NodeVisitor{
+import java.util.ArrayList;
+
+public class LocalUsesChecker extends polyglot.visit.NodeVisitor {
 
     private final ArrayList<IdentityKey> locals;
     private final ArrayList<IdentityKey> localDecls;
     private final ArrayList<Node> news;
-    
-    public ArrayList<IdentityKey> getLocals() {
-        return locals;
-    }
 
-    public ArrayList<Node> getNews(){
-        return news;
-    }
-
-    public ArrayList<IdentityKey> getLocalDecls(){
-        return localDecls;
-    }
-    
-    public LocalUsesChecker(){
+    public LocalUsesChecker() {
         locals = new ArrayList<IdentityKey>();
         localDecls = new ArrayList<IdentityKey>();
         news = new ArrayList<Node>();
     }
 
+    public ArrayList<IdentityKey> getLocals() {
+        return locals;
+    }
+
+    public ArrayList<Node> getNews() {
+        return news;
+    }
+
+    public ArrayList<IdentityKey> getLocalDecls() {
+        return localDecls;
+    }
+
     public polyglot.ast.Node leave(polyglot.ast.Node old, polyglot.ast.Node n, polyglot.visit.NodeVisitor visitor) {
-    
-        if (n instanceof polyglot.ast.Local){
-            if (!(locals.contains(new polyglot.util.IdentityKey(((polyglot.ast.Local)n).localInstance())))){
-                if (!((polyglot.ast.Local)n).isConstant()){
-                    locals.add(new polyglot.util.IdentityKey(((polyglot.ast.Local)n).localInstance()));
+
+        if (n instanceof polyglot.ast.Local) {
+            if (!(locals.contains(new polyglot.util.IdentityKey(((polyglot.ast.Local) n).localInstance())))) {
+                if (!((polyglot.ast.Local) n).isConstant()) {
+                    locals.add(new polyglot.util.IdentityKey(((polyglot.ast.Local) n).localInstance()));
                 }
             }
         }
 
-        if (n instanceof polyglot.ast.LocalDecl){
-            localDecls.add(new polyglot.util.IdentityKey(((polyglot.ast.LocalDecl)n).localInstance()));
+        if (n instanceof polyglot.ast.LocalDecl) {
+            localDecls.add(new polyglot.util.IdentityKey(((polyglot.ast.LocalDecl) n).localInstance()));
         }
-        
-        if (n instanceof polyglot.ast.Formal){
-            localDecls.add(new polyglot.util.IdentityKey(((polyglot.ast.Formal)n).localInstance()));
+
+        if (n instanceof polyglot.ast.Formal) {
+            localDecls.add(new polyglot.util.IdentityKey(((polyglot.ast.Formal) n).localInstance()));
         }
-        
-        if (n instanceof polyglot.ast.New){
+
+        if (n instanceof polyglot.ast.New) {
             news.add(n);
         }
         return n;

@@ -25,90 +25,95 @@
 
 
 import soot.*;
-import soot.baf.*;
-import soot.jimple.*;
+import soot.baf.Baf;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleBody;
+import soot.jimple.StringConstant;
 import soot.options.Options;
-import soot.tagkit.*;
-import soot.util.*;
-import java.io.*;
-import java.util.*;
+import soot.tagkit.GenericAttribute;
+import soot.tagkit.Tag;
+import soot.tagkit.TagAggregator;
+import soot.util.Chain;
+import soot.util.JasminOutputStream;
 
-/** Example of using Soot to create a classfile from scratch.
+import java.io.*;
+import java.util.Arrays;
+
+/**
+ * Example of using Soot to create a classfile from scratch.
  * The 'createclass' example creates a HelloWorld class file using Soot.
  * It proceeds as follows:
- *
+ * <p/>
  * - Create a SootClass <code>HelloWorld</code> extending java.lang.Object.
- *
+ * <p/>
  * - Create a 'main' method and add it to the class.
- *
+ * <p/>
  * - Create an empty JimpleBody and add it to the 'main' method.
- *
+ * <p/>
  * - Add locals and statements to JimpleBody.
- *
+ * <p/>
  * - Write the result out to a class file.
  */
 
-public class Main
-{
-    public static void main(String[] args) throws FileNotFoundException, IOException
-    {
+public class Main {
+    public static void main(String[] args) throws IOException {
         SootClass sClass;
         SootMethod method;
-        
+
         // Resolve dependencies
-           Scene.v().loadClassAndSupport("java.lang.Object");
-           Scene.v().loadClassAndSupport("java.lang.System");
-           
+        Scene.v().loadClassAndSupport("java.lang.Object");
+        Scene.v().loadClassAndSupport("java.lang.System");
+
         // Declare 'public class HelloWorld'   
-           sClass = new SootClass("HelloWorld", Modifier.PUBLIC);
+        sClass = new SootClass("HelloWorld", Modifier.PUBLIC);
 
         // 'extends Object'
-           sClass.setSuperclass(Scene.v().getSootClass("java.lang.Object"));
-           Scene.v().addClass(sClass);
-           
+        sClass.setSuperclass(Scene.v().getSootClass("java.lang.Object"));
+        Scene.v().addClass(sClass);
+
         // create and add the class attribute
-           GenericAttribute classAttr = new GenericAttribute("MyClassAttr", "foo".getBytes());
-           sClass.addTag(classAttr);
-           
+        GenericAttribute classAttr = new GenericAttribute("MyClassAttr", "foo".getBytes());
+        sClass.addTag(classAttr);
+
         // Create the method, public static void main(String[])
-           method = new SootMethod("main",
-                Arrays.asList(new Type[] {ArrayType.v(RefType.v("java.lang.String"), 1)}),
+        method = new SootMethod("main",
+                Arrays.asList(new Type[]{ArrayType.v(RefType.v("java.lang.String"), 1)}),
                 VoidType.v(), Modifier.PUBLIC | Modifier.STATIC);
-        
-           sClass.addMethod(method);
+
+        sClass.addMethod(method);
 
         // Create and add the method attribute
-           GenericAttribute mAttr = new GenericAttribute("MyMethodAttr", "".getBytes());
-           method.addTag(mAttr);
-           
+        GenericAttribute mAttr = new GenericAttribute("MyMethodAttr", "".getBytes());
+        method.addTag(mAttr);
+
         // Create the method body
         {
             // create empty body
             JimpleBody body = Jimple.v().newBody(method);
-            
+
             method.setActiveBody(body);
             Chain units = body.getUnits();
             Local arg, tmpRef;
             Unit tmpUnit;
-            
+
             // Add some locals, java.lang.String l0
-                arg = Jimple.v().newLocal("l0", ArrayType.v(RefType.v("java.lang.String"), 1));
-                body.getLocals().add(arg);
-            
+            arg = Jimple.v().newLocal("l0", ArrayType.v(RefType.v("java.lang.String"), 1));
+            body.getLocals().add(arg);
+
             // Add locals, java.io.printStream tmpRef
-                tmpRef = Jimple.v().newLocal("tmpRef", RefType.v("java.io.PrintStream"));
-                body.getLocals().add(tmpRef);
-                
+            tmpRef = Jimple.v().newLocal("tmpRef", RefType.v("java.io.PrintStream"));
+            body.getLocals().add(tmpRef);
+
             // add "l0 = @parameter0"
-                tmpUnit = Jimple.v().newIdentityStmt(arg, 
-                     Jimple.v().newParameterRef(ArrayType.v(RefType.v("java.lang.String"), 1), 0));
-                tmpUnit.addTag(new MyTag(1));
-                units.add(tmpUnit);
-            
+            tmpUnit = Jimple.v().newIdentityStmt(arg,
+                    Jimple.v().newParameterRef(ArrayType.v(RefType.v("java.lang.String"), 1), 0));
+            tmpUnit.addTag(new MyTag(1));
+            units.add(tmpUnit);
+
             // add "tmpRef = java.lang.System.out"
-                units.add(Jimple.v().newAssignStmt(tmpRef, Jimple.v().newStaticFieldRef(
+            units.add(Jimple.v().newAssignStmt(tmpRef, Jimple.v().newStaticFieldRef(
                     Scene.v().getField("<java.lang.System: java.io.PrintStream out>").makeRef())));
-            
+
             // insert "tmpRef.println("Hello world!")"
             {
                 SootMethod toCall = Scene.v().getMethod("<java.io.PrintStream: void println(java.lang.String)>");
@@ -116,25 +121,25 @@ public class Main
                 tmpUnit.addTag(new MyTag(2));
                 units.add(tmpUnit);
             }
-            
+
             // insert "return"
-                units.add(Jimple.v().newReturnVoidStmt());
-                     
+            units.add(Jimple.v().newReturnVoidStmt());
+
         }
 
         MyTagAggregator mta = new MyTagAggregator();
         // convert the body to Baf
         method.setActiveBody(
-            Baf.v().newBody((JimpleBody) method.getActiveBody()));
+                Baf.v().newBody(method.getActiveBody()));
         // aggregate the tags and produce a CodeAttribute
         mta.transform(method.getActiveBody());
 
         // write the class to a file
         String fileName = SourceLocator.v().getFileNameFor(sClass, Options.output_format_class);
         OutputStream streamOut = new JasminOutputStream(
-                                    new FileOutputStream(fileName));
+                new FileOutputStream(fileName));
         PrintWriter writerOut = new PrintWriter(
-                                    new OutputStreamWriter(streamOut));
+                new OutputStreamWriter(streamOut));
         AbstractJasminClass jasminClass = new soot.baf.JasminClass(sClass);
         jasminClass.print(writerOut);
         writerOut.flush();
@@ -143,7 +148,7 @@ public class Main
 }
 
 class MyTag implements Tag {
-        
+
     int value;
 
     public MyTag(int value) {
@@ -161,7 +166,7 @@ class MyTag implements Tag {
         try {
             dos.writeInt(value);
             dos.flush();
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.err.println(e);
             throw new RuntimeException(e);
         }

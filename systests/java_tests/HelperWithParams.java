@@ -1,16 +1,17 @@
 public class HelperWithParams {
 
-    public static void main(String [] args){
+    public HelperWithParams(int x, int y) {
+
     }
-    public HelperWithParams(int x, int y){
-        
+
+    public HelperWithParams() {
+
     }
-    
-    public HelperWithParams(){
-        
+
+    public static void main(String[] args) {
     }
-    
-    public void action(){
+
+    public void action() {
         System.out.println("Helper");
     }
 }

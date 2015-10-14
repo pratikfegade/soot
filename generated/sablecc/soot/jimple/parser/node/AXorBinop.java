@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AXorBinop extends PBinop
-{
+public final class AXorBinop extends PBinop {
     private TXor _xor_;
 
-    public AXorBinop()
-    {
+    public AXorBinop() {
         // Constructor
     }
 
     public AXorBinop(
-        @SuppressWarnings("hiding") TXor _xor_)
-    {
+            @SuppressWarnings("hiding") TXor _xor_) {
         // Constructor
         setXor(_xor_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AXorBinop(
-            cloneNode(this._xor_));
+                cloneNode(this._xor_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAXorBinop(this);
     }
 
-    public TXor getXor()
-    {
+    public TXor getXor() {
         return this._xor_;
     }
 
-    public void setXor(TXor node)
-    {
-        if(this._xor_ != null)
-        {
+    public void setXor(TXor node) {
+        if (this._xor_ != null) {
             this._xor_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AXorBinop extends PBinop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._xor_);
+                + toString(this._xor_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._xor_ == child)
-        {
+        if (this._xor_ == child) {
             this._xor_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AXorBinop extends PBinop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._xor_ == oldChild)
-        {
+        if (this._xor_ == oldChild) {
             setXor((TXor) newChild);
             return;
         }

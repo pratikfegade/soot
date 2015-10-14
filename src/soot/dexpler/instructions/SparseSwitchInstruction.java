@@ -24,13 +24,9 @@
 
 package soot.dexpler.instructions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.SwitchElement;
 import org.jf.dexlib2.iface.instruction.formats.SparseSwitchPayload;
-
 import soot.IntType;
 import soot.Local;
 import soot.Unit;
@@ -43,11 +39,14 @@ import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;
 import soot.jimple.Stmt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SparseSwitchInstruction extends SwitchInstruction {
 
     LookupSwitchStmt switchStmt = null;
 
-    public SparseSwitchInstruction (Instruction instruction, int codeAdress) {
+    public SparseSwitchInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
@@ -61,19 +60,19 @@ public class SparseSwitchInstruction extends SwitchInstruction {
 
         List<IntConstant> lookupValues = new ArrayList<IntConstant>();
         List<Unit> targets = new ArrayList<Unit>();
-        for(SwitchElement se: seList) {
-          lookupValues.add(IntConstant.v(se.getKey()));
-          int offset = se.getOffset();
-          targets.add(body.instructionAtAddress(codeAddress + offset).getUnit());
+        for (SwitchElement se : seList) {
+            lookupValues.add(IntConstant.v(se.getKey()));
+            int offset = se.getOffset();
+            targets.add(body.instructionAtAddress(codeAddress + offset).getUnit());
         }
         switchStmt = Jimple.v().newLookupSwitchStmt(key, lookupValues, targets, defaultTarget);
         setUnit(switchStmt);
-        
+
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ switchStmt);
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + switchStmt);
             DalvikTyper.v().setType(switchStmt.getKeyBox(), IntType.v(), true);
         }
-        
+
         return switchStmt;
     }
 

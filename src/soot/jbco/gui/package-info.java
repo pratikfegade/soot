@@ -1,2 +1,1 @@
-@Deprecated
-package soot.jbco.gui;
+@Deprecated package soot.jbco.gui;

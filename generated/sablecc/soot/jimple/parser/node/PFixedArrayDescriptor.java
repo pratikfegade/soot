@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PFixedArrayDescriptor extends Node
-{
+public abstract class PFixedArrayDescriptor extends Node {
     // Empty body
 }

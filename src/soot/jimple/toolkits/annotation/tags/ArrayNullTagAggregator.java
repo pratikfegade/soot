@@ -20,41 +20,47 @@
 package soot.jimple.toolkits.annotation.tags;
 
 
-import soot.*;
-import soot.baf.*;
+import soot.G;
+import soot.Singletons;
+import soot.Unit;
+import soot.baf.Inst;
+import soot.tagkit.Tag;
+import soot.tagkit.TagAggregator;
 
-import soot.tagkit.*;
+/**
+ * The aggregator for ArrayNullCheckAttribute.
+ */
 
-/** The aggregator for ArrayNullCheckAttribute. */
-
-public class ArrayNullTagAggregator extends TagAggregator
-{    
-    public ArrayNullTagAggregator( Singletons.Global g ) {}
-    public static ArrayNullTagAggregator v() { return G.v().soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator(); }
-
-    public boolean wantTag( Tag t ) {
-	return (t instanceof OneByteCodeTag);
+public class ArrayNullTagAggregator extends TagAggregator {
+    public ArrayNullTagAggregator(Singletons.Global g) {
     }
-    public void considerTag(Tag t, Unit u)
-    {
+
+    public static ArrayNullTagAggregator v() {
+        return G.v().soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator();
+    }
+
+    public boolean wantTag(Tag t) {
+        return (t instanceof OneByteCodeTag);
+    }
+
+    public void considerTag(Tag t, Unit u) {
         Inst i = (Inst) u;
-        if(! ( i.containsInvokeExpr()
-            || i.containsFieldRef()
-            || i.containsArrayRef() ) ) return;
+        if (!(i.containsInvokeExpr()
+                || i.containsFieldRef()
+                || i.containsArrayRef())) return;
 
         OneByteCodeTag obct = (OneByteCodeTag) t;
 
-        if( units.size() == 0 || units.getLast() != u ) {
-            units.add( u );
-            tags.add( new ArrayNullCheckTag() );
+        if (units.size() == 0 || units.getLast() != u) {
+            units.add(u);
+            tags.add(new ArrayNullCheckTag());
         }
         ArrayNullCheckTag anct = (ArrayNullCheckTag) tags.getLast();
         anct.accumulate(obct.getValue()[0]);
     }
-    
-    public String aggregatedName()
-    {
-        return "ArrayNullCheckAttribute"; 
+
+    public String aggregatedName() {
+        return "ArrayNullCheckAttribute";
     }
 }
 

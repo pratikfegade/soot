@@ -1,12 +1,12 @@
 package soot.jimple.spark.ondemand;
 
-import java.util.Set;
-
 import soot.Local;
 import soot.PointsToSet;
 import soot.Type;
 import soot.jimple.ClassConstant;
 import soot.jimple.spark.sets.EqualsSupportingPointsToSet;
+
+import java.util.Set;
 
 /**
  * This is a <i>lazy</i> points-to set that is potentially context sensitive. It is created by the {@link DemandCSPointsTo} analysis.
@@ -15,82 +15,82 @@ import soot.jimple.spark.sets.EqualsSupportingPointsToSet;
  * Then the test is repeated. Once context information is computed it is stored in this wrapper object so that it does not have to be computed again.
  * Objects of this type should only be compared to other {@link LazyContextSensitivePointsToSet} objects using the equals method.
  * Checking for non-empty intersection with points-to sets of other types should be possible but it is recommended to consistently use
- * {@link LazyContextSensitivePointsToSet} nevertheless. 
- * 
+ * {@link LazyContextSensitivePointsToSet} nevertheless.
+ *
  * @author Eric Bodden
  */
 public class LazyContextSensitivePointsToSet implements EqualsSupportingPointsToSet {
 
-	private EqualsSupportingPointsToSet delegate;
-	private final DemandCSPointsTo demandCSPointsTo;
-	private final Local local;
-	private boolean isContextSensitive;
+    private final DemandCSPointsTo demandCSPointsTo;
+    private final Local local;
+    private EqualsSupportingPointsToSet delegate;
+    private boolean isContextSensitive;
 
-	public boolean isContextSensitive() {
-		return isContextSensitive;
-	}
+    public LazyContextSensitivePointsToSet(Local l, EqualsSupportingPointsToSet contextInsensitiveSet, DemandCSPointsTo demandCSPointsTo) {
+        this.local = l;
+        this.delegate = contextInsensitiveSet;
+        this.demandCSPointsTo = demandCSPointsTo;
+        this.isContextSensitive = false;
+    }
 
-	public LazyContextSensitivePointsToSet(Local l, EqualsSupportingPointsToSet contextInsensitiveSet, DemandCSPointsTo demandCSPointsTo) {
-		this.local = l;
-		this.delegate = contextInsensitiveSet;
-		this.demandCSPointsTo = demandCSPointsTo;
-		this.isContextSensitive = false;
-	}
+    public boolean isContextSensitive() {
+        return isContextSensitive;
+    }
 
-	public boolean hasNonEmptyIntersection(PointsToSet other) {
-		PointsToSet otherInner; 
-		if(other instanceof LazyContextSensitivePointsToSet)
-			otherInner = ((LazyContextSensitivePointsToSet)other).delegate;
-		else
-			otherInner = other;
-		
-		if(delegate.hasNonEmptyIntersection(otherInner)) {		
-			if(other instanceof LazyContextSensitivePointsToSet) {
-				((LazyContextSensitivePointsToSet) other).computeContextSensitiveInfo();
-				otherInner = ((LazyContextSensitivePointsToSet)other).delegate;
-			} 
-			computeContextSensitiveInfo();
-			
-			return delegate.hasNonEmptyIntersection(otherInner);
-		} else {
-			return false;
-		}
-	}
-	
-	public void computeContextSensitiveInfo() {
-		if(!isContextSensitive) {
-			delegate = (EqualsSupportingPointsToSet) demandCSPointsTo.doReachingObjects(local);
-			isContextSensitive = true;
-		}
-	}
+    public boolean hasNonEmptyIntersection(PointsToSet other) {
+        PointsToSet otherInner;
+        if (other instanceof LazyContextSensitivePointsToSet)
+            otherInner = ((LazyContextSensitivePointsToSet) other).delegate;
+        else
+            otherInner = other;
 
-	public boolean isEmpty() {		
-		return delegate.isEmpty();
-	}
+        if (delegate.hasNonEmptyIntersection(otherInner)) {
+            if (other instanceof LazyContextSensitivePointsToSet) {
+                ((LazyContextSensitivePointsToSet) other).computeContextSensitiveInfo();
+                otherInner = ((LazyContextSensitivePointsToSet) other).delegate;
+            }
+            computeContextSensitiveInfo();
 
-	public Set<ClassConstant> possibleClassConstants() {
-		return delegate.possibleClassConstants();
-	}
+            return delegate.hasNonEmptyIntersection(otherInner);
+        } else {
+            return false;
+        }
+    }
 
-	public Set<String> possibleStringConstants() {
-		return delegate.possibleStringConstants();
-	}
+    public void computeContextSensitiveInfo() {
+        if (!isContextSensitive) {
+            delegate = (EqualsSupportingPointsToSet) demandCSPointsTo.doReachingObjects(local);
+            isContextSensitive = true;
+        }
+    }
 
-	public Set<Type> possibleTypes() {
-		return delegate.possibleTypes();
-	}
+    public boolean isEmpty() {
+        return delegate.isEmpty();
+    }
 
-	public boolean pointsToSetEquals(Object other) {
-		if(!(other instanceof LazyContextSensitivePointsToSet)) return false;
-		return ((LazyContextSensitivePointsToSet)other).delegate.equals(delegate);
-	}
+    public Set<ClassConstant> possibleClassConstants() {
+        return delegate.possibleClassConstants();
+    }
 
-	public int pointsToSetHashCode() {
-		return delegate.pointsToSetHashCode();
-	}
-	
-	public EqualsSupportingPointsToSet getDelegate() {
-		return delegate;
-	}
-	
+    public Set<String> possibleStringConstants() {
+        return delegate.possibleStringConstants();
+    }
+
+    public Set<Type> possibleTypes() {
+        return delegate.possibleTypes();
+    }
+
+    public boolean pointsToSetEquals(Object other) {
+        if (!(other instanceof LazyContextSensitivePointsToSet)) return false;
+        return ((LazyContextSensitivePointsToSet) other).delegate.equals(delegate);
+    }
+
+    public int pointsToSetHashCode() {
+        return delegate.pointsToSetHashCode();
+    }
+
+    public EqualsSupportingPointsToSet getDelegate() {
+        return delegate;
+    }
+
 }

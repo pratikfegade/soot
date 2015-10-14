@@ -18,113 +18,122 @@
  */
 
 package soot.dava.toolkits.base.finders;
-import soot.*;
 
-import soot.dava.*;
-import soot.util.*;
-import java.util.*;
-import soot.jimple.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.SET.*;
+import soot.G;
+import soot.Singletons;
+import soot.dava.Dava;
+import soot.dava.DavaBody;
+import soot.dava.RetriggerAnalysisException;
+import soot.dava.internal.SET.SETIfElseNode;
+import soot.dava.internal.SET.SETNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.asg.AugmentedStmtGraph;
+import soot.jimple.IfStmt;
+import soot.jimple.Stmt;
+import soot.util.IterableSet;
 
-public class IfFinder implements FactFinder
-{
-    public IfFinder( Singletons.Global g ) {}
-    public static IfFinder v() { return G.v().soot_dava_toolkits_base_finders_IfFinder(); }
+import java.util.Iterator;
+import java.util.LinkedList;
 
-    public void find( DavaBody body, AugmentedStmtGraph asg, SETNode SET) throws RetriggerAnalysisException
-    {
-	Dava.v().log( "IfFinder::find()");
-
-	Iterator asgit = asg.iterator();
-	while (asgit.hasNext()) {
-	    AugmentedStmt as = (AugmentedStmt) asgit.next();
-
-	    Stmt s = as.get_Stmt();
-
-	    if (s instanceof IfStmt) {
-		IfStmt ifs = (IfStmt) s;
-
-		if (body.get_ConsumedConditions().contains( as))
-		    continue;
-
-		body.consume_Condition( as);
-		
-		AugmentedStmt 
-		    succIf   = asg.get_AugStmt( ifs.getTarget()),
-		    succElse = (AugmentedStmt) as.bsuccs.get(0);
-
-		if (succIf == succElse)
-		    succElse = (AugmentedStmt) as.bsuccs.get(1);
-
-
-		asg.calculate_Reachability( succIf, succElse, as);
-		asg.calculate_Reachability( succElse, succIf, as);
-
-		IterableSet
-		    fullBody = new IterableSet(),
-		    ifBody   = find_Body( succIf, succElse),
-		    elseBody = find_Body( succElse, succIf);
-
-		fullBody.add( as);
-		fullBody.addAll( ifBody);
-		fullBody.addAll( elseBody);
-		
-		Iterator enlit = body.get_ExceptionFacts().iterator();
-		while (enlit.hasNext()) {
-		    ExceptionNode en = (ExceptionNode) enlit.next();
-		    IterableSet tryBody = en.get_TryBody();
-
-		    if (tryBody.contains( as)) {
-			Iterator fbit = fullBody.snapshotIterator();
-			
-			while (fbit.hasNext()) {
-			    AugmentedStmt fbas = (AugmentedStmt) fbit.next();
-
-			    if (tryBody.contains( fbas) == false) {
-				fullBody.remove( fbas);
-
-				if (ifBody.contains( fbas))
-				    ifBody.remove( fbas);
-
-				if (elseBody.contains( fbas))
-				    elseBody.remove( fbas);
-			    }
-			}
-		    }
-		}
-
-		SET.nest( new SETIfElseNode( as, fullBody, ifBody, elseBody));
-	    }
-	}
+public class IfFinder implements FactFinder {
+    public IfFinder(Singletons.Global g) {
     }
 
-    private IterableSet find_Body( AugmentedStmt targetBranch, AugmentedStmt otherBranch)
-    {
-	IterableSet body = new IterableSet();
+    public static IfFinder v() {
+        return G.v().soot_dava_toolkits_base_finders_IfFinder();
+    }
 
-	if (targetBranch.get_Reachers().contains( otherBranch))
-	    return body;
+    public void find(DavaBody body, AugmentedStmtGraph asg, SETNode SET) throws RetriggerAnalysisException {
+        Dava.v().log("IfFinder::find()");
 
-	LinkedList<AugmentedStmt> worklist = new LinkedList<AugmentedStmt>();
-	worklist.addLast( targetBranch);
+        Iterator asgit = asg.iterator();
+        while (asgit.hasNext()) {
+            AugmentedStmt as = (AugmentedStmt) asgit.next();
 
-	while (worklist.isEmpty() == false) {
-	    AugmentedStmt as = worklist.removeFirst();
+            Stmt s = as.get_Stmt();
 
-	    if (body.contains( as) == false) {
-		body.add( as);
+            if (s instanceof IfStmt) {
+                IfStmt ifs = (IfStmt) s;
 
-		Iterator sit = as.csuccs.iterator();
-		while (sit.hasNext()) {
-		    AugmentedStmt sas = (AugmentedStmt) sit.next();
+                if (body.get_ConsumedConditions().contains(as))
+                    continue;
 
-		    if ((sas.get_Reachers().contains( otherBranch) == false) && (sas.get_Dominators().contains( targetBranch) == true))
-			worklist.addLast( sas);
-		}
-	    }
-	}
+                body.consume_Condition(as);
 
-	return body;
+                AugmentedStmt
+                        succIf = asg.get_AugStmt(ifs.getTarget()),
+                        succElse = as.bsuccs.get(0);
+
+                if (succIf == succElse)
+                    succElse = as.bsuccs.get(1);
+
+
+                asg.calculate_Reachability(succIf, succElse, as);
+                asg.calculate_Reachability(succElse, succIf, as);
+
+                IterableSet
+                        fullBody = new IterableSet(),
+                        ifBody = find_Body(succIf, succElse),
+                        elseBody = find_Body(succElse, succIf);
+
+                fullBody.add(as);
+                fullBody.addAll(ifBody);
+                fullBody.addAll(elseBody);
+
+                Iterator enlit = body.get_ExceptionFacts().iterator();
+                while (enlit.hasNext()) {
+                    ExceptionNode en = (ExceptionNode) enlit.next();
+                    IterableSet tryBody = en.get_TryBody();
+
+                    if (tryBody.contains(as)) {
+                        Iterator fbit = fullBody.snapshotIterator();
+
+                        while (fbit.hasNext()) {
+                            AugmentedStmt fbas = (AugmentedStmt) fbit.next();
+
+                            if (tryBody.contains(fbas) == false) {
+                                fullBody.remove(fbas);
+
+                                if (ifBody.contains(fbas))
+                                    ifBody.remove(fbas);
+
+                                if (elseBody.contains(fbas))
+                                    elseBody.remove(fbas);
+                            }
+                        }
+                    }
+                }
+
+                SET.nest(new SETIfElseNode(as, fullBody, ifBody, elseBody));
+            }
+        }
+    }
+
+    private IterableSet find_Body(AugmentedStmt targetBranch, AugmentedStmt otherBranch) {
+        IterableSet body = new IterableSet();
+
+        if (targetBranch.get_Reachers().contains(otherBranch))
+            return body;
+
+        LinkedList<AugmentedStmt> worklist = new LinkedList<AugmentedStmt>();
+        worklist.addLast(targetBranch);
+
+        while (worklist.isEmpty() == false) {
+            AugmentedStmt as = worklist.removeFirst();
+
+            if (body.contains(as) == false) {
+                body.add(as);
+
+                Iterator sit = as.csuccs.iterator();
+                while (sit.hasNext()) {
+                    AugmentedStmt sas = (AugmentedStmt) sit.next();
+
+                    if ((sas.get_Reachers().contains(otherBranch) == false) && (sas.get_Dominators().contains(targetBranch) == true))
+                        worklist.addLast(sas);
+                }
+            }
+        }
+
+        return body;
     }
 }

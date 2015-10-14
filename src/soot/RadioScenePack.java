@@ -19,39 +19,41 @@
 
 package soot;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 
-/** A wrapper object for a pack of optimizations.
- * Provides chain-like operations, except that the key is the phase name. */
-public class RadioScenePack extends ScenePack
-{
+/**
+ * A wrapper object for a pack of optimizations.
+ * Provides chain-like operations, except that the key is the phase name.
+ */
+public class RadioScenePack extends ScenePack {
     public RadioScenePack(String name) {
         super(name);
     }
 
-    protected void internalApply()
-    {
+    protected void internalApply() {
         LinkedList<Transform> enableds = new LinkedList<Transform>();
 
-        for( Iterator<Transform> tIt = this.iterator(); tIt.hasNext(); ) {
+        for (Iterator<Transform> tIt = this.iterator(); tIt.hasNext(); ) {
 
             final Transform t = tIt.next();
-            Map<String,String> opts = PhaseOptions.v().getPhaseOptions( t );
-            if( !PhaseOptions.getBoolean( opts, "enabled" ) ) continue;
-            enableds.add( t );
+            Map<String, String> opts = PhaseOptions.v().getPhaseOptions(t);
+            if (!PhaseOptions.getBoolean(opts, "enabled")) continue;
+            enableds.add(t);
         }
-        if( enableds.size() == 0 ) {
-            G.v().out.println( "Exactly one phase in the pack "+getPhaseName()+
-                    " must be enabled. Currently, none of them are." );
-            throw new CompilationDeathException( CompilationDeathException.COMPILATION_ABORTED );
+        if (enableds.size() == 0) {
+            G.v().out.println("Exactly one phase in the pack " + getPhaseName() +
+                    " must be enabled. Currently, none of them are.");
+            throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
         }
-        if( enableds.size() > 1 ) {
-            G.v().out.println( "Only one phase in the pack "+getPhaseName()+
-                    " may be enabled. The following are enabled currently: " );
+        if (enableds.size() > 1) {
+            G.v().out.println("Only one phase in the pack " + getPhaseName() +
+                    " may be enabled. The following are enabled currently: ");
             for (Transform t : enableds) {
-                G.v().out.println( "  "+t.getPhaseName() );
+                G.v().out.println("  " + t.getPhaseName());
             }
-            throw new CompilationDeathException( CompilationDeathException.COMPILATION_ABORTED );
+            throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
         }
         for (Transform t : enableds) {
             t.apply();
@@ -62,19 +64,22 @@ public class RadioScenePack extends ScenePack
         super.add(t);
         checkEnabled(t);
     }
+
     public void insertAfter(Transform t, String phaseName) {
         super.insertAfter(t, phaseName);
         checkEnabled(t);
     }
+
     public void insertBefore(Transform t, String phaseName) {
         super.insertBefore(t, phaseName);
         checkEnabled(t);
     }
+
     private void checkEnabled(Transform t) {
-        Map<String,String> options = PhaseOptions.v().getPhaseOptions(t);
-        if( PhaseOptions.getBoolean( options, "enabled" ) ) {
+        Map<String, String> options = PhaseOptions.v().getPhaseOptions(t);
+        if (PhaseOptions.getBoolean(options, "enabled")) {
             // Enabling this one will disable all the others
-            PhaseOptions.v().setPhaseOption( t, "enabled:true" );
+            PhaseOptions.v().setPhaseOption(t, "enabled:true");
         }
     }
 }

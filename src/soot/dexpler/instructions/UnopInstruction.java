@@ -28,34 +28,29 @@ import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction12x;
-
 import soot.Local;
 import soot.Value;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
 import soot.dexpler.typing.DalvikTyper;
-import soot.jimple.AssignStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.Jimple;
-import soot.jimple.LongConstant;
-import soot.jimple.UnopExpr;
+import soot.jimple.*;
 import soot.jimple.internal.JAssignStmt;
 import soot.jimple.internal.JCastExpr;
 
 public class UnopInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
-  
-    public UnopInstruction (Instruction instruction, int codeAdress) {
+
+    public UnopInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        if(!(instruction instanceof Instruction12x))
-            throw new IllegalArgumentException("Expected Instruction12x but got: "+instruction.getClass());
+    public void jimplify(DexBody body) {
+        if (!(instruction instanceof Instruction12x))
+            throw new IllegalArgumentException("Expected Instruction12x but got: " + instruction.getClass());
 
-        Instruction12x cmpInstr = (Instruction12x)instruction;
+        Instruction12x cmpInstr = (Instruction12x) instruction;
         int dest = cmpInstr.getRegisterA();
 
         Local source = body.getRegisterLocal(cmpInstr.getRegisterB());
@@ -66,14 +61,14 @@ public class UnopInstruction extends DexlibAbstractInstruction {
         setUnit(assign);
         addTags(assign);
         body.add(assign);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          //DalvikTyper.v().captureAssign((JAssignStmt)assign, op);
-          JAssignStmt jass = (JAssignStmt)assign;
-          DalvikTyper.v().setType((expr instanceof JCastExpr) ? ((JCastExpr) expr).getOpBox() : ((UnopExpr) expr).getOpBox(), opUnType[op - 0x7b], true);
-          DalvikTyper.v().setType(jass.leftBox, resUnType[op - 0x7b], false);
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            //DalvikTyper.v().captureAssign((JAssignStmt)assign, op);
+            JAssignStmt jass = (JAssignStmt) assign;
+            DalvikTyper.v().setType((expr instanceof JCastExpr) ? ((JCastExpr) expr).getOpBox() : ((UnopExpr) expr).getOpBox(), opUnType[op - 0x7b], true);
+            DalvikTyper.v().setType(jass.leftBox, resUnType[op - 0x7b], false);
         }
     }
 
@@ -82,23 +77,25 @@ public class UnopInstruction extends DexlibAbstractInstruction {
      */
     private Value getExpression(Local source) {
         Opcode opcode = instruction.getOpcode();
-        switch(opcode) {
-        case NEG_INT:
-        case NEG_LONG:
-        case NEG_FLOAT:
-        case NEG_DOUBLE:
-            return Jimple.v().newNegExpr(source);
-        case NOT_LONG:
-            return getNotLongExpr(source);
-        case NOT_INT:
-            return getNotIntExpr(source);
-        default:
-            throw new RuntimeException("Invalid Opcode: " + opcode);
+        switch (opcode) {
+            case NEG_INT:
+            case NEG_LONG:
+            case NEG_FLOAT:
+            case NEG_DOUBLE:
+                return Jimple.v().newNegExpr(source);
+            case NOT_LONG:
+                return getNotLongExpr(source);
+            case NOT_INT:
+                return getNotIntExpr(source);
+            default:
+                throw new RuntimeException("Invalid Opcode: " + opcode);
         }
 
     }
+
     /**
      * returns bitwise negation of an integer
+     *
      * @param source
      * @return
      */
@@ -106,8 +103,10 @@ public class UnopInstruction extends DexlibAbstractInstruction {
         return Jimple.v().newXorExpr(source, IntConstant.v(-1));
 
     }
+
     /**
      * returns bitwise negation of a long
+     *
      * @param source
      * @return
      */
@@ -127,12 +126,12 @@ public class UnopInstruction extends DexlibAbstractInstruction {
     boolean isUsedAsFloatingPoint(DexBody body, int register) {
         int source = ((TwoRegisterInstruction) instruction).getRegisterB();
         Opcode opcode = instruction.getOpcode();
-        switch(opcode) {
-        case NEG_FLOAT:
-        case NEG_DOUBLE:
-            return source == register;
-        default:
-            return false;
+        switch (opcode) {
+            case NEG_FLOAT:
+            case NEG_DOUBLE:
+                return source == register;
+            default:
+                return false;
         }
     }
 }

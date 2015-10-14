@@ -20,93 +20,90 @@
 
 package ca.mcgill.sable.soot.cfg.actions;
 
+import org.eclipse.gef.ui.actions.*;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.jface.action.*;
-import org.eclipse.gef.ui.actions.*;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import ca.mcgill.sable.soot.interaction.*;
 import org.eclipse.ui.*;
+import org.eclipse.ui.IWorkbenchActionConstants;
 
 
 public class CFGActionBarContributor extends ActionBarContributor {
 
-	
-	public CFGActionBarContributor() {
-		super();
-	}
-	
-	private StepForwardAction stepForward;
-	private StepBackwardAction stepBackward;
-	private FinishMethodAction finishMethod;
-	private NextMethodAction nextMethod;
-	private FlowSelectAction flowSelect;
-	private StopInteractionAction stopInteraction;
+
+    private StepForwardAction stepForward;
+    private StepBackwardAction stepBackward;
+    private FinishMethodAction finishMethod;
+    private NextMethodAction nextMethod;
+    private FlowSelectAction flowSelect;
+    private StopInteractionAction stopInteraction;
+    public CFGActionBarContributor() {
+        super();
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
+     */
+    protected void buildActions() {
+        addRetargetAction(new ZoomInRetargetAction());
+        addRetargetAction(new ZoomOutRetargetAction());
+
+        flowSelect = new FlowSelectAction(null);
+        addAction(flowSelect);
+
+        stepBackward = new StepBackwardAction(null);
+        addAction(stepBackward);
+        stepForward = new StepForwardAction(null);
+        addAction(stepForward);
+
+        finishMethod = new FinishMethodAction(null);
+        addAction(finishMethod);
+        nextMethod = new NextMethodAction(null);
+        addAction(nextMethod);
+
+        stopInteraction = new StopInteractionAction(null);
+        addAction(stopInteraction);
 
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
-	 */
-	protected void buildActions() {
-		addRetargetAction(new ZoomInRetargetAction());
-		addRetargetAction(new ZoomOutRetargetAction());
-		
-		flowSelect = new FlowSelectAction(null);
-		addAction(flowSelect);
-		
-		stepBackward = new StepBackwardAction(null);
-		addAction(stepBackward);
-		stepForward = new StepForwardAction(null);
-		addAction(stepForward);
-		
-		finishMethod = new FinishMethodAction(null);
-		addAction(finishMethod);
-		nextMethod = new NextMethodAction(null);
-		addAction(nextMethod);
-		
-		stopInteraction = new StopInteractionAction(null);
-		addAction(stopInteraction);
-		
-		
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
-	 */
-	protected void declareGlobalActionKeys() {
-	}
-	
-	//  this is for zoom toolbar buttons
-	public void contributeToToolBar(IToolBarManager toolBarManager){
-		super.contributeToToolBar(toolBarManager);
-		
-		toolBarManager.add(new Separator());
-		toolBarManager.add(getAction(StepBackwardAction.STEP_BACKWARD));
-		
-		toolBarManager.add(getAction(StepForwardAction.STEP_FORWARD));
-		toolBarManager.add(getAction(FinishMethodAction.FINISH_METHOD));	
-		toolBarManager.add(getAction(NextMethodAction.NEXT_METHOD));	
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
+     */
+    protected void declareGlobalActionKeys() {
+    }
 
-		toolBarManager.add(getAction(StopInteractionAction.STOP_INTERACTION));
-	}
-	
-	public void contributeToMenu(IMenuManager menuManager){
-		super.contributeToMenu(menuManager);
-		
-		MenuManager viewMenu = new MenuManager("View");
-		viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
-		viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
-		
-		menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
-	}
-	
-	public void setActiveEditor(IEditorPart editor) { 
-		super.setActiveEditor(editor); 
-		stepForward.setEditorPart( editor );
-		stepBackward.setEditorPart(editor);
-		finishMethod.setEditorPart(editor);
-		nextMethod.setEditorPart(editor);
-		flowSelect.setEditorPart(editor);
-		stopInteraction.setEditorPart(editor);
-	}
+    //  this is for zoom toolbar buttons
+    public void contributeToToolBar(IToolBarManager toolBarManager) {
+        super.contributeToToolBar(toolBarManager);
+
+        toolBarManager.add(new Separator());
+        toolBarManager.add(getAction(StepBackwardAction.STEP_BACKWARD));
+
+        toolBarManager.add(getAction(StepForwardAction.STEP_FORWARD));
+        toolBarManager.add(getAction(FinishMethodAction.FINISH_METHOD));
+        toolBarManager.add(getAction(NextMethodAction.NEXT_METHOD));
+
+        toolBarManager.add(getAction(StopInteractionAction.STOP_INTERACTION));
+    }
+
+    public void contributeToMenu(IMenuManager menuManager) {
+        super.contributeToMenu(menuManager);
+
+        MenuManager viewMenu = new MenuManager("View");
+        viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
+        viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
+
+        menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
+    }
+
+    public void setActiveEditor(IEditorPart editor) {
+        super.setActiveEditor(editor);
+        stepForward.setEditorPart(editor);
+        stepBackward.setEditorPart(editor);
+        finishMethod.setEditorPart(editor);
+        nextMethod.setEditorPart(editor);
+        flowSelect.setEditorPart(editor);
+        stopInteraction.setEditorPart(editor);
+    }
 
 }

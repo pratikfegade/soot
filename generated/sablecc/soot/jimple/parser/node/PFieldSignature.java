@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PFieldSignature extends Node
-{
+public abstract class PFieldSignature extends Node {
     // Empty body
 }

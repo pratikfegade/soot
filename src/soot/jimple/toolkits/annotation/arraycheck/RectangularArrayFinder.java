@@ -24,66 +24,68 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.options.*;
 
 import soot.*;
-import soot.util.*;
 import soot.jimple.*;
-import soot.jimple.internal.*;
-import soot.jimple.toolkits.callgraph.*;
+import soot.jimple.internal.JArrayRef;
+import soot.jimple.internal.JNewMultiArrayExpr;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Targets;
+import soot.options.Options;
+import soot.util.Chain;
+
 import java.util.*;
 
-/** Interprocedural analysis to identify rectangular multi-dimension array
- * locals. It is based on the call graph. 
+/**
+ * Interprocedural analysis to identify rectangular multi-dimension array
+ * locals. It is based on the call graph.
  */
 
-public class RectangularArrayFinder extends SceneTransformer
-{
-    public RectangularArrayFinder( Singletons.Global g ) {}
-    public static RectangularArrayFinder v() { return G.v().soot_jimple_toolkits_annotation_arraycheck_RectangularArrayFinder(); }
-
+public class RectangularArrayFinder extends SceneTransformer {
     private final ExtendedHashMutableDirectedGraph agraph =
-	new ExtendedHashMutableDirectedGraph();
-
+            new ExtendedHashMutableDirectedGraph();
     private final Set falseSet = new HashSet();
     private final Set<Object> trueSet = new HashSet<Object>();
     private CallGraph cg;
+    public RectangularArrayFinder(Singletons.Global g) {
+    }
 
-    protected void internalTransform(String phaseName, Map<String,String> opts)
-    {
-	Scene sc = Scene.v();
+    public static RectangularArrayFinder v() {
+        return G.v().soot_jimple_toolkits_annotation_arraycheck_RectangularArrayFinder();
+    }
+
+    protected void internalTransform(String phaseName, Map<String, String> opts) {
+        Scene sc = Scene.v();
 
         cg = sc.getCallGraph();
 
-	Date start = new Date();
-	if (Options.v().verbose())
-	    G.v().out.println("[ra] Finding rectangular arrays, start on "+start);
+        Date start = new Date();
+        if (Options.v().verbose())
+            G.v().out.println("[ra] Finding rectangular arrays, start on " + start);
 
-	Chain appClasses = sc.getApplicationClasses();
+        Chain appClasses = sc.getApplicationClasses();
 
-	Iterator classIt = appClasses.iterator();
+        Iterator classIt = appClasses.iterator();
 
-	while (classIt.hasNext())
-	{
-	    SootClass c = (SootClass)classIt.next();
+        while (classIt.hasNext()) {
+            SootClass c = (SootClass) classIt.next();
 
-	    Iterator methodIt = c.methodIterator();
-	    
-	    while (methodIt.hasNext())
-	    {
-		SootMethod method = (SootMethod)methodIt.next();
-		
-		if (!method.isConcrete())
-		    continue;
-		
-		if (!sc.getReachableMethods().contains(method))
-		    continue;
+            Iterator methodIt = c.methodIterator();
 
-		recoverRectArray(method);
-		addInfoFromMethod(method);
-	    }
-	}
-	
+            while (methodIt.hasNext()) {
+                SootMethod method = (SootMethod) methodIt.next();
+
+                if (!method.isConcrete())
+                    continue;
+
+                if (!sc.getReachableMethods().contains(method))
+                    continue;
+
+                recoverRectArray(method);
+                addInfoFromMethod(method);
+            }
+        }
+
 	/*
 	MutableDirectedGraph methodGraph = ig.newMethodGraph();
 	HashSet visitedMethods = new HashSet();
@@ -120,532 +122,452 @@ public class RectangularArrayFinder extends SceneTransformer
 	*/
 
 	/* propagate the graph info from FALSE node. */
-	if (agraph.containsNode(BoolValue.v(false)))
-	{
-	    List changedNodeList = new ArrayList();
+        if (agraph.containsNode(BoolValue.v(false))) {
+            List changedNodeList = new ArrayList();
 
-	    List startNodes = agraph.getSuccsOf(BoolValue.v(false));
+            List startNodes = agraph.getSuccsOf(BoolValue.v(false));
 
-	    falseSet.addAll(startNodes);
-	    changedNodeList.addAll(startNodes);
-	
-	    while (!changedNodeList.isEmpty())
-	    {
-		Object node = changedNodeList.remove(0);
+            falseSet.addAll(startNodes);
+            changedNodeList.addAll(startNodes);
 
-		List succs = agraph.getSuccsOf(node);
-	    
-		Iterator succsIt = succs.iterator();
+            while (!changedNodeList.isEmpty()) {
+                Object node = changedNodeList.remove(0);
 
-		while (succsIt.hasNext())
-		{
-		    Object succ = succsIt.next();
+                List succs = agraph.getSuccsOf(node);
 
-		    if (!falseSet.contains(succ))
-		    {
-			falseSet.add(succ);
-			changedNodeList.add(succ);
-		    }
-		}
-	    }
-	}
+                Iterator succsIt = succs.iterator();
+
+                while (succsIt.hasNext()) {
+                    Object succ = succsIt.next();
+
+                    if (!falseSet.contains(succ)) {
+                        falseSet.add(succ);
+                        changedNodeList.add(succ);
+                    }
+                }
+            }
+        }
 
         /* propagate graph info from TRUE node then. */
-	if (agraph.containsNode(BoolValue.v(true)))
-	{
-	    List<Object> changedNodeList = new ArrayList<Object>();
+        if (agraph.containsNode(BoolValue.v(true))) {
+            List<Object> changedNodeList = new ArrayList<Object>();
 
-	    List startNodes = agraph.getSuccsOf(BoolValue.v(true));
+            List startNodes = agraph.getSuccsOf(BoolValue.v(true));
 
-	    Iterator nodesIt = startNodes.iterator();
-	    while (nodesIt.hasNext())
-	    {
-		Object node = nodesIt.next();
-		if (falseSet.contains(node))
-		    continue;
+            Iterator nodesIt = startNodes.iterator();
+            while (nodesIt.hasNext()) {
+                Object node = nodesIt.next();
+                if (falseSet.contains(node))
+                    continue;
 
-		changedNodeList.add(node);
-		trueSet.add(node);
-	    }
+                changedNodeList.add(node);
+                trueSet.add(node);
+            }
 
-	    while (!changedNodeList.isEmpty())
-	    {
-		Object node = changedNodeList.remove(0);
-		
-		List succs = agraph.getSuccsOf(node);
+            while (!changedNodeList.isEmpty()) {
+                Object node = changedNodeList.remove(0);
 
-		Iterator succsIt = succs.iterator();
+                List succs = agraph.getSuccsOf(node);
 
-		while (succsIt.hasNext())
-		{
-		    Object succ = succsIt.next();
+                Iterator succsIt = succs.iterator();
 
-		    if (falseSet.contains(succ))
-			continue;
+                while (succsIt.hasNext()) {
+                    Object succ = succsIt.next();
 
-		    if (trueSet.contains(succ))
-			continue;
+                    if (falseSet.contains(succ))
+                        continue;
 
-		    trueSet.add(succ);
-		    changedNodeList.add(succ);
-		}
-	    }
-	}
+                    if (trueSet.contains(succ))
+                        continue;
+
+                    trueSet.add(succ);
+                    changedNodeList.add(succ);
+                }
+            }
+        }
 
 	/* For verification, print out true set and false set. */
-	
-	if (Options.v().debug())
-	{
-	    G.v().out.println("Rectangular Array :");
-	    {
-		Iterator<Object> nodeIt = trueSet.iterator();
-		while (nodeIt.hasNext())
-		{
-		    Object node = nodeIt.next();
 
-		    G.v().out.println(node);
-		}
-	    }
+        if (Options.v().debug()) {
+            G.v().out.println("Rectangular Array :");
+            {
+                Iterator<Object> nodeIt = trueSet.iterator();
+                while (nodeIt.hasNext()) {
+                    Object node = nodeIt.next();
 
-	    G.v().out.println("\nNon-rectangular Array :");
-	    {
-		Iterator nodeIt = falseSet.iterator();
-		while (nodeIt.hasNext())
-		{
-		    Object node = nodeIt.next();
-		    
-		    G.v().out.println(node);
-		}
-	    }
-	}
-	
-	Date finish = new Date();
-	if (Options.v().verbose()) 
-	{
-	    long runtime = finish.getTime() - start.getTime();
-	    long mins = runtime/60000;
-	    long secs = (runtime%60000)/1000;
-	    G.v().out.println("[ra] Rectangular array finder finishes."
-			       +" It took "+mins+" mins and "+secs+" secs.");
-	}
+                    G.v().out.println(node);
+                }
+            }
+
+            G.v().out.println("\nNon-rectangular Array :");
+            {
+                Iterator nodeIt = falseSet.iterator();
+                while (nodeIt.hasNext()) {
+                    Object node = nodeIt.next();
+
+                    G.v().out.println(node);
+                }
+            }
+        }
+
+        Date finish = new Date();
+        if (Options.v().verbose()) {
+            long runtime = finish.getTime() - start.getTime();
+            long mins = runtime / 60000;
+            long secs = (runtime % 60000) / 1000;
+            G.v().out.println("[ra] Rectangular array finder finishes."
+                    + " It took " + mins + " mins and " + secs + " secs.");
+        }
     }
 
-    private void addInfoFromMethod(SootMethod method)
-    {
-	if (Options.v().verbose()) 
-	    G.v().out.println("[ra] Operating "+method.getSignature());
+    private void addInfoFromMethod(SootMethod method) {
+        if (Options.v().verbose())
+            G.v().out.println("[ra] Operating " + method.getSignature());
 
-	boolean needTransfer = true;
+        boolean needTransfer = true;
 
-	Body body = method.getActiveBody();
+        Body body = method.getActiveBody();
 
-	Set<Object> tmpNode = new HashSet<Object>();
+        Set<Object> tmpNode = new HashSet<Object>();
 
 	/* check the return type of method, if it is multi-array. */
 
-	boolean trackReturn = false;
-	Type rtnType = method.getReturnType();
-	
-	if (rtnType instanceof ArrayType)
-	{
-	    if (((ArrayType)rtnType).numDimensions > 1)
-	    {
-		trackReturn = true;
-		needTransfer = true;
-	    }
-	}      
+        boolean trackReturn = false;
+        Type rtnType = method.getReturnType();
 
-	Set<Local> arrayLocal = new HashSet<Local>();
+        if (rtnType instanceof ArrayType) {
+            if (((ArrayType) rtnType).numDimensions > 1) {
+                trackReturn = true;
+                needTransfer = true;
+            }
+        }
+
+        Set<Local> arrayLocal = new HashSet<Local>();
 
 	/* Collect the multi-array locals */
 
-	Collection<Local> locals = body.getLocals();
-	Iterator<Local> localIt = locals.iterator();
-	while (localIt.hasNext())
-	{
-	    Local local = localIt.next();
-	    
-	    Type type = local.getType();
+        Collection<Local> locals = body.getLocals();
+        Iterator<Local> localIt = locals.iterator();
+        while (localIt.hasNext()) {
+            Local local = localIt.next();
 
-	    if (type instanceof ArrayType)
-	    {
-		if ( ((ArrayType)type).numDimensions > 1)
-		{
-		    arrayLocal.add(local);
-		}
-		else
-		    tmpNode.add(new MethodLocal(method, local));
-	    }
-	}
+            Type type = local.getType();
+
+            if (type instanceof ArrayType) {
+                if (((ArrayType) type).numDimensions > 1) {
+                    arrayLocal.add(local);
+                } else
+                    tmpNode.add(new MethodLocal(method, local));
+            }
+        }
 
 	/* The method has a local graph. It will be merged to the whole graph after simplification. */
-	ExtendedHashMutableDirectedGraph ehmdg = new ExtendedHashMutableDirectedGraph();	
+        ExtendedHashMutableDirectedGraph ehmdg = new ExtendedHashMutableDirectedGraph();
 
-	Iterator<Unit> unitIt = body.getUnits().snapshotIterator();
+        Iterator<Unit> unitIt = body.getUnits().snapshotIterator();
 
-	while (unitIt.hasNext())
-	{
-	    Stmt s = (Stmt)unitIt.next();
+        while (unitIt.hasNext()) {
+            Stmt s = (Stmt) unitIt.next();
 
 	    /* for each invoke site, add edges from local parameter to the target methods' parameter node. */
-	    if (s.containsInvokeExpr())
-	    {
-		InvokeExpr iexpr = s.getInvokeExpr();
-		
-		int argnum = iexpr.getArgCount();
-		
-		for (int i=0; i<argnum; i++)
-		{
-		    Value arg = iexpr.getArg(i);
-		    if (! arrayLocal.contains(arg))
-			continue;
+            if (s.containsInvokeExpr()) {
+                InvokeExpr iexpr = s.getInvokeExpr();
 
-		    needTransfer = true;
+                int argnum = iexpr.getArgCount();
+
+                for (int i = 0; i < argnum; i++) {
+                    Value arg = iexpr.getArg(i);
+                    if (!arrayLocal.contains(arg))
+                        continue;
+
+                    needTransfer = true;
 
 		    /* from node, it is a local */
-		    MethodLocal ml = new MethodLocal(method, (Local)arg);
+                    MethodLocal ml = new MethodLocal(method, (Local) arg);
 
-                    Iterator targetIt = new Targets( cg.edgesOutOf(s) );
-		    
-		    while (targetIt.hasNext())
-		    {
-			SootMethod target = (SootMethod)targetIt.next();
-			
-			MethodParameter mp = new MethodParameter(target, i);
+                    Iterator targetIt = new Targets(cg.edgesOutOf(s));
+
+                    while (targetIt.hasNext()) {
+                        SootMethod target = (SootMethod) targetIt.next();
+
+                        MethodParameter mp = new MethodParameter(target, i);
 			
 			/* add edge to the graph. */
-			ehmdg.addMutualEdge(ml, mp);
-		    }
-		}
-	    }
+                        ehmdg.addMutualEdge(ml, mp);
+                    }
+                }
+            }
 
 	    /* if the return type is multiarray, add an mutual edge from local to return node. */
 
-	    if (trackReturn && (s instanceof ReturnStmt))
-	    {
-		Value op = ((ReturnStmt)s).getOp();
+            if (trackReturn && (s instanceof ReturnStmt)) {
+                Value op = ((ReturnStmt) s).getOp();
 
-		if (op instanceof Local)
-		{
-		    ehmdg.addMutualEdge(new MethodLocal(method, (Local)op), new MethodReturn(method));
-		}
-	    }
+                if (op instanceof Local) {
+                    ehmdg.addMutualEdge(new MethodLocal(method, (Local) op), new MethodReturn(method));
+                }
+            }
 
 	    /* examine each assign statement. build edge relationship between them. */
-	    if (s instanceof DefinitionStmt)
-	    {
-		Value leftOp = ((DefinitionStmt)s).getLeftOp();
-		Value rightOp = ((DefinitionStmt)s).getRightOp();
-		
-		if (! (leftOp.getType() instanceof ArrayType) 
-		    && ! (rightOp.getType() instanceof ArrayType))
-		    continue;
+            if (s instanceof DefinitionStmt) {
+                Value leftOp = ((DefinitionStmt) s).getLeftOp();
+                Value rightOp = ((DefinitionStmt) s).getRightOp();
 
-		Object from = null;
-		Object to = null;
+                if (!(leftOp.getType() instanceof ArrayType)
+                        && !(rightOp.getType() instanceof ArrayType))
+                    continue;
+
+                Object from = null;
+                Object to = null;
 		
 		/* kick out the possible cast. */
-		if ((leftOp instanceof Local) && (rightOp instanceof Local))
-		{
-		    if (arrayLocal.contains(leftOp) && arrayLocal.contains(rightOp))
-		    {
-			int leftDims = ((ArrayType)((Local)leftOp).getType()).numDimensions;
-			int rightDims = ((ArrayType)((Local)rightOp).getType()).numDimensions;
-			
-			to = new MethodLocal(method, (Local)leftOp);
-			from = new MethodLocal(method, (Local)rightOp);
-			ehmdg.addMutualEdge(from, to);
-			
-			if (leftDims != rightDims)
-			    ehmdg.addEdge(BoolValue.v(false), from);
-		    }
-		    else
-		    if (! arrayLocal.contains(leftOp))
-		    {	/* implicitly cast from right side to left side, and the left side declare type is Object ... */
-			ehmdg.addEdge(BoolValue.v(false), new MethodLocal(method, (Local)rightOp));
-		    }			
-		}
-		else
-		if ((leftOp instanceof Local) && (rightOp instanceof ParameterRef))
-		{
-		    if (arrayLocal.contains(leftOp))
-		    {
-			to = new MethodLocal(method, (Local)leftOp);
-			int index = ((ParameterRef)rightOp).getIndex();
-			from = new MethodParameter(method, index);
-			ehmdg.addMutualEdge(from, to);
+                if ((leftOp instanceof Local) && (rightOp instanceof Local)) {
+                    if (arrayLocal.contains(leftOp) && arrayLocal.contains(rightOp)) {
+                        int leftDims = ((ArrayType) leftOp.getType()).numDimensions;
+                        int rightDims = ((ArrayType) rightOp.getType()).numDimensions;
 
-			needTransfer = true;
-		    }
-		}
-		else
-		if ((leftOp instanceof Local) && (rightOp instanceof ArrayRef))
-		{
-		    Local base = (Local)((ArrayRef)rightOp).getBase();
+                        to = new MethodLocal(method, (Local) leftOp);
+                        from = new MethodLocal(method, (Local) rightOp);
+                        ehmdg.addMutualEdge(from, to);
+
+                        if (leftDims != rightDims)
+                            ehmdg.addEdge(BoolValue.v(false), from);
+                    } else if (!arrayLocal.contains(leftOp)) {	/* implicitly cast from right side to left side, and the left side declare type is Object ... */
+                        ehmdg.addEdge(BoolValue.v(false), new MethodLocal(method, (Local) rightOp));
+                    }
+                } else if ((leftOp instanceof Local) && (rightOp instanceof ParameterRef)) {
+                    if (arrayLocal.contains(leftOp)) {
+                        to = new MethodLocal(method, (Local) leftOp);
+                        int index = ((ParameterRef) rightOp).getIndex();
+                        from = new MethodParameter(method, index);
+                        ehmdg.addMutualEdge(from, to);
+
+                        needTransfer = true;
+                    }
+                } else if ((leftOp instanceof Local) && (rightOp instanceof ArrayRef)) {
+                    Local base = (Local) ((ArrayRef) rightOp).getBase();
 
 		    /* it may include one-dimension array into the graph, */
-		    if (arrayLocal.contains(base))
-		    {
+                    if (arrayLocal.contains(base)) {
 			/* add 'a' to 'a[' first */
-			to = new ArrayReferenceNode(method, base);
-			from = new MethodLocal(method, base);
-			ehmdg.addMutualEdge(from, to);
+                        to = new ArrayReferenceNode(method, base);
+                        from = new MethodLocal(method, base);
+                        ehmdg.addMutualEdge(from, to);
 
 			/* put 'a[' into temporary object pool. */
-			tmpNode.add(to);
+                        tmpNode.add(to);
 
 			/* add 'a[' to 'p' then */
-			from = to;
-			to = new MethodLocal(method, (Local)leftOp);
-			ehmdg.addMutualEdge(from, to);
-		    }
-		}
-		else
-		if ((leftOp instanceof ArrayRef) && (rightOp instanceof Local))
-		{
-		    Local base = (Local)((ArrayRef)leftOp).getBase();
+                        from = to;
+                        to = new MethodLocal(method, (Local) leftOp);
+                        ehmdg.addMutualEdge(from, to);
+                    }
+                } else if ((leftOp instanceof ArrayRef) && (rightOp instanceof Local)) {
+                    Local base = (Local) ((ArrayRef) leftOp).getBase();
 
-		    if (arrayLocal.contains(base))
-		    {
+                    if (arrayLocal.contains(base)) {
 			/* to recover the SWAP of array dimensions. */
-			Object suspect = new MethodLocal(method, (Local)rightOp);
-			Object arrRef = new ArrayReferenceNode(method, base);
-			
-			boolean doNothing = false;
+                        Object suspect = new MethodLocal(method, (Local) rightOp);
+                        Object arrRef = new ArrayReferenceNode(method, base);
 
-		    blocklabel:
-			{
-			    if (!ehmdg.containsNode(suspect))
-			        break blocklabel;
+                        boolean doNothing = false;
 
-			    List succs = ehmdg.getSuccsOf(suspect);
-			    List preds = ehmdg.getSuccsOf(suspect);
+                        blocklabel:
+                        {
+                            if (!ehmdg.containsNode(suspect))
+                                break blocklabel;
 
-			    Set neighbor = new HashSet();
-			    
-			    neighbor.addAll(succs);
-			    neighbor.addAll(preds);
+                            List succs = ehmdg.getSuccsOf(suspect);
+                            List preds = ehmdg.getSuccsOf(suspect);
 
-			    if (neighbor.size() != 1)
-				break blocklabel;
+                            Set neighbor = new HashSet();
 
-			    Object neighborOne = (neighbor.toArray())[0];
+                            neighbor.addAll(succs);
+                            neighbor.addAll(preds);
 
-			    if (arrRef.equals(neighborOne))
-				doNothing = true;		 
-			}
+                            if (neighbor.size() != 1)
+                                break blocklabel;
 
-			if (!doNothing)
-			    ehmdg.addEdge(BoolValue.v(false), new MethodLocal(method, base));
-		    }
-		}
-		else
-		if ((leftOp instanceof Local) && (rightOp instanceof InvokeExpr))
-		{
-		    if (arrayLocal.contains(leftOp))
-		    {
-			to = new MethodLocal(method, (Local)leftOp);
+                            Object neighborOne = (neighbor.toArray())[0];
 
-			Iterator targetIt = new Targets( cg.edgesOutOf(s) );
-			
-			while (targetIt.hasNext())
-			{
-			    SootMethod target = (SootMethod)targetIt.next();
+                            if (arrRef.equals(neighborOne))
+                                doNothing = true;
+                        }
 
-			    ehmdg.addMutualEdge(new MethodReturn(target), to);
-			}
-		    }
-		}
-		else
+                        if (!doNothing)
+                            ehmdg.addEdge(BoolValue.v(false), new MethodLocal(method, base));
+                    }
+                } else if ((leftOp instanceof Local) && (rightOp instanceof InvokeExpr)) {
+                    if (arrayLocal.contains(leftOp)) {
+                        to = new MethodLocal(method, (Local) leftOp);
+
+                        Iterator targetIt = new Targets(cg.edgesOutOf(s));
+
+                        while (targetIt.hasNext()) {
+                            SootMethod target = (SootMethod) targetIt.next();
+
+                            ehmdg.addMutualEdge(new MethodReturn(target), to);
+                        }
+                    }
+                } else
 		/* For field reference, we can make conservative assumption that all instance fieldRef use the same node.*/
-		if ((leftOp instanceof FieldRef) && (rightOp instanceof Local))
-		{
-		    if (arrayLocal.contains(rightOp))
-		    {
-			Type ftype = ((FieldRef)leftOp).getType();
-			Type ltype = ((Local)rightOp).getType();
+                    if ((leftOp instanceof FieldRef) && (rightOp instanceof Local)) {
+                        if (arrayLocal.contains(rightOp)) {
+                            Type ftype = leftOp.getType();
+                            Type ltype = rightOp.getType();
 
-			to = ((FieldRef)leftOp).getField();
-			from = new MethodLocal(method, (Local)rightOp);
-			
-			ehmdg.addMutualEdge(from, to);
-			
-			if (!ftype.equals(ltype))
-			{
-			    ehmdg.addEdge(BoolValue.v(false), to);
-			}
+                            to = ((FieldRef) leftOp).getField();
+                            from = new MethodLocal(method, (Local) rightOp);
 
-			needTransfer = true;
-		    }
-		}
-		else
-		if ((leftOp instanceof Local) && (rightOp instanceof FieldRef))
-		{
-		    if (arrayLocal.contains(leftOp))
-		    {
-			Type ftype = ((FieldRef)rightOp).getType();
-			Type ltype = ((Local)leftOp).getType();
+                            ehmdg.addMutualEdge(from, to);
 
-			to = new MethodLocal(method, (Local)leftOp);
-			from = ((FieldRef)rightOp).getField();
-			
-			ehmdg.addMutualEdge(from, to);
-			
-			if (!ftype.equals(ltype))
-			{
-			    ehmdg.addEdge(BoolValue.v(false), to);
-			}
+                            if (!ftype.equals(ltype)) {
+                                ehmdg.addEdge(BoolValue.v(false), to);
+                            }
 
-			needTransfer = true;
-		    }
-		}
-		else
-		if ((leftOp instanceof Local) && ((rightOp instanceof NewArrayExpr)||(rightOp instanceof NewMultiArrayExpr)))
-		{
-		    if (arrayLocal.contains(leftOp))
-		    {
-			ehmdg.addEdge(BoolValue.v(true), new MethodLocal(method, (Local)leftOp));
-		    }
-		}
-		else
-		if ((leftOp instanceof Local) && (rightOp instanceof CastExpr))
-		/* Cast express, we will use conservative solution. */
-		{
-		    Local rOp = (Local)((CastExpr)rightOp).getOp();
+                            needTransfer = true;
+                        }
+                    } else if ((leftOp instanceof Local) && (rightOp instanceof FieldRef)) {
+                        if (arrayLocal.contains(leftOp)) {
+                            Type ftype = rightOp.getType();
+                            Type ltype = leftOp.getType();
 
-		    to = new MethodLocal(method, (Local)leftOp);
-		    from = new MethodLocal(method, rOp);
+                            to = new MethodLocal(method, (Local) leftOp);
+                            from = ((FieldRef) rightOp).getField();
 
-		    if (arrayLocal.contains(leftOp) && arrayLocal.contains(rOp))
-		    {
-			ArrayType lat = (ArrayType)leftOp.getType();
-			ArrayType rat = (ArrayType)rOp.getType();
+                            ehmdg.addMutualEdge(from, to);
 
-			if (lat.numDimensions == rat.numDimensions)
-			{
-			    ehmdg.addMutualEdge(from, to);
-			}
-			else
-			{
-			    ehmdg.addEdge(BoolValue.v(false), from);
-			    ehmdg.addEdge(BoolValue.v(false), to);
-			}
-		    }
-		    else
-		    if (arrayLocal.contains(leftOp))
-		    {
-			ehmdg.addEdge(BoolValue.v(false), to);
-		    }
-		    else
-		    if (arrayLocal.contains(rOp))
-		    {
-			ehmdg.addEdge(BoolValue.v(false), from);
-		    }			
-		}
-	    }
-	}
+                            if (!ftype.equals(ltype)) {
+                                ehmdg.addEdge(BoolValue.v(false), to);
+                            }
+
+                            needTransfer = true;
+                        }
+                    } else if ((leftOp instanceof Local) && ((rightOp instanceof NewArrayExpr) || (rightOp instanceof NewMultiArrayExpr))) {
+                        if (arrayLocal.contains(leftOp)) {
+                            ehmdg.addEdge(BoolValue.v(true), new MethodLocal(method, (Local) leftOp));
+                        }
+                    } else if ((leftOp instanceof Local) && (rightOp instanceof CastExpr))
+		/* Cast express, we will use conservative solution. */ {
+                        Local rOp = (Local) ((CastExpr) rightOp).getOp();
+
+                        to = new MethodLocal(method, (Local) leftOp);
+                        from = new MethodLocal(method, rOp);
+
+                        if (arrayLocal.contains(leftOp) && arrayLocal.contains(rOp)) {
+                            ArrayType lat = (ArrayType) leftOp.getType();
+                            ArrayType rat = (ArrayType) rOp.getType();
+
+                            if (lat.numDimensions == rat.numDimensions) {
+                                ehmdg.addMutualEdge(from, to);
+                            } else {
+                                ehmdg.addEdge(BoolValue.v(false), from);
+                                ehmdg.addEdge(BoolValue.v(false), to);
+                            }
+                        } else if (arrayLocal.contains(leftOp)) {
+                            ehmdg.addEdge(BoolValue.v(false), to);
+                        } else if (arrayLocal.contains(rOp)) {
+                            ehmdg.addEdge(BoolValue.v(false), from);
+                        }
+                    }
+            }
+        }
 
 	/* Compute the graph locally, it will skip all locals */
+
+        if (needTransfer) {
+            Iterator<Object> tmpNodeIt = tmpNode.iterator();
+
+            while (tmpNodeIt.hasNext()) {
+                ehmdg.skipNode(tmpNodeIt.next());
+            }
 	
-	if (needTransfer)
-	{
-	    Iterator<Object> tmpNodeIt = tmpNode.iterator();
-	
-	    while (tmpNodeIt.hasNext())
-	    {	    
-      		ehmdg.skipNode(tmpNodeIt.next());
-	    }
-	
-	    /* Add local graph to whole graph */	
-	    agraph.mergeWith(ehmdg);
-	}
+	    /* Add local graph to whole graph */
+            agraph.mergeWith(ehmdg);
+        }
 
     }
 
-    private void recoverRectArray(SootMethod method)
-    {
-	Body body = method.getActiveBody();
-	HashSet<Local> malocal = new HashSet<Local>();
+    private void recoverRectArray(SootMethod method) {
+        Body body = method.getActiveBody();
+        HashSet<Local> malocal = new HashSet<Local>();
 
-	Collection<Local> locals = body.getLocals();
-	Iterator<Local> localsIt = locals.iterator();
-	while (localsIt.hasNext())
-	{
-	    Local local = localsIt.next();
-	    Type type = local.getType();
-	    if (!(type instanceof ArrayType))
-		continue;
-	    
-	    if (((ArrayType)type).numDimensions == 2)
-		malocal.add(local);
-	}
+        Collection<Local> locals = body.getLocals();
+        Iterator<Local> localsIt = locals.iterator();
+        while (localsIt.hasNext()) {
+            Local local = localsIt.next();
+            Type type = local.getType();
+            if (!(type instanceof ArrayType))
+                continue;
 
-	if (malocal.size() == 0)
-	    return;
+            if (((ArrayType) type).numDimensions == 2)
+                malocal.add(local);
+        }
 
-	Chain<Unit> units = body.getUnits();
+        if (malocal.size() == 0)
+            return;
 
-	Stmt stmt = (Stmt)units.getFirst();
+        Chain<Unit> units = body.getUnits();
 
-	while (true)
-	{
-	    if (stmt == null)
-		break;
+        Stmt stmt = (Stmt) units.getFirst();
+
+        while (true) {
+            if (stmt == null)
+                break;
 
 	    /* only deal with the first block */
-	    if (!stmt.fallsThrough())
-		break;
+            if (!stmt.fallsThrough())
+                break;
 
-	searchblock:
-	    {
+            searchblock:
+            {
 	    /* possible candidates */
-		if (!(stmt instanceof AssignStmt))
-		    break searchblock;
-		    
-		Value leftOp = ((AssignStmt)stmt).getLeftOp();
-		Value rightOp = ((AssignStmt)stmt).getRightOp();
+                if (!(stmt instanceof AssignStmt))
+                    break searchblock;
 
-		if (!malocal.contains(leftOp) || !(rightOp instanceof NewArrayExpr))
-		    break searchblock;
+                Value leftOp = ((AssignStmt) stmt).getLeftOp();
+                Value rightOp = ((AssignStmt) stmt).getRightOp();
 
-		Local local = (Local)leftOp;
- 
-		NewArrayExpr naexpr = (NewArrayExpr)rightOp;
-		
-		Value size = naexpr.getSize();
-		if (!(size instanceof IntConstant))
-		    break searchblock;
+                if (!malocal.contains(leftOp) || !(rightOp instanceof NewArrayExpr))
+                    break searchblock;
 
-		int firstdim = ((IntConstant)size).value;
-		if (firstdim > 100)
-		    break searchblock;
+                Local local = (Local) leftOp;
 
-		ArrayType localtype = (ArrayType)local.getType();
-		Type basetype = localtype.baseType;
+                NewArrayExpr naexpr = (NewArrayExpr) rightOp;
 
-		Local[] tmplocals = new Local[firstdim];
+                Value size = naexpr.getSize();
+                if (!(size instanceof IntConstant))
+                    break searchblock;
 
-		int seconddim = lookforPattern(units, stmt, 
-					       firstdim, local,
-					       basetype, tmplocals);
+                int firstdim = ((IntConstant) size).value;
+                if (firstdim > 100)
+                    break searchblock;
 
-		if (seconddim >= 0)
-		    transferPattern(units, stmt, 
-				    firstdim, seconddim, 
-				    local, basetype, tmplocals);
-	    }
+                ArrayType localtype = (ArrayType) local.getType();
+                Type basetype = localtype.baseType;
 
-	    stmt = (Stmt)units.getSuccOf(stmt);
-	}
+                Local[] tmplocals = new Local[firstdim];
+
+                int seconddim = lookforPattern(units, stmt,
+                        firstdim, local,
+                        basetype, tmplocals);
+
+                if (seconddim >= 0)
+                    transferPattern(units, stmt,
+                            firstdim, seconddim,
+                            local, basetype, tmplocals);
+            }
+
+            stmt = (Stmt) units.getSuccOf(stmt);
+        }
     }
 
     /* if the local is assigned a rect array, return back the second dimension length,
        else return -1
     */
-    private int lookforPattern(Chain units, Stmt startpoint, 
-			       int firstdim, Local local,
-			       Type basetype, Local[] tmplocals)
-    {
+    private int lookforPattern(Chain units, Stmt startpoint,
+                               int firstdim, Local local,
+                               Type basetype, Local[] tmplocals) {
 	/* It is a state machine to match the pattern */
 	/*  state        input               goto
 	    start        r1 = new(A[])[c]      1
@@ -656,170 +578,154 @@ public class RectangularArrayFinder extends SceneTransformer
 	    3            end
 	*/
 
-	int seconddim = -1;
-	int curdim = 0;
-	Object curtmp = local; // Local, I have to initialize it. It should not be this value.
+        int seconddim = -1;
+        int curdim = 0;
+        Object curtmp = local; // Local, I have to initialize it. It should not be this value.
 
-	Stmt curstmt = startpoint;
+        Stmt curstmt = startpoint;
 
-	int fault = 99;
-	int state = 1;
+        int fault = 99;
+        int state = 1;
 
-	while (true)
-	{
-	    curstmt = (Stmt)units.getSuccOf(curstmt);
-	    if (curstmt == null)
-		return -1;
+        while (true) {
+            curstmt = (Stmt) units.getSuccOf(curstmt);
+            if (curstmt == null)
+                return -1;
 
-	    if (!(curstmt instanceof AssignStmt))
-		return -1;
+            if (!(curstmt instanceof AssignStmt))
+                return -1;
 
-	    Value leftOp = ((AssignStmt)curstmt).getLeftOp();
-	    Value rightOp = ((AssignStmt)curstmt).getRightOp();
+            Value leftOp = ((AssignStmt) curstmt).getLeftOp();
+            Value rightOp = ((AssignStmt) curstmt).getRightOp();
 
-	    switch (state)
-	    {
+            switch (state) {
 		/* we already did state 0 outside */
-	    case 0:
-		break;
-		
-	    case 1:
+                case 0:
+                    break;
+
+                case 1:
 		/* make sure it is a new array expr */
-		{
-		    state = fault;
+                {
+                    state = fault;
 
-		    if (!(rightOp instanceof NewArrayExpr))
-			break;
-		    
-		    NewArrayExpr naexpr = (NewArrayExpr)rightOp;
-		    Type type = naexpr.getBaseType();
-		    Value size = naexpr.getSize();
+                    if (!(rightOp instanceof NewArrayExpr))
+                        break;
 
-		    if (!type.equals(basetype))
-		        break;
+                    NewArrayExpr naexpr = (NewArrayExpr) rightOp;
+                    Type type = naexpr.getBaseType();
+                    Value size = naexpr.getSize();
 
-		    if (!(size instanceof IntConstant))
-			break;
+                    if (!type.equals(basetype))
+                        break;
 
-		    if (curdim == 0)
-			seconddim = ((IntConstant)size).value;
-		    else
-		    {
-			if (((IntConstant)size).value != seconddim)
-			    break;
-		    }
-		    
-		    curtmp = leftOp;
+                    if (!(size instanceof IntConstant))
+                        break;
 
-		    state = 2;
-		}
-		break;
+                    if (curdim == 0)
+                        seconddim = ((IntConstant) size).value;
+                    else {
+                        if (((IntConstant) size).value != seconddim)
+                            break;
+                    }
 
-	    case 2:
-		{
-		    state = fault;
+                    curtmp = leftOp;
 
-		    if (!(leftOp instanceof ArrayRef))
-			break;
+                    state = 2;
+                }
+                break;
 
-		    Value base = ((ArrayRef)leftOp).getBase();
-		    Value idx = ((ArrayRef)leftOp).getIndex();
+                case 2: {
+                    state = fault;
+
+                    if (!(leftOp instanceof ArrayRef))
+                        break;
+
+                    Value base = ((ArrayRef) leftOp).getBase();
+                    Value idx = ((ArrayRef) leftOp).getIndex();
 
 		    /* curtmp[?] = ? */
-		    if (base.equals(curtmp))
-			state = 2;
-		    else
+                    if (base.equals(curtmp))
+                        state = 2;
+                    else
 		    /* local[?] = curtmp? */
-		    if (base.equals(local))
-		    {
-			if (!(idx instanceof IntConstant))
-			    break;
-			
-			if (curdim != ((IntConstant)idx).value)
-			    break;
+                        if (base.equals(local)) {
+                            if (!(idx instanceof IntConstant))
+                                break;
 
-			if (!rightOp.equals(curtmp))
-			    break;
+                            if (curdim != ((IntConstant) idx).value)
+                                break;
 
-			tmplocals[curdim] = (Local)curtmp;
+                            if (!rightOp.equals(curtmp))
+                                break;
 
-			curdim++;
+                            tmplocals[curdim] = (Local) curtmp;
 
-			if (curdim >= firstdim)
-			    state = 3;
-			else
-			    state = 1;
-		    }
-		}
-		break;
-		
-	    case 3:
-		return seconddim;
-      
+                            curdim++;
 
-	    default:
-		return -1;
-	    }
-	}
+                            if (curdim >= firstdim)
+                                state = 3;
+                            else
+                                state = 1;
+                        }
+                }
+                break;
+
+                case 3:
+                    return seconddim;
+
+
+                default:
+                    return -1;
+            }
+        }
     }
-    
+
     private void transferPattern(Chain units, Stmt startpoint,
-				 int firstdim, int seconddim,
-				 Local local, Type basetype,
-				 Local[] tmplocals)
-    {
+                                 int firstdim, int seconddim,
+                                 Local local, Type basetype,
+                                 Local[] tmplocals) {
 	/* sequentially search and replace the sub dimension assignment */
-	{
+        {
 	    /* change the first one, reset the right op */
-	    ArrayType atype = (ArrayType)local.getType();
-	    List sizes = new ArrayList(2);
-	    sizes.add(IntConstant.v(firstdim));
-	    sizes.add(IntConstant.v(seconddim));
-	    Value nmexpr = new JNewMultiArrayExpr(atype, sizes);
+            ArrayType atype = (ArrayType) local.getType();
+            List sizes = new ArrayList(2);
+            sizes.add(IntConstant.v(firstdim));
+            sizes.add(IntConstant.v(seconddim));
+            Value nmexpr = new JNewMultiArrayExpr(atype, sizes);
 
-	    ((AssignStmt)startpoint).setRightOp(nmexpr);
-	}
+            ((AssignStmt) startpoint).setRightOp(nmexpr);
+        }
 
-	{
-	    int curdim = 0;
-	    Local tmpcur = local;
+        {
+            int curdim = 0;
+            Local tmpcur = local;
 
-	    Stmt curstmt = (Stmt)units.getSuccOf(startpoint);
+            Stmt curstmt = (Stmt) units.getSuccOf(startpoint);
 
-	    while (curdim < firstdim)
-	    {	        
-		Value leftOp = ((AssignStmt)curstmt).getLeftOp();
-		Value rightOp = ((AssignStmt)curstmt).getRightOp();
-		
-		if (tmplocals[curdim].equals(leftOp) && (rightOp instanceof NewArrayExpr))
-		{
-		    ArrayRef arexpr = new JArrayRef(local, IntConstant.v(curdim));
-		    ((AssignStmt)curstmt).setRightOp(arexpr);
-		    tmpcur = (Local)leftOp;
-		}
-		else
-		if ((leftOp instanceof ArrayRef) && (rightOp.equals(tmpcur)))
-		{		    
+            while (curdim < firstdim) {
+                Value leftOp = ((AssignStmt) curstmt).getLeftOp();
+                Value rightOp = ((AssignStmt) curstmt).getRightOp();
+
+                if (tmplocals[curdim].equals(leftOp) && (rightOp instanceof NewArrayExpr)) {
+                    ArrayRef arexpr = new JArrayRef(local, IntConstant.v(curdim));
+                    ((AssignStmt) curstmt).setRightOp(arexpr);
+                    tmpcur = (Local) leftOp;
+                } else if ((leftOp instanceof ArrayRef) && (rightOp.equals(tmpcur))) {
 		    /* delete current stmt */
-		    Stmt tmpstmt = curstmt;
-		    curstmt = (Stmt)units.getSuccOf(curstmt);
-		    units.remove(tmpstmt);
+                    Stmt tmpstmt = curstmt;
+                    curstmt = (Stmt) units.getSuccOf(curstmt);
+                    units.remove(tmpstmt);
 
-		    curdim++;
-		}
-		else
-		    curstmt = (Stmt)units.getSuccOf(curstmt);		
-	    }
-	}
+                    curdim++;
+                } else
+                    curstmt = (Stmt) units.getSuccOf(curstmt);
+            }
+        }
     }
 
 
-    public boolean isRectangular(Object obj)
-    {
-	if (trueSet.contains(obj))
-	    return true;
-	else
-	    return false;
+    public boolean isRectangular(Object obj) {
+        return trueSet.contains(obj);
     }
 }
 

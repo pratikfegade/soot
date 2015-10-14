@@ -1,8 +1,11 @@
 public class LineTest {
 
-    void bar(){}
-    void foo(){}
+    public static void main(String[] args) {
+    }
 
-    public static void main(String [] args){
+    void bar() {
+    }
+
+    void foo() {
     }
 }

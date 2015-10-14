@@ -26,133 +26,113 @@
 
 package soot.jimple.toolkits.typing;
 
-import soot.*;
-import soot.util.*;
+import soot.G;
+import soot.util.BitSetIterator;
+import soot.util.BitVector;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * @deprecated use {@link soot.jimple.toolkits.typing.fast.TypeResolver} instead
  */
 @Deprecated
-class StronglyConnectedComponentsBV
-{
-  BitVector variables;
-  Set<TypeVariableBV> black;
-  LinkedList<TypeVariableBV> finished;
-  
-  TypeResolverBV resolver;
-  
-  LinkedList<LinkedList<TypeVariableBV>> forest = new LinkedList<LinkedList<TypeVariableBV>>();
-  LinkedList<TypeVariableBV> current_tree;
-  
-  private static final boolean DEBUG = false;
-  
-  public StronglyConnectedComponentsBV(BitVector typeVariableList, TypeResolverBV resolver) throws TypeException
-  {
-    this.resolver = resolver;
-    variables = typeVariableList;
-    
-    black = new TreeSet<TypeVariableBV>();
-    finished = new LinkedList<TypeVariableBV>();
-    
-    for(BitSetIterator i = variables.iterator(); i.hasNext(); )
-      {
-	TypeVariableBV var = resolver.typeVariableForId(i.next());
+class StronglyConnectedComponentsBV {
+    private static final boolean DEBUG = false;
+    BitVector variables;
+    Set<TypeVariableBV> black;
+    LinkedList<TypeVariableBV> finished;
+    TypeResolverBV resolver;
+    LinkedList<LinkedList<TypeVariableBV>> forest = new LinkedList<LinkedList<TypeVariableBV>>();
+    LinkedList<TypeVariableBV> current_tree;
 
-	if(!black.contains(var))
-	  {
-	    black.add(var);
-	    dfsg_visit(var);
-	  }
-      }
-    
-    black = new TreeSet<TypeVariableBV>();
-    
-    for (TypeVariableBV var : finished) {
-	if(!black.contains(var))
-	  {
-	    current_tree = new LinkedList<TypeVariableBV>();
-	    forest.add(current_tree);
-	    black.add(var);
-	    dfsgt_visit(var);
-	  }
-      }
-    
-    for(Iterator<LinkedList<TypeVariableBV>> i = forest.iterator(); i.hasNext();)
-      {
-	LinkedList<TypeVariableBV> list = i.next();
-	TypeVariableBV previous = null;
-	StringBuffer s = null;
-	if(DEBUG)
-	  {
-	    s = new StringBuffer("scc:\n");
-	  }
-	
-	for(Iterator<TypeVariableBV> j = list.iterator(); j.hasNext();)
-	  {
-	    TypeVariableBV current = j.next();
-	   
-	    if(DEBUG)
-	      {
-		s.append(" " + current + "\n");
-	      }
+    public StronglyConnectedComponentsBV(BitVector typeVariableList, TypeResolverBV resolver) throws TypeException {
+        this.resolver = resolver;
+        variables = typeVariableList;
 
-	    if(previous == null)
-	      {
-		previous = current;
-	      }
-	    else
-	      {
-		try
-		  {
-		    previous = previous.union(current);
-		  }
-		catch(TypeException e)
-		  {
-		    if(DEBUG)
-		      {
-			G.v().out.println(s);
-		      }
-		    throw e;
-		  }
-	      }
-	  }
-      }
-  }
-  
-  private void dfsg_visit(TypeVariableBV var)
-  {
-    BitVector parents = var.parents();
-    
-    for(BitSetIterator i = parents.iterator(); i.hasNext(); )
-      {
-	TypeVariableBV parent = resolver.typeVariableForId(i.next());
+        black = new TreeSet<TypeVariableBV>();
+        finished = new LinkedList<TypeVariableBV>();
 
-	if(!black.contains(parent))
-	  {
-	    black.add(parent);
-	    dfsg_visit(parent);
-	  }
-      }
-    
-    finished.add(0, var);
-  }
-  
-  private void dfsgt_visit(TypeVariableBV var)
-  {
-    current_tree.add(var);
-    
-    BitVector children = var.children();
-    
-    for(BitSetIterator i = children.iterator(); i.hasNext(); )
-      {
-	TypeVariableBV child = resolver.typeVariableForId(i.next());
+        for (BitSetIterator i = variables.iterator(); i.hasNext(); ) {
+            TypeVariableBV var = resolver.typeVariableForId(i.next());
 
-	if(!black.contains(child))
-	  {
-	    black.add(child);
-	    dfsgt_visit(child);
-	  }
-      }
-  }
+            if (!black.contains(var)) {
+                black.add(var);
+                dfsg_visit(var);
+            }
+        }
+
+        black = new TreeSet<TypeVariableBV>();
+
+        for (TypeVariableBV var : finished) {
+            if (!black.contains(var)) {
+                current_tree = new LinkedList<TypeVariableBV>();
+                forest.add(current_tree);
+                black.add(var);
+                dfsgt_visit(var);
+            }
+        }
+
+        for (Iterator<LinkedList<TypeVariableBV>> i = forest.iterator(); i.hasNext(); ) {
+            LinkedList<TypeVariableBV> list = i.next();
+            TypeVariableBV previous = null;
+            StringBuffer s = null;
+            if (DEBUG) {
+                s = new StringBuffer("scc:\n");
+            }
+
+            for (Iterator<TypeVariableBV> j = list.iterator(); j.hasNext(); ) {
+                TypeVariableBV current = j.next();
+
+                if (DEBUG) {
+                    s.append(" " + current + "\n");
+                }
+
+                if (previous == null) {
+                    previous = current;
+                } else {
+                    try {
+                        previous = previous.union(current);
+                    } catch (TypeException e) {
+                        if (DEBUG) {
+                            G.v().out.println(s);
+                        }
+                        throw e;
+                    }
+                }
+            }
+        }
+    }
+
+    private void dfsg_visit(TypeVariableBV var) {
+        BitVector parents = var.parents();
+
+        for (BitSetIterator i = parents.iterator(); i.hasNext(); ) {
+            TypeVariableBV parent = resolver.typeVariableForId(i.next());
+
+            if (!black.contains(parent)) {
+                black.add(parent);
+                dfsg_visit(parent);
+            }
+        }
+
+        finished.add(0, var);
+    }
+
+    private void dfsgt_visit(TypeVariableBV var) {
+        current_tree.add(var);
+
+        BitVector children = var.children();
+
+        for (BitSetIterator i = children.iterator(); i.hasNext(); ) {
+            TypeVariableBV child = resolver.typeVariableForId(i.next());
+
+            if (!black.contains(child)) {
+                black.add(child);
+                dfsgt_visit(child);
+            }
+        }
+    }
 }

@@ -25,19 +25,15 @@ import soot.jimple.spark.pag.VarNode;
  */
 public final class AssignEdge {
 
-	private static final int PARAM_MASK = 0x00000001;
-	
-	private static final int RETURN_MASK = 0x00000002;
+    private static final int PARAM_MASK = 0x00000001;
 
-	private static final int CALL_MASK = PARAM_MASK | RETURN_MASK;
-    
-    private Integer callSite = null;
-	
+    private static final int RETURN_MASK = 0x00000002;
+
+    private static final int CALL_MASK = PARAM_MASK | RETURN_MASK;
     private final VarNode src;
-
-    private int scratch;
-    
     private final VarNode dst;
+    private Integer callSite = null;
+    private int scratch;
 
     /**
      * @param from
@@ -47,31 +43,31 @@ public final class AssignEdge {
         this.src = from;
         this.dst = to;
     }
-    
-	public boolean isParamEdge() {
-		return (scratch & PARAM_MASK) != 0;
-	}
-	
-	public void setParamEdge() {
-		scratch |= PARAM_MASK;
-	}
-	
-	public boolean isReturnEdge() {
-		return (scratch & RETURN_MASK) != 0;
-	}
-	
-	public void setReturnEdge() {
-		scratch |= RETURN_MASK;
-	}
-	
-	public boolean isCallEdge() {
-		return (scratch & CALL_MASK) != 0;
-	}
-	
-	public void clearCallEdge() {
-		scratch = 0;
-	}
-    
+
+    public boolean isParamEdge() {
+        return (scratch & PARAM_MASK) != 0;
+    }
+
+    public void setParamEdge() {
+        scratch |= PARAM_MASK;
+    }
+
+    public boolean isReturnEdge() {
+        return (scratch & RETURN_MASK) != 0;
+    }
+
+    public void setReturnEdge() {
+        scratch |= RETURN_MASK;
+    }
+
+    public boolean isCallEdge() {
+        return (scratch & CALL_MASK) != 0;
+    }
+
+    public void clearCallEdge() {
+        scratch = 0;
+    }
+
     /**
      * @return
      */
@@ -88,19 +84,20 @@ public final class AssignEdge {
     }
 
     public String toString() {
-    	String ret = src + " -> " + dst;
-    	if (isReturnEdge()) {
-    		ret += "(* return" + callSite + " *)";
-    	} else if (isParamEdge()) {
-			ret += "(* param" + callSite + " *)";
-    		
-    	}
-    	return ret;
+        String ret = src + " -> " + dst;
+        if (isReturnEdge()) {
+            ret += "(* return" + callSite + " *)";
+        } else if (isParamEdge()) {
+            ret += "(* param" + callSite + " *)";
+
+        }
+        return ret;
     }
-    
+
     public VarNode getSrc() {
         return src;
     }
+
     public VarNode getDst() {
         return dst;
     }

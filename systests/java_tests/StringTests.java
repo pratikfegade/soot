@@ -1,15 +1,15 @@
-public class StringTests{
+public class StringTests {
 
-    public static void main (String [] args) {
-    
-            int i = 0;
-            System.out.println("Number: "+i);
+    public static void main(String[] args) {
 
-            String result = new String();
+        int i = 0;
+        System.out.println("Number: " + i);
 
-            result += i;
+        String result = new String();
 
-            System.out.println(result);
+        result += i;
+
+        System.out.println(result);
     }
-    
+
 }

@@ -25,36 +25,36 @@
 
 
 package soot;
-import soot.util.*;
+
+import soot.util.Switch;
 
 /**
- *   Soot representation of the Java type for a statement address. Implemented as
- *   a singleton.
+ * Soot representation of the Java type for a statement address. Implemented as
+ * a singleton.
  */
 @SuppressWarnings("serial")
-public class StmtAddressType extends Type
-{
-    public StmtAddressType( Singletons.Global g ) {}
-    public static StmtAddressType v() { return G.v().soot_StmtAddressType(); }
+public class StmtAddressType extends Type {
+    public StmtAddressType(Singletons.Global g) {
+    }
 
-    public boolean equals(Object t)
-    {
+    public static StmtAddressType v() {
+        return G.v().soot_StmtAddressType();
+    }
+
+    public boolean equals(Object t) {
         return this == t;
     }
 
-    
-    public int hashCode()
-    {
+
+    public int hashCode() {
         return 0x74F368D1;
     }
-    
-    public String toString()
-    {
+
+    public String toString() {
         return "address";
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((TypeSwitch) sw).caseStmtAddressType(this);
     }
 }

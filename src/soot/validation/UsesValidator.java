@@ -1,30 +1,26 @@
 package soot.validation;
 
-import java.util.Collection;
-import java.util.List;
-
-import soot.Body;
-import soot.Local;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.toolkits.exceptions.PedanticThrowAnalysis;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.LocalDefs;
 
+import java.util.Collection;
+import java.util.List;
+
 public enum UsesValidator implements BodyValidator {
-	INSTANCE;	
-	
-	public static UsesValidator v() {
-		return INSTANCE;
-	}
+    INSTANCE;
+
+    public static UsesValidator v() {
+        return INSTANCE;
+    }
 
 
-	@Override
+    @Override
     /** Verifies that each use in this Body has a def. */
-	public void validate(Body body, List<ValidationException> exception) {
+    public void validate(Body body, List<ValidationException> exception) {
         // Conservative validation of uses: add edges to exception handlers 
         // even if they are not reachable.
         //
@@ -51,46 +47,45 @@ public enum UsesValidator implements BodyValidator {
         // 
         // Note that unreachable traps can be removed by setting jb.uce's 
         // "remove-unreachable-traps" option to true.
-		
+
         ThrowAnalysis throwAnalysis = PedanticThrowAnalysis.v();
         UnitGraph g = new ExceptionalUnitGraph(body, throwAnalysis, false);
         LocalDefs ld = LocalDefs.Factory.newLocalDefs(g, true);
-        
+
         Collection<Local> locals = body.getLocals();
         for (Unit u : body.getUnits()) {
-        	for (ValueBox box : u.getUseBoxes()) {
+            for (ValueBox box : u.getUseBoxes()) {
                 Value v = box.getValue();
-                if (v instanceof Local)
-                {
-                	Local l = (Local) v;
-                	
-					if(!locals.contains(l)) {
-                    	String msg = "Local "+v+" is referenced here but not in body's local-chain. ("+body.getMethod()+")";
-						exception.add(new ValidationException(u, msg, msg));
+                if (v instanceof Local) {
+                    Local l = (Local) v;
+
+                    if (!locals.contains(l)) {
+                        String msg = "Local " + v + " is referenced here but not in body's local-chain. (" + body.getMethod() + ")";
+                        exception.add(new ValidationException(u, msg, msg));
                     }
-										
+
                     if (ld.getDefsOfAt(l, u).isEmpty()) {
-                    	// abroken graph is also a possible reason for undefined locals!
-                    	assert graphEdgesAreValid(g,u) : "broken graph found: " + u;
-                    	
-                        exception.add(new ValidationException(u, "There is no path from a definition of " + v + " to this statement.", 
-                        		"("+ body.getMethod() +") no defs for value: " + l + "!"));
+                        // abroken graph is also a possible reason for undefined locals!
+                        assert graphEdgesAreValid(g, u) : "broken graph found: " + u;
+
+                        exception.add(new ValidationException(u, "There is no path from a definition of " + v + " to this statement.",
+                                "(" + body.getMethod() + ") no defs for value: " + l + "!"));
                     }
                 }
             }
         }
     }
-	
-	private boolean graphEdgesAreValid(UnitGraph g, Unit u) {
-		for (Unit p : g.getPredsOf(u)) {
-			if (!g.getSuccsOf(p).contains(u))
-				return false;
-		}
-		return true;
-	}
 
-	@Override
-	public boolean isBasicValidator() {
-		return false;
-	}
+    private boolean graphEdgesAreValid(UnitGraph g, Unit u) {
+        for (Unit p : g.getPredsOf(u)) {
+            if (!g.getSuccsOf(p).contains(u))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isBasicValidator() {
+        return false;
+    }
 }

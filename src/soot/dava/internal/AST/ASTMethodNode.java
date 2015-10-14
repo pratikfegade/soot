@@ -31,280 +31,282 @@
 package soot.dava.internal.AST;
 
 import soot.*;
+import soot.dava.DavaBody;
+import soot.dava.DavaUnitPrinter;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DVariableDeclarationStmt;
+import soot.dava.toolkits.base.AST.ASTAnalysis;
+import soot.dava.toolkits.base.AST.analysis.Analysis;
+import soot.dava.toolkits.base.renamer.RemoveFullyQualifiedName;
+import soot.jimple.InstanceInvokeExpr;
+import soot.jimple.Stmt;
+import soot.util.DeterministicHashMap;
+import soot.util.IterableSet;
 
 import java.util.*;
-
-import soot.dava.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.internal.asg.*;
-import soot.dava.toolkits.base.AST.*;
-import soot.dava.toolkits.base.AST.analysis.*;
-import soot.dava.toolkits.base.renamer.RemoveFullyQualifiedName;
 
 /*
  * ALWAYS REMEMBER THAT THE FIRST NODE IN THE BODY OF A METHODNODE HAS TO BE A STATEMENT
  * SEQUENCE NODE WITH DECLARATIONS!!!!
  */
 public class ASTMethodNode extends ASTNode {
-	private List<Object> body;
+    private List<Object> body;
 
-	private DavaBody davaBody;
+    private DavaBody davaBody;
 
-	private ASTStatementSequenceNode declarations;
+    private ASTStatementSequenceNode declarations;
 
-	/*
-	 * Variables that are used in shortcu statements are kept in the
-	 * declarations since other analyses need quick access to all the declared
-	 * locals in the method
-	 * 
-	 * Any local in the dontPrintLocals list is not printed in the top declarations
-	 */
-	private List<Local> dontPrintLocals = new ArrayList<Local>();
-	
-	/*
-	 typeToLocals stores the type of the local and a list of all locals with that type
-	 */
-	private Map<Type, List> typeToLocals;//Nomair A. Naeem 24th January why is this a field? why not a localVar of storeLocals???
+    /*
+     * Variables that are used in shortcu statements are kept in the
+     * declarations since other analyses need quick access to all the declared
+     * locals in the method
+     *
+     * Any local in the dontPrintLocals list is not printed in the top declarations
+     */
+    private List<Local> dontPrintLocals = new ArrayList<Local>();
 
-	public ASTStatementSequenceNode getDeclarations() {
-		return declarations;
-	}
+    /*
+     typeToLocals stores the type of the local and a list of all locals with that type
+     */
+    private Map<Type, List> typeToLocals;//Nomair A. Naeem 24th January why is this a field? why not a localVar of storeLocals???
 
-	public void setDeclarations(ASTStatementSequenceNode decl) {
-		declarations = decl;
-	}
+    public ASTMethodNode(List<Object> body) {
+        super();
+        this.body = body;
+        subBodies.add(body);
+    }
 
-	public void setDavaBody(DavaBody bod) {
-		this.davaBody = bod;
-	}
+    public ASTStatementSequenceNode getDeclarations() {
+        return declarations;
+    }
 
-	public DavaBody getDavaBody() {
-		return davaBody;
-	}
+    public void setDeclarations(ASTStatementSequenceNode decl) {
+        declarations = decl;
+    }
 
-	public void storeLocals(Body OrigBody) {
-		if ((OrigBody instanceof DavaBody) == false)
-			throw new RuntimeException(
-					"Only DavaBodies should invoke this method");
+    public DavaBody getDavaBody() {
+        return davaBody;
+    }
 
-		davaBody = (DavaBody) OrigBody;
-		typeToLocals = new DeterministicHashMap(
-				OrigBody.getLocalCount() * 2 + 1, 0.7f);
+    public void setDavaBody(DavaBody bod) {
+        this.davaBody = bod;
+    }
 
-		HashSet params = new HashSet();
-		params.addAll(davaBody.get_ParamMap().values());
-		params.addAll(davaBody.get_CaughtRefs());
-		HashSet<Object> thisLocals = davaBody.get_ThisLocals();
+    public void storeLocals(Body OrigBody) {
+        if ((OrigBody instanceof DavaBody) == false)
+            throw new RuntimeException(
+                    "Only DavaBodies should invoke this method");
 
-		//populating the typeToLocals Map
-		Iterator localIt = OrigBody.getLocals().iterator();
-		while (localIt.hasNext()) {
-			Local local = (Local) localIt.next();
+        davaBody = (DavaBody) OrigBody;
+        typeToLocals = new DeterministicHashMap(
+                OrigBody.getLocalCount() * 2 + 1, 0.7f);
 
-			if (params.contains(local) || thisLocals.contains(local))
-				continue;
+        HashSet params = new HashSet();
+        params.addAll(davaBody.get_ParamMap().values());
+        params.addAll(davaBody.get_CaughtRefs());
+        HashSet<Object> thisLocals = davaBody.get_ThisLocals();
 
-			List<Local> localList;
+        //populating the typeToLocals Map
+        Iterator localIt = OrigBody.getLocals().iterator();
+        while (localIt.hasNext()) {
+            Local local = (Local) localIt.next();
 
-			String typeName;
-			Type t = local.getType();
+            if (params.contains(local) || thisLocals.contains(local))
+                continue;
 
-			typeName = t.toString();
+            List<Local> localList;
 
-			if (typeToLocals.containsKey(t))
-				localList = typeToLocals.get(t);
-			else {
-				localList = new ArrayList<Local>();
-				typeToLocals.put(t, localList);
-			}
+            String typeName;
+            Type t = local.getType();
 
-			localList.add(local);
-		}
+            typeName = t.toString();
 
-		//create a StatementSequenceNode with all the declarations
+            if (typeToLocals.containsKey(t))
+                localList = typeToLocals.get(t);
+            else {
+                localList = new ArrayList<Local>();
+                typeToLocals.put(t, localList);
+            }
 
-		List<Object> statementSequence = new ArrayList<Object>();
+            localList.add(local);
+        }
 
-		Iterator<Type> typeIt = typeToLocals.keySet().iterator();
+        //create a StatementSequenceNode with all the declarations
 
-		while (typeIt.hasNext()) {
-			Type typeObject = typeIt.next();
-			String type = typeObject.toString();
+        List<Object> statementSequence = new ArrayList<Object>();
 
-			List localList = typeToLocals.get(typeObject);
-			Object[] locals = localList.toArray();
+        Iterator<Type> typeIt = typeToLocals.keySet().iterator();
 
-			DVariableDeclarationStmt varStmt = null;
-			varStmt = new DVariableDeclarationStmt(typeObject,davaBody);
+        while (typeIt.hasNext()) {
+            Type typeObject = typeIt.next();
+            String type = typeObject.toString();
 
-			for (Object element : locals) {
-				varStmt.addLocal((Local) element);
-			}
-			AugmentedStmt as = new AugmentedStmt(varStmt);
-			statementSequence.add(as);
-		}
+            List localList = typeToLocals.get(typeObject);
+            Object[] locals = localList.toArray();
 
-		declarations = new ASTStatementSequenceNode(statementSequence);
+            DVariableDeclarationStmt varStmt = null;
+            varStmt = new DVariableDeclarationStmt(typeObject, davaBody);
 
-		body.add(0, declarations);
-		subBodies = new ArrayList<Object>();
-		subBodies.add(body);
-	}
+            for (Object element : locals) {
+                varStmt.addLocal((Local) element);
+            }
+            AugmentedStmt as = new AugmentedStmt(varStmt);
+            statementSequence.add(as);
+        }
 
-	public ASTMethodNode(List<Object> body) {
-		super();
-		this.body = body;
-		subBodies.add(body);	
-	}
+        declarations = new ASTStatementSequenceNode(statementSequence);
 
-	/*
-	 Nomair A. Naeem 23rd November 2005
-	 Need to efficiently get all locals being declared in the declarations node
-	 Dont really care what type they are.. Interesting thing is that they are all different names :)
-	 */
-	public List getDeclaredLocals() {
-		List toReturn = new ArrayList();
+        body.add(0, declarations);
+        subBodies = new ArrayList<Object>();
+        subBodies.add(body);
+    }
 
-		Iterator<Object> it = declarations.getStatements().iterator();
+    /*
+     Nomair A. Naeem 23rd November 2005
+     Need to efficiently get all locals being declared in the declarations node
+     Dont really care what type they are.. Interesting thing is that they are all different names :)
+     */
+    public List getDeclaredLocals() {
+        List toReturn = new ArrayList();
 
-		while (it.hasNext()) {//going through each stmt
-			Stmt s = ((AugmentedStmt) it.next()).get_Stmt();
+        Iterator<Object> it = declarations.getStatements().iterator();
 
-			if (!(s instanceof DVariableDeclarationStmt))
-				continue;//shouldnt happen since this node only contains declarations
+        while (it.hasNext()) {//going through each stmt
+            Stmt s = ((AugmentedStmt) it.next()).get_Stmt();
 
-			DVariableDeclarationStmt varStmt = (DVariableDeclarationStmt) s;
+            if (!(s instanceof DVariableDeclarationStmt))
+                continue;//shouldnt happen since this node only contains declarations
 
-			//get the locals of this particular type
-			List declarations = varStmt.getDeclarations();
-			Iterator decIt = declarations.iterator();
-			while (decIt.hasNext()) {
-				//going through each local declared
+            DVariableDeclarationStmt varStmt = (DVariableDeclarationStmt) s;
 
-				toReturn.add(decIt.next());
-			}//going through all locals of this type
-		}//going through all stmts 
-		return toReturn;
-	}
+            //get the locals of this particular type
+            List declarations = varStmt.getDeclarations();
+            Iterator decIt = declarations.iterator();
+            while (decIt.hasNext()) {
+                //going through each local declared
 
-	/*
-	 * Given a local first searches the declarations for the local
-	 * Once it is found the local is removed from its declaring stmt
-	 * If the declaring stmt does not declare any more locals the stmt itself is removed
-	 * IT WOULD BE NICE TO ALSO CHECK IF THIS WAS THE LAST STMT IN THE NODE IN WHICH CASE THE NODE SHOULD BE REMOVED
-	 * just afraid of its after effects on other analyses!!!!
-	 */
-	public void removeDeclaredLocal(Local local) {
-		Stmt s = null;
-		Iterator<Object> it = declarations.getStatements().iterator();
-		while (it.hasNext()) {//going through each stmt
-			s = ((AugmentedStmt) it.next()).get_Stmt();
+                toReturn.add(decIt.next());
+            }//going through all locals of this type
+        }//going through all stmts
+        return toReturn;
+    }
 
-			if (!(s instanceof DVariableDeclarationStmt))
-				continue;//shouldnt happen since this node only contains declarations
+    /*
+     * Given a local first searches the declarations for the local
+     * Once it is found the local is removed from its declaring stmt
+     * If the declaring stmt does not declare any more locals the stmt itself is removed
+     * IT WOULD BE NICE TO ALSO CHECK IF THIS WAS THE LAST STMT IN THE NODE IN WHICH CASE THE NODE SHOULD BE REMOVED
+     * just afraid of its after effects on other analyses!!!!
+     */
+    public void removeDeclaredLocal(Local local) {
+        Stmt s = null;
+        Iterator<Object> it = declarations.getStatements().iterator();
+        while (it.hasNext()) {//going through each stmt
+            s = ((AugmentedStmt) it.next()).get_Stmt();
 
-			DVariableDeclarationStmt varStmt = (DVariableDeclarationStmt) s;
+            if (!(s instanceof DVariableDeclarationStmt))
+                continue;//shouldnt happen since this node only contains declarations
 
-			//get the locals declared in this stmt
-			List declarations = varStmt.getDeclarations();
-			Iterator decIt = declarations.iterator();
+            DVariableDeclarationStmt varStmt = (DVariableDeclarationStmt) s;
 
-			boolean foundIt = false;//becomes true if the local was found in this stmt
-			while (decIt.hasNext()) {
-				//going through each local declared
-				Local temp = (Local) decIt.next();
-				if (temp.getName().compareTo(local.getName()) == 0) {
-					//found it
-					foundIt = true;
-					break;
-				}
-			}
+            //get the locals declared in this stmt
+            List declarations = varStmt.getDeclarations();
+            Iterator decIt = declarations.iterator();
 
-			if (foundIt) {
-				varStmt.removeLocal(local);
-				break; //breaks going through other stmts as we already did what we needed to do
-			}
-		}
-		//the removal of a local might have made some declaration empty
-		//remove such a declaraion
+            boolean foundIt = false;//becomes true if the local was found in this stmt
+            while (decIt.hasNext()) {
+                //going through each local declared
+                Local temp = (Local) decIt.next();
+                if (temp.getName().compareTo(local.getName()) == 0) {
+                    //found it
+                    foundIt = true;
+                    break;
+                }
+            }
 
-		List<Object> newSequence = new ArrayList<Object>();
-		it = declarations.getStatements().iterator();
-		while (it.hasNext()) {
-			AugmentedStmt as = (AugmentedStmt) it.next();
-			s = as.get_Stmt();
+            if (foundIt) {
+                varStmt.removeLocal(local);
+                break; //breaks going through other stmts as we already did what we needed to do
+            }
+        }
+        //the removal of a local might have made some declaration empty
+        //remove such a declaraion
 
-			if (!(s instanceof DVariableDeclarationStmt))
-				continue;
+        List<Object> newSequence = new ArrayList<Object>();
+        it = declarations.getStatements().iterator();
+        while (it.hasNext()) {
+            AugmentedStmt as = (AugmentedStmt) it.next();
+            s = as.get_Stmt();
 
-			DVariableDeclarationStmt varStmt = (DVariableDeclarationStmt) s;
+            if (!(s instanceof DVariableDeclarationStmt))
+                continue;
 
-			if (varStmt.getDeclarations().size() != 0)
-				newSequence.add(as);
+            DVariableDeclarationStmt varStmt = (DVariableDeclarationStmt) s;
 
-		}
-		declarations.setStatements(newSequence);
-	}
+            if (varStmt.getDeclarations().size() != 0)
+                newSequence.add(as);
 
-	/*
-	 Nomair A Naeem 21-FEB-2005
-	 Used by UselessLabeledBlockRemove to update a body
-	 */
-	public void replaceBody(List<Object> body) {
-		this.body = body;
-		subBodies = new ArrayList<Object>();
-		subBodies.add(body);
-	}
+        }
+        declarations.setStatements(newSequence);
+    }
 
-	public Object clone() {
-		ASTMethodNode toReturn = new ASTMethodNode(body);
-		toReturn.setDeclarations((ASTStatementSequenceNode) declarations.clone());
-		toReturn.setDontPrintLocals(dontPrintLocals);
-		return toReturn;
-	}
+    /*
+     Nomair A Naeem 21-FEB-2005
+     Used by UselessLabeledBlockRemove to update a body
+     */
+    public void replaceBody(List<Object> body) {
+        this.body = body;
+        subBodies = new ArrayList<Object>();
+        subBodies.add(body);
+    }
 
-	public void setDontPrintLocals(List<Local> list){
-		dontPrintLocals=list;
-	}
-	
-	public void addToDontPrintLocalsList(Local toAdd){
-		dontPrintLocals.add(toAdd);
-	}
-	
-	public void perform_Analysis(ASTAnalysis a) {
-		perform_AnalysisOnSubBodies(a);
-	}
+    public Object clone() {
+        ASTMethodNode toReturn = new ASTMethodNode(body);
+        toReturn.setDeclarations((ASTStatementSequenceNode) declarations.clone());
+        toReturn.setDontPrintLocals(dontPrintLocals);
+        return toReturn;
+    }
 
-	public void toString(UnitPrinter up) {
-		if (!(up instanceof DavaUnitPrinter))
-			throw new RuntimeException(
-					"Only DavaUnitPrinter should be used to print DavaBody");
+    public void setDontPrintLocals(List<Local> list) {
+        dontPrintLocals = list;
+    }
 
-		DavaUnitPrinter dup = (DavaUnitPrinter) up;
-		/*
+    public void addToDontPrintLocalsList(Local toAdd) {
+        dontPrintLocals.add(toAdd);
+    }
+
+    public void perform_Analysis(ASTAnalysis a) {
+        perform_AnalysisOnSubBodies(a);
+    }
+
+    public void toString(UnitPrinter up) {
+        if (!(up instanceof DavaUnitPrinter))
+            throw new RuntimeException(
+                    "Only DavaUnitPrinter should be used to print DavaBody");
+
+        DavaUnitPrinter dup = (DavaUnitPrinter) up;
+        /*
 		 Print out constructor first
 		 */
-		if (davaBody != null) {
-			InstanceInvokeExpr constructorExpr = davaBody.get_ConstructorExpr();
+        if (davaBody != null) {
+            InstanceInvokeExpr constructorExpr = davaBody.get_ConstructorExpr();
 
-			if (constructorExpr != null) {
-				boolean printCloseBrace=true;
-				if (davaBody.getMethod().getDeclaringClass().getName().equals(
-						constructorExpr.getMethodRef().declaringClass().toString()))
-					dup.printString("        this(");
-				else{
-					//only invoke super if its not the default call since the default is 
-					//called automatically
-					if(constructorExpr.getArgCount()>0)
-						dup.printString("        super(");
-					else
-						printCloseBrace=false;
+            if (constructorExpr != null) {
+                boolean printCloseBrace = true;
+                if (davaBody.getMethod().getDeclaringClass().getName().equals(
+                        constructorExpr.getMethodRef().declaringClass().toString()))
+                    dup.printString("        this(");
+                else {
+                    //only invoke super if its not the default call since the default is
+                    //called automatically
+                    if (constructorExpr.getArgCount() > 0)
+                        dup.printString("        super(");
+                    else
+                        printCloseBrace = false;
 
-				}
-				Iterator ait = constructorExpr.getArgs().iterator();
-				while (ait.hasNext()) {
+                }
+                Iterator ait = constructorExpr.getArgs().iterator();
+                while (ait.hasNext()) {
 					/*
 					 * January 12th, 2006
 					 * found a problem here. If a super has a method
@@ -312,183 +314,183 @@ public class ASTMethodNode extends ASTNode {
 					 * jimple representation and does not convert it into java
 					 * syntax
 					 */
-					Object arg = ait.next();
-					if (arg instanceof Value) {
-						//dup.printString(((Value)arg).toString());
-						//already in super no indentation required
-						dup.noIndent();
-						((Value) arg).toString(dup);
-					} else {
-						/**
-						 * Staying with the old style
-						 */
-						dup.printString(arg.toString());
-					}
+                    Object arg = ait.next();
+                    if (arg instanceof Value) {
+                        //dup.printString(((Value)arg).toString());
+                        //already in super no indentation required
+                        dup.noIndent();
+                        ((Value) arg).toString(dup);
+                    } else {
+                        /**
+                         * Staying with the old style
+                         */
+                        dup.printString(arg.toString());
+                    }
 
-					if (ait.hasNext())
-						dup.printString(", ");
-				}
+                    if (ait.hasNext())
+                        dup.printString(", ");
+                }
 
-				if(printCloseBrace)
-					dup.printString(");\n");
-			}
+                if (printCloseBrace)
+                    dup.printString(");\n");
+            }
 
-			// print out the remaining body
-			up.newline();
-		}//if //davaBody != null
+            // print out the remaining body
+            up.newline();
+        }//if //davaBody != null
 
-		//notice that for an ASTMethod Node the first element of the body list is the
-		//declared variables print it here so that we can control what gets printed
-		printDeclarationsFollowedByBody(up,body);
-	}
+        //notice that for an ASTMethod Node the first element of the body list is the
+        //declared variables print it here so that we can control what gets printed
+        printDeclarationsFollowedByBody(up, body);
+    }
 
-	/*
-	 * This method has been written to bring into the printing of the method body the printing of the
-	 * declared locals
-	 * 
-	 * This is required because the dontPrintLocals list contains a list of locals which are declared from within
-	 * the body and hence we dont want to print them here at the top of the method. However at the same time we dont
-	 * want to remove the local entry in the declarations node since this is used by analyses throughout as a quick and
-	 * easy way to find out which locals are used by this method...... bad code design but hey what can i say :(
-	 */
-	public void printDeclarationsFollowedByBody(UnitPrinter up, List<Object> body){
-		//System.out.println("printing body from within MEthodNode\n\n"+body.toString());
-		
-		List<Object> stmts = declarations.getStatements();
-		Iterator<Object> it = stmts.iterator();
-		while (it.hasNext()) {
-			AugmentedStmt as = (AugmentedStmt) it.next();
-			//System.out.println("Stmt is:"+as.get_Stmt());
-			Unit u = as.get_Stmt();
-			
-			//stupid sanity check cos i am paranoid
-			if(u instanceof DVariableDeclarationStmt){
-				DVariableDeclarationStmt declStmt = (DVariableDeclarationStmt)u;
-				List localDeclarations = declStmt.getDeclarations();
+    /*
+     * This method has been written to bring into the printing of the method body the printing of the
+     * declared locals
+     *
+     * This is required because the dontPrintLocals list contains a list of locals which are declared from within
+     * the body and hence we dont want to print them here at the top of the method. However at the same time we dont
+     * want to remove the local entry in the declarations node since this is used by analyses throughout as a quick and
+     * easy way to find out which locals are used by this method...... bad code design but hey what can i say :(
+     */
+    public void printDeclarationsFollowedByBody(UnitPrinter up, List<Object> body) {
+        //System.out.println("printing body from within MEthodNode\n\n"+body.toString());
+
+        List<Object> stmts = declarations.getStatements();
+        Iterator<Object> it = stmts.iterator();
+        while (it.hasNext()) {
+            AugmentedStmt as = (AugmentedStmt) it.next();
+            //System.out.println("Stmt is:"+as.get_Stmt());
+            Unit u = as.get_Stmt();
+
+            //stupid sanity check cos i am paranoid
+            if (u instanceof DVariableDeclarationStmt) {
+                DVariableDeclarationStmt declStmt = (DVariableDeclarationStmt) u;
+                List localDeclarations = declStmt.getDeclarations();
 				/*
 				 * Check that of the localDeclarations List atleast one is not present in the dontPrintLocals list
 				 */
-				boolean shouldContinue=false;
-				Iterator declsIt = localDeclarations.iterator();
-				while(declsIt.hasNext()){
-					if(!dontPrintLocals.contains(declsIt.next())){
-						shouldContinue=true;
-						break;
-					}
-				}
-				if(!shouldContinue){
-					//shouldnt print this declaration stmt
-					continue;
-				}
-				if (localDeclarations.size() == 0)
-					continue;
+                boolean shouldContinue = false;
+                Iterator declsIt = localDeclarations.iterator();
+                while (declsIt.hasNext()) {
+                    if (!dontPrintLocals.contains(declsIt.next())) {
+                        shouldContinue = true;
+                        break;
+                    }
+                }
+                if (!shouldContinue) {
+                    //shouldnt print this declaration stmt
+                    continue;
+                }
+                if (localDeclarations.size() == 0)
+                    continue;
 
-				if (!(up instanceof DavaUnitPrinter))
-					throw new RuntimeException("DavaBody should always be printed using the DavaUnitPrinter");
-	
-				DavaUnitPrinter dup = (DavaUnitPrinter) up;	
-				dup.startUnit(u);
-				String type = declStmt.getType().toString();
+                if (!(up instanceof DavaUnitPrinter))
+                    throw new RuntimeException("DavaBody should always be printed using the DavaUnitPrinter");
 
-				if (type.equals("null_type"))
-					dup.printString("Object");
-				else{
-					IterableSet importSet = davaBody.getImportList();
-					if(!importSet.contains(type))
-						davaBody.addToImportList(type);
-							
-					type = RemoveFullyQualifiedName.getReducedName(davaBody.getImportList(),type,declStmt.getType());
-					
-					dup.printString(type);
-				}
-				dup.printString(" ");
+                DavaUnitPrinter dup = (DavaUnitPrinter) up;
+                dup.startUnit(u);
+                String type = declStmt.getType().toString();
 
-				int number=0;
-				Iterator decIt = localDeclarations.iterator();
-				while (decIt.hasNext()) {
-					Local tempDec = (Local) decIt.next();
-					if(dontPrintLocals.contains(tempDec))
-						continue;
+                if (type.equals("null_type"))
+                    dup.printString("Object");
+                else {
+                    IterableSet importSet = davaBody.getImportList();
+                    if (!importSet.contains(type))
+                        davaBody.addToImportList(type);
 
-					if(number!=0)
-						dup.printString(", ");
-					number++;
-					dup.printString(tempDec.getName());
-				}
-				
+                    type = RemoveFullyQualifiedName.getReducedName(davaBody.getImportList(), type, declStmt.getType());
+
+                    dup.printString(type);
+                }
+                dup.printString(" ");
+
+                int number = 0;
+                Iterator decIt = localDeclarations.iterator();
+                while (decIt.hasNext()) {
+                    Local tempDec = (Local) decIt.next();
+                    if (dontPrintLocals.contains(tempDec))
+                        continue;
+
+                    if (number != 0)
+                        dup.printString(", ");
+                    number++;
+                    dup.printString(tempDec.getName());
+                }
+
                 up.literal(";");
-                up.endUnit( u );
+                up.endUnit(u);
                 up.newline();
-			} //if DVariableDeclarationStmt
-			else{
-				up.startUnit( u );
-				u.toString( up );
-				up.literal(";");
-				up.endUnit( u );
-				up.newline();
-			}
+            } //if DVariableDeclarationStmt
+            else {
+                up.startUnit(u);
+                u.toString(up);
+                up.literal(";");
+                up.endUnit(u);
+                up.newline();
+            }
         }
 
-		boolean printed = false;
-		if(body.size()>0){
-			ASTNode firstNode = (ASTNode)body.get(0);
-			if(firstNode instanceof ASTStatementSequenceNode){
-				List<Object> tempstmts = ((ASTStatementSequenceNode)firstNode).getStatements();
-				if(tempstmts.size()!=0){
-					AugmentedStmt tempas = (AugmentedStmt)tempstmts.get(0);
-					Stmt temps = tempas.get_Stmt();
-					if(temps instanceof DVariableDeclarationStmt){
-						printed=true;
-						body_toString(up, body.subList(1,body.size()));
-					}
-				}
-			}
-		}
-		if(!printed){
-			//System.out.println("Here for method"+this.getDavaBody().getMethod().toString());
-			body_toString(up, body);
-		}		
-	}
-	
-	public String toString() {
-		StringBuffer b = new StringBuffer();
+        boolean printed = false;
+        if (body.size() > 0) {
+            ASTNode firstNode = (ASTNode) body.get(0);
+            if (firstNode instanceof ASTStatementSequenceNode) {
+                List<Object> tempstmts = ((ASTStatementSequenceNode) firstNode).getStatements();
+                if (tempstmts.size() != 0) {
+                    AugmentedStmt tempas = (AugmentedStmt) tempstmts.get(0);
+                    Stmt temps = tempas.get_Stmt();
+                    if (temps instanceof DVariableDeclarationStmt) {
+                        printed = true;
+                        body_toString(up, body.subList(1, body.size()));
+                    }
+                }
+            }
+        }
+        if (!printed) {
+            //System.out.println("Here for method"+this.getDavaBody().getMethod().toString());
+            body_toString(up, body);
+        }
+    }
+
+    public String toString() {
+        StringBuffer b = new StringBuffer();
 		/*
 		 Print out constructor first
 		 */
-		if (davaBody != null) {
-			InstanceInvokeExpr constructorExpr = davaBody.get_ConstructorExpr();
-			if (constructorExpr != null) {
+        if (davaBody != null) {
+            InstanceInvokeExpr constructorExpr = davaBody.get_ConstructorExpr();
+            if (constructorExpr != null) {
 
-				if (davaBody.getMethod().getDeclaringClass().getName().equals(
-						constructorExpr.getMethodRef().declaringClass()
-								.toString()))
-					b.append("        this(");
-				else
-					b.append("        super(");
+                if (davaBody.getMethod().getDeclaringClass().getName().equals(
+                        constructorExpr.getMethodRef().declaringClass()
+                                .toString()))
+                    b.append("        this(");
+                else
+                    b.append("        super(");
 
-				Iterator ait = constructorExpr.getArgs().iterator();
-				while (ait.hasNext()) {
-					b.append(ait.toString());
+                Iterator ait = constructorExpr.getArgs().iterator();
+                while (ait.hasNext()) {
+                    b.append(ait.toString());
 
-					if (ait.hasNext())
-						b.append(", ");
-				}
+                    if (ait.hasNext())
+                        b.append(", ");
+                }
 
-				b.append(");\n\n");
-			}
-		}
+                b.append(");\n\n");
+            }
+        }
 
-		// print out the remaining body
-		b.append(body_toString(body));
-		return b.toString();
-	}
+        // print out the remaining body
+        b.append(body_toString(body));
+        return b.toString();
+    }
 
-	/*
-	 Nomair A. Naeem, 7-FEB-05
-	 Part of Visitor Design Implementation for AST
-	 See: soot.dava.toolkits.base.AST.analysis For details
-	 */
-	public void apply(Analysis a) {
-		a.caseASTMethodNode(this);
-	}
+    /*
+     Nomair A. Naeem, 7-FEB-05
+     Part of Visitor Design Implementation for AST
+     See: soot.dava.toolkits.base.AST.analysis For details
+     */
+    public void apply(Analysis a) {
+        a.caseASTMethodNode(this);
+    }
 }

@@ -19,37 +19,44 @@
 
 package soot.shimple;
 
-import soot.*;
-import soot.shimple.toolkits.graph.*;
+import soot.Body;
+import soot.shimple.toolkits.graph.GlobalValueNumberer;
 import soot.toolkits.graph.*;
 
 /**
  * @author Navindra Umanee
  **/
-public interface ShimpleFactory
-{
+public interface ShimpleFactory {
     /**
      * Some constructors may require a body.  If this is not set at
      * the time of need, an exception will be thrown.
      **/
-    public void setBody(Body body);
+    void setBody(Body body);
 
     /**
      * Constructors should memoize their return value.  Call clearCache()
      * to force recomputations if body has changed and setBody()
      * hasn't been called again.
      **/
-    public void clearCache();
+    void clearCache();
 
-    public UnitGraph getUnitGraph();
-    public BlockGraph getBlockGraph();
-    public DominatorsFinder<Block> getDominatorsFinder();
-    public DominatorTree<Block> getDominatorTree();
-    public DominanceFrontier<Block> getDominanceFrontier();
+    UnitGraph getUnitGraph();
 
-    public GlobalValueNumberer getGlobalValueNumberer();
-    public ReversibleGraph<Block> getReverseBlockGraph();
-    public DominatorsFinder<Block> getReverseDominatorsFinder();
-    public DominatorTree<Block> getReverseDominatorTree();
-    public DominanceFrontier<Block> getReverseDominanceFrontier();
+    BlockGraph getBlockGraph();
+
+    DominatorsFinder<Block> getDominatorsFinder();
+
+    DominatorTree<Block> getDominatorTree();
+
+    DominanceFrontier<Block> getDominanceFrontier();
+
+    GlobalValueNumberer getGlobalValueNumberer();
+
+    ReversibleGraph<Block> getReverseBlockGraph();
+
+    DominatorsFinder<Block> getReverseDominatorsFinder();
+
+    DominatorTree<Block> getReverseDominatorTree();
+
+    DominanceFrontier<Block> getReverseDominanceFrontier();
 }

@@ -24,46 +24,31 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-import java.io.*;
+import soot.ArrayType;
+import soot.RefType;
+import soot.Type;
 
-import soot.*;
+import java.io.PrintStream;
 
 /*
  * A less resource hungry implementation of the TypeStack would just have pointers to
  * 'sub-stacks' instead of copying the entire array around.
  */
 
-class TypeStack
-{
+class TypeStack {
     private Type[] types;
 
-    private TypeStack()
-    {
+    private TypeStack() {
         // no constructor
-    }
-
-    public Object clone()
-    {
-        TypeStack newTypeStack = new TypeStack();
-
-        newTypeStack.types = types.clone();
-
-        return newTypeStack;
     }
 
     /**
      * Returns an empty stack.
      */
 
-    public static TypeStack v()
-    {
+    public static TypeStack v() {
         TypeStack typeStack = new TypeStack();
 
         typeStack.types = new Type[0];
@@ -71,8 +56,15 @@ class TypeStack
         return typeStack;
     }
 
-    public TypeStack pop()
-    {
+    public Object clone() {
+        TypeStack newTypeStack = new TypeStack();
+
+        newTypeStack.types = types.clone();
+
+        return newTypeStack;
+    }
+
+    public TypeStack pop() {
         TypeStack newStack = new TypeStack();
 
         newStack.types = new Type[types.length - 1];
@@ -81,8 +73,7 @@ class TypeStack
         return newStack;
     }
 
-    public TypeStack push(Type type)
-    {
+    public TypeStack push(Type type) {
         TypeStack newStack = new TypeStack();
 
         newStack.types = new Type[types.length + 1];
@@ -93,61 +84,53 @@ class TypeStack
         return newStack;
     }
 
-    public Type get(int index)
-    {
+    public Type get(int index) {
         return types[index];
     }
 
-    public int topIndex()
-    {
+    public int topIndex() {
         return types.length - 1;
     }
 
-    public Type top()
-    {
-        if(types.length == 0)
+    public Type top() {
+        if (types.length == 0)
             throw new RuntimeException("TypeStack is empty");
         else
             return types[types.length - 1];
     }
 
-    public boolean equals(Object object)
-    {
-        if(object instanceof TypeStack)
-        {
+    public boolean equals(Object object) {
+        if (object instanceof TypeStack) {
             TypeStack otherStack = (TypeStack) object;
 
-            if(otherStack.types.length != types.length)
+            if (otherStack.types.length != types.length)
                 return false;
 
             for (Type element : types)
-				if(!element.equals(element))
+                if (!element.equals(element))
                     return false;
 
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    public TypeStack merge(TypeStack other)
-    {
+    public TypeStack merge(TypeStack other) {
 
-        if(types.length != other.types.length)
+        if (types.length != other.types.length)
             throw new RuntimeException("TypeStack merging failed; unequal " +
-            "stack lengths: " + types.length + " and " + other.types.length);
+                    "stack lengths: " + types.length + " and " + other.types.length);
 
         TypeStack newStack = new TypeStack();
 
         newStack.types = new Type[other.types.length];
 
-        for(int i = 0; i < types.length; i++)
-            if(types[i].equals(other.types[i]))
+        for (int i = 0; i < types.length; i++)
+            if (types[i].equals(other.types[i]))
                 newStack.types[i] = types[i];
             else {
-                if((!(types[i] instanceof ArrayType) && !(types[i] instanceof RefType)) || 
-                    (!(other.types[i] instanceof RefType) && !(other.types[i] instanceof ArrayType)))
-                {
+                if ((!(types[i] instanceof ArrayType) && !(types[i] instanceof RefType)) ||
+                        (!(other.types[i] instanceof RefType) && !(other.types[i] instanceof ArrayType))) {
                     throw new RuntimeException("TypeStack merging failed; incompatible types " + types[i] + " and " + other.types[i]);
                 }
 
@@ -159,12 +142,11 @@ class TypeStack
         return newStack;
     }
 
-    public void print(PrintStream out)
-    {
-        for(int i = types.length - 1; i >= 0; i--)
+    public void print(PrintStream out) {
+        for (int i = types.length - 1; i >= 0; i--)
             out.println(i + ": " + types[i].toString());
 
-        if(types.length == 0)
+        if (types.length == 0)
             out.println("<empty>");
     }
 }

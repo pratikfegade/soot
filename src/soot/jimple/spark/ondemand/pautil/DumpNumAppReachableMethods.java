@@ -18,22 +18,27 @@
  */
 package soot.jimple.spark.ondemand.pautil;
 
+import soot.*;
+
 import java.util.Iterator;
 import java.util.Map;
 
-import soot.G;
-import soot.PackManager;
-import soot.Scene;
-import soot.SceneTransformer;
-import soot.SootMethod;
-import soot.Transform;
-
 public class DumpNumAppReachableMethods extends SceneTransformer {
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        PackManager.v().getPack("wjtp").add(
+                new Transform("wjtp.narm", new DumpNumAppReachableMethods()));
+        soot.Main.main(args);
+
+    }
 
     protected void internalTransform(String phaseName, Map options) {
         int numAppMethods = 0;
         for (Iterator mIt = Scene.v().getReachableMethods().listener(); mIt
-                .hasNext();) {
+                .hasNext(); ) {
             final SootMethod m = (SootMethod) mIt.next();
 
             if (isAppMethod(m)) {
@@ -49,16 +54,6 @@ public class DumpNumAppReachableMethods extends SceneTransformer {
 
     private boolean isAppMethod(final SootMethod m) {
         return !SootUtil.inLibrary(m.getDeclaringClass().getName());
-    }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        PackManager.v().getPack("wjtp").add(
-                new Transform("wjtp.narm", new DumpNumAppReachableMethods()));
-        soot.Main.main(args);
-
     }
 
 }

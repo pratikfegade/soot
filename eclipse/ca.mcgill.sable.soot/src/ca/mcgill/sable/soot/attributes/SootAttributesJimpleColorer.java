@@ -20,72 +20,66 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import java.util.*;
-
 import org.eclipse.jface.text.*;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.*;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 
-import ca.mcgill.sable.soot.SootPlugin;
-import ca.mcgill.sable.soot.editors.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public class SootAttributesJimpleColorer extends AbstractAttributesColorer implements Runnable{
+public class SootAttributesJimpleColorer extends AbstractAttributesColorer implements Runnable {
 
 
-	public void run(){
-		init();
-        computeColors();	
-	}
-	
-	public void computeColors(){
-		if ((getHandler() == null) || (getHandler().getAttrList() == null)) return;
+    public void run() {
+        init();
+        computeColors();
+    }
+
+    public void computeColors() {
+        if ((getHandler() == null) || (getHandler().getAttrList() == null)) return;
         ArrayList sortedAttrs = sortAttrsByLength(getHandler().getAttrList());
-		Iterator it = getHandler().getAttrList().iterator();
-		
-		setStyleList(new ArrayList());
+        Iterator it = getHandler().getAttrList().iterator();
 
-        getDisplay().asyncExec( new Runnable() {
-            public void run(){
-                setBgColor(getViewer().getTextWidget().getBackground());  
-            };
+        setStyleList(new ArrayList());
+
+        getDisplay().asyncExec(new Runnable() {
+            public void run() {
+                setBgColor(getViewer().getTextWidget().getBackground());
+            }
+
         });
-        
-		while (it.hasNext()) {
-			// sets colors for stmts
-			SootAttribute sa = (SootAttribute)it.next();
-             if ((sa.getJimpleStartLn() != 0) && (sa.getJimpleEndLn() != 0)) {
-                if ((sa.getJimpleStartPos() != 0) && (sa.getJimpleEndPos() != 0)){
-			       if (sa.getColorList() != null){
-						Iterator cit = sa.getColorList().iterator();
-						while (cit.hasNext()){
-							ColorAttribute ca = (ColorAttribute)cit.next();
-							if (getHandler().isShowAllTypes()){
-								boolean fg = ca.fg() == 1 ? true: false;
-								setAttributeTextColor(sa.getJimpleStartLn(), sa.getJimpleEndLn(), sa.getJimpleStartPos()+1, sa.getJimpleEndPos()+1, ca.getRGBColor(), fg);//, tp);
-							}
-							else {
-								if (getHandler().getTypesToShow().contains(ca.type())){
-									boolean fg = ca.fg() == 1 ? true: false;
-									setAttributeTextColor(sa.getJimpleStartLn(), sa.getJimpleEndLn(), sa.getJimpleStartPos()+1, sa.getJimpleEndPos()+1, ca.getRGBColor(), fg);//, tp);
-								}
-							}
-						}
-					}
-			       
+
+        while (it.hasNext()) {
+            // sets colors for stmts
+            SootAttribute sa = (SootAttribute) it.next();
+            if ((sa.getJimpleStartLn() != 0) && (sa.getJimpleEndLn() != 0)) {
+                if ((sa.getJimpleStartPos() != 0) && (sa.getJimpleEndPos() != 0)) {
+                    if (sa.getColorList() != null) {
+                        Iterator cit = sa.getColorList().iterator();
+                        while (cit.hasNext()) {
+                            ColorAttribute ca = (ColorAttribute) cit.next();
+                            if (getHandler().isShowAllTypes()) {
+                                boolean fg = ca.fg() == 1 ? true : false;
+                                setAttributeTextColor(sa.getJimpleStartLn(), sa.getJimpleEndLn(), sa.getJimpleStartPos() + 1, sa.getJimpleEndPos() + 1, ca.getRGBColor(), fg);//, tp);
+                            } else {
+                                if (getHandler().getTypesToShow().contains(ca.type())) {
+                                    boolean fg = ca.fg() == 1 ? true : false;
+                                    setAttributeTextColor(sa.getJimpleStartLn(), sa.getJimpleEndLn(), sa.getJimpleStartPos() + 1, sa.getJimpleEndPos() + 1, ca.getRGBColor(), fg);//, tp);
+                                }
+                            }
+                        }
+                    }
+
                 }
-			}
-			        
-		}
-		
-		changeStyles();			
-	}
-	protected void setLength(SootAttribute sa, int len){
-		sa.setJimpleLength(len);
-	}
-	
+            }
+
+        }
+
+        changeStyles();
+    }
+
+    protected void setLength(SootAttribute sa, int len) {
+        sa.setJimpleLength(len);
+    }
+
 
 }

@@ -18,16 +18,22 @@
  */
 
 package soot.jimple.spark.solver;
-import soot.jimple.spark.sets.*;
+
+import soot.Context;
+import soot.Local;
+import soot.MethodOrMethodContext;
+import soot.Scene;
 import soot.jimple.spark.pag.*;
+import soot.jimple.spark.sets.P2SetVisitor;
+import soot.jimple.spark.sets.PointsToSetInternal;
 import soot.jimple.toolkits.callgraph.*;
-import soot.*;
-
-import soot.util.queue.*;
+import soot.util.queue.QueueReader;
 
 
-/** The interface between the pointer analysis engine and the on-the-fly
+/**
+ * The interface between the pointer analysis engine and the on-the-fly
  * call graph builder.
+ *
  * @author Ondrej Lhotak
  */
 
@@ -37,80 +43,93 @@ public class OnFlyCallGraph {
     private final QueueReader<MethodOrMethodContext> reachablesReader;
     private final QueueReader<Edge> callEdges;
     private final CallGraph callGraph;
+    private PAG pag;
 
-    public ReachableMethods reachableMethods() { return reachableMethods; }
-    public CallGraph callGraph() { return callGraph; }
-
-    public OnFlyCallGraph( PAG pag ) {
+    public OnFlyCallGraph(PAG pag) {
         this.pag = pag;
         callGraph = new CallGraph();
-        Scene.v().setCallGraph( callGraph );
+        Scene.v().setCallGraph(callGraph);
         ContextManager cm = CallGraphBuilder.makeContextManager(callGraph);
         reachableMethods = Scene.v().getReachableMethods();
-        ofcgb = new OnFlyCallGraphBuilder( cm, reachableMethods );
+        ofcgb = new OnFlyCallGraphBuilder(cm, reachableMethods);
         reachablesReader = reachableMethods.listener();
         callEdges = cm.callGraph().listener();
     }
+
+    public ReachableMethods reachableMethods() {
+        return reachableMethods;
+    }
+
+    public CallGraph callGraph() {
+        return callGraph;
+    }
+
     public void build() {
         ofcgb.processReachables();
         processReachables();
         processCallEdges();
     }
+
     private void processReachables() {
         reachableMethods.update();
-        while(reachablesReader.hasNext()) {
-            MethodOrMethodContext m = (MethodOrMethodContext) reachablesReader.next();
-            MethodPAG mpag = MethodPAG.v( pag, m.method() );
+        while (reachablesReader.hasNext()) {
+            MethodOrMethodContext m = reachablesReader.next();
+            MethodPAG mpag = MethodPAG.v(pag, m.method());
             mpag.build();
             mpag.addToPAG(m.context());
         }
     }
+
     private void processCallEdges() {
-        while(callEdges.hasNext()) {
-            Edge e = (Edge) callEdges.next();
-            MethodPAG amp = MethodPAG.v( pag, e.tgt() );
+        while (callEdges.hasNext()) {
+            Edge e = callEdges.next();
+            MethodPAG amp = MethodPAG.v(pag, e.tgt());
             amp.build();
-            amp.addToPAG( e.tgtCtxt() );
-            pag.addCallTarget( e );
+            amp.addToPAG(e.tgtCtxt());
+            pag.addCallTarget(e);
         }
     }
 
-    public OnFlyCallGraphBuilder ofcgb() { return ofcgb; }
+    public OnFlyCallGraphBuilder ofcgb() {
+        return ofcgb;
+    }
 
-    public void updatedNode( VarNode vn ) {
+    public void updatedNode(VarNode vn) {
         Object r = vn.getVariable();
-        if( !(r instanceof Local) ) return;
+        if (!(r instanceof Local)) return;
         final Local receiver = (Local) r;
         final Context context = vn.context();
 
         PointsToSetInternal p2set = vn.getP2Set().getNewSet();
-        if( ofcgb.wantTypes( receiver ) ) {
-            p2set.forall( new P2SetVisitor() {
-            public final void visit( Node n ) { 
-                ofcgb.addType( receiver, context, n.getType(), (AllocNode) n );
-            }} );
-        }
-        if( ofcgb.wantStringConstants( receiver ) ) {
-            p2set.forall( new P2SetVisitor() {
-            public final void visit( Node n ) {
-                if( n instanceof StringConstantNode ) {
-                    String constant = ((StringConstantNode)n).getString();
-                    ofcgb.addStringConstant( receiver, context, constant );
-                } else {
-                    ofcgb.addStringConstant( receiver, context, null );
+        if (ofcgb.wantTypes(receiver)) {
+            p2set.forall(new P2SetVisitor() {
+                public final void visit(Node n) {
+                    ofcgb.addType(receiver, context, n.getType(), (AllocNode) n);
                 }
-            }} );
+            });
         }
-    }
-
-    /** Node uses this to notify PAG that n2 has been merged into n1. */
-    public void mergedWith( Node n1, Node n2 ) {
+        if (ofcgb.wantStringConstants(receiver)) {
+            p2set.forall(new P2SetVisitor() {
+                public final void visit(Node n) {
+                    if (n instanceof StringConstantNode) {
+                        String constant = ((StringConstantNode) n).getString();
+                        ofcgb.addStringConstant(receiver, context, constant);
+                    } else {
+                        ofcgb.addStringConstant(receiver, context, null);
+                    }
+                }
+            });
+        }
     }
 
     /* End of public methods. */
     /* End of package methods. */
 
-    private PAG pag;
+    /**
+     * Node uses this to notify PAG that n2 has been merged into n1.
+     */
+    public void mergedWith(Node n1, Node n2) {
+    }
 }
 
 

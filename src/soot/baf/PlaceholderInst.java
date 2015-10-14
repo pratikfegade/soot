@@ -23,38 +23,32 @@
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
 
- 
-
-
 
 package soot.baf;
 
-import soot.*;
+import soot.Unit;
+import soot.baf.internal.AbstractInst;
 
-import soot.baf.internal.*;
-
-public class PlaceholderInst extends AbstractInst
-{
+public class PlaceholderInst extends AbstractInst {
     private Unit source;
 
-    public final String getName() { return "<placeholder>"; }
-
-    public String toString()
-    {
-        return "<placeholder: " + source.toString() + ">";
-    }
-    
-    PlaceholderInst(Unit source)
-    {
+    PlaceholderInst(Unit source) {
         this.source = source;
     }
 
-    public Object clone() 
-    {
+    public final String getName() {
+        return "<placeholder>";
+    }
+
+    public String toString() {
+        return "<placeholder: " + source.toString() + ">";
+    }
+
+    public Object clone() {
         return new PlaceholderInst(getSource());
     }
-    public Unit getSource()
-    {
+
+    public Unit getSource() {
         return source;
     }
 }

@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TCmp extends Token
-{
-    public TCmp()
-    {
+public final class TCmp extends Token {
+    public TCmp() {
         super.setText("cmp");
     }
 
-    public TCmp(int line, int pos)
-    {
+    public TCmp(int line, int pos) {
         super.setText("cmp");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TCmp(getLine(), getPos());
+    public Object clone() {
+        return new TCmp(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTCmp(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TCmp text.");
     }
 }

@@ -28,7 +28,6 @@ import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.reference.FieldReference;
-
 import soot.Local;
 import soot.Type;
 import soot.dexpler.Debug;
@@ -44,13 +43,13 @@ public class SputInstruction extends FieldInstruction {
 
     AssignStmt assign = null;
 
-    public SputInstruction (Instruction instruction, int codeAdress) {
+    public SputInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        int source = ((OneRegisterInstruction)instruction).getRegisterA();
-        FieldReference f = (FieldReference)((ReferenceInstruction)instruction).getReference();
+    public void jimplify(DexBody body) {
+        int source = ((OneRegisterInstruction) instruction).getRegisterA();
+        FieldReference f = (FieldReference) ((ReferenceInstruction) instruction).getReference();
         StaticFieldRef instanceField = Jimple.v().newStaticFieldRef(getStaticSootFieldRef(f));
         Local sourceValue = body.getRegisterLocal(source);
         assign = getAssignStmt(body, sourceValue, instanceField);
@@ -58,16 +57,16 @@ public class SputInstruction extends FieldInstruction {
         addTags(assign);
         body.add(assign);
 
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          DalvikTyper.v().setType(assign.getRightOpBox(), instanceField.getType(), true);
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            DalvikTyper.v().setType(assign.getRightOpBox(), instanceField.getType(), true);
         }
     }
 
     @Override
     protected Type getTargetType(DexBody body) {
-        FieldReference f = (FieldReference)((ReferenceInstruction) instruction).getReference();
+        FieldReference f = (FieldReference) ((ReferenceInstruction) instruction).getReference();
         return DexType.toSoot(f.getType());
     }
 }

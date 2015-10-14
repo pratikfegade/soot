@@ -19,18 +19,14 @@
 
 package soot.jimple.toolkits.pointer;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import soot.Local;
-import soot.RefLikeType;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.jimple.Stmt;
 import soot.toolkits.graph.StronglyConnectedComponentsFast;
 import soot.toolkits.graph.UnitGraph;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A special version of the local must-alias analysis that takes redefinitions within loops into account.
@@ -39,19 +35,20 @@ import soot.toolkits.graph.UnitGraph;
  * E.g. assume the following example:
  * <code>
  * while(..) {
- *   c = foo();        //(1)
- *   c.doSomething();  //(2)
+ * c = foo();        //(1)
+ * c.doSomething();  //(2)
  * }
  * </code>
- * 
+ * <p/>
  * While it is certainly true that c at (2) must-alias c at (1) (they have the same value number), it is also true that
- * in a second iteration, c at (2) may not alias the previous c at (2). 
+ * in a second iteration, c at (2) may not alias the previous c at (2).
+ *
  * @author Eric Bodden
  */
 public class StrongLocalMustAliasAnalysis extends LocalMustAliasAnalysis {
 
     protected Set<Integer> invalidInstanceKeys;
-    
+
     public StrongLocalMustAliasAnalysis(UnitGraph g) {
         super(g);
         invalidInstanceKeys = new HashSet<Integer>();
@@ -60,31 +57,31 @@ public class StrongLocalMustAliasAnalysis extends LocalMustAliasAnalysis {
          */
         StronglyConnectedComponentsFast<Unit> sccAnalysis = new StronglyConnectedComponentsFast<Unit>(g);
         for (List<Unit> scc : sccAnalysis.getTrueComponents()) {
-			for (Unit unit : scc) {
-				for (ValueBox vb : unit.getDefBoxes()) {
-					Value defValue = vb.getValue();
-					if(defValue instanceof Local) {
-						Local defLocal = (Local) defValue;
-						if(defLocal.getType() instanceof RefLikeType) {
-							Object instanceKey = getFlowBefore(unit).get(defLocal);
-							//if key is not already UNKNOWN
-							if(instanceKey instanceof Integer) {
-								Integer intKey = (Integer) instanceKey;
-								invalidInstanceKeys.add(intKey);
-							}
-							instanceKey = getFlowAfter(unit).get(defLocal);
-							//if key is not already UNKNOWN
-							if(instanceKey instanceof Integer) {
-								Integer intKey = (Integer) instanceKey;
-								invalidInstanceKeys.add(intKey);
-							}
-						}
-					}
-				}
-			}
-		}
+            for (Unit unit : scc) {
+                for (ValueBox vb : unit.getDefBoxes()) {
+                    Value defValue = vb.getValue();
+                    if (defValue instanceof Local) {
+                        Local defLocal = (Local) defValue;
+                        if (defLocal.getType() instanceof RefLikeType) {
+                            Object instanceKey = getFlowBefore(unit).get(defLocal);
+                            //if key is not already UNKNOWN
+                            if (instanceKey instanceof Integer) {
+                                Integer intKey = (Integer) instanceKey;
+                                invalidInstanceKeys.add(intKey);
+                            }
+                            instanceKey = getFlowAfter(unit).get(defLocal);
+                            //if key is not already UNKNOWN
+                            if (instanceKey instanceof Integer) {
+                                Integer intKey = (Integer) instanceKey;
+                                invalidInstanceKeys.add(intKey);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -94,22 +91,22 @@ public class StrongLocalMustAliasAnalysis extends LocalMustAliasAnalysis {
         Object l2n = getFlowBefore(s2).get(l2);
 
         if (l1n == UNKNOWN || l2n == UNKNOWN ||
-            invalidInstanceKeys.contains(l1n) || invalidInstanceKeys.contains(l2n))
+                invalidInstanceKeys.contains(l1n) || invalidInstanceKeys.contains(l2n))
             return false;
 
         return l1n == l2n;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String instanceKeyString(Local l, Stmt s) {
         Object ln = getFlowBefore(s).get(l);
-        if(invalidInstanceKeys.contains(ln)) {
+        if (invalidInstanceKeys.contains(ln)) {
             return UNKNOWN_LABEL;
         }
         return super.instanceKeyString(l, s);
     }
-    
+
 }

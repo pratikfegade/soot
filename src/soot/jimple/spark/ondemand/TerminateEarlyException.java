@@ -21,9 +21,9 @@ package soot.jimple.spark.ondemand;
 
 /**
  * @author manu_s
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ *         <p/>
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Generation - Code and Comments
  */
 @SuppressWarnings("serial")
 public class TerminateEarlyException extends RuntimeException {

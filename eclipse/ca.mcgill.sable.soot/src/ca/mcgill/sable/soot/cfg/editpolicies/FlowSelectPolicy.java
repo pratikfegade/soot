@@ -19,37 +19,34 @@
 
 package ca.mcgill.sable.soot.cfg.editpolicies;
 
-import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.draw2d.*;
 import org.eclipse.gef.*;
+import org.eclipse.gef.editpolicies.SelectionEditPolicy;
 import org.eclipse.gef.requests.*;
-import ca.mcgill.sable.soot.cfg.figures.*;
-import ca.mcgill.sable.soot.cfg.editParts.*;
 
 public class FlowSelectPolicy extends SelectionEditPolicy {
 
 
-	public FlowSelectPolicy() {
-		super();
-	}
+    public FlowSelectPolicy() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
-	 */
-	protected void hideSelection() {
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#hideSelection()
+     */
+    protected void hideSelection() {
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
-	 */
-	protected void showSelection() {
-	}
-	
-	
-	
-	public void showTargetFeedback(Request request){
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#showSelection()
+     */
+    protected void showSelection() {
+    }
 
-	}
-	
+
+    public void showTargetFeedback(Request request) {
+
+    }
+
 
 }

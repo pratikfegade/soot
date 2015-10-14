@@ -24,39 +24,32 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public class GroupIntPair
-{
+public class GroupIntPair {
     public Object group;
     public int x;
-    
-   public  GroupIntPair(Object group, int x)
-    {
+
+    public GroupIntPair(Object group, int x) {
         this.group = group;
         this.x = x;
     }
-    
-    public boolean equals(Object other)
-    {
-        if(other instanceof GroupIntPair)
+
+    public boolean equals(Object other) {
+        if (other instanceof GroupIntPair)
             return ((GroupIntPair) other).group.equals(this.group) &&
                     ((GroupIntPair) other).x == this.x;
         else
             return false;
     }
-    
-    public int hashCode()
-    {
+
+    public int hashCode() {
         return group.hashCode() + 1013 * x;
     }
 
     @Override
     public String toString() {
-    	return this.group + ": " + this.x;
+        return this.group + ": " + this.x;
     }
-    
+
 }

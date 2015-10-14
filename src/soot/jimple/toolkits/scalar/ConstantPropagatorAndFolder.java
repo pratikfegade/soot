@@ -24,43 +24,50 @@
  */
 
 
-
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
+
 import soot.*;
-import soot.toolkits.scalar.*;
 import soot.jimple.*;
+import soot.options.Options;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.Orderer;
+import soot.toolkits.graph.PseudoTopologicalOrderer;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.LocalDefs;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import soot.toolkits.graph.*;
-
-/** Does constant propagation and folding. 
+/**
+ * Does constant propagation and folding.
  * Constant folding is the compile-time evaluation of constant
- * expressions (i.e. 2 * 3). */
-public class ConstantPropagatorAndFolder extends BodyTransformer
-{
-    public ConstantPropagatorAndFolder( Singletons.Global g ) {}
-    public static ConstantPropagatorAndFolder v() { return G.v().soot_jimple_toolkits_scalar_ConstantPropagatorAndFolder(); }
+ * expressions (i.e. 2 * 3).
+ */
+public class ConstantPropagatorAndFolder extends BodyTransformer {
+    public ConstantPropagatorAndFolder(Singletons.Global g) {
+    }
 
-    protected void internalTransform(Body b, String phaseName, Map<String,String> options)
-    {
+    public static ConstantPropagatorAndFolder v() {
+        return G.v().soot_jimple_toolkits_scalar_ConstantPropagatorAndFolder();
+    }
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
         int numFolded = 0;
         int numPropagated = 0;
 
         if (Options.v().verbose())
             G.v().out.println("[" + b.getMethod().getName() +
-                               "] Propagating and folding constants...");
+                    "] Propagating and folding constants...");
 
         UnitGraph g = new ExceptionalUnitGraph(b);
         LocalDefs localDefs = LocalDefs.Factory.newLocalDefs(g);
 
         // Perform a constant/local propagation pass.
         Orderer<Unit> orderer = new PseudoTopologicalOrderer<Unit>();
-        
+
         if (b.getMethod().getSignature().equals("<java.util.concurrent.ConcurrentSkipListMap: int compare(java.lang.Object,java.lang.Object)>"))
-        	System.out.println("x");
-        
+            System.out.println("x");
+
         // go through each use box in each statement
         for (Unit u : orderer.newList(g, false)) {
 
@@ -74,32 +81,31 @@ public class ConstantPropagatorAndFolder extends BodyTransformer
                         DefinitionStmt defStmt = (DefinitionStmt) defsOfUse.get(0);
                         Value rhs = defStmt.getRightOp();
                         if (rhs instanceof NumericConstant
-                        		|| rhs instanceof StringConstant
-                        		|| rhs instanceof NullConstant) {
+                                || rhs instanceof StringConstant
+                                || rhs instanceof NullConstant) {
                             if (useBox.canContainValue(rhs)) {
                                 useBox.setValue(rhs);
                                 numPropagated++;
                             }
-                        }
-                        else if (rhs instanceof CastExpr) {
-                        	CastExpr ce = (CastExpr) rhs;
-                        	if (ce.getCastType() instanceof RefType
-                        			&& ce.getOp() instanceof NullConstant) {
+                        } else if (rhs instanceof CastExpr) {
+                            CastExpr ce = (CastExpr) rhs;
+                            if (ce.getCastType() instanceof RefType
+                                    && ce.getOp() instanceof NullConstant) {
                                 defStmt.getRightOpBox().setValue(NullConstant.v());
                                 numPropagated++;
-                        	}
+                            }
                         }
                     }
                 }
             }
-                
+
             // folding pass
             for (ValueBox useBox : u.getUseBoxes()) {
                 Value value = useBox.getValue();
                 if (!(value instanceof Constant)) {
                     if (Evaluator.isValueConstantValued(value)) {
                         Value constValue =
-                            Evaluator.getConstantValueOf(value);
+                                Evaluator.getConstantValueOf(value);
                         if (useBox.canContainValue(constValue)) {
                             useBox.setValue(constValue);
                             numFolded++;
@@ -109,9 +115,9 @@ public class ConstantPropagatorAndFolder extends BodyTransformer
             }
         }
 
-       if (Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("[" + b.getMethod().getName() +
-                "]     Propagated: " + numPropagated + ", Folded:  " + numFolded);
+                    "]     Propagated: " + numPropagated + ", Folded:  " + numFolded);
 
     } // optimizeConstants
 

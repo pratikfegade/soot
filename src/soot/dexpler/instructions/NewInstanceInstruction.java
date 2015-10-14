@@ -24,17 +24,11 @@
 
 package soot.dexpler.instructions;
 
-import static soot.dexpler.Util.dottedClassName;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction21c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
 import soot.RefType;
 import soot.Type;
 import soot.dexpler.Debug;
@@ -46,18 +40,23 @@ import soot.jimple.AssignStmt;
 import soot.jimple.Jimple;
 import soot.jimple.NewExpr;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static soot.dexpler.Util.dottedClassName;
+
 public class NewInstanceInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
 
-    public NewInstanceInstruction (Instruction instruction, int codeAdress) {
+    public NewInstanceInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        Instruction21c i = (Instruction21c)instruction;
+    public void jimplify(DexBody body) {
+        Instruction21c i = (Instruction21c) instruction;
         int dest = i.getRegisterA();
-        String className = dottedClassName(((TypeReference)(i.getReference())).toString());
+        String className = dottedClassName(i.getReference().toString());
         RefType type = RefType.v(className);
         NewExpr n = Jimple.v().newNewExpr(type);
         assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), n);
@@ -65,11 +64,11 @@ public class NewInstanceInstruction extends DexlibAbstractInstruction {
         addTags(assign);
         body.add(assign);
 
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          //DalvikTyper.v().captureAssign((JAssignStmt)assign, op); // TODO: ref. type may be null!
-          DalvikTyper.v().setType(assign.getLeftOpBox(), type, false);
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            //DalvikTyper.v().captureAssign((JAssignStmt)assign, op); // TODO: ref. type may be null!
+            DalvikTyper.v().setType(assign.getLeftOpBox(), type, false);
         }
     }
 

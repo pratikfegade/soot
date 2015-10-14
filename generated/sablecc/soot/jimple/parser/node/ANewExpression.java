@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ANewExpression extends PExpression
-{
+public final class ANewExpression extends PExpression {
     private PNewExpr _newExpr_;
 
-    public ANewExpression()
-    {
+    public ANewExpression() {
         // Constructor
     }
 
     public ANewExpression(
-        @SuppressWarnings("hiding") PNewExpr _newExpr_)
-    {
+            @SuppressWarnings("hiding") PNewExpr _newExpr_) {
         // Constructor
         setNewExpr(_newExpr_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANewExpression(
-            cloneNode(this._newExpr_));
+                cloneNode(this._newExpr_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANewExpression(this);
     }
 
-    public PNewExpr getNewExpr()
-    {
+    public PNewExpr getNewExpr() {
         return this._newExpr_;
     }
 
-    public void setNewExpr(PNewExpr node)
-    {
-        if(this._newExpr_ != null)
-        {
+    public void setNewExpr(PNewExpr node) {
+        if (this._newExpr_ != null) {
             this._newExpr_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ANewExpression extends PExpression
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._newExpr_);
+                + toString(this._newExpr_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._newExpr_ == child)
-        {
+        if (this._newExpr_ == child) {
             this._newExpr_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ANewExpression extends PExpression
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._newExpr_ == oldChild)
-        {
+        if (this._newExpr_ == oldChild) {
             setNewExpr((PNewExpr) newChild);
             return;
         }

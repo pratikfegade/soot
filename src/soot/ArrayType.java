@@ -26,77 +26,72 @@
 
 package soot;
 
-import soot.util.*;
+import soot.util.Switch;
 
 
 /**
- *   A class that models Java's array types. ArrayTypes are parametrized by a Type and 
- *   and an integer representing the array's dimension count..
- *   Two ArrayType are 'equal' if they are parametrized equally.
- *
- *
- *
+ * A class that models Java's array types. ArrayTypes are parametrized by a Type and
+ * and an integer representing the array's dimension count..
+ * Two ArrayType are 'equal' if they are parametrized equally.
  */
 @SuppressWarnings("serial")
-public class ArrayType extends RefLikeType
-{
+public class ArrayType extends RefLikeType {
     /**
      * baseType can be any type except for an array type, null and void
-     *
+     * <p/>
      * What is the base type of the array? That is, for an array of type
      * A[][][], how do I find out what the A is? The accepted way of
      * doing this has always been to look at the public field baseType
      * in ArrayType, ever since the very beginning of Soot.
      */
     public final Type baseType;
-    
-    /** dimension count for the array type*/
+
+    /**
+     * dimension count for the array type
+     */
     public final int numDimensions;
 
-   
-    private ArrayType(Type baseType, int numDimensions)
-    {
-        if( !( baseType instanceof PrimType || baseType instanceof RefType ) )
-            throw new RuntimeException( "oops,  base type must be PrimType or RefType but not '"+ baseType +"'" );
-        if( numDimensions < 1 ) throw new RuntimeException( "attempt to create array with "+numDimensions+" dimensions" );
+
+    private ArrayType(Type baseType, int numDimensions) {
+        if (!(baseType instanceof PrimType || baseType instanceof RefType))
+            throw new RuntimeException("oops,  base type must be PrimType or RefType but not '" + baseType + "'");
+        if (numDimensions < 1) throw new RuntimeException("attempt to create array with " + numDimensions + " dimensions");
         this.baseType = baseType;
         this.numDimensions = numDimensions;
     }
 
-     /** 
-     *  Creates an ArrayType  parametrized by a given Type and dimension count.
-     *  @param baseType a Type to parametrize the ArrayType
-     *  @param numDimensions the dimension count to parametrize the ArrayType.
-     *  @return an ArrayType parametrized accrodingly.
+    /**
+     * Creates an ArrayType  parametrized by a given Type and dimension count.
+     *
+     * @param baseType      a Type to parametrize the ArrayType
+     * @param numDimensions the dimension count to parametrize the ArrayType.
+     * @return an ArrayType parametrized accrodingly.
      */
-    public static ArrayType v(Type baseType, int numDimensions)
-    {
+    public static ArrayType v(Type baseType, int numDimensions) {
         Type elementType;
-        if( numDimensions == 1 ) {
+        if (numDimensions == 1) {
             elementType = baseType;
-        }
-        else if (numDimensions > 1) {
-            elementType = ArrayType.v( baseType, numDimensions-1 );
-        }
-        else
-        	throw new RuntimeException("Invalid number of array dimensions: " + numDimensions);
-        
+        } else if (numDimensions > 1) {
+            elementType = ArrayType.v(baseType, numDimensions - 1);
+        } else
+            throw new RuntimeException("Invalid number of array dimensions: " + numDimensions);
+
         ArrayType ret = elementType.getArrayType();
-        if( ret == null ) {
+        if (ret == null) {
             ret = new ArrayType(baseType, numDimensions);
-            elementType.setArrayType( ret );
+            elementType.setArrayType(ret);
         }
         return ret;
     }
 
     /**
-     *  Two ArrayType are 'equal' if they are parametrized identically.
+     * Two ArrayType are 'equal' if they are parametrized identically.
      * (ie have same Type and dimension count.
+     *
      * @param t object to test for equality
      * @return true if t is an ArrayType and is parametrized identically to this.
      */
-    public boolean equals(Object t)
-    {
+    public boolean equals(Object t) {
         return t == this;
         /*
         if(t instanceof ArrayType)
@@ -111,33 +106,29 @@ public class ArrayType extends RefLikeType
             */
     }
 
-    public void toString(UnitPrinter up)
-    {
-        up.type( baseType );
+    public void toString(UnitPrinter up) {
+        up.type(baseType);
 
-        for(int i = 0; i < numDimensions; i++)
+        for (int i = 0; i < numDimensions; i++)
             up.literal("[]");
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append(baseType.toString());
 
-        for(int i = 0; i < numDimensions; i++)
+        for (int i = 0; i < numDimensions; i++)
             buffer.append("[]");
 
         return buffer.toString();
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         return baseType.hashCode() + 0x432E0341 * numDimensions;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((TypeSwitch) sw).caseArrayType(this);
     }
 
@@ -151,8 +142,9 @@ public class ArrayType extends RefLikeType
      * all hold any array, so then the answer is Object.
      */
     public Type getArrayElementType() {
-	return getElementType();
+        return getElementType();
     }
+
     /**
      * If I get an element of the array, what will be its type? That
      * is, if I have an array a of type A[][][], what is the type of
@@ -160,18 +152,19 @@ public class ArrayType extends RefLikeType
      * introduced to answer this question.
      */
     public Type getElementType() {
-	if( numDimensions > 1 ) {
-	    return ArrayType.v( baseType, numDimensions-1 );
-	} else {
-	    return baseType;
-	}
+        if (numDimensions > 1) {
+            return ArrayType.v(baseType, numDimensions - 1);
+        } else {
+            return baseType;
+        }
     }
+
     public ArrayType makeArrayType() {
-        return ArrayType.v( baseType, numDimensions+1 );
+        return ArrayType.v(baseType, numDimensions + 1);
     }
-    
+
     public boolean isAllowedInFinalCode() {
-    	return true;
+        return true;
     }
 
 }

@@ -1,6 +1,6 @@
 public class PrimTest {
-    
-    public static void main(String [] args){
+
+    public static void main(String[] args) {
         char c = 'g';
         byte b = 2;
         boolean l = true;

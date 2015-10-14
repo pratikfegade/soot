@@ -26,55 +26,56 @@
 
 package soot.jimple.toolkits.pointer.nativemethods;
 
-import soot.*;
-import soot.jimple.toolkits.pointer.representations.*;
-import soot.jimple.toolkits.pointer.util.*;
+import soot.SootMethod;
+import soot.jimple.toolkits.pointer.representations.ReferenceVariable;
+import soot.jimple.toolkits.pointer.util.NativeHelper;
 
 public class JavaLangThrowableNative extends NativeMethodClass {
-    public JavaLangThrowableNative( NativeHelper helper ) { super(helper); }
-
-  /**
-   * Implements the abstract method simulateMethod.
-   * It distributes the request to the corresponding methods 
-   * by signatures.
-   */
-  public void simulateMethod(SootMethod method,
-			     ReferenceVariable thisVar,
-			     ReferenceVariable returnVar,
-			     ReferenceVariable params[]){
-
-    String subSignature = method.getSubSignature();
-
-    if (subSignature.equals("java.lang.Throwable fillInStackTrace()")) {
-      java_lang_Throwable_fillInStackTrace(method, thisVar, 
-					   returnVar, params);
-      return;
-
-    } else {
-      defaultMethod(method, thisVar, returnVar, params);
-      return;
-
+    public JavaLangThrowableNative(NativeHelper helper) {
+        super(helper);
     }
-  }
-  /************************** java.lang.Throwable *******************/
-  /**
-   * NOTE: this method just fills in the stack state in this throwable 
-   *       object content.
-   *
-   * public native java.lang.Throwable fillInStackTrace();
-   */
-  public 
-    void java_lang_Throwable_fillInStackTrace(SootMethod method,
-					      ReferenceVariable thisVar,
-					      ReferenceVariable returnVar,
-					      ReferenceVariable params[]) {
-    helper.assign(returnVar, thisVar);
-  }
 
-  /**
-   * NO side effects.
-   * 
-   * private native void printStackTrace0(java.lang.Object);
-   */
+    /**
+     * Implements the abstract method simulateMethod.
+     * It distributes the request to the corresponding methods
+     * by signatures.
+     */
+    public void simulateMethod(SootMethod method,
+                               ReferenceVariable thisVar,
+                               ReferenceVariable returnVar,
+                               ReferenceVariable params[]) {
+
+        String subSignature = method.getSubSignature();
+
+        if (subSignature.equals("java.lang.Throwable fillInStackTrace()")) {
+            java_lang_Throwable_fillInStackTrace(method, thisVar,
+                    returnVar, params);
+            return;
+
+        } else {
+            defaultMethod(method, thisVar, returnVar, params);
+            return;
+
+        }
+    }
+    /************************** java.lang.Throwable *******************/
+    /**
+     * NOTE: this method just fills in the stack state in this throwable
+     * object content.
+     * <p/>
+     * public native java.lang.Throwable fillInStackTrace();
+     */
+    public void java_lang_Throwable_fillInStackTrace(SootMethod method,
+                                                     ReferenceVariable thisVar,
+                                                     ReferenceVariable returnVar,
+                                                     ReferenceVariable params[]) {
+        helper.assign(returnVar, thisVar);
+    }
+
+    /**
+     * NO side effects.
+     *
+     * private native void printStackTrace0(java.lang.Object);
+     */
 
 }

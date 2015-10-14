@@ -29,22 +29,23 @@
 package ashes.examples.addattributes;
 
 import soot.*;
-import soot.tagkit.*;
-import java.util.*;
+import soot.tagkit.GenericAttribute;
+import soot.tagkit.Tag;
+
+import java.util.Map;
 
 
-/** Annotation example, adds a "Hello World!" string
- *  as method attribute to each method.
- */ 
+/**
+ * Annotation example, adds a "Hello World!" string
+ * as method attribute to each method.
+ */
 
-public class Main
-{
-    public static void main(String[] args)
-    {
+public class Main {
+    public static void main(String[] args) {
         /* adds the transformer. */
         PackManager.v().getPack("jtp").add(new
-                        Transform("annotexample",
-                        AnnExampleWrapper.v()));
+                Transform("annotexample",
+                AnnExampleWrapper.v()));
 
         /* invokes Soot */
         soot.Main.main(args);
@@ -52,23 +53,21 @@ public class Main
 }
 
 
-class AnnExampleWrapper extends BodyTransformer
-{
+class AnnExampleWrapper extends BodyTransformer {
     private static AnnExampleWrapper instance =
-        new AnnExampleWrapper();
+            new AnnExampleWrapper();
 
-    private AnnExampleWrapper() {};
+    private AnnExampleWrapper() {
+    }
 
-    public static AnnExampleWrapper v()
-    {
+    public static AnnExampleWrapper v() {
         return instance;
     }
 
-    public void internalTransform(Body body, String phaseName, Map options)
-    {
+    public void internalTransform(Body body, String phaseName, Map options) {
         SootMethod method = body.getMethod();
         String attr = new String("Hello world!");
-        
+
         Tag example = new GenericAttribute("Example", attr.getBytes());
         method.addTag(example);
     }

@@ -19,27 +19,34 @@
 
 package soot.util;
 
-/** A class that assigns integers to java.lang.Strings.
+/**
+ * A class that assigns integers to java.lang.Strings.
  *
  * @author Ondrej Lhotak
  */
 
 public final class NumberedString implements Numberable {
-    public NumberedString( String s ) {
+    final private String s;
+    private int number;
+
+    public NumberedString(String s) {
         this.s = s;
     }
+
     public final String toString() {
         return getString();
     }
+
     public final String getString() {
-        if( number == 0 ) throw new RuntimeException( "oops" );
+        if (number == 0) throw new RuntimeException("oops");
         return s;
     }
-    public final void setNumber( int number ) { 
+
+    public final int getNumber() {
+        return number;
+    }
+
+    public final void setNumber(int number) {
         this.number = number;
     }
-    public final int getNumber() { return number; }
-
-    final private String s;
-    private int number;
 }

@@ -23,57 +23,61 @@ package ca.mcgill.sable.soot.util;
 
 public class SootCmdFormat {
 
-	public static final String SPACE = " ";
-	public static final String COLON = ":";
-	private String separator;
-	private Object val;
-	
-	
-	/**
-	 * Constructor for SootCmdFormat.
-	 */
-	public SootCmdFormat(String separator, Object val) {
-		setSeparator(separator);
-		setVal(val);
-	}
+    public static final String SPACE = " ";
+    public static final String COLON = ":";
+    private String separator;
+    private Object val;
 
-	/**
-	 * Returns the separator.
-	 * @return String
-	 */
-	public String getSeparator() {
-		return separator;
-	}
 
-	/**
-	 * Returns the val.
-	 * @return String
-	 */
-	public Object getVal() {
-		return val;
-	}
+    /**
+     * Constructor for SootCmdFormat.
+     */
+    public SootCmdFormat(String separator, Object val) {
+        setSeparator(separator);
+        setVal(val);
+    }
 
-	/**
-	 * Sets the separator.
-	 * @param separator The separator to set
-	 */
-	public void setSeparator(String separator) {
-		this.separator = separator;
-	}
+    /**
+     * Returns the separator.
+     *
+     * @return String
+     */
+    public String getSeparator() {
+        return separator;
+    }
 
-	/**
-	 * Sets the val.
-	 * @param val The val to set
-	 */
-	public void setVal(Object val) {
-		this.val = val;
-	}
-	
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(getSeparator());
-		sb.append(getVal());
-		return sb.toString();
-	}
+    /**
+     * Sets the separator.
+     *
+     * @param separator The separator to set
+     */
+    public void setSeparator(String separator) {
+        this.separator = separator;
+    }
+
+    /**
+     * Returns the val.
+     *
+     * @return String
+     */
+    public Object getVal() {
+        return val;
+    }
+
+    /**
+     * Sets the val.
+     *
+     * @param val The val to set
+     */
+    public void setVal(Object val) {
+        this.val = val;
+    }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(getSeparator());
+        sb.append(getVal());
+        return sb.toString();
+    }
 
 }

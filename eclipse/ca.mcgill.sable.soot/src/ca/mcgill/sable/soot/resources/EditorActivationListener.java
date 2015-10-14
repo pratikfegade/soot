@@ -19,58 +19,49 @@
 
 package ca.mcgill.sable.soot.resources;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jface.text.ITextOperationTarget;
-import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.ui.IEditorInput;
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
-
-import ca.mcgill.sable.soot.SootPlugin;
-import ca.mcgill.sable.soot.attributes.*;
 import org.eclipse.ui.texteditor.*;
 
 public class EditorActivationListener implements IPartListener {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void partActivated(IWorkbenchPart part) {
-		if (!(part instanceof ITextEditor)) return;
-		IEditorPart activeEdPart = (IEditorPart)part;
-		SootPlugin.getDefault().getPartManager().updatePart(activeEdPart);
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
+     */
+    public void partActivated(IWorkbenchPart part) {
+        if (!(part instanceof ITextEditor)) return;
+        IEditorPart activeEdPart = (IEditorPart) part;
+        SootPlugin.getDefault().getPartManager().updatePart(activeEdPart);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void partBroughtToTop(IWorkbenchPart part) {
-		
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+     */
+    public void partBroughtToTop(IWorkbenchPart part) {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void partClosed(IWorkbenchPart part) {
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void partDeactivated(IWorkbenchPart part) {
-		// here not sure
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
+     */
+    public void partClosed(IWorkbenchPart part) {
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void partOpened(IWorkbenchPart part) {
-		// maybe need to handle this as well
-		SootPlugin.getDefault().getPartManager().setUpdateForOpen(true);
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart)
+     */
+    public void partDeactivated(IWorkbenchPart part) {
+        // here not sure
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
+     */
+    public void partOpened(IWorkbenchPart part) {
+        // maybe need to handle this as well
+        SootPlugin.getDefault().getPartManager().setUpdateForOpen(true);
+    }
 
 }

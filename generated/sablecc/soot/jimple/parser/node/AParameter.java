@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AParameter extends PParameter
-{
+public final class AParameter extends PParameter {
     private PNonvoidType _nonvoidType_;
 
-    public AParameter()
-    {
+    public AParameter() {
         // Constructor
     }
 
     public AParameter(
-        @SuppressWarnings("hiding") PNonvoidType _nonvoidType_)
-    {
+            @SuppressWarnings("hiding") PNonvoidType _nonvoidType_) {
         // Constructor
         setNonvoidType(_nonvoidType_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AParameter(
-            cloneNode(this._nonvoidType_));
+                cloneNode(this._nonvoidType_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAParameter(this);
     }
 
-    public PNonvoidType getNonvoidType()
-    {
+    public PNonvoidType getNonvoidType() {
         return this._nonvoidType_;
     }
 
-    public void setNonvoidType(PNonvoidType node)
-    {
-        if(this._nonvoidType_ != null)
-        {
+    public void setNonvoidType(PNonvoidType node) {
+        if (this._nonvoidType_ != null) {
             this._nonvoidType_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AParameter extends PParameter
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._nonvoidType_);
+                + toString(this._nonvoidType_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._nonvoidType_ == child)
-        {
+        if (this._nonvoidType_ == child) {
             this._nonvoidType_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AParameter extends PParameter
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._nonvoidType_ == oldChild)
-        {
+        if (this._nonvoidType_ == oldChild) {
             setNonvoidType((PNonvoidType) newChild);
             return;
         }

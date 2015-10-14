@@ -19,13 +19,12 @@
 package ca.mcgill.sable.soot.examples;
 
 /**
- * 
  * @author Eric Bodden
  */
 public class NewGotoInstrumenterWizard extends NewSootExampleWizard {
 
-	public NewGotoInstrumenterWizard() {
-		super("GotoInstrumenter.java","MyMain.java");
-	}
+    public NewGotoInstrumenterWizard() {
+        super("GotoInstrumenter.java", "MyMain.java");
+    }
 
 }

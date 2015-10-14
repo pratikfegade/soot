@@ -25,40 +25,39 @@
 
 
 package soot.jimple.toolkits.scalar;
-import java.util.Iterator;
-import java.util.Map;
 
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Singletons;
-import soot.Unit;
+import soot.*;
 import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Removes empty switch statements which always take the default action from a
  * method body, i.e. blocks of the form switch(x) { default: ... }. Such blocks
  * are replaced by the code of the default block.
- * @author Steven Arzt
  *
+ * @author Steven Arzt
  */
-public class EmptySwitchEliminator extends BodyTransformer
-{
-    public EmptySwitchEliminator( Singletons.Global g ) {}
-    public static EmptySwitchEliminator v() { return G.v().soot_jimple_toolkits_scalar_EmptySwitchEliminator(); }
+public class EmptySwitchEliminator extends BodyTransformer {
+    public EmptySwitchEliminator(Singletons.Global g) {
+    }
 
-    protected void internalTransform(Body b, String phaseName, Map<String,String> options)
-    {
-    	Iterator<Unit> it = b.getUnits().snapshotIterator();
+    public static EmptySwitchEliminator v() {
+        return G.v().soot_jimple_toolkits_scalar_EmptySwitchEliminator();
+    }
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        Iterator<Unit> it = b.getUnits().snapshotIterator();
         while (it.hasNext()) {
-        	Unit u = it.next();
-        	if (u instanceof LookupSwitchStmt) {
-        		LookupSwitchStmt sw = (LookupSwitchStmt) u;
-        		if (sw.getTargetCount() == 0 && sw.getDefaultTarget() != null)
-        			b.getUnits().swapWith(sw, Jimple.v().newGotoStmt(sw.getDefaultTarget()));
-        	}
+            Unit u = it.next();
+            if (u instanceof LookupSwitchStmt) {
+                LookupSwitchStmt sw = (LookupSwitchStmt) u;
+                if (sw.getTargetCount() == 0 && sw.getDefaultTarget() != null)
+                    b.getUnits().swapWith(sw, Jimple.v().newGotoStmt(sw.getDefaultTarget()));
+            }
         }
-        
+
     }
 }

@@ -24,22 +24,17 @@
  */
 
 
-
-
-
 package soot.baf;
 
-import soot.*;
+import soot.AbstractUnitBox;
+import soot.Unit;
 
-class InstBox extends AbstractUnitBox
-{
-    InstBox(Inst s)
-    {
+class InstBox extends AbstractUnitBox {
+    InstBox(Inst s) {
         setUnit(s);
     }
-    
-    public boolean canContainUnit(Unit u)
-    {
+
+    public boolean canContainUnit(Unit u) {
         return u instanceof Inst || u == null;
     }
 }

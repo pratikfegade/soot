@@ -24,11 +24,7 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface MulExpr extends BinopExpr
-{
+public interface MulExpr extends BinopExpr {
 }

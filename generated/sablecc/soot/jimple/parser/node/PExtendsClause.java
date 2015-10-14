@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PExtendsClause extends Node
-{
+public abstract class PExtendsClause extends Node {
     // Empty body
 }

@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TUnknown extends Token
-{
-    public TUnknown()
-    {
+public final class TUnknown extends Token {
+    public TUnknown() {
         super.setText("unknown");
     }
 
-    public TUnknown(int line, int pos)
-    {
+    public TUnknown(int line, int pos) {
         super.setText("unknown");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TUnknown(getLine(), getPos());
+    public Object clone() {
+        return new TUnknown(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTUnknown(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TUnknown text.");
     }
 }

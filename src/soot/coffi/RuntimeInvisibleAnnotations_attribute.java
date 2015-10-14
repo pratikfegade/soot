@@ -24,26 +24,25 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** There should be at most one RuntimeInvisibleAnnotations attribute in 
+/**
+ * There should be at most one RuntimeInvisibleAnnotations attribute in
  * every method, field and class
  * indicating the list of annotations.
- * @see attribute_info
- * @see method_info#attributes, @see field_info#attributes, 
- * @see coffi_class#attributes
+ *
  * @author Jennifer Lhotak
+ * @see attribute_info
+ * @see method_info#attributes, @see field_info#attributes,
+ * @see coffi_class#attributes
  */
 public class RuntimeInvisibleAnnotations_attribute extends attribute_info {
-   /** Length of annotations table array. */
-   public int number_of_annotations;
-   /** 
-    * Each entry represents a single runtime invisible annotation.
-    */
-   public annotation annotations[];
+    /**
+     * Length of annotations table array.
+     */
+    public int number_of_annotations;
+    /**
+     * Each entry represents a single runtime invisible annotation.
+     */
+    public annotation annotations[];
 }

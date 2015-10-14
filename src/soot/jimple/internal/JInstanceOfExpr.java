@@ -24,40 +24,35 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.baf.*;
+import soot.Type;
+import soot.Unit;
+import soot.Value;
+import soot.baf.Baf;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleToBafContext;
 
-import java.util.*;
+import java.util.List;
 
 public class JInstanceOfExpr extends AbstractInstanceOfExpr
-  implements ConvertToBaf
-{
-    public JInstanceOfExpr(Value op, Type checkType)
-    {
+        implements ConvertToBaf {
+    public JInstanceOfExpr(Value op, Type checkType) {
         super(Jimple.v().newImmediateBox(op), checkType);
     }
 
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        ((ConvertToBaf)(getOp())).convertToBaf(context, out);
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getOp())).convertToBaf(context, out);
         Unit u = Baf.v().newInstanceOfInst(getCheckType());
-		u.addAllTagsOf(context.getCurrentUnit());
+        u.addAllTagsOf(context.getCurrentUnit());
         out.add(u);
     }
-    
 
-  
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new JInstanceOfExpr(Jimple.cloneIfNecessary(getOp()), checkType);
     }
-    
+
 }

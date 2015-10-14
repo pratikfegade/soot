@@ -19,69 +19,62 @@
 
 package soot.jimple.validation;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import soot.*;
-import soot.jimple.*;
-import soot.jimple.internal.JInvokeStmt;
-import soot.jimple.internal.JNewExpr;
-import soot.jimple.internal.JSpecialInvokeExpr;
-import soot.toolkits.graph.BriefUnitGraph;
-import soot.toolkits.graph.ExceptionalUnitGraph;
-import soot.toolkits.graph.UnitGraph;
+import soot.Body;
+import soot.Trap;
+import soot.Unit;
+import soot.jimple.CaughtExceptionRef;
+import soot.jimple.IdentityStmt;
 import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This validator checks whether the jimple traps are correct.
  * It does not perform the same checks as {@link soot.validation.TrapsValidator}
- * 
- * @see JimpleTrapValidator#validate(Body, List)
+ *
  * @author Marc Miltenberger
+ * @see JimpleTrapValidator#validate(Body, List)
  */
 public enum JimpleTrapValidator implements BodyValidator {
-	INSTANCE;
+    INSTANCE;
 
-	public static JimpleTrapValidator v() {
-		return INSTANCE;
-	}
+    public static JimpleTrapValidator v() {
+        return INSTANCE;
+    }
 
-	@Override
-	/**
-	 * Checks whether all Caught-Exception-References are associated to traps.
-	 */
-	public void validate(Body body, List<ValidationException> exception) {
-		Set<Unit> caughtUnits = new HashSet<Unit>();
-		for (Trap trap : body.getTraps()) {
-			caughtUnits.add(trap.getHandlerUnit());
-		}
-		for (Unit u : body.getUnits()) {
-			if (u instanceof IdentityStmt) {
-				IdentityStmt id = (IdentityStmt) u;
-				if (id.getRightOp() instanceof CaughtExceptionRef) {
-					if (!caughtUnits.contains(id)) 
-					{
-						exception
-						.add(new ValidationException(
-								id,
-								"Could not find a corresponding trap using this statement as handler",
-								"Body of method "
-										+ body.getMethod()
-												.getSignature()
-										+ " contains a caught exception reference, but not a corresponding trap using this statement as handler"));						
-					}
-				}
-			}
-		}
-	}
+    @Override
+    /**
+     * Checks whether all Caught-Exception-References are associated to traps.
+     */
+    public void validate(Body body, List<ValidationException> exception) {
+        Set<Unit> caughtUnits = new HashSet<Unit>();
+        for (Trap trap : body.getTraps()) {
+            caughtUnits.add(trap.getHandlerUnit());
+        }
+        for (Unit u : body.getUnits()) {
+            if (u instanceof IdentityStmt) {
+                IdentityStmt id = (IdentityStmt) u;
+                if (id.getRightOp() instanceof CaughtExceptionRef) {
+                    if (!caughtUnits.contains(id)) {
+                        exception
+                                .add(new ValidationException(
+                                        id,
+                                        "Could not find a corresponding trap using this statement as handler",
+                                        "Body of method "
+                                                + body.getMethod()
+                                                .getSignature()
+                                                + " contains a caught exception reference, but not a corresponding trap using this statement as handler"));
+                    }
+                }
+            }
+        }
+    }
 
-	@Override
-	public boolean isBasicValidator() {
-		return true;
-	}
+    @Override
+    public boolean isBasicValidator() {
+        return true;
+    }
 }

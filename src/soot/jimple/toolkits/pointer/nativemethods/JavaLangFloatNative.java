@@ -26,37 +26,39 @@
 
 package soot.jimple.toolkits.pointer.nativemethods;
 
-import soot.*;
-import soot.jimple.toolkits.pointer.representations.*;
-import soot.jimple.toolkits.pointer.util.*;
+import soot.SootMethod;
+import soot.jimple.toolkits.pointer.representations.ReferenceVariable;
+import soot.jimple.toolkits.pointer.util.NativeHelper;
 
 public class JavaLangFloatNative extends NativeMethodClass {
-    public JavaLangFloatNative( NativeHelper helper ) { super(helper); }
-
-  /**
-   * Implements the abstract method simulateMethod.
-   * It distributes the request to the corresponding methods 
-   * by signatures.
-   */
-  public void simulateMethod(SootMethod method,
-			     ReferenceVariable thisVar,
-			     ReferenceVariable returnVar,
-			     ReferenceVariable params[]){
-
-    String subSignature = method.getSubSignature();
-
-    {
-      defaultMethod(method, thisVar, returnVar, params);
-      return;
-
+    public JavaLangFloatNative(NativeHelper helper) {
+        super(helper);
     }
-  }
 
-  /************************** java.lang.Float ***********************/
-  /**
-   * Following methods have no side effects.
-   *    public static native int floatToIntBits(float);
-   *    public static native int floatToRawIntBits(float);
-   *    public static native float intBitsToFloat(int);
-   */
+    /**
+     * Implements the abstract method simulateMethod.
+     * It distributes the request to the corresponding methods
+     * by signatures.
+     */
+    public void simulateMethod(SootMethod method,
+                               ReferenceVariable thisVar,
+                               ReferenceVariable returnVar,
+                               ReferenceVariable params[]) {
+
+        String subSignature = method.getSubSignature();
+
+        {
+            defaultMethod(method, thisVar, returnVar, params);
+            return;
+
+        }
+    }
+
+    /************************** java.lang.Float ***********************/
+    /**
+     * Following methods have no side effects.
+     *    public static native int floatToIntBits(float);
+     *    public static native int floatToRawIntBits(float);
+     *    public static native float intBitsToFloat(int);
+     */
 }

@@ -18,24 +18,31 @@
  */
 
 package soot.jimple.spark.pag;
+
 import soot.Context;
 
-/** Represents a simple variable node with context.
+/**
+ * Represents a simple variable node with context.
+ *
  * @author Ondrej Lhotak
  */
 public class ContextVarNode extends LocalVarNode {
     private Context context;
-    public Context context() { return context; }
-    public String toString() {
-	return "ContextVarNode "+getNumber()+" "+variable+" "+method+" "+context;
+
+    ContextVarNode(PAG pag, LocalVarNode base, Context context) {
+        super(pag, base.getVariable(), base.getType(), base.getMethod());
+        this.context = context;
+        base.addContext(this, context);
+    }
+
+    public Context context() {
+        return context;
     }
 
     /* End of public methods. */
 
-    ContextVarNode( PAG pag, LocalVarNode base, Context context ) {
-	super( pag, base.getVariable(), base.getType(), base.getMethod() );
-        this.context = context;
-        base.addContext( this, context );
+    public String toString() {
+        return "ContextVarNode " + getNumber() + " " + variable + " " + method + " " + context;
     }
 }
 

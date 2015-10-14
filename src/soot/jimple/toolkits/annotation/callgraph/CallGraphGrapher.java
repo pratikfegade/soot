@@ -20,53 +20,60 @@
 package soot.jimple.toolkits.annotation.callgraph;
 
 import soot.*;
-import java.util.*;
-import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.toolkits.graph.interaction.*;
-import soot.options.*;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.options.CGGOptions;
+import soot.options.Options;
+import soot.toolkits.graph.interaction.InteractionHandler;
 
-/** A scene transformer that creates a graphical callgraph. */
-public class CallGraphGrapher extends SceneTransformer
-{ 
-    public CallGraphGrapher(Singletons.Global g){}
-    public static CallGraphGrapher v() { return G.v().soot_jimple_toolkits_annotation_callgraph_CallGraphGrapher();}
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
+/**
+ * A scene transformer that creates a graphical callgraph.
+ */
+public class CallGraphGrapher extends SceneTransformer {
     private MethodToContexts methodToContexts;
     private CallGraph cg;
     private boolean showLibMeths;
-    
-    private ArrayList<MethInfo> getTgtMethods(SootMethod method, boolean recurse){
+    private SootMethod nextMethod;
+    public CallGraphGrapher(Singletons.Global g) {
+    }
+
+    public static CallGraphGrapher v() {
+        return G.v().soot_jimple_toolkits_annotation_callgraph_CallGraphGrapher();
+    }
+
+    private ArrayList<MethInfo> getTgtMethods(SootMethod method, boolean recurse) {
         //G.v().out.println("meth for tgts: "+method);
-        if (!method.hasActiveBody()){
+        if (!method.hasActiveBody()) {
             return new ArrayList<MethInfo>();
         }
         Body b = method.getActiveBody();
         ArrayList<MethInfo> list = new ArrayList<MethInfo>();
         Iterator sIt = b.getUnits().iterator();
-        while (sIt.hasNext()){
+        while (sIt.hasNext()) {
             Stmt s = (Stmt) sIt.next();
             Iterator edges = cg.edgesOutOf(s);
-            while (edges.hasNext()){
-                Edge e = (Edge)edges.next();
+            while (edges.hasNext()) {
+                Edge e = (Edge) edges.next();
                 SootMethod sm = e.tgt();
                 //G.v().out.println("found target method: "+sm);
-                
-                if (sm.getDeclaringClass().isLibraryClass()){
-                    if (isShowLibMeths()){
-                        if (recurse){
+
+                if (sm.getDeclaringClass().isLibraryClass()) {
+                    if (isShowLibMeths()) {
+                        if (recurse) {
                             list.add(new MethInfo(sm, hasTgtMethods(sm) | hasSrcMethods(sm), e.kind()));
-                        }
-                        else {
+                        } else {
                             list.add(new MethInfo(sm, true, e.kind()));
                         }
                     }
-                }
-                else {
-                    if (recurse){
+                } else {
+                    if (recurse) {
                         list.add(new MethInfo(sm, hasTgtMethods(sm) | hasSrcMethods(sm), e.kind()));
-                    }
-                    else {
+                    } else {
                         list.add(new MethInfo(sm, true, e.kind()));
                     }
                 }
@@ -75,95 +82,89 @@ public class CallGraphGrapher extends SceneTransformer
         return list;
     }
 
-    private boolean hasTgtMethods(SootMethod meth){
+    private boolean hasTgtMethods(SootMethod meth) {
         ArrayList<MethInfo> list = getTgtMethods(meth, false);
-        if (!list.isEmpty()) return true;
-        else return false;
+        return !list.isEmpty();
     }
 
-    private boolean hasSrcMethods(SootMethod meth){
+    private boolean hasSrcMethods(SootMethod meth) {
         ArrayList<MethInfo> list = getSrcMethods(meth, false);
-        if (list.size() > 1) return true;
-        else return false;
+        return list.size() > 1;
     }
-    
-    private ArrayList<MethInfo> getSrcMethods(SootMethod method, boolean recurse){
+
+    private ArrayList<MethInfo> getSrcMethods(SootMethod method, boolean recurse) {
         //G.v().out.println("meth for srcs: "+method);
         ArrayList<MethInfo> list = new ArrayList<MethInfo>();
-        
-        for( Iterator momcIt = methodToContexts.get(method).iterator(); momcIt.hasNext(); ) {
+
+        for (Iterator momcIt = methodToContexts.get(method).iterator(); momcIt.hasNext(); ) {
             final MethodOrMethodContext momc = (MethodOrMethodContext) momcIt.next();
             Iterator callerEdges = cg.edgesInto(momc);
-            while (callerEdges.hasNext()){
-                Edge callEdge = (Edge)callerEdges.next();
+            while (callerEdges.hasNext()) {
+                Edge callEdge = (Edge) callerEdges.next();
                 SootMethod methodCaller = callEdge.src();
-                if (methodCaller.getDeclaringClass().isLibraryClass()){
-                    if (isShowLibMeths()){
-                        if (recurse){
+                if (methodCaller.getDeclaringClass().isLibraryClass()) {
+                    if (isShowLibMeths()) {
+                        if (recurse) {
                             list.add(new MethInfo(methodCaller, hasTgtMethods(methodCaller) | hasSrcMethods(methodCaller), callEdge.kind()));
-                        }
-                        else {
+                        } else {
                             list.add(new MethInfo(methodCaller, true, callEdge.kind()));
                         }
                     }
-                }
-                else {
-                    if (recurse){
+                } else {
+                    if (recurse) {
                         list.add(new MethInfo(methodCaller, hasTgtMethods(methodCaller) | hasSrcMethods(methodCaller), callEdge.kind()));
-                    }
-                    else {
+                    } else {
                         list.add(new MethInfo(methodCaller, true, callEdge.kind()));
                     }
                 }
-            } 
+            }
         }
         return list;
     }
-    
-    protected void internalTransform(String phaseName, Map options){
-        
+
+    protected void internalTransform(String phaseName, Map options) {
+
         CGGOptions opts = new CGGOptions(options);
-        if (opts.show_lib_meths()){
+        if (opts.show_lib_meths()) {
             setShowLibMeths(true);
         }
         cg = Scene.v().getCallGraph();
-        if (Options.v().interactive_mode()){
+        if (Options.v().interactive_mode()) {
             reset();
         }
     }
 
     public void reset() {
-        if (methodToContexts == null){
+        if (methodToContexts == null) {
             methodToContexts = new MethodToContexts(Scene.v().getReachableMethods().listener());
         }
-        
-        if(Scene.v().hasCallGraph()) {
-	        SootClass sc = Scene.v().getMainClass();
-	        SootMethod sm = getFirstMethod(sc);
-	        //G.v().out.println("got first method");
-	        ArrayList<MethInfo> tgts = getTgtMethods(sm, true);
-	        //G.v().out.println("got tgt methods");
-	        ArrayList<MethInfo> srcs = getSrcMethods(sm, true);
-	        //G.v().out.println("got src methods");
-	        CallGraphInfo info = new CallGraphInfo(sm, tgts, srcs);
-	        //G.v().out.println("will handle new call graph");
-	        InteractionHandler.v().handleCallGraphStart(info, this);
+
+        if (Scene.v().hasCallGraph()) {
+            SootClass sc = Scene.v().getMainClass();
+            SootMethod sm = getFirstMethod(sc);
+            //G.v().out.println("got first method");
+            ArrayList<MethInfo> tgts = getTgtMethods(sm, true);
+            //G.v().out.println("got tgt methods");
+            ArrayList<MethInfo> srcs = getSrcMethods(sm, true);
+            //G.v().out.println("got src methods");
+            CallGraphInfo info = new CallGraphInfo(sm, tgts, srcs);
+            //G.v().out.println("will handle new call graph");
+            InteractionHandler.v().handleCallGraphStart(info, this);
         }
     }
 
-    private SootMethod getFirstMethod(SootClass sc){
+    private SootMethod getFirstMethod(SootClass sc) {
         ArrayList paramTypes = new ArrayList();
         paramTypes.add(soot.ArrayType.v(soot.RefType.v("java.lang.String"), 1));
         SootMethod sm = sc.getMethodUnsafe("main", paramTypes, soot.VoidType.v());
         if (sm != null) {
             return sm;
-        }
-        else {
-            return (SootMethod)sc.getMethods().get(0);
+        } else {
+            return sc.getMethods().get(0);
         }
     }
-    
-    public void handleNextMethod(){
+
+    public void handleNextMethod() {
         if (!getNextMethod().hasActiveBody()) return;
         ArrayList<MethInfo> tgts = getTgtMethods(getNextMethod(), true);
         //System.out.println("for: "+getNextMethod().getName()+" tgts: "+tgts);
@@ -174,23 +175,21 @@ public class CallGraphGrapher extends SceneTransformer
         InteractionHandler.v().handleCallGraphPart(info);
         //handleNextMethod();
     }
-    
-    private SootMethod nextMethod;
 
-    public void setNextMethod(SootMethod m){
-        nextMethod = m;
-    }
-
-    public SootMethod getNextMethod(){
+    public SootMethod getNextMethod() {
         return nextMethod;
     }
 
-    public void setShowLibMeths(boolean b){
-        showLibMeths = b;
+    public void setNextMethod(SootMethod m) {
+        nextMethod = m;
     }
 
-    public boolean isShowLibMeths(){
+    public boolean isShowLibMeths() {
         return showLibMeths;
+    }
+
+    public void setShowLibMeths(boolean b) {
+        showLibMeths = b;
     }
 
 }

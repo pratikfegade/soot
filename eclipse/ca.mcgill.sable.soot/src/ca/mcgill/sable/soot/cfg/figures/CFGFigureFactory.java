@@ -18,10 +18,6 @@
  */
 
 package ca.mcgill.sable.soot.cfg.figures;
-import ca.mcgill.sable.soot.cfg.model.*;
-import org.eclipse.draw2d.widgets.*;
-import org.eclipse.draw2d.*;
-
 
 public class CFGFigureFactory {
 

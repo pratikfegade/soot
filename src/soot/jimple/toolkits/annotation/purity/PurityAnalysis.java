@@ -21,16 +21,21 @@
  * Implementation of the paper "A Combined Pointer and Purity Analysis for
  * Java Programs" by Alexandru Salcianu and Martin Rinard, within the
  * Soot Optimization Framework.
- *
+ * <p/>
  * by Antoine Mine, 2005/01/24
  */
 
 
 package soot.jimple.toolkits.annotation.purity;
-import java.util.*;
-import soot.*;
-import soot.jimple.toolkits.callgraph.*;
+
+import soot.G;
+import soot.Scene;
+import soot.SceneTransformer;
+import soot.Singletons;
+import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.options.PurityOptions;
+
+import java.util.Map;
 
 /**
  * Purity analysis phase.
@@ -44,27 +49,26 @@ import soot.options.PurityOptions;
  *  - output nicer graphs (especially clusters!)
  */
 
-public class PurityAnalysis extends SceneTransformer
-{
+public class PurityAnalysis extends SceneTransformer {
     Singletons.Global g;
 
-    public PurityAnalysis(Singletons.Global g ) { this.g = g; }
-
-    public static PurityAnalysis v() 
-    {
-	return G.v().soot_jimple_toolkits_annotation_purity_PurityAnalysis(); 
+    public PurityAnalysis(Singletons.Global g) {
+        this.g = g;
     }
 
-    protected void internalTransform(String phaseName, Map options)
-    {
-	PurityOptions opts = new PurityOptions(options);
+    public static PurityAnalysis v() {
+        return G.v().soot_jimple_toolkits_annotation_purity_PurityAnalysis();
+    }
 
-	G.v().out.println("[AM] Analysing purity");
+    protected void internalTransform(String phaseName, Map options) {
+        PurityOptions opts = new PurityOptions(options);
 
-	CallGraph cg = Scene.v().getCallGraph();
+        G.v().out.println("[AM] Analysing purity");
 
-	// launch the analysis
-	PurityInterproceduralAnalysis p =
-	    new PurityInterproceduralAnalysis(cg, Scene.v().getEntryPoints().iterator(), opts); 
+        CallGraph cg = Scene.v().getCallGraph();
+
+        // launch the analysis
+        PurityInterproceduralAnalysis p =
+                new PurityInterproceduralAnalysis(cg, Scene.v().getEntryPoints().iterator(), opts);
     }
 }

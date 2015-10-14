@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ALengthofUnop extends PUnop
-{
+public final class ALengthofUnop extends PUnop {
     private TLengthof _lengthof_;
 
-    public ALengthofUnop()
-    {
+    public ALengthofUnop() {
         // Constructor
     }
 
     public ALengthofUnop(
-        @SuppressWarnings("hiding") TLengthof _lengthof_)
-    {
+            @SuppressWarnings("hiding") TLengthof _lengthof_) {
         // Constructor
         setLengthof(_lengthof_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ALengthofUnop(
-            cloneNode(this._lengthof_));
+                cloneNode(this._lengthof_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseALengthofUnop(this);
     }
 
-    public TLengthof getLengthof()
-    {
+    public TLengthof getLengthof() {
         return this._lengthof_;
     }
 
-    public void setLengthof(TLengthof node)
-    {
-        if(this._lengthof_ != null)
-        {
+    public void setLengthof(TLengthof node) {
+        if (this._lengthof_ != null) {
             this._lengthof_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ALengthofUnop extends PUnop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._lengthof_);
+                + toString(this._lengthof_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._lengthof_ == child)
-        {
+        if (this._lengthof_ == child) {
             this._lengthof_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ALengthofUnop extends PUnop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._lengthof_ == oldChild)
-        {
+        if (this._lengthof_ == oldChild) {
             setLengthof((TLengthof) newChild);
             return;
         }

@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ANegUnop extends PUnop
-{
+public final class ANegUnop extends PUnop {
     private TNeg _neg_;
 
-    public ANegUnop()
-    {
+    public ANegUnop() {
         // Constructor
     }
 
     public ANegUnop(
-        @SuppressWarnings("hiding") TNeg _neg_)
-    {
+            @SuppressWarnings("hiding") TNeg _neg_) {
         // Constructor
         setNeg(_neg_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ANegUnop(
-            cloneNode(this._neg_));
+                cloneNode(this._neg_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseANegUnop(this);
     }
 
-    public TNeg getNeg()
-    {
+    public TNeg getNeg() {
         return this._neg_;
     }
 
-    public void setNeg(TNeg node)
-    {
-        if(this._neg_ != null)
-        {
+    public void setNeg(TNeg node) {
+        if (this._neg_ != null) {
             this._neg_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ANegUnop extends PUnop
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._neg_);
+                + toString(this._neg_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._neg_ == child)
-        {
+        if (this._neg_ == child) {
             this._neg_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ANegUnop extends PUnop
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._neg_ == oldChild)
-        {
+        if (this._neg_ == oldChild) {
             setNeg((TNeg) newChild);
             return;
         }

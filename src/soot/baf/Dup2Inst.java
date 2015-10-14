@@ -26,12 +26,12 @@
 
 package soot.baf;
 
-import soot.*;
+import soot.Type;
 
 
-public interface Dup2Inst extends DupInst
-{ 
-    public Type getOp1Type();
-    public Type getOp2Type();
+public interface Dup2Inst extends DupInst {
+    Type getOp1Type();
+
+    Type getOp2Type();
 }
 

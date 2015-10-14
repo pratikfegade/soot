@@ -26,10 +26,17 @@
 package soot.jimple.toolkits.scalar;
 
 import soot.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
 import soot.jimple.*;
-import java.util.*;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implements an available expressions analysis on local variables. The current
@@ -38,113 +45,113 @@ import java.util.*;
  * statement.
  */
 public class FastAvailableExpressionsAnalysis extends
-		ForwardFlowAnalysis<Unit, FlowSet<Value>> {
-	SideEffectTester st;
+        ForwardFlowAnalysis<Unit, FlowSet<Value>> {
+    SideEffectTester st;
 
-	Map<Unit, FlowSet<Value>> unitToGenerateSet;
-	Map<Unit, FlowSet<Value>> unitToPreserveSet;
-	Map<Value, Unit> rhsToContainingStmt;
+    Map<Unit, FlowSet<Value>> unitToGenerateSet;
+    Map<Unit, FlowSet<Value>> unitToPreserveSet;
+    Map<Value, Unit> rhsToContainingStmt;
 
-	FlowSet<Value> emptySet;
+    FlowSet<Value> emptySet;
 
-	public FastAvailableExpressionsAnalysis(DirectedGraph<Unit> dg,
-			SootMethod m, SideEffectTester st) {
-		super(dg);
-		this.st = st;
+    public FastAvailableExpressionsAnalysis(DirectedGraph<Unit> dg,
+                                            SootMethod m, SideEffectTester st) {
+        super(dg);
+        this.st = st;
 
-        ExceptionalUnitGraph g = (ExceptionalUnitGraph)dg;
+        ExceptionalUnitGraph g = (ExceptionalUnitGraph) dg;
         //LocalDefs ld = new SmartLocalDefs(g, new SimpleLiveLocals(g));
 
-		// maps an rhs to its containing stmt. object equality in rhs.
-		rhsToContainingStmt = new HashMap<Value, Unit>();
+        // maps an rhs to its containing stmt. object equality in rhs.
+        rhsToContainingStmt = new HashMap<Value, Unit>();
 
-		emptySet = new ToppedSet<Value>(new ArraySparseSet<Value>());
+        emptySet = new ToppedSet<Value>(new ArraySparseSet<Value>());
 
-		// Create generate sets
-		{
-			unitToGenerateSet = new HashMap<Unit, FlowSet<Value>>(
-					g.size() * 2 + 1, 0.7f);
+        // Create generate sets
+        {
+            unitToGenerateSet = new HashMap<Unit, FlowSet<Value>>(
+                    g.size() * 2 + 1, 0.7f);
 
-			for (Unit s : g) {
-				FlowSet<Value> genSet = emptySet.clone();
-				// In Jimple, expressions only occur as the RHS of an
-				// AssignStmt.
-				if (s instanceof AssignStmt) {
-					AssignStmt as = (AssignStmt) s;
-					if (as.getRightOp() instanceof Expr
-							|| as.getRightOp() instanceof FieldRef) {
-						Value gen = as.getRightOp();
-						rhsToContainingStmt.put(gen, s);
+            for (Unit s : g) {
+                FlowSet<Value> genSet = emptySet.clone();
+                // In Jimple, expressions only occur as the RHS of an
+                // AssignStmt.
+                if (s instanceof AssignStmt) {
+                    AssignStmt as = (AssignStmt) s;
+                    if (as.getRightOp() instanceof Expr
+                            || as.getRightOp() instanceof FieldRef) {
+                        Value gen = as.getRightOp();
+                        rhsToContainingStmt.put(gen, s);
 
-						boolean cantAdd = false;
-						if (gen instanceof NewExpr
-								|| gen instanceof NewArrayExpr
-								|| gen instanceof NewMultiArrayExpr)
-							cantAdd = true;
-						if (gen instanceof InvokeExpr)
-							cantAdd = true;
+                        boolean cantAdd = false;
+                        if (gen instanceof NewExpr
+                                || gen instanceof NewArrayExpr
+                                || gen instanceof NewMultiArrayExpr)
+                            cantAdd = true;
+                        if (gen instanceof InvokeExpr)
+                            cantAdd = true;
 
-						// Whee, double negative!
-						if (!cantAdd)
-							genSet.add(gen, genSet);
-					}
-				}
+                        // Whee, double negative!
+                        if (!cantAdd)
+                            genSet.add(gen, genSet);
+                    }
+                }
 
-				unitToGenerateSet.put(s, genSet);
-			}
-		}
+                unitToGenerateSet.put(s, genSet);
+            }
+        }
 
-		doAnalysis();
-	}
+        doAnalysis();
+    }
 
-	protected FlowSet<Value> newInitialFlow() {
-		FlowSet<Value> newSet = emptySet.clone();
-		((ToppedSet<Value>) newSet).setTop(true);
-		return newSet;
-	}
+    protected FlowSet<Value> newInitialFlow() {
+        FlowSet<Value> newSet = emptySet.clone();
+        ((ToppedSet<Value>) newSet).setTop(true);
+        return newSet;
+    }
 
-	protected FlowSet<Value> entryInitialFlow() {
-		return emptySet.clone();
-	}
+    protected FlowSet<Value> entryInitialFlow() {
+        return emptySet.clone();
+    }
 
-	protected void flowThrough(FlowSet<Value> in, Unit u, FlowSet<Value> out) {
-		in.copy(out);
-		if (((ToppedSet<Value>) in).isTop())
-			return;
+    protected void flowThrough(FlowSet<Value> in, Unit u, FlowSet<Value> out) {
+        in.copy(out);
+        if (((ToppedSet<Value>) in).isTop())
+            return;
 
-		// Perform generation
-		out.union(unitToGenerateSet.get(u), out);
+        // Perform generation
+        out.union(unitToGenerateSet.get(u), out);
 
-		// Perform kill.
-		if (((ToppedSet<Value>) out).isTop()) {
-			throw new RuntimeException("trying to kill on topped set!");
-		}
-		
-		List<Value> l = new LinkedList<Value>(out.toList());
+        // Perform kill.
+        if (((ToppedSet<Value>) out).isTop()) {
+            throw new RuntimeException("trying to kill on topped set!");
+        }
 
-		// iterate over things (avail) in out set.
-		for (Value avail : l) {
-			if (avail instanceof FieldRef) {
-				if (st.unitCanWriteTo(u, avail)) {
-					out.remove(avail, out);
-				}
-			} else {
-				for (ValueBox vb : avail.getUseBoxes()) {
-					Value use = vb.getValue();
-					if (st.unitCanWriteTo(u, use)) {
-						out.remove(avail, out);
-					}
-				}
-			}
-		}
-	}
+        List<Value> l = new LinkedList<Value>(out.toList());
 
-	protected void merge(FlowSet<Value> inSet1, FlowSet<Value> inSet2,
-			FlowSet<Value> outSet) {
-		inSet1.intersection(inSet2, outSet);
-	}
+        // iterate over things (avail) in out set.
+        for (Value avail : l) {
+            if (avail instanceof FieldRef) {
+                if (st.unitCanWriteTo(u, avail)) {
+                    out.remove(avail, out);
+                }
+            } else {
+                for (ValueBox vb : avail.getUseBoxes()) {
+                    Value use = vb.getValue();
+                    if (st.unitCanWriteTo(u, use)) {
+                        out.remove(avail, out);
+                    }
+                }
+            }
+        }
+    }
 
-	protected void copy(FlowSet<Value> sourceSet, FlowSet<Value> destSet) {
-		sourceSet.copy(destSet);
-	}
+    protected void merge(FlowSet<Value> inSet1, FlowSet<Value> inSet2,
+                         FlowSet<Value> outSet) {
+        inSet1.intersection(inSet2, outSet);
+    }
+
+    protected void copy(FlowSet<Value> sourceSet, FlowSet<Value> destSet) {
+        sourceSet.copy(destSet);
+    }
 }

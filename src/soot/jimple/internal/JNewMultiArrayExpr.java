@@ -24,38 +24,34 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.ArrayType;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.Jimple;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class JNewMultiArrayExpr extends AbstractNewMultiArrayExpr
-{
-    public JNewMultiArrayExpr(ArrayType type, List<? extends Value> sizes)
-    {
+public class JNewMultiArrayExpr extends AbstractNewMultiArrayExpr {
+    public JNewMultiArrayExpr(ArrayType type, List<? extends Value> sizes) {
         super(type, new ValueBox[sizes.size()]);
 
-        for(int i = 0; i < sizes.size(); i++)
+        for (int i = 0; i < sizes.size(); i++)
             sizeBoxes[i] = Jimple.v().newImmediateBox(sizes.get(i));
     }
 
-    public Object clone() 
-    {
-        List<Value> clonedSizes =  new ArrayList<Value>(getSizeCount());
+    public Object clone() {
+        List<Value> clonedSizes = new ArrayList<Value>(getSizeCount());
 
-        for(int i = 0; i <  getSizeCount(); i++) {
-            clonedSizes.add(i,  Jimple.cloneIfNecessary(getSize(i)));
+        for (int i = 0; i < getSizeCount(); i++) {
+            clonedSizes.add(i, Jimple.cloneIfNecessary(getSize(i)));
         }
-                                                         
-        
+
+
         return new JNewMultiArrayExpr(baseType, clonedSizes);
     }
-    
+
 
 }

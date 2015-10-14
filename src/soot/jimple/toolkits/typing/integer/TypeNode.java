@@ -26,56 +26,54 @@
 
 package soot.jimple.toolkits.typing.integer;
 
-import soot.*;
+import soot.G;
+import soot.Type;
 
 /**
  * Each instance of this class represents one basic type.
  **/
-class TypeNode
-{
-  public static final boolean DEBUG = false;
+class TypeNode {
+    public static final boolean DEBUG = false;
 
-  private final int id;
-  private final Type type;
-  
-  public TypeNode(int id, Type type)
-  {
-    this.id = id;
-    this.type = type;
+    private final int id;
+    private final Type type;
 
-    if(DEBUG)
-      {
-	G.v().out.println("creating node " + this);
-      }
-  }
-  
-  /** Returns the unique id of this type node. **/
-  public int id()
-  {
-    return id;
-  }
+    public TypeNode(int id, Type type) {
+        this.id = id;
+        this.type = type;
 
-  /** Returns the type represented by this type node. **/
-  public Type type()
-  {
-    return type;
-  }
+        if (DEBUG) {
+            G.v().out.println("creating node " + this);
+        }
+    }
 
-  public boolean hasAncestor_1(TypeNode typeNode)
-  {
-    if(typeNode == this)
-      return true;
+    /**
+     * Returns the unique id of this type node.
+     **/
+    public int id() {
+        return id;
+    }
 
-    return ClassHierarchy.v().hasAncestor_1(id, typeNode.id);
-  }
+    /**
+     * Returns the type represented by this type node.
+     **/
+    public Type type() {
+        return type;
+    }
 
-  public boolean hasAncestor_2(TypeNode typeNode)
-  {
-    if(typeNode == this)
-      return true;
-    
-    return ClassHierarchy.v().hasAncestor_2(id, typeNode.id);
-  }
+    public boolean hasAncestor_1(TypeNode typeNode) {
+        if (typeNode == this)
+            return true;
+
+        return ClassHierarchy.v().hasAncestor_1(id, typeNode.id);
+    }
+
+    public boolean hasAncestor_2(TypeNode typeNode) {
+        if (typeNode == this)
+            return true;
+
+        return ClassHierarchy.v().hasAncestor_2(id, typeNode.id);
+    }
 
   /*  public boolean hasDescendant_1(TypeNode typeNode)
   {
@@ -103,53 +101,43 @@ class TypeNode
     return hasDescendant_2(typeNode);
     }*/
 
-  public TypeNode lca_1(TypeNode typeNode)
-  {
-    return ClassHierarchy.v().lca_1(id, typeNode.id);
-  }
+    public TypeNode lca_1(TypeNode typeNode) {
+        return ClassHierarchy.v().lca_1(id, typeNode.id);
+    }
 
-  public TypeNode lca_2(TypeNode typeNode)
-  {
-    return ClassHierarchy.v().lca_2(id, typeNode.id);
-  }
+    public TypeNode lca_2(TypeNode typeNode) {
+        return ClassHierarchy.v().lca_2(id, typeNode.id);
+    }
 
-  public TypeNode gcd_1(TypeNode typeNode)
-  {
-    return ClassHierarchy.v().gcd_1(id, typeNode.id);
-  }
+    public TypeNode gcd_1(TypeNode typeNode) {
+        return ClassHierarchy.v().gcd_1(id, typeNode.id);
+    }
 
-  public TypeNode gcd_2(TypeNode typeNode)
-  {
-    return ClassHierarchy.v().gcd_2(id, typeNode.id);
-  }
+    public TypeNode gcd_2(TypeNode typeNode) {
+        return ClassHierarchy.v().gcd_2(id, typeNode.id);
+    }
 
-  public String toString()
-  {
-    if(type != null)
-      {
-	return type + "(" + id + ")";
-      }
+    public String toString() {
+        if (type != null) {
+            return type + "(" + id + ")";
+        }
 
-    if(this == ClassHierarchy.v().TOP)
-      {
-	return "TOP" + "(" + id + ")";
-      }
+        if (this == ClassHierarchy.v().TOP) {
+            return "TOP" + "(" + id + ")";
+        }
 
-    if(this == ClassHierarchy.v().R0_1)
-      {
-	return "R0_1" + "(" + id + ")";
-      }
+        if (this == ClassHierarchy.v().R0_1) {
+            return "R0_1" + "(" + id + ")";
+        }
 
-    if(this == ClassHierarchy.v().R0_127)
-      {
-	return "R0_127" + "(" + id + ")";
-      }
+        if (this == ClassHierarchy.v().R0_127) {
+            return "R0_127" + "(" + id + ")";
+        }
 
-    if(this == ClassHierarchy.v().R0_32767)
-      {
-	return "R0_32767" + "(" + id + ")";
-      }
+        if (this == ClassHierarchy.v().R0_32767) {
+            return "R0_32767" + "(" + id + ")";
+        }
 
-    return "ERROR!!!!";
-  }
+        return "ERROR!!!!";
+    }
 }

@@ -1,7 +1,10 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class BranchTests {
 
-    public static void main (String [] args) {
+    public static void main(String[] args) {
         BranchTests bt = new BranchTests();
         bt.runContinues();
         bt.runBreaks();
@@ -12,17 +15,19 @@ public class BranchTests {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             StringBuffer word = new StringBuffer();
             while (true) {
-                String in = (String)br.readLine();
-                if (in.equals( "done")) break;
+                String in = (String) br.readLine();
+                if (in.equals("done")) break;
                 word.append(in);
             }
             System.out.println(word);
 
             int i = 0;
-            outer: while(i < 5){
+            outer:
+            while (i < 5) {
                 int j = 0;
-                inner: while (j < 3) {
-                    String in = (String)br.readLine();
+                inner:
+                while (j < 3) {
+                    String in = (String) br.readLine();
                     if (in.equals("outer")) break outer;
                     if (in.equals("inner")) break inner;
                     System.out.println(j);
@@ -30,19 +35,18 @@ public class BranchTests {
                 }
                 System.out.println(i);
                 i++;
-                
+
             }
 
-            
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-    
-        
+
+
     }
-    
+
     public void runContinues() {
-        
+
     }
 }

@@ -1,12 +1,12 @@
 public class AssignStmts {
 
-    public static void main (String [] args){
+    public static void main(String[] args) {
         run();
     }
 
-    
-    public static void run(){
-    
+
+    public static void run() {
+
         int x = 9;
         int y = 10;
         int z = 0;
@@ -15,5 +15,5 @@ public class AssignStmts {
 
         z -= x;
     }
-        
+
 }

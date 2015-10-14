@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AStrictfpModifier extends PModifier
-{
+public final class AStrictfpModifier extends PModifier {
     private TStrictfp _strictfp_;
 
-    public AStrictfpModifier()
-    {
+    public AStrictfpModifier() {
         // Constructor
     }
 
     public AStrictfpModifier(
-        @SuppressWarnings("hiding") TStrictfp _strictfp_)
-    {
+            @SuppressWarnings("hiding") TStrictfp _strictfp_) {
         // Constructor
         setStrictfp(_strictfp_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AStrictfpModifier(
-            cloneNode(this._strictfp_));
+                cloneNode(this._strictfp_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAStrictfpModifier(this);
     }
 
-    public TStrictfp getStrictfp()
-    {
+    public TStrictfp getStrictfp() {
         return this._strictfp_;
     }
 
-    public void setStrictfp(TStrictfp node)
-    {
-        if(this._strictfp_ != null)
-        {
+    public void setStrictfp(TStrictfp node) {
+        if (this._strictfp_ != null) {
             this._strictfp_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AStrictfpModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._strictfp_);
+                + toString(this._strictfp_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._strictfp_ == child)
-        {
+        if (this._strictfp_ == child) {
             this._strictfp_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AStrictfpModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._strictfp_ == oldChild)
-        {
+        if (this._strictfp_ == oldChild) {
             setStrictfp((TStrictfp) newChild);
             return;
         }

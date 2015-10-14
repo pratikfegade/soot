@@ -25,23 +25,28 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.*;
-import java.util.*;
 
-public interface InvokeExpr extends Expr
-{
-    public void setMethodRef(SootMethodRef smr);
-    public SootMethodRef getMethodRef();
-    public SootMethod getMethod();
-    public List<Value> getArgs();
-    public Value getArg(int index);
-    public int getArgCount();
-    public void setArg(int index, Value arg);
-    public ValueBox getArgBox(int index);
-    public Type getType();
+import java.util.List;
+
+public interface InvokeExpr extends Expr {
+    SootMethodRef getMethodRef();
+
+    void setMethodRef(SootMethodRef smr);
+
+    SootMethod getMethod();
+
+    List<Value> getArgs();
+
+    Value getArg(int index);
+
+    int getArgCount();
+
+    void setArg(int index, Value arg);
+
+    ValueBox getArgBox(int index);
+
+    Type getType();
 }

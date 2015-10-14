@@ -26,19 +26,19 @@ public class ImmutableStack<T> {
             new Object[0]);
 
     private static final int MAX_SIZE = Integer.MAX_VALUE;
-
-    public static int getMaxSize() {
-        return MAX_SIZE;
-    }
-    @SuppressWarnings("unchecked")
-    public static final <T> ImmutableStack<T> emptyStack() {
-        return (ImmutableStack<T>) EMPTY;
-    }
-
     final private T[] entries;
 
     private ImmutableStack(T[] entries) {
         this.entries = entries;
+    }
+
+    public static int getMaxSize() {
+        return MAX_SIZE;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static final <T> ImmutableStack<T> emptyStack() {
+        return (ImmutableStack<T>) EMPTY;
     }
 
     public boolean equals(Object o) {
@@ -158,7 +158,7 @@ public class ImmutableStack<T> {
             // top MAX_SIZE - other.size from this
             int numFromThis = MAX_SIZE - other.entries.length;
             System.arraycopy(entries, entries.length - numFromThis, tmpEntries, 0, numFromThis);
-            System.arraycopy(other.entries, 0, tmpEntries, numFromThis, other.entries.length);            
+            System.arraycopy(other.entries, 0, tmpEntries, numFromThis, other.entries.length);
         }
         return new ImmutableStack<T>(tmpEntries);
     }

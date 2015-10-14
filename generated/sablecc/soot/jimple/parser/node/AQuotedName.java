@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AQuotedName extends PName
-{
+public final class AQuotedName extends PName {
     private TQuotedName _quotedName_;
 
-    public AQuotedName()
-    {
+    public AQuotedName() {
         // Constructor
     }
 
     public AQuotedName(
-        @SuppressWarnings("hiding") TQuotedName _quotedName_)
-    {
+            @SuppressWarnings("hiding") TQuotedName _quotedName_) {
         // Constructor
         setQuotedName(_quotedName_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AQuotedName(
-            cloneNode(this._quotedName_));
+                cloneNode(this._quotedName_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAQuotedName(this);
     }
 
-    public TQuotedName getQuotedName()
-    {
+    public TQuotedName getQuotedName() {
         return this._quotedName_;
     }
 
-    public void setQuotedName(TQuotedName node)
-    {
-        if(this._quotedName_ != null)
-        {
+    public void setQuotedName(TQuotedName node) {
+        if (this._quotedName_ != null) {
             this._quotedName_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AQuotedName extends PName
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._quotedName_);
+                + toString(this._quotedName_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._quotedName_ == child)
-        {
+        if (this._quotedName_ == child) {
             this._quotedName_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AQuotedName extends PName
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._quotedName_ == oldChild)
-        {
+        if (this._quotedName_ == oldChild) {
             setQuotedName((TQuotedName) newChild);
             return;
         }

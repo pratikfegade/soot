@@ -26,46 +26,46 @@
 
 package soot.toolkits.graph;
 
-import soot.*;
+import soot.Body;
+import soot.Unit;
 
 
 /**
- *  <p>Represents a CFG for a {@link Body} where the nodes are {@link
- *  Block}s and edges are derived from control flow.  Control flow
- *  associated with exceptions is ignored, so the graph will be a
- *  forest where each exception handler constitutes a disjoint
- *  subgraph.</p>
+ * <p>Represents a CFG for a {@link Body} where the nodes are {@link
+ * Block}s and edges are derived from control flow.  Control flow
+ * associated with exceptions is ignored, so the graph will be a
+ * forest where each exception handler constitutes a disjoint
+ * subgraph.</p>
  */
-public class BriefBlockGraph extends BlockGraph 
-{
+public class BriefBlockGraph extends BlockGraph {
     /**
-     *  Constructs a {@link BriefBlockGraph} from a given {@link Body}.
+     * Constructs a {@link BriefBlockGraph} from a given {@link Body}.
+     * <p/>
+     * <p> Note that this constructor builds a {@link
+     * BriefUnitGraph} internally when splitting <tt>body</tt>'s
+     * {@link Unit}s into {@link Block}s.  Callers who already have
+     * a {@link BriefUnitGraph} to hand can use the constructor
+     * taking a <tt>CompleteUnitGraph</tt> as a parameter, as a
+     * minor optimization.
      *
-     *   <p> Note that this constructor builds a {@link
-     *   BriefUnitGraph} internally when splitting <tt>body</tt>'s
-     *   {@link Unit}s into {@link Block}s.  Callers who already have
-     *   a {@link BriefUnitGraph} to hand can use the constructor
-     *   taking a <tt>CompleteUnitGraph</tt> as a parameter, as a
-     *   minor optimization.
-     *
-     *  @param body the {@link Body} for which to build a graph.
+     * @param body the {@link Body} for which to build a graph.
      */
-    public  BriefBlockGraph(Body body) {
+    public BriefBlockGraph(Body body) {
         this(new BriefUnitGraph(body));
     }
 
 
     /**
-     *  Constructs a {@link BriefBlockGraph} representing the
-     *  <tt>Unit</tt>-level control flow represented by the passed
-     *  {@link BriefUnitGraph}.
+     * Constructs a {@link BriefBlockGraph} representing the
+     * <tt>Unit</tt>-level control flow represented by the passed
+     * {@link BriefUnitGraph}.
      *
-     *  @param unitGraph the {@link Body} for which to build a graph.
+     * @param unitGraph the {@link Body} for which to build a graph.
      */
-    public  BriefBlockGraph(BriefUnitGraph unitGraph) {
+    public BriefBlockGraph(BriefUnitGraph unitGraph) {
         super(unitGraph);
 
-	soot.util.PhaseDumper.v().dumpGraph(this, mBody);
+        soot.util.PhaseDumper.v().dumpGraph(this, mBody);
     }
 }
 

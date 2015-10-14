@@ -1,39 +1,52 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Simple {
 
     private int x;
-    
-    public static void main(String[] args) {
-        int j = 1;
-        int i = 2;;
-        if ( i + j > 1) {
-            System.out.println("Hello");
-        }
-        for (int s = 0; s < 10; s++) { j = j + 1; }
-        for (int t = 0; t < 10; t--) { j = j + 1; }
-        System.out.println("hello");
 
-        Simple.add(1,2);
-        Simple simple = new Simple();
-        Simple.getString().toString();
-        System.out.println(Simple.add(2,3));
-        simple.run();
+    public Simple() {
+        //super();
+
+        this(8);
     }
-   
-    public static String getString(){ return "Hello";}
-    public static int add(int i, int j) { return i + j; }
-    
-    public Simple() { 
-        //super(); 
-    
-        this (8);
-    }
-    public Simple(int y ) {
+
+    public Simple(int y) {
         this.x = y;
         System.out.println(this.x);
     }
 
-    public void run(){
+    public static void main(String[] args) {
+        int j = 1;
+        int i = 2;
+        ;
+        if (i + j > 1) {
+            System.out.println("Hello");
+        }
+        for (int s = 0; s < 10; s++) {
+            j = j + 1;
+        }
+        for (int t = 0; t < 10; t--) {
+            j = j + 1;
+        }
+        System.out.println("hello");
+
+        Simple.add(1, 2);
+        Simple simple = new Simple();
+        Simple.getString().toString();
+        System.out.println(Simple.add(2, 3));
+        simple.run();
+    }
+
+    public static String getString() {
+        return "Hello";
+    }
+
+    public static int add(int i, int j) {
+        return i + j;
+    }
+
+    public void run() {
 
         int i = 9;
         int j = 10;
@@ -42,7 +55,7 @@ public class Simple {
         int k = +(i + j);
         int l = +k;
         double m = +0.9;
-   
+
         int n = ~j;
 
         boolean b = true;
@@ -54,7 +67,7 @@ public class Simple {
         if (b || c) {
             System.out.println("Cond_or");
         }
-        
+
         if (b & c) {
             System.out.println("Bit_and");
         }
@@ -74,9 +87,9 @@ public class Simple {
         }
         int a = 9;
         int b1 = 8;
-        int [][] intArr = new int [a+b1][9];
-        
-        int [] arr = {1 , 2, 3};
+        int[][] intArr = new int[a + b1][9];
+
+        int[] arr = {1, 2, 3};
         System.out.println(arr[0]);
         Integer int1 = new Integer(8);
         ArrayList list = new ArrayList();
@@ -86,13 +99,13 @@ public class Simple {
         list.add(o2);
 
         Iterator it = list.iterator();
-        while (it.hasNext()){
-            Integer intRep = (Integer)it.next();
+        while (it.hasNext()) {
+            Integer intRep = (Integer) it.next();
             System.out.println(intRep.intValue());
         }
-        
+
         int i2 = 4;
-        while (i2 < 10 ) {
+        while (i2 < 10) {
             System.out.println(i2);
             i2 = i2 + 2;
         }

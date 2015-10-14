@@ -19,10 +19,13 @@
 
 package soot.shimple.toolkits.scalar;
 
-import soot.*;
-import soot.util.*;
-import soot.shimple.*;
-import soot.toolkits.scalar.*;
+import soot.Local;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.shimple.ShimpleBody;
+import soot.toolkits.scalar.LocalDefs;
+import soot.util.Chain;
 
 import java.util.*;
 
@@ -30,12 +33,12 @@ import java.util.*;
  * This class implements the LocalDefs interface for Shimple.
  * ShimpleLocalDefs can be used in conjunction with SimpleLocalUses to
  * provide Definition/Use and Use/Definition chains in SSA.
- *
+ * <p/>
  * <p> This implementation can be considered a small demo for how SSA
  * can be put to good use since it is much simpler than
  * soot.toolkits.scalar.SimpleLocalDefs. Shimple can often be treated
  * as Jimple with the added benefits of SSA assumptions.
- *
+ * <p/>
  * <p> In addition to the interface required by LocalDefs,
  * ShimpleLocalDefs also provides a method for obtaining the
  * definition Unit given only the Local.
@@ -45,20 +48,18 @@ import java.util.*;
  * @see soot.toolkits.scalar.SimpleLocalDefs
  * @see soot.toolkits.scalar.SimpleLocalUses
  **/
-public class ShimpleLocalDefs implements LocalDefs
-{
-    protected  Map<Value, List<Unit>> localToDefs;
+public class ShimpleLocalDefs implements LocalDefs {
+    protected Map<Value, List<Unit>> localToDefs;
 
     /**
      * Build a LocalDefs interface from a ShimpleBody.  Proper SSA
      * form is required, otherwise correct behaviour is not
      * guaranteed.
      **/
-    public ShimpleLocalDefs(ShimpleBody sb)
-    {
+    public ShimpleLocalDefs(ShimpleBody sb) {
         // Instead of rebuilding the ShimpleBody without the
         // programmer's knowledge, throw a RuntimeException
-        if(!sb.isSSA())
+        if (!sb.isSSA())
             throw new RuntimeException("ShimpleBody is not in proper SSA form as required by ShimpleLocalDefs.  You may need to rebuild it or use SimpleLocalDefs instead.");
 
         // build localToDefs map simply by iterating through all the
@@ -68,18 +69,18 @@ public class ShimpleLocalDefs implements LocalDefs
             Chain<Unit> unitsChain = sb.getUnits();
             Iterator<Unit> unitsIt = unitsChain.iterator();
             localToDefs = new HashMap<Value, List<Unit>>(unitsChain.size() * 2 + 1, 0.7f);
-        
-            while(unitsIt.hasNext()){
-                Unit unit = (Unit) unitsIt.next();
+
+            while (unitsIt.hasNext()) {
+                Unit unit = unitsIt.next();
                 Iterator<ValueBox> defBoxesIt = unit.getDefBoxes().iterator();
-                while(defBoxesIt.hasNext()){
-                    Value value = ((ValueBox)defBoxesIt.next()).getValue();
+                while (defBoxesIt.hasNext()) {
+                    Value value = defBoxesIt.next().getValue();
 
                     // only map locals
-                    if(!(value instanceof Local))
+                    if (!(value instanceof Local))
                         continue;
-                        
-                    localToDefs.put(value, Collections.<Unit>singletonList(unit));
+
+                    localToDefs.put(value, Collections.singletonList(unit));
                 }
             }
         }
@@ -88,15 +89,14 @@ public class ShimpleLocalDefs implements LocalDefs
     /**
      * Unconditionally returns the definition site of a local (as a
      * singleton list).
-     *
+     * <p/>
      * <p> This method is currently not required by the LocalDefs
      * interface.
      **/
-    public List<Unit> getDefsOf(Local l)
-    {
+    public List<Unit> getDefsOf(Local l) {
         List<Unit> defs = localToDefs.get(l);
 
-        if(defs == null)
+        if (defs == null)
             throw new RuntimeException("Local not found in Body.");
 
         return defs;
@@ -108,11 +108,10 @@ public class ShimpleLocalDefs implements LocalDefs
      *
      * @param l the Local in question.
      * @param s a unit that specifies the method context (location) to
-     * query for the definitions of the Local.
+     *          query for the definitions of the Local.
      * @return a singleton list containing the definition site.
      **/
-    public List<Unit> getDefsOfAt(Local l, Unit s)
-    {
+    public List<Unit> getDefsOfAt(Local l, Unit s) {
         // For consistency with SimpleLocalDefs, check that the local
         // is indeed used in the given Unit.  This neatly sidesteps
         // the problem of checking whether the local is actually
@@ -121,19 +120,19 @@ public class ShimpleLocalDefs implements LocalDefs
             Iterator<ValueBox> boxIt = s.getUseBoxes().iterator();
             boolean defined = false;
 
-            while(boxIt.hasNext()){
-                Value value = ((ValueBox) boxIt.next()).getValue();
-                if(value.equals(l)){
+            while (boxIt.hasNext()) {
+                Value value = boxIt.next().getValue();
+                if (value.equals(l)) {
                     defined = true;
                     break;
                 }
             }
 
-            if(!defined)
+            if (!defined)
                 throw new RuntimeException("Illegal LocalDefs query; local " + l + " is not being used at " + s);
         }
 
         return getDefsOf(l);
     }
-    
+
 }

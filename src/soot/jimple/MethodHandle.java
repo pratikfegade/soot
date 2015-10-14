@@ -24,71 +24,64 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.RefType;
+import soot.SootMethodRef;
+import soot.Type;
+import soot.util.Switch;
 
-public class MethodHandle extends Constant
-{
+public class MethodHandle extends Constant {
     public final SootMethodRef methodRef;
     public int tag;
 
-    private MethodHandle(SootMethodRef ref, int tag)
-    {
+    private MethodHandle(SootMethodRef ref, int tag) {
         this.methodRef = ref;
         this.tag = tag;
     }
 
-    public static MethodHandle v(SootMethodRef ref, int tag)
-    {
+    public static MethodHandle v(SootMethodRef ref, int tag) {
         return new MethodHandle(ref, tag);
     }
 
-    public String toString()
-    {
-        return "handle: "+ methodRef;
+    public String toString() {
+        return "handle: " + methodRef;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return RefType.v("java.lang.invoke.MethodHandle");
     }
-    
-    public SootMethodRef getMethodRef() {
-		return methodRef;
-	}
 
-    public void apply(Switch sw)
-    {
+    public SootMethodRef getMethodRef() {
+        return methodRef;
+    }
+
+    public void apply(Switch sw) {
         ((ConstantSwitch) sw).caseMethodHandle(this);
     }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((methodRef == null) ? 0 : methodRef.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((methodRef == null) ? 0 : methodRef.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MethodHandle other = (MethodHandle) obj;
-		if (methodRef == null) {
-			if (other.methodRef != null)
-				return false;
-		} else if (!methodRef.equals(other.methodRef))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MethodHandle other = (MethodHandle) obj;
+        if (methodRef == null) {
+            if (other.methodRef != null)
+                return false;
+        } else if (!methodRef.equals(other.methodRef))
+            return false;
+        return true;
+    }
 }

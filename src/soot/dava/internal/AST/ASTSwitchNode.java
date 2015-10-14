@@ -20,197 +20,192 @@
 
 package soot.dava.internal.AST;
 
-import soot.*;
-import java.util.*;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.toolkits.base.AST.ASTAnalysis;
+import soot.dava.toolkits.base.AST.ASTWalker;
+import soot.dava.toolkits.base.AST.TryContentsFinder;
+import soot.dava.toolkits.base.AST.analysis.Analysis;
+import soot.jimple.Jimple;
 
-import soot.jimple.*;
-import soot.dava.internal.SET.*;
-import soot.dava.toolkits.base.AST.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-public class ASTSwitchNode extends ASTLabeledNode
-{
+public class ASTSwitchNode extends ASTLabeledNode {
     private ValueBox keyBox;
     private List<Object> indexList;
     private Map<Object, List<Object>> index2BodyList;
 
-    public ASTSwitchNode( SETNodeLabel label, Value key, List<Object> indexList, Map<Object, List<Object>> index2BodyList)
-    {
-	super( label);
+    public ASTSwitchNode(SETNodeLabel label, Value key, List<Object> indexList, Map<Object, List<Object>> index2BodyList) {
+        super(label);
 
-	this.keyBox = Jimple.v().newRValueBox( key );
-	this.indexList = indexList;
-	this.index2BodyList = index2BodyList;
+        this.keyBox = Jimple.v().newRValueBox(key);
+        this.indexList = indexList;
+        this.index2BodyList = index2BodyList;
 
-	Iterator<Object> it = indexList.iterator();
-	while (it.hasNext()) {
-	    List body = index2BodyList.get( it.next());
-	    
-	    if (body != null)
-		subBodies.add( body);
-	}
+        Iterator<Object> it = indexList.iterator();
+        while (it.hasNext()) {
+            List body = index2BodyList.get(it.next());
+
+            if (body != null)
+                subBodies.add(body);
+        }
     }
 
     /*
       Nomair A. Naeem 22-FEB-2005
       Added for ASTCleaner
     */
-    public List<Object> getIndexList(){
-	return indexList;
+    public List<Object> getIndexList() {
+        return indexList;
     }
 
-    public Map<Object, List<Object>> getIndex2BodyList(){
-	return index2BodyList;
+    public Map<Object, List<Object>> getIndex2BodyList() {
+        return index2BodyList;
     }
 
-    public void replaceIndex2BodyList(Map<Object, List<Object>> index2BodyList){
-	this.index2BodyList=index2BodyList;
+    public void replaceIndex2BodyList(Map<Object, List<Object>> index2BodyList) {
+        this.index2BodyList = index2BodyList;
 
-	subBodies = new ArrayList<Object>();
-	Iterator<Object> it = indexList.iterator();
-	while (it.hasNext()) {
-	    List body = index2BodyList.get( it.next());
-	    
-	    if (body != null)
-		subBodies.add( body);
-	}
-    }
+        subBodies = new ArrayList<Object>();
+        Iterator<Object> it = indexList.iterator();
+        while (it.hasNext()) {
+            List body = index2BodyList.get(it.next());
 
-
-
-
-    public ValueBox getKeyBox(){
-	return keyBox;
-    }
-    
-
-
-    public Value get_Key()
-    {
-	return keyBox.getValue();
-    }
-
-    public void set_Key(Value key){
-	this.keyBox = Jimple.v().newRValueBox( key );
+            if (body != null)
+                subBodies.add(body);
+        }
     }
 
 
-
-    public Object clone()
-    {
-	return new ASTSwitchNode( get_Label(), get_Key(), indexList, index2BodyList);
-    }
-
-    public void perform_Analysis( ASTAnalysis a)
-    {
-	ASTWalker.v().walk_value( a, get_Key());
-
-	if (a instanceof TryContentsFinder) {
-	    TryContentsFinder.v().add_ExceptionSet( this, TryContentsFinder.v().remove_CurExceptionSet());
-	}
-  
-	perform_AnalysisOnSubBodies( a);
+    public ValueBox getKeyBox() {
+        return keyBox;
     }
 
 
-    public void toString( UnitPrinter up )
-    {
-        label_toString( up );
+    public Value get_Key() {
+        return keyBox.getValue();
+    }
 
-        up.literal( "switch" );
-        up.literal( " " );
-        up.literal( "(" );
-        keyBox.toString( up );
-        up.literal( ")" );
+    public void set_Key(Value key) {
+        this.keyBox = Jimple.v().newRValueBox(key);
+    }
+
+
+    public Object clone() {
+        return new ASTSwitchNode(get_Label(), get_Key(), indexList, index2BodyList);
+    }
+
+    public void perform_Analysis(ASTAnalysis a) {
+        ASTWalker.v().walk_value(a, get_Key());
+
+        if (a instanceof TryContentsFinder) {
+            TryContentsFinder.v().add_ExceptionSet(this, TryContentsFinder.v().remove_CurExceptionSet());
+        }
+
+        perform_AnalysisOnSubBodies(a);
+    }
+
+
+    public void toString(UnitPrinter up) {
+        label_toString(up);
+
+        up.literal("switch");
+        up.literal(" ");
+        up.literal("(");
+        keyBox.toString(up);
+        up.literal(")");
         up.newline();
 
-        up.literal( "{" );
+        up.literal("{");
         up.newline();
 
-	Iterator<Object> it = indexList.iterator();
-	while (it.hasNext()) {
-	    
-	    Object index = it.next();
+        Iterator<Object> it = indexList.iterator();
+        while (it.hasNext()) {
+
+            Object index = it.next();
 
             up.incIndent();
-	    
-	    if (index instanceof String) 
-                up.literal( "default" );
 
-	    else {
-                up.literal( "case" );
-                up.literal( " " );
-                up.literal( index.toString() );
-	    }
-	    
-            up.literal( ":" );
+            if (index instanceof String)
+                up.literal("default");
+
+            else {
+                up.literal("case");
+                up.literal(" ");
+                up.literal(index.toString());
+            }
+
+            up.literal(":");
             up.newline();
 
-	    List<Object> subBody = index2BodyList.get( index);
+            List<Object> subBody = index2BodyList.get(index);
 
-	    if (subBody != null) {
+            if (subBody != null) {
                 up.incIndent();
-                body_toString( up, subBody );
-	    
-		if (it.hasNext())
-		    up.newline();
-                up.decIndent();
-	    }
-            up.decIndent();
-	}
+                body_toString(up, subBody);
 
-	up.literal( "}");
+                if (it.hasNext())
+                    up.newline();
+                up.decIndent();
+            }
+            up.decIndent();
+        }
+
+        up.literal("}");
         up.newline();
     }
 
-    public String toString()
-    {
-	StringBuffer b = new StringBuffer();
-	
-	b.append( label_toString( ));
-	
-	b.append( "switch (");
-	b.append( get_Key() );
-	b.append( ")");
-	b.append( NEWLINE);
+    public String toString() {
+        StringBuffer b = new StringBuffer();
 
-	b.append( "{");
-	b.append( NEWLINE);
+        b.append(label_toString());
 
-	Iterator<Object> it = indexList.iterator();
-	while (it.hasNext()) {
-	    
-	    Object index = it.next();
+        b.append("switch (");
+        b.append(get_Key());
+        b.append(")");
+        b.append(NEWLINE);
 
-	    b.append( TAB);
-	    
-	    if (index instanceof String) 
-		b.append( "default");
+        b.append("{");
+        b.append(NEWLINE);
 
-	    else {
-		b.append( "case ");
-		b.append( ((Integer) index).toString());
-	    }
-	    
-	    b.append( ":");
-	    b.append( NEWLINE);
+        Iterator<Object> it = indexList.iterator();
+        while (it.hasNext()) {
 
-	    List<Object> subBody = index2BodyList.get( index);
+            Object index = it.next();
 
-	    if (subBody != null) {
-		b.append( body_toString(subBody));
-	    
-		if (it.hasNext())
-		    b.append( NEWLINE);
-	    }
-	}
+            b.append(TAB);
 
-	b.append( "}");
-	b.append( NEWLINE);
+            if (index instanceof String)
+                b.append("default");
 
-	return b.toString();
+            else {
+                b.append("case ");
+                b.append(index.toString());
+            }
+
+            b.append(":");
+            b.append(NEWLINE);
+
+            List<Object> subBody = index2BodyList.get(index);
+
+            if (subBody != null) {
+                b.append(body_toString(subBody));
+
+                if (it.hasNext())
+                    b.append(NEWLINE);
+            }
+        }
+
+        b.append("}");
+        b.append(NEWLINE);
+
+        return b.toString();
     }
-
 
 
     /*
@@ -218,7 +213,7 @@ public class ASTSwitchNode extends ASTLabeledNode
       Part of Visitor Design Implementation for AST
       See: soot.dava.toolkits.base.AST.analysis For details
     */
-    public void apply(Analysis a){
-	a.caseASTSwitchNode(this);
+    public void apply(Analysis a) {
+        a.caseASTSwitchNode(this);
     }
 }

@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AAbstractModifier extends PModifier
-{
+public final class AAbstractModifier extends PModifier {
     private TAbstract _abstract_;
 
-    public AAbstractModifier()
-    {
+    public AAbstractModifier() {
         // Constructor
     }
 
     public AAbstractModifier(
-        @SuppressWarnings("hiding") TAbstract _abstract_)
-    {
+            @SuppressWarnings("hiding") TAbstract _abstract_) {
         // Constructor
         setAbstract(_abstract_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AAbstractModifier(
-            cloneNode(this._abstract_));
+                cloneNode(this._abstract_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAAbstractModifier(this);
     }
 
-    public TAbstract getAbstract()
-    {
+    public TAbstract getAbstract() {
         return this._abstract_;
     }
 
-    public void setAbstract(TAbstract node)
-    {
-        if(this._abstract_ != null)
-        {
+    public void setAbstract(TAbstract node) {
+        if (this._abstract_ != null) {
             this._abstract_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AAbstractModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._abstract_);
+                + toString(this._abstract_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._abstract_ == child)
-        {
+        if (this._abstract_ == child) {
             this._abstract_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AAbstractModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._abstract_ == oldChild)
-        {
+        if (this._abstract_ == oldChild) {
             setAbstract((TAbstract) newChild);
             return;
         }

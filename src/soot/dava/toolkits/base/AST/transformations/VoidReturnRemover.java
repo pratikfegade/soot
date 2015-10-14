@@ -19,86 +19,92 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.*;
-
-import soot.*;
-import soot.jimple.*;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.VoidType;
+import soot.dava.DavaBody;
+import soot.dava.internal.AST.ASTMethodNode;
+import soot.dava.internal.AST.ASTNode;
+import soot.dava.internal.AST.ASTStatementSequenceNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.jimple.ReturnVoidStmt;
+import soot.jimple.Stmt;
 import soot.util.Chain;
-import soot.dava.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.AST.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 
-public class VoidReturnRemover{
- 	
-	public static void cleanClass(SootClass s){
-		List methods = s.getMethods();
-		Iterator it = methods.iterator();
-		while(it.hasNext()){
-			removeReturn((SootMethod)it.next());
-		}
-	}
-	
-	
-    private static void removeReturn(SootMethod method){
-    	// check if this is a void method
-    	if(! (method.getReturnType() instanceof VoidType ))
-    		return;
-	
-    	//get the methodnode
-    	if(!method.hasActiveBody())
-    		return;
-    	
-        Chain units = ((DavaBody) method.getActiveBody()).getUnits();
+public class VoidReturnRemover {
 
-        if (units.size() != 1) 
-        	return;
+    public static void cleanClass(SootClass s) {
+        List methods = s.getMethods();
+        Iterator it = methods.iterator();
+        while (it.hasNext()) {
+            removeReturn((SootMethod) it.next());
+        }
+    }
+
+
+    private static void removeReturn(SootMethod method) {
+        // check if this is a void method
+        if (!(method.getReturnType() instanceof VoidType))
+            return;
+
+        //get the methodnode
+        if (!method.hasActiveBody())
+            return;
+
+        Chain units = method.getActiveBody().getUnits();
+
+        if (units.size() != 1)
+            return;
 
         ASTNode AST = (ASTNode) units.getFirst();
-        if(! (AST instanceof ASTMethodNode))
-        	throw new RuntimeException("Starting node of DavaBody AST is not an ASTMethodNode");
+        if (!(AST instanceof ASTMethodNode))
+            throw new RuntimeException("Starting node of DavaBody AST is not an ASTMethodNode");
 
-		ASTMethodNode node = (ASTMethodNode)AST;
+        ASTMethodNode node = (ASTMethodNode) AST;
 
-		//check there is only 1 subBody		
-	    List<Object> subBodies = node.get_SubBodies();
-	    if(subBodies.size()!=1)
-	    	return;
-	    
-	    List subBody = (List)subBodies.get(0);
-	    //see if the last of this is a stmtseq node
-	    if(subBody.size()==0){
-	    	//nothing inside subBody
-	    	return;
-	    }
+        //check there is only 1 subBody
+        List<Object> subBodies = node.get_SubBodies();
+        if (subBodies.size() != 1)
+            return;
 
-	    //check last node is a ASTStatementSequenceNode
-	    ASTNode last = (ASTNode)subBody.get(subBody.size()-1);
-	    if(! (last instanceof ASTStatementSequenceNode)) 
-	    	return;
-	    	
-	    	
-	    //get last statement
-	    List<Object> stmts = ((ASTStatementSequenceNode)last).getStatements();
-	    if(stmts.size()==0){
-	    	//no stmts inside statement sequence node
-	    	subBody.remove(subBody.size()-1);
-	    	return;
-	    }
-	    AugmentedStmt lastas = (AugmentedStmt)stmts.get(stmts.size()-1);
-	    Stmt lastStmt = lastas.get_Stmt();
-	    if(! (lastStmt instanceof ReturnVoidStmt))
-	    		return;
-	    			
-	    //we can remove the lastStmt
-	    stmts.remove(stmts.size()-1);
-	    /*
+        List subBody = (List) subBodies.get(0);
+        //see if the last of this is a stmtseq node
+        if (subBody.size() == 0) {
+            //nothing inside subBody
+            return;
+        }
+
+        //check last node is a ASTStatementSequenceNode
+        ASTNode last = (ASTNode) subBody.get(subBody.size() - 1);
+        if (!(last instanceof ASTStatementSequenceNode))
+            return;
+
+
+        //get last statement
+        List<Object> stmts = ((ASTStatementSequenceNode) last).getStatements();
+        if (stmts.size() == 0) {
+            //no stmts inside statement sequence node
+            subBody.remove(subBody.size() - 1);
+            return;
+        }
+        AugmentedStmt lastas = (AugmentedStmt) stmts.get(stmts.size() - 1);
+        Stmt lastStmt = lastas.get_Stmt();
+        if (!(lastStmt instanceof ReturnVoidStmt))
+            return;
+
+        //we can remove the lastStmt
+        stmts.remove(stmts.size() - 1);
+        /*
 	     we need to check if we have made the size 0 in
 	     which case the stmtSeq Node should also be removed
 	     */
-	    if(stmts.size()==0)
-	    	subBody.remove(subBody.size()-1);
-	    
-	    
+        if (stmts.size() == 0)
+            subBody.remove(subBody.size() - 1);
+
+
     }//end method
 }

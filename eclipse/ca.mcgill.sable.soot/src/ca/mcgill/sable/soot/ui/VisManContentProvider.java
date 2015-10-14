@@ -19,110 +19,105 @@
 
 package ca.mcgill.sable.soot.ui;
 
-import org.eclipse.jface.viewers.*;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
-import java.util.*;
+import org.eclipse.jface.viewers.*;
+
+import java.util.ArrayList;
 
 public class VisManContentProvider implements ITreeContentProvider {
 
-	private final Object [] EMPTY_ARRAY = new Object [0];
-	public VisManContentProvider() {
-		super();
-	}
-	
-	private boolean includeCon(IContainer con){
-		try {
-			IResource [] members = con.members();
-			for (int i = 0; i < members.length; i++){
-				if (members[i] instanceof IFolder){
-					if (includeCon((IFolder)members[i])){
-						return true;
-					}
-				}
-				else if (members[i] instanceof IFile){
-					IFile file = (IFile)members[i];
-					if (file.getFileExtension() == null) continue;
-					if (file.getFileExtension().equals("jimple") || file.getFileExtension().equals("java")){
-						return true;
-					}
-				}
-			}
-		}
-		catch(CoreException e){
-		}
-		return false;
-	}
+    private final Object[] EMPTY_ARRAY = new Object[0];
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
-	 */
-	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof IContainer){
-			try {
-				IResource [] mems = ((IContainer)parentElement).members();
-				ArrayList list = new ArrayList();
-				for (int i = 0; i < mems.length; i++){
-					if (mems[i] instanceof IFolder){
-						if (includeCon((IFolder)mems[i])){
-							list.add(mems[i]); 
-						}
-					}
-					else if (mems[i] instanceof IFile){
-						String fileExtension = ((IFile)mems[i]).getFileExtension();
-						if (fileExtension != null && (fileExtension.equals("jimple") || fileExtension.equals("java"))){
-							list.add(mems[i]);
-						}
-					}		
-				}
-				Object [] result = new Object[list.size()];
-				list.toArray(result);
-				return result;
-			}
-			catch(CoreException e){
-			}
-			
-		}
-		return EMPTY_ARRAY;
-	}
+    public VisManContentProvider() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
-	 */
-	public Object getParent(Object element) {
-		if (element instanceof IResource){
-			return ((IResource)element).getParent();
-		}
-		return null;
-	}
+    private boolean includeCon(IContainer con) {
+        try {
+            IResource[] members = con.members();
+            for (int i = 0; i < members.length; i++) {
+                if (members[i] instanceof IFolder) {
+                    if (includeCon((IFolder) members[i])) {
+                        return true;
+                    }
+                } else if (members[i] instanceof IFile) {
+                    IFile file = (IFile) members[i];
+                    if (file.getFileExtension() == null) continue;
+                    if (file.getFileExtension().equals("jimple") || file.getFileExtension().equals("java")) {
+                        return true;
+                    }
+                }
+            }
+        } catch (CoreException e) {
+        }
+        return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
-	 */
-	public boolean hasChildren(Object element) {
-		if (element instanceof IContainer){
-			return true;
-		}
-		return false;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
+     */
+    public Object[] getChildren(Object parentElement) {
+        if (parentElement instanceof IContainer) {
+            try {
+                IResource[] mems = ((IContainer) parentElement).members();
+                ArrayList list = new ArrayList();
+                for (int i = 0; i < mems.length; i++) {
+                    if (mems[i] instanceof IFolder) {
+                        if (includeCon((IFolder) mems[i])) {
+                            list.add(mems[i]);
+                        }
+                    } else if (mems[i] instanceof IFile) {
+                        String fileExtension = ((IFile) mems[i]).getFileExtension();
+                        if (fileExtension != null && (fileExtension.equals("jimple") || fileExtension.equals("java"))) {
+                            list.add(mems[i]);
+                        }
+                    }
+                }
+                Object[] result = new Object[list.size()];
+                list.toArray(result);
+                return result;
+            } catch (CoreException e) {
+            }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
-	 */
-	public Object[] getElements(Object inputElement) {
-		return getChildren(inputElement);
-	}
+        }
+        return EMPTY_ARRAY;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
-	 */
-	public void dispose() {
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#getParent(java.lang.Object)
+     */
+    public Object getParent(Object element) {
+        if (element instanceof IResource) {
+            return ((IResource) element).getParent();
+        }
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
-	 */
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.ITreeContentProvider#hasChildren(java.lang.Object)
+     */
+    public boolean hasChildren(Object element) {
+        return element instanceof IContainer;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.IStructuredContentProvider#getElements(java.lang.Object)
+     */
+    public Object[] getElements(Object inputElement) {
+        return getChildren(inputElement);
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.IContentProvider#dispose()
+     */
+    public void dispose() {
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
+     */
+    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+    }
 
 }

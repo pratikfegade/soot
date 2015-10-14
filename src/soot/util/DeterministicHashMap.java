@@ -26,63 +26,66 @@
 
 package soot.util;
 
-import java.util.AbstractSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
-/** Implementation of HashMap which guarantees a stable
+/**
+ * Implementation of HashMap which guarantees a stable
  * (between executions) order for its elements upon iteration.
- *
+ * <p/>
  * This is quite useful for maps of Locals, to avoid nondeterministic
- * local-name drift. */
-public class DeterministicHashMap<K, V> extends HashMap<K, V>
-{
+ * local-name drift.
+ */
+public class DeterministicHashMap<K, V> extends HashMap<K, V> {
     Set<K> keys = new TrustingMonotonicArraySet<K>();
-    
-    /** Constructs a DeterministicHashMap with the given initial capacity. */
-    public DeterministicHashMap(int initialCapacity)
-    {
+
+    /**
+     * Constructs a DeterministicHashMap with the given initial capacity.
+     */
+    public DeterministicHashMap(int initialCapacity) {
         super(initialCapacity);
     }
 
-    /** Constructs a DeterministicHashMap with the given initial capacity and load factor. */
-    public DeterministicHashMap(int initialCapacity, float loadFactor)
-    {
-        super(initialCapacity, loadFactor);    
+    /**
+     * Constructs a DeterministicHashMap with the given initial capacity and load factor.
+     */
+    public DeterministicHashMap(int initialCapacity, float loadFactor) {
+        super(initialCapacity, loadFactor);
     }
-    
-    /** Inserts a mapping in this HashMap from <code>key</code> to <code>value</code>. */
+
+    /**
+     * Inserts a mapping in this HashMap from <code>key</code> to <code>value</code>.
+     */
     @Override
-    public V put(K key, V value)
-    {
-        if(!containsKey(key))
+    public V put(K key, V value) {
+        if (!containsKey(key))
             keys.add(key);
-    
-        return super.put(key, value);    
-    }   
-    
-    /** Removes the given object from this HashMap (unsupported). */
+
+        return super.put(key, value);
+    }
+
+    /**
+     * Removes the given object from this HashMap (unsupported).
+     */
     @Override
-    public V remove(Object obj)
-    {
+    public V remove(Object obj) {
         throw new UnsupportedOperationException();
     }
-    
-    /** Returns a backed list of keys for this HashMap (unsupported). */
+
+    /**
+     * Returns a backed list of keys for this HashMap (unsupported).
+     */
     @Override
-    public Set<K> keySet()
-    {
+    public Set<K> keySet() {
         return keys;
     }
 }
 
-/** ArraySet which doesn't check that the elements that you insert
-    are previous uncontained. */
+/**
+ * ArraySet which doesn't check that the elements that you insert
+ * are previous uncontained.
+ */
 
-class TrustingMonotonicArraySet<T> extends AbstractSet<T>
-{
+class TrustingMonotonicArraySet<T> extends AbstractSet<T> {
     private static final int DEFAULT_SIZE = 8;
 
     private int numElements;
@@ -90,8 +93,7 @@ class TrustingMonotonicArraySet<T> extends AbstractSet<T>
     private T[] elements;
 
     @SuppressWarnings("unchecked")
-	public TrustingMonotonicArraySet()
-    {
+    public TrustingMonotonicArraySet() {
         maxElements = DEFAULT_SIZE;
         elements = (T[]) new Object[DEFAULT_SIZE];
         numElements = 0;
@@ -101,90 +103,47 @@ class TrustingMonotonicArraySet<T> extends AbstractSet<T>
      * Create a set which contains the given elements.
      */
 
-    public TrustingMonotonicArraySet(T[] elements)
-    {
+    public TrustingMonotonicArraySet(T[] elements) {
         this();
 
         for (T element : elements)
-			add(element);
+            add(element);
     }
 
-    public void clear()
-    {
+    public void clear() {
         numElements = 0;
     }
 
-    public boolean contains(Object obj)
-    {
-        for(int i = 0; i < numElements; i++)
-            if(elements[i].equals(obj))
+    public boolean contains(Object obj) {
+        for (int i = 0; i < numElements; i++)
+            if (elements[i].equals(obj))
                 return true;
 
         return false;
     }
 
     @Override
-    public boolean add(T e)
-    {
+    public boolean add(T e) {
         // Expand array if necessary
-            if(numElements == maxElements)
-                doubleCapacity();
+        if (numElements == maxElements)
+            doubleCapacity();
 
         // Add element
-            elements[numElements++] = e;
-            return true;
+        elements[numElements++] = e;
+        return true;
     }
 
     @Override
-    public int size()
-    {
+    public int size() {
         return numElements;
     }
 
     @Override
-    public Iterator<T> iterator()
-    {
+    public Iterator<T> iterator() {
         return new ArrayIterator();
     }
 
-    private class ArrayIterator implements Iterator<T>
-    {
-        int nextIndex;
-
-        ArrayIterator()
-        {
-            nextIndex = 0;
-        }
-
-        public boolean hasNext()
-        {
-            return nextIndex < numElements;
-        }
-
-        @Override
-        public T next() throws NoSuchElementException
-        {
-            if(!(nextIndex < numElements))
-                throw new NoSuchElementException();
-
-            return elements[nextIndex++];
-        }
-
-        @Override
-        public void remove() throws NoSuchElementException
-        {
-            if(nextIndex == 0)
-                throw new NoSuchElementException();
-            else
-            {
-                removeElementAt(nextIndex - 1);
-                nextIndex = nextIndex - 1;
-            }
-        }
-    }
-
-    private void removeElementAt(int index)
-    {
+    private void removeElementAt(int index) {
         throw new UnsupportedOperationException();
         /*
         // Handle simple case
@@ -199,13 +158,11 @@ class TrustingMonotonicArraySet<T> extends AbstractSet<T>
             numElements--; */
     }
 
-
-    private void doubleCapacity()
-    {
+    private void doubleCapacity() {
         int newSize = maxElements * 2;
 
         @SuppressWarnings("unchecked")
-		T[] newElements = (T[]) new Object[newSize];
+        T[] newElements = (T[]) new Object[newSize];
 
         System.arraycopy(elements, 0, newElements, 0, numElements);
         elements = newElements;
@@ -213,13 +170,42 @@ class TrustingMonotonicArraySet<T> extends AbstractSet<T>
     }
 
     @Override
-    public T[] toArray()
-    {
+    public T[] toArray() {
         @SuppressWarnings("unchecked")
-		T[] array = (T[]) new Object[numElements];
+        T[] array = (T[]) new Object[numElements];
 
         System.arraycopy(elements, 0, array, 0, numElements);
         return array;
+    }
+
+    private class ArrayIterator implements Iterator<T> {
+        int nextIndex;
+
+        ArrayIterator() {
+            nextIndex = 0;
+        }
+
+        public boolean hasNext() {
+            return nextIndex < numElements;
+        }
+
+        @Override
+        public T next() throws NoSuchElementException {
+            if (!(nextIndex < numElements))
+                throw new NoSuchElementException();
+
+            return elements[nextIndex++];
+        }
+
+        @Override
+        public void remove() throws NoSuchElementException {
+            if (nextIndex == 0)
+                throw new NoSuchElementException();
+            else {
+                removeElementAt(nextIndex - 1);
+                nextIndex = nextIndex - 1;
+            }
+        }
     }
 }
 

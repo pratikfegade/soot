@@ -20,56 +20,60 @@
 package ca.mcgill.sable.soot.launching;
 
 import org.eclipse.jface.action.IAction;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * Launches Soot with --app --f dava on selected file
  */
 public class DavaDecompileAppFileLauncher extends SootFileLauncher {
 
-	/**
-	 * @see org.eclipse.ui.IActionDelegate#run(IAction)
-	 */
-	public void run(IAction action) {
-		super.run(action);
+    /**
+     * @see org.eclipse.ui.IActionDelegate#run(IAction)
+     */
+    public void run(IAction action) {
+        super.run(action);
         super.handleMultipleFiles();
 
-		if (isDoNotContinue()) return;
-		setCmd();
-		runSootDirectly();
-		runFinish();
-	
-	}
-	
-	/**
-	 * Method getCmd.
-	 * @return String
-	 */
-	private void setCmd() {
-		
-		ArrayList commands = new ArrayList();
-		commands.add("--"+LaunchCommands.SOOT_CLASSPATH);
-		commands.add(getClasspathAppend());
-		commands.add("--"+LaunchCommands.OUTPUT_DIR);
-		commands.add(getOutputLocation());
-		
-		// I think we need these two options here for consistency
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.KEEP_LINE_NUMBER);
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.XML_ATTRIBUTES);
-		if (isExtraCmd()) {
-			getSootCommandList().addSingleOpt("--"+getExtraCmd());
-		}
-        
-        if (isSrcPrec()) {
-            getSootCommandList().addDoubleOpt("--"+LaunchCommands.SRC_PREC, getSrcPrec());
+        if (isDoNotContinue()) return;
+        setCmd();
+        runSootDirectly();
+        runFinish();
+
+    }
+
+    /**
+     * Method getCmd.
+     *
+     * @return String
+     */
+    private void setCmd() {
+
+        ArrayList commands = new ArrayList();
+        commands.add("--" + LaunchCommands.SOOT_CLASSPATH);
+        commands.add(getClasspathAppend());
+        commands.add("--" + LaunchCommands.OUTPUT_DIR);
+        commands.add(getOutputLocation());
+
+        // I think we need these two options here for consistency
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.KEEP_LINE_NUMBER);
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.XML_ATTRIBUTES);
+        if (isExtraCmd()) {
+            getSootCommandList().addSingleOpt("--" + getExtraCmd());
         }
-        
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.APP);
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.DAVA);
-		
-		Iterator it = getToProcessList().iterator();
-		while(it.hasNext()){
-			commands.add((String)it.next());
-		}
-		getSootCommandList().addSingleOpt(commands);
-	}
+
+        if (isSrcPrec()) {
+            getSootCommandList().addDoubleOpt("--" + LaunchCommands.SRC_PREC, getSrcPrec());
+        }
+
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.APP);
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.DAVA);
+
+        Iterator it = getToProcessList().iterator();
+        while (it.hasNext()) {
+            commands.add(it.next());
+        }
+        getSootCommandList().addSingleOpt(commands);
+    }
 }

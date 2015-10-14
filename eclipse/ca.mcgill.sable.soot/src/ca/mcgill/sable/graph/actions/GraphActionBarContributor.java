@@ -20,56 +20,56 @@
 
 package ca.mcgill.sable.graph.actions;
 
+import org.eclipse.gef.ui.actions.*;
 import org.eclipse.gef.ui.actions.ActionBarContributor;
 import org.eclipse.jface.action.*;
-import org.eclipse.gef.ui.actions.*;
-import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.*;
+import org.eclipse.ui.IWorkbenchActionConstants;
 
 public class GraphActionBarContributor extends ActionBarContributor {
 
-	/**
-	 * 
-	 */
-	public GraphActionBarContributor() {
-		super();
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
-	 */
-	protected void buildActions() {
-		addRetargetAction(new ZoomInRetargetAction());
-		addRetargetAction(new ZoomOutRetargetAction());
-	}
+    /**
+     *
+     */
+    public GraphActionBarContributor() {
+        super();
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
-	 */
-	protected void declareGlobalActionKeys() {
-		addGlobalActionKey(IWorkbenchActionConstants.PRINT);
-	}
-	
-	//  this is for zoom toolbar buttons
-	public void contributeToToolBar(IToolBarManager toolBarManager){
-		super.contributeToToolBar(toolBarManager);
-		toolBarManager.add(new Separator());
-	}
-	
-	public void contributeToMenu(IMenuManager menuManager){
-		super.contributeToMenu(menuManager);
-		
-		MenuManager viewMenu = new MenuManager("View");
-		viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
-		viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
-		
-		menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
-	}
-	
-	public void setActiveEditor(IEditorPart editor) { 
-		super.setActiveEditor(editor); 
-		
-	}
-	
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#buildActions()
+     */
+    protected void buildActions() {
+        addRetargetAction(new ZoomInRetargetAction());
+        addRetargetAction(new ZoomOutRetargetAction());
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.gef.ui.actions.ActionBarContributor#declareGlobalActionKeys()
+     */
+    protected void declareGlobalActionKeys() {
+        addGlobalActionKey(IWorkbenchActionConstants.PRINT);
+    }
+
+    //  this is for zoom toolbar buttons
+    public void contributeToToolBar(IToolBarManager toolBarManager) {
+        super.contributeToToolBar(toolBarManager);
+        toolBarManager.add(new Separator());
+    }
+
+    public void contributeToMenu(IMenuManager menuManager) {
+        super.contributeToMenu(menuManager);
+
+        MenuManager viewMenu = new MenuManager("View");
+        viewMenu.add(getAction(GEFActionConstants.ZOOM_IN));
+        viewMenu.add(getAction(GEFActionConstants.ZOOM_OUT));
+
+        menuManager.insertAfter(IWorkbenchActionConstants.M_EDIT, viewMenu);
+    }
+
+    public void setActiveEditor(IEditorPart editor) {
+        super.setActiveEditor(editor);
+
+    }
+
 }

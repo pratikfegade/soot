@@ -1,6 +1,8 @@
-interface I { }
+interface I {
+}
 
-class A implements I { }
+class A implements I {
+}
 
 public class IVoke {
 
@@ -8,8 +10,8 @@ public class IVoke {
         // the use of i.getClass() leads to problem
         System.out.println(i.getClass());
     }
-   
-    static public void main (String[] args) {
+
+    static public void main(String[] args) {
         I a = new A();
         test(a);
     }

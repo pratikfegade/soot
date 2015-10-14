@@ -24,19 +24,20 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import java.util.*;
+import soot.Unit;
 
-public interface TableSwitchStmt extends SwitchStmt
-{
-    public void setLowIndex(int lowIndex);
-    public void setHighIndex(int highIndex);
-    public int getLowIndex();
-    public int getHighIndex();
-    public void setTargets(List<? extends Unit> targets);
+import java.util.List;
+
+public interface TableSwitchStmt extends SwitchStmt {
+    int getLowIndex();
+
+    void setLowIndex(int lowIndex);
+
+    int getHighIndex();
+
+    void setHighIndex(int highIndex);
+
+    void setTargets(List<? extends Unit> targets);
 }

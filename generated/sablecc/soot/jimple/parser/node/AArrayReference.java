@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AArrayReference extends PReference
-{
+public final class AArrayReference extends PReference {
     private PArrayRef _arrayRef_;
 
-    public AArrayReference()
-    {
+    public AArrayReference() {
         // Constructor
     }
 
     public AArrayReference(
-        @SuppressWarnings("hiding") PArrayRef _arrayRef_)
-    {
+            @SuppressWarnings("hiding") PArrayRef _arrayRef_) {
         // Constructor
         setArrayRef(_arrayRef_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AArrayReference(
-            cloneNode(this._arrayRef_));
+                cloneNode(this._arrayRef_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAArrayReference(this);
     }
 
-    public PArrayRef getArrayRef()
-    {
+    public PArrayRef getArrayRef() {
         return this._arrayRef_;
     }
 
-    public void setArrayRef(PArrayRef node)
-    {
-        if(this._arrayRef_ != null)
-        {
+    public void setArrayRef(PArrayRef node) {
+        if (this._arrayRef_ != null) {
             this._arrayRef_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AArrayReference extends PReference
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._arrayRef_);
+                + toString(this._arrayRef_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._arrayRef_ == child)
-        {
+        if (this._arrayRef_ == child) {
             this._arrayRef_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AArrayReference extends PReference
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._arrayRef_ == oldChild)
-        {
+        if (this._arrayRef_ == oldChild) {
             setArrayRef((PArrayRef) newChild);
             return;
         }

@@ -26,17 +26,17 @@
 
 package soot;
 
-/** A MethodSource for methods that don't know where to get Body's from. 
+/**
+ * A MethodSource for methods that don't know where to get Body's from.
+ *
  * @see soot.jimple.JimpleMethodSource
- * @see soot.coffi.CoffiMethodSource */
-public class UnknownMethodSource implements MethodSource
-{
-    UnknownMethodSource()
-    {
+ * @see soot.coffi.CoffiMethodSource
+ */
+public class UnknownMethodSource implements MethodSource {
+    UnknownMethodSource() {
     }
 
-    public Body getBody(SootMethod m, String phaseName)
-    {  
+    public Body getBody(SootMethod m, String phaseName) {
         // we ignore options here.
         // actually we should have default option verbatim,
         // and apply phase options.
@@ -53,7 +53,7 @@ public class UnknownMethodSource implements MethodSource
 //          catch(ClassNotFoundException e) {
 //              throw new RuntimeException("Can't find jimple file: " + e);                    
 //          }
-                
+
 //          Parser.parse(classFileStream,  m.getDeclaringClass());
     }
 }

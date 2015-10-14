@@ -18,125 +18,133 @@
  */
 
 package soot.jimple.spark.solver;
-import soot.jimple.spark.pag.*;
-import soot.jimple.spark.sets.*;
-import soot.*;
-import java.util.*;
-import soot.util.*;
 
-/** Propagates points-to sets using an on-line cycle detection algorithm
+import soot.G;
+import soot.jimple.spark.pag.*;
+import soot.jimple.spark.sets.P2SetVisitor;
+import soot.util.LargeNumberedMap;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+
+/**
+ * Propagates points-to sets using an on-line cycle detection algorithm
  * based on Heintze and Tardieu, PLDI 2000.
+ *
  * @author Ondrej Lhotak
  */
 
 public final class PropCycle extends Propagator {
-    public PropCycle( PAG pag ) {
-        this.pag = pag;
-        varNodeToIteration = new LargeNumberedMap<VarNode, Integer>( pag.getVarNodeNumberer() );
-    }
-
-    /** Actually does the propagation. */
-    public final void propagate() {
-        ofcg = pag.getOnFlyCallGraph();
-        boolean verbose = pag.getOpts().verbose();
-        Collection<VarNode> bases = new HashSet<VarNode>();
-        for( FieldRefNode frn : pag.getFieldRefNodeNumberer() ) {
-            bases.add( frn.getBase() );
-        }
-        bases = new ArrayList<VarNode>( bases );
-        int iteration = 0;
-        boolean changed;
-        boolean finalIter = false;
-	do {
-            changed = false;
-            iteration++;
-            currentIteration = new Integer( iteration );
-            if( verbose ) G.v().out.println( "Iteration: "+iteration );
-            for (VarNode v : bases) {
-                changed = computeP2Set( (VarNode) v.getReplacement(), new ArrayList<VarNode>() ) | changed;
-            }
-            if( ofcg != null ) throw new RuntimeException( "NYI" );
-            if( verbose ) G.v().out.println( "Processing stores" );
-            for (Object object : pag.storeSources()) {
-                final VarNode src = (VarNode) object;
-                Node[] targets = pag.storeLookup( src );
-                for (Node element0 : targets) {
-                    final FieldRefNode target = (FieldRefNode) element0;
-                    changed = target.getBase().makeP2Set().forall( new P2SetVisitor() {
-                    public final void visit( Node n ) {
-                            AllocDotField nDotF = pag.makeAllocDotField( 
-                                (AllocNode) n, target.getField() );
-                            nDotF.makeP2Set().addAll( src.getP2Set(), null );
-                        }
-                    } ) | changed;
-                }
-            }
-            if( !changed && !finalIter ) {
-                finalIter = true;
-                if( verbose ) G.v().out.println( "Doing full graph" );
-                bases = new ArrayList<VarNode>(pag.getVarNodeNumberer().size());
-                for( VarNode v : pag.getVarNodeNumberer() ) {
-                    bases.add( v );
-                }
-                changed = true;
-            }
-	} while( changed );
-    }
+    private final LargeNumberedMap<VarNode, Integer> varNodeToIteration;
+    private PAG pag;
 
 
     /* End of public methods. */
     /* End of package methods. */
+    private OnFlyCallGraph ofcg;
+    private Integer currentIteration;
+    public PropCycle(PAG pag) {
+        this.pag = pag;
+        varNodeToIteration = new LargeNumberedMap<VarNode, Integer>(pag.getVarNodeNumberer());
+    }
 
-    private boolean computeP2Set( final VarNode v, ArrayList<VarNode> path ) {
+    /**
+     * Actually does the propagation.
+     */
+    public final void propagate() {
+        ofcg = pag.getOnFlyCallGraph();
+        boolean verbose = pag.getOpts().verbose();
+        Collection<VarNode> bases = new HashSet<VarNode>();
+        for (FieldRefNode frn : pag.getFieldRefNodeNumberer()) {
+            bases.add(frn.getBase());
+        }
+        bases = new ArrayList<VarNode>(bases);
+        int iteration = 0;
+        boolean changed;
+        boolean finalIter = false;
+        do {
+            changed = false;
+            iteration++;
+            currentIteration = new Integer(iteration);
+            if (verbose) G.v().out.println("Iteration: " + iteration);
+            for (VarNode v : bases) {
+                changed = computeP2Set((VarNode) v.getReplacement(), new ArrayList<VarNode>()) | changed;
+            }
+            if (ofcg != null) throw new RuntimeException("NYI");
+            if (verbose) G.v().out.println("Processing stores");
+            for (Object object : pag.storeSources()) {
+                final VarNode src = (VarNode) object;
+                Node[] targets = pag.storeLookup(src);
+                for (Node element0 : targets) {
+                    final FieldRefNode target = (FieldRefNode) element0;
+                    changed = target.getBase().makeP2Set().forall(new P2SetVisitor() {
+                        public final void visit(Node n) {
+                            AllocDotField nDotF = pag.makeAllocDotField(
+                                    (AllocNode) n, target.getField());
+                            nDotF.makeP2Set().addAll(src.getP2Set(), null);
+                        }
+                    }) | changed;
+                }
+            }
+            if (!changed && !finalIter) {
+                finalIter = true;
+                if (verbose) G.v().out.println("Doing full graph");
+                bases = new ArrayList<VarNode>(pag.getVarNodeNumberer().size());
+                for (VarNode v : pag.getVarNodeNumberer()) {
+                    bases.add(v);
+                }
+                changed = true;
+            }
+        } while (changed);
+    }
+
+    private boolean computeP2Set(final VarNode v, ArrayList<VarNode> path) {
         boolean ret = false;
 
-        if( path.contains( v ) ) {
+        if (path.contains(v)) {
 //            for( Iterator<VarNode> nIt = path.iterator(); nIt.hasNext(); ) {
 //                final Node n = nIt.next();
-        //        if( n != v ) n.mergeWith( v );
+            //        if( n != v ) n.mergeWith( v );
 //            }
             return false;
         }
 
-        if( currentIteration == varNodeToIteration.get(v) ) return false;
+        if (currentIteration == varNodeToIteration.get(v)) return false;
         varNodeToIteration.put(v, currentIteration);
 
-        path.add( v );
-        if( v.getP2Set().isEmpty() ) {
-            Node[] srcs = pag.allocInvLookup( v );
+        path.add(v);
+        if (v.getP2Set().isEmpty()) {
+            Node[] srcs = pag.allocInvLookup(v);
             for (Node element : srcs) {
-                ret = v.makeP2Set().add( element ) | ret;
+                ret = v.makeP2Set().add(element) | ret;
             }
         }
         {
-            Node[] srcs = pag.simpleInvLookup( v );
+            Node[] srcs = pag.simpleInvLookup(v);
             for (Node element : srcs) {
                 VarNode src = (VarNode) element;
-                ret = computeP2Set( src, path ) | ret;
-                ret = v.makeP2Set().addAll( src.getP2Set(), null ) | ret;
+                ret = computeP2Set(src, path) | ret;
+                ret = v.makeP2Set().addAll(src.getP2Set(), null) | ret;
             }
         }
         {
-            Node[] srcs = pag.loadInvLookup( v );
+            Node[] srcs = pag.loadInvLookup(v);
             for (Node element : srcs) {
                 final FieldRefNode src = (FieldRefNode) element;
-                ret = src.getBase().getP2Set().forall( new P2SetVisitor() {
-                public final void visit( Node n ) {
-                    AllocNode an = (AllocNode) n;
-                    AllocDotField adf = 
-                        pag.makeAllocDotField( an, src.getField() );
-                    returnValue = v.makeP2Set().addAll( adf.getP2Set(), null ) | returnValue;
-                }} ) | ret;
+                ret = src.getBase().getP2Set().forall(new P2SetVisitor() {
+                    public final void visit(Node n) {
+                        AllocNode an = (AllocNode) n;
+                        AllocDotField adf =
+                                pag.makeAllocDotField(an, src.getField());
+                        returnValue = v.makeP2Set().addAll(adf.getP2Set(), null) | returnValue;
+                    }
+                }) | ret;
             }
         }
-        path.remove(path.size()-1);
+        path.remove(path.size() - 1);
         return ret;
     }
-
-    private PAG pag;
-    private OnFlyCallGraph ofcg;
-    private Integer currentIteration;
-    private final LargeNumberedMap<VarNode, Integer> varNodeToIteration;
 }
 
 

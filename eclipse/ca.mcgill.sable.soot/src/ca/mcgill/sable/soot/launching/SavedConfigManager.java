@@ -19,192 +19,189 @@
 
 package ca.mcgill.sable.soot.launching;
 
-import java.util.*;
-
+import ca.mcgill.sable.soot.SootPlugin;
 import org.eclipse.jface.dialogs.IDialogSettings;
 
-import ca.mcgill.sable.soot.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
- * Handles saving of Soot configurations, adding, updating and 
+ * Handles saving of Soot configurations, adding, updating and
  * deleting
  */
 public class SavedConfigManager {
 
-	/**
-	 * Constructor for SavedConfigManager.
-	 */
-	public SavedConfigManager() {
-		super();
-	}
-	
-	public void handleDeletes() {
-		if (getDeleteList() != null) {
-			Iterator it = getDeleteList().iterator();
-			while (it.hasNext()) {
-				String name = (String)it.next();
-				remove(name);
-			}
-		}
-	}
-	
-	private void remove(String name) {
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		int count = 0;
-		try {
-			count = settings.getInt("config_count");
-		}
-		catch (NumberFormatException e){
-		}
-		String [] pointers = new String [count];
-		for (int i = 1; i <= count; i++) {
-			pointers[i-1] = settings.get("soot_run_config_"+i);
-		}
+    private HashMap editMap;
+    private ArrayList deleteList;
 
-		int i = 1;
-		int j = 0;
-		while (j < count) {
-			if (!pointers[j].equals(name)) {
-			  	settings.put("soot_run_config_"+i, pointers[j]);
-			  	i++;
-			}
-			j++;		
-		}
-		
-		settings.put("soot_run_config_"+count, (String)null);
-		count--;
-		if (count < 0) {
-			count = 0;
-		}
-		settings.put("config_count", count);
-		settings.put(name, (String)null);	
-		
-	}
-	
-	public void handleEdits() {
-		if (getEditMap() != null) {
-			Iterator it = getEditMap().keySet().iterator();
-			while (it.hasNext()) {
-				String name = (String)it.next();
-				if (alreadyInList(name)) {
-					update(name, (ArrayList)getEditMap().get(name));
-				}
-				else {
-					add(name, (ArrayList)getEditMap().get(name));
-				}
-			}
-		}
-	}
-	
-	
-	private boolean alreadyInList(String name) {
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		int count = 0;
-		try {
-			count = settings.getInt("config_count");
-		}
-		catch (NumberFormatException e){
-		}
-		for (int i = 1; i <= count; i++){
-			if (settings.get("soot_run_config_"+i).equals(name)){
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Constructor for SavedConfigManager.
+     */
+    public SavedConfigManager() {
+        super();
+    }
 
-	//	TODO use this instead of with String, String
-	private void update(String name, ArrayList val){
-		String [] temp = new String [val.size()];
-		val.toArray(temp);
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		
-		settings.put(name, temp);
-	}
-	 
-	// TODO use this instead of with String, String
-	private void update(String name, String [] val){
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		
-		settings.put(name, val);
-	}
+    public void handleDeletes() {
+        if (getDeleteList() != null) {
+            Iterator it = getDeleteList().iterator();
+            while (it.hasNext()) {
+                String name = (String) it.next();
+                remove(name);
+            }
+        }
+    }
 
-	// TODO stop using this
-	private void update(String name, String val) {
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		
-		if (val != null) {
-			settings.put(name, val);
-		}
-		else {
-			settings.put(name, "default");
-		}
-	}
-	
-	// TODO use this instead of String, String
-	private void add(String name, ArrayList val){
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		int count = 0;
-		try {
-			count = settings.getInt("config_count");
-		}
-		catch(NumberFormatException e) {
-		}
-		count++;
-		settings.put("config_count", count);
-		settings.put("soot_run_config_"+count, name);
-		update(name, val);	
-	}
-	
-	// TODO stop using this
-	private void add(String name, String val) {
-		IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
-		int count = 0;
-		try {
-			count = settings.getInt("config_count");
-		}
-		catch(NumberFormatException e) {
-		}
-		count++;
-		settings.put("config_count", count);
-		settings.put("soot_run_config_"+count, name);
-		update(name, val);
-	}
-	
-	private HashMap editMap;
-	private ArrayList deleteList;
-	
+    private void remove(String name) {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+        int count = 0;
+        try {
+            count = settings.getInt("config_count");
+        } catch (NumberFormatException e) {
+        }
+        String[] pointers = new String[count];
+        for (int i = 1; i <= count; i++) {
+            pointers[i - 1] = settings.get("soot_run_config_" + i);
+        }
 
-	/**
-	 * Returns the deleteList.
-	 * @return ArrayList
-	 */
-	public ArrayList getDeleteList() {
-		return deleteList;
-	}
+        int i = 1;
+        int j = 0;
+        while (j < count) {
+            if (!pointers[j].equals(name)) {
+                settings.put("soot_run_config_" + i, pointers[j]);
+                i++;
+            }
+            j++;
+        }
 
-	/**
-	 * Returns the editMap.
-	 * @return HashMap
-	 */
-	public HashMap getEditMap() {
-		return editMap;
-	}
+        settings.put("soot_run_config_" + count, (String) null);
+        count--;
+        if (count < 0) {
+            count = 0;
+        }
+        settings.put("config_count", count);
+        settings.put(name, (String) null);
 
-	/**
-	 * Sets the deleteList.
-	 * @param deleteList The deleteList to set
-	 */
-	public void setDeleteList(ArrayList deleteList) {
-		this.deleteList = deleteList;
-	}
+    }
 
-	/**
-	 * Sets the editMap.
-	 * @param editMap The editMap to set
-	 */
-	public void setEditMap(HashMap editMap) {
-		this.editMap = editMap;
-	}
+    public void handleEdits() {
+        if (getEditMap() != null) {
+            Iterator it = getEditMap().keySet().iterator();
+            while (it.hasNext()) {
+                String name = (String) it.next();
+                if (alreadyInList(name)) {
+                    update(name, (ArrayList) getEditMap().get(name));
+                } else {
+                    add(name, (ArrayList) getEditMap().get(name));
+                }
+            }
+        }
+    }
+
+    private boolean alreadyInList(String name) {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+        int count = 0;
+        try {
+            count = settings.getInt("config_count");
+        } catch (NumberFormatException e) {
+        }
+        for (int i = 1; i <= count; i++) {
+            if (settings.get("soot_run_config_" + i).equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //	TODO use this instead of with String, String
+    private void update(String name, ArrayList val) {
+        String[] temp = new String[val.size()];
+        val.toArray(temp);
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+
+        settings.put(name, temp);
+    }
+
+    // TODO use this instead of with String, String
+    private void update(String name, String[] val) {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+
+        settings.put(name, val);
+    }
+
+    // TODO stop using this
+    private void update(String name, String val) {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+
+        if (val != null) {
+            settings.put(name, val);
+        } else {
+            settings.put(name, "default");
+        }
+    }
+
+    // TODO use this instead of String, String
+    private void add(String name, ArrayList val) {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+        int count = 0;
+        try {
+            count = settings.getInt("config_count");
+        } catch (NumberFormatException e) {
+        }
+        count++;
+        settings.put("config_count", count);
+        settings.put("soot_run_config_" + count, name);
+        update(name, val);
+    }
+
+    // TODO stop using this
+    private void add(String name, String val) {
+        IDialogSettings settings = SootPlugin.getDefault().getDialogSettings();
+        int count = 0;
+        try {
+            count = settings.getInt("config_count");
+        } catch (NumberFormatException e) {
+        }
+        count++;
+        settings.put("config_count", count);
+        settings.put("soot_run_config_" + count, name);
+        update(name, val);
+    }
+
+    /**
+     * Returns the deleteList.
+     *
+     * @return ArrayList
+     */
+    public ArrayList getDeleteList() {
+        return deleteList;
+    }
+
+    /**
+     * Sets the deleteList.
+     *
+     * @param deleteList The deleteList to set
+     */
+    public void setDeleteList(ArrayList deleteList) {
+        this.deleteList = deleteList;
+    }
+
+    /**
+     * Returns the editMap.
+     *
+     * @return HashMap
+     */
+    public HashMap getEditMap() {
+        return editMap;
+    }
+
+    /**
+     * Sets the editMap.
+     *
+     * @param editMap The editMap to set
+     */
+    public void setEditMap(HashMap editMap) {
+        this.editMap = editMap;
+    }
 
 }

@@ -18,153 +18,186 @@
  */
 
 package soot;
-import soot.util.*;
-import java.util.*;
+
+import soot.util.NumberedString;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
-/** Returns the various potential entry points of a Java program.
+/**
+ * Returns the various potential entry points of a Java program.
+ *
  * @author Ondrej Lhotak
  */
-public class EntryPoints
-{ 
-    public EntryPoints( Singletons.Global g ) {}
-    public static EntryPoints v() { return G.v().soot_EntryPoints(); }
-
+public class EntryPoints {
     final NumberedString sigMain = Scene.v().getSubSigNumberer().
-        findOrAdd( "void main(java.lang.String[])" );
+            findOrAdd("void main(java.lang.String[])");
     final NumberedString sigFinalize = Scene.v().getSubSigNumberer().
-        findOrAdd( "void finalize()" );
+            findOrAdd("void finalize()");
     final NumberedString sigExit = Scene.v().getSubSigNumberer().
-        findOrAdd( "void exit()" );
+            findOrAdd("void exit()");
     final NumberedString sigClinit = Scene.v().getSubSigNumberer().
-        findOrAdd( "void <clinit>()" );
+            findOrAdd("void <clinit>()");
     final NumberedString sigInit = Scene.v().getSubSigNumberer().
-        findOrAdd( "void <init>()" );
+            findOrAdd("void <init>()");
     final NumberedString sigStart = Scene.v().getSubSigNumberer().
-        findOrAdd( "void start()" );
+            findOrAdd("void start()");
     final NumberedString sigRun = Scene.v().getSubSigNumberer().
-        findOrAdd( "void run()" );
+            findOrAdd("void run()");
     final NumberedString sigObjRun = Scene.v().getSubSigNumberer().
-        findOrAdd( "java.lang.Object run()" );
+            findOrAdd("java.lang.Object run()");
     final NumberedString sigForName = Scene.v().getSubSigNumberer().
-        findOrAdd( "java.lang.Class forName(java.lang.String)" );
-    private final void addMethod( List<SootMethod> set, SootClass cls, NumberedString methodSubSig ) {
-    	SootMethod sm = cls.getMethodUnsafe(methodSubSig);
-        if( sm != null ) {
-            set.add( sm );
+            findOrAdd("java.lang.Class forName(java.lang.String)");
+    public EntryPoints(Singletons.Global g) {
+    }
+
+    public static EntryPoints v() {
+        return G.v().soot_EntryPoints();
+    }
+
+    private final void addMethod(List<SootMethod> set, SootClass cls, NumberedString methodSubSig) {
+        SootMethod sm = cls.getMethodUnsafe(methodSubSig);
+        if (sm != null) {
+            set.add(sm);
         }
     }
-    private final void addMethod( List<SootMethod> set, String methodSig ) {
-        if( Scene.v().containsMethod( methodSig ) ) {
-            set.add( Scene.v().getMethod( methodSig ) );
+
+    private final void addMethod(List<SootMethod> set, String methodSig) {
+        if (Scene.v().containsMethod(methodSig)) {
+            set.add(Scene.v().getMethod(methodSig));
         }
     }
-    /** Returns only the application entry points, not including entry points
-     * invoked implicitly by the VM. */
+
+    /**
+     * Returns only the application entry points, not including entry points
+     * invoked implicitly by the VM.
+     */
     public List<SootMethod> application() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        if(Scene.v().hasMainClass()) {
-			addMethod( ret, Scene.v().getMainClass(), sigMain );
-			for (SootMethod clinit : clinitsOf(Scene.v().getMainClass() )) {
-				ret.add(clinit);
-			}
-		}
+        if (Scene.v().hasMainClass()) {
+            addMethod(ret, Scene.v().getMainClass(), sigMain);
+            for (SootMethod clinit : clinitsOf(Scene.v().getMainClass())) {
+                ret.add(clinit);
+            }
+        }
         return ret;
     }
-    /** Returns only the entry points invoked implicitly by the VM. */
+
+    /**
+     * Returns only the entry points invoked implicitly by the VM.
+     */
     public List<SootMethod> implicit() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        addMethod( ret, "<java.lang.System: void initializeSystemClass()>" );
-        addMethod( ret, "<java.lang.ThreadGroup: void <init>()>");
+        addMethod(ret, "<java.lang.System: void initializeSystemClass()>");
+        addMethod(ret, "<java.lang.ThreadGroup: void <init>()>");
         //addMethod( ret, "<java.lang.ThreadGroup: void remove(java.lang.Thread)>");
-        addMethod( ret, "<java.lang.Thread: void exit()>");
-        addMethod( ret, "<java.lang.ThreadGroup: void uncaughtException(java.lang.Thread,java.lang.Throwable)>");
+        addMethod(ret, "<java.lang.Thread: void exit()>");
+        addMethod(ret, "<java.lang.ThreadGroup: void uncaughtException(java.lang.Thread,java.lang.Throwable)>");
         //addMethod( ret, "<java.lang.System: void loadLibrary(java.lang.String)>");
-        addMethod( ret, "<java.lang.ClassLoader: void <init>()>");
-        addMethod( ret, "<java.lang.ClassLoader: java.lang.Class loadClassInternal(java.lang.String)>");
-        addMethod( ret, "<java.lang.ClassLoader: void checkPackageAccess(java.lang.Class,java.security.ProtectionDomain)>");
-        addMethod( ret, "<java.lang.ClassLoader: void addClass(java.lang.Class)>");
-        addMethod( ret, "<java.lang.ClassLoader: long findNative(java.lang.ClassLoader,java.lang.String)>");
-        addMethod( ret, "<java.security.PrivilegedActionException: void <init>(java.lang.Exception)>");
+        addMethod(ret, "<java.lang.ClassLoader: void <init>()>");
+        addMethod(ret, "<java.lang.ClassLoader: java.lang.Class loadClassInternal(java.lang.String)>");
+        addMethod(ret, "<java.lang.ClassLoader: void checkPackageAccess(java.lang.Class,java.security.ProtectionDomain)>");
+        addMethod(ret, "<java.lang.ClassLoader: void addClass(java.lang.Class)>");
+        addMethod(ret, "<java.lang.ClassLoader: long findNative(java.lang.ClassLoader,java.lang.String)>");
+        addMethod(ret, "<java.security.PrivilegedActionException: void <init>(java.lang.Exception)>");
         //addMethod( ret, "<java.lang.ref.Finalizer: void register(java.lang.Object)>");
-        addMethod( ret, "<java.lang.ref.Finalizer: void runFinalizer()>");
-        addMethod( ret, "<java.lang.Thread: void <init>(java.lang.ThreadGroup,java.lang.Runnable)>");
-        addMethod( ret, "<java.lang.Thread: void <init>(java.lang.ThreadGroup,java.lang.String)>");
+        addMethod(ret, "<java.lang.ref.Finalizer: void runFinalizer()>");
+        addMethod(ret, "<java.lang.Thread: void <init>(java.lang.ThreadGroup,java.lang.Runnable)>");
+        addMethod(ret, "<java.lang.Thread: void <init>(java.lang.ThreadGroup,java.lang.String)>");
         return ret;
     }
-    /** Returns all the entry points. */
+
+    /**
+     * Returns all the entry points.
+     */
     public List<SootMethod> all() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        ret.addAll( application() );
-        ret.addAll( implicit() );
+        ret.addAll(application());
+        ret.addAll(implicit());
         return ret;
     }
-    /** Returns a list of all static initializers. */
+
+    /**
+     * Returns a list of all static initializers.
+     */
     public List<SootMethod> clinits() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        for( Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
+        for (Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
-            addMethod( ret, cl, sigClinit );
+            addMethod(ret, cl, sigClinit);
         }
         return ret;
     }
-    /** Returns a list of all constructors taking no arguments. */
+
+    /**
+     * Returns a list of all constructors taking no arguments.
+     */
     public List<SootMethod> inits() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        for( Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
+        for (Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
-            addMethod( ret, cl, sigInit );
+            addMethod(ret, cl, sigInit);
         }
         return ret;
     }
-    
-    /** Returns a list of all constructors. */
+
+    /**
+     * Returns a list of all constructors.
+     */
     public List<SootMethod> allInits() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        for( Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
+        for (Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
-            for(SootMethod m: cl.getMethods()) {
-            	if(m.getName().equals("<init>")) {
-            		ret.add(m);
-            	}
+            for (SootMethod m : cl.getMethods()) {
+                if (m.getName().equals("<init>")) {
+                    ret.add(m);
+                }
             }
         }
         return ret;
     }
 
-    /** Returns a list of all concrete methods of all application classes. */
+    /**
+     * Returns a list of all concrete methods of all application classes.
+     */
     public List<SootMethod> methodsOfApplicationClasses() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        for( Iterator<SootClass> clIt = Scene.v().getApplicationClasses().iterator(); clIt.hasNext(); ) {
-            final SootClass cl =  clIt.next();
-            for( Iterator<SootMethod> mIt = cl.getMethods().iterator(); mIt.hasNext(); ) {
+        for (Iterator<SootClass> clIt = Scene.v().getApplicationClasses().iterator(); clIt.hasNext(); ) {
+            final SootClass cl = clIt.next();
+            for (Iterator<SootMethod> mIt = cl.getMethods().iterator(); mIt.hasNext(); ) {
                 final SootMethod m = mIt.next();
-                if( m.isConcrete() ) ret.add( m );
+                if (m.isConcrete()) ret.add(m);
             }
         }
         return ret;
     }
 
-    /** Returns a list of all concrete main(String[]) methods of all
-     * application classes. */
+    /**
+     * Returns a list of all concrete main(String[]) methods of all
+     * application classes.
+     */
     public List<SootMethod> mainsOfApplicationClasses() {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        for( Iterator<SootClass> clIt = Scene.v().getApplicationClasses().iterator(); clIt.hasNext(); ) {
+        for (Iterator<SootClass> clIt = Scene.v().getApplicationClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
-            SootMethod m = cl.getMethodUnsafe("void main(java.lang.String[])" );
-            if( m != null ) {
-                if( m.isConcrete() ) ret.add( m );
+            SootMethod m = cl.getMethodUnsafe("void main(java.lang.String[])");
+            if (m != null) {
+                if (m.isConcrete()) ret.add(m);
             }
         }
         return ret;
     }
 
-    /** Returns a list of all clinits of class cl and its superclasses. */
-    public List<SootMethod> clinitsOf( SootClass cl ) {
+    /**
+     * Returns a list of all clinits of class cl and its superclasses.
+     */
+    public List<SootMethod> clinitsOf(SootClass cl) {
         List<SootMethod> ret = new ArrayList<SootMethod>();
-        while(true) {
-            addMethod( ret, cl, sigClinit );
-            if( !cl.hasSuperclass() ) break;
+        while (true) {
+            addMethod(ret, cl, sigClinit);
+            if (!cl.hasSuperclass()) break;
             cl = cl.getSuperclass();
         }
         return ret;

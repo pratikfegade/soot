@@ -24,6 +24,6 @@ package ca.mcgill.sable.soot.launching;
  */
 public interface ISootOutputEventConstants {
 
-	public static final int SOOT_CLEAR_EVENT = 0;
-	public static final int SOOT_NEW_TEXT_EVENT = 1;
+    int SOOT_CLEAR_EVENT = 0;
+    int SOOT_NEW_TEXT_EVENT = 1;
 }

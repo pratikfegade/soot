@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TTransient extends Token
-{
-    public TTransient()
-    {
+public final class TTransient extends Token {
+    public TTransient() {
         super.setText("transient");
     }
 
-    public TTransient(int line, int pos)
-    {
+    public TTransient(int line, int pos) {
         super.setText("transient");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TTransient(getLine(), getPos());
+    public Object clone() {
+        return new TTransient(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTTransient(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TTransient text.");
     }
 }

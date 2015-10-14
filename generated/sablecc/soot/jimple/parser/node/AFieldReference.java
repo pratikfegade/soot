@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AFieldReference extends PReference
-{
+public final class AFieldReference extends PReference {
     private PFieldRef _fieldRef_;
 
-    public AFieldReference()
-    {
+    public AFieldReference() {
         // Constructor
     }
 
     public AFieldReference(
-        @SuppressWarnings("hiding") PFieldRef _fieldRef_)
-    {
+            @SuppressWarnings("hiding") PFieldRef _fieldRef_) {
         // Constructor
         setFieldRef(_fieldRef_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFieldReference(
-            cloneNode(this._fieldRef_));
+                cloneNode(this._fieldRef_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFieldReference(this);
     }
 
-    public PFieldRef getFieldRef()
-    {
+    public PFieldRef getFieldRef() {
         return this._fieldRef_;
     }
 
-    public void setFieldRef(PFieldRef node)
-    {
-        if(this._fieldRef_ != null)
-        {
+    public void setFieldRef(PFieldRef node) {
+        if (this._fieldRef_ != null) {
             this._fieldRef_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AFieldReference extends PReference
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._fieldRef_);
+                + toString(this._fieldRef_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._fieldRef_ == child)
-        {
+        if (this._fieldRef_ == child) {
             this._fieldRef_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AFieldReference extends PReference
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._fieldRef_ == oldChild)
-        {
+        if (this._fieldRef_ == oldChild) {
             setFieldRef((PFieldRef) newChild);
             return;
         }

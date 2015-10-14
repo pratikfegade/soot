@@ -29,29 +29,29 @@ package soot.util.dot;
 /**
  * Defines several constants used to generate a Dot graph.
  *
- * @author Feng Qian 
+ * @author Feng Qian
  */
 
 public interface DotGraphConstants {
-  public static final String NODE_SHAPE_BOX       ="box";
-  public static final String NODE_SHAPE_ELLIPSE   ="ellipse";
-  public static final String NODE_SHAPE_CIRCLE    ="circle";
-  public static final String NODE_SHAPE_DIAMOND   ="diamond";
-  public static final String NODE_SHAPE_PLAINTEXT ="plaintext";
+    String NODE_SHAPE_BOX = "box";
+    String NODE_SHAPE_ELLIPSE = "ellipse";
+    String NODE_SHAPE_CIRCLE = "circle";
+    String NODE_SHAPE_DIAMOND = "diamond";
+    String NODE_SHAPE_PLAINTEXT = "plaintext";
 
-  public static final String NODE_STYLE_SOLID     ="solid";
-  public static final String NODE_STYLE_DASHED    ="dashed";
-  public static final String NODE_STYLE_DOTTED    ="dotted";
-  public static final String NODE_STYLE_BOLD      ="bold";
-  public static final String NODE_STYLE_INVISIBLE ="invis";
-  public static final String NODE_STYLE_FILLED    ="filled";
-  public static final String NODE_STYLE_DIAGONALS ="diagonals";
-  public static final String NODE_STYLE_ROUNDED   ="rounded";
+    String NODE_STYLE_SOLID = "solid";
+    String NODE_STYLE_DASHED = "dashed";
+    String NODE_STYLE_DOTTED = "dotted";
+    String NODE_STYLE_BOLD = "bold";
+    String NODE_STYLE_INVISIBLE = "invis";
+    String NODE_STYLE_FILLED = "filled";
+    String NODE_STYLE_DIAGONALS = "diagonals";
+    String NODE_STYLE_ROUNDED = "rounded";
 
-  public static final String EDGE_STYLE_DOTTED    ="dotted";
-  public static final String EDGE_STYLE_SOLID     ="solid";
+    String EDGE_STYLE_DOTTED = "dotted";
+    String EDGE_STYLE_SOLID = "solid";
 
-  public static final String GRAPH_ORIENT_PORTRAIT ="portrait";
-  public static final String GRAPH_ORIENT_LANDSCAPE="landscape";
+    String GRAPH_ORIENT_PORTRAIT = "portrait";
+    String GRAPH_ORIENT_LANDSCAPE = "landscape";
 
 }

@@ -24,39 +24,43 @@
  */
 
 
-
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
 
-import soot.util.*;
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.GotoStmt;
+import soot.jimple.IfStmt;
+import soot.jimple.Stmt;
+import soot.jimple.StmtBody;
+import soot.options.Options;
+import soot.util.Chain;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
-public class UnconditionalBranchFolder extends BodyTransformer
-{
-    public UnconditionalBranchFolder( Singletons.Global g ) {}
-    public static UnconditionalBranchFolder v() { return G.v().soot_jimple_toolkits_scalar_UnconditionalBranchFolder(); }
-
+public class UnconditionalBranchFolder extends BodyTransformer {
     static final int JUMPOPT_TYPES = 6;
     int numFound[], numFixed[];
-
     HashMap<Stmt, Stmt> stmtMap;
-    
-    protected void internalTransform(Body b, String phaseName, Map<String,String> options) 
-    {
-        StmtBody body = (StmtBody)b;
+    public UnconditionalBranchFolder(Singletons.Global g) {
+    }
 
-        if (Options.v().verbose()) 
+    public static UnconditionalBranchFolder v() {
+        return G.v().soot_jimple_toolkits_scalar_UnconditionalBranchFolder();
+    }
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        StmtBody body = (StmtBody) b;
+
+        if (Options.v().verbose())
             G.v().out.println("[" + body.getMethod().getName() + "] Folding unconditional branches...");
 
 
         // allocate counters once only
         if (numFound == null) {
-            numFound = new int[JUMPOPT_TYPES+1];
-            numFixed = new int[JUMPOPT_TYPES+1];
+            numFound = new int[JUMPOPT_TYPES + 1];
+            numFixed = new int[JUMPOPT_TYPES + 1];
         }
 
         for (int i = 0; i <= JUMPOPT_TYPES; i++) {
@@ -71,15 +75,14 @@ public class UnconditionalBranchFolder extends BodyTransformer
         Iterator<Unit> stmtIt = units.iterator();
         Stmt stmt, target, newTarget;
         while (stmtIt.hasNext()) {
-            stmt = (Stmt)stmtIt.next();
+            stmt = (Stmt) stmtIt.next();
             if (stmt instanceof GotoStmt) {
 
-                target = (Stmt)((GotoStmt)stmt).getTarget();
+                target = (Stmt) ((GotoStmt) stmt).getTarget();
 
                 if (stmtIt.hasNext()) {
                     // check for goto -> next statement
-                    if (units.getSuccOf(stmt) == target)
-                    {
+                    if (units.getSuccOf(stmt) == target) {
                         stmtIt.remove();
                         updateCounters(6, true);
                     }
@@ -89,33 +92,30 @@ public class UnconditionalBranchFolder extends BodyTransformer
                     newTarget = getFinalTarget(target);
                     if (newTarget == null)
                         newTarget = stmt;
-                    ((GotoStmt)stmt).setTarget(newTarget);
+                    ((GotoStmt) stmt).setTarget(newTarget);
                     updateCounters(1, true);
-                }
-                else if (target instanceof IfStmt) {
+                } else if (target instanceof IfStmt) {
                     updateCounters(3, false);
                 }
-            }
-            else if (stmt instanceof IfStmt) {
-                target = ((IfStmt)stmt).getTarget();
+            } else if (stmt instanceof IfStmt) {
+                target = ((IfStmt) stmt).getTarget();
 
                 if (target instanceof GotoStmt) {
                     newTarget = getFinalTarget(target);
                     if (newTarget == null)
                         newTarget = stmt;
-                    ((IfStmt)stmt).setTarget(newTarget);
+                    ((IfStmt) stmt).setTarget(newTarget);
                     updateCounters(2, true);
-                }
-                else if (target instanceof IfStmt) {
+                } else if (target instanceof IfStmt) {
                     updateCounters(4, false);
                 }
             }
         }
-        if (Options.v().verbose()) 
-            G.v().out.println("[" + body.getMethod().getName() + "]     " + numFixed[0] + " of " + 
-                                numFound[0] + " branches folded.");
-             
-                               
+        if (Options.v().verbose())
+            G.v().out.println("[" + body.getMethod().getName() + "]     " + numFixed[0] + " of " +
+                    numFound[0] + " branches folded.");
+
+
     } // optimizeJumps
 
     private void updateCounters(int type, boolean fixed) {
@@ -130,10 +130,10 @@ public class UnconditionalBranchFolder extends BodyTransformer
             numFixed[type]++;
         }
     }
-        
+
     private Stmt getFinalTarget(Stmt stmt) {
-        Stmt finalTarget=null, target;
-        
+        Stmt finalTarget = null, target;
+
         // if not a goto, this is the final target
         if (!(stmt instanceof GotoStmt))
             return stmt;
@@ -141,7 +141,7 @@ public class UnconditionalBranchFolder extends BodyTransformer
         // first map this statement to itself, so we can detect cycles
         stmtMap.put(stmt, stmt);
 
-        target = (Stmt)((GotoStmt)stmt).getTarget();
+        target = (Stmt) ((GotoStmt) stmt).getTarget();
 
         // check if target is in statement map
         if (stmtMap.containsKey(target)) {
@@ -150,10 +150,9 @@ public class UnconditionalBranchFolder extends BodyTransformer
             if (finalTarget == target)
                 // this is part of a cycle
                 finalTarget = null;
-        }
-        else
+        } else
             finalTarget = getFinalTarget(target);
-            
+
         stmtMap.put(stmt, finalTarget);
         return finalTarget;
     } // getFinalTarget

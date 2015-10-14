@@ -18,20 +18,20 @@ public class PrivateFieldTest {
     private int q = 9;
     private int r = 9;
     private int s = 9;
-    
-    public static void main(String [] args){
+
+    public static void main(String[] args) {
         PrivateFieldTest u = new PrivateFieldTest();
         u.run();
     }
 
-    public void run(){
+    public void run() {
         Inner i = new Inner();
         i.run();
     }
-    
+
     public class Inner {
-        
-        public void run(){
+
+        public void run() {
             a += 9;
             b += 0;
             c += 5;

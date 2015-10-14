@@ -19,182 +19,168 @@
 
 package soot.jbco.jimpleTransformations;
 
-import java.util.*;
-
 import soot.*;
 import soot.jbco.IJbcoTransform;
-import soot.jbco.util.*;
+import soot.jbco.util.BodyBuilder;
+import soot.jbco.util.Rand;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 /**
- * @author Michael Batchelder 
- * 
- * Created on 26-Jan-2006 
+ * @author Michael Batchelder
+ *         <p/>
+ *         Created on 26-Jan-2006
  */
-public class ClassRenamer extends SceneTransformer  implements IJbcoTransform {
+public class ClassRenamer extends SceneTransformer implements IJbcoTransform {
 
-  public void outputSummary() {}
-  
-  public static String dependancies[] = new String[] { "wjtp.jbco_cr" };
+    private static final char stringChars[][] = {{'S', '5', '$'},
+            {'l', '1', 'I'},
+            {'_'}
+    };
+    public static String dependancies[] = new String[]{"wjtp.jbco_cr"};
+    public static String name = "wjtp.jbco_cr";
+    public static HashMap<String, String> oldToNewClassNames = new HashMap<String, String>();
+    public static HashMap<String, SootClass> newNameToClass = new HashMap<String, SootClass>();
 
-  public String[] getDependancies() {
-    return dependancies;
-  }
-  
-  public static String name = "wjtp.jbco_cr";
-  
-  public String getName() {
-    return name;
-  }
-  
-  private static final char stringChars[][] = { {'S','5','$'},
-      {'l','1','I'},
-      {'_'}
-  };
-  
-  public static HashMap<String, String> oldToNewClassNames = new HashMap<String, String>();
-  public static HashMap<String, SootClass> newNameToClass = new HashMap<String, SootClass>();
-  
-  protected void internalTransform(String phaseName, Map<String,String> options)
-  {
-    if (output)
-      G.v().out.println("Transforming Class Names...");
-    
-    soot.jbco.util.BodyBuilder.retrieveAllBodies();
-    soot.jbco.util.BodyBuilder.retrieveAllNames();
-    
-    Scene scene = G.v().soot_Scene();
-    // iterate through application classes, rename classes with junk
-    for (SootClass c : scene.getApplicationClasses())
-    {
-      if (scene.getMainClass() == c || oldToNewClassNames.containsValue(c.getName()) || 
-          soot.jbco.Main.getWeight(phaseName, c.getName()) == 0) {
-        continue;
-      }
-      
-      String oldName = c.getName();
-      String newName = oldToNewClassNames.get(oldName);
-      if (newName == null)
-      {
-        newName = getNewName(getNamePrefix(oldName));
-        oldToNewClassNames.put(oldName, newName);
-      }
-      
-      c.setName(newName);
-      RefType crt = RefType.v(newName);
-      crt.setSootClass(c);
-      c.setRefType(crt);
-      c.setResolvingLevel(SootClass.BODIES);
-      // will this fix dangling classes?
-      //scene.addRefType(c.getType());
-      
-      newNameToClass.put(newName,c);
-      
-      if (output) 
-        out.println("\tRenaming "+oldName+ " to "+newName);
-    }
-    
-    scene.releaseActiveHierarchy();
-    scene.getActiveHierarchy();
-    scene.setFastHierarchy(new FastHierarchy());
-    
-    if (output)
-      out.println("\r\tUpdating bytecode class references");
-    
-    for (SootClass c : scene.getApplicationClasses())
-    {
-      for (SootMethod m : c.getMethods())
-      {
-        if (!m.isConcrete()) continue;
-        
-        if (output)
-          out.println("\t\t"+m.getSignature());
-        Body aBody = null;
-        try {
-          aBody = m.getActiveBody();
-        } catch (Exception exc) {
-          continue;
-        }
-        for (Unit u : aBody.getUnits())
-        {
-         Iterator<ValueBox> udbIt = u.getUseAndDefBoxes().iterator();
-          while (udbIt.hasNext())
-          {
-            Value v = udbIt.next().getValue();
-            if (v instanceof soot.jimple.Ref)
-            {
-              if (v.getType() instanceof soot.RefType)
-              {
-                RefType rt = (RefType)v.getType();
-                
-                if (!rt.getSootClass().isLibraryClass() && oldToNewClassNames.containsKey(rt.getClassName()))
-                {
-                  rt.setSootClass(newNameToClass.get(oldToNewClassNames.get(rt.getClassName())));
-                  rt.setClassName(oldToNewClassNames.get(rt.getClassName()));
-                }
-              }
-              else if (v.getType() instanceof ArrayType)
-              {
-                ArrayType at = (ArrayType)v.getType();
-                if (at.baseType instanceof RefType)
-                {
-                  RefType rt = (RefType)at.baseType;
-                  if (!rt.getSootClass().isLibraryClass() && oldToNewClassNames.containsKey(rt.getClassName()))
-                    rt.setSootClass(newNameToClass.get(oldToNewClassNames.get(rt.getClassName())));
-                }
-              }
+    /*
+     * @return	String	newly generated junk name that DOES NOT exist yet
+     */
+    public static String getNewName(String prefix) {
+        int size = 5;
+        int tries = 0;
+        int index = Rand.getInt(stringChars.length);
+        int length = stringChars[index].length;
+
+        String result = null;
+        char cNewName[] = new char[size];
+        do {
+            if (tries == size) {
+                cNewName = new char[++size];
+                tries = 0;
             }
-          }
-        }
-      }
+
+            do {
+                cNewName[0] = stringChars[index][Rand.getInt(length)];
+            } while (!Character.isJavaIdentifierStart(cNewName[0]));
+
+            // generate random string
+            for (int i = 1; i < cNewName.length; i++) {
+                int rand = Rand.getInt(length);
+                cNewName[i] = stringChars[index][rand];
+            }
+            result = prefix + String.copyValueOf(cNewName);
+            tries++;
+        } while (oldToNewClassNames.containsValue(result) || BodyBuilder.nameList.contains(result));
+
+        BodyBuilder.nameList.add(result);
+
+        return result;
     }
-    
-    scene.releaseActiveHierarchy();
-    scene.getActiveHierarchy();
-    scene.setFastHierarchy(new FastHierarchy());
-  } 
-  
-  /*
-   * @return	String	newly generated junk name that DOES NOT exist yet
-   */
-  public static String getNewName(String prefix) 
-  {
-    int size = 5;
-    int tries = 0;
-    int index = Rand.getInt(stringChars.length);
-    int length = stringChars[index].length;
-    
-    String result = null;
-    char cNewName[] = new char[size];
-    do {
-      if (tries == size)
-      {
-        cNewName = new char[++size];
-        tries = 0;
-      }
-      
-      do {
-        cNewName[0] = stringChars[index][Rand.getInt(length)];
-	  } while (!Character.isJavaIdentifierStart(cNewName[0]));
-	      
-	  // generate random string
-	  for (int i = 1; i < cNewName.length; i++){
-	    int rand = Rand.getInt(length);
-	    cNewName[i] = stringChars[index][rand];      
-	  }
-      result = prefix + String.copyValueOf(cNewName);
-      tries++;
-    } while (oldToNewClassNames.containsValue(result) || BodyBuilder.nameList.contains(result));
-    
-    BodyBuilder.nameList.add(result);
-    
-    return result;
-  }
-  
-  public static String getNamePrefix(String fullName) 
-  {
-    int idx = fullName.lastIndexOf('.');
-    if (idx >= 0)
-      return fullName.substring(0,idx + 1);
-    else 
-      return "";
-  }
+
+    public static String getNamePrefix(String fullName) {
+        int idx = fullName.lastIndexOf('.');
+        if (idx >= 0)
+            return fullName.substring(0, idx + 1);
+        else
+            return "";
+    }
+
+    public void outputSummary() {
+    }
+
+    public String[] getDependancies() {
+        return dependancies;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    protected void internalTransform(String phaseName, Map<String, String> options) {
+        if (output)
+            G.v().out.println("Transforming Class Names...");
+
+        soot.jbco.util.BodyBuilder.retrieveAllBodies();
+        soot.jbco.util.BodyBuilder.retrieveAllNames();
+
+        Scene scene = G.v().soot_Scene();
+        // iterate through application classes, rename classes with junk
+        for (SootClass c : scene.getApplicationClasses()) {
+            if (scene.getMainClass() == c || oldToNewClassNames.containsValue(c.getName()) ||
+                    soot.jbco.Main.getWeight(phaseName, c.getName()) == 0) {
+                continue;
+            }
+
+            String oldName = c.getName();
+            String newName = oldToNewClassNames.get(oldName);
+            if (newName == null) {
+                newName = getNewName(getNamePrefix(oldName));
+                oldToNewClassNames.put(oldName, newName);
+            }
+
+            c.setName(newName);
+            RefType crt = RefType.v(newName);
+            crt.setSootClass(c);
+            c.setRefType(crt);
+            c.setResolvingLevel(SootClass.BODIES);
+            // will this fix dangling classes?
+            //scene.addRefType(c.getType());
+
+            newNameToClass.put(newName, c);
+
+            if (output)
+                out.println("\tRenaming " + oldName + " to " + newName);
+        }
+
+        scene.releaseActiveHierarchy();
+        scene.getActiveHierarchy();
+        scene.setFastHierarchy(new FastHierarchy());
+
+        if (output)
+            out.println("\r\tUpdating bytecode class references");
+
+        for (SootClass c : scene.getApplicationClasses()) {
+            for (SootMethod m : c.getMethods()) {
+                if (!m.isConcrete()) continue;
+
+                if (output)
+                    out.println("\t\t" + m.getSignature());
+                Body aBody = null;
+                try {
+                    aBody = m.getActiveBody();
+                } catch (Exception exc) {
+                    continue;
+                }
+                for (Unit u : aBody.getUnits()) {
+                    Iterator<ValueBox> udbIt = u.getUseAndDefBoxes().iterator();
+                    while (udbIt.hasNext()) {
+                        Value v = udbIt.next().getValue();
+                        if (v instanceof soot.jimple.Ref) {
+                            if (v.getType() instanceof soot.RefType) {
+                                RefType rt = (RefType) v.getType();
+
+                                if (!rt.getSootClass().isLibraryClass() && oldToNewClassNames.containsKey(rt.getClassName())) {
+                                    rt.setSootClass(newNameToClass.get(oldToNewClassNames.get(rt.getClassName())));
+                                    rt.setClassName(oldToNewClassNames.get(rt.getClassName()));
+                                }
+                            } else if (v.getType() instanceof ArrayType) {
+                                ArrayType at = (ArrayType) v.getType();
+                                if (at.baseType instanceof RefType) {
+                                    RefType rt = (RefType) at.baseType;
+                                    if (!rt.getSootClass().isLibraryClass() && oldToNewClassNames.containsKey(rt.getClassName()))
+                                        rt.setSootClass(newNameToClass.get(oldToNewClassNames.get(rt.getClassName())));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        scene.releaseActiveHierarchy();
+        scene.getActiveHierarchy();
+        scene.setFastHierarchy(new FastHierarchy());
+    }
 }

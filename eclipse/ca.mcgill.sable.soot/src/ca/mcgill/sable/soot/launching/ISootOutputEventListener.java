@@ -24,5 +24,5 @@ package ca.mcgill.sable.soot.launching;
  */
 public interface ISootOutputEventListener {
 
-	public void handleSootOutputEvent(SootOutputEvent event);
+    void handleSootOutputEvent(SootOutputEvent event);
 }

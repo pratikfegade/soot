@@ -20,73 +20,72 @@
 package ca.mcgill.sable.soot.launching;
 
 
-import java.util.ArrayList;
-
+import ca.mcgill.sable.soot.SootPlugin;
+import ca.mcgill.sable.soot.ui.PhaseOptionsDialog;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.*;
-import ca.mcgill.sable.soot.SootPlugin;
-import ca.mcgill.sable.soot.ui.*;
+
+import java.util.ArrayList;
+
 /**
  * Displays the Soot Options dialog and launches Soot with
- * selected options on all class files in output dir of 
+ * selected options on all class files in output dir of
  * selected project.
  */
 public class SootOptionsFolderLauncher extends SootFolderLauncher {
 
-	public void run(IAction action) {
-		
-		super.run(action);
-		
-		window = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
-		
-      	PhaseOptionsDialog dialog = new PhaseOptionsDialog(window.getShell());
+    public void run(IAction action) {
+
+        super.run(action);
+
+        window = SootPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
+
+        PhaseOptionsDialog dialog = new PhaseOptionsDialog(window.getShell());
         setSdc(new SootDefaultCommands(dialog));
         presetDialog();
         dialog.open();
-        if (dialog.getReturnCode() == Dialog.CANCEL) {	
-        	SavedConfigManager scm = new SavedConfigManager();
-			scm.setEditMap(dialog.getEditMap());
-			scm.handleEdits();
-      	}
-      	else {
-      		SootSavedConfiguration ssc = new SootSavedConfiguration("Temp", dialog.getConfig());
-      		ssc.toSaveArray();
-      		
-      		
-      		setCmd(ssc.toRunArray());
-      		String mainClass = dialog.getSootMainClass();
-      		if ((mainClass == null) || (mainClass.length() == 0)){
-      			runSootDirectly();
-      		}
-      		else {
-      			runSootDirectly(mainClass);
-      		}
-			runFinish();
-			
-			// save config if nessesary
-			SavedConfigManager scm = new SavedConfigManager();
-			scm.setEditMap(dialog.getEditMap());
-			scm.handleEdits();
-      	}
-	}
-	
-	private void presetDialog() {
-		getSdc().setOutputDir(getOutputLocation());
-		getSdc().setSootClassPath(getProcessPath()+getSootClasspath().getSeparator()+getClasspathAppend());
-		getSdc().setProcessPath(getProcessPath());
-		getSdc().setKeepLineNum();
-		getSdc().setPrintTags();	
-		getSdc().setSootMainClass();
-	}
-	
-	// TODO use this method instaed of one with String
-	private void setCmd(ArrayList user_cmd){
-		getSootCommandList().addSingleOpt(user_cmd);
-	}
-	
-	private void setCmd(String user_cmd) {
-		
-		getSootCommandList().addSingleOpt(user_cmd);
-	
-	}
+        if (dialog.getReturnCode() == Dialog.CANCEL) {
+            SavedConfigManager scm = new SavedConfigManager();
+            scm.setEditMap(dialog.getEditMap());
+            scm.handleEdits();
+        } else {
+            SootSavedConfiguration ssc = new SootSavedConfiguration("Temp", dialog.getConfig());
+            ssc.toSaveArray();
+
+
+            setCmd(ssc.toRunArray());
+            String mainClass = dialog.getSootMainClass();
+            if ((mainClass == null) || (mainClass.length() == 0)) {
+                runSootDirectly();
+            } else {
+                runSootDirectly(mainClass);
+            }
+            runFinish();
+
+            // save config if nessesary
+            SavedConfigManager scm = new SavedConfigManager();
+            scm.setEditMap(dialog.getEditMap());
+            scm.handleEdits();
+        }
+    }
+
+    private void presetDialog() {
+        getSdc().setOutputDir(getOutputLocation());
+        getSdc().setSootClassPath(getProcessPath() + getSootClasspath().getSeparator() + getClasspathAppend());
+        getSdc().setProcessPath(getProcessPath());
+        getSdc().setKeepLineNum();
+        getSdc().setPrintTags();
+        getSdc().setSootMainClass();
+    }
+
+    // TODO use this method instaed of one with String
+    private void setCmd(ArrayList user_cmd) {
+        getSootCommandList().addSingleOpt(user_cmd);
+    }
+
+    private void setCmd(String user_cmd) {
+
+        getSootCommandList().addSingleOpt(user_cmd);
+
+    }
 }

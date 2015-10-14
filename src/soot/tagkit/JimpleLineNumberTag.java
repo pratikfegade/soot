@@ -26,48 +26,44 @@
 
 package soot.tagkit;
 
-public class JimpleLineNumberTag implements Tag
-{
+public class JimpleLineNumberTag implements Tag {
     /* it is a value representing line number. */
     private final int startLineNumber;
-	private final int endLineNumber;
-    
-    public JimpleLineNumberTag(int ln)
-    {
-		startLineNumber = ln;
-		endLineNumber = ln;
+    private final int endLineNumber;
+
+    public JimpleLineNumberTag(int ln) {
+        startLineNumber = ln;
+        endLineNumber = ln;
     }
 
-	public JimpleLineNumberTag(int startLn, int endLn){
-		startLineNumber = startLn;
-		endLineNumber = endLn;
-	}
+    public JimpleLineNumberTag(int startLn, int endLn) {
+        startLineNumber = startLn;
+        endLineNumber = endLn;
+    }
 
     public int getLineNumber() {
-    	return startLineNumber;
-    }
-	public int getStartLineNumber() {
-		return startLineNumber;
-	}
-	
-	public int getEndLineNumber() {
-		return endLineNumber;
-	}
-    
-    public String getName()
-    {
-		return "JimpleLineNumberTag";
+        return startLineNumber;
     }
 
-    public byte[] getValue()
-    {
-		byte[] v = new byte[2];
-		return v;
+    public int getStartLineNumber() {
+        return startLineNumber;
     }
 
-    public String toString()
-    {
-   		return "Jimple Line Tag: "+startLineNumber;
+    public int getEndLineNumber() {
+        return endLineNumber;
+    }
+
+    public String getName() {
+        return "JimpleLineNumberTag";
+    }
+
+    public byte[] getValue() {
+        byte[] v = new byte[2];
+        return v;
+    }
+
+    public String toString() {
+        return "Jimple Line Tag: " + startLineNumber;
     }
 
 }

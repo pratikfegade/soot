@@ -18,107 +18,100 @@
  */
 package soot.jimple.spark.ondemand;
 
+import soot.jimple.spark.ondemand.genericutil.Predicate;
+import soot.jimple.spark.pag.*;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-
-
-import soot.jimple.spark.ondemand.genericutil.Predicate;
-import soot.jimple.spark.pag.AllocNode;
-import soot.jimple.spark.pag.FieldRefNode;
-import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.PagToDotDumper;
-import soot.jimple.spark.pag.VarNode;
-
 /**
  * you can just add edges and then dump them as a dot graph
- * 
+ *
  * @author Manu Sridharan
- * 
  */
 public class DotPointerGraph {
 
-	private final Set<String> edges = new HashSet<String>();
+    private final Set<String> edges = new HashSet<String>();
 
-	private final Set<Node> nodes = new HashSet<Node>();
+    private final Set<Node> nodes = new HashSet<Node>();
 
-	public void addAssign(VarNode from, VarNode to) {
-		addEdge(to, from, "", "black");
-	}
+    public void addAssign(VarNode from, VarNode to) {
+        addEdge(to, from, "", "black");
+    }
 
-	private void addEdge(Node from, Node to, String edgeLabel, String color) {
-		nodes.add(from);
-		nodes.add(to);
-		addEdge(PagToDotDumper.makeNodeName(from), PagToDotDumper
-				.makeNodeName(to), edgeLabel, color);
-	}
+    private void addEdge(Node from, Node to, String edgeLabel, String color) {
+        nodes.add(from);
+        nodes.add(to);
+        addEdge(PagToDotDumper.makeNodeName(from), PagToDotDumper
+                .makeNodeName(to), edgeLabel, color);
+    }
 
-	private void addEdge(String from, String to, String edgeLabel, String color) {
-		StringBuffer tmp = new StringBuffer();
-		tmp.append("    ");
-		tmp.append(from);
-		tmp.append(" -> ");
-		tmp.append(to);
-		tmp.append(" [label=\"");
-		tmp.append(edgeLabel);
-		tmp.append("\", color=");
-		tmp.append(color);
-		tmp.append("];");
-		edges.add(tmp.toString());
-	}
+    private void addEdge(String from, String to, String edgeLabel, String color) {
+        StringBuffer tmp = new StringBuffer();
+        tmp.append("    ");
+        tmp.append(from);
+        tmp.append(" -> ");
+        tmp.append(to);
+        tmp.append(" [label=\"");
+        tmp.append(edgeLabel);
+        tmp.append("\", color=");
+        tmp.append(color);
+        tmp.append("];");
+        edges.add(tmp.toString());
+    }
 
-	public void addNew(AllocNode from, VarNode to) {
-		addEdge(to, from, "", "yellow");
-	}
+    public void addNew(AllocNode from, VarNode to) {
+        addEdge(to, from, "", "yellow");
+    }
 
-	public void addCall(VarNode from, VarNode to, Integer callSite) {
-		addEdge(to, from, callSite.toString(), "blue");
-	}
+    public void addCall(VarNode from, VarNode to, Integer callSite) {
+        addEdge(to, from, callSite.toString(), "blue");
+    }
 
-	public void addMatch(VarNode from, VarNode to) {
-		addEdge(to, from, "", "brown");
-	}
+    public void addMatch(VarNode from, VarNode to) {
+        addEdge(to, from, "", "brown");
+    }
 
-	public void addLoad(FieldRefNode from, VarNode to) {
-		addEdge(to, from.getBase(), from.getField().toString(), "green");
-	}
+    public void addLoad(FieldRefNode from, VarNode to) {
+        addEdge(to, from.getBase(), from.getField().toString(), "green");
+    }
 
-	public void addStore(VarNode from, FieldRefNode to) {
-		addEdge(to.getBase(), from, to.getField().toString(), "red");
-	}
+    public void addStore(VarNode from, FieldRefNode to) {
+        addEdge(to.getBase(), from, to.getField().toString(), "red");
+    }
 
-	public int numEdges() {
-		return edges.size();
-	}
-	
-	public void dump(String filename) {
-		PrintWriter pw = null;
-		try {
-			pw = new PrintWriter(new FileOutputStream(filename));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		// pw.println("digraph G {\n\trankdir=LR;");
-		pw.println("digraph G {");
-		Predicate<Node> falsePred = new Predicate<Node>() {
+    public int numEdges() {
+        return edges.size();
+    }
 
-			@Override
-			public boolean test(Node obj_) {
-				return false;
-			}
+    public void dump(String filename) {
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(new FileOutputStream(filename));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // pw.println("digraph G {\n\trankdir=LR;");
+        pw.println("digraph G {");
+        Predicate<Node> falsePred = new Predicate<Node>() {
 
-		};
-		for (Node node : nodes) {
-			pw.println(PagToDotDumper.makeDotNodeLabel(node, falsePred));
-		}
-		for (String edge : edges) {
-			pw.println(edge);
-		}
-		pw.println("}");
-		pw.close();
+            @Override
+            public boolean test(Node obj_) {
+                return false;
+            }
 
-	}
+        };
+        for (Node node : nodes) {
+            pw.println(PagToDotDumper.makeDotNodeLabel(node, falsePred));
+        }
+        for (String edge : edges) {
+            pw.println(edge);
+        }
+        pw.println("}");
+        pw.close();
+
+    }
 }

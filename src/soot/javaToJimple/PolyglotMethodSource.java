@@ -19,17 +19,13 @@
 
 package soot.javaToJimple;
 
+import polyglot.ast.Block;
+import polyglot.ast.FieldDecl;
+import soot.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import polyglot.ast.Block;
-import polyglot.ast.FieldDecl;
-import soot.MethodSource;
-import soot.PackManager;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootField;
 
 public class PolyglotMethodSource implements MethodSource {
 
@@ -44,13 +40,13 @@ public class PolyglotMethodSource implements MethodSource {
     private ArrayList<SootField> finalsList;
     private HashMap newToOuterMap;
     private AbstractJimpleBodyBuilder ajbb;
-    
-    public PolyglotMethodSource(){
+
+    public PolyglotMethodSource() {
         this.block = null;
         this.formals = null;
     }
-    
-    public PolyglotMethodSource(polyglot.ast.Block block, List formals){
+
+    public PolyglotMethodSource(polyglot.ast.Block block, List formals) {
         this.block = block;
         this.formals = formals;
     }
@@ -58,94 +54,94 @@ public class PolyglotMethodSource implements MethodSource {
     public soot.Body getBody(soot.SootMethod sm, String phaseName) {
         //JimpleBodyBuilder jbb = new JimpleBodyBuilder();
         soot.jimple.JimpleBody jb = ajbb.createJimpleBody(block, formals, sm);
-       
+
         PackManager.v().getPack("jj").apply(jb);
         return jb;
     }
 
-    public void setJBB(AbstractJimpleBodyBuilder ajbb){
+    public void setJBB(AbstractJimpleBodyBuilder ajbb) {
         this.ajbb = ajbb;
-    }
-
-    public void setFieldInits(ArrayList<FieldDecl> fieldInits){
-        this.fieldInits = fieldInits;
-    }
-    
-    public void setStaticFieldInits(ArrayList<FieldDecl> staticFieldInits){
-        this.staticFieldInits = staticFieldInits;
     }
 
     public ArrayList<FieldDecl> getFieldInits() {
         return fieldInits;
     }
-    
+
+    public void setFieldInits(ArrayList<FieldDecl> fieldInits) {
+        this.fieldInits = fieldInits;
+    }
+
     public ArrayList<FieldDecl> getStaticFieldInits() {
         return staticFieldInits;
     }
 
-    public void setStaticInitializerBlocks(ArrayList<Block> staticInits) {
-        staticInitializerBlocks = staticInits;
-    }
-    
-    public void setInitializerBlocks(ArrayList<Block> inits) {
-        initializerBlocks = inits;
+    public void setStaticFieldInits(ArrayList<FieldDecl> staticFieldInits) {
+        this.staticFieldInits = staticFieldInits;
     }
 
     public ArrayList<Block> getStaticInitializerBlocks() {
         return staticInitializerBlocks;
     }
-    
+
+    public void setStaticInitializerBlocks(ArrayList<Block> staticInits) {
+        staticInitializerBlocks = staticInits;
+    }
+
     public ArrayList<Block> getInitializerBlocks() {
         return initializerBlocks;
     }
-    
+
+    public void setInitializerBlocks(ArrayList<Block> inits) {
+        initializerBlocks = inits;
+    }
+
+    public soot.Local getOuterClassThisInit() {
+        return outerClassThisInit;
+    }
+
     public void setOuterClassThisInit(soot.Local l) {
         outerClassThisInit = l;
     }
 
-    public soot.Local getOuterClassThisInit(){
-        return outerClassThisInit;
-    }
-
-    public boolean hasAssert(){
+    public boolean hasAssert() {
         return hasAssert;
     }
 
-    public void hasAssert(boolean val){
+    public void hasAssert(boolean val) {
         hasAssert = val;
     }
 
-    public void addAssertInits(soot.Body body){
+    public void addAssertInits(soot.Body body) {
         // if class is inner get desired assertion status from outer most class
         soot.SootClass assertStatusClass = body.getMethod().getDeclaringClass();
         HashMap<SootClass, InnerClassInfo> innerMap = soot.javaToJimple.InitialResolver.v().getInnerClassInfoMap();
-        while ((innerMap != null) && (innerMap.containsKey(assertStatusClass))){
+        while ((innerMap != null) && (innerMap.containsKey(assertStatusClass))) {
             assertStatusClass = innerMap.get(assertStatusClass).getOuterClass();
         }
 
         String paramName = assertStatusClass.getName();
-        String fieldName = "class$"+assertStatusClass.getName().replaceAll(".", "$");
-        
-        if (assertStatusClass.isInterface()){
+        String fieldName = "class$" + assertStatusClass.getName().replaceAll(".", "$");
+
+        if (assertStatusClass.isInterface()) {
             assertStatusClass = InitialResolver.v().specialAnonMap().get(assertStatusClass);
         }
-        
+
         // field ref
         soot.SootFieldRef field = soot.Scene.v().makeFieldRef(assertStatusClass, fieldName, soot.RefType.v("java.lang.Class"), true);
 
         soot.Local fieldLocal = soot.jimple.Jimple.v().newLocal("$r0", soot.RefType.v("java.lang.Class"));
 
         body.getLocals().add(fieldLocal);
-        
+
         soot.jimple.FieldRef fieldRef = soot.jimple.Jimple.v().newStaticFieldRef(field);
-        
+
         soot.jimple.AssignStmt fieldAssignStmt = soot.jimple.Jimple.v().newAssignStmt(fieldLocal, fieldRef);
 
         body.getUnits().add(fieldAssignStmt);
 
         // if field not null
         soot.jimple.ConditionExpr cond = soot.jimple.Jimple.v().newNeExpr(fieldLocal, soot.jimple.NullConstant.v());
-        
+
         soot.jimple.NopStmt nop1 = soot.jimple.Jimple.v().newNopStmt();
 
         soot.jimple.IfStmt ifStmt = soot.jimple.Jimple.v().newIfStmt(cond, nop1);
@@ -155,17 +151,17 @@ public class PolyglotMethodSource implements MethodSource {
         soot.Local invokeLocal = soot.jimple.Jimple.v().newLocal("$r1", soot.RefType.v("java.lang.Class"));
 
         body.getLocals().add(invokeLocal);
-        
+
         ArrayList paramTypes = new ArrayList();
         paramTypes.add(soot.RefType.v("java.lang.String"));
-                
+
         soot.SootMethodRef methodToInvoke = soot.Scene.v().makeMethodRef(assertStatusClass, "class$", paramTypes, soot.RefType.v("java.lang.Class"), true);
 
         ArrayList params = new ArrayList();
         params.add(soot.jimple.StringConstant.v(paramName));
         soot.jimple.StaticInvokeExpr invoke = soot.jimple.Jimple.v().newStaticInvokeExpr(methodToInvoke, params);
         soot.jimple.AssignStmt invokeAssign = soot.jimple.Jimple.v().newAssignStmt(invokeLocal, invoke);
-        
+
         body.getUnits().add(invokeAssign);
 
         // field ref assign
@@ -197,16 +193,16 @@ public class PolyglotMethodSource implements MethodSource {
         soot.SootMethodRef vMethodToInvoke = Scene.v().makeMethodRef(soot.Scene.v().getSootClass("java.lang.Class"), "desiredAssertionStatus", new ArrayList(), soot.BooleanType.v(), false);
         soot.jimple.VirtualInvokeExpr vInvoke = soot.jimple.Jimple.v().newVirtualInvokeExpr(invokeLocal, vMethodToInvoke, new ArrayList());
 
-        
+
         soot.jimple.AssignStmt testAssign = soot.jimple.Jimple.v().newAssignStmt(boolLocal1, vInvoke);
 
         body.getUnits().add(testAssign);
-        
+
         // if
         soot.jimple.ConditionExpr cond2 = soot.jimple.Jimple.v().newNeExpr(boolLocal1, soot.jimple.IntConstant.v(0));
 
         soot.jimple.NopStmt nop3 = soot.jimple.Jimple.v().newNopStmt();
-        
+
         soot.jimple.IfStmt ifStmt2 = soot.jimple.Jimple.v().newIfStmt(cond2, nop3);
         body.getUnits().add(ifStmt2);
 
@@ -222,35 +218,35 @@ public class PolyglotMethodSource implements MethodSource {
         body.getUnits().add(goto2);
 
         body.getUnits().add(nop3);
-        
+
         soot.jimple.AssignStmt conAssign = soot.jimple.Jimple.v().newAssignStmt(boolLocal2, soot.jimple.IntConstant.v(0));
 
         body.getUnits().add(conAssign);
 
         body.getUnits().add(nop4);
-        
+
         // field assign
         soot.SootFieldRef fieldD = Scene.v().makeFieldRef(body.getMethod().getDeclaringClass(), "$assertionsDisabled", soot.BooleanType.v(), true);
 
         soot.jimple.FieldRef fieldRefD = soot.jimple.Jimple.v().newStaticFieldRef(fieldD);
         soot.jimple.AssignStmt fAssign = soot.jimple.Jimple.v().newAssignStmt(fieldRefD, boolLocal2);
         body.getUnits().add(fAssign);
-        
+
     }
 
-    public void setFinalsList(ArrayList<SootField> list){
-        finalsList = list;
-    }
-
-    public ArrayList<SootField> getFinalsList(){
+    public ArrayList<SootField> getFinalsList() {
         return finalsList;
     }
 
-    public void setNewToOuterMap(HashMap map){
-        newToOuterMap = map;
+    public void setFinalsList(ArrayList<SootField> list) {
+        finalsList = list;
     }
 
-    public HashMap getNewToOuterMap(){
+    public HashMap getNewToOuterMap() {
         return newToOuterMap;
+    }
+
+    public void setNewToOuterMap(HashMap map) {
+        newToOuterMap = map;
     }
 }

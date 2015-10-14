@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TByte extends Token
-{
-    public TByte()
-    {
+public final class TByte extends Token {
+    public TByte() {
         super.setText("byte");
     }
 
-    public TByte(int line, int pos)
-    {
+    public TByte(int line, int pos) {
         super.setText("byte");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TByte(getLine(), getPos());
+    public Object clone() {
+        return new TByte(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTByte(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TByte text.");
     }
 }

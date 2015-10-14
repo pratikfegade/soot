@@ -26,55 +26,50 @@
 
 package soot.tagkit;
 
-import java.io.UnsupportedEncodingException;
-import soot.*;
+import soot.SootClass;
 
-public class OuterClassTag implements Tag
-{
+import java.io.UnsupportedEncodingException;
+
+public class OuterClassTag implements Tag {
     SootClass outerClass;
     String simpleName;
     boolean anon;
-    
-    public OuterClassTag(SootClass outer, String simpleName, boolean anon)
-    {
-	    this.outerClass = outer;
+
+    public OuterClassTag(SootClass outer, String simpleName, boolean anon) {
+        this.outerClass = outer;
         this.simpleName = simpleName;
         this.anon = anon;
     }
 
-    public String getName()
-    {
-	    return "OuterClassTag";
+    public String getName() {
+        return "OuterClassTag";
     }
 
     /**
      */
-    public byte[] getValue()
-    {
-	try {
-		return outerClass.getName().getBytes("UTF8");
-	} catch (UnsupportedEncodingException e) {
-		return new byte[0];
-	}
+    public byte[] getValue() {
+        try {
+            return outerClass.getName().getBytes("UTF8");
+        } catch (UnsupportedEncodingException e) {
+            return new byte[0];
+        }
     }
 
 
-    public SootClass getOuterClass()
-    {
-	    return outerClass;
+    public SootClass getOuterClass() {
+        return outerClass;
     }
 
-    public String getSimpleName(){
+    public String getSimpleName() {
         return simpleName;
     }
-    
-    public boolean isAnon(){
+
+    public boolean isAnon() {
         return anon;
     }
-    
-    public String toString()
-    {
-	return "[outer class="+outerClass.getName()+"]";
+
+    public String toString() {
+        return "[outer class=" + outerClass.getName() + "]";
     }
 }
 

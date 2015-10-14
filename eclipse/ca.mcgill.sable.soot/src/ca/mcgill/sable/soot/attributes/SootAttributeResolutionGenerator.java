@@ -26,20 +26,20 @@ import org.eclipse.ui.IMarkerResolutionGenerator2;
 
 // not used
 public class SootAttributeResolutionGenerator
-	implements IMarkerResolutionGenerator2 {
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IMarkerResolutionGenerator2#hasResolutions(org.eclipse.core.resources.IMarker)
-	 */
-	public boolean hasResolutions(IMarker marker) {
-		return true;
-	}
+        implements IMarkerResolutionGenerator2 {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IMarkerResolutionGenerator#getResolutions(org.eclipse.core.resources.IMarker)
-	 */
-	public IMarkerResolution[] getResolutions(IMarker marker) {
-		return new IMarkerResolution[] {new FindMethodResolver(marker)};
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IMarkerResolutionGenerator2#hasResolutions(org.eclipse.core.resources.IMarker)
+     */
+    public boolean hasResolutions(IMarker marker) {
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.IMarkerResolutionGenerator#getResolutions(org.eclipse.core.resources.IMarker)
+     */
+    public IMarkerResolution[] getResolutions(IMarker marker) {
+        return new IMarkerResolution[]{new FindMethodResolver(marker)};
+    }
 
 }

@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
-
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
@@ -37,28 +36,28 @@ import soot.jimple.Jimple;
 public class MoveInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
-  
-    public MoveInstruction (Instruction instruction, int codeAdress) {
+
+    public MoveInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-       
+    public void jimplify(DexBody body) {
+
         TwoRegisterInstruction i = (TwoRegisterInstruction) instruction;
-        
+
         Debug.printDbg("moveInstruction: ", i);
-        
+
         int dest = i.getRegisterA();
         int source = i.getRegisterB();
         assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), body.getRegisterLocal(source));
         setUnit(assign);
         addTags(assign);
         body.add(assign);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
         }
     }
 

@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TShl extends Token
-{
-    public TShl()
-    {
+public final class TShl extends Token {
+    public TShl() {
         super.setText("<<");
     }
 
-    public TShl(int line, int pos)
-    {
+    public TShl(int line, int pos) {
         super.setText("<<");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TShl(getLine(), getPos());
+    public Object clone() {
+        return new TShl(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTShl(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TShl text.");
     }
 }

@@ -19,7 +19,7 @@
 
 package soot.xml;
 
-import java.io.*;
+import java.io.PrintWriter;
 
 public class Key {
 
@@ -28,19 +28,19 @@ public class Key {
     private final int blue;
     private final String key;
     private String aType;
-    
-    public Key(int r, int g, int b, String k){
+
+    public Key(int r, int g, int b, String k) {
         red = r;
         green = g;
         blue = b;
         key = k;
     }
 
-    public int red(){
+    public int red() {
         return red;
     }
 
-    public int green(){
+    public int green() {
         return green;
     }
 
@@ -48,19 +48,19 @@ public class Key {
         return blue;
     }
 
-    public String key(){
+    public String key() {
         return key;
     }
 
-    public void print(PrintWriter writerOut){
-        writerOut.println("<key red=\""+red()+"\" green=\""+green()+"\" blue=\""+blue()+"\" key=\""+key()+"\" aType=\""+aType()+"\"/>");
+    public void print(PrintWriter writerOut) {
+        writerOut.println("<key red=\"" + red() + "\" green=\"" + green() + "\" blue=\"" + blue() + "\" key=\"" + key() + "\" aType=\"" + aType() + "\"/>");
     }
-    
-    public String aType(){
+
+    public String aType() {
         return aType;
     }
 
-    public void aType(String s){
+    public void aType(String s) {
         aType = s;
     }
 }

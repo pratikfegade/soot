@@ -24,40 +24,41 @@
  */
 
 package soot.tagkit;
-import java.util.*;
 
-/** Represents the visibility of an annotation attribute attatched 
+import java.util.ArrayList;
+
+/**
+ * Represents the visibility of an annotation attribute attatched
  * to a class, field, method or method param (only one of these each)
  * has one or more annotations
  * for Java 1.5.
  */
 
-public class VisibilityAnnotationTag implements  Tag
-{
-    
+public class VisibilityAnnotationTag implements Tag {
+
     private int visibility;
     private ArrayList<AnnotationTag> annotations = null;
-    
-    public VisibilityAnnotationTag(int vis){
+
+    public VisibilityAnnotationTag(int vis) {
         this.visibility = vis;
     }
-    
+
     // should also print here number of annotations and perhaps the annotations themselves
     public String toString() {
         StringBuffer sb = new StringBuffer("Visibility Annotation: level: ");
-        switch(visibility) {
-        case AnnotationConstants.RUNTIME_INVISIBLE:
-        	sb.append("CLASS (runtime-invisible)");
-        	break;
-        case AnnotationConstants.RUNTIME_VISIBLE:
-        	sb.append("RUNTIME (runtime-visible)");
-        	break;
-        case AnnotationConstants.SOURCE_VISIBLE:
-        	sb.append("SOURCE");
-        	break;
-        }        
-        sb.append("\n Annotations:"); 
-        if (annotations != null){
+        switch (visibility) {
+            case AnnotationConstants.RUNTIME_INVISIBLE:
+                sb.append("CLASS (runtime-invisible)");
+                break;
+            case AnnotationConstants.RUNTIME_VISIBLE:
+                sb.append("RUNTIME (runtime-visible)");
+                break;
+            case AnnotationConstants.SOURCE_VISIBLE:
+                sb.append("SOURCE");
+                break;
+        }
+        sb.append("\n Annotations:");
+        if (annotations != null) {
             for (AnnotationTag tag : annotations) {
                 sb.append("\n");
                 sb.append(tag.toString());
@@ -67,36 +68,40 @@ public class VisibilityAnnotationTag implements  Tag
         return sb.toString();
     }
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "VisibilityAnnotationTag";
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return "VisibilityAnnotation";
     }
-    
-    public int getVisibility(){
+
+    public int getVisibility() {
         return visibility;
     }
-    
-    /** Returns the tag raw data. */
+
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "VisibilityAnnotationTag has no value for bytecode" );
+        throw new RuntimeException("VisibilityAnnotationTag has no value for bytecode");
     }
 
-    public void addAnnotation(AnnotationTag a){
-        if (annotations == null){
+    public void addAnnotation(AnnotationTag a) {
+        if (annotations == null) {
             annotations = new ArrayList<AnnotationTag>();
         }
         annotations.add(a);
     }
 
-    public ArrayList<AnnotationTag> getAnnotations(){
+    public ArrayList<AnnotationTag> getAnnotations() {
         return annotations;
     }
 
-    public boolean hasAnnotations(){
+    public boolean hasAnnotations() {
         return annotations == null ? false : true;
     }
 }

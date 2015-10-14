@@ -20,58 +20,40 @@
 package ca.mcgill.sable.soot.attributes;
 
 
-import java.util.HashMap;
-import java.util.Iterator;
-
-
+import org.eclipse.core.resources.*;
 import org.eclipse.ui.*;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
-import org.eclipse.ui.texteditor.MarkerUtilities;
 
-
-
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 //import org.eclipse.jface.text.TextPresentation;
-
-import ca.mcgill.sable.soot.*;
-import ca.mcgill.sable.soot.editors.*;
-
 
 
 public class SootAttributesJimpleHover extends AbstractSootAttributesHover {//implements ITextHover {
 
-	
-	
-	
-	public SootAttributesJimpleHover(IEditorPart editor) {
-		setEditor(editor);
-	}
-	
-	
-	
-	protected String getAttributes(AbstractTextEditor editor) {
-	
-		
-		JimpleAttributesComputer jac = new JimpleAttributesComputer();
-		SootAttributesHandler handler = jac.getAttributesHandler(editor);
-				
-		
-		
-		if (handler != null){			
-		
-	
-			return handler.getJimpleAttributes(
-			getLineNum());
-			
-		}
-		else {
-			return null;
-		}
-		
-		
-	}
+
+    public SootAttributesJimpleHover(IEditorPart editor) {
+        setEditor(editor);
+    }
+
+
+    protected String getAttributes(AbstractTextEditor editor) {
+
+
+        JimpleAttributesComputer jac = new JimpleAttributesComputer();
+        SootAttributesHandler handler = jac.getAttributesHandler(editor);
+
+
+        if (handler != null) {
+
+
+            return handler.getJimpleAttributes(
+                    getLineNum());
+
+        } else {
+            return null;
+        }
+
+
+    }
 
 
 }

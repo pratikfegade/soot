@@ -18,6 +18,15 @@
  */
 package soot.jimple.spark.ondemand.pautil;
 
+import soot.G;
+import soot.SootMethod;
+import soot.jimple.InvokeExpr;
+import soot.jimple.spark.ondemand.genericutil.ArraySet;
+import soot.jimple.spark.ondemand.genericutil.ArraySetMultiMap;
+import soot.jimple.spark.pag.*;
+import soot.toolkits.scalar.Pair;
+import soot.util.HashMultiMap;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,22 +35,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import soot.G;
-import soot.SootMethod;
-import soot.jimple.InvokeExpr;
-import soot.jimple.spark.ondemand.genericutil.ArraySet;
-import soot.jimple.spark.ondemand.genericutil.ArraySetMultiMap;
-import soot.jimple.spark.pag.GlobalVarNode;
-import soot.jimple.spark.pag.LocalVarNode;
-import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.PAG;
-import soot.jimple.spark.pag.VarNode;
-import soot.toolkits.scalar.Pair;
-import soot.util.HashMultiMap;
-
 /**
  * Information for a context-sensitive analysis, eg. for call sites
- * 
+ *
  * @author manu
  */
 public class ContextSensitiveInfo {
@@ -88,12 +84,12 @@ public class ContextSensitiveInfo {
     private final ArraySetMultiMap<LocalVarNode, Integer> receiverToVirtCallSites = new ArraySetMultiMap<LocalVarNode, Integer>();
 
     /**
-     * 
+     *
      */
     public ContextSensitiveInfo(PAG pag) {
         // set up method to node map
         for (Iterator iter = pag.getVarNodeNumberer().iterator(); iter
-                .hasNext();) {
+                .hasNext(); ) {
             VarNode varNode = (VarNode) iter.next();
             if (varNode instanceof LocalVarNode) {
                 LocalVarNode local = (LocalVarNode) varNode;
@@ -111,7 +107,7 @@ public class ContextSensitiveInfo {
         int callSiteNum = 0;
         // first, add regular assigns
         Set assignSources = pag.simpleSources();
-        for (Iterator iter = assignSources.iterator(); iter.hasNext();) {
+        for (Iterator iter = assignSources.iterator(); iter.hasNext(); ) {
             VarNode assignSource = (VarNode) iter.next();
             if (skipNode(assignSource)) {
                 continue;
@@ -180,7 +176,7 @@ public class ContextSensitiveInfo {
                 e.printStackTrace();
             }
         }
-        for (Iterator iter = callAssigns.keySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = callAssigns.keySet().iterator(); iter.hasNext(); ) {
             InvokeExpr ie = (InvokeExpr) iter.next();
             Integer callSite = new Integer(callSiteNum++);
             callSiteToInvokedMethod.put(callSite, ie.getMethod());
@@ -198,11 +194,11 @@ public class ContextSensitiveInfo {
                 receiverToVirtCallSites.put(receiver, callSite);
             }
             Set curEdges = callAssigns.get(ie);
-            for (Iterator iterator = curEdges.iterator(); iterator.hasNext();) {
+            for (Iterator iterator = curEdges.iterator(); iterator.hasNext(); ) {
                 Pair callAssign = (Pair) iterator.next();
                 //for reflective calls, the "O1" value can actually be a FieldRefNode
                 //we simply ignore such cases here (appears to be sound)
-                if(!(callAssign.getO1() instanceof VarNode)) continue;
+                if (!(callAssign.getO1() instanceof VarNode)) continue;
                 VarNode src = (VarNode) callAssign.getO1();
                 VarNode dst = (VarNode) callAssign.getO2();
                 if (skipNode(src)) {
@@ -269,7 +265,7 @@ public class ContextSensitiveInfo {
             for (AssignEdge edge : assigns) {
                 if (edge.isCallEdge()) {
                     if (edge.getCallSite() == null) {
-                    	G.v().out.println(edge + " is weird!!");
+                        G.v().out.println(edge + " is weird!!");
                         return false;
                     }
                 }
@@ -281,7 +277,7 @@ public class ContextSensitiveInfo {
     @SuppressWarnings("unused")
     private String assignEdgesWellFormed(PAG pag) {
         for (Iterator iter = pag.getVarNodeNumberer().iterator(); iter
-                .hasNext();) {
+                .hasNext(); ) {
             VarNode v = (VarNode) iter.next();
             Set<AssignEdge> outgoingAssigns = getAssignBarEdges(v);
             for (AssignEdge edge : outgoingAssigns) {
@@ -321,7 +317,6 @@ public class ContextSensitiveInfo {
     }
 
     /**
-     * 
      * @param node
      * @return edges capturing assign flow <em>into</em> node
      */

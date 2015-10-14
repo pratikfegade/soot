@@ -27,44 +27,42 @@
 package soot.jimple.internal;
 
 import soot.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.util.Switch;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
-public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
-{
-    Type baseType;
+public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf {
     final ValueBox sizeBox;
+    Type baseType;
 
-    protected AbstractNewArrayExpr(Type type, ValueBox sizeBox)
-    {
-      this.baseType = type; this.sizeBox = sizeBox;
+    protected AbstractNewArrayExpr(Type type, ValueBox sizeBox) {
+        this.baseType = type;
+        this.sizeBox = sizeBox;
     }
 
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof AbstractNewArrayExpr)
-        {
-            AbstractNewArrayExpr ae = (AbstractNewArrayExpr)o;
+    public boolean equivTo(Object o) {
+        if (o instanceof AbstractNewArrayExpr) {
+            AbstractNewArrayExpr ae = (AbstractNewArrayExpr) o;
             return sizeBox.getValue().equivTo(ae.sizeBox.getValue()) &&
-                baseType.equals(ae.baseType);
+                    baseType.equals(ae.baseType);
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return sizeBox.getValue().equivHashCode() * 101 + baseType.hashCode() * 17;
     }
 
     public abstract Object clone();
-    
-    public String toString()
-    {
+
+    public String toString() {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append(Jimple.NEWARRAY + " (" + getBaseTypeString() + ")");
@@ -72,7 +70,7 @@ public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
 
         return buffer.toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(Jimple.NEWARRAY);
         up.literal(" ");
@@ -83,40 +81,33 @@ public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
         sizeBox.toString(up);
         up.literal("]");
     }
-    
-    private String getBaseTypeString()
-    {
-	return baseType.toString();
+
+    private String getBaseTypeString() {
+        return baseType.toString();
     }
 
-    public Type getBaseType()
-    {
+    public Type getBaseType() {
         return baseType;
     }
 
-    public void setBaseType(Type type)
-    {
+    public void setBaseType(Type type) {
         baseType = type;
     }
 
-    public ValueBox getSizeBox()
-    {
+    public ValueBox getSizeBox() {
         return sizeBox;
     }
 
-    public Value getSize()
-    {
+    public Value getSize() {
         return sizeBox.getValue();
     }
 
-    public void setSize(Value size)
-    {
+    public void setSize(Value size) {
         sizeBox.setValue(size);
     }
 
     @Override
-    public final List<ValueBox> getUseBoxes()
-    {
+    public final List<ValueBox> getUseBoxes() {
         List<ValueBox> useBoxes = new ArrayList<ValueBox>();
 
         useBoxes.addAll(sizeBox.getValue().getUseBoxes());
@@ -126,26 +117,23 @@ public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
     }
 
 
-    public Type getType()
-    {
-        if(baseType instanceof ArrayType)
+    public Type getType() {
+        if (baseType instanceof ArrayType)
             return ArrayType.v(((ArrayType) baseType).baseType, ((ArrayType) baseType).numDimensions + 1);
         else
             return ArrayType.v(baseType, 1);
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ExprSwitch) sw).caseNewArrayExpr(this);
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-       ((ConvertToBaf)(getSize())).convertToBaf(context, out);
-       
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getSize())).convertToBaf(context, out);
 
-       Unit u = Baf.v().newNewArrayInst(getBaseType());
-       out.add(u);	
-       u.addAllTagsOf(context.getCurrentUnit());	
+
+        Unit u = Baf.v().newNewArrayInst(getBaseType());
+        out.add(u);
+        u.addAllTagsOf(context.getCurrentUnit());
     }
 }

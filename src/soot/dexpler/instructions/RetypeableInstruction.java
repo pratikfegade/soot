@@ -34,22 +34,22 @@ import soot.dexpler.DexBody;
  *
  * @author Michael Markert <michael.markert@googlemail.com>
  */
-public interface RetypeableInstruction  {
+public interface RetypeableInstruction {
     /**
      * Swap generic exception type with the given one.
      *
      * @param body the body that contains the instruction
-     * @param t the real type.
+     * @param t    the real type.
      */
-    public void setRealType(DexBody body, Type t);
+    void setRealType(DexBody body, Type t);
 
     /**
      * Do actual retype.
-     *
+     * <p/>
      * Retyping is separated from setting the type, to make it possible to
      * retype after local splitting.
-     * 
+     *
      * @param body The body containing the processed statement
      */
-    public void retype(Body body);
+    void retype(Body body);
 }

@@ -25,26 +25,36 @@
 
 package soot.baf;
 
-import java.util.*;
-
-import soot.*;
+import soot.Unit;
+import soot.UnitBox;
 import soot.jimple.IntConstant;
 
-public interface LookupSwitchInst extends Inst
-{
-    public Unit getDefaultTarget();
-    public void setDefaultTarget(Unit defTarget);
-    public UnitBox getDefaultTargetBox();
+import java.util.List;
 
-    public void setLookupValue(int index, int value);
-    public int getLookupValue(int index);
-    public List<IntConstant> getLookupValues();
-    public void setLookupValues(List<IntConstant> values);
-    
-    public int getTargetCount();
-    public Unit getTarget(int index);
-    public UnitBox getTargetBox(int index);
-    public void setTarget(int index, Unit target);
-    public List<Unit> getTargets();
-    public void setTargets(List<Unit> targets);
+public interface LookupSwitchInst extends Inst {
+    Unit getDefaultTarget();
+
+    void setDefaultTarget(Unit defTarget);
+
+    UnitBox getDefaultTargetBox();
+
+    void setLookupValue(int index, int value);
+
+    int getLookupValue(int index);
+
+    List<IntConstant> getLookupValues();
+
+    void setLookupValues(List<IntConstant> values);
+
+    int getTargetCount();
+
+    Unit getTarget(int index);
+
+    UnitBox getTargetBox(int index);
+
+    void setTarget(int index, Unit target);
+
+    List<Unit> getTargets();
+
+    void setTargets(List<Unit> targets);
 }

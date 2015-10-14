@@ -1,4 +1,3 @@
-
 /* Soot - a J*va Optimization Framework
  * Copyright (C) 2003 Ondrej Lhotak
  *
@@ -21,36 +20,36 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
 
-/** Option parser for Call Graph Grapher. */
-public class CGGOptions
-{
+import java.util.Map;
+
+/**
+ * Option parser for Call Graph Grapher.
+ */
+public class CGGOptions {
     private Map<String, String> options;
 
-    public CGGOptions( Map<String, String> options ) {
+    public CGGOptions(Map<String, String> options) {
         this.options = options;
     }
-    
-    /** Enabled --
-    
+
+    /**
+     * Enabled --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean enabled() {
-        return soot.PhaseOptions.getBoolean( options, "enabled" );
+        return soot.PhaseOptions.getBoolean(options, "enabled");
     }
-    
-    /** Show Library Methods --
-    
+
+    /**
+     * Show Library Methods --
+     * <p/>
      * .
-    
-     * 
      */
     public boolean show_lib_meths() {
-        return soot.PhaseOptions.getBoolean( options, "show-lib-meths" );
+        return soot.PhaseOptions.getBoolean(options, "show-lib-meths");
     }
-    
+
 }
         

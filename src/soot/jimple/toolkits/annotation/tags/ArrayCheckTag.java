@@ -25,66 +25,62 @@
 
 package soot.jimple.toolkits.annotation.tags;
 
-/** Implementation of the Tag interface for array bounds checks.
+/**
+ * Implementation of the Tag interface for array bounds checks.
  */
-public class ArrayCheckTag implements OneByteCodeTag
-{
+public class ArrayCheckTag implements OneByteCodeTag {
     private final static String NAME = "ArrayCheckTag";
 
     private boolean lowerCheck = true;
     private boolean upperCheck = true;
 
-    /** 
+    /**
      * A tag represents two bounds checks of an array reference.
      * The value 'true' indicates check needed.
      */
-    public ArrayCheckTag(boolean lower, boolean upper)
-    {
-	lowerCheck = lower;
-	upperCheck = upper;
+    public ArrayCheckTag(boolean lower, boolean upper) {
+        lowerCheck = lower;
+        upperCheck = upper;
     }
 
-    /** 
+    /**
      * Returns back the check information in binary form, which
      * will be written into the class file.
-     */    
-    public byte[] getValue()
-    {
+     */
+    public byte[] getValue() {
         byte[] value = new byte[1];
 
-	value[0] = 0;
-	
-	if (lowerCheck)
-	    value[0] |= 0x01;
-	
-	if (upperCheck)
-	    value[0] |= 0x02;
+        value[0] = 0;
 
-	return value;
-    }
-   
-  /** Needs upper bound check?
-   */ 
-    public boolean isCheckUpper()
-    {
-	return upperCheck;
-    }
-   
-  /** Needs lower bound check?
-   */ 
-    public boolean isCheckLower()
-    {
-	return lowerCheck;
+        if (lowerCheck)
+            value[0] |= 0x01;
+
+        if (upperCheck)
+            value[0] |= 0x02;
+
+        return value;
     }
 
-    public String getName()
-    {
-	return NAME;
+    /**
+     * Needs upper bound check?
+     */
+    public boolean isCheckUpper() {
+        return upperCheck;
     }
 
-    public String toString()
-    {
-	return   (lowerCheck ? "[potentially unsafe lower bound]": "[safe lower bound]") +"" +  (upperCheck ? "[potentially unsafe upper bound]":"[safe upper bound]");
+    /**
+     * Needs lower bound check?
+     */
+    public boolean isCheckLower() {
+        return lowerCheck;
+    }
+
+    public String getName() {
+        return NAME;
+    }
+
+    public String toString() {
+        return (lowerCheck ? "[potentially unsafe lower bound]" : "[safe lower bound]") + "" + (upperCheck ? "[potentially unsafe upper bound]" : "[safe upper bound]");
     }
 }
 

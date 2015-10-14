@@ -20,18 +20,28 @@
 package soot.dava.toolkits.base.AST.transformations;
 
 import soot.*;
-import soot.dava.*;
+import soot.dava.DavaBody;
+import soot.dava.DecompilationException;
+import soot.dava.internal.AST.ASTMethodNode;
+import soot.dava.internal.AST.ASTNode;
+import soot.dava.internal.AST.ASTStatementSequenceNode;
+import soot.dava.internal.AST.ASTTryNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DInstanceFieldRef;
+import soot.dava.internal.javaRep.DIntConstant;
+import soot.dava.internal.javaRep.DStaticFieldRef;
+import soot.dava.internal.javaRep.DVariableDeclarationStmt;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.dava.toolkits.base.AST.structuredAnalysis.MustMayInitialize;
+import soot.dava.toolkits.base.AST.traversals.AllVariableUses;
+import soot.grimp.internal.GAssignStmt;
 import soot.jimple.*;
-import soot.jimple.internal.*;
-import soot.grimp.internal.*;
-import soot.dava.internal.AST.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.toolkits.base.AST.analysis.*;
-import soot.dava.toolkits.base.AST.traversals.*;
-import soot.dava.toolkits.base.AST.structuredAnalysis.*;
+import soot.jimple.internal.JimpleLocal;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Maintained by: Nomair A. Naeem
@@ -42,7 +52,6 @@ import java.util.*;
  * might not be initialized error that used to show up when recompiling
  * decompiled code Will be throughly covered in "Programmer Friendly Code" Sable
  * Tech Report (2006)
- * 
  */
 
 /*
@@ -51,255 +60,255 @@ import java.util.*;
  * initialized on multiple paths but not all) then we remove the final keyword
  */
 public class FinalFieldDefinition {// extends DepthFirstAdapter{
-	SootClass sootClass;
+    SootClass sootClass;
 
-	SootMethod sootMethod;
+    SootMethod sootMethod;
 
-	DavaBody davaBody;
-	
-	List<SootField> cancelFinalModifier;
+    DavaBody davaBody;
 
-	public FinalFieldDefinition(ASTMethodNode node) {
-		davaBody = node.getDavaBody();
-		sootMethod = davaBody.getMethod();
-		sootClass = sootMethod.getDeclaringClass();
+    List<SootField> cancelFinalModifier;
 
-		String subSignature = sootMethod.getName();
-		if (!(subSignature.compareTo("<clinit>") == 0 || subSignature
-				.compareTo("<init>") == 0)) {
-			// dont care about these since we want only static block and
-			// constructors
-			// System.out.println("\n\nName"+sootMethod.getName()+"
-			// SubSignature:"+sootMethod.getSubSignature());
-			return;
-		}
+    public FinalFieldDefinition(ASTMethodNode node) {
+        davaBody = node.getDavaBody();
+        sootMethod = davaBody.getMethod();
+        sootClass = sootMethod.getDeclaringClass();
 
-		// create a list of interesting vars
-		ArrayList<SootField> interesting = findFinalFields();
-		if (interesting.size() == 0) {
-			// no final fields of interest
-			return;
-		}
+        String subSignature = sootMethod.getName();
+        if (!(subSignature.compareTo("<clinit>") == 0 || subSignature
+                .compareTo("<init>") == 0)) {
+            // dont care about these since we want only static block and
+            // constructors
+            // System.out.println("\n\nName"+sootMethod.getName()+"
+            // SubSignature:"+sootMethod.getSubSignature());
+            return;
+        }
 
-		cancelFinalModifier = new ArrayList<SootField>();
-		analyzeMethod(node, interesting);
+        // create a list of interesting vars
+        ArrayList<SootField> interesting = findFinalFields();
+        if (interesting.size() == 0) {
+            // no final fields of interest
+            return;
+        }
 
-		Iterator<SootField> it = cancelFinalModifier.iterator();
-		while (it.hasNext()) {
-			SootField field = it.next();
-			field.setModifiers((soot.Modifier.FINAL ^ 0xFFFF)
-					& field.getModifiers());
-		}
-	}
+        cancelFinalModifier = new ArrayList<SootField>();
+        analyzeMethod(node, interesting);
+
+        Iterator<SootField> it = cancelFinalModifier.iterator();
+        while (it.hasNext()) {
+            SootField field = it.next();
+            field.setModifiers((soot.Modifier.FINAL ^ 0xFFFF)
+                    & field.getModifiers());
+        }
+    }
+
+    /*
+     * this method finds all the final fields in this class and assigns them to
+     * the finalFields list
+     *
+     * Note this stores a list of SootFields!!!
+     *
+     * Fields which are initialized in their declaration should not be added
+     */
+    public ArrayList<SootField> findFinalFields() {
+
+        // first thing is to get a list of all final fields in the class
+        ArrayList<SootField> interestingFinalFields = new ArrayList<SootField>();
+
+        Iterator fieldIt = sootClass.getFields().iterator();
+        while (fieldIt.hasNext()) {
+            SootField tempField = (SootField) fieldIt.next();
+            if (tempField.isFinal()) {
+
+                // if its static final and method is static add
+                if (tempField.isStatic()
+                        && sootMethod.getName().compareTo("<clinit>") == 0) {
+                    interestingFinalFields.add(tempField);
+                }
+
+                // if its non static and final and method is constructor add
+                if ((!tempField.isStatic())
+                        && sootMethod.getName().compareTo("<init>") == 0) {
+                    interestingFinalFields.add(tempField);
+                }
+            }
+        }
+        return interestingFinalFields;
+    }
+
+    public void analyzeMethod(ASTMethodNode node, List<SootField> varsOfInterest) {
+        MustMayInitialize must = new MustMayInitialize(node,
+                MustMayInitialize.MUST);
+
+        Iterator<SootField> it = varsOfInterest.iterator();
+        while (it.hasNext()) {
+            SootField interest = it.next();
+
+            // check for constant value tags
+            Type fieldType = interest.getType();
+            if (fieldType instanceof DoubleType
+                    && interest.hasTag("DoubleConstantValueTag")) {
+                continue;
+            } else if (fieldType instanceof FloatType
+                    && interest.hasTag("FloatConstantValueTag")) {
+                continue;
+            } else if (fieldType instanceof LongType
+                    && interest.hasTag("LongConstantValueTag")) {
+                continue;
+            } else if (fieldType instanceof CharType
+                    && interest.hasTag("IntegerConstantValueTag")) {
+                continue;
+            } else if (fieldType instanceof BooleanType
+                    && interest.hasTag("IntegerConstantValueTag")) {
+                continue;
+            } else if ((fieldType instanceof IntType
+                    || fieldType instanceof ByteType || fieldType instanceof ShortType)
+                    && interest.hasTag("IntegerConstantValueTag")) {
+                continue;
+            } else if (interest.hasTag("StringConstantValueTag")) {
+                continue;
+            }
+
+            if (must.isMustInitialized(interest)) {
+                // was initialized on all paths couldnt ask for more
+                continue;
+            }
+
+            // System.out.println("SootField: "+interest+" not initialized.
+            // checking may analysis");
+            MustMayInitialize may = new MustMayInitialize(node,
+                    MustMayInitialize.MAY);
+            if (may.isMayInitialized(interest)) {
+                // System.out.println("It is initialized on some path just not
+                // all paths\n");
+                List defs = must.getDefs(interest);
+                if (defs == null)
+                    throw new RuntimeException("Sootfield: " + interest
+                            + " is mayInitialized but the defs is null");
+
+                handleAssignOnSomePaths(node, interest, defs);
+            } else {
+                // not initialized on any path., assign default
+                // System.out.println("Final field is not initialized on any
+                // path--------ASSIGN DEFAULT VALUE");
+                assignDefault(node, interest);
+            }
+        }
+    }
+
+    /*
+     * One gets to this method only if there was NO definition of a static final
+     * field in the static body At the same time no TAG with a constant value
+     * matched, so we know the static final was not initialized at declaration
+     * time If this happens: though it shouldnt unless u come from non-java
+     * compilers...insert default value initialization into the static
+     * method...right at the end to make things easy
+     */
+    public void assignDefault(ASTMethodNode node, SootField f) {
+
+        // create initialization stmt
+        AugmentedStmt defaultStmt = createDefaultStmt(f);
+
+        if (defaultStmt == null)
+            return;
+
+        List<Object> subBodies = node.get_SubBodies();
+        if (subBodies.size() != 1)
+            throw new RuntimeException(
+                    "SubBodies size of method node not equal to 1");
+
+        List<Object> body = (List<Object>) subBodies.get(0);
+
+        // check if the bodys last node is an ASTStatementSequenceNode where we
+        // might be able to add
+
+        boolean done = false;
+        if (body.size() != 0) {
+            ASTNode lastNode = (ASTNode) body.get(body.size() - 1);
+            if (lastNode instanceof ASTStatementSequenceNode) {
+                List<Object> stmts = ((ASTStatementSequenceNode) lastNode)
+                        .getStatements();
+                if (stmts.size() != 0) {
+                    Stmt s = ((AugmentedStmt) stmts.get(0)).get_Stmt();
+                    if (!(s instanceof DVariableDeclarationStmt)) {
+                        // can add statement here
+                        stmts.add(defaultStmt);
+
+                        ASTStatementSequenceNode newNode = new ASTStatementSequenceNode(
+                                stmts);
+                        // replace this node with the original node
+
+                        body.remove(body.size() - 1);
+                        body.add(newNode);
+
+                        node.replaceBody(body);
+                        done = true;
+                    }
+                }
+            }
+        }
+        if (!done) {
+            List<Object> newBody = new ArrayList<Object>();
+            newBody.add(defaultStmt);
+
+            ASTStatementSequenceNode newNode = new ASTStatementSequenceNode(
+                    newBody);
+            body.add(newNode);
+
+            node.replaceBody(body);
+        }
+
+    }
+
+    public AugmentedStmt createDefaultStmt(Object field) {
+
+        Value ref = null;
+        Type fieldType = null;
+        if (field instanceof SootField) {
+            // have to make a static field ref
+            SootFieldRef tempFieldRef = ((SootField) field).makeRef();
+
+            fieldType = ((SootField) field).getType();
+            if (((SootField) field).isStatic())
+                ref = new DStaticFieldRef(tempFieldRef, true);
+            else
+                ref = new DInstanceFieldRef(new JimpleLocal("this", fieldType),
+                        tempFieldRef, new HashSet<Object>());
+
+        } else if (field instanceof Local) {
+            ref = (Local) field;
+            fieldType = ((Local) field).getType();
+        }
+
+        GAssignStmt assignStmt = null;
+
+        if (fieldType instanceof RefType) {
+            assignStmt = new GAssignStmt(ref, NullConstant.v());
+        } else if (fieldType instanceof DoubleType) {
+            assignStmt = new GAssignStmt(ref, DoubleConstant.v(0));
+        } else if (fieldType instanceof FloatType) {
+            assignStmt = new GAssignStmt(ref, FloatConstant.v(0));
+        } else if (fieldType instanceof LongType) {
+            assignStmt = new GAssignStmt(ref, LongConstant.v(0));
+        } else if (fieldType instanceof IntType
+                || fieldType instanceof ByteType
+                || fieldType instanceof ShortType
+                || fieldType instanceof CharType
+                || fieldType instanceof BooleanType) {
+
+            assignStmt = new GAssignStmt(ref, DIntConstant.v(0, fieldType));
+        }
+
+        if (assignStmt != null) {
+            // System.out.println("AssignStmt is"+assignStmt);
+            AugmentedStmt as = new AugmentedStmt(assignStmt);
+            return as;
+        } else
+            return null;
+
+    }
 
 	/*
-	 * this method finds all the final fields in this class and assigns them to
-	 * the finalFields list
-	 * 
-	 * Note this stores a list of SootFields!!!
-	 * 
-	 * Fields which are initialized in their declaration should not be added
-	 */
-	public ArrayList<SootField> findFinalFields() {
-
-		// first thing is to get a list of all final fields in the class
-		ArrayList<SootField> interestingFinalFields = new ArrayList<SootField>();
-
-		Iterator fieldIt = sootClass.getFields().iterator();
-		while (fieldIt.hasNext()) {
-			SootField tempField = (SootField) fieldIt.next();
-			if (tempField.isFinal()) {
-
-				// if its static final and method is static add
-				if (tempField.isStatic()
-						&& sootMethod.getName().compareTo("<clinit>") == 0) {
-					interestingFinalFields.add(tempField);
-				}
-
-				// if its non static and final and method is constructor add
-				if ((!tempField.isStatic())
-						&& sootMethod.getName().compareTo("<init>") == 0) {
-					interestingFinalFields.add(tempField);
-				}
-			}
-		}
-		return interestingFinalFields;
-	}
-
-	public void analyzeMethod(ASTMethodNode node, List<SootField> varsOfInterest) {
-		MustMayInitialize must = new MustMayInitialize(node,
-				MustMayInitialize.MUST);
-
-		Iterator<SootField> it = varsOfInterest.iterator();
-		while (it.hasNext()) {
-			SootField interest = it.next();
-
-			// check for constant value tags
-			Type fieldType = interest.getType();
-			if (fieldType instanceof DoubleType
-					&& interest.hasTag("DoubleConstantValueTag")) {
-				continue;
-			} else if (fieldType instanceof FloatType
-					&& interest.hasTag("FloatConstantValueTag")) {
-				continue;
-			} else if (fieldType instanceof LongType
-					&& interest.hasTag("LongConstantValueTag")) {
-				continue;
-			} else if (fieldType instanceof CharType
-					&& interest.hasTag("IntegerConstantValueTag")) {
-				continue;
-			} else if (fieldType instanceof BooleanType
-					&& interest.hasTag("IntegerConstantValueTag")) {
-				continue;
-			} else if ((fieldType instanceof IntType
-					|| fieldType instanceof ByteType || fieldType instanceof ShortType)
-					&& interest.hasTag("IntegerConstantValueTag")) {
-				continue;
-			} else if (interest.hasTag("StringConstantValueTag")) {
-				continue;
-			}
-
-			if (must.isMustInitialized(interest)) {
-				// was initialized on all paths couldnt ask for more
-				continue;
-			}
-
-			// System.out.println("SootField: "+interest+" not initialized.
-			// checking may analysis");
-			MustMayInitialize may = new MustMayInitialize(node,
-					MustMayInitialize.MAY);
-			if (may.isMayInitialized(interest)) {
-				// System.out.println("It is initialized on some path just not
-				// all paths\n");
-				List defs = must.getDefs(interest);
-				if (defs == null)
-					throw new RuntimeException("Sootfield: " + interest
-							+ " is mayInitialized but the defs is null");
-
-				handleAssignOnSomePaths(node, interest, defs);
-			} else {
-				// not initialized on any path., assign default
-				// System.out.println("Final field is not initialized on any
-				// path--------ASSIGN DEFAULT VALUE");
-				assignDefault(node, interest);
-			}
-		}
-	}
-
-	/*
-	 * One gets to this method only if there was NO definition of a static final
-	 * field in the static body At the same time no TAG with a constant value
-	 * matched, so we know the static final was not initialized at declaration
-	 * time If this happens: though it shouldnt unless u come from non-java
-	 * compilers...insert default value initialization into the static
-	 * method...right at the end to make things easy
-	 */
-	public void assignDefault(ASTMethodNode node, SootField f) {
-
-		// create initialization stmt
-		AugmentedStmt defaultStmt = createDefaultStmt(f);
-
-		if (defaultStmt == null)
-			return;
-
-		List<Object> subBodies = node.get_SubBodies();
-		if (subBodies.size() != 1)
-			throw new RuntimeException(
-					"SubBodies size of method node not equal to 1");
-
-		List<Object> body = (List<Object>) subBodies.get(0);
-
-		// check if the bodys last node is an ASTStatementSequenceNode where we
-		// might be able to add
-
-		boolean done = false;
-		if (body.size() != 0) {
-			ASTNode lastNode = (ASTNode) body.get(body.size() - 1);
-			if (lastNode instanceof ASTStatementSequenceNode) {
-				List<Object> stmts = ((ASTStatementSequenceNode) lastNode)
-						.getStatements();
-				if (stmts.size() != 0) {
-					Stmt s = ((AugmentedStmt) stmts.get(0)).get_Stmt();
-					if (!(s instanceof DVariableDeclarationStmt)) {
-						// can add statement here
-						stmts.add(defaultStmt);
-
-						ASTStatementSequenceNode newNode = new ASTStatementSequenceNode(
-								stmts);
-						// replace this node with the original node
-
-						body.remove(body.size() - 1);
-						body.add(newNode);
-
-						node.replaceBody(body);
-						done = true;
-					}
-				}
-			}
-		}
-		if (!done) {
-			List<Object> newBody = new ArrayList<Object>();
-			newBody.add(defaultStmt);
-
-			ASTStatementSequenceNode newNode = new ASTStatementSequenceNode(
-					newBody);
-			body.add(newNode);
-
-			node.replaceBody(body);
-		}
-
-	}
-
-	public AugmentedStmt createDefaultStmt(Object field) {
-
-		Value ref = null;
-		Type fieldType = null;
-		if (field instanceof SootField) {
-			// have to make a static field ref
-			SootFieldRef tempFieldRef = ((SootField) field).makeRef();
-
-			fieldType = ((SootField) field).getType();
-			if (((SootField) field).isStatic())
-				ref = new DStaticFieldRef(tempFieldRef, true);
-			else
-				ref = new DInstanceFieldRef(new JimpleLocal("this", fieldType),
-						tempFieldRef, new HashSet<Object>());
-
-		} else if (field instanceof Local) {
-			ref = (Local) field;
-			fieldType = ((Local) field).getType();
-		}
-
-		GAssignStmt assignStmt = null;
-
-		if (fieldType instanceof RefType) {
-			assignStmt = new GAssignStmt(ref, NullConstant.v());
-		} else if (fieldType instanceof DoubleType) {
-			assignStmt = new GAssignStmt(ref, DoubleConstant.v(0));
-		} else if (fieldType instanceof FloatType) {
-			assignStmt = new GAssignStmt(ref, FloatConstant.v(0));
-		} else if (fieldType instanceof LongType) {
-			assignStmt = new GAssignStmt(ref, LongConstant.v(0));
-		} else if (fieldType instanceof IntType
-				|| fieldType instanceof ByteType
-				|| fieldType instanceof ShortType
-				|| fieldType instanceof CharType
-				|| fieldType instanceof BooleanType) {
-
-			assignStmt = new GAssignStmt(ref, DIntConstant.v(0, fieldType));
-		}
-
-		if (assignStmt != null) {
-			// System.out.println("AssignStmt is"+assignStmt);
-			AugmentedStmt as = new AugmentedStmt(assignStmt);
-			return as;
-		} else
-			return null;
-
-	}
-
-	/*
-	 * A sootfield gets to this method if it was an interesting field i.e static
+     * A sootfield gets to this method if it was an interesting field i.e static
 	 * final for clinit and only final but non static for init and there was
 	 * atleast one place that this var was defined but it was not defined on all
 	 * paths and hence the recompilation will result in an error
@@ -307,30 +316,29 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 	 * try{ staticFinal = defined; } catch(Exception e){}
 	 */
 
-	public void handleAssignOnSomePaths(ASTMethodNode node, SootField field,
-			List defs) {
-	
-		if (defs.size() != 1) {
-			// give up by removing "final" if there are more than one defs
-			cancelFinalModifier.add(field);
-		} else {
-			// if there is only one definition 
+    public void handleAssignOnSomePaths(ASTMethodNode node, SootField field,
+                                        List defs) {
 
-			// see if there is no use of def
-			AllVariableUses varUses = new AllVariableUses(node);
-			node.apply(varUses);
+        if (defs.size() != 1) {
+            // give up by removing "final" if there are more than one defs
+            cancelFinalModifier.add(field);
+        } else {
+            // if there is only one definition
 
-			List allUses = varUses.getUsesForField(field);
+            // see if there is no use of def
+            AllVariableUses varUses = new AllVariableUses(node);
+            node.apply(varUses);
 
-			if (allUses != null && allUses.size() != 0) {
+            List allUses = varUses.getUsesForField(field);
+
+            if (allUses != null && allUses.size() != 0) {
 				/*
 				 * if the number of uses is not 0 then we dont want to get into
 				 * trying to delay initialization just before assignment.
 				 * Easier to remove "final"
 				 */
-				cancelFinalModifier.add(field);
-			} 
-			else {
+                cancelFinalModifier.add(field);
+            } else {
 				/*
 				 * we have a final field with 1 def and 0 uses but is not initialized on all paths
 				 * we can try to delay initialization using an indirect approach
@@ -373,96 +381,94 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 				 *	 	   return;
 				 * 	 	   }
 				 */
-				
-				
-				
-				// Creating STMT0
-				Type localType = field.getType();
-				Local newLocal = new JimpleLocal("DavaTemp_" + field.getName(),localType);
 
-				DVariableDeclarationStmt varStmt = new DVariableDeclarationStmt(localType,davaBody);
-				
-				varStmt.addLocal(newLocal);
-				AugmentedStmt as = new AugmentedStmt(varStmt);
 
-				// System.out.println("Var Decl stmt"+as);
+                // Creating STMT0
+                Type localType = field.getType();
+                Local newLocal = new JimpleLocal("DavaTemp_" + field.getName(), localType);
 
-				// STORE IT IN Methods Declaration Node
-				ASTStatementSequenceNode declNode = node.getDeclarations();
-				List<Object> stmts = declNode.getStatements();
-				stmts.add(as);
-    			
-				declNode = new ASTStatementSequenceNode(stmts);
+                DVariableDeclarationStmt varStmt = new DVariableDeclarationStmt(localType, davaBody);
 
-				List<Object> subBodies = node.get_SubBodies();
-				if (subBodies.size() != 1)
-					throw new DecompilationException("ASTMethodNode does not have one subBody");
+                varStmt.addLocal(newLocal);
+                AugmentedStmt as = new AugmentedStmt(varStmt);
 
-				List<Object> body = (List<Object>) subBodies.get(0);
+                // System.out.println("Var Decl stmt"+as);
 
-				body.remove(0);
-				body.add(0, declNode);
+                // STORE IT IN Methods Declaration Node
+                ASTStatementSequenceNode declNode = node.getDeclarations();
+                List<Object> stmts = declNode.getStatements();
+                stmts.add(as);
 
-				node.replaceBody(body);
+                declNode = new ASTStatementSequenceNode(stmts);
 
-				node.setDeclarations(declNode);
+                List<Object> subBodies = node.get_SubBodies();
+                if (subBodies.size() != 1)
+                    throw new DecompilationException("ASTMethodNode does not have one subBody");
 
-				
-				// STMT1 initialization
-				AugmentedStmt initialization = createDefaultStmt(newLocal);
+                List<Object> body = (List<Object>) subBodies.get(0);
+
+                body.remove(0);
+                body.add(0, declNode);
+
+                node.replaceBody(body);
+
+                node.setDeclarations(declNode);
+
+
+                // STMT1 initialization
+                AugmentedStmt initialization = createDefaultStmt(newLocal);
 				/*
 				 * The first node in a method is the declarations
 				 * we know there is a second node because originaly the
 				 * field was initialized on some path
 				 */
-				if (body.size() < 2)
-					throw new RuntimeException("Size of body is less than 1");
+                if (body.size() < 2)
+                    throw new RuntimeException("Size of body is less than 1");
 
 				/* 
 				 * If the second node is a stmt seq we put STMT1 there
 				 * otherwise we create a new stmt seq node
-				 */ 
+				 */
 
-				ASTNode nodeSecond = (ASTNode) body.get(1);
-				if (nodeSecond instanceof ASTStatementSequenceNode) {
-					// the second node is a stmt seq node just add the stmt here
-					List<Object> stmts1 = ((ASTStatementSequenceNode) nodeSecond).getStatements();
-					stmts1.add(initialization);
-					nodeSecond = new ASTStatementSequenceNode(stmts1);
-					// System.out.println("Init added in exisiting node");
-					body.remove(1);
-				} else {
-					//System.out.println("had to add new node");
-					List<Object> tempList = new ArrayList<Object>();
-					tempList.add(initialization);
-					nodeSecond = new ASTStatementSequenceNode(tempList);
-				}
-				body.add(1, nodeSecond);
-				node.replaceBody(body);
+                ASTNode nodeSecond = (ASTNode) body.get(1);
+                if (nodeSecond instanceof ASTStatementSequenceNode) {
+                    // the second node is a stmt seq node just add the stmt here
+                    List<Object> stmts1 = ((ASTStatementSequenceNode) nodeSecond).getStatements();
+                    stmts1.add(initialization);
+                    nodeSecond = new ASTStatementSequenceNode(stmts1);
+                    // System.out.println("Init added in exisiting node");
+                    body.remove(1);
+                } else {
+                    //System.out.println("had to add new node");
+                    List<Object> tempList = new ArrayList<Object>();
+                    tempList.add(initialization);
+                    nodeSecond = new ASTStatementSequenceNode(tempList);
+                }
+                body.add(1, nodeSecond);
+                node.replaceBody(body);
 
-				
-				
-				//STMT2
-				//done by simply replacing the leftop in the original stmt
-				((GAssignStmt) defs.get(0)).setLeftOp(newLocal);
-				
-				
-				//STMT3
-				
-				// have to make a field ref
-				SootFieldRef tempFieldRef = (field).makeRef();
 
-				Value ref;
-				if (field.isStatic())
-					ref = new DStaticFieldRef(tempFieldRef, true);
-				else {
-					ref = new DInstanceFieldRef(new JimpleLocal("this", field
-							.getType()), tempFieldRef, new HashSet<Object>());
-					// throw new RuntimeException("STOPPED");
-				}
+                //STMT2
+                //done by simply replacing the leftop in the original stmt
+                ((GAssignStmt) defs.get(0)).setLeftOp(newLocal);
 
-				GAssignStmt assignStmt = new GAssignStmt(ref, newLocal);
-				AugmentedStmt assignStmt1 = new AugmentedStmt(assignStmt);
+
+                //STMT3
+
+                // have to make a field ref
+                SootFieldRef tempFieldRef = (field).makeRef();
+
+                Value ref;
+                if (field.isStatic())
+                    ref = new DStaticFieldRef(tempFieldRef, true);
+                else {
+                    ref = new DInstanceFieldRef(new JimpleLocal("this", field
+                            .getType()), tempFieldRef, new HashSet<Object>());
+                    // throw new RuntimeException("STOPPED");
+                }
+
+                GAssignStmt assignStmt = new GAssignStmt(ref, newLocal);
+                AugmentedStmt assignStmt1 = new AugmentedStmt(assignStmt);
 
 
 
@@ -472,104 +478,103 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 				 * we will have a mustInitialize satisfied
 				 */
 
-				//the def is at (GAssignStmt) defs.get(0)
-				//its parent is ASTStatementSequence and its parent is now needed
-				soot.dava.toolkits.base.AST.traversals.ASTParentNodeFinder parentFinder = 
-					new soot.dava.toolkits.base.AST.traversals.ASTParentNodeFinder();
-				node.apply(parentFinder);
-				
-				
-				Object parent = parentFinder.getParentOf(defs.get(0));
-				if(!(parent instanceof ASTStatementSequenceNode)){
-					throw new DecompilationException("Parent of stmt was not a stmt seq node");
-				}
-				
-				Object grandParent = parentFinder.getParentOf(parent);
-				if(grandParent == null){
-					throw new DecompilationException("Parent of stmt seq node was null");
-				}
-				
-				//so we have the parent stmt seq node and the grandparent node
-				//so it is the grandparent which is causing the error in MUSTINitialize
-				//we should move our assign right after the grandParent is done
-				
-				
-				MustMayInitialize must = new MustMayInitialize(node,MustMayInitialize.MUST);
-				while(!must.isMustInitialized(field)) {
-					
-					//System.out.println("not must initialized");
-					Object parentOfGrandParent = parentFinder.getParentOf(grandParent);
-					if( !(grandParent instanceof ASTMethodNode) && parentOfGrandParent == null){
-						throw new DecompilationException("Parent of non method node was null");
-					}
-					boolean notResolved=false;
-					// look for grandParent in parentOfGrandParent
-					ASTNode ancestor = (ASTNode)parentOfGrandParent;
-					List<Object> ancestorBodies = ancestor.get_SubBodies();
-					Iterator<Object> it = ancestorBodies.iterator();
-					while(it.hasNext()){
-						List<ASTStatementSequenceNode> ancestorSubBody = null;
-					
-						if (ancestor instanceof ASTTryNode)
-							ancestorSubBody = (List<ASTStatementSequenceNode>) ((ASTTryNode.container) it.next()).o;
-						else
-							ancestorSubBody = (List<ASTStatementSequenceNode>) it.next();
-					 
-						if(ancestorSubBody.indexOf(grandParent) > -1) {
-							//grandParent is present in this body
-							int index = ancestorSubBody.indexOf(grandParent); 
-							//check the next index
-						
-							if(index+1 < ancestorSubBody.size() && ancestorSubBody.get(index+1) instanceof ASTStatementSequenceNode ){
-								//there is an stmt seq node node after the grandParent
-								ASTStatementSequenceNode someNode = ancestorSubBody.get(index+1);
-							 
-								//add the assign stmt here
-							 
-								List<Object> stmtsLast = (someNode).getStatements();
-								List<Object> newStmts = new ArrayList<Object>();
-								newStmts.add(assignStmt1);
-								newStmts.addAll(stmtsLast);
-								someNode.setStatements(newStmts);
-								//System.out.println("here1");
-								//check if problem is solved else remove the assign and change parents
-								must = new MustMayInitialize(node,MustMayInitialize.MUST);
-								if(!must.isMustInitialized(field)){
-									//problem not solved remove the stmt just added
-									someNode.setStatements(stmtsLast);
-									notResolved=true;
-								}
-							}
-							else{
-								//create a new stmt seq node and add it here
-									List<Object> tempList = new ArrayList<Object>();
-									tempList.add(assignStmt1);
-									ASTStatementSequenceNode lastNode = new ASTStatementSequenceNode(tempList);
-									ancestorSubBody.add(index+1,lastNode);
-									//node.replaceBody(body);
-									//System.out.println("here2");
-									//check if problem is solved else remove the assign and change parents
-									must = new MustMayInitialize(node,MustMayInitialize.MUST);
-									if(!must.isMustInitialized(field)){
-										//problem not solved remove the stmt just added
-										ancestorSubBody.remove(index+1);
-										notResolved=true;
-									}									
-							}
-							break;//break the loop going through subBodies
-						} //if ancestor was found
-							 	
-					 }	//next subBody
-					if(notResolved){
-						//meaning we still dont have must initialization 
-						//we should put assign in one level above than current
-						grandParent = parentFinder.getParentOf(grandParent);
-						//System.out.println("Going one level up");						
-					}									
-				}//while ! ismustinitialized
-			}
-		}
-	}
+                //the def is at (GAssignStmt) defs.get(0)
+                //its parent is ASTStatementSequence and its parent is now needed
+                soot.dava.toolkits.base.AST.traversals.ASTParentNodeFinder parentFinder =
+                        new soot.dava.toolkits.base.AST.traversals.ASTParentNodeFinder();
+                node.apply(parentFinder);
+
+
+                Object parent = parentFinder.getParentOf(defs.get(0));
+                if (!(parent instanceof ASTStatementSequenceNode)) {
+                    throw new DecompilationException("Parent of stmt was not a stmt seq node");
+                }
+
+                Object grandParent = parentFinder.getParentOf(parent);
+                if (grandParent == null) {
+                    throw new DecompilationException("Parent of stmt seq node was null");
+                }
+
+                //so we have the parent stmt seq node and the grandparent node
+                //so it is the grandparent which is causing the error in MUSTINitialize
+                //we should move our assign right after the grandParent is done
+
+
+                MustMayInitialize must = new MustMayInitialize(node, MustMayInitialize.MUST);
+                while (!must.isMustInitialized(field)) {
+
+                    //System.out.println("not must initialized");
+                    Object parentOfGrandParent = parentFinder.getParentOf(grandParent);
+                    if (!(grandParent instanceof ASTMethodNode) && parentOfGrandParent == null) {
+                        throw new DecompilationException("Parent of non method node was null");
+                    }
+                    boolean notResolved = false;
+                    // look for grandParent in parentOfGrandParent
+                    ASTNode ancestor = (ASTNode) parentOfGrandParent;
+                    List<Object> ancestorBodies = ancestor.get_SubBodies();
+                    Iterator<Object> it = ancestorBodies.iterator();
+                    while (it.hasNext()) {
+                        List<ASTStatementSequenceNode> ancestorSubBody = null;
+
+                        if (ancestor instanceof ASTTryNode)
+                            ancestorSubBody = (List<ASTStatementSequenceNode>) ((ASTTryNode.container) it.next()).o;
+                        else
+                            ancestorSubBody = (List<ASTStatementSequenceNode>) it.next();
+
+                        if (ancestorSubBody.indexOf(grandParent) > -1) {
+                            //grandParent is present in this body
+                            int index = ancestorSubBody.indexOf(grandParent);
+                            //check the next index
+
+                            if (index + 1 < ancestorSubBody.size() && ancestorSubBody.get(index + 1) instanceof ASTStatementSequenceNode) {
+                                //there is an stmt seq node node after the grandParent
+                                ASTStatementSequenceNode someNode = ancestorSubBody.get(index + 1);
+
+                                //add the assign stmt here
+
+                                List<Object> stmtsLast = (someNode).getStatements();
+                                List<Object> newStmts = new ArrayList<Object>();
+                                newStmts.add(assignStmt1);
+                                newStmts.addAll(stmtsLast);
+                                someNode.setStatements(newStmts);
+                                //System.out.println("here1");
+                                //check if problem is solved else remove the assign and change parents
+                                must = new MustMayInitialize(node, MustMayInitialize.MUST);
+                                if (!must.isMustInitialized(field)) {
+                                    //problem not solved remove the stmt just added
+                                    someNode.setStatements(stmtsLast);
+                                    notResolved = true;
+                                }
+                            } else {
+                                //create a new stmt seq node and add it here
+                                List<Object> tempList = new ArrayList<Object>();
+                                tempList.add(assignStmt1);
+                                ASTStatementSequenceNode lastNode = new ASTStatementSequenceNode(tempList);
+                                ancestorSubBody.add(index + 1, lastNode);
+                                //node.replaceBody(body);
+                                //System.out.println("here2");
+                                //check if problem is solved else remove the assign and change parents
+                                must = new MustMayInitialize(node, MustMayInitialize.MUST);
+                                if (!must.isMustInitialized(field)) {
+                                    //problem not solved remove the stmt just added
+                                    ancestorSubBody.remove(index + 1);
+                                    notResolved = true;
+                                }
+                            }
+                            break;//break the loop going through subBodies
+                        } //if ancestor was found
+
+                    }    //next subBody
+                    if (notResolved) {
+                        //meaning we still dont have must initialization
+                        //we should put assign in one level above than current
+                        grandParent = parentFinder.getParentOf(grandParent);
+                        //System.out.println("Going one level up");
+                    }
+                }//while ! ismustinitialized
+            }
+        }
+    }
 }
 
 
@@ -581,45 +586,45 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 
 class MethodCallFinder extends DepthFirstAdapter {
 
-	GAssignStmt def;
+    GAssignStmt def;
 
-	boolean foundIt = false;
+    boolean foundIt = false;
 
-	boolean anyMethodCalls = false;
+    boolean anyMethodCalls = false;
 
-	public MethodCallFinder(GAssignStmt def) {
-		this.def = def;
-	}
+    public MethodCallFinder(GAssignStmt def) {
+        this.def = def;
+    }
 
-	public MethodCallFinder(boolean verbose, GAssignStmt def) {
-		super(verbose);
-		this.def = def;
-	}
+    public MethodCallFinder(boolean verbose, GAssignStmt def) {
+        super(verbose);
+        this.def = def;
+    }
 
-	public void outDefinitionStmt(DefinitionStmt s) {
-		if (s instanceof GAssignStmt) {
-			if (((GAssignStmt) s).equals(def)) {
-				foundIt = true;
-				//System.out.println("Found it" + s);
-			}
-		}
-	}
+    public void outDefinitionStmt(DefinitionStmt s) {
+        if (s instanceof GAssignStmt) {
+            if (s.equals(def)) {
+                foundIt = true;
+                //System.out.println("Found it" + s);
+            }
+        }
+    }
 
-	public void inInvokeExpr(InvokeExpr ie) {
-		//System.out.println("In invoke Expr");
-		if (foundIt) {
-			//System.out.println("oops invoking something after definition");
-			anyMethodCalls = true;
-		}
-	}
+    public void inInvokeExpr(InvokeExpr ie) {
+        //System.out.println("In invoke Expr");
+        if (foundIt) {
+            //System.out.println("oops invoking something after definition");
+            anyMethodCalls = true;
+        }
+    }
 
-	/*
-	 * Method will return false if there were no method calls made after the
-	 * definition stmt
-	 */
-	public boolean anyMethodCalls() {
-		return anyMethodCalls;
-		//return false;
-	}
+    /*
+     * Method will return false if there were no method calls made after the
+     * definition stmt
+     */
+    public boolean anyMethodCalls() {
+        return anyMethodCalls;
+        //return false;
+    }
 
 }

@@ -2,24 +2,24 @@
 
 package soot.jimple.parser.node;
 
-import java.util.*;
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
-public final class AFullIdentNonvoidType extends PNonvoidType
-{
-    private TFullIdentifier _fullIdentifier_;
+public final class AFullIdentNonvoidType extends PNonvoidType {
     private final LinkedList<PArrayBrackets> _arrayBrackets_ = new LinkedList<PArrayBrackets>();
+    private TFullIdentifier _fullIdentifier_;
 
-    public AFullIdentNonvoidType()
-    {
+    public AFullIdentNonvoidType() {
         // Constructor
     }
 
     public AFullIdentNonvoidType(
-        @SuppressWarnings("hiding") TFullIdentifier _fullIdentifier_,
-        @SuppressWarnings("hiding") List<PArrayBrackets> _arrayBrackets_)
-    {
+            @SuppressWarnings("hiding") TFullIdentifier _fullIdentifier_,
+            @SuppressWarnings("hiding") List<PArrayBrackets> _arrayBrackets_) {
         // Constructor
         setFullIdentifier(_fullIdentifier_);
 
@@ -28,34 +28,27 @@ public final class AFullIdentNonvoidType extends PNonvoidType
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AFullIdentNonvoidType(
-            cloneNode(this._fullIdentifier_),
-            cloneList(this._arrayBrackets_));
+                cloneNode(this._fullIdentifier_),
+                cloneList(this._arrayBrackets_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAFullIdentNonvoidType(this);
     }
 
-    public TFullIdentifier getFullIdentifier()
-    {
+    public TFullIdentifier getFullIdentifier() {
         return this._fullIdentifier_;
     }
 
-    public void setFullIdentifier(TFullIdentifier node)
-    {
-        if(this._fullIdentifier_ != null)
-        {
+    public void setFullIdentifier(TFullIdentifier node) {
+        if (this._fullIdentifier_ != null) {
             this._fullIdentifier_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -65,19 +58,15 @@ public final class AFullIdentNonvoidType extends PNonvoidType
         this._fullIdentifier_ = node;
     }
 
-    public LinkedList<PArrayBrackets> getArrayBrackets()
-    {
+    public LinkedList<PArrayBrackets> getArrayBrackets() {
         return this._arrayBrackets_;
     }
 
-    public void setArrayBrackets(List<PArrayBrackets> list)
-    {
+    public void setArrayBrackets(List<PArrayBrackets> list) {
         this._arrayBrackets_.clear();
         this._arrayBrackets_.addAll(list);
-        for(PArrayBrackets e : list)
-        {
-            if(e.parent() != null)
-            {
+        for (PArrayBrackets e : list) {
+            if (e.parent() != null) {
                 e.parent().removeChild(e);
             }
 
@@ -86,25 +75,21 @@ public final class AFullIdentNonvoidType extends PNonvoidType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._fullIdentifier_)
-            + toString(this._arrayBrackets_);
+                + toString(this._fullIdentifier_)
+                + toString(this._arrayBrackets_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._fullIdentifier_ == child)
-        {
+        if (this._fullIdentifier_ == child) {
             this._fullIdentifier_ = null;
             return;
         }
 
-        if(this._arrayBrackets_.remove(child))
-        {
+        if (this._arrayBrackets_.remove(child)) {
             return;
         }
 
@@ -112,21 +97,16 @@ public final class AFullIdentNonvoidType extends PNonvoidType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._fullIdentifier_ == oldChild)
-        {
+        if (this._fullIdentifier_ == oldChild) {
             setFullIdentifier((TFullIdentifier) newChild);
             return;
         }
 
-        for(ListIterator<PArrayBrackets> i = this._arrayBrackets_.listIterator(); i.hasNext();)
-        {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
+        for (ListIterator<PArrayBrackets> i = this._arrayBrackets_.listIterator(); i.hasNext(); ) {
+            if (i.next() == oldChild) {
+                if (newChild != null) {
                     i.set((PArrayBrackets) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);

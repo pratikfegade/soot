@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AUnopExpression extends PExpression
-{
+public final class AUnopExpression extends PExpression {
     private PUnopExpr _unopExpr_;
 
-    public AUnopExpression()
-    {
+    public AUnopExpression() {
         // Constructor
     }
 
     public AUnopExpression(
-        @SuppressWarnings("hiding") PUnopExpr _unopExpr_)
-    {
+            @SuppressWarnings("hiding") PUnopExpr _unopExpr_) {
         // Constructor
         setUnopExpr(_unopExpr_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AUnopExpression(
-            cloneNode(this._unopExpr_));
+                cloneNode(this._unopExpr_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAUnopExpression(this);
     }
 
-    public PUnopExpr getUnopExpr()
-    {
+    public PUnopExpr getUnopExpr() {
         return this._unopExpr_;
     }
 
-    public void setUnopExpr(PUnopExpr node)
-    {
-        if(this._unopExpr_ != null)
-        {
+    public void setUnopExpr(PUnopExpr node) {
+        if (this._unopExpr_ != null) {
             this._unopExpr_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AUnopExpression extends PExpression
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._unopExpr_);
+                + toString(this._unopExpr_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._unopExpr_ == child)
-        {
+        if (this._unopExpr_ == child) {
             this._unopExpr_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AUnopExpression extends PExpression
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._unopExpr_ == oldChild)
-        {
+        if (this._unopExpr_ == oldChild) {
             setUnopExpr((PUnopExpr) newChild);
             return;
         }

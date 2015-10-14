@@ -24,37 +24,44 @@
  */
 
 
-
 package soot.tagkit;
 
 
 import soot.*;
-import java.util.*;
 
-/** The aggregator for LineNumberTable attribute. */
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+/**
+ * The aggregator for LineNumberTable attribute.
+ */
 public class InnerClassTagAggregator extends SceneTransformer {
-    
-    public InnerClassTagAggregator( Singletons.Global g ) {}
-    public static InnerClassTagAggregator v() { return G.v().soot_tagkit_InnerClassTagAggregator(); }
 
-    
-    public String aggregatedName()
-    {
+    public InnerClassTagAggregator(Singletons.Global g) {
+    }
+
+    public static InnerClassTagAggregator v() {
+        return G.v().soot_tagkit_InnerClassTagAggregator();
+    }
+
+
+    public String aggregatedName() {
         return "InnerClasses";
     }
 
-    public void internalTransform(String phaseName, Map<String,String> options){
+    public void internalTransform(String phaseName, Map<String, String> options) {
         Iterator<SootClass> it = Scene.v().getApplicationClasses().iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             ArrayList<InnerClassTag> list = new ArrayList<InnerClassTag>();
             SootClass nextSc = it.next();
-            for (Tag t : nextSc.getTags()){
-                if (t instanceof InnerClassTag){
+            for (Tag t : nextSc.getTags()) {
+                if (t instanceof InnerClassTag) {
                     list.add((InnerClassTag) t);
                 }
             }
-            if (!list.isEmpty()){
-                nextSc.addTag(new InnerClassAttribute(list)); 
+            if (!list.isEmpty()) {
+                nextSc.addTag(new InnerClassAttribute(list));
             }
         }
     }

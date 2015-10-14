@@ -24,57 +24,58 @@ import org.eclipse.draw2d.AbstractLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.*;
 import org.eclipse.draw2d.graph.*;
-import java.util.*;
+
+import java.util.HashMap;
 
 public class GraphLayoutManager extends AbstractLayout {
 
-	private GraphEditPart graphPart;
-	
+    private GraphEditPart graphPart;
 
-	public GraphLayoutManager(GraphEditPart graphPart) {
-		setGraphPart(graphPart);
-	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure, int, int)
-	 */
-	protected Dimension calculatePreferredSize(
-		IFigure arg0,
-		int arg1,
-		int arg2) {
-		return null;
-	}
+    public GraphLayoutManager(GraphEditPart graphPart) {
+        setGraphPart(graphPart);
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
-	 */
-	public void layout(IFigure arg0) {
-		DirectedGraph graph = new DirectedGraph();
-		HashMap map = new HashMap();
-		// add nodes and edges to graph
-		// retrieve them from CFGGraphEditPart
-		getGraphPart().contributeNodesToGraph(graph, map);
-		getGraphPart().contributeEdgesToGraph(graph, map);
-		if (graph.nodes.size() != 0){
-			DirectedGraphLayout layout = new DirectedGraphLayout();
-			layout.visit(graph);
-			getGraphPart().applyGraphResults(graph, map);
-		}
-		
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.AbstractLayout#calculatePreferredSize(org.eclipse.draw2d.IFigure, int, int)
+     */
+    protected Dimension calculatePreferredSize(
+            IFigure arg0,
+            int arg1,
+            int arg2) {
+        return null;
+    }
 
-	/**
-	 * @return
-	 */
-	public GraphEditPart getGraphPart() {
-		return graphPart;
-	}
+    /* (non-Javadoc)
+     * @see org.eclipse.draw2d.LayoutManager#layout(org.eclipse.draw2d.IFigure)
+     */
+    public void layout(IFigure arg0) {
+        DirectedGraph graph = new DirectedGraph();
+        HashMap map = new HashMap();
+        // add nodes and edges to graph
+        // retrieve them from CFGGraphEditPart
+        getGraphPart().contributeNodesToGraph(graph, map);
+        getGraphPart().contributeEdgesToGraph(graph, map);
+        if (graph.nodes.size() != 0) {
+            DirectedGraphLayout layout = new DirectedGraphLayout();
+            layout.visit(graph);
+            getGraphPart().applyGraphResults(graph, map);
+        }
 
-	/**
-	 * @param part
-	 */
-	public void setGraphPart(GraphEditPart part) {
-		graphPart = part;
-	}
+    }
+
+    /**
+     * @return
+     */
+    public GraphEditPart getGraphPart() {
+        return graphPart;
+    }
+
+    /**
+     * @param part
+     */
+    public void setGraphPart(GraphEditPart part) {
+        graphPart = part;
+    }
 
 }

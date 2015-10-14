@@ -24,36 +24,38 @@
  */
 
 
-
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
 
-import soot.util.*;
 import soot.*;
 import soot.jimple.*;
-import java.util.*;
+import soot.options.Options;
+import soot.util.Chain;
+
+import java.util.Map;
 
 
-public class ConditionalBranchFolder  extends BodyTransformer
-{
-    public ConditionalBranchFolder ( Singletons.Global g ) {}
-    public static ConditionalBranchFolder  v() { return G.v().soot_jimple_toolkits_scalar_ConditionalBranchFolder (); }
+public class ConditionalBranchFolder extends BodyTransformer {
+    public ConditionalBranchFolder(Singletons.Global g) {
+    }
 
-    protected void internalTransform(Body body, String phaseName, Map<String,String> options)
-    {
-        StmtBody stmtBody = (StmtBody)body;
+    public static ConditionalBranchFolder v() {
+        return G.v().soot_jimple_toolkits_scalar_ConditionalBranchFolder();
+    }
+
+    protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
+        StmtBody stmtBody = (StmtBody) body;
 
         int numTrue = 0, numFalse = 0;
 
         if (Options.v().verbose())
             G.v().out.println("[" + stmtBody.getMethod().getName() +
-                               "] Folding conditional branches...");
+                    "] Folding conditional branches...");
 
         Chain<Unit> units = stmtBody.getUnits();
-        		
+
         for (Unit stmt : units.toArray(new Unit[units.size()])) {
             if (stmt instanceof IfStmt) {
-            	IfStmt ifs = (IfStmt) stmt;
+                IfStmt ifs = (IfStmt) stmt;
                 // check for constant-valued conditions
                 Value cond = ifs.getCondition();
                 if (Evaluator.isValueConstantValued(cond)) {
@@ -61,23 +63,22 @@ public class ConditionalBranchFolder  extends BodyTransformer
 
                     if (((IntConstant) cond).value == 1) {
                         // if condition always true, convert if to goto
-                        Stmt newStmt = Jimple.v().newGotoStmt(ifs.getTarget());                        
-                        units.insertAfter(newStmt, stmt);                        
+                        Stmt newStmt = Jimple.v().newGotoStmt(ifs.getTarget());
+                        units.insertAfter(newStmt, stmt);
                         numTrue++;
-                    }
-                    else
+                    } else
                         numFalse++;
-                        
+
                     // remove if
                     units.remove(stmt);
                 }
             }
         }
 
-       if (Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("[" + stmtBody.getMethod().getName() +
-                "]     Folded " + numTrue + " true, " + numFalse +
-                               " conditional branches");
+                    "]     Folded " + numTrue + " true, " + numFalse +
+                    " conditional branches");
 
     } // foldBranches
 

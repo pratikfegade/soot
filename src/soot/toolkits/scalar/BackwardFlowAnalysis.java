@@ -32,27 +32,28 @@ import soot.toolkits.graph.DirectedGraph;
  * by all BackwardFlowAnalyses.
  */
 public abstract class BackwardFlowAnalysis<N, A> extends FlowAnalysis<N, A> {
-	/**
-	 * Construct the analysis from a DirectedGraph representation of a Body.
-	 */
-	public BackwardFlowAnalysis(DirectedGraph<N> graph) {
-		super(graph);
-	}
+    /**
+     * Construct the analysis from a DirectedGraph representation of a Body.
+     */
+    public BackwardFlowAnalysis(DirectedGraph<N> graph) {
+        super(graph);
+    }
 
-    /** 
-     * Returns <code>false</code> 
+    /**
+     * Returns <code>false</code>
+     *
      * @return false
      **/
-	@Override
-	protected boolean isForward() {
-		return false;
-	}
+    @Override
+    protected boolean isForward() {
+        return false;
+    }
 
-	@Override
-	protected void doAnalysis() {
-		doAnalysis(GraphView.BACKWARD, InteractionFlowHandler.BACKWARD, unitToAfterFlow, unitToBeforeFlow);
+    @Override
+    protected void doAnalysis() {
+        doAnalysis(GraphView.BACKWARD, InteractionFlowHandler.BACKWARD, unitToAfterFlow, unitToBeforeFlow);
 
-		// soot.Timers.v().totalFlowNodes += graph.size();
-		// soot.Timers.v().totalFlowComputations += numComputations;
-	}
+        // soot.Timers.v().totalFlowNodes += graph.size();
+        // soot.Timers.v().totalFlowComputations += numComputations;
+    }
 }

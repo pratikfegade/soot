@@ -1,8 +1,8 @@
-
 package soot.jimple.toolkits.thread.mhp;
 
-import java.util.*;
-import soot.toolkits.scalar.*;
+import soot.toolkits.scalar.ArraySparseSet;
+
+import java.util.Iterator;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -16,32 +16,32 @@ import soot.toolkits.scalar.*;
 // -Richard L. Halpert, 2006-11-30
 
 
-public class MonitorSet extends ArraySparseSet{
-	
-	//    int size = 0;
-	
-	MonitorSet(){
-		super();
-	}
-	
-	public Object getMonitorDepth(String objName){
-		Iterator<?> it = iterator();
-		while (it.hasNext()){
-			Object obj = it.next();
-			if (obj instanceof MonitorDepth){		    
-				MonitorDepth md = (MonitorDepth)obj;
-				if (md.getObjName().equals(objName)) return md;
-			}
-		}
-		return null;
-	}
-	
-	public MonitorSet clone(){
-		MonitorSet newSet = new MonitorSet();
-		newSet.union(this);
-		return newSet;
-	}
-	/*public void copy(MonitorSet dest){
+public class MonitorSet extends ArraySparseSet {
+
+    //    int size = 0;
+
+    MonitorSet() {
+        super();
+    }
+
+    public Object getMonitorDepth(String objName) {
+        Iterator<?> it = iterator();
+        while (it.hasNext()) {
+            Object obj = it.next();
+            if (obj instanceof MonitorDepth) {
+                MonitorDepth md = (MonitorDepth) obj;
+                if (md.getObjName().equals(objName)) return md;
+            }
+        }
+        return null;
+    }
+
+    public MonitorSet clone() {
+        MonitorSet newSet = new MonitorSet();
+        newSet.union(this);
+        return newSet;
+    }
+    /*public void copy(MonitorSet dest){
 	 System.out.println("====begin copy");
 	 dest.clear();
 	 Iterator iterator = iterator();
@@ -59,20 +59,21 @@ public class MonitorSet extends ArraySparseSet{
 	 System.out.println("===finish copy===");
 	 }
 	 */
-	
-	
-	/**
-	 * Returns the union (join) of this MonitorSet and <code>other</code>, putting
-	 * result into <code>this</code>. */
-	public void union(MonitorSet other){
-		
-	}
-	
-	/**
-	 * Returns the union (join) of this MonitorSet and <code>other</code>, putting
-	 * result into <code>dest</code>. <code>dest</code>, <code>other</code> and
-	 * <code>this</code> could be the same object.
-	 */
+
+
+    /**
+     * Returns the union (join) of this MonitorSet and <code>other</code>, putting
+     * result into <code>this</code>.
+     */
+    public void union(MonitorSet other) {
+
+    }
+
+    /**
+     * Returns the union (join) of this MonitorSet and <code>other</code>, putting
+     * result into <code>dest</code>. <code>dest</code>, <code>other</code> and
+     * <code>this</code> could be the same object.
+     */
 	/*ublic void union(MonitorSet other, MonitorSet dest){
 	 other.copy(dest);
 	 Iterator iterator = iterator();
@@ -97,61 +98,56 @@ public class MonitorSet extends ArraySparseSet{
 	 
 	 }
 	 */
-	public void intersection(MonitorSet other, MonitorSet dest){
+    public void intersection(MonitorSet other, MonitorSet dest) {
 		/*
 		 System.out.println("this:");
 		 this.test();
 		 System.out.println("other:");
 		 other.test();
 		 */
-		if (other.contains("&")) {
-			
-			this.copy(dest);
-			//System.out.println("copy this to dest: ");
-			//dest.test();
-		}
-		else if (this.contains("&")) {
-			other.copy(dest);
-			//System.out.println("copy other to dest: ");
-			//dest.test();
-		}
-		else{
-			Iterator<?> it = iterator();
-			while (it.hasNext()){
-				Object o   = it.next();
-				if (o   instanceof MonitorDepth){
-					MonitorDepth md = (MonitorDepth)o  ;
-					Object obj = dest.getMonitorDepth(md.getObjName());
-					if ( obj != null)
-						
-						if (md.getDepth() != ((MonitorDepth)obj).getDepth()) {
-							throw new RuntimeException("stmt inside different monitor depth !");
-						}
-						else  dest.add(obj);
-				}
-			}
-			
-			
-			
-		}
-		
-	} 
-	
-	
-	public void test(){
-		System.out.println("====MonitorSet===");
-		Iterator<?> it = iterator();
-		while (it.hasNext()){
-			Object obj = it.next();
-			if (obj instanceof MonitorDepth){
-				MonitorDepth md = (MonitorDepth)obj;     ;
-				System.out.println("obj: "+md.getObjName());
-				System.out.println("depth: "+md.getDepth());
-			}
-			else
-				System.out.println(obj);
-		}
-		System.out.println("====MonitorSet end====");
-	}
-	
+        if (other.contains("&")) {
+
+            this.copy(dest);
+            //System.out.println("copy this to dest: ");
+            //dest.test();
+        } else if (this.contains("&")) {
+            other.copy(dest);
+            //System.out.println("copy other to dest: ");
+            //dest.test();
+        } else {
+            Iterator<?> it = iterator();
+            while (it.hasNext()) {
+                Object o = it.next();
+                if (o instanceof MonitorDepth) {
+                    MonitorDepth md = (MonitorDepth) o;
+                    Object obj = dest.getMonitorDepth(md.getObjName());
+                    if (obj != null)
+
+                        if (md.getDepth() != ((MonitorDepth) obj).getDepth()) {
+                            throw new RuntimeException("stmt inside different monitor depth !");
+                        } else dest.add(obj);
+                }
+            }
+
+
+        }
+
+    }
+
+
+    public void test() {
+        System.out.println("====MonitorSet===");
+        Iterator<?> it = iterator();
+        while (it.hasNext()) {
+            Object obj = it.next();
+            if (obj instanceof MonitorDepth) {
+                MonitorDepth md = (MonitorDepth) obj;
+                System.out.println("obj: " + md.getObjName());
+                System.out.println("depth: " + md.getDepth());
+            } else
+                System.out.println(obj);
+        }
+        System.out.println("====MonitorSet end====");
+    }
+
 }

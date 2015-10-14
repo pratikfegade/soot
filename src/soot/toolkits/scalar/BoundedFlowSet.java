@@ -26,31 +26,30 @@
 
 package soot.toolkits.scalar;
 
-/** 
- * Represents bounded information for flow analysis.  
+/**
+ * Represents bounded information for flow analysis.
  * Just like FlowSet, but also provides complementation.
  * Some implementations of BoundedFlowSet may require a FlowUniverse for construction.
  *
  * @see: FlowUniverse
  */
-public interface BoundedFlowSet<T> extends FlowSet<T>
-{
+public interface BoundedFlowSet<T> extends FlowSet<T> {
     /**
      * Complements <code>this</code>.
      */
-    public void complement();
+    void complement();
 
-    /** 
+    /**
      * Complements this BoundedFlowSet, putting the result into
      * <code>dest</code>. <code>dest</code> and <code>this</code> may be the
      * same object.
      */
-    public void complement(FlowSet<T> dest);
+    void complement(FlowSet<T> dest);
 
     /**
      * returns the topped set.
      */
-    public FlowSet<T> topSet();
+    FlowSet<T> topSet();
 
     /** Returns elements [low..high] of this BoundedFlowSet. (optional
      * operation) */

@@ -24,43 +24,54 @@
  */
 
 package soot.tagkit;
-import soot.*;
 
-/** Utility functions for tags. */
-public class TagManager
-{
-    public TagManager( Singletons.Global g ) {}
-    public static TagManager v() { return G.v().soot_tagkit_TagManager(); }
+import soot.G;
+import soot.Singletons;
+
+/**
+ * Utility functions for tags.
+ */
+public class TagManager {
     private TagPrinter tagPrinter = new StdTagPrinter();
 
-    /** Returns the Tag class with the given name. 
-     *
-     * (This does not seem to be necessary.) */
+    public TagManager(Singletons.Global g) {
+    }
+
+    public static TagManager v() {
+        return G.v().soot_tagkit_TagManager();
+    }
+
+    /**
+     * Returns the Tag class with the given name.
+     * <p/>
+     * (This does not seem to be necessary.)
+     */
     public Tag getTagFor(String tagName) {
-	try {
-	    Class<?> cc = Class.forName("soot.tagkit." + tagName);
-	    return (Tag) cc.newInstance();
-	} 
-	catch (ClassNotFoundException e) {
-	    return null;
-	} catch(IllegalAccessException e) {
-	    throw new RuntimeException();
-	} catch (InstantiationException e) {
-	    throw new RuntimeException(e.toString());
-	}	
+        try {
+            Class<?> cc = Class.forName("soot.tagkit." + tagName);
+            return (Tag) cc.newInstance();
+        } catch (ClassNotFoundException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e.toString());
+        }
     }
 
-    /** Sets the default tag printer. */
-    public void setTagPrinter(TagPrinter p) 
-    {
-	tagPrinter = p;
+    /**
+     * Sets the default tag printer.
+     */
+    public void setTagPrinter(TagPrinter p) {
+        tagPrinter = p;
     }
 
-    /** Prints the given Tag, assuming that it belongs to the given class and field or method. */
+    /**
+     * Prints the given Tag, assuming that it belongs to the given class and field or method.
+     */
     public String print(String aClassName, String aFieldOrMtdSignature,
-                               Tag aTag)
-    {
-	return tagPrinter.print(aClassName, aFieldOrMtdSignature,  aTag);
+                        Tag aTag) {
+        return tagPrinter.print(aClassName, aFieldOrMtdSignature, aTag);
     }
 }
 

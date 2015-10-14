@@ -24,27 +24,33 @@
  */
 
 package soot.baf.internal;
-import soot.jimple.Constant;
-import soot.util.*;
-import java.util.*;
-import soot.*;
-import soot.baf.*;
 
-public class BLookupSwitchInst extends AbstractInst implements LookupSwitchInst
-{
+import soot.Unit;
+import soot.UnitBox;
+import soot.UnitPrinter;
+import soot.baf.Baf;
+import soot.baf.InstSwitch;
+import soot.baf.LookupSwitchInst;
+import soot.jimple.Constant;
+import soot.util.Switch;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class BLookupSwitchInst extends AbstractInst implements LookupSwitchInst {
     UnitBox defaultTargetBox;
     List lookupValues;
     UnitBox[] targetBoxes;
     List unitBoxes;
 
-    public BLookupSwitchInst(Unit defaultTarget, 
-                             List lookupValues, List targets)
-    {
-        this.defaultTargetBox = Baf.v().newInstBox(defaultTarget); 
+    public BLookupSwitchInst(Unit defaultTarget,
+                             List lookupValues, List targets) {
+        this.defaultTargetBox = Baf.v().newInstBox(defaultTarget);
 
         this.targetBoxes = new UnitBox[targets.size()];
 
-        for(int i = 0; i < targetBoxes.length; i++)
+        for (int i = 0; i < targetBoxes.length; i++)
             this.targetBoxes[i] = Baf.v().newInstBox((Unit) targets.get(i));
 
         this.lookupValues = new ArrayList();
@@ -55,129 +61,114 @@ public class BLookupSwitchInst extends AbstractInst implements LookupSwitchInst
             unitBoxes = new ArrayList();
 
             for (UnitBox element : targetBoxes)
-				unitBoxes.add(element);
+                unitBoxes.add(element);
 
             unitBoxes.add(defaultTargetBox);
             unitBoxes = Collections.unmodifiableList(unitBoxes);
         }
     }
 
-    public Object clone() 
-    {        
+    public Object clone() {
         List list = new ArrayList();
         for (UnitBox element : targetBoxes) {
 
             list.add(element.getUnit());
         }
 
-        
-        return new  BLookupSwitchInst(defaultTargetBox.getUnit(), lookupValues, list);
+
+        return new BLookupSwitchInst(defaultTargetBox.getUnit(), lookupValues, list);
     }
 
 
-    public int getInCount()
-    {
+    public int getInCount() {
         return 1;
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 1;
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 0;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 0;
     }
-    
-    public Unit getDefaultTarget()
-    {
+
+    public Unit getDefaultTarget() {
         return defaultTargetBox.getUnit();
     }
 
-    public void setDefaultTarget(Unit defaultTarget)
-    {
+    public void setDefaultTarget(Unit defaultTarget) {
         defaultTargetBox.setUnit(defaultTarget);
     }
 
-    public UnitBox getDefaultTargetBox()
-    {
+    public UnitBox getDefaultTargetBox() {
         return defaultTargetBox;
     }
 
-    public void setLookupValues(List lookupValues)
-    {
+    public void setLookupValue(int index, int value) {
+        this.lookupValues.set(index, new Integer(value));
+    }
+
+    public int getLookupValue(int index) {
+        return ((Integer) lookupValues.get(index)).intValue();
+    }
+
+    public List getLookupValues() {
+        return Collections.unmodifiableList(lookupValues);
+    }
+
+    public void setLookupValues(List lookupValues) {
         this.lookupValues = new ArrayList();
         this.lookupValues.addAll(lookupValues);
     }
 
-    public void setLookupValue(int index, int value)
-    {
-        this.lookupValues.set(index, new Integer(value));
+    public int getTargetCount() {
+        return targetBoxes.length;
     }
 
-    public int getLookupValue(int index)
-    {
-        return ((Integer) lookupValues.get(index)).intValue();
-    }
-
-    public  List getLookupValues()
-    {
-        return Collections.unmodifiableList(lookupValues);
-    }
-
-    public int getTargetCount() { return targetBoxes.length; }
-    
-    public Unit getTarget(int index)
-    {
+    public Unit getTarget(int index) {
         return targetBoxes[index].getUnit();
     }
 
-    public void setTarget(int index, Unit target)
-    {
+    public void setTarget(int index, Unit target) {
         targetBoxes[index].setUnit(target);
     }
 
-    public void setTargets(List<Unit> targets)
-    {
-        for(int i = 0; i < targets.size(); i++)
-            targetBoxes[i].setUnit(targets.get(i));
-    }
-
-    public UnitBox getTargetBox(int index)
-    {
+    public UnitBox getTargetBox(int index) {
         return targetBoxes[index];
     }
 
-    public List getTargets()
-    {
+    public List getTargets() {
         List targets = new ArrayList();
 
         for (UnitBox element : targetBoxes)
-			targets.add(element.getUnit());
+            targets.add(element.getUnit());
 
         return targets;
     }
 
-    public String getName() { return "lookupswitch"; }
+    public void setTargets(List<Unit> targets) {
+        for (int i = 0; i < targets.size(); i++)
+            targetBoxes[i].setUnit(targets.get(i));
+    }
 
-    public String toString()
-    {
+    public String getName() {
+        return "lookupswitch";
+    }
+
+    public String toString() {
         StringBuffer buffer = new StringBuffer();
         String endOfLine = " ";
-        
+
         buffer.append("lookupswitch" + endOfLine);
-            
+
         buffer.append("{" + endOfLine);
-        
-        for(int i = 0; i < lookupValues.size(); i++)
-        {
-            buffer.append("    case " + lookupValues.get(i) + ": goto " + 
+
+        for (int i = 0; i < lookupValues.size(); i++) {
+            buffer.append("    case " + lookupValues.get(i) + ": goto " +
                     getTarget(i) + ";" + endOfLine);
         }
 
@@ -188,15 +179,14 @@ public class BLookupSwitchInst extends AbstractInst implements LookupSwitchInst
     }
 
     public void toString(UnitPrinter up) {
-        up.literal( "lookupswitch" );
+        up.literal("lookupswitch");
         up.newline();
         up.literal("{");
         up.newline();
-        
-        for(int i = 0; i < lookupValues.size(); i++)
-        {
+
+        for (int i = 0; i < lookupValues.size(); i++) {
             up.literal("    case ");
-            up.constant( (Constant) lookupValues.get(i) );
+            up.constant((Constant) lookupValues.get(i));
             up.literal(": goto ");
             targetBoxes[i].toString(up);
             up.literal(";");
@@ -210,22 +200,19 @@ public class BLookupSwitchInst extends AbstractInst implements LookupSwitchInst
         up.literal("}");
     }
 
-    public List getUnitBoxes()
-    {
+    public List getUnitBoxes() {
         return unitBoxes;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseLookupSwitchInst(this);
     }
 
-    public boolean fallsThrough()
-    {
+    public boolean fallsThrough() {
         return false;
     }
-    public boolean branches()
-    {
+
+    public boolean branches() {
         return true;
     }
 

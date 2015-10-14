@@ -20,8 +20,9 @@
 package soot.shimple.toolkits.scalar;
 
 import soot.*;
-import soot.shimple.*;
-import soot.toolkits.scalar.*;
+import soot.shimple.ShimpleBody;
+import soot.toolkits.scalar.LocalUses;
+import soot.toolkits.scalar.UnitValueBoxPair;
 
 import java.util.*;
 
@@ -29,7 +30,7 @@ import java.util.*;
  * This class implements the LocalUses interface for Shimple.
  * ShimpleLocalUses can be used in conjunction with SimpleLocalDefs to
  * provide Definition/Use and Use/Definition chains in SSA.
- *
+ * <p/>
  * <p> In addition to the interface required by LocalUses,
  * ShimpleLocalUses also provides a method for obtaining the list of
  * uses given only the Local.  Furthermore, unlike SimpleLocalUses, a
@@ -41,26 +42,24 @@ import java.util.*;
  * @see soot.toolkits.scalar.SimpleLocalDefs
  * @see soot.toolkits.scalar.SimpleLocalUses
  **/
-public class ShimpleLocalUses implements LocalUses
-{
-    protected  Map<Local, ArrayList> localToUses;
+public class ShimpleLocalUses implements LocalUses {
+    protected Map<Local, ArrayList> localToUses;
 
     /**
      * Build a LocalUses interface from a ShimpleBody.  Proper SSA
      * form is required, otherwise correct behaviour is not
      * guaranteed.
      **/
-    public ShimpleLocalUses(ShimpleBody sb)
-    {
+    public ShimpleLocalUses(ShimpleBody sb) {
         // Instead of rebuilding the ShimpleBody without the
         // programmer's knowledge, throw a RuntimeException
-        if(!sb.isSSA())
+        if (!sb.isSSA())
             throw new RuntimeException("ShimpleBody is not in proper SSA form as required by ShimpleLocalUses.  You may need to rebuild it or use SimpleLocalUses instead.");
 
         // initialise the map
         localToUses = new HashMap<Local, ArrayList>();
         Iterator localsIt = sb.getLocals().iterator();
-        while(localsIt.hasNext()){
+        while (localsIt.hasNext()) {
             Local local = (Local) localsIt.next();
             localToUses.put(local, new ArrayList());
         }
@@ -69,15 +68,15 @@ public class ShimpleLocalUses implements LocalUses
         // appropriate list -- due to SSA form, each Local has a
         // unique def, and therefore one appropriate list.
         Iterator unitsIt = sb.getUnits().iterator();
-        while(unitsIt.hasNext()){
+        while (unitsIt.hasNext()) {
             Unit unit = (Unit) unitsIt.next();
             Iterator boxIt = unit.getUseBoxes().iterator();
 
-            while(boxIt.hasNext()){
-                ValueBox box = (ValueBox)boxIt.next();
+            while (boxIt.hasNext()) {
+                ValueBox box = (ValueBox) boxIt.next();
                 Value value = box.getValue();
 
-                if(!(value instanceof Local))
+                if (!(value instanceof Local))
                     continue;
 
                 List<UnitValueBoxPair> useList = localToUses.get(value);
@@ -89,15 +88,14 @@ public class ShimpleLocalUses implements LocalUses
     /**
      * Returns all the uses of the given Local as a list of
      * UnitValueBoxPairs, each containing a Unit that uses the local
-     * and the corresponding ValueBox containing the Local.  
-     *
+     * and the corresponding ValueBox containing the Local.
+     * <p/>
      * <p> This method is currently not required by the LocalUses
      * interface.
      **/
-    public List getUsesOf(Local local)
-    {
+    public List getUsesOf(Local local) {
         List uses = localToUses.get(local);
-        if(uses == null)
+        if (uses == null)
             return Collections.EMPTY_LIST;
         return uses;
     }
@@ -108,28 +106,27 @@ public class ShimpleLocalUses implements LocalUses
      * that uses the local and the corresponding ValueBox containing
      * the Local.
      **/
-    public List getUsesOf(Unit unit)
-    {
+    public List getUsesOf(Unit unit) {
         List defBoxes = unit.getDefBoxes();
-        
-        switch(defBoxes.size()){
-        case 0:
-            return Collections.EMPTY_LIST;
-        case 1:
-            Value local = ((ValueBox)defBoxes.get(0)).getValue();
-            if(!(local instanceof Local))
+
+        switch (defBoxes.size()) {
+            case 0:
                 return Collections.EMPTY_LIST;
-            return getUsesOf((Local) local);
-        default:
-            G.v().out.println("Warning: Unit has multiple definition boxes?");
-            List usesList = new ArrayList();
-            Iterator defBoxesIt = defBoxes.iterator();
-            while(defBoxesIt.hasNext()){
-                Value def = ((ValueBox)defBoxesIt.next()).getValue();
-                if(def instanceof Local)
-                    usesList.addAll(getUsesOf((Local) def));
-            }
-            return usesList;
+            case 1:
+                Value local = ((ValueBox) defBoxes.get(0)).getValue();
+                if (!(local instanceof Local))
+                    return Collections.EMPTY_LIST;
+                return getUsesOf((Local) local);
+            default:
+                G.v().out.println("Warning: Unit has multiple definition boxes?");
+                List usesList = new ArrayList();
+                Iterator defBoxesIt = defBoxes.iterator();
+                while (defBoxesIt.hasNext()) {
+                    Value def = ((ValueBox) defBoxesIt.next()).getValue();
+                    if (def instanceof Local)
+                        usesList.addAll(getUsesOf((Local) def));
+                }
+                return usesList;
         }
     }
 }

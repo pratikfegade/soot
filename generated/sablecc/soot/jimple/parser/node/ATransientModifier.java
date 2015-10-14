@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ATransientModifier extends PModifier
-{
+public final class ATransientModifier extends PModifier {
     private TTransient _transient_;
 
-    public ATransientModifier()
-    {
+    public ATransientModifier() {
         // Constructor
     }
 
     public ATransientModifier(
-        @SuppressWarnings("hiding") TTransient _transient_)
-    {
+            @SuppressWarnings("hiding") TTransient _transient_) {
         // Constructor
         setTransient(_transient_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ATransientModifier(
-            cloneNode(this._transient_));
+                cloneNode(this._transient_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseATransientModifier(this);
     }
 
-    public TTransient getTransient()
-    {
+    public TTransient getTransient() {
         return this._transient_;
     }
 
-    public void setTransient(TTransient node)
-    {
-        if(this._transient_ != null)
-        {
+    public void setTransient(TTransient node) {
+        if (this._transient_ != null) {
             this._transient_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ATransientModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._transient_);
+                + toString(this._transient_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._transient_ == child)
-        {
+        if (this._transient_ == child) {
             this._transient_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ATransientModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._transient_ == oldChild)
-        {
+        if (this._transient_ == oldChild) {
             setTransient((TTransient) newChild);
             return;
         }

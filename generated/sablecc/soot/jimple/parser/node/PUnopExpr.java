@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PUnopExpr extends Node
-{
+public abstract class PUnopExpr extends Node {
     // Empty body
 }

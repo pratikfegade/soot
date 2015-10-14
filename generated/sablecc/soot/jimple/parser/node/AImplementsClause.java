@@ -2,23 +2,20 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AImplementsClause extends PImplementsClause
-{
+public final class AImplementsClause extends PImplementsClause {
     private TImplements _implements_;
     private PClassNameList _classNameList_;
 
-    public AImplementsClause()
-    {
+    public AImplementsClause() {
         // Constructor
     }
 
     public AImplementsClause(
-        @SuppressWarnings("hiding") TImplements _implements_,
-        @SuppressWarnings("hiding") PClassNameList _classNameList_)
-    {
+            @SuppressWarnings("hiding") TImplements _implements_,
+            @SuppressWarnings("hiding") PClassNameList _classNameList_) {
         // Constructor
         setImplements(_implements_);
 
@@ -27,34 +24,27 @@ public final class AImplementsClause extends PImplementsClause
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AImplementsClause(
-            cloneNode(this._implements_),
-            cloneNode(this._classNameList_));
+                cloneNode(this._implements_),
+                cloneNode(this._classNameList_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAImplementsClause(this);
     }
 
-    public TImplements getImplements()
-    {
+    public TImplements getImplements() {
         return this._implements_;
     }
 
-    public void setImplements(TImplements node)
-    {
-        if(this._implements_ != null)
-        {
+    public void setImplements(TImplements node) {
+        if (this._implements_ != null) {
             this._implements_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -64,22 +54,17 @@ public final class AImplementsClause extends PImplementsClause
         this._implements_ = node;
     }
 
-    public PClassNameList getClassNameList()
-    {
+    public PClassNameList getClassNameList() {
         return this._classNameList_;
     }
 
-    public void setClassNameList(PClassNameList node)
-    {
-        if(this._classNameList_ != null)
-        {
+    public void setClassNameList(PClassNameList node) {
+        if (this._classNameList_ != null) {
             this._classNameList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -90,25 +75,21 @@ public final class AImplementsClause extends PImplementsClause
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._implements_)
-            + toString(this._classNameList_);
+                + toString(this._implements_)
+                + toString(this._classNameList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._implements_ == child)
-        {
+        if (this._implements_ == child) {
             this._implements_ = null;
             return;
         }
 
-        if(this._classNameList_ == child)
-        {
+        if (this._classNameList_ == child) {
             this._classNameList_ = null;
             return;
         }
@@ -117,17 +98,14 @@ public final class AImplementsClause extends PImplementsClause
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._implements_ == oldChild)
-        {
+        if (this._implements_ == oldChild) {
             setImplements((TImplements) newChild);
             return;
         }
 
-        if(this._classNameList_ == oldChild)
-        {
+        if (this._classNameList_ == oldChild) {
             setClassNameList((PClassNameList) newChild);
             return;
         }

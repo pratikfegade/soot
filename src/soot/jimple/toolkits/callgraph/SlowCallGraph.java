@@ -18,18 +18,27 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import soot.*;
-import soot.util.*;
-import soot.util.queue.*;
-import java.util.*;
 
-/** Represents the edges in a call graph. This class is meant to act as
+import soot.MethodOrMethodContext;
+import soot.Unit;
+import soot.util.HashMultiMap;
+import soot.util.MultiMap;
+import soot.util.queue.ChunkedQueue;
+import soot.util.queue.QueueReader;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+/**
+ * Represents the edges in a call graph. This class is meant to act as
  * only a container of edges; code for various call graph builders should
  * be kept out of it, as well as most code for accessing the edges.
+ *
  * @author Ondrej Lhotak
  */
-public class SlowCallGraph extends CallGraph
-{ 
+public class SlowCallGraph extends CallGraph {
     private final Set<Edge> edges = new HashSet<Edge>();
     private final MultiMap srcMap = new HashMultiMap();
     private final MultiMap unitMap = new HashMultiMap();
@@ -37,22 +46,27 @@ public class SlowCallGraph extends CallGraph
     private final ChunkedQueue stream = new ChunkedQueue();
     private final QueueReader reader = stream.reader();
 
-    /** Used to add an edge to the call graph. Returns true iff the edge was
-     * not already present. */
-    public boolean addEdge( Edge e ) {
-        if( !edges.add( e ) ) return false;
-        stream.add( e );
+    /**
+     * Used to add an edge to the call graph. Returns true iff the edge was
+     * not already present.
+     */
+    public boolean addEdge(Edge e) {
+        if (!edges.add(e)) return false;
+        stream.add(e);
 
-        srcMap.put( e.getSrc(), e );
-        tgtMap.put( e.getTgt(), e );
-        unitMap.put( e.srcUnit(), e );
+        srcMap.put(e.getSrc(), e);
+        tgtMap.put(e.getTgt(), e);
+        unitMap.put(e.srcUnit(), e);
 
         return true;
     }
-    /** Removes the edge e from the call graph. Returns true iff the edge
-     * was originally present in the call graph. */
-    public boolean removeEdge( Edge e ) {
-        if( !edges.remove( e ) ) return false;
+
+    /**
+     * Removes the edge e from the call graph. Returns true iff the edge
+     * was originally present in the call graph.
+     */
+    public boolean removeEdge(Edge e) {
+        if (!edges.remove(e)) return false;
 
         srcMap.remove(e.getSrc(), e);
         tgtMap.remove(e.getTgt(), e);
@@ -61,45 +75,65 @@ public class SlowCallGraph extends CallGraph
         return true;
     }
 
-    /** Returns an iterator over all methods that are the sources of at least
-     * one edge. */
+    /**
+     * Returns an iterator over all methods that are the sources of at least
+     * one edge.
+     */
     public Iterator sourceMethods() {
         return new ArrayList(srcMap.keySet()).iterator();
     }
-    /** Returns an iterator over all edges that have u as their source unit. */
-    public Iterator edgesOutOf( Unit u ) {
+
+    /**
+     * Returns an iterator over all edges that have u as their source unit.
+     */
+    public Iterator edgesOutOf(Unit u) {
         return new ArrayList(unitMap.get(u)).iterator();
     }
-    /** Returns an iterator over all edges that have m as their source method. */
-    public Iterator edgesOutOf( MethodOrMethodContext m ) {
+
+    /**
+     * Returns an iterator over all edges that have m as their source method.
+     */
+    public Iterator edgesOutOf(MethodOrMethodContext m) {
         return new ArrayList(srcMap.get(m)).iterator();
     }
-    /** Returns an iterator over all edges that have m as their target method. */
-    public Iterator edgesInto( MethodOrMethodContext m ) {
+
+    /**
+     * Returns an iterator over all edges that have m as their target method.
+     */
+    public Iterator edgesInto(MethodOrMethodContext m) {
         return new ArrayList(tgtMap.get(m)).iterator();
     }
-    /** Returns a QueueReader object containing all edges added so far, and
+
+    /**
+     * Returns a QueueReader object containing all edges added so far, and
      * which will be informed of any new edges that are later added to
-     * the graph. */
+     * the graph.
+     */
     public QueueReader listener() {
-        return (QueueReader) reader.clone();
+        return reader.clone();
     }
-    /** Returns a QueueReader object which will contain ONLY NEW edges
+
+    /**
+     * Returns a QueueReader object which will contain ONLY NEW edges
      * which will be added to the graph.
      */
     public QueueReader newListener() {
         return stream.reader();
     }
+
     public String toString() {
         QueueReader reader = listener();
         StringBuffer out = new StringBuffer();
-        while(reader.hasNext()) {
+        while (reader.hasNext()) {
             Edge e = (Edge) reader.next();
-            out.append( e.toString() + "\n" );
+            out.append(e.toString() + "\n");
         }
         return out.toString();
     }
-    /** Returns the number of edges in the call graph. */
+
+    /**
+     * Returns the number of edges in the call graph.
+     */
     public int size() {
         return edges.size();
     }

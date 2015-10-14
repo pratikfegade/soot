@@ -2,23 +2,20 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AIntegerConstant extends PConstant
-{
+public final class AIntegerConstant extends PConstant {
     private TMinus _minus_;
     private TIntegerConstant _integerConstant_;
 
-    public AIntegerConstant()
-    {
+    public AIntegerConstant() {
         // Constructor
     }
 
     public AIntegerConstant(
-        @SuppressWarnings("hiding") TMinus _minus_,
-        @SuppressWarnings("hiding") TIntegerConstant _integerConstant_)
-    {
+            @SuppressWarnings("hiding") TMinus _minus_,
+            @SuppressWarnings("hiding") TIntegerConstant _integerConstant_) {
         // Constructor
         setMinus(_minus_);
 
@@ -27,34 +24,27 @@ public final class AIntegerConstant extends PConstant
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AIntegerConstant(
-            cloneNode(this._minus_),
-            cloneNode(this._integerConstant_));
+                cloneNode(this._minus_),
+                cloneNode(this._integerConstant_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAIntegerConstant(this);
     }
 
-    public TMinus getMinus()
-    {
+    public TMinus getMinus() {
         return this._minus_;
     }
 
-    public void setMinus(TMinus node)
-    {
-        if(this._minus_ != null)
-        {
+    public void setMinus(TMinus node) {
+        if (this._minus_ != null) {
             this._minus_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -64,22 +54,17 @@ public final class AIntegerConstant extends PConstant
         this._minus_ = node;
     }
 
-    public TIntegerConstant getIntegerConstant()
-    {
+    public TIntegerConstant getIntegerConstant() {
         return this._integerConstant_;
     }
 
-    public void setIntegerConstant(TIntegerConstant node)
-    {
-        if(this._integerConstant_ != null)
-        {
+    public void setIntegerConstant(TIntegerConstant node) {
+        if (this._integerConstant_ != null) {
             this._integerConstant_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -90,25 +75,21 @@ public final class AIntegerConstant extends PConstant
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._minus_)
-            + toString(this._integerConstant_);
+                + toString(this._minus_)
+                + toString(this._integerConstant_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._minus_ == child)
-        {
+        if (this._minus_ == child) {
             this._minus_ = null;
             return;
         }
 
-        if(this._integerConstant_ == child)
-        {
+        if (this._integerConstant_ == child) {
             this._integerConstant_ = null;
             return;
         }
@@ -117,17 +98,14 @@ public final class AIntegerConstant extends PConstant
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._minus_ == oldChild)
-        {
+        if (this._minus_ == oldChild) {
             setMinus((TMinus) newChild);
             return;
         }
 
-        if(this._integerConstant_ == oldChild)
-        {
+        if (this._integerConstant_ == oldChild) {
             setIntegerConstant((TIntegerConstant) newChild);
             return;
         }

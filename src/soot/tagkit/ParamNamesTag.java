@@ -24,39 +24,45 @@
  */
 
 package soot.tagkit;
-import java.util.*;
 
-/** Represents a tag that just has a string to be printed with the code.
+import java.util.ArrayList;
+
+/**
+ * Represents a tag that just has a string to be printed with the code.
  */
 
-public class ParamNamesTag implements  Tag
-{
+public class ParamNamesTag implements Tag {
     ArrayList<String> names;
-    public ParamNamesTag(ArrayList<String> list){
+
+    public ParamNamesTag(ArrayList<String> list) {
         names = list;
     }
-    
+
     public String toString() {
         return names.toString();
     }
 
-    public ArrayList<String> getNames(){
+    public ArrayList<String> getNames() {
         return names;
     }
 
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "ParamNamesTag";
     }
 
-    public ArrayList<String> getInfo(){
+    public ArrayList<String> getInfo() {
         return names;
     }
-    
-    /** Returns the tag raw data. */
+
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "ParamNamesTag has no value for bytecode" );
+        throw new RuntimeException("ParamNamesTag has no value for bytecode");
     }
 }
 

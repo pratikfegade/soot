@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AUnknownJimpleType extends PJimpleType
-{
+public final class AUnknownJimpleType extends PJimpleType {
     private TUnknown _unknown_;
 
-    public AUnknownJimpleType()
-    {
+    public AUnknownJimpleType() {
         // Constructor
     }
 
     public AUnknownJimpleType(
-        @SuppressWarnings("hiding") TUnknown _unknown_)
-    {
+            @SuppressWarnings("hiding") TUnknown _unknown_) {
         // Constructor
         setUnknown(_unknown_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AUnknownJimpleType(
-            cloneNode(this._unknown_));
+                cloneNode(this._unknown_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAUnknownJimpleType(this);
     }
 
-    public TUnknown getUnknown()
-    {
+    public TUnknown getUnknown() {
         return this._unknown_;
     }
 
-    public void setUnknown(TUnknown node)
-    {
-        if(this._unknown_ != null)
-        {
+    public void setUnknown(TUnknown node) {
+        if (this._unknown_ != null) {
             this._unknown_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AUnknownJimpleType extends PJimpleType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._unknown_);
+                + toString(this._unknown_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._unknown_ == child)
-        {
+        if (this._unknown_ == child) {
             this._unknown_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AUnknownJimpleType extends PJimpleType
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._unknown_ == oldChild)
-        {
+        if (this._unknown_ == oldChild) {
             setUnknown((TUnknown) newChild);
             return;
         }

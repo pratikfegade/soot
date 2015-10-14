@@ -24,14 +24,10 @@
 
 package soot.dexpler.instructions;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction21c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
 import soot.Local;
 import soot.Type;
 import soot.dexpler.Debug;
@@ -43,25 +39,28 @@ import soot.jimple.AssignStmt;
 import soot.jimple.CastExpr;
 import soot.jimple.Jimple;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class CheckCastInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
 
-    public CheckCastInstruction (Instruction instruction, int codeAdress) {
+    public CheckCastInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
-        if(!(instruction instanceof Instruction21c))
-            throw new IllegalArgumentException("Expected Instruction21c but got: "+instruction.getClass());
+    public void jimplify(DexBody body) {
+        if (!(instruction instanceof Instruction21c))
+            throw new IllegalArgumentException("Expected Instruction21c but got: " + instruction.getClass());
 
-        Instruction21c checkCastInstr = (Instruction21c)instruction;
+        Instruction21c checkCastInstr = (Instruction21c) instruction;
 
         Local castValue = body.getRegisterLocal(checkCastInstr.getRegisterA());
         Type checkCastType = DexType.toSoot((TypeReference) checkCastInstr.getReference());
 
-        CastExpr castExpr =  Jimple.v().newCastExpr(castValue, checkCastType);
+        CastExpr castExpr = Jimple.v().newCastExpr(castValue, checkCastType);
 
         //generate "x = (Type) x"
         //splitter will take care of the rest
@@ -70,12 +69,12 @@ public class CheckCastInstruction extends DexlibAbstractInstruction {
         setUnit(assign);
         addTags(assign);
         body.add(assign);
-        
+
 
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
             DalvikTyper.v().setType(assign.getLeftOpBox(), checkCastType, false);
-		}
+        }
 
     }
 

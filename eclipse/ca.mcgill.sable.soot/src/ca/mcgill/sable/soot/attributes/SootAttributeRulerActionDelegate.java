@@ -19,49 +19,44 @@
 
 package ca.mcgill.sable.soot.attributes;
 
-import java.util.ResourceBundle;
-
+import ca.mcgill.sable.soot.SootPlugin;
+import ca.mcgill.sable.soot.editors.JimpleEditor;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.source.IVerticalRulerInfo;
 import org.eclipse.ui.texteditor.*;
 
-import ca.mcgill.sable.soot.SootPlugin;
-import ca.mcgill.sable.soot.editors.JimpleEditor;
+import java.util.ResourceBundle;
 
 
 public class SootAttributeRulerActionDelegate extends AbstractRulerActionDelegate {
 
-	/**
-	 * @param bundle
-	 * @param prefix
-	 * @param editor
-	 * @param ruler
-	 */
-	public SootAttributeRulerActionDelegate(){
-	}
-	
-	
+    /**
+     * @param bundle
+     * @param prefix
+     * @param editor
+     * @param ruler
+     */
+    public SootAttributeRulerActionDelegate() {
+    }
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.texteditor.AbstractRulerActionDelegate#createAction(org.eclipse.ui.texteditor.ITextEditor, org.eclipse.jface.text.source.IVerticalRulerInfo)
-	 */
-	protected IAction createAction(ITextEditor editor, IVerticalRulerInfo rulerInfo) {
-		
-		try {
-			ResourceBundle rb = SootPlugin.getDefault().getResourceBundle();
-			if (editor instanceof JimpleEditor){
-				return new SootAttributeJimpleSelectAction(rb, null, editor, rulerInfo);
-			}
-			else {
-				return new SootAttributeJavaSelectAction(rb, null, editor, rulerInfo);
-			}
-		}
-		catch (Exception e){
-			System.out.println("exception: "+e.getMessage());
-		}
-		return null;
-	}
 
-	
+    /* (non-Javadoc)
+     * @see org.eclipse.ui.texteditor.AbstractRulerActionDelegate#createAction(org.eclipse.ui.texteditor.ITextEditor, org.eclipse.jface.text.source.IVerticalRulerInfo)
+     */
+    protected IAction createAction(ITextEditor editor, IVerticalRulerInfo rulerInfo) {
+
+        try {
+            ResourceBundle rb = SootPlugin.getDefault().getResourceBundle();
+            if (editor instanceof JimpleEditor) {
+                return new SootAttributeJimpleSelectAction(rb, null, editor, rulerInfo);
+            } else {
+                return new SootAttributeJavaSelectAction(rb, null, editor, rulerInfo);
+            }
+        } catch (Exception e) {
+            System.out.println("exception: " + e.getMessage());
+        }
+        return null;
+    }
+
 
 }

@@ -32,123 +32,130 @@ import java.util.List;
 
 // extended by SootClass, SootField, SootMethod, Scene
 
-/** 
+/**
  * This class is the reference implementation for
  * the Host interface, which allows arbitrary taggable
- * data to be stored with Soot objects. 
+ * data to be stored with Soot objects.
  */
-public class AbstractHost implements Host 
-{
-	
-	protected int line, col;	
+public class AbstractHost implements Host {
+
+    protected int line, col;
 
     // avoid creating an empty list for each element, when it is not used
     // use lazy instantiation (in addTag) instead
     private List<Tag> mTagList = null;
-    
-    /** get the list of tags. This list should not be modified! */
-    public List<Tag> getTags()
-    {
+
+    /**
+     * get the list of tags. This list should not be modified!
+     */
+    public List<Tag> getTags() {
         return (mTagList == null) ? Collections.<Tag>emptyList() : mTagList;
     }
 
-    /** remove the tag named <code>aName</code> */
-    public void removeTag(String aName)
-    {
+    /**
+     * remove the tag named <code>aName</code>
+     */
+    public void removeTag(String aName) {
         int tagIndex;
-        if((tagIndex = searchForTag(aName)) != -1) {
+        if ((tagIndex = searchForTag(aName)) != -1) {
             mTagList.remove(tagIndex);
         }
     }
 
-    /** search for tag named <code>aName</code> */
-    private int searchForTag(String aName) 
-    {
-    	if (mTagList == null)
-    		return -1;
-    	
+    /**
+     * search for tag named <code>aName</code>
+     */
+    private int searchForTag(String aName) {
+        if (mTagList == null)
+            return -1;
+
         int i = 0;
         Iterator<Tag> it = mTagList.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Tag tag = it.next();
-            if(tag.getName().equals(aName))
+            if (tag.getName().equals(aName))
                 return i;
             i++;
         }
         return -1;
     }
 
-    /** get the Tag object named <code>aName</code> */
-   public Tag getTag(String aName)
-    {      
+    /**
+     * get the Tag object named <code>aName</code>
+     */
+    public Tag getTag(String aName) {
         int tagIndex;
-        if((tagIndex = searchForTag(aName)) != -1) {
+        if ((tagIndex = searchForTag(aName)) != -1) {
             return mTagList.get(tagIndex);
         }
-        
-				return null;
+
+        return null;
     }
 
-    /** look if this host has a tag named <code>aName</code> */ 
-    public boolean hasTag(String aName)
-    {
+    /**
+     * look if this host has a tag named <code>aName</code>
+     */
+    public boolean hasTag(String aName) {
         return (searchForTag(aName) != -1);
     }
-    
-    /** add tag <code>t</code> to this host */
-    public void addTag(Tag t)
-    {
-        if (mTagList == null) 
+
+    /**
+     * add tag <code>t</code> to this host
+     */
+    public void addTag(Tag t) {
+        if (mTagList == null)
             mTagList = new ArrayList<Tag>(1);
         mTagList.add(t);
     }
 
-    /** Removes all the tags from this host. */
+    /**
+     * Removes all the tags from this host.
+     */
     public void removeAllTags() {
         mTagList = null;
     }
 
-    /** Adds all the tags from h to this host. */
-    public void addAllTagsOf( Host h ) {
-    	List<Tag> tags = h.getTags();
-    	if ( tags.isEmpty() )
-    		return;    	
-    	
+    /**
+     * Adds all the tags from h to this host.
+     */
+    public void addAllTagsOf(Host h) {
+        List<Tag> tags = h.getTags();
+        if (tags.isEmpty())
+            return;
+
         if (mTagList == null) {
             mTagList = new ArrayList<Tag>(tags.size());
-        } 
-        
+        }
+
         mTagList.addAll(tags);
     }
-    
+
     public int getJavaSourceStartLineNumber() {
-    	if(line==0) {
-    		//get line from source
-	    	SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
-	    	if(tag!=null) {
-	    		line = tag.startLn();
-	    	} else {
-	    		//get line from bytecode
-	    		LineNumberTag tag2 = (LineNumberTag) getTag("LineNumberTag");
-		    	if(tag2!=null) {
-		    		line = tag2.getLineNumber();
-		    	}
-		    	else line = -1;
-	    	}
-    	}
-    	return line;    		
+        if (line == 0) {
+            //get line from source
+            SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
+            if (tag != null) {
+                line = tag.startLn();
+            } else {
+                //get line from bytecode
+                LineNumberTag tag2 = (LineNumberTag) getTag("LineNumberTag");
+                if (tag2 != null) {
+                    line = tag2.getLineNumber();
+                } else line = -1;
+            }
+        }
+        return line;
     }
-    
+
     public int getJavaSourceStartColumnNumber() {
-    	if(col==0) {
-    		//get line from source
-	    	SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
-	    	if(tag!=null) {
-	    		col = tag.startPos();
-	    	} 
-		    else col = -1;
-    	}
-    	return col;    		
+        if (col == 0) {
+            //get line from source
+            SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
+            if (tag != null) {
+                col = tag.startPos();
+            } else col = -1;
+        }
+        return col;
     }
 }
 

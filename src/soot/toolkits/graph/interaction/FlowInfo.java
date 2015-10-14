@@ -25,41 +25,41 @@ public class FlowInfo<I, U> {
     private U unit;
     private boolean before;
 
-    public FlowInfo(I info, U unit, boolean b){
+    public FlowInfo(I info, U unit, boolean b) {
         info(info);
         unit(unit);
         setBefore(b);
     }
-    
-    public U unit(){
+
+    public U unit() {
         return unit;
     }
 
-    public void unit(U u){
+    public void unit(U u) {
         unit = u;
     }
-    
-    public I info(){
+
+    public I info() {
         return info;
     }
 
-    public void info(I i){
+    public void info(I i) {
         info = i;
     }
 
-    public boolean isBefore(){
+    public boolean isBefore() {
         return before;
     }
 
-    public void setBefore(boolean b){
+    public void setBefore(boolean b) {
         before = b;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("unit: "+unit);
-        sb.append(" info: "+info);
-        sb.append(" before: "+before);
+        sb.append("unit: " + unit);
+        sb.append(" info: " + info);
+        sb.append(" before: " + before);
         return sb.toString();
     }
 }

@@ -2,37 +2,31 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class TLookupswitch extends Token
-{
-    public TLookupswitch()
-    {
+public final class TLookupswitch extends Token {
+    public TLookupswitch() {
         super.setText("lookupswitch");
     }
 
-    public TLookupswitch(int line, int pos)
-    {
+    public TLookupswitch(int line, int pos) {
         super.setText("lookupswitch");
         setLine(line);
         setPos(pos);
     }
 
     @Override
-    public Object clone()
-    {
-      return new TLookupswitch(getLine(), getPos());
+    public Object clone() {
+        return new TLookupswitch(getLine(), getPos());
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseTLookupswitch(this);
     }
 
     @Override
-    public void setText(@SuppressWarnings("unused") String text)
-    {
+    public void setText(@SuppressWarnings("unused") String text) {
         throw new RuntimeException("Cannot change TLookupswitch text.");
     }
 }

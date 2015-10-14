@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AEnumModifier extends PModifier
-{
+public final class AEnumModifier extends PModifier {
     private TEnum _enum_;
 
-    public AEnumModifier()
-    {
+    public AEnumModifier() {
         // Constructor
     }
 
     public AEnumModifier(
-        @SuppressWarnings("hiding") TEnum _enum_)
-    {
+            @SuppressWarnings("hiding") TEnum _enum_) {
         // Constructor
         setEnum(_enum_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AEnumModifier(
-            cloneNode(this._enum_));
+                cloneNode(this._enum_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAEnumModifier(this);
     }
 
-    public TEnum getEnum()
-    {
+    public TEnum getEnum() {
         return this._enum_;
     }
 
-    public void setEnum(TEnum node)
-    {
-        if(this._enum_ != null)
-        {
+    public void setEnum(TEnum node) {
+        if (this._enum_ != null) {
             this._enum_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AEnumModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._enum_);
+                + toString(this._enum_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._enum_ == child)
-        {
+        if (this._enum_ == child) {
             this._enum_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AEnumModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._enum_ == oldChild)
-        {
+        if (this._enum_ == oldChild) {
             setEnum((TEnum) newChild);
             return;
         }

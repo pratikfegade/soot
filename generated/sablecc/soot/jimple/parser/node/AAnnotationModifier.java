@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AAnnotationModifier extends PModifier
-{
+public final class AAnnotationModifier extends PModifier {
     private TAnnotation _annotation_;
 
-    public AAnnotationModifier()
-    {
+    public AAnnotationModifier() {
         // Constructor
     }
 
     public AAnnotationModifier(
-        @SuppressWarnings("hiding") TAnnotation _annotation_)
-    {
+            @SuppressWarnings("hiding") TAnnotation _annotation_) {
         // Constructor
         setAnnotation(_annotation_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AAnnotationModifier(
-            cloneNode(this._annotation_));
+                cloneNode(this._annotation_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAAnnotationModifier(this);
     }
 
-    public TAnnotation getAnnotation()
-    {
+    public TAnnotation getAnnotation() {
         return this._annotation_;
     }
 
-    public void setAnnotation(TAnnotation node)
-    {
-        if(this._annotation_ != null)
-        {
+    public void setAnnotation(TAnnotation node) {
+        if (this._annotation_ != null) {
             this._annotation_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AAnnotationModifier extends PModifier
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._annotation_);
+                + toString(this._annotation_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._annotation_ == child)
-        {
+        if (this._annotation_ == child) {
             this._annotation_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AAnnotationModifier extends PModifier
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._annotation_ == oldChild)
-        {
+        if (this._annotation_ == oldChild) {
             setAnnotation((TAnnotation) newChild);
             return;
         }

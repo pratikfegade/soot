@@ -18,8 +18,11 @@
  */
 
 package soot;
-import java.util.*;
+
 import soot.tagkit.*;
+
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * Adds PositionTags to ValueBoxes to identify their position in the output.
@@ -27,76 +30,83 @@ import soot.tagkit.*;
 public class AttributesUnitPrinter {
 
     private Stack<Integer> startOffsets;
-	private int endOffset;
-	private int startStmtOffset;
+    private int endOffset;
+    private int startStmtOffset;
     private int startLn;
-	private int currentLn;
+    private int currentLn;
     private int lastNewline;
     private UnitPrinter printer;
-    
-	public AttributesUnitPrinter( int currentLnNum ) {
-		this.currentLn = currentLnNum;
-	}
-	public void startUnit( Unit u ) {
-		startLn = currentLn;
-		startStmtOffset = output().length() - lastNewline;
-	}
-	public void endUnit( Unit u ) {
-		int endStmtOffset = output().length() - lastNewline;
-        //G.v().out.println("u: "+u.toString());
-		if (hasTag(u)){
-            //G.v().out.println("u: "+u.toString()+" has tag");
-			u.addTag( new JimpleLineNumberTag( startLn, currentLn ));
-		}
-		if (hasColorTag(u)) {
-			u.addTag( new PositionTag(startStmtOffset, endStmtOffset) );
-		}
-	}
-    public void startValueBox( ValueBox u ) {
-		if (startOffsets == null) {
-			startOffsets = new Stack<Integer>();
-		}
-        startOffsets.push(new Integer(output().length() - lastNewline));
-    }
-    public void endValueBox( ValueBox u ) {
-        endOffset = output().length() - lastNewline;
-        if (hasColorTag(u)) {
-			u.addTag(new PositionTag(startOffsets.pop().intValue(), endOffset));
-		}
+
+    public AttributesUnitPrinter(int currentLnNum) {
+        this.currentLn = currentLnNum;
     }
 
-	private boolean hasTag(Host h) {
+    public void startUnit(Unit u) {
+        startLn = currentLn;
+        startStmtOffset = output().length() - lastNewline;
+    }
+
+    public void endUnit(Unit u) {
+        int endStmtOffset = output().length() - lastNewline;
+        //G.v().out.println("u: "+u.toString());
+        if (hasTag(u)) {
+            //G.v().out.println("u: "+u.toString()+" has tag");
+            u.addTag(new JimpleLineNumberTag(startLn, currentLn));
+        }
+        if (hasColorTag(u)) {
+            u.addTag(new PositionTag(startStmtOffset, endStmtOffset));
+        }
+    }
+
+    public void startValueBox(ValueBox u) {
+        if (startOffsets == null) {
+            startOffsets = new Stack<Integer>();
+        }
+        startOffsets.push(new Integer(output().length() - lastNewline));
+    }
+
+    public void endValueBox(ValueBox u) {
+        endOffset = output().length() - lastNewline;
+        if (hasColorTag(u)) {
+            u.addTag(new PositionTag(startOffsets.pop().intValue(), endOffset));
+        }
+    }
+
+    private boolean hasTag(Host h) {
         if (h instanceof Unit) {
-            Iterator<ValueBox> usesAndDefsIt = ((Unit)h).getUseAndDefBoxes().iterator();
-            while (usesAndDefsIt.hasNext()){
+            Iterator<ValueBox> usesAndDefsIt = ((Unit) h).getUseAndDefBoxes().iterator();
+            while (usesAndDefsIt.hasNext()) {
                 if (hasTag(usesAndDefsIt.next())) return true;
             }
         }
-		if (h.getTags().isEmpty()) return false;
-		return true;
-	}
-	
-	private boolean hasColorTag(Host h) {
-		for ( Tag t : h.getTags() ) {
-			if (t instanceof ColorTag) return true;
-		}
-		return false;
-	}
-	
-    public void setEndLn(int ln){
-        currentLn = ln;
+        return !h.getTags().isEmpty();
     }
+
+    private boolean hasColorTag(Host h) {
+        for (Tag t : h.getTags()) {
+            if (t instanceof ColorTag) return true;
+        }
+        return false;
+    }
+
     public int getEndLn() {
         return currentLn;
     }
-    public void newline() { 
+
+    public void setEndLn(int ln) {
+        currentLn = ln;
+    }
+
+    public void newline() {
         currentLn++;
         lastNewline = output().length();
     }
+
     private StringBuffer output() {
         return printer.output();
     }
-    public void setUnitPrinter( UnitPrinter up ) {
+
+    public void setUnitPrinter(UnitPrinter up) {
         printer = up;
     }
 }

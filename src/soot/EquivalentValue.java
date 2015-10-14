@@ -26,26 +26,28 @@
 
 
 package soot;
-import java.util.*;
 
-import soot.util.*;
+import soot.util.Switch;
 
-/** 
- * Encapsulates the Value class, but uses EquivTo for equality comparisons. 
- * Also uses equivHashCode as its hash code. */
+import java.util.List;
+
+/**
+ * Encapsulates the Value class, but uses EquivTo for equality comparisons.
+ * Also uses equivHashCode as its hash code.
+ */
 @SuppressWarnings("serial")
 public class EquivalentValue implements Value {
     Value e;
+
     public EquivalentValue(Value e) {
-    	if (e instanceof EquivalentValue)
-    		e = ((EquivalentValue) e).e;
-    	this.e = e;
+        if (e instanceof EquivalentValue)
+            e = ((EquivalentValue) e).e;
+        this.e = e;
     }
-    
-    public boolean equals(Object o) 
-    { 
-        if (o instanceof EquivalentValue) 
-            o = ((EquivalentValue)o).e; 
+
+    public boolean equals(Object o) {
+        if (o instanceof EquivalentValue)
+            o = ((EquivalentValue) o).e;
         return e.equivTo(o);
     }
 
@@ -54,7 +56,7 @@ public class EquivalentValue implements Value {
      * <code>equivTo</code>
      **/
     public boolean equivToValue(Value v) {
-      return e.equivTo(v);
+        return e.equivTo(v);
     }
 
     /**
@@ -62,50 +64,60 @@ public class EquivalentValue implements Value {
      * <code>equals</code>
      **/
     public boolean equalsToValue(Value v) {
-      return e.equals(v);
+        return e.equals(v);
     }
-    
+
     /**
-     * @deprecated
      * @see #getValue()
+     * @deprecated
      **/
     @Deprecated
     public Value getDeepestValue() {
-    	return getValue();
+        return getValue();
     }
 
-    public int hashCode() { return e.equivHashCode(); }
-    public String toString() { return e.toString(); }
-    public Value getValue() { return e; }
+    public int hashCode() {
+        return e.equivHashCode();
+    }
+
+    public String toString() {
+        return e.toString();
+    }
+
+    public Value getValue() {
+        return e;
+    }
 
     /*********************************/
     /* implement the Value-interface */
+
     /*********************************/
     public List<ValueBox> getUseBoxes() {
-      return e.getUseBoxes();
+        return e.getUseBoxes();
     }
 
     public Type getType() {
-      return e.getType();
+        return e.getType();
     }
 
     public Object clone() {
-      EquivalentValue equiVal = new EquivalentValue((Value)e.clone());
-      return equiVal;
+        EquivalentValue equiVal = new EquivalentValue((Value) e.clone());
+        return equiVal;
     }
 
     public boolean equivTo(Object o) {
-      return e.equivTo(o);
+        return e.equivTo(o);
     }
 
     public int equivHashCode() {
-      return e.equivHashCode();
+        return e.equivHashCode();
     }
 
     public void apply(Switch sw) {
-      e.apply(sw);
+        e.apply(sw);
     }
-    public void toString( UnitPrinter up ) {
+
+    public void toString(UnitPrinter up) {
         e.toString(up);
     }
 }

@@ -24,20 +24,12 @@
 
 package soot.dexpler.instructions;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
-import soot.ArrayType;
-import soot.IntType;
-import soot.Local;
-import soot.Type;
-import soot.Value;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
@@ -47,20 +39,23 @@ import soot.jimple.AssignStmt;
 import soot.jimple.Jimple;
 import soot.jimple.NewArrayExpr;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class NewArrayInstruction extends DexlibAbstractInstruction {
 
     AssignStmt assign = null;
 
-    public NewArrayInstruction (Instruction instruction, int codeAdress) {
+    public NewArrayInstruction(Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    public void jimplify(DexBody body) {
 
-        if(!(instruction instanceof Instruction22c))
-            throw new IllegalArgumentException("Expected Instruction22c but got: "+instruction.getClass());
+        if (!(instruction instanceof Instruction22c))
+            throw new IllegalArgumentException("Expected Instruction22c but got: " + instruction.getClass());
 
-        Instruction22c newArray = (Instruction22c)instruction;
+        Instruction22c newArray = (Instruction22c) instruction;
         int dest = newArray.getRegisterA();
 
         Value size = body.getRegisterLocal(newArray.getRegisterB());
@@ -69,7 +64,7 @@ public class NewArrayInstruction extends DexlibAbstractInstruction {
         // NewArrayExpr needs the ElementType as it increases the array dimension by 1
         Type arrayType = ((ArrayType) t).getElementType();
         Debug.printDbg("new array element type: ", arrayType);
-        
+
         NewArrayExpr newArrayExpr = Jimple.v().newNewArrayExpr(arrayType, size);
 
         Local l = body.getRegisterLocal(dest);
@@ -79,11 +74,11 @@ public class NewArrayInstruction extends DexlibAbstractInstruction {
         addTags(assign);
         body.add(assign);
 
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          int op = (int)instruction.getOpcode().value;
-          DalvikTyper.v().setType(newArrayExpr.getSizeBox(), IntType.v(), true);
-          DalvikTyper.v().setType(assign.getLeftOpBox(), newArrayExpr.getType(), false);
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
+            int op = (int) instruction.getOpcode().value;
+            DalvikTyper.v().setType(newArrayExpr.getSizeBox(), IntType.v(), true);
+            DalvikTyper.v().setType(assign.getLeftOpBox(), newArrayExpr.getType(), false);
         }
     }
 

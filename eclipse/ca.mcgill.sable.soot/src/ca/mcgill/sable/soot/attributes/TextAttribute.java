@@ -23,40 +23,40 @@ package ca.mcgill.sable.soot.attributes;
 
 public class TextAttribute {
 
-	private String info;
-	private String type;
-	
+    private String info;
+    private String type;
 
-	public TextAttribute() {
-		super();
-	}
 
-	/**
-	 * @return
-	 */
-	public String getInfo() {
-		return info;
-	}
+    public TextAttribute() {
+        super();
+    }
 
-	/**
-	 * @return
-	 */
-	public String getType() {
-		return type;
-	}
+    /**
+     * @return
+     */
+    public String getInfo() {
+        return info;
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setInfo(String string) {
-		info = string;
-	}
+    /**
+     * @param string
+     */
+    public void setInfo(String string) {
+        info = string;
+    }
 
-	/**
-	 * @param string
-	 */
-	public void setType(String string) {
-		type = string;
-	}
+    /**
+     * @return
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param string
+     */
+    public void setType(String string) {
+        type = string;
+    }
 
 }

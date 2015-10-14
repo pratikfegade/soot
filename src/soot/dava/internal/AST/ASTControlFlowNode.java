@@ -20,20 +20,20 @@
 
 package soot.dava.internal.AST;
 
-import soot.jimple.*;
-import soot.dava.internal.SET.*;
-import soot.dava.toolkits.base.AST.*;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.toolkits.base.AST.ASTAnalysis;
+import soot.dava.toolkits.base.AST.ASTWalker;
+import soot.dava.toolkits.base.AST.TryContentsFinder;
+import soot.jimple.ConditionExpr;
 
-public abstract class ASTControlFlowNode extends ASTLabeledNode
-{
+public abstract class ASTControlFlowNode extends ASTLabeledNode {
     //protected ValueBox conditionBox;
     ASTCondition condition;
 
-    public ASTControlFlowNode( SETNodeLabel label, ConditionExpr condition)
-    {
-	super( label);
+    public ASTControlFlowNode(SETNodeLabel label, ConditionExpr condition) {
+        super(label);
         //this.conditionBox = Jimple.v().newConditionExprBox(condition);
-	this.condition = new ASTBinaryCondition(condition);
+        this.condition = new ASTBinaryCondition(condition);
     }
 
     /*
@@ -41,26 +41,23 @@ public abstract class ASTControlFlowNode extends ASTLabeledNode
       Needed because of change of grammar of condition being stored as a ASTCondition rather 
       than the ConditionExpr which was the case before
     */
-    public ASTControlFlowNode( SETNodeLabel label, ASTCondition condition)
-    {
-	super( label);
-	this.condition = condition;
+    public ASTControlFlowNode(SETNodeLabel label, ASTCondition condition) {
+        super(label);
+        this.condition = condition;
     }
 
 
-    public ASTCondition get_Condition()
-    {
-	return condition;
+    public ASTCondition get_Condition() {
+        return condition;
     }
 
 
-    public void set_Condition(ASTCondition condition){
-	this.condition=condition;
+    public void set_Condition(ASTCondition condition) {
+        this.condition = condition;
     }
 
-    public void perform_Analysis( ASTAnalysis a)
-    {
-	/*
+    public void perform_Analysis(ASTAnalysis a) {
+    /*
 	  Nomair A Naeem 17-FEB-05 
 	  Changed because the ASTControlFlowNode does not have a ConditionBox anymore
 
@@ -73,15 +70,15 @@ public abstract class ASTControlFlowNode extends ASTLabeledNode
 
 	  This method is deprecated do not use it. Use the DepthFirstAdapter class in dava.toolkits.base.AST.analysis.
 	*/
-	if(condition instanceof ASTBinaryCondition){ 
-	    ConditionExpr condExpr = ((ASTBinaryCondition)condition).getConditionExpr();
-	    ASTWalker.v().walk_value( a, condExpr);
-	}
+        if (condition instanceof ASTBinaryCondition) {
+            ConditionExpr condExpr = ((ASTBinaryCondition) condition).getConditionExpr();
+            ASTWalker.v().walk_value(a, condExpr);
+        }
 
-	if (a instanceof TryContentsFinder) {
-	    TryContentsFinder.v().add_ExceptionSet( this, TryContentsFinder.v().remove_CurExceptionSet());
-	}
+        if (a instanceof TryContentsFinder) {
+            TryContentsFinder.v().add_ExceptionSet(this, TryContentsFinder.v().remove_CurExceptionSet());
+        }
 
-	perform_AnalysisOnSubBodies( a);
+        perform_AnalysisOnSubBodies(a);
     }
 }

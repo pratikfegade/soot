@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AMultiNameList extends PNameList
-{
+public final class AMultiNameList extends PNameList {
     private PName _name_;
     private TComma _comma_;
     private PNameList _nameList_;
 
-    public AMultiNameList()
-    {
+    public AMultiNameList() {
         // Constructor
     }
 
     public AMultiNameList(
-        @SuppressWarnings("hiding") PName _name_,
-        @SuppressWarnings("hiding") TComma _comma_,
-        @SuppressWarnings("hiding") PNameList _nameList_)
-    {
+            @SuppressWarnings("hiding") PName _name_,
+            @SuppressWarnings("hiding") TComma _comma_,
+            @SuppressWarnings("hiding") PNameList _nameList_) {
         // Constructor
         setName(_name_);
 
@@ -31,35 +28,28 @@ public final class AMultiNameList extends PNameList
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMultiNameList(
-            cloneNode(this._name_),
-            cloneNode(this._comma_),
-            cloneNode(this._nameList_));
+                cloneNode(this._name_),
+                cloneNode(this._comma_),
+                cloneNode(this._nameList_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMultiNameList(this);
     }
 
-    public PName getName()
-    {
+    public PName getName() {
         return this._name_;
     }
 
-    public void setName(PName node)
-    {
-        if(this._name_ != null)
-        {
+    public void setName(PName node) {
+        if (this._name_ != null) {
             this._name_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class AMultiNameList extends PNameList
         this._name_ = node;
     }
 
-    public TComma getComma()
-    {
+    public TComma getComma() {
         return this._comma_;
     }
 
-    public void setComma(TComma node)
-    {
-        if(this._comma_ != null)
-        {
+    public void setComma(TComma node) {
+        if (this._comma_ != null) {
             this._comma_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class AMultiNameList extends PNameList
         this._comma_ = node;
     }
 
-    public PNameList getNameList()
-    {
+    public PNameList getNameList() {
         return this._nameList_;
     }
 
-    public void setNameList(PNameList node)
-    {
-        if(this._nameList_ != null)
-        {
+    public void setNameList(PNameList node) {
+        if (this._nameList_ != null) {
             this._nameList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class AMultiNameList extends PNameList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._name_)
-            + toString(this._comma_)
-            + toString(this._nameList_);
+                + toString(this._name_)
+                + toString(this._comma_)
+                + toString(this._nameList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._name_ == child)
-        {
+        if (this._name_ == child) {
             this._name_ = null;
             return;
         }
 
-        if(this._comma_ == child)
-        {
+        if (this._comma_ == child) {
             this._comma_ = null;
             return;
         }
 
-        if(this._nameList_ == child)
-        {
+        if (this._nameList_ == child) {
             this._nameList_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class AMultiNameList extends PNameList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._name_ == oldChild)
-        {
+        if (this._name_ == oldChild) {
             setName((PName) newChild);
             return;
         }
 
-        if(this._comma_ == oldChild)
-        {
+        if (this._comma_ == oldChild) {
             setComma((TComma) newChild);
             return;
         }
 
-        if(this._nameList_ == oldChild)
-        {
+        if (this._nameList_ == oldChild) {
             setNameList((PNameList) newChild);
             return;
         }

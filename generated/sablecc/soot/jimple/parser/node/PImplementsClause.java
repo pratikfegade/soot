@@ -2,7 +2,6 @@
 
 package soot.jimple.parser.node;
 
-public abstract class PImplementsClause extends Node
-{
+public abstract class PImplementsClause extends Node {
     // Empty body
 }

@@ -1,5 +1,8 @@
-
 public class SimpleBinaryTest {
+    public SimpleBinaryTest() {
+        super();
+    }
+
     public static void main(String[] args) {
         int i = 0;
         int j = 1;
@@ -13,6 +16,4 @@ public class SimpleBinaryTest {
         i = m % n;
         i = j + k * m - n;
     }
-    
-    public SimpleBinaryTest() { super(); }
 }

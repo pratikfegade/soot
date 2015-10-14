@@ -28,39 +28,38 @@ package soot.tagkit;
 import soot.util.Switch;
 
 
-/** 
+/**
  * Represents the base class of annotation elements
- * each annotation can have several elements 
+ * each annotation can have several elements
  * for Java 1.5.
  */
 
-public class AnnotationEnumElem extends AnnotationElem
-{
+public class AnnotationEnumElem extends AnnotationElem {
 
     String typeName;
     String constantName;
 
-    public AnnotationEnumElem(String t, String c, char kind, String name){
+    public AnnotationEnumElem(String t, String c, char kind, String name) {
         super(kind, name);
         this.typeName = t;
         this.constantName = c;
     }
-    
-    public String toString(){
-        return super.toString()+" type name: "+typeName+" constant name: "+constantName;
+
+    public String toString() {
+        return super.toString() + " type name: " + typeName + " constant name: " + constantName;
     }
 
-    public String getTypeName(){
+    public String getTypeName() {
         return typeName;
     }
-    
-    public String getConstantName(){
+
+    public String getConstantName() {
         return constantName;
     }
-    
-	@Override
-	public void apply(Switch sw) {
-		((IAnnotationElemTypeSwitch) sw).caseAnnotationEnumElem(this);
-	}
+
+    @Override
+    public void apply(Switch sw) {
+        ((IAnnotationElemTypeSwitch) sw).caseAnnotationEnumElem(this);
+    }
 }
 

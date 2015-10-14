@@ -19,54 +19,54 @@
 
 package ca.mcgill.sable.soot.launching;
 
+import org.eclipse.jface.action.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.eclipse.jface.action.*;
 
 /**
  * Launches Soot with -f dava on all classes in output dir of project
  */
 public class DavaDecompileJavaProjectLauncher extends SootProjectLauncher {
 
-	
-	public void run(IAction action) {
-		
-		super.run(action);
 
-		setCmd();
-		runSootDirectly();
-		runFinish();
-	}
-	
-	private void setCmd() {
-		
-		ArrayList commands = new ArrayList();
-		commands.add("--"+LaunchCommands.SOOT_CLASSPATH);
-		
-		Iterator it = getJavaProcessPath().iterator();
-		String cp = (String)it.next();
-		while (it.hasNext()){
-			cp = cp + getSootClasspath().getSeparator() + (String)it.next();
-		}
-		cp = cp + getSootClasspath().getSeparator()+ getClasspathAppend();
-		commands.add(cp);
-			
-		commands.add("--"+LaunchCommands.OUTPUT_DIR);
-		commands.add(getOutputLocation());
-		
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.KEEP_LINE_NUMBER);
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.XML_ATTRIBUTES);
-		getSootCommandList().addDoubleOpt("--"+LaunchCommands.SRC_PREC, "java");
-		
-		Iterator it2 = getJavaProcessPath().iterator();
-		while (it2.hasNext()){
-			commands.add("--"+LaunchCommands.PROCESS_PATH);
-			commands.add((String)it2.next());
-		}	
-		getSootCommandList().addSingleOpt("--"+LaunchCommands.DAVA);
-		
-		getSootCommandList().addSingleOpt(commands);	
-	}
+    public void run(IAction action) {
+
+        super.run(action);
+
+        setCmd();
+        runSootDirectly();
+        runFinish();
+    }
+
+    private void setCmd() {
+
+        ArrayList commands = new ArrayList();
+        commands.add("--" + LaunchCommands.SOOT_CLASSPATH);
+
+        Iterator it = getJavaProcessPath().iterator();
+        String cp = (String) it.next();
+        while (it.hasNext()) {
+            cp = cp + getSootClasspath().getSeparator() + it.next();
+        }
+        cp = cp + getSootClasspath().getSeparator() + getClasspathAppend();
+        commands.add(cp);
+
+        commands.add("--" + LaunchCommands.OUTPUT_DIR);
+        commands.add(getOutputLocation());
+
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.KEEP_LINE_NUMBER);
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.XML_ATTRIBUTES);
+        getSootCommandList().addDoubleOpt("--" + LaunchCommands.SRC_PREC, "java");
+
+        Iterator it2 = getJavaProcessPath().iterator();
+        while (it2.hasNext()) {
+            commands.add("--" + LaunchCommands.PROCESS_PATH);
+            commands.add(it2.next());
+        }
+        getSootCommandList().addSingleOpt("--" + LaunchCommands.DAVA);
+
+        getSootCommandList().addSingleOpt(commands);
+    }
 
 }

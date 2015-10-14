@@ -24,50 +24,42 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
-import soot.baf.*;
-import soot.util.*;
+import soot.baf.ExitMonitorInst;
+import soot.baf.InstSwitch;
+import soot.util.Switch;
 
-public class BExitMonitorInst extends AbstractInst implements ExitMonitorInst
-{
-    public BExitMonitorInst()
-    {
+public class BExitMonitorInst extends AbstractInst implements ExitMonitorInst {
+    public BExitMonitorInst() {
     }
-    
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 1;
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 1;
     }
-    
-    public int getOutCount()
-    {
-        return 0;
-    }
- 
-    public int getOutMachineCount()
-    {
-        return 0;
-    }
-    
-    final public String getName() { return "exitmonitor"; }
 
-    public void apply(Switch sw)
-    {
+    public int getOutCount() {
+        return 0;
+    }
+
+    public int getOutMachineCount() {
+        return 0;
+    }
+
+    final public String getName() {
+        return "exitmonitor";
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseExitMonitorInst(this);
-    }   
-    
-    public Object clone() 
-    {
+    }
+
+    public Object clone() {
         return new BExitMonitorInst();
     }
-   
+
 }

@@ -24,57 +24,50 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.RefType;
+import soot.Type;
+import soot.util.StringTools;
+import soot.util.Switch;
 
-public class ClassConstant extends Constant
-{
+public class ClassConstant extends Constant {
     public final String value;
 
-    private ClassConstant(String s)
-    {
+    private ClassConstant(String s) {
         this.value = s;
     }
 
-    public static ClassConstant v(String value)
-    {
-    	if(value.contains(".")) throw new RuntimeException("ClassConstants must use class names separated by '/', not '.'!");
+    public static ClassConstant v(String value) {
+        if (value.contains(".")) throw new RuntimeException("ClassConstants must use class names separated by '/', not '.'!");
         return new ClassConstant(value);
     }
 
     // In this case, equals should be structural equality.
-    public boolean equals(Object c)
-    {
+    public boolean equals(Object c) {
         return (c instanceof ClassConstant && ((ClassConstant) c).value.equals(this.value));
     }
 
-    /** Returns a hash code for this ClassConstant object. */
-    public int hashCode()
-    {
+    /**
+     * Returns a hash code for this ClassConstant object.
+     */
+    public int hashCode() {
         return value.hashCode();
     }
 
-    public String toString()
-    {
-        return "class "+StringTools.getQuotedStringOf(value);
+    public String toString() {
+        return "class " + StringTools.getQuotedStringOf(value);
     }
 
-    public String getValue(){
+    public String getValue() {
         return value;
     }
-    
-    public Type getType()
-    {
+
+    public Type getType() {
         return RefType.v("java.lang.Class");
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ConstantSwitch) sw).caseClassConstant(this);
     }
 }

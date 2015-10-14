@@ -24,21 +24,15 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.Value;
+import soot.jimple.Jimple;
 
 @SuppressWarnings("serial")
-abstract public class AbstractJimpleBinopExpr extends AbstractBinopExpr
-{
-    protected AbstractJimpleBinopExpr (Value op1, Value op2)
-    {
-        op1Box = Jimple.v().newArgBox(op1); 
+abstract public class AbstractJimpleBinopExpr extends AbstractBinopExpr {
+    protected AbstractJimpleBinopExpr(Value op1, Value op2) {
+        op1Box = Jimple.v().newArgBox(op1);
         op2Box = Jimple.v().newArgBox(op2);
     }
 }

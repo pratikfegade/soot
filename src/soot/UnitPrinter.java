@@ -18,38 +18,59 @@
  */
 
 package soot;
-import soot.jimple.*;
+
+import soot.jimple.Constant;
+import soot.jimple.IdentityRef;
 
 /**
-* Interface for different methods of printing out a Unit.
-*/
+ * Interface for different methods of printing out a Unit.
+ */
 public interface UnitPrinter {
-    public void startUnit( Unit u );
-    public void endUnit( Unit u );
-    public void startUnitBox( UnitBox u );
-    public void endUnitBox( UnitBox u );
-    public void startValueBox( ValueBox u );
-    public void endValueBox( ValueBox u );
+    void startUnit(Unit u);
 
-    public void incIndent();
-    public void decIndent();
-    public void noIndent();
-    public void setIndent(String newIndent);
-    public String getIndent();
-    
-    public void literal( String s );
-    public void newline();
-    public void local( Local l );
-    public void type( Type t );
-    public void methodRef( SootMethodRef m );
-    public void constant( Constant c );
-    public void fieldRef( SootFieldRef f );
-    public void unitRef( Unit u, boolean branchTarget );
-    public void identityRef( IdentityRef r );
+    void endUnit(Unit u);
 
-    public void setPositionTagger( AttributesUnitPrinter pt );
-    public AttributesUnitPrinter getPositionTagger();
-    public StringBuffer output();
+    void startUnitBox(UnitBox u);
+
+    void endUnitBox(UnitBox u);
+
+    void startValueBox(ValueBox u);
+
+    void endValueBox(ValueBox u);
+
+    void incIndent();
+
+    void decIndent();
+
+    void noIndent();
+
+    String getIndent();
+
+    void setIndent(String newIndent);
+
+    void literal(String s);
+
+    void newline();
+
+    void local(Local l);
+
+    void type(Type t);
+
+    void methodRef(SootMethodRef m);
+
+    void constant(Constant c);
+
+    void fieldRef(SootFieldRef f);
+
+    void unitRef(Unit u, boolean branchTarget);
+
+    void identityRef(IdentityRef r);
+
+    AttributesUnitPrinter getPositionTagger();
+
+    void setPositionTagger(AttributesUnitPrinter pt);
+
+    StringBuffer output();
 }
 
 

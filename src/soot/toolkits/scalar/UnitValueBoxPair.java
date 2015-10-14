@@ -24,50 +24,44 @@
  */
 
 
-
-
-
-
 package soot.toolkits.scalar;
 
-import soot.*;
-
+import soot.Unit;
+import soot.ValueBox;
 
 
 /**
- *   Utility class used to package a Unit and a ValueBox together.
+ * Utility class used to package a Unit and a ValueBox together.
  */
-public class UnitValueBoxPair
-{
+public class UnitValueBoxPair {
     public Unit unit;
     public ValueBox valueBox;
 
 
     /**
-     *  Constructs a UnitValueBoxPair form a Unit object and a ValueBox object.
-     *  @param local some Local
-     *  @param unit some Unit.
+     * Constructs a UnitValueBoxPair form a Unit object and a ValueBox object.
+     *
+     * @param local some Local
+     * @param unit  some Unit.
      */
-    public UnitValueBoxPair(Unit unit, ValueBox valueBox)
-    {
+    public UnitValueBoxPair(Unit unit, ValueBox valueBox) {
         this.unit = unit;
         this.valueBox = valueBox;
     }
 
 
     /**
-     *   Two UnitValueBoxPairs are equal iff they the Unit they hold are 'equal' and
-     *   the ValueBoxes they hold are 'equal'.
-     *   @param other another UnitValueBoxPair
-     *   @return true if equal.
+     * Two UnitValueBoxPairs are equal iff they the Unit they hold are 'equal' and
+     * the ValueBoxes they hold are 'equal'.
+     *
+     * @param other another UnitValueBoxPair
+     * @return true if equal.
      */
-    public boolean equals(Object other)
-    {
-        if(other instanceof UnitValueBoxPair)
-        {
+    public boolean equals(Object other) {
+        if (other instanceof UnitValueBoxPair) {
             UnitValueBoxPair otherPair = (UnitValueBoxPair) other;
 
-            if(unit.equals(otherPair.unit) && valueBox.equals(otherPair.valueBox))
+            if (unit.equals(otherPair.unit) && valueBox.equals(otherPair.valueBox))
                 return true;
         }
 
@@ -79,16 +73,14 @@ public class UnitValueBoxPair
     }
 
     public String toString() {
-        return valueBox+" in "+unit;
+        return valueBox + " in " + unit;
     }
-    
-    public Unit getUnit() 
-    {
+
+    public Unit getUnit() {
         return unit;
     }
 
-    public ValueBox getValueBox()
-    {
+    public ValueBox getValueBox() {
         return valueBox;
     }
 

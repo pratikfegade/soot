@@ -18,57 +18,69 @@
  */
 
 package soot.jimple.paddle;
-import soot.*;
-import java.util.*;
 
-/** Loads the Paddle plugin.
+import soot.G;
+import soot.SceneTransformer;
+import soot.Singletons;
+
+import java.util.Map;
+
+/**
+ * Loads the Paddle plugin.
+ *
  * @author Ondrej Lhotak
  */
-public class PaddleHook extends SceneTransformer
-{ 
-    public PaddleHook( Singletons.Global g ) {}
-    public static PaddleHook v() { return G.v().soot_jimple_paddle_PaddleHook(); }
-
+public class PaddleHook extends SceneTransformer {
     private IPaddleTransformer paddleTransformer;
+    private Object paddleG;
+
+    public PaddleHook(Singletons.Global g) {
+    }
+
+    public static PaddleHook v() {
+        return G.v().soot_jimple_paddle_PaddleHook();
+    }
+
     public IPaddleTransformer paddleTransformer() {
-        if(paddleTransformer == null) {
+        if (paddleTransformer == null) {
             paddleTransformer = (IPaddleTransformer)
-                instantiate("soot.jimple.paddle.PaddleTransformer");
+                    instantiate("soot.jimple.paddle.PaddleTransformer");
         }
         return paddleTransformer;
     }
 
-    protected void internalTransform( String phaseName, Map<String,String> options )
-    {
+    protected void internalTransform(String phaseName, Map<String, String> options) {
         paddleTransformer().transform(phaseName, options);
     }
+
     public Object instantiate(String className) {
         Object ret;
         try {
             ret = Class.forName(
-                className ).newInstance();
-        } catch( ClassNotFoundException e ) {
-            throw new RuntimeException("Could not find "+className+". Did you include Paddle on your Java classpath?");
-        } catch( InstantiationException e ) {
-            throw new RuntimeException( "Could not instantiate "+className+": "+e );
-        } catch( IllegalAccessException e ) {
-            throw new RuntimeException( "Could not instantiate "+className+": "+e );
+                    className).newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Could not find " + className + ". Did you include Paddle on your Java classpath?");
+        } catch (InstantiationException e) {
+            throw new RuntimeException("Could not instantiate " + className + ": " + e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("Could not instantiate " + className + ": " + e);
         }
         return ret;
     }
 
-    private Object paddleG;
     public Object paddleG() {
-        if(paddleG == null) {
+        if (paddleG == null) {
             paddleG = instantiate("soot.PaddleG");
         }
         return paddleG;
     }
-    /** This is called when Soot finishes executing all interprocedural phases.
-     * Paddle uses it to stop profiling if profiling is enabled. */
-    public void finishPhases()
-    {
-        if(paddleTransformer != null) {
+
+    /**
+     * This is called when Soot finishes executing all interprocedural phases.
+     * Paddle uses it to stop profiling if profiling is enabled.
+     */
+    public void finishPhases() {
+        if (paddleTransformer != null) {
             paddleTransformer().finishPhases();
         }
     }

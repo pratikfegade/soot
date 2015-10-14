@@ -18,35 +18,53 @@
  */
 
 package soot.jimple.spark.builder;
-import soot.jimple.spark.pag.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.jimple.toolkits.pointer.util.NativeMethodDriver;
-import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
-import soot.*;
 
-import java.util.*;
-
+import soot.G;
+import soot.Scene;
+import soot.SootClass;
+import soot.SootMethod;
 import soot.jimple.spark.geom.geomPA.GeomPointsTo;
-import soot.jimple.spark.internal.*;
+import soot.jimple.spark.internal.SparkNativeHelper;
+import soot.jimple.spark.pag.MethodPAG;
+import soot.jimple.spark.pag.PAG;
 import soot.jimple.spark.solver.OnFlyCallGraph;
-import soot.util.queue.*;
-import soot.options.*;
+import soot.jimple.toolkits.callgraph.CallGraphBuilder;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.jimple.toolkits.callgraph.ReachableMethods;
+import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
+import soot.jimple.toolkits.pointer.util.NativeMethodDriver;
+import soot.options.SparkOptions;
+import soot.util.queue.QueueReader;
 
-/** A context insensitive pointer assignment graph builder.
+import java.util.ArrayList;
+import java.util.Iterator;
+
+/**
+ * A context insensitive pointer assignment graph builder.
+ *
  * @author Ondrej Lhotak
  */
 public class ContextInsensitiveBuilder {
+    int classes = 0;
+    int totalMethods = 0;
+    int analyzedMethods = 0;
+    int stmts = 0;
+    private PAG pag;
+    private CallGraphBuilder cgb;
+    private OnFlyCallGraph ofcg;
+    private ReachableMethods reachables;
+
     public void preJimplify() {
         boolean change = true;
-        while( change ) {
+        while (change) {
             change = false;
-            for( Iterator<SootClass> cIt = new ArrayList<SootClass>(Scene.v().getClasses()).iterator(); cIt.hasNext(); ) {
+            for (Iterator<SootClass> cIt = new ArrayList<SootClass>(Scene.v().getClasses()).iterator(); cIt.hasNext(); ) {
                 final SootClass c = cIt.next();
-                for( final SootMethod m : c.getMethods() ) {
-                    if( !m.isConcrete() ) continue;
-                    if( m.isNative() ) continue;
-                    if( m.isPhantom() ) continue;
-                    if( !m.hasActiveBody() ) {
+                for (final SootMethod m : c.getMethods()) {
+                    if (!m.isConcrete()) continue;
+                    if (m.isNative()) continue;
+                    if (m.isPhantom()) continue;
+                    if (!m.hasActiveBody()) {
                         change = true;
                         m.retrieveActiveBody();
                     }
@@ -54,24 +72,30 @@ public class ContextInsensitiveBuilder {
             }
         }
     }
-    /** Creates an empty pointer assignment graph. */
-    public PAG setup( SparkOptions opts ) {
-        pag = opts.geom_pta() ? new GeomPointsTo( opts ) : new PAG( opts );
-        if( opts.simulate_natives() ) {
+
+    /**
+     * Creates an empty pointer assignment graph.
+     */
+    public PAG setup(SparkOptions opts) {
+        pag = opts.geom_pta() ? new GeomPointsTo(opts) : new PAG(opts);
+        if (opts.simulate_natives()) {
             pag.nativeMethodDriver = new NativeMethodDriver(new SparkNativeHelper(pag));
         }
-        if( opts.on_fly_cg() && !opts.vta() ) {
-            ofcg = new OnFlyCallGraph( pag );
-            pag.setOnFlyCallGraph( ofcg );
+        if (opts.on_fly_cg() && !opts.vta()) {
+            ofcg = new OnFlyCallGraph(pag);
+            pag.setOnFlyCallGraph(ofcg);
         } else {
-            cgb = new CallGraphBuilder( DumbPointerAnalysis.v() );
+            cgb = new CallGraphBuilder(DumbPointerAnalysis.v());
         }
         return pag;
     }
-    /** Fills in the pointer assignment graph returned by setup. */
+
+    /**
+     * Fills in the pointer assignment graph returned by setup.
+     */
     public void build() {
         QueueReader<Edge> callEdges;
-        if( ofcg != null ) {
+        if (ofcg != null) {
             callEdges = ofcg.callGraph().listener();
             ofcg.build();
             reachables = ofcg.reachableMethods();
@@ -81,52 +105,42 @@ public class ContextInsensitiveBuilder {
             cgb.build();
             reachables = cgb.reachables();
         }
-        for( final SootClass c : Scene.v().getClasses()) {
-	    handleClass( c );
-	}
-        while(callEdges.hasNext()) {
+        for (final SootClass c : Scene.v().getClasses()) {
+            handleClass(c);
+        }
+        while (callEdges.hasNext()) {
             Edge e = callEdges.next();
-            if(!e.getTgt().method().getDeclaringClass().isPhantom()) {
-	            MethodPAG.v( pag, e.tgt() ).addToPAG(null);
-	            pag.addCallTarget( e );
+            if (!e.getTgt().method().getDeclaringClass().isPhantom()) {
+                MethodPAG.v(pag, e.tgt()).addToPAG(null);
+                pag.addCallTarget(e);
             }
         }
 
-        if( pag.getOpts().verbose() ) {
-            G.v().out.println( "Total methods: "+totalMethods );
-            G.v().out.println( "Initially reachable methods: "+analyzedMethods );
-            G.v().out.println( "Classes with at least one reachable method: "+classes );
+        if (pag.getOpts().verbose()) {
+            G.v().out.println("Total methods: " + totalMethods);
+            G.v().out.println("Initially reachable methods: " + analyzedMethods);
+            G.v().out.println("Classes with at least one reachable method: " + classes);
         }
     }
 
     /* End of public methods. */
     /* End of package methods. */
-    protected void handleClass( SootClass c ) {
+    protected void handleClass(SootClass c) {
         boolean incedClasses = false;
-	for (SootMethod m : c.getMethods()) {
-	    if( !m.isConcrete() && !m.isNative() ) continue;
+        for (SootMethod m : c.getMethods()) {
+            if (!m.isConcrete() && !m.isNative()) continue;
             totalMethods++;
-            if( reachables.contains( m ) ) {
-                MethodPAG mpag = MethodPAG.v( pag, m );
+            if (reachables.contains(m)) {
+                MethodPAG mpag = MethodPAG.v(pag, m);
                 mpag.build();
                 mpag.addToPAG(null);
                 analyzedMethods++;
-                if( !incedClasses ) {
+                if (!incedClasses) {
                     incedClasses = true;
                     classes++;
                 }
             }
-	}
+        }
     }
-
-
-    private PAG pag;
-    private CallGraphBuilder cgb;
-    private OnFlyCallGraph ofcg;
-    private ReachableMethods reachables;
-    int classes = 0;
-    int totalMethods = 0;
-    int analyzedMethods = 0;
-    int stmts = 0;
 }
 

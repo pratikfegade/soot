@@ -27,48 +27,49 @@
 package soot.toolkits.graph;
 
 
-import soot.*;
-
-import java.util.*;
-
+import soot.Body;
+import soot.Timers;
+import soot.Unit;
 import soot.options.Options;
+
+import java.util.HashMap;
+import java.util.List;
 
 
 /**
- *  Represents a CFG where the nodes are Unit instances, and 
- *  where no edges are included to account for  control flow
- *  associated with exceptions.
+ * Represents a CFG where the nodes are Unit instances, and
+ * where no edges are included to account for  control flow
+ * associated with exceptions.
  *
- *  @see Unit
- *  @see UnitGraph
+ * @see Unit
+ * @see UnitGraph
  */
-public class BriefUnitGraph extends UnitGraph
-{
+public class BriefUnitGraph extends UnitGraph {
     /**
-     *   Constructs a BriefUnitGraph given a Body instance.
-     *   @param body The underlying body we want to make a 
-     *               graph for.
+     * Constructs a BriefUnitGraph given a Body instance.
+     *
+     * @param body The underlying body we want to make a
+     *             graph for.
      */
-    public BriefUnitGraph(Body body)
-    {
+    public BriefUnitGraph(Body body) {
         super(body);
-	int size = unitChain.size();
+        int size = unitChain.size();
 
-        if(Options.v().time())
+        if (Options.v().time())
             Timers.v().graphTimer.start();
 
-	unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	buildUnexceptionalEdges(unitToSuccs, unitToPreds);
-	makeMappedListsUnmodifiable(unitToSuccs);
-	makeMappedListsUnmodifiable(unitToPreds);
+        unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
+        unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
+        buildUnexceptionalEdges(unitToSuccs, unitToPreds);
+        makeMappedListsUnmodifiable(unitToSuccs);
+        makeMappedListsUnmodifiable(unitToPreds);
 
-	buildHeadsAndTails();
+        buildHeadsAndTails();
 
-        if(Options.v().time())
+        if (Options.v().time())
             Timers.v().graphTimer.end();
 
-	soot.util.PhaseDumper.v().dumpGraph(this, body);
+        soot.util.PhaseDumper.v().dumpGraph(this, body);
     }
 }
 

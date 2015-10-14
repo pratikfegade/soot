@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ASigFieldRef extends PFieldRef
-{
+public final class ASigFieldRef extends PFieldRef {
     private PFieldSignature _fieldSignature_;
 
-    public ASigFieldRef()
-    {
+    public ASigFieldRef() {
         // Constructor
     }
 
     public ASigFieldRef(
-        @SuppressWarnings("hiding") PFieldSignature _fieldSignature_)
-    {
+            @SuppressWarnings("hiding") PFieldSignature _fieldSignature_) {
         // Constructor
         setFieldSignature(_fieldSignature_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ASigFieldRef(
-            cloneNode(this._fieldSignature_));
+                cloneNode(this._fieldSignature_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseASigFieldRef(this);
     }
 
-    public PFieldSignature getFieldSignature()
-    {
+    public PFieldSignature getFieldSignature() {
         return this._fieldSignature_;
     }
 
-    public void setFieldSignature(PFieldSignature node)
-    {
-        if(this._fieldSignature_ != null)
-        {
+    public void setFieldSignature(PFieldSignature node) {
+        if (this._fieldSignature_ != null) {
             this._fieldSignature_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class ASigFieldRef extends PFieldRef
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._fieldSignature_);
+                + toString(this._fieldSignature_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._fieldSignature_ == child)
-        {
+        if (this._fieldSignature_ == child) {
             this._fieldSignature_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class ASigFieldRef extends PFieldRef
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._fieldSignature_ == oldChild)
-        {
+        if (this._fieldSignature_ == oldChild) {
             setFieldSignature((PFieldSignature) newChild);
             return;
         }

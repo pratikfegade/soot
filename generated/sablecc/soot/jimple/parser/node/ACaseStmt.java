@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class ACaseStmt extends PCaseStmt
-{
+public final class ACaseStmt extends PCaseStmt {
     private PCaseLabel _caseLabel_;
     private TColon _colon_;
     private PGotoStmt _gotoStmt_;
 
-    public ACaseStmt()
-    {
+    public ACaseStmt() {
         // Constructor
     }
 
     public ACaseStmt(
-        @SuppressWarnings("hiding") PCaseLabel _caseLabel_,
-        @SuppressWarnings("hiding") TColon _colon_,
-        @SuppressWarnings("hiding") PGotoStmt _gotoStmt_)
-    {
+            @SuppressWarnings("hiding") PCaseLabel _caseLabel_,
+            @SuppressWarnings("hiding") TColon _colon_,
+            @SuppressWarnings("hiding") PGotoStmt _gotoStmt_) {
         // Constructor
         setCaseLabel(_caseLabel_);
 
@@ -31,35 +28,28 @@ public final class ACaseStmt extends PCaseStmt
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new ACaseStmt(
-            cloneNode(this._caseLabel_),
-            cloneNode(this._colon_),
-            cloneNode(this._gotoStmt_));
+                cloneNode(this._caseLabel_),
+                cloneNode(this._colon_),
+                cloneNode(this._gotoStmt_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseACaseStmt(this);
     }
 
-    public PCaseLabel getCaseLabel()
-    {
+    public PCaseLabel getCaseLabel() {
         return this._caseLabel_;
     }
 
-    public void setCaseLabel(PCaseLabel node)
-    {
-        if(this._caseLabel_ != null)
-        {
+    public void setCaseLabel(PCaseLabel node) {
+        if (this._caseLabel_ != null) {
             this._caseLabel_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class ACaseStmt extends PCaseStmt
         this._caseLabel_ = node;
     }
 
-    public TColon getColon()
-    {
+    public TColon getColon() {
         return this._colon_;
     }
 
-    public void setColon(TColon node)
-    {
-        if(this._colon_ != null)
-        {
+    public void setColon(TColon node) {
+        if (this._colon_ != null) {
             this._colon_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class ACaseStmt extends PCaseStmt
         this._colon_ = node;
     }
 
-    public PGotoStmt getGotoStmt()
-    {
+    public PGotoStmt getGotoStmt() {
         return this._gotoStmt_;
     }
 
-    public void setGotoStmt(PGotoStmt node)
-    {
-        if(this._gotoStmt_ != null)
-        {
+    public void setGotoStmt(PGotoStmt node) {
+        if (this._gotoStmt_ != null) {
             this._gotoStmt_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class ACaseStmt extends PCaseStmt
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._caseLabel_)
-            + toString(this._colon_)
-            + toString(this._gotoStmt_);
+                + toString(this._caseLabel_)
+                + toString(this._colon_)
+                + toString(this._gotoStmt_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._caseLabel_ == child)
-        {
+        if (this._caseLabel_ == child) {
             this._caseLabel_ = null;
             return;
         }
 
-        if(this._colon_ == child)
-        {
+        if (this._colon_ == child) {
             this._colon_ = null;
             return;
         }
 
-        if(this._gotoStmt_ == child)
-        {
+        if (this._gotoStmt_ == child) {
             this._gotoStmt_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class ACaseStmt extends PCaseStmt
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._caseLabel_ == oldChild)
-        {
+        if (this._caseLabel_ == oldChild) {
             setCaseLabel((PCaseLabel) newChild);
             return;
         }
 
-        if(this._colon_ == oldChild)
-        {
+        if (this._colon_ == oldChild) {
             setColon((TColon) newChild);
             return;
         }
 
-        if(this._gotoStmt_ == oldChild)
-        {
+        if (this._gotoStmt_ == oldChild) {
             setGotoStmt((PGotoStmt) newChild);
             return;
         }

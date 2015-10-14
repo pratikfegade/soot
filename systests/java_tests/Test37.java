@@ -1,11 +1,11 @@
 public class Test37 {
 
-    public static void main (String [] args){
+    public static void main(String[] args) {
         Test37 t37 = new Test37();
         t37.run();
     }
 
-    public void run(){
+    public void run() {
         TopLevel tl = new TopLevel();
         tl.run();
     }
@@ -13,8 +13,8 @@ public class Test37 {
 
 class TopLevel {
 
-    public void run(){
+    public void run() {
         System.out.println("TopLevel in file Test37.java");
     }
-    
+
 }

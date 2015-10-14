@@ -26,50 +26,52 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.IntType;
+import soot.Type;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.LengthExpr;
+import soot.util.Switch;
 
 @SuppressWarnings("serial")
-public abstract class AbstractLengthExpr extends AbstractUnopExpr implements LengthExpr
-{
-    protected AbstractLengthExpr(ValueBox opBox) { super(opBox); }
+public abstract class AbstractLengthExpr extends AbstractUnopExpr implements LengthExpr {
+    protected AbstractLengthExpr(ValueBox opBox) {
+        super(opBox);
+    }
 
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof AbstractLengthExpr)
-        {
-            return opBox.getValue().equivTo(((AbstractLengthExpr)o).opBox.getValue());
+    public boolean equivTo(Object o) {
+        if (o instanceof AbstractLengthExpr) {
+            return opBox.getValue().equivTo(((AbstractLengthExpr) o).opBox.getValue());
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return opBox.getValue().equivHashCode();
     }
 
     public abstract Object clone();
 
-    public String toString()
-    {
+    public String toString() {
         return Jimple.LENGTHOF + " " + opBox.getValue().toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(Jimple.LENGTHOF);
         up.literal(" ");
         opBox.toString(up);
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return IntType.v();
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ExprSwitch) sw).caseLengthExpr(this);
     }
 }

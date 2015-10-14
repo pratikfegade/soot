@@ -25,37 +25,39 @@
 
 
 package soot;
-import soot.util.*;
 
-/** Represents the Java void type. */
+import soot.util.Switch;
+
+/**
+ * Represents the Java void type.
+ */
 @SuppressWarnings("serial")
-public class VoidType extends Type
-{
-    public VoidType( Singletons.Global g ) {}
-    public static VoidType v() { return G.v().soot_VoidType(); }
+public class VoidType extends Type {
+    public VoidType(Singletons.Global g) {
+    }
 
-    public int hashCode()
-    {
+    public static VoidType v() {
+        return G.v().soot_VoidType();
+    }
+
+    public int hashCode() {
         return 0x3A8C1035;
     }
-    
-    public boolean equals(Object t)
-    {
+
+    public boolean equals(Object t) {
         return this == t;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "void";
     }
-    
-    public void apply(Switch sw)
-    {
+
+    public void apply(Switch sw) {
         ((TypeSwitch) sw).caseVoidType(this);
     }
-    
+
     public boolean isAllowedInFinalCode() {
-    	return true;
+        return true;
     }
 
 }

@@ -2,25 +2,22 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AMultiArgList extends PArgList
-{
+public final class AMultiArgList extends PArgList {
     private PImmediate _immediate_;
     private TComma _comma_;
     private PArgList _argList_;
 
-    public AMultiArgList()
-    {
+    public AMultiArgList() {
         // Constructor
     }
 
     public AMultiArgList(
-        @SuppressWarnings("hiding") PImmediate _immediate_,
-        @SuppressWarnings("hiding") TComma _comma_,
-        @SuppressWarnings("hiding") PArgList _argList_)
-    {
+            @SuppressWarnings("hiding") PImmediate _immediate_,
+            @SuppressWarnings("hiding") TComma _comma_,
+            @SuppressWarnings("hiding") PArgList _argList_) {
         // Constructor
         setImmediate(_immediate_);
 
@@ -31,35 +28,28 @@ public final class AMultiArgList extends PArgList
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AMultiArgList(
-            cloneNode(this._immediate_),
-            cloneNode(this._comma_),
-            cloneNode(this._argList_));
+                cloneNode(this._immediate_),
+                cloneNode(this._comma_),
+                cloneNode(this._argList_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAMultiArgList(this);
     }
 
-    public PImmediate getImmediate()
-    {
+    public PImmediate getImmediate() {
         return this._immediate_;
     }
 
-    public void setImmediate(PImmediate node)
-    {
-        if(this._immediate_ != null)
-        {
+    public void setImmediate(PImmediate node) {
+        if (this._immediate_ != null) {
             this._immediate_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -69,22 +59,17 @@ public final class AMultiArgList extends PArgList
         this._immediate_ = node;
     }
 
-    public TComma getComma()
-    {
+    public TComma getComma() {
         return this._comma_;
     }
 
-    public void setComma(TComma node)
-    {
-        if(this._comma_ != null)
-        {
+    public void setComma(TComma node) {
+        if (this._comma_ != null) {
             this._comma_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -94,22 +79,17 @@ public final class AMultiArgList extends PArgList
         this._comma_ = node;
     }
 
-    public PArgList getArgList()
-    {
+    public PArgList getArgList() {
         return this._argList_;
     }
 
-    public void setArgList(PArgList node)
-    {
-        if(this._argList_ != null)
-        {
+    public void setArgList(PArgList node) {
+        if (this._argList_ != null) {
             this._argList_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -120,32 +100,27 @@ public final class AMultiArgList extends PArgList
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._immediate_)
-            + toString(this._comma_)
-            + toString(this._argList_);
+                + toString(this._immediate_)
+                + toString(this._comma_)
+                + toString(this._argList_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._immediate_ == child)
-        {
+        if (this._immediate_ == child) {
             this._immediate_ = null;
             return;
         }
 
-        if(this._comma_ == child)
-        {
+        if (this._comma_ == child) {
             this._comma_ = null;
             return;
         }
 
-        if(this._argList_ == child)
-        {
+        if (this._argList_ == child) {
             this._argList_ = null;
             return;
         }
@@ -154,23 +129,19 @@ public final class AMultiArgList extends PArgList
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._immediate_ == oldChild)
-        {
+        if (this._immediate_ == oldChild) {
             setImmediate((PImmediate) newChild);
             return;
         }
 
-        if(this._comma_ == oldChild)
-        {
+        if (this._comma_ == oldChild) {
             setComma((TComma) newChild);
             return;
         }
 
-        if(this._argList_ == oldChild)
-        {
+        if (this._argList_ == oldChild) {
             setArgList((PArgList) newChild);
             return;
         }

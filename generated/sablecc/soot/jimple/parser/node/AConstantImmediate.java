@@ -2,54 +2,44 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
-public final class AConstantImmediate extends PImmediate
-{
+public final class AConstantImmediate extends PImmediate {
     private PConstant _constant_;
 
-    public AConstantImmediate()
-    {
+    public AConstantImmediate() {
         // Constructor
     }
 
     public AConstantImmediate(
-        @SuppressWarnings("hiding") PConstant _constant_)
-    {
+            @SuppressWarnings("hiding") PConstant _constant_) {
         // Constructor
         setConstant(_constant_);
 
     }
 
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         return new AConstantImmediate(
-            cloneNode(this._constant_));
+                cloneNode(this._constant_));
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((Analysis) sw).caseAConstantImmediate(this);
     }
 
-    public PConstant getConstant()
-    {
+    public PConstant getConstant() {
         return this._constant_;
     }
 
-    public void setConstant(PConstant node)
-    {
-        if(this._constant_ != null)
-        {
+    public void setConstant(PConstant node) {
+        if (this._constant_ != null) {
             this._constant_.parent(null);
         }
 
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
+        if (node != null) {
+            if (node.parent() != null) {
                 node.parent().removeChild(node);
             }
 
@@ -60,18 +50,15 @@ public final class AConstantImmediate extends PImmediate
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return ""
-            + toString(this._constant_);
+                + toString(this._constant_);
     }
 
     @Override
-    void removeChild(@SuppressWarnings("unused") Node child)
-    {
+    void removeChild(@SuppressWarnings("unused") Node child) {
         // Remove child
-        if(this._constant_ == child)
-        {
+        if (this._constant_ == child) {
             this._constant_ = null;
             return;
         }
@@ -80,11 +67,9 @@ public final class AConstantImmediate extends PImmediate
     }
 
     @Override
-    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
-    {
+    void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild) {
         // Replace child
-        if(this._constant_ == oldChild)
-        {
+        if (this._constant_ == oldChild) {
             setConstant((PConstant) newChild);
             return;
         }

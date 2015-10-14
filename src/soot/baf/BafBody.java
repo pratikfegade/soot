@@ -24,84 +24,76 @@
  */
 
 
-
-
-
 package soot.baf;
-import soot.options.*;
+
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.JimpleBody;
+import soot.jimple.JimpleToBafContext;
+import soot.jimple.Stmt;
+import soot.options.Options;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class BafBody extends Body
-{
-    public Object clone()
-    {
-        Body b = new BafBody(getMethod());
-        b.importBodyContentsFrom(this);
-        return b;
-    }
-
-    BafBody(SootMethod m)
-    {
+public class BafBody extends Body {
+    BafBody(SootMethod m) {
         super(m);
     }
 
-    public BafBody(Body body, Map<String,String> options)
-    {
+    public BafBody(Body body, Map<String, String> options) {
         super(body.getMethod());
 
-        if(Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("[" + getMethod().getName() + "] Constructing BafBody...");
 
         if (!(body instanceof JimpleBody))
             throw new RuntimeException("Can only construct BafBody's directly"
-              + " from JimpleBody's.");
+                    + " from JimpleBody's.");
 
         JimpleBody jimpleBody = (JimpleBody) body;
         jimpleBody.validate();
-               
+
         JimpleToBafContext context = new JimpleToBafContext(jimpleBody.getLocalCount());
-           
+
         // Convert all locals
         {
             for (Local l : jimpleBody.getLocals()) {
                 Type t = l.getType();
                 Local newLocal = Baf.v().newLocal(l.getName(), UnknownType.v());
-                
-                if(t.equals(DoubleType.v()) || t.equals(LongType.v()))
+
+                if (t.equals(DoubleType.v()) || t.equals(LongType.v()))
                     newLocal.setType(DoubleWordType.v());
                 else
                     newLocal.setType(WordType.v());
-        
-                context.setBafLocalOfJimpleLocal(l, newLocal);            
+
+                context.setBafLocalOfJimpleLocal(l, newLocal);
                 getLocals().add(newLocal);
             }
         }
-    
+
         Map<Stmt, Unit> stmtToFirstInstruction = new HashMap<Stmt, Unit>();
-            
+
         // Convert all jimple instructions
         {
             for (Unit u : jimpleBody.getUnits()) {
-            	Stmt s = (Stmt) u;
+                Stmt s = (Stmt) u;
                 List<Unit> conversionList = new ArrayList<Unit>();
 
                 context.setCurrentUnit(s);
                 ((ConvertToBaf) s).convertToBaf(context, conversionList);
-               
+
                 stmtToFirstInstruction.put(s, conversionList.get(0));
                 getUnits().addAll(conversionList);
             }
         }
-        
+
         // Change all place holders
-        {            
-            for (UnitBox box : getAllUnitBoxes())
-            {                
-                if(box.getUnit() instanceof PlaceholderInst)
-                {
+        {
+            for (UnitBox box : getAllUnitBoxes()) {
+                if (box.getUnit() instanceof PlaceholderInst) {
                     Unit source = ((PlaceholderInst) box.getUnit()).getSource();
                     box.setUnit(stmtToFirstInstruction.get(source));
                 }
@@ -110,15 +102,20 @@ public class BafBody extends Body
 
         // Convert all traps
         {
-            for (Trap trap : jimpleBody.getTraps())
-            {
+            for (Trap trap : jimpleBody.getTraps()) {
                 getTraps().add(Baf.v().newTrap(trap.getException(),
-                     stmtToFirstInstruction.get(trap.getBeginUnit()),
-                     stmtToFirstInstruction.get(trap.getEndUnit()),
-                     stmtToFirstInstruction.get(trap.getHandlerUnit())));
+                        stmtToFirstInstruction.get(trap.getBeginUnit()),
+                        stmtToFirstInstruction.get(trap.getEndUnit()),
+                        stmtToFirstInstruction.get(trap.getHandlerUnit())));
             }
         }
-        
-        PackManager.v().getPack( "bb" ).apply( this );
+
+        PackManager.v().getPack("bb").apply(this);
+    }
+
+    public Object clone() {
+        Body b = new BafBody(getMethod());
+        b.importBodyContentsFrom(this);
+        return b;
     }
 }

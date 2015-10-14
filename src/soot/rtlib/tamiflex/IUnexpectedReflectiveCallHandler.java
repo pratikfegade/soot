@@ -6,12 +6,17 @@ import java.lang.reflect.Method;
 
 
 public interface IUnexpectedReflectiveCallHandler {
-	
-	public void classNewInstance(Class<?> c);
-	public void classForName(String typeName);
-	public void constructorNewInstance(Constructor<?> c);
-	public void methodInvoke(Object receiver, Method m);
-	public void fieldSet(Object receiver, Field f);
-	public void fieldGet(Object receiver, Field f);
+
+    void classNewInstance(Class<?> c);
+
+    void classForName(String typeName);
+
+    void constructorNewInstance(Constructor<?> c);
+
+    void methodInvoke(Object receiver, Method m);
+
+    void fieldSet(Object receiver, Field f);
+
+    void fieldGet(Object receiver, Field f);
 
 }
