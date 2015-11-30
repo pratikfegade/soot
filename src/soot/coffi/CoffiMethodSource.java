@@ -25,11 +25,13 @@
 
 
 package soot.coffi;
-import soot.options.*;
 
 import soot.*;
-import java.util.*;
-import soot.jimple.*;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleBody;
+import soot.options.Options;
+
+import java.util.Map;
 
 public class CoffiMethodSource implements MethodSource
 {
@@ -45,7 +47,7 @@ public class CoffiMethodSource implements MethodSource
     public Body getBody(SootMethod m, String phaseName)
     {
         JimpleBody jb = Jimple.v().newBody(m);
-        
+
         Map options = PhaseOptions.v().getPhaseOptions(phaseName);
         boolean useOriginalNames = PhaseOptions.getBoolean(options, "use-original-names");
 
@@ -63,56 +65,56 @@ public class CoffiMethodSource implements MethodSource
 
         if(m.isAbstract() || m.isNative() || m.isPhantom())
             return jb;
-            
+
         if(Options.v().time())
             Timers.v().conversionTimer.start();
-        
+
         if(coffiMethod.instructions == null)
         {
             if(Options.v().verbose())
                 G.v().out.println("[" + m.getName() +
-                    "]     Parsing Coffi instructions...");
+                        "]     Parsing Coffi instructions...");
 
-             coffiClass.parseMethod(coffiMethod);
+            coffiClass.parseMethod(coffiMethod);
         }
-                
+
         if(coffiMethod.cfg == null)
         {
             if(Options.v().verbose())
                 G.v().out.println("[" + m.getName() +
-                    "]     Building Coffi CFG...");
+                        "]     Building Coffi CFG...");
 
-             new soot.coffi.CFG(coffiMethod);
-             
-             // if just computing metrics, we don't need to actually return body
-             if (soot.jbco.Main.metrics) return null;
-         }
+            new soot.coffi.CFG(coffiMethod);
 
-         if(Options.v().verbose())
-             G.v().out.println("[" + m.getName() +
+            // if just computing metrics, we don't need to actually return body
+            if (soot.jbco.Main.metrics) return null;
+        }
+
+        if(Options.v().verbose())
+            G.v().out.println("[" + m.getName() +
                     "]     Producing naive Jimple...");
 
-         boolean oldPhantomValue = Scene.v().getPhantomRefs();
+        boolean oldPhantomValue = Scene.v().getPhantomRefs();
 
-         Scene.v().setPhantomRefs(true);
-         coffiMethod.cfg.jimplify(coffiClass.constant_pool,
-             coffiClass.this_class, coffiClass.bootstrap_methods_attribute, jb);
-         Scene.v().setPhantomRefs(oldPhantomValue);
+        Scene.v().setPhantomRefs(true);
+        coffiMethod.cfg.jimplify(coffiClass.constant_pool,
+                coffiClass.this_class, coffiClass.bootstrap_methods_attribute, jb);
+        Scene.v().setPhantomRefs(oldPhantomValue);
 
         if(Options.v().time())
             Timers.v().conversionTimer.end();
 
-         coffiMethod.instructions = null;
-         coffiMethod.cfg = null;
-         coffiMethod.attributes = null;
-         coffiMethod.code_attr = null;
-         coffiMethod.jmethod = null;
-         coffiMethod.instructionList = null;
+        coffiMethod.instructions = null;
+        coffiMethod.cfg = null;
+        coffiMethod.attributes = null;
+        coffiMethod.code_attr = null;
+        coffiMethod.jmethod = null;
+        coffiMethod.instructionList = null;
 
-         coffiMethod = null;
-         coffiClass = null;
-         
-         PackManager.v().getPack("jb").apply(jb);
-         return jb;
+        coffiMethod = null;
+        coffiClass = null;
+
+        PackManager.v().getPack("jb").apply(jb);
+        return jb;
     }
 }

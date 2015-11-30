@@ -25,11 +25,11 @@
 
 
 package soot;
-import soot.options.*;
-
-import soot.jimple.*;
-import java.util.*;
+import soot.jimple.JimpleBody;
 import soot.options.JBOptions;
+import soot.options.Options;
+
+import java.util.Map;
 
 
 /** A wrapper object for a pack of optimizations.
@@ -44,7 +44,7 @@ public class JimpleBodyPack extends BodyPack
 
     /** Applies the transformations corresponding to the given options. */
     private void applyPhaseOptions(JimpleBody b, Map<String,String> opts) 
-    { 
+    {
         JBOptions options = new JBOptions( opts );
         
         if(options.use_original_names())

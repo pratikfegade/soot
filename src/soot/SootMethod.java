@@ -25,19 +25,19 @@
  */
 
 package soot;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.StringTokenizer;
 
 import soot.dava.DavaBody;
 import soot.dava.toolkits.base.renamer.RemoveFullyQualifiedName;
+import soot.jimple.JimpleBody;
 import soot.jimple.toolkits.callgraph.VirtualCalls;
 import soot.tagkit.AbstractHost;
 import soot.util.IterableSet;
 import soot.util.Numberable;
 import soot.util.NumberedString;
+
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
     Soot representation of a Java method.  Can be declared to belong to a SootClass. 
@@ -49,6 +49,7 @@ public class SootMethod
     implements ClassMember, Numberable, MethodOrMethodContext {
     public static final String constructorName = "<init>";
     public static final String staticInitializerName = "<clinit>";
+    private static final Lock lock = new ReentrantLock();
     public static boolean DEBUG=false;
     /** Name of the current method. */
     private String name;
@@ -93,12 +94,12 @@ public class SootMethod
         /**
          * from here
          * */
-        long tStart = System.currentTimeMillis();
+//        long tStart = System.currentTimeMillis();
 
         Body body = ms.getBody(this, phaseName);
 
-        long tEnd = System.currentTimeMillis();
-        G.v().out.println("\ngetBody in getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
+//        long tEnd = System.currentTimeMillis();
+//        G.v().out.println("\ngetBody in getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
 
         return  body;
         /**
@@ -339,15 +340,17 @@ public class SootMethod
                     + getSignature()
                     + "; maybe you want to call c.setApplicationClass() on this class!");
 
-        long tStart = System.currentTimeMillis();
+//        long tStart = System.currentTimeMillis();
 
         if (!hasActiveBody()) {
-            setActiveBody(this.getBodyFromMethodSource("jb"));
+            lock.lock();
+            setActiveBody((JimpleBody)this.getBodyFromMethodSource("jb").clone());
+            lock.unlock();
             ms = null;
         }
 
-        long tEnd = System.currentTimeMillis();
-        G.v().out.println("getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
+//        long tEnd = System.currentTimeMillis();
+//        G.v().out.println("getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
 
         return getActiveBody();
     }

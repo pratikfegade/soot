@@ -28,26 +28,13 @@
 
 
 package soot.toolkits.scalar;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Local;
-import soot.Scene;
-import soot.Singletons;
-import soot.Timers;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.options.Options;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.NumberedSet;
+
+import java.util.*;
 
 /**
  *    A BodyTransformer that attemps to indentify and separate uses of a local

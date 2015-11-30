@@ -26,9 +26,10 @@
 
 package soot;
 
-import java.util.*;
-import soot.util.*;
 import soot.options.Options;
+import soot.util.PhaseDumper;
+
+import java.util.Map;
 
 /** Maintains the pair (phaseName, singleton) needed for a
  * transformation. */
@@ -37,10 +38,10 @@ public class Transform implements HasPhaseOptions
     final private boolean DEBUG;
     final String phaseName;
     final Transformer t;
-    
+
     public Transform(String phaseName, Transformer t)
     {
-    	this.DEBUG = Options.v().dump_body().contains(phaseName);
+        this.DEBUG = Options.v().dump_body().contains(phaseName);
         this.phaseName = phaseName;
         this.t = t;
     }
@@ -50,11 +51,11 @@ public class Transform implements HasPhaseOptions
 
     private String declaredOpts;
     private String defaultOpts;
-    public String getDeclaredOptions() { 
+    public String getDeclaredOptions() {
         if( declaredOpts != null ) return declaredOpts;
         return Options.getDeclaredOptionsForPhase( phaseName );
     }
-    public String getDefaultOptions() { 
+    public String getDefaultOptions() {
         if( defaultOpts != null ) return defaultOpts;
         return Options.getDefaultOptionsForPhase( phaseName );
     }
@@ -84,13 +85,13 @@ public class Transform implements HasPhaseOptions
                 G.v().out.println( "Applying phase "+phaseName+" to the scene." );
             }
         }
-	if (DEBUG)
-	    PhaseDumper.v().dumpBefore(getPhaseName());
+        if (DEBUG)
+            PhaseDumper.v().dumpBefore(getPhaseName());
 
         ((SceneTransformer) t).transform( phaseName, options );
 
-	if (DEBUG)
-	    PhaseDumper.v().dumpAfter(getPhaseName());
+        if (DEBUG)
+            PhaseDumper.v().dumpAfter(getPhaseName());
     }
     public void apply(Body b) {
         Map<String, String> options = PhaseOptions.v().getPhaseOptions( phaseName );
@@ -99,18 +100,18 @@ public class Transform implements HasPhaseOptions
                 G.v().out.println( "Applying phase "+phaseName+" to "+b.getMethod()+"." );
             }
         }
-	if (DEBUG)
-	    PhaseDumper.v().dumpBefore(b, getPhaseName());
+        if (DEBUG)
+            PhaseDumper.v().dumpBefore(b, getPhaseName());
 
         ((BodyTransformer) t).transform( b, phaseName, options );
 
-	if (DEBUG)
-	    PhaseDumper.v().dumpAfter(b, getPhaseName());
+        if (DEBUG)
+            PhaseDumper.v().dumpAfter(b, getPhaseName());
     }
-    
+
     @Override
     public String toString() {
-    	return phaseName;
+        return phaseName;
     }
-    
+
 }

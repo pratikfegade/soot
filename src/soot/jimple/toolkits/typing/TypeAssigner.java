@@ -29,40 +29,15 @@
 
 package soot.jimple.toolkits.typing;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.ByteType;
-import soot.CharType;
-import soot.ErroneousType;
-import soot.G;
-import soot.Local;
-import soot.NullType;
-import soot.PhaseOptions;
-import soot.Scene;
-import soot.ShortType;
-import soot.Singletons;
-import soot.Type;
-import soot.Unit;
-import soot.UnknownType;
-import soot.ValueBox;
-import soot.jimple.ArrayRef;
-import soot.jimple.FieldRef;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.JimpleBody;
-import soot.jimple.Stmt;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.scalar.ConstantPropagatorAndFolder;
 import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.options.JBTROptions;
 import soot.options.Options;
 import soot.toolkits.scalar.UnusedLocalEliminator;
+
+import java.util.*;
 
 /**
  * This transformer assigns types to local variables.
@@ -85,7 +60,7 @@ public class TypeAssigner extends BodyTransformer {
 	}
 
 	/** Assign types to local variables. * */
-	protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+	synchronized protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
 		if (b == null) {
 			throw new NullPointerException();
 		}
