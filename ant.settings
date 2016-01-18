@@ -17,6 +17,9 @@ jastaddfrontend.loc=../abc/JastAddExtensions/SootJastAddJ
 ## Location of Jasmin classes jar file
 jasmin.jar=libs/jasminclasses-2.5.0.jar
 
+## Location of Jasmin jar file
+#jasmin.jar=../libs/jasmin-custom.jar
+
 heros.jar=libs/heros-trunk.jar
 
 ## Location of Eclipse installation.

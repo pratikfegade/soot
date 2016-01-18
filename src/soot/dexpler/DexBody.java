@@ -476,9 +476,21 @@ public class DexBody  {
          */
 
         Debug.printDbg("body before any transformation : \n", jBody);
-
+        
         Debug.printDbg("\nbefore splitting");
         Debug.printDbg("",(Body)jBody);
+        
+        // Fix traps that do not catch exceptions
+        DexTrapStackFixer.v().transform(jBody);
+        
+        // Sort out jump chains
+        DexJumpChainShortener.v().transform(jBody);
+        
+        // Make sure that we don't have any overlapping uses due to returns
+        DexReturnInliner.v().transform(jBody);    
+        
+        // Shortcut: Reduce array initializations
+        DexArrayInitReducer.v().transform(jBody);
         
         // split first to find undefined uses
         getLocalSplitter().transform(jBody);
@@ -487,13 +499,10 @@ public class DexBody  {
 		getUnreachableCodeEliminator().transform(jBody);
 		DeadAssignmentEliminator.v().transform(jBody);
 		UnusedLocalEliminator.v().transform(jBody);
-
-        
-        DexReturnInliner.v().transform(jBody);    
         
         Debug.printDbg("\nafter splitting");
         Debug.printDbg("",(Body)jBody);
-                
+        
   		for (RetypeableInstruction i : instructionsToRetype)
             i.retype(jBody);
 
@@ -508,7 +517,7 @@ public class DexBody  {
 //            instructions.remove(i);
 //          }
 //        }
-
+  		
         if (IDalvikTyper.ENABLE_DVKTYPER) {
           Debug.printDbg("[DalvikTyper] resolving typing constraints...");
           DalvikTyper.v().assignType(jBody);
@@ -662,9 +671,6 @@ public class DexBody  {
         DeadAssignmentEliminator.v().transform(jBody);
         UnusedLocalEliminator.v().transform(jBody);
         NopEliminator.v().transform(jBody);
-        
-        if (m.toString().equals("<org.apache.log4j.config.PropertySetter: void introspect()>"))
-        	System.out.println("x");
         
         for (Unit u: jBody.getUnits()) {
             if (u instanceof AssignStmt) {
