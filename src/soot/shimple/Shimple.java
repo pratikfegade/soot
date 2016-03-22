@@ -72,14 +72,14 @@ public class Shimple
     
     public Shimple(Singletons.Global g) {}
 
-    public static Shimple v()
+    synchronized public static Shimple v()
     { return G.v().soot_shimple_Shimple(); }
 
     /**
      * Returns an empty ShimpleBody associated with method m, using
      * default phase options.
      **/
-    public ShimpleBody newBody(SootMethod m)
+    synchronized public ShimpleBody newBody(SootMethod m)
     {
         Map<String, String> options = PhaseOptions.v().getPhaseOptions(PHASE);
         return new ShimpleBody(m, options);
@@ -89,7 +89,7 @@ public class Shimple
      * Returns an empty ShimpleBody associated with method m, using
      * provided option map.
      **/
-    public ShimpleBody newBody(SootMethod m, Map<String, String> options)
+    synchronized public ShimpleBody newBody(SootMethod m, Map<String, String> options)
     {
         return new ShimpleBody(m, options);
     }
@@ -98,7 +98,7 @@ public class Shimple
      * Returns a ShimpleBody constructed from b, using default phase
      * options.
      **/
-    public ShimpleBody newBody(Body b)
+    synchronized public ShimpleBody newBody(Body b)
     {
         Map<String, String> options = PhaseOptions.v().getPhaseOptions(PHASE);
         return new ShimpleBody(b, options);
@@ -108,7 +108,7 @@ public class Shimple
      * Returns a ShimpleBody constructed from b, using provided option
      * Map.
      **/
-    public ShimpleBody newBody(Body b, Map<String, String> options)
+    synchronized public ShimpleBody newBody(Body b, Map<String, String> options)
     {
         return new ShimpleBody(b, options);
     }
@@ -119,12 +119,12 @@ public class Shimple
      * of a list of blocks, you may provide a list of the tail Units
      * from the corresponding blocks.
      **/
-    public PhiExpr newPhiExpr(Local leftLocal, List<Block> preds)
+    synchronized public PhiExpr newPhiExpr(Local leftLocal, List<Block> preds)
     {
         return new SPhiExpr(leftLocal, preds);
     }
 
-    public PiExpr newPiExpr(Local local, Unit predicate, Object targetKey)
+    synchronized public PiExpr newPiExpr(Local local, Unit predicate, Object targetKey)
     {
         return new SPiExpr(local, predicate, targetKey);
     }
@@ -135,7 +135,7 @@ public class Shimple
      * Blocks.  Instead of a list of predecessor blocks, you may
      * provide a list of the tail Units from the corresponding blocks.
      **/
-    public PhiExpr newPhiExpr(List<Value> args, List<Unit> preds)
+    synchronized public PhiExpr newPhiExpr(List<Value> args, List<Unit> preds)
     {
         return new SPhiExpr(args, preds);
     }
@@ -145,7 +145,7 @@ public class Shimple
      *
      * @see soot.options.ShimpleOptions
      **/
-    public JimpleBody newJimpleBody(ShimpleBody body)
+    synchronized public JimpleBody newJimpleBody(ShimpleBody body)
     {
         return body.toJimpleBody();
     }
@@ -153,7 +153,7 @@ public class Shimple
     /**
      * Returns true if the value is a Phi expression, false otherwise.
      **/
-    public static boolean isPhiExpr(Value value)
+    synchronized public static boolean isPhiExpr(Value value)
     {
         return (value instanceof PhiExpr);
     }
@@ -161,7 +161,7 @@ public class Shimple
     /**
      * Returns true if the unit is a Phi node, false otherwise.
      **/
-    public static boolean isPhiNode(Unit unit)
+    synchronized public static boolean isPhiNode(Unit unit)
     {
         return
             getPhiExpr(unit) == null ? false : true;
@@ -171,7 +171,7 @@ public class Shimple
      * Returns the corresponding PhiExpr if the unit is a Phi node,
      * null otherwise.
      **/
-    public static PhiExpr getPhiExpr(Unit unit)
+    synchronized public static PhiExpr getPhiExpr(Unit unit)
     {
         if(!(unit instanceof AssignStmt))
             return null;
@@ -184,17 +184,17 @@ public class Shimple
         return null;
     }
 
-    public static boolean isPiExpr(Value value)
+    synchronized public static boolean isPiExpr(Value value)
     {
         return (value instanceof PiExpr);
     }
 
-    public static boolean isPiNode(Unit unit)
+    synchronized public static boolean isPiNode(Unit unit)
     {
         return getPiExpr(unit) == null ? false : true;
     }
 
-    public static PiExpr getPiExpr(Unit unit)
+    synchronized public static PiExpr getPiExpr(Unit unit)
     {
         if(!(unit instanceof AssignStmt))
             return null;
@@ -211,7 +211,7 @@ public class Shimple
      * Returns the corresponding left Local if the unit is a Shimple node,
      * null otherwise.
      **/
-    public static Local getLhsLocal(Unit unit)
+    synchronized public static Local getLhsLocal(Unit unit)
     {
         if(!(unit instanceof AssignStmt))
             return null;
@@ -237,7 +237,7 @@ public class Shimple
      * directly, since patching is taken care of Shimple's internal
      * implementation of PatchingChain.
      **/
-    public static void redirectToPreds(Body body, Unit remove)
+    synchronized public static void redirectToPreds(Body body, Unit remove)
     {
         boolean debug = Options.v().debug();
         if(body instanceof ShimpleBody)
@@ -344,7 +344,7 @@ public class Shimple
      * directly, since patching is taken care of Shimple's internal
      * implementation of PatchingChain.
      **/
-    public static void redirectPointers(Unit oldLocation, Unit newLocation)
+    synchronized public static void redirectPointers(Unit oldLocation, Unit newLocation)
     {
         List<UnitBox> boxesPointing = oldLocation.getBoxesPointingToThis();
 

@@ -95,6 +95,8 @@ import soot.xml.XMLPrinter;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.GZIPOutputStream;
@@ -104,7 +106,8 @@ import java.util.zip.ZipEntry;
 
 /** Manages the Packs containing the various phases and their options. */
 public class PackManager {
-	public static boolean DEBUG=false;
+    private static final Lock lock = new ReentrantLock();
+    public static boolean DEBUG=false;
     public PackManager( Singletons.Global g ) { PhaseOptions.v().setPackManager(this); init(); }
     public boolean onlyStandardPacks() { return onlyStandardPacks; }
     private boolean onlyStandardPacks = false;
@@ -163,9 +166,11 @@ public class PackManager {
         // Call graph pack
         addPack(p = new CallGraphPack("cg"));
         {
+            lock.lock();
             p.add(new Transform("cg.cha", CHATransformer.v()));
             p.add(new Transform("cg.spark", SparkTransformer.v()));
             p.add(new Transform("cg.paddle", PaddleHook.v()));
+            lock.unlock();
         }
 
         // Whole-Shimple transformation pack

@@ -30,6 +30,8 @@ import soot.options.JBOptions;
 import soot.options.Options;
 
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /** A wrapper object for a pack of optimizations.
@@ -37,6 +39,9 @@ import java.util.Map;
  * This is a specific one for the very messy jb phase. */
 public class JimpleBodyPack extends BodyPack
 {
+
+    private static final Lock lock = new ReentrantLock();
+
     public JimpleBodyPack() {
         super("jb");
     }
@@ -53,7 +58,10 @@ public class JimpleBodyPack extends BodyPack
         if(Options.v().time()) Timers.v().splitTimer.start();
 
         PackManager.v().getTransform( "jb.tt" ).apply( b );
-
+        // UnreachableCodeEliminator: We need to do this before splitting
+        // locals for not creating disconnected islands of useless assignments
+        // that afterwards mess up type assignment.
+        PackManager.v().getTransform( "jb.uce" ).apply( b );
         PackManager.v().getTransform( "jb.ls" ).apply( b );
 
         if(Options.v().time()) Timers.v().splitTimer.end();
@@ -63,8 +71,11 @@ public class JimpleBodyPack extends BodyPack
 
         if(Options.v().time()) Timers.v().assignTimer.start();
 
+        lock.lock();
+
         PackManager.v().getTransform( "jb.tr" ).apply( b );
-        
+
+        lock.unlock();
         if(Options.v().time()) Timers.v().assignTimer.end();
 
         if(options.use_original_names())
