@@ -33,18 +33,13 @@ public class Dava {
     private static final PrintStream LOG_TO_SCREEN = null;
     private Writer iOut = null;
     private IterableSet currentPackageContext = null;
-    private String currentPackage;
-    public Dava(String currentPackage) {
-        this.currentPackage = currentPackage;
+    public Dava() {
     }
 
     public static Dava v() {
         return G.v().soot_dava_Dava();
     }
 
-    public String get_CurrentPackage() {
-        return currentPackage;
-    }
 
     public IterableSet get_CurrentPackageContext() {
         return currentPackageContext;
