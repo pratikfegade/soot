@@ -1,320 +1,335 @@
-/* Soot - a J*va Optimization Framework
- * Copyright (C) 1997-2012 Raja Vallee-Rai and others
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
- * Boston, MA 02111-1307, USA.
- */
-
-/*
- * Modified by the Sable Research Group and others 1997-2008.
- * See the 'credits' file distributed with Soot for the complete list of
- * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
- */
-
 package soot;
 
-import static java.net.URLEncoder.encode;
+import util.filter.ClassFilter;
+import util.filter.GlobClassFilter;
+import soot.ClassProvider;
+import soot.Scene;
+import soot.SootClass;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
+import java.io.File;
+import java.util.*;
 
-import soot.options.CGOptions;
-import soot.options.Options;
-import soot.toolkits.astmetrics.ClassData;
-
-import com.google.common.base.Joiner;
-
-/** Main class for Soot; provides Soot's command-line user interface. */
 public class Main {
-	public Main(Singletons.Global g) {
-	}
-	public static Main v() {
-		return G.v().soot_Main();
-	}
-	// TODO: the following string should be updated by the source control
-	// No it shouldn't. Prcs is horribly broken in this respect, and causes
-	// the code to not compile all the time.
-	public static final String versionString = Main.class.getPackage().getImplementationVersion() == null ? "trunk" : Main.class.getPackage().getImplementationVersion();
 
-	private Date start;
-	private Date finish;
-
-	private void printVersion() {
-		G.v().out.println("Soot version " + versionString);
-
-		G.v().out.println(
-				"Copyright (C) 1997-2010 Raja Vallee-Rai and others.");
-		G.v().out.println("All rights reserved.");
-		G.v().out.println("");
-		G.v().out.println(
-				"Contributions are copyright (C) 1997-2010 by their respective contributors.");
-		G.v().out.println("See the file 'credits' for a list of contributors.");
-		G.v().out.println("See individual source files for details.");
-		G.v().out.println("");
-		G.v().out.println(
-				"Soot comes with ABSOLUTELY NO WARRANTY.  Soot is free software,");
-		G.v().out.println(
-				"and you are welcome to redistribute it under certain conditions.");
-		G.v().out.println(
-				"See the accompanying file 'COPYING-LESSER.txt' for details.");
-		G.v().out.println();
-		G.v().out.println("Visit the Soot website:");
-		G.v().out.println("  http://www.sable.mcgill.ca/soot/");
-		G.v().out.println();
-		G.v().out.println("For a list of command line options, enter:");
-		G.v().out.println("  java soot.Main --help");
-	}
-
-	private void processCmdLine(String[] args) {
-
-		if (!Options.v().parse(args))
-			throw new OptionsParseException("Option parse error");
-
-		if (PackManager.v().onlyStandardPacks()) {
-			for (Pack pack : PackManager.v().allPacks()) {
-				Options.v().warnForeignPhase(pack.getPhaseName());
-				for (Transform tr : pack) {
-					Options.v().warnForeignPhase(tr.getPhaseName());
-				}
-			}
-		}
-		Options.v().warnNonexistentPhase();
-
-		if (Options.v().help()) {
-			G.v().out.println(Options.v().getUsage());
-			throw new CompilationDeathException(CompilationDeathException.COMPILATION_SUCCEEDED);
-		}
-
-		if (Options.v().phase_list()) {
-			G.v().out.println(Options.v().getPhaseList());
-			throw new CompilationDeathException(CompilationDeathException.COMPILATION_SUCCEEDED);
-		}
-
-		if (!Options.v().phase_help().isEmpty()) {
-			for (String phase : Options.v().phase_help()) {
-				G.v().out.println(Options.v().getPhaseHelp(phase));
-			}
-			throw new CompilationDeathException(CompilationDeathException.COMPILATION_SUCCEEDED);
-		}
-
-		if ((!Options.v().unfriendly_mode() && (args.length == 0)) || Options.v().version()) {
-			printVersion();
-			throw new CompilationDeathException(CompilationDeathException.COMPILATION_SUCCEEDED);
-		}
-
-		if(Options.v().on_the_fly()) {
-			Options.v().set_whole_program(true);
-			PhaseOptions.v().setPhaseOption("cg", "off");
-		}
-
-		postCmdLineCheck();
-	}
-
-	private void postCmdLineCheck() {
-		if (Options.v().classes().isEmpty()
-				&& Options.v().process_dir().isEmpty()) {
-			throw new CompilationDeathException(
-					CompilationDeathException.COMPILATION_ABORTED,
-					"No input classes specified!");
-		}
-	}
-
-	public String[] cmdLineArgs = new String[0];
-	/**
-	 *   Entry point for cmd line invocation of soot.
-	 */
-	public static void main(String[] args) {
-		try {
-			Main.v().run(args);
-		} catch (OptionsParseException e) {
-        		// error message has already been printed
-		} catch (StackOverflowError e ) {
-			G.v().out.println( "Soot has run out of stack memory." );
-			G.v().out.println( "To allocate more stack memory to Soot, use the -Xss switch to Java." );
-			G.v().out.println( "For example (for 2MB): java -Xss2m soot.Main ..." );
-			throw e;
-		} catch (OutOfMemoryError e) {
-			G.v().out.println( "Soot has run out of the memory allocated to it by the Java VM." );
-			G.v().out.println( "To allocate more memory to Soot, use the -Xmx switch to Java." );
-			G.v().out.println( "For example (for 2GB): java -Xmx2g soot.Main ..." );
-			throw e;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			e.printStackTrace(new PrintStream(bos));
-			String stackStraceString = bos.toString();
-			try {
-				final String TRACKER_URL="https://github.com/Sable/soot/issues/new?";
-				String commandLineArgs = Joiner.on(" ").join(args);
-				String body = "Steps to reproduce:\n1.) ...\n\n"
-						+ "Files used to reproduce: \n...\n\n"
-						+ "Soot version: "+"<pre>"+escape(versionString)+"</pre>"+"\n\n"
-						+ "Command line:\n"+"<pre>"+escape(commandLineArgs)+"</pre>\n\n"
-						+ "Max Memory:\n"+"<pre>"+escape((Runtime.getRuntime().maxMemory()/(1024*1024))+"MB")+"</pre>"+"\n\n"
-						+ "Stack trace:\n"+"<pre>"+escape(stackStraceString)+"</pre>";
+    public static enum Mode {INPUTS, FULL;}
 
 
-				String title = e.getClass().getName()+" when ...";
+    private static Mode _mode = null;
+    private static List<String> _inputs = new ArrayList<String>();
+    private static List<String> _libraries = new ArrayList<String>();
+    private static String _outputDir = null;
+    private static String _main = null;
+    private static boolean _ssa = false;
+    private static boolean _allowPhantom = false;
+    private static boolean _useOriginalNames = false;
+    private static boolean _keepLineNumber = false;
+    private static boolean _onlyApplicationClassesFactGen = false;
+    private static ClassFilter applicationClassFilter;
+    private static String appRegex = "**";
 
-				StringBuilder sb = new StringBuilder();
-				sb.append("\n\nOuuups... something went wrong! Sorry about that.\n");
-				sb.append("Follow these steps to fix the problem:\n");
-				sb.append("1.) Are you sure you used the right command line?\n");
-				sb.append("    Click here to double-check:\n");
-				sb.append("    https://ssebuild.cased.de/nightly/soot/doc/soot_options.htm\n");
-				sb.append("\n");
-				sb.append("2.) Not sure whether it's a bug? Feel free to discuss\n");
-				sb.append("    the issue on the Soot mailing list:\n");
-				sb.append("    https://github.com/Sable/soot/wiki/Getting-help\n");
-				sb.append("\n");
-				sb.append("3.) Sure it's a bug? Click this link to report it.\n");
-				sb.append("    "+TRACKER_URL+"title="+encode(title, "UTF-8")+"&body="+encode(body, "UTF-8")+"\n");
-				sb.append("    Please be as precise as possible when giving us\n");
-				sb.append("    information on how to reproduce the problem. Thanks!");
+    private static boolean _bytecode2jimple = false;
+    private static boolean _toStdout = false;
 
-				System.err.println(sb);
-			} catch (UnsupportedEncodingException e1) {
-			}
-		}
-	}
+    private static int shift(String[] args, int index) {
+        if(args.length == index + 1) {
+            System.err.println("error: option " + args[index] + " requires an argument");
+            System.exit(1);
+        }
 
-	private static CharSequence escape(CharSequence s) {
-		int start = 0; 
-		int end = s.length();
+        return index + 1;
+    }
 
-		StringBuilder sb = new StringBuilder(32 + (end - start));
-		for (int i = start; i < end; i++) {
-			int c = s.charAt(i);
-			switch (c) {
-			case '<':
-			case '>':
-			case '"':
-			case '\'':
-			case '&':
-				sb.append(s, start, i);
-				sb.append("&#");
-				sb.append(c);
-				sb.append(';');
-				start = i + 1;
-				break;
-			}
-		}
-		return sb.append(s, start, end);
-	}
+    private static boolean isApplicationClass(SootClass klass) {
+        applicationClassFilter = new GlobClassFilter(appRegex);
 
-	/**
-	 *  Entry point to the soot's compilation process.
-	 */
-	public void run(String[] args) {
-		cmdLineArgs = args;
+        return applicationClassFilter.matches(klass.getName());
+    }
 
-		start = new Date();
+    public static void main(String[] args) {
+        try {
+            if (args.length == 0) {
+                System.err.println("usage: [options] file...");
+                System.exit(0);
+            }
+
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("--full")) {
+                    if( _mode != null) {
+                        System.err.println("error: duplicate mode argument");
+                        System.exit(1);
+                    }
+
+                    _mode = Mode.FULL;
+                }
+                else if (args[i].equals("-d")) {
+                    i = shift(args, i);
+                    _outputDir = args[i];
+                }
+                else if (args[i].equals("--main")) {
+                    i = shift(args, i);
+                    _main = args[i];
+                }
+                else if (args[i].equals("--ssa")) {
+                    _ssa = true;
+                }
+                else if (args[i].equals("-l")) {
+                    i = shift(args, i);
+                    _libraries.add(args[i]);
+                }
+                else if (args[i].equals("-lsystem")) {
+                    String javaHome = System.getProperty("java.home");
+                    _libraries.add(javaHome + File.separator + "lib" + File.separator + "rt.jar");
+                    _libraries.add(javaHome + File.separator + "lib" + File.separator + "jce.jar");
+                    _libraries.add(javaHome + File.separator + "lib" + File.separator + "jsse.jar");
+                }
+                else if (args[i].equals("--deps")) {
+                    i = shift(args, i);
+                    String folderName = args[i];
+                    File f = new File(folderName);
+                    if (!f.exists()) {
+                        System.err.println("Dependency folder " + folderName + " does not exist");
+                        System.exit(0);
+                    }
+                    else if (!f.isDirectory()) {
+                        System.err.println("Dependency folder " + folderName + " is not a directory");
+                        System.exit(0);
+                    }
+                    for (File file : f.listFiles()) {
+                        if (file.isFile() && file.getName().endsWith(".jar")) {
+                            _libraries.add(file.getCanonicalPath());
+                        }
+                    }
+                }
+                else if (args[i].equals("--application-regex")) {
+                    i = shift(args, i);
+                    appRegex = args[i];
+                }
+                else if (args[i].equals("--allow-phantom")) {
+                    _allowPhantom = true;
+                }
+                else if (args[i].equals("--use-original-names")) {
+                    _useOriginalNames = true;
+                }
+                else if (args[i].equals("--only-application-classes-fact-gen")) {
+                    _onlyApplicationClassesFactGen = true;
+                }
+                else if (args[i].equals("--keep-line-number")) {
+                    _keepLineNumber = true;
+                }
+
+                else if (args[i].equals("--bytecode2jimple")) {
+                    _bytecode2jimple = true;
+                }
+                else if (args[i].equals("--stdout")) {
+                    _toStdout = true;
+                }
+                else if (args[i].equals("-h") || args[i].equals("--help") || args[i].equals("-help")) {
+                    System.err.println("usage: [options] file");
+                    System.err.println("options:");
+                    System.err.println("  --main <class>                        Specify the main name of the main class");
+                    System.err.println("  --ssa                                 Generate SSA facts, enabling flow-sensitive analysis");
+                    System.err.println("  --full                                Generate facts by full transitive resolution");
+                    System.err.println("  -d <directory>                        Specify where to generate csv fact files.");
+                    System.err.println("  -l <archive>                          Find classes in jar/zip archive.");
+                    System.err.println("  -lsystem                              Find classes in default system classes.");
+                    System.err.println("  --deps <directory>                    Add jars in this directory to the class lookup path");
+                    System.err.println("  --use-original-names                  Use original (source code) local variable names");
+                    System.err.println("  --only-application-classes-fact-gen   Generate facts only for application classes");
+                    System.err.println("  --keep-line-number                    Keep line number information for statements");
+
+                    System.err.println("  --bytecode2jimple                     Generate Jimple/Shimple files instead of facts");
+                    System.err.println("  --stdout                              Write Jimple/Shimple to stdout");
+
+                    System.err.println("  -h, -help                             Print this help message.");
+                    System.exit(0);
+                }
+                else if (args[i].equals("--bytecode2jimpleHelp")) {
+                    System.err.println("usage: [options] file");
+                    System.err.println("options:");
+                    System.err.println("  --ssa                                 Generate SSA facts, enabling flow-sensitive analysis");
+                    System.err.println("  --full                                Generate facts by full transitive resolution");
+                    System.err.println("  --stdout                              Write Jimple/Shimple to stdout");
+                    System.err.println("  -d <directory>                        Specify where to generate csv fact files.");
+                    System.err.println("  -l <archive>                          Find classes in jar/zip archive.");
+                    System.err.println("  -lsystem                              Find classes in default system classes.");
+                    System.exit(0);
+                }
+                else {
+                    if (args[i].charAt(0) == '-') {
+                        System.err.println("error: unrecognized option: " + args[i]);
+                        System.exit(0);
+                    }
+                    else {
+                        _inputs.add(args[i]);
+                    }
+                }
+            }
+
+            if(_mode == null) {
+                _mode = Mode.INPUTS;
+            }
+
+            if (_toStdout && !_bytecode2jimple) {
+                System.err.println("error: --stdout must be used with --bytecode2jimple");
+                System.exit(1);
+            }
+            if (_toStdout && _outputDir != null) {
+                System.err.println("error: --stdout and -d options are not compatible");
+                System.exit(2);
+            }
+            else if (!_toStdout && _outputDir == null) {
+                _outputDir = System.getProperty("user.dir");
+            }
+
+            /*
+             * Set resolution level for sun.net.www.protocol.ftp.FtpURLConnection
+             * to 1 (HIERARCHY) before calling run(). The following line is necessary to avoid
+             * a runtime exception when running soot with java 1.8, however it leads to different
+             * input fact generation thus leading to different analysis results
+             */
+            Scene.v().addBasicClass("sun.net.www.protocol.ftp.FtpURLConnection", 1);
+            run();
+        }
+        catch(Exception exc) {
+            exc.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private static void run() throws Exception {
+        NoSearchingClassProvider provider = new NoSearchingClassProvider();
+
+        for(String arg : _inputs) {
+            if(arg.endsWith(".jar") || arg.endsWith(".zip")) {
+                System.out.println("Adding archive: " + arg);
+                provider.addArchive(new File(arg));
+            }
+            else {
+                System.out.println("Adding file: " + arg);
+                provider.addClass(new File(arg));
+            }
+        }
+
+        for(String lib: _libraries) {
+            System.out.println("Adding archive for resolving: " + lib);
+
+            File libraryFile = new File(lib);
+
+            if (!libraryFile.exists()) {
+                System.err.println("Library file does not exist: " + libraryFile);
+            }
+            else {
+                provider.addArchiveForResolving(libraryFile);
+            }
+        }
+
+        soot.SourceLocator.v().setClassProviders(Collections.singletonList((ClassProvider) provider));
+        Scene scene = Scene.v();
+        if(_main != null) {
+            soot.options.Options.v().set_main_class(_main);
+        }
+
+        if(_mode == Mode.FULL) {
+            soot.options.Options.v().set_full_resolver(true);
+        }
+
+        if(_allowPhantom) {
+            soot.options.Options.v().set_allow_phantom_refs(true);
+        }
+
+        if (_useOriginalNames) {
+            soot.options.Options.v().setPhaseOption("jb", "use-original-names:true");
+        }
+
+        if (_keepLineNumber) {
+            soot.options.Options.v().set_keep_line_number(true);
+        }
+
+        List<SootClass> classes = new ArrayList<>();
+        for(String className : provider.getClassNames()) {
+            scene.loadClass(className, SootClass.SIGNATURES);
+            SootClass c = scene.loadClass(className, SootClass.BODIES);
+
+            classes.add(c);
+        }
 
 
-		try {
-			Timers.v().totalTimer.start();
+        /*
+         * For simulating the FileSystem class, we need the implementation
+         * of the FileSystem, but the classes are not loaded automatically
+         * due to the indirection via native code.
+         */
+        addCommonDynamicClass(scene, provider, "java.io.UnixFileSystem");
+        addCommonDynamicClass(scene, provider, "java.io.WinNTFileSystem");
+        addCommonDynamicClass(scene, provider, "java.io.Win32FileSystem");
 
-			processCmdLine(cmdLineArgs);
+        /* java.net.URL loads handlers dynamically */
+        addCommonDynamicClass(scene, provider, "sun.net.www.protocol.file.Handler");
+        addCommonDynamicClass(scene, provider, "sun.net.www.protocol.ftp.Handler");
+        addCommonDynamicClass(scene, provider, "sun.net.www.protocol.http.Handler");
+        addCommonDynamicClass(scene, provider, "sun.net.www.protocol.https.Handler");
+        addCommonDynamicClass(scene, provider, "sun.net.www.protocol.jar.Handler");
 
-			autoSetOptions();
+        scene.loadNecessaryClasses();
 
-			G.v().out.println("Soot started on " + start);
 
-			Scene.v().loadNecessaryClasses();
+       /*
+        * This part should definitely appear after the call to
+        * `Scene.loadNecessaryClasses()', since the latter may alter
+        * the set of application classes by explicitly specifying
+        * that some classes are library code (ignoring any previous
+        * call to `setApplicationClass()').
+        */
 
-			/*
-			 * By this all the java to jimple has occured so we just check ast-metrics flag
-			 *
-			 * If it is set......print the astMetrics.xml file and stop executing soot
-			 */
-			if(Options.v().ast_metrics()){
-				try{
-					OutputStream streamOut = new FileOutputStream("../astMetrics.xml");
-					PrintWriter writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
-					writerOut.println("<?xml version='1.0'?>");
-					writerOut.println("<ASTMetrics>");
+        for(SootClass c : classes) {
+            if (isApplicationClass(c))
+                c.setApplicationClass();
+        }
 
-					for (ClassData cData : G.v().ASTMetricsData) {
-						//each is a classData object
-						writerOut.println(cData);
-					}
+        if(_mode == Mode.FULL && !_onlyApplicationClassesFactGen) {
+            classes = new ArrayList<>(scene.getClasses());
+        }
 
-					writerOut.println("</ASTMetrics>");
-					writerOut.flush();
-					streamOut.close();
-				} catch (IOException e) {
-					throw new CompilationDeathException("Cannot output file astMetrics",e);
-				}
-				return;
-			}
+        if (_bytecode2jimple) {
+            ThreadFactory factory = new ThreadFactory(_ssa, _toStdout, _outputDir);
+            Driver driver = new Driver(factory, _ssa, classes.size());
 
-			PackManager.v().runPacks();
-			if(!Options.v().oaat())
-				PackManager.v().writeOutput();
+            driver.doInParallel(classes);
+        }
+        else {
+            Database db = new CSVDatabase(new File(_outputDir));
+            FactWriter writer = new FactWriter(db);
+            ThreadFactory factory = new ThreadFactory(writer, _ssa);
+            Driver driver = new Driver(factory, _ssa, classes.size());
 
-			Timers.v().totalTimer.end();
+            for(SootClass c : classes) {
+                if (c.isApplicationClass())
+                    writer.writeApplicationClass(c);
+            }
 
-			// Print out time stats.
-			if (Options.v().time())
-				Timers.v().printProfilingInformation();
+            // Read all stored properties files
+            for (Map.Entry<String,Properties> entry : provider.getProperties().entrySet()) {
+                String path = entry.getKey();
+                Properties properties = entry.getValue();
 
-		} catch (CompilationDeathException e) {
-			Timers.v().totalTimer.end();
-			if(e.getStatus()!=CompilationDeathException.COMPILATION_SUCCEEDED)
-				throw e;
-			else
-				return;
-		}
+                for (String propertyName : properties.stringPropertyNames()) {
+                    String propertyValue = properties.getProperty(propertyName);
 
-		finish = new Date();
+                    writer.writeProperty(path, propertyName, propertyValue);
+                }
+            }
 
-		G.v().out.println("Soot finished on " + finish);
-		long runtime = finish.getTime() - start.getTime();
-		G.v().out.println(
-				"Soot has run for "
-						+ (runtime / 60000)
-						+ " min. "
-						+ ((runtime % 60000) / 1000)
-						+ " sec.");
+            db.flush();
 
-	}
+            driver.doInParallel(classes);
 
-	public void autoSetOptions() {
-		//when no-bodies-for-excluded is enabled, also enable phantom refs
-		if(Options.v().no_bodies_for_excluded())
-			Options.v().set_allow_phantom_refs(true);
+            db.close();
+        }
+    }
 
-		//when reflection log is enabled, also enable phantom refs
-		CGOptions cgOptions = new CGOptions( PhaseOptions.v().getPhaseOptions("cg") );
-		String log = cgOptions.reflection_log();
-		if((log!=null) && (log.length()>0)) {
-			Options.v().set_allow_phantom_refs(true);
-		}
-
-		//if phantom refs enabled,  ignore wrong staticness in type assigner
-		if(Options.v().allow_phantom_refs()) {
-			PhaseOptions.v().setPhaseOption("jb.tr", "ignore-wrong-staticness:true");
-		}
-	}
+    public static void addCommonDynamicClass(Scene scene, ClassProvider provider, String className) {
+        if(provider.find(className) != null) {
+            scene.addBasicClass(className);
+        }
+    }
 }
-

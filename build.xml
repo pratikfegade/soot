@@ -16,8 +16,8 @@
             debug="true"
 	    includeantruntime="true"
             deprecation="on"
-        	source="1.6"
-        	target="1.6"
+        	source="1.7"
+        	target="1.7"
         	fork="true"
         	memorymaximumsize="512m"
         >
@@ -35,7 +35,7 @@
            		<pathelement location="${axmlprinter2.jar}"/>
            		<pathelement location="${asm.jar}"/>
 				<pathelement location="${jboss-common-core.jar}"/>
-
+                <pathelement location="${commons-io.jar}"/>
 				<pathelement location="${slf4j-api.jar}"/>
            		<pathelement location="${slf4j-simple.jar}"/>
 
@@ -218,7 +218,9 @@
         		<pathelement location="${hamcrest.jar}"/>
         		<pathelement location="${mockito.jar}"/>
         		<pathelement location="${powermock-mockito.jar}"/>
-        	</classpath>
+                <pathelement location="${commons-io.jar}"/>
+
+            </classpath>
         </javac>
     </target>
 
@@ -238,6 +240,7 @@
         		<pathelement location="${javassist.jar}"/>
            		<pathelement location="${xmlprinter.jar}"/>
         		<pathelement location="${jboss-common-core.jar}"/>
+                <pathelement location="${commons-io.jar}"/>
 
            		<pathelement location="${slf4j-api.jar}"/>
            		<pathelement location="${slf4j-simple.jar}"/>
@@ -355,6 +358,7 @@
             <zipfileset src="${polyglot.jar}"/>
             <zipfileset src="${javacup.jar}"/>
             <zipfileset src="${xmlprinter.jar}"/>
+            <zipfileset src="${commons-io.jar}"/>
             <zipfileset src="${dexlib2.jar}"/>
             <zipfileset src="${dexlib-utils.jar}"/>
             <zipfileset src="${asm.jar}"/>

@@ -758,9 +758,9 @@ public class XMLPrinter {
             // add history node
             // TODO: grab the software version and command line
             String cmdlineStr = "";
-            for (String element : Main.v().cmdLineArgs) {
-                cmdlineStr += element + " ";
-            }
+//            for (String element : Main.v().cmdLineArgs) {
+//                cmdlineStr += element + " ";
+//            }
             String dateStr = new Date().toString();
             xmlHistoryNode = xmlRootNode.addChild("history");
             xmlHistoryNode.addAttribute("created", dateStr);
@@ -768,7 +768,7 @@ public class XMLPrinter {
                 "soot",
                 new String[] { "version", "command", "timestamp" },
                 new String[] {
-                    Main.v().versionString,
+//                    Main.v().versionString,
                     cmdlineStr.trim(),
                     dateStr });
 

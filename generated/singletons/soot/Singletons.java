@@ -83,11 +83,11 @@ public class Singletons {
         return instance_soot_jimple_toolkits_typing_integer_ClassHierarchy;
     }
 
-    private soot.Main instance_soot_Main;
-    public soot.Main soot_Main() {
-        if( instance_soot_Main == null ) instance_soot_Main = new soot.Main( g );
-        return instance_soot_Main;
-    }
+//    private soot.Main instance_soot_Main;
+//    public soot.Main soot_Main() {
+//        if( instance_soot_Main == null ) instance_soot_Main = new soot.Main( g );
+//        return instance_soot_Main;
+//    }
 
     private soot.tagkit.TagManager instance_soot_tagkit_TagManager;
     public soot.tagkit.TagManager soot_tagkit_TagManager() {

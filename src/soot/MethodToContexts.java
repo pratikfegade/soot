@@ -33,7 +33,7 @@ public final class MethodToContexts {
 		SootMethod m = momc.method();
 		List<MethodOrMethodContext> l = map.get(m);
 		if (l == null)
-			map.put(m, l = new ArrayList<MethodOrMethodContext>());
+			map.put(m, l = new ArrayList<>());
 		l.add(momc);
 	}
 
@@ -54,7 +54,7 @@ public final class MethodToContexts {
 	public List<MethodOrMethodContext> get(SootMethod m) {
 		List<MethodOrMethodContext> ret = map.get(m);
 		if (ret == null)
-			ret = new ArrayList<MethodOrMethodContext>();
+			ret = new ArrayList<>();
 		return ret;
 	}
 }
