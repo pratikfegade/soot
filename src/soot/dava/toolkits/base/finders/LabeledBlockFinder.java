@@ -18,13 +18,18 @@
  */
 
 package soot.dava.toolkits.base.finders;
-import soot.*;
 
-import soot.dava.*;
-import java.util.*;
-import soot.util.*;
-import soot.dava.internal.asg.*;
+import soot.G;
+import soot.Singletons;
+import soot.dava.Dava;
+import soot.dava.DavaBody;
+import soot.dava.RetriggerAnalysisException;
 import soot.dava.internal.SET.*;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.asg.AugmentedStmtGraph;
+import soot.util.IterableSet;
+
+import java.util.*;
 
 public class LabeledBlockFinder implements FactFinder
 {

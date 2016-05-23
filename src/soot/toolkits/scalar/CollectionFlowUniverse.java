@@ -26,7 +26,10 @@
 
 package soot.toolkits.scalar;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /** 
  * Provides an implementation of a flow universe, wrapping collections.

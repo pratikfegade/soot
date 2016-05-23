@@ -18,12 +18,6 @@
  */
 package soot.toolkits.graph.pdg;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-
 import soot.Body;
 import soot.Trap;
 import soot.Unit;
@@ -34,6 +28,8 @@ import soot.toolkits.graph.MHGDominatorsFinder;
 import soot.toolkits.graph.MHGPostDominatorsFinder;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.Chain;
+
+import java.util.*;
 
 /**
  * 

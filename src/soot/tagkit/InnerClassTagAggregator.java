@@ -29,7 +29,10 @@ package soot.tagkit;
 
 
 import soot.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 /** The aggregator for LineNumberTable attribute. */
 public class InnerClassTagAggregator extends SceneTransformer {

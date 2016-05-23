@@ -18,13 +18,6 @@
  */
 
 package soot.jimple.spark.pag;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import soot.SootClass;
 import soot.SootMethod;
@@ -32,6 +25,14 @@ import soot.Type;
 import soot.jimple.spark.sets.P2SetVisitor;
 import soot.jimple.spark.sets.PointsToSetInternal;
 import soot.jimple.spark.solver.TopoSorter;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /** Dumps a pointer assignment graph to a file.
  * @author Ondrej Lhotak

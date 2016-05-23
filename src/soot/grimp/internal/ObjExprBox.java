@@ -26,7 +26,8 @@
 
 package soot.grimp.internal;
 
-import soot.*;
+import soot.Local;
+import soot.Value;
 import soot.jimple.*;
 
 public class ObjExprBox extends ExprBox

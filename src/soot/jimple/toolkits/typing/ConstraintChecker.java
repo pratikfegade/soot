@@ -28,8 +28,10 @@ package soot.jimple.toolkits.typing;
 import soot.*;
 import soot.jimple.*;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.List;
 
 class ConstraintChecker extends AbstractStmtSwitch {
 	private final ClassHierarchy hierarchy;

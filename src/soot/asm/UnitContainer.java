@@ -18,8 +18,6 @@
  */
 package soot.asm;
 
-import java.util.List;
-
 import soot.Unit;
 import soot.UnitBox;
 import soot.UnitPrinter;
@@ -27,6 +25,8 @@ import soot.ValueBox;
 import soot.tagkit.Host;
 import soot.tagkit.Tag;
 import soot.util.Switch;
+
+import java.util.List;
 
 /**
  * A psuedo unit containing different units.

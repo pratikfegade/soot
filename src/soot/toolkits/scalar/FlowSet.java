@@ -27,7 +27,8 @@
 
 package soot.toolkits.scalar;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents information for flow analysis.  

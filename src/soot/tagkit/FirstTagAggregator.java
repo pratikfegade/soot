@@ -28,7 +28,7 @@
 package soot.tagkit;
 
 
-import soot.*;
+import soot.Unit;
 
 /** A tag aggregator that associates a tag with the <b>first</b> instruction
  * that is tagged with it. */

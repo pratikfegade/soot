@@ -19,10 +19,13 @@
 
 package soot.shimple.toolkits.scalar;
 
-import soot.*;
-import soot.util.*;
-import soot.shimple.*;
-import soot.toolkits.scalar.*;
+import soot.Local;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.shimple.ShimpleBody;
+import soot.toolkits.scalar.LocalDefs;
+import soot.util.Chain;
 
 import java.util.*;
 

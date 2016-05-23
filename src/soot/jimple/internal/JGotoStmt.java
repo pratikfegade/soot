@@ -30,11 +30,18 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.Unit;
+import soot.UnitBox;
+import soot.UnitPrinter;
+import soot.baf.Baf;
+import soot.jimple.GotoStmt;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleToBafContext;
+import soot.jimple.StmtSwitch;
+import soot.util.Switch;
+
+import java.util.Collections;
+import java.util.List;
 
 public class JGotoStmt extends AbstractStmt implements GotoStmt
 {

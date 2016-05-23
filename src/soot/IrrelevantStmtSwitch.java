@@ -1,7 +1,6 @@
 package soot;
 
 import soot.jimple.*;
-import soot.Value;
 
 public class IrrelevantStmtSwitch implements StmtSwitch
 {

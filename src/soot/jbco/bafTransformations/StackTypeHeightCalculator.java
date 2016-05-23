@@ -19,13 +19,12 @@
 
 package soot.jbco.bafTransformations;
 
-import java.util.*;
-
 import soot.*;
 import soot.baf.*;
-import soot.baf.internal.AbstractOpTypeInst;
-import soot.toolkits.graph.*;
+import soot.toolkits.graph.BriefUnitGraph;
 import soot.util.Chain;
+
+import java.util.*;
 /**
  * @author Michael Batchelder 
  * 

@@ -24,83 +24,30 @@
 
 package soot.dexpler;
 
-import static soot.dexpler.instructions.InstructionFactory.fromInstruction;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.jf.dexlib2.dexbacked.DexBackedDexFile;
-import org.jf.dexlib2.iface.DexFile;
-import org.jf.dexlib2.iface.ExceptionHandler;
-import org.jf.dexlib2.iface.Method;
-import org.jf.dexlib2.iface.MethodImplementation;
-import org.jf.dexlib2.iface.MethodParameter;
-import org.jf.dexlib2.iface.TryBlock;
+import org.jf.dexlib2.iface.*;
 import org.jf.dexlib2.iface.debug.DebugItem;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.immutable.debug.ImmutableLineNumber;
 import org.jf.dexlib2.util.MethodUtil;
-
-import soot.Body;
-import soot.DoubleType;
-import soot.Local;
-import soot.LongType;
-import soot.Modifier;
-import soot.NullType;
-import soot.PrimType;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.Trap;
-import soot.Type;
-import soot.Unit;
-import soot.UnknownType;
-import soot.Value;
-import soot.ValueBox;
-import soot.dexpler.instructions.DanglingInstruction;
-import soot.dexpler.instructions.DeferableInstruction;
-import soot.dexpler.instructions.DexlibAbstractInstruction;
-import soot.dexpler.instructions.MoveExceptionInstruction;
-import soot.dexpler.instructions.OdexInstruction;
-import soot.dexpler.instructions.PseudoInstruction;
-import soot.dexpler.instructions.RetypeableInstruction;
+import soot.*;
+import soot.dexpler.instructions.*;
 import soot.dexpler.typing.DalvikTyper;
 import soot.dexpler.typing.Validate;
 import soot.javaToJimple.LocalGenerator;
-import soot.jimple.AssignStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.CaughtExceptionRef;
-import soot.jimple.ConditionExpr;
-import soot.jimple.Constant;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.EqExpr;
-import soot.jimple.IfStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.Jimple;
-import soot.jimple.JimpleBody;
-import soot.jimple.NeExpr;
-import soot.jimple.NullConstant;
+import soot.jimple.*;
 import soot.jimple.internal.JIdentityStmt;
 import soot.jimple.toolkits.base.Aggregator;
-import soot.jimple.toolkits.scalar.ConditionalBranchFolder;
-import soot.jimple.toolkits.scalar.ConstantCastEliminator;
-import soot.jimple.toolkits.scalar.CopyPropagator;
-import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
-import soot.jimple.toolkits.scalar.LocalNameStandardizer;
-import soot.jimple.toolkits.scalar.NopEliminator;
-import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
+import soot.jimple.toolkits.scalar.*;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.toolkits.exceptions.TrapTightener;
 import soot.toolkits.scalar.LocalPacker;
 import soot.toolkits.scalar.LocalSplitter;
 import soot.toolkits.scalar.UnusedLocalEliminator;
+
+import java.util.*;
+
+import static soot.dexpler.instructions.InstructionFactory.fromInstruction;
 
 /**
  * A DexBody contains the code of a DexMethod and is used as a wrapper around

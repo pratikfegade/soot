@@ -20,8 +20,13 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import java.util.*;
-import soot.*;
+import soot.Local;
+import soot.Type;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Ben Bellamy

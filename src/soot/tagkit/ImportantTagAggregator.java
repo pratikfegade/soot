@@ -28,8 +28,8 @@
 package soot.tagkit;
 
 
-import soot.*;
-import soot.baf.*;
+import soot.Unit;
+import soot.baf.Inst;
 
 /** A tag aggregator that associates a tag with the <b>most important</b>
  * instruction that is tagged with it. An instruction is important if

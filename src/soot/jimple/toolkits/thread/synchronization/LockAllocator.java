@@ -1,20 +1,27 @@
 package soot.jimple.toolkits.thread.synchronization;
 
-import java.util.*;
-
 import soot.*;
-import soot.util.Chain;
 import soot.jimple.*;
-import soot.jimple.toolkits.pointer.*;
+import soot.jimple.spark.pag.PAG;
+import soot.jimple.spark.sets.HashPointsToSet;
+import soot.jimple.spark.sets.PointsToSetInternal;
+import soot.jimple.toolkits.callgraph.ReachableMethods;
+import soot.jimple.toolkits.infoflow.ClassInfoFlowAnalysis;
+import soot.jimple.toolkits.infoflow.FakeJimpleLocal;
+import soot.jimple.toolkits.infoflow.SmartMethodInfoFlowAnalysis;
+import soot.jimple.toolkits.pointer.RWSet;
 import soot.jimple.toolkits.thread.ThreadLocalObjectsAnalysis;
 import soot.jimple.toolkits.thread.mhp.MhpTester;
 import soot.jimple.toolkits.thread.mhp.SynchObliviousMhpAnalysis;
-import soot.jimple.toolkits.callgraph.*;
-import soot.jimple.toolkits.infoflow.*;
-import soot.jimple.spark.pag.*;
-import soot.jimple.spark.sets.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
+import soot.toolkits.graph.BriefUnitGraph;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.HashMutableEdgeLabelledDirectedGraph;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.LocalDefs;
+import soot.util.Chain;
+
+import java.util.*;
 
 public class LockAllocator extends SceneTransformer
 {

@@ -1,10 +1,5 @@
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import soot.Local;
 import soot.SootClass;
 import soot.Type;
@@ -16,6 +11,11 @@ import soot.dava.internal.asg.AugmentedStmt;
 import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
 import soot.dava.toolkits.base.AST.structuredAnalysis.UnreachableCodeFinder;
 import soot.jimple.Stmt;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 
 

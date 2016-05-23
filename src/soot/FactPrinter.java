@@ -1,9 +1,5 @@
 package soot;
 
-import soot.Body;
-import soot.Printer;
-import soot.SootClass;
-import soot.SootMethod;
 import soot.shimple.Shimple;
 
 import java.io.File;

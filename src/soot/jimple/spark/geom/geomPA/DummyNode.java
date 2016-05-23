@@ -18,12 +18,13 @@
  */
 package soot.jimple.spark.geom.geomPA;
 
-import java.io.PrintStream;
-import java.util.Set;
 import soot.jimple.spark.geom.dataMgr.PtSensVisitor;
 import soot.jimple.spark.geom.dataRep.PlainConstraint;
 import soot.jimple.spark.pag.AllocNode;
 import soot.jimple.spark.pag.Node;
+
+import java.io.PrintStream;
+import java.util.Set;
 
 /**
  * It is used to represent the non-pointer variables (e.g. heap variable) in the geometric encoding PAG.

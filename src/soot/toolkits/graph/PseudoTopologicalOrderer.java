@@ -25,11 +25,7 @@
 
 package soot.toolkits.graph;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.IdentityHashMap;
-import java.util.Set;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * Orders in pseudo-topological order, the nodes of a DirectedGraph instance.

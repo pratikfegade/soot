@@ -20,11 +20,15 @@
 package soot.jimple.toolkits.annotation.liveness;
 
 import soot.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
-import soot.tagkit.*;
-import java.util.*;
-import soot.jimple.*;
+import soot.jimple.Stmt;
+import soot.tagkit.ColorTag;
+import soot.tagkit.StringTag;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.LiveLocals;
+import soot.toolkits.scalar.SimpleLiveLocals;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class LiveVarsTagger extends BodyTransformer {
 

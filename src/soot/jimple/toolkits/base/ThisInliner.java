@@ -19,28 +19,13 @@
 
 package soot.jimple.toolkits.base;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.Local;
-import soot.Trap;
-import soot.Unit;
-import soot.ValueBox;
-import soot.jimple.CaughtExceptionRef;
-import soot.jimple.GotoStmt;
-import soot.jimple.IdentityStmt;
-import soot.jimple.InvokeExpr;
-import soot.jimple.InvokeStmt;
-import soot.jimple.Jimple;
-import soot.jimple.ParameterRef;
-import soot.jimple.ReturnVoidStmt;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.Stmt;
-import soot.jimple.ThisRef;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
 import soot.util.Chain;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ThisInliner extends BodyTransformer{
 

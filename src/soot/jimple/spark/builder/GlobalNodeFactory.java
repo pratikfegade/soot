@@ -18,8 +18,9 @@
  */
 
 package soot.jimple.spark.builder;
-import soot.jimple.spark.pag.*;
+
 import soot.*;
+import soot.jimple.spark.pag.*;
 import soot.toolkits.scalar.Pair;
 
 /** Factory for nodes not specific to a given method.

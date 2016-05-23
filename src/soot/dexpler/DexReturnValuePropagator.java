@@ -1,26 +1,14 @@
 package soot.dexpler;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.Local;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.AssignStmt;
-import soot.jimple.Constant;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.FieldRef;
-import soot.jimple.ReturnStmt;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.scalar.LocalCreation;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.LocalDefs;
 import soot.toolkits.scalar.LocalUses;
+
+import java.util.*;
 
 public class DexReturnValuePropagator extends BodyTransformer {
 	

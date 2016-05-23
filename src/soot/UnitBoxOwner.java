@@ -19,7 +19,7 @@
 
 package soot;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * An implementor of this interface indicates that it may contain

@@ -31,8 +31,10 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.NegExpr;
+import soot.util.Switch;
 
 @SuppressWarnings("serial")
 public abstract class AbstractNegExpr extends AbstractUnopExpr implements NegExpr

@@ -30,7 +30,8 @@
 
 
 package soot.coffi;
-import soot.*;
+
+import soot.G;
 /** Instruction subclasses are used to represent parsed bytecode; each
  * bytecode operation has a corresponding subclass of Instruction.
  * <p>

@@ -19,10 +19,11 @@
 
 package soot.toolkits.astmetrics;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import polyglot.ast.Node;
 import soot.options.Options;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /*
  * Add all metrics to be computed here.

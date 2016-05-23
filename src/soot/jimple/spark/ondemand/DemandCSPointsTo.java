@@ -18,57 +18,18 @@
  */
 package soot.jimple.spark.ondemand;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.AnySubType;
-import soot.ArrayType;
-import soot.Context;
-import soot.G;
-import soot.Local;
-import soot.PointsToAnalysis;
-import soot.PointsToSet;
-import soot.RefType;
-import soot.Scene;
-import soot.SootField;
-import soot.SootMethod;
-import soot.Type;
-import soot.jimple.spark.ondemand.genericutil.ArraySet;
-import soot.jimple.spark.ondemand.genericutil.HashSetMultiMap;
-import soot.jimple.spark.ondemand.genericutil.ImmutableStack;
-import soot.jimple.spark.ondemand.genericutil.Predicate;
-import soot.jimple.spark.ondemand.genericutil.Propagator;
+import soot.*;
+import soot.jimple.spark.ondemand.genericutil.*;
 import soot.jimple.spark.ondemand.genericutil.Stack;
-import soot.jimple.spark.ondemand.pautil.AssignEdge;
-import soot.jimple.spark.ondemand.pautil.ContextSensitiveInfo;
-import soot.jimple.spark.ondemand.pautil.OTFMethodSCCManager;
-import soot.jimple.spark.ondemand.pautil.SootUtil;
-import soot.jimple.spark.ondemand.pautil.ValidMatches;
+import soot.jimple.spark.ondemand.pautil.*;
 import soot.jimple.spark.ondemand.pautil.SootUtil.FieldToEdgesMap;
-import soot.jimple.spark.pag.AllocNode;
-import soot.jimple.spark.pag.FieldRefNode;
-import soot.jimple.spark.pag.GlobalVarNode;
-import soot.jimple.spark.pag.LocalVarNode;
-import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.PAG;
-import soot.jimple.spark.pag.SparkField;
-import soot.jimple.spark.pag.VarNode;
-import soot.jimple.spark.sets.EmptyPointsToSet;
-import soot.jimple.spark.sets.EqualsSupportingPointsToSet;
-import soot.jimple.spark.sets.HybridPointsToSet;
-import soot.jimple.spark.sets.P2SetVisitor;
-import soot.jimple.spark.sets.PointsToSetEqualsWrapper;
-import soot.jimple.spark.sets.PointsToSetInternal;
+import soot.jimple.spark.pag.*;
+import soot.jimple.spark.sets.*;
 import soot.jimple.toolkits.callgraph.VirtualCalls;
 import soot.toolkits.scalar.Pair;
 import soot.util.NumberedString;
+
+import java.util.*;
 
 /**
  * Tries to find imprecision in points-to sets from a previously run analysis.

@@ -29,8 +29,9 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.RefType;
+import soot.Type;
+import soot.util.Switch;
 
 public interface NewExpr extends Expr, AnyNewExpr
 {

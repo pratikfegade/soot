@@ -29,8 +29,11 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.Local;
+import soot.Type;
+import soot.Value;
+import soot.ValueBox;
+import soot.util.Switch;
 
 public interface ArrayRef extends ConcreteRef
 {

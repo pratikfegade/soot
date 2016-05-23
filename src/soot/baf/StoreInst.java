@@ -25,7 +25,8 @@
 
 package soot.baf;
 
-import soot.*;
+import soot.Local;
+import soot.Type;
 
 public interface StoreInst extends Inst
 {

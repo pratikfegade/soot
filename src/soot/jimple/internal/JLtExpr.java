@@ -30,9 +30,12 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Type;
+import soot.Value;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.LtExpr;
+import soot.util.Switch;
 
 public class JLtExpr extends AbstractJimpleIntBinopExpr implements LtExpr
 {

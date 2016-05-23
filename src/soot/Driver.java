@@ -1,7 +1,5 @@
 package soot;
 
-import soot.SootClass;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;

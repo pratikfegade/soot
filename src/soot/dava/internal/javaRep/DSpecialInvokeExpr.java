@@ -20,10 +20,16 @@
 
 package soot.dava.internal.javaRep;
 
-import soot.*;
-import java.util.*;
-import soot.grimp.*;
-import soot.grimp.internal.*;
+import soot.NullType;
+import soot.SootMethodRef;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.grimp.Precedence;
+import soot.grimp.PrecedenceTest;
+import soot.grimp.internal.GSpecialInvokeExpr;
+
+import java.util.ArrayList;
 
 public class DSpecialInvokeExpr extends GSpecialInvokeExpr
 {

@@ -20,12 +20,20 @@
 package soot.shimple.internal;
 
 import soot.*;
-import soot.util.*;
-import java.util.*;
-import soot.shimple.*;
-import soot.jimple.*;
+import soot.jimple.AssignStmt;
+import soot.jimple.Jimple;
+import soot.shimple.PhiExpr;
+import soot.shimple.Shimple;
+import soot.shimple.ShimpleBody;
+import soot.shimple.ShimpleFactory;
 import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
+import soot.toolkits.scalar.GuaranteedDefs;
+import soot.toolkits.scalar.ValueUnitPair;
+import soot.util.Chain;
+import soot.util.HashMultiMap;
+import soot.util.MultiMap;
+
+import java.util.*;
 
 /**
  * @author Navindra Umanee

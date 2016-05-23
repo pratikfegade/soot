@@ -20,9 +20,12 @@
 
 package soot.dava.internal.javaRep;
 
-import soot.*;
-import java.util.*;
-import soot.grimp.internal.*;
+import soot.SootFieldRef;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.grimp.internal.GInstanceFieldRef;
+
+import java.util.HashSet;
 
 public class DInstanceFieldRef extends GInstanceFieldRef 
 {

@@ -19,11 +19,13 @@
 
 package soot.javaToJimple.jj.ast;
 
-import polyglot.ast.*;
-import polyglot.visit.*;
-import polyglot.ext.jl.ast.*;
-import polyglot.types.*;
-import polyglot.util.*;
+import polyglot.ast.Expr;
+import polyglot.ast.Unary;
+import polyglot.ext.jl.ast.Unary_c;
+import polyglot.types.Type;
+import polyglot.types.TypeSystem;
+import polyglot.util.Position;
+import polyglot.visit.AscriptionVisitor;
 
 public class JjUnary_c extends Unary_c {
 

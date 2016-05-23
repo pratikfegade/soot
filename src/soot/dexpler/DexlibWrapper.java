@@ -24,24 +24,17 @@
 
 package soot.dexpler;
 
-import java.io.File;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.DexFileFactory;
 import org.jf.dexlib2.dexbacked.DexBackedDexFile;
 import org.jf.dexlib2.iface.ClassDef;
 import org.jf.dexlib2.iface.DexFile;
-
-import soot.ArrayType;
-import soot.PrimType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootResolver;
-import soot.Type;
-import soot.VoidType;
+import soot.*;
 import soot.javaToJimple.IInitialResolver.Dependencies;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**

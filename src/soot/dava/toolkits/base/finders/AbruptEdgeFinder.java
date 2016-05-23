@@ -19,13 +19,20 @@
 
 package soot.dava.toolkits.base.finders;
 
-import soot.*;
-import java.util.*;
-import soot.util.*;
-import soot.dava.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.SET.*;
-import soot.dava.internal.javaRep.*;
+import soot.G;
+import soot.Singletons;
+import soot.dava.Dava;
+import soot.dava.DavaBody;
+import soot.dava.RetriggerAnalysisException;
+import soot.dava.internal.SET.SETCycleNode;
+import soot.dava.internal.SET.SETNode;
+import soot.dava.internal.SET.SETStatementSequenceNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.asg.AugmentedStmtGraph;
+import soot.dava.internal.javaRep.DAbruptStmt;
+import soot.util.IterableSet;
+
+import java.util.Iterator;
 
 public class AbruptEdgeFinder implements FactFinder
 {

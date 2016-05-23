@@ -8,20 +8,13 @@
  */
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.util.*;
-import java.util.*;
+import soot.jimple.toolkits.thread.mhp.stmt.*;
+import soot.tagkit.Tag;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+import soot.util.Chain;
 
-import soot.toolkits.scalar.*;
-import soot.tagkit.*;
-import soot.jimple.toolkits.thread.mhp.stmt.BeginStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.JoinStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.MonitorEntryStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.NotifiedEntryStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.NotifyAllStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.NotifyStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.StartStmt;
-import soot.jimple.toolkits.thread.mhp.stmt.WaitingStmt;
+import java.util.*;
 
 
 

@@ -18,15 +18,18 @@
  */
 
 package soot.dava.internal.SET;
-import soot.*;
 
-import java.io.*;
+import soot.G;
+import soot.dava.DavaBody;
+import soot.dava.internal.AST.ASTNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.toolkits.base.finders.AbruptEdgeFinder;
+import soot.dava.toolkits.base.finders.LabeledBlockFinder;
+import soot.dava.toolkits.base.finders.SequenceFinder;
+import soot.util.IterableSet;
+
+import java.io.PrintStream;
 import java.util.*;
-import soot.util.*;
-import soot.dava.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.AST.*;
-import soot.dava.toolkits.base.finders.*;
 
 public abstract class SETNode
 {

@@ -26,9 +26,14 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.util.*;
-import java.util.*;
+import soot.Local;
+import soot.Type;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.util.Switch;
+
+import java.util.Collections;
+import java.util.List;
 
 public class BafLocal implements Local
 {

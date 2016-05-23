@@ -30,9 +30,9 @@
 
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.internal.JEnterMonitorStmt;
 
 public class GEnterMonitorStmt extends JEnterMonitorStmt 
 {

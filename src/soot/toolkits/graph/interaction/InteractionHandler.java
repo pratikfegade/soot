@@ -20,10 +20,11 @@
 package soot.toolkits.graph.interaction;
 
 import soot.*;
-import soot.toolkits.graph.*;
-import soot.jimple.toolkits.annotation.callgraph.*;
-import java.util.*;
-import soot.options.*;
+import soot.jimple.toolkits.annotation.callgraph.CallGraphGrapher;
+import soot.options.Options;
+import soot.toolkits.graph.DirectedGraph;
+
+import java.util.ArrayList;
 
 public class InteractionHandler {
    

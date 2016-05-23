@@ -29,9 +29,12 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.baf.*;
-import java.util.*;
+import soot.Local;
+import soot.Unit;
+import soot.baf.BafBody;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class JimpleToBafContext
 {

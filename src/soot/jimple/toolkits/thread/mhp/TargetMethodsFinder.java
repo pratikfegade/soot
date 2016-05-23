@@ -1,8 +1,14 @@
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.*;
-import soot.jimple.toolkits.callgraph.*;
-import java.util.*;
+import soot.Kind;
+import soot.SootMethod;
+import soot.Unit;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Assembles a list of target methods for a given unit and call graph,

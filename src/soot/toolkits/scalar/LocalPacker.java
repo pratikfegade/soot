@@ -29,12 +29,16 @@
 
 
 package soot.toolkits.scalar;
-import soot.options.*;
 
 import soot.*;
-import soot.util.*;
-import java.util.*;
-import soot.jimple.*;
+import soot.jimple.GroupIntPair;
+import soot.options.Options;
+import soot.util.DeterministicHashMap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 

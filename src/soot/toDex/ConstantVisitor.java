@@ -3,22 +3,8 @@ package soot.toDex;
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.writer.builder.BuilderReference;
 import org.jf.dexlib2.writer.builder.DexBuilder;
-
-import soot.jimple.AbstractConstantSwitch;
-import soot.jimple.ClassConstant;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FloatConstant;
-import soot.jimple.IntConstant;
-import soot.jimple.LongConstant;
-import soot.jimple.NullConstant;
-import soot.jimple.Stmt;
-import soot.jimple.StringConstant;
-import soot.toDex.instructions.Insn;
-import soot.toDex.instructions.Insn11n;
-import soot.toDex.instructions.Insn21c;
-import soot.toDex.instructions.Insn21s;
-import soot.toDex.instructions.Insn31i;
-import soot.toDex.instructions.Insn51l;
+import soot.jimple.*;
+import soot.toDex.instructions.*;
 import soot.util.Switchable;
 
 /**

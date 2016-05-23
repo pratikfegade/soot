@@ -28,16 +28,19 @@
  */
 
 package soot.jimple.toolkits.annotation.nullcheck;
-import soot.options.*;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
-import soot.tagkit.*;
-import soot.jimple.toolkits.annotation.tags.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
+import soot.jimple.toolkits.annotation.tags.NullCheckTag;
+import soot.options.Options;
+import soot.tagkit.Tag;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.FlowSet;
+import soot.util.Chain;
+
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 
  /*
 	ArrayRef

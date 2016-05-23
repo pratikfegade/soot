@@ -20,7 +20,10 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Ben Bellamy

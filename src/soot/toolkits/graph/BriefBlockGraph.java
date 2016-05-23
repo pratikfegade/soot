@@ -26,7 +26,8 @@
 
 package soot.toolkits.graph;
 
-import soot.*;
+import soot.Body;
+import soot.Unit;
 
 
 /**

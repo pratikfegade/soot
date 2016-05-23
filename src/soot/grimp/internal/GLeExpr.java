@@ -30,10 +30,11 @@
 
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.ExprSwitch;
+import soot.jimple.LeExpr;
+import soot.util.Switch;
 
 public class GLeExpr extends AbstractGrimpIntBinopExpr implements LeExpr
 {

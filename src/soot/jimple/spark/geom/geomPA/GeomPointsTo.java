@@ -18,35 +18,7 @@
  */
 package soot.jimple.spark.geom.geomPA;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Date;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.Vector;
-
-import soot.Context;
-import soot.G;
-import soot.Local;
-import soot.MethodOrMethodContext;
-import soot.PointsToSet;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethod;
-import soot.Type;
-import soot.Unit;
+import soot.*;
 import soot.jimple.InstanceInvokeExpr;
 import soot.jimple.Stmt;
 import soot.jimple.spark.geom.dataRep.CgEdge;
@@ -58,16 +30,7 @@ import soot.jimple.spark.geom.ptinsE.PtInsNodeGenerator;
 import soot.jimple.spark.geom.utils.SootInfo;
 import soot.jimple.spark.geom.utils.ZArrayNumberer;
 import soot.jimple.spark.internal.TypeManager;
-import soot.jimple.spark.pag.AllocDotField;
-import soot.jimple.spark.pag.AllocNode;
-import soot.jimple.spark.pag.ArrayElement;
-import soot.jimple.spark.pag.ContextVarNode;
-import soot.jimple.spark.pag.FieldRefNode;
-import soot.jimple.spark.pag.LocalVarNode;
-import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.PAG;
-import soot.jimple.spark.pag.SparkField;
-import soot.jimple.spark.pag.VarNode;
+import soot.jimple.spark.pag.*;
 import soot.jimple.spark.sets.EmptyPointsToSet;
 import soot.jimple.spark.sets.P2SetVisitor;
 import soot.jimple.spark.sets.PointsToSetInternal;
@@ -79,6 +42,9 @@ import soot.toolkits.scalar.Pair;
 import soot.util.NumberedString;
 import soot.util.queue.ChunkedQueue;
 import soot.util.queue.QueueReader;
+
+import java.io.*;
+import java.util.*;
 
  
 /**

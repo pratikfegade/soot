@@ -25,31 +25,8 @@
 
 package soot.jimple.toolkits.scalar;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Local;
-import soot.NullType;
-import soot.RefLikeType;
-import soot.Scene;
-import soot.Singletons;
-import soot.Timers;
-import soot.Unit;
-import soot.ValueBox;
-import soot.jimple.AssignStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.Constant;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.LongConstant;
-import soot.jimple.NullConstant;
-import soot.jimple.Stmt;
-import soot.jimple.StmtBody;
+import soot.*;
+import soot.jimple.*;
 import soot.options.CPOptions;
 import soot.options.Options;
 import soot.toolkits.exceptions.ThrowAnalysis;
@@ -58,6 +35,11 @@ import soot.toolkits.graph.PseudoTopologicalOrderer;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.LocalDefs;
 import soot.util.Chain;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class CopyPropagator extends BodyTransformer {
 

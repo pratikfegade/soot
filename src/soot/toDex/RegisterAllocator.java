@@ -1,24 +1,17 @@
 package soot.toDex;
 
+import soot.Local;
+import soot.SootMethod;
+import soot.Type;
+import soot.Value;
+import soot.jimple.*;
+import soot.jimple.internal.JimpleLocal;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import soot.Local;
-import soot.SootMethod;
-import soot.Type;
-import soot.Value;
-import soot.jimple.ClassConstant;
-import soot.jimple.Constant;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FloatConstant;
-import soot.jimple.IntConstant;
-import soot.jimple.LongConstant;
-import soot.jimple.NullConstant;
-import soot.jimple.StringConstant;
-import soot.jimple.internal.JimpleLocal;
 
 /**
  * An allocator for registers. It keeps track of locals to re-use their registers.<br>

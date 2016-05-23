@@ -20,12 +20,17 @@
 package soot.dava.toolkits.base.misc;
 
 import soot.*;
-import java.util.*;
-import soot.dava.*;
-import soot.jimple.*;
-import soot.grimp.internal.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
+import soot.dava.DavaBody;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DStaticInvokeExpr;
+import soot.dava.internal.javaRep.DVirtualInvokeExpr;
+import soot.grimp.internal.GInvokeStmt;
+import soot.jimple.EnterMonitorStmt;
+import soot.jimple.MonitorStmt;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 public class MonitorConverter
 {

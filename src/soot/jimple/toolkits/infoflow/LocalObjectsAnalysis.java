@@ -1,12 +1,14 @@
 package soot.jimple.toolkits.infoflow;
 
 import soot.*;
+import soot.jimple.*;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.jimple.toolkits.callgraph.ReachableMethods;
+import soot.toolkits.graph.MutableDirectedGraph;
+import soot.toolkits.scalar.Pair;
 
 import java.util.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.jimple.*;
 
 // LocalObjectsAnalysis written by Richard L. Halpert, 2007-02-24
 // Constructs data flow tables for each method of every application class.  Ignores indirect flow.

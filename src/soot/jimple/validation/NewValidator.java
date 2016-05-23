@@ -19,12 +19,10 @@
 
 package soot.jimple.validation;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.AssignStmt;
+import soot.jimple.InvokeExpr;
+import soot.jimple.Stmt;
 import soot.jimple.internal.JInvokeStmt;
 import soot.jimple.internal.JNewExpr;
 import soot.jimple.internal.JSpecialInvokeExpr;
@@ -32,6 +30,10 @@ import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * A relatively simple validator. It tries to check whether

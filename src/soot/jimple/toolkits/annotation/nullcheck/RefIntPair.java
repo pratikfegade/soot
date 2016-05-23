@@ -27,7 +27,8 @@
 */
 
 package soot.jimple.toolkits.annotation.nullcheck;
-import soot.*;
+
+import soot.EquivalentValue;
 
 /**
  * @deprecated only used by deprecated type {@link BranchedRefVarsAnalysis}; flagged

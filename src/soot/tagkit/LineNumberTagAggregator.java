@@ -28,7 +28,10 @@
 package soot.tagkit;
 
 
-import soot.*;
+import soot.G;
+import soot.IdentityUnit;
+import soot.Singletons;
+import soot.Unit;
 
 /** The aggregator for LineNumberTable attribute. */
 public class LineNumberTagAggregator extends FirstTagAggregator

@@ -19,8 +19,6 @@
 
 package soot.jimple.validation;
 
-import java.util.List;
-
 import soot.Body;
 import soot.Unit;
 import soot.jimple.IdentityStmt;
@@ -28,6 +26,8 @@ import soot.jimple.ParameterRef;
 import soot.jimple.ThisRef;
 import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
+
+import java.util.List;
 
 /**
  * This validator checks whether each ParameterRef and ThisRef is used exactly once.

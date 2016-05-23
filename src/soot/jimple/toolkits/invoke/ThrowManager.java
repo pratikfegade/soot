@@ -27,8 +27,11 @@ package soot.jimple.toolkits.invoke;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
+import soot.util.Chain;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Set;
 
 /** Utility methods for dealing with traps. */
 public class ThrowManager

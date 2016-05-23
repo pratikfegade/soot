@@ -19,14 +19,16 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import soot.*;
-import soot.jimple.*;
-import java.util.*;
-import soot.dava.internal.SET.*;
+import soot.G;
 import soot.dava.internal.AST.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.internal.asg.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.dava.internal.SET.SETNodeLabel;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DAbruptStmt;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.jimple.Stmt;
+
+import java.util.Iterator;
+import java.util.List;
 
 
 /*

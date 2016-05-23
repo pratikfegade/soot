@@ -18,6 +18,12 @@
  */
 
 package soot.jimple.spark.pag;
+
+import soot.SootMethod;
+import soot.jimple.spark.sets.P2SetVisitor;
+import soot.util.HashMultiMap;
+import soot.util.MultiMap;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,11 +31,6 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
-
-import soot.SootMethod;
-import soot.jimple.spark.sets.P2SetVisitor;
-import soot.util.HashMultiMap;
-import soot.util.MultiMap;
 
 /** Dumps a pointer assignment graph to a html files.
  * @author Ondrej Lhotak

@@ -25,7 +25,7 @@
 
 package soot;
 
-import soot.options.*;
+import soot.options.Options;
 
 import static java.lang.System.gc;
 import static java.lang.System.nanoTime;

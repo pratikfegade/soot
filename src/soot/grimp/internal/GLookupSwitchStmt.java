@@ -30,12 +30,16 @@
 
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
-import soot.jimple.*;
+import soot.Unit;
+import soot.UnitBox;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.IntConstant;
+import soot.jimple.Stmt;
+import soot.jimple.internal.JLookupSwitchStmt;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GLookupSwitchStmt extends JLookupSwitchStmt 
 {

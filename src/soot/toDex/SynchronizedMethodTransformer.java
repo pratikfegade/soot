@@ -25,19 +25,16 @@
 
 
 package soot.toDex;
-import java.util.Iterator;
-import java.util.Map;
 
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Singletons;
-import soot.Unit;
+import soot.*;
 import soot.jimple.EnterMonitorStmt;
 import soot.jimple.IdentityStmt;
 import soot.jimple.Jimple;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * The Dalvik VM requires synchronized methods to explicitly enter a monitor and

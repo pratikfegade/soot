@@ -26,14 +26,17 @@
 
 package soot.jimple.parser;
 
-import soot.jimple.JimpleBody;
-import soot.jimple.parser.parser.*;
-import soot.jimple.parser.lexer.*;
-import soot.jimple.parser.node.*;
-import java.io.*;
-import java.util.*;
-
 import soot.*;
+import soot.jimple.JimpleBody;
+import soot.jimple.parser.lexer.Lexer;
+import soot.jimple.parser.lexer.LexerException;
+import soot.jimple.parser.node.Start;
+import soot.jimple.parser.parser.Parser;
+import soot.jimple.parser.parser.ParserException;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Set;
 
 /** 
     This class encapsulates a JimpleAST instance and provides methods

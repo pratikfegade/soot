@@ -19,9 +19,10 @@
 
 package soot.dava.internal.SET;
 
-import soot.util.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.AST.*;
+import soot.dava.internal.AST.ASTMethodNode;
+import soot.dava.internal.AST.ASTNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.util.IterableSet;
 
 public class SETTopNode extends SETNode
 {

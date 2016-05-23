@@ -18,8 +18,12 @@
  */
 
 package soot.jimple.paddle;
-import soot.*;
-import java.util.*;
+
+import soot.G;
+import soot.SceneTransformer;
+import soot.Singletons;
+
+import java.util.Map;
 
 /** Loads the Paddle plugin.
  * @author Ondrej Lhotak

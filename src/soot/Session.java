@@ -3,8 +3,6 @@ package soot;
 import java.util.HashMap;
 import java.util.Map;
 
-import soot.Unit;
-
 public class Session
 {
   /** keeps the current count of temporary vars of a certain kind, identified by base name. */

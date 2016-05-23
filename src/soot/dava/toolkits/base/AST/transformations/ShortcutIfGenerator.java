@@ -1,13 +1,6 @@
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.Iterator;
-import java.util.List;
-
-import soot.BooleanType;
-import soot.IntType;
-import soot.Type;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.dava.internal.AST.ASTStatementSequenceNode;
 import soot.dava.internal.asg.AugmentedStmt;
 import soot.dava.internal.javaRep.DShortcutIf;
@@ -17,6 +10,9 @@ import soot.jimple.DefinitionStmt;
 import soot.jimple.IntConstant;
 import soot.jimple.Stmt;
 import soot.jimple.internal.ImmediateBox;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class ShortcutIfGenerator extends DepthFirstAdapter {
 	

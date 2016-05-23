@@ -20,12 +20,7 @@
 package soot.dava;
 
 
-import soot.Body;
-import soot.G;
-import soot.Modifier;
-import soot.Singletons;
-import soot.SootClass;
-import soot.SootMethod;
+import soot.*;
 import soot.dava.internal.AST.ASTMethodNode;
 import soot.dava.internal.AST.ASTNode;
 import soot.dava.internal.AST.ASTStatementSequenceNode;

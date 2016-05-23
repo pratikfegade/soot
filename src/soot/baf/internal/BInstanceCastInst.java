@@ -29,9 +29,12 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.ArrayType;
+import soot.RefType;
+import soot.Type;
+import soot.baf.InstSwitch;
+import soot.baf.InstanceCastInst;
+import soot.util.Switch;
 
 public class BInstanceCastInst extends AbstractInst 
                             implements InstanceCastInst

@@ -27,7 +27,8 @@
 package soot.toolkits.graph;
 
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**

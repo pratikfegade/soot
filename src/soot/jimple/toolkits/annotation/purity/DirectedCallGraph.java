@@ -26,11 +26,16 @@
  */
 
 package soot.jimple.toolkits.annotation.purity;
+
+import soot.G;
+import soot.SootMethod;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.toolkits.graph.DirectedGraph;
+import soot.util.HashMultiMap;
+import soot.util.MultiMap;
+
 import java.util.*;
-import soot.*;
-import soot.util.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.toolkits.graph.*;
 
 /**
  * Builds a DirectedGraph from a CallGraph and SootMethodFilter.

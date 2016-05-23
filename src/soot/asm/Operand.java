@@ -18,14 +18,13 @@
  */
 package soot.asm;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.objectweb.asm.tree.AbstractInsnNode;
-
 import soot.Local;
 import soot.Value;
 import soot.ValueBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stack operand.

@@ -30,8 +30,8 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.Value;
+import soot.jimple.Jimple;
 
 @SuppressWarnings("serial")
 abstract public class AbstractJimpleBinopExpr extends AbstractBinopExpr

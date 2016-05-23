@@ -23,21 +23,31 @@
 package soot.jimple.toolkits.thread.mhp;
 
 
-import soot.*;
-import soot.jimple.*;
+import soot.Body;
+import soot.Hierarchy;
+import soot.SootMethod;
+import soot.Unit;
+import soot.jimple.ExitMonitorStmt;
+import soot.jimple.spark.pag.AllocNode;
+import soot.jimple.spark.pag.PAG;
+import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
 import soot.jimple.toolkits.thread.mhp.stmt.StartStmt;
-import soot.toolkits.scalar.*;
-import soot.jimple.spark.pag.*;
-import soot.toolkits.graph.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.util.*;
+import soot.tagkit.StringTag;
+import soot.tagkit.Tag;
+import soot.toolkits.graph.CompleteUnitGraph;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+import soot.util.Chain;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
-import java.io.*;
 
 //add for add tag
-import soot.tagkit.*;
 
 /**
  *  Oct. 7, 2003  modify buildPegChain() for building chain without inliner. 

@@ -1,11 +1,14 @@
 package soot.jimple.toolkits.thread;
 
 import soot.*;
+import soot.jimple.FieldRef;
+import soot.jimple.InstanceFieldRef;
+import soot.jimple.InvokeExpr;
+import soot.jimple.Ref;
+import soot.jimple.toolkits.infoflow.*;
+import soot.jimple.toolkits.thread.mhp.MhpTester;
 
 import java.util.*;
-import soot.jimple.toolkits.infoflow.*;
-import soot.jimple.toolkits.thread.mhp.*;
-import soot.jimple.*;
 
 // ThreadLocalObjectsAnalysis written by Richard L. Halpert, 2007-03-05
 // Runs LocalObjectsAnalysis for the special case where we want to know

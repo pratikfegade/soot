@@ -29,8 +29,9 @@
 
 package soot.baf.internal;
 
-import soot.baf.*;
-import soot.util.*;
+import soot.baf.InstSwitch;
+import soot.baf.ReturnVoidInst;
+import soot.util.Switch;
 
 public class BReturnVoidInst extends AbstractInst implements ReturnVoidInst
 {

@@ -18,7 +18,8 @@
  */
 
 package soot.util;
-import java.util.*;
+
+import java.util.HashMap;
 
 /** A class that numbers strings, so they can be placed in bitsets.
  *

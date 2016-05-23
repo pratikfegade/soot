@@ -31,11 +31,15 @@
 package soot.jimple.internal;
 
 
-import soot.util.*;
-import java.util.*;
-import soot.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
+import soot.util.Switch;
+
+import java.util.List;
 
 public class JExitMonitorStmt extends AbstractOpStmt 
     implements ExitMonitorStmt

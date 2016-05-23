@@ -1,8 +1,10 @@
 package soot.javaToJimple;
 
-import java.util.*;
-
 import polyglot.types.Type;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class AnonConstructorFinder extends polyglot.visit.ContextVisitor {
     

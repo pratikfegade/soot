@@ -20,36 +20,12 @@
 
 package soot.dexpler.typing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.ArrayType;
-import soot.Body;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.Local;
-import soot.LongType;
-import soot.ShortType;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.IDalvikTyper;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.Constant;
-import soot.jimple.IfStmt;
-import soot.jimple.NullConstant;
+import soot.jimple.*;
+
+import java.util.*;
 
 public class DalvikTyper implements IDalvikTyper {
 

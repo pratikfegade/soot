@@ -18,10 +18,12 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import soot.*;
-import soot.jimple.*;
 
-import soot.util.*;
+import soot.Kind;
+import soot.SootMethod;
+import soot.jimple.InstanceInvokeExpr;
+import soot.jimple.Stmt;
+import soot.util.NumberedString;
 
 /** Holds relevant information about a particular virtual call site.
  * @author Ondrej Lhotak

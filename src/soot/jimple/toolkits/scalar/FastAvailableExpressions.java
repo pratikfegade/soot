@@ -25,14 +25,21 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
-import soot.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
-import soot.jimple.*;
-import java.util.*;
 
-import soot.util.*;
+import soot.*;
+import soot.jimple.AssignStmt;
+import soot.jimple.Stmt;
+import soot.options.Options;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.UnitValueBoxPair;
+import soot.util.Chain;
+import soot.util.HashChain;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /** Provides an user-interface for the AvailableExpressionsAnalysis class.
  * Returns, for each statement, the list of expressions available before and after it. */

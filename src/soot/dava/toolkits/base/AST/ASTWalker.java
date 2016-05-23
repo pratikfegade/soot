@@ -25,7 +25,9 @@
 
 package soot.dava.toolkits.base.AST;
 
-import soot.*;
+import soot.G;
+import soot.Singletons;
+import soot.Value;
 import soot.jimple.*;
 
 public class ASTWalker

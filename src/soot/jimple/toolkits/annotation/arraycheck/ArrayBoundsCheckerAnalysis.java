@@ -24,13 +24,13 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.options.*;
 
-import soot.* ;
+import soot.*;
+import soot.jimple.*;
+import soot.options.Options;
 import soot.toolkits.graph.*;
-import soot.jimple.* ;
 
-import java.util.* ;
+import java.util.*;
 
 class ArrayBoundsCheckerAnalysis 
 {

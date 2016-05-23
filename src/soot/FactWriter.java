@@ -1,6 +1,5 @@
 package soot;
 
-import soot.*;
 import soot.jimple.*;
 import soot.jimple.internal.JimpleLocal;
 import soot.jimple.toolkits.typing.fast.BottomType;

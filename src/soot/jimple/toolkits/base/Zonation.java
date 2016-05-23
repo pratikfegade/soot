@@ -29,11 +29,15 @@
 
 package soot.jimple.toolkits.base;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Trap;
+import soot.Unit;
+import soot.jimple.StmtBody;
+import soot.util.Chain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Zonation
 {

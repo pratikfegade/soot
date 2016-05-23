@@ -25,16 +25,19 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
+
 import soot.*;
-import soot.toolkits.scalar.*;
-import soot.jimple.*;
+import soot.jimple.AssignStmt;
+import soot.jimple.Jimple;
+import soot.jimple.NaiveSideEffectTester;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.pointer.PASideEffectTester;
+import soot.options.Options;
+import soot.tagkit.StringTag;
+import soot.toolkits.scalar.UnitValueBoxPair;
+import soot.util.Chain;
 
 import java.util.*;
-
-import soot.util.*;
-import soot.jimple.toolkits.pointer.PASideEffectTester;
-import soot.tagkit.*;
 
 /** Runs an available expressions analysis on a body, then
  * eliminates common subexpressions.

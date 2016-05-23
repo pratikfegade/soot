@@ -18,10 +18,11 @@
  */
 
 package soot.jimple.spark.sets;
+
+import soot.Type;
 import soot.jimple.spark.pag.Node;
 import soot.jimple.spark.pag.PAG;
-import soot.util.*;
-import soot.Type;
+import soot.util.BitVector;
 
 /** Implementation of points-to set using a sorted array.
  * @author Ondrej Lhotak

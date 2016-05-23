@@ -29,23 +29,12 @@
 
 
 package soot.toolkits.scalar;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import soot.Body;
-import soot.G;
-import soot.Local;
-import soot.Timers;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.options.Options;
 import soot.toolkits.graph.UnitGraph;
+
+import java.util.*;
 
 
 /**

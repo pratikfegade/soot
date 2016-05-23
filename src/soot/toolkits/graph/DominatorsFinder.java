@@ -19,7 +19,8 @@
 
 package soot.toolkits.graph;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * General interface for a dominators analysis.

@@ -30,10 +30,11 @@
 
 package soot.toolkits.scalar;
 
-import soot.*;
+import soot.Body;
+import soot.Unit;
 import soot.toolkits.graph.UnitGraph;
 
-import java.util.*;
+import java.util.List;
 
 import static soot.toolkits.scalar.LocalDefs.Factory.newLocalDefs;
 

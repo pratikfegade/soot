@@ -27,7 +27,8 @@
 
 package soot.util;
 
-import java.text.*;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 /** Utility methods for string manipulations commonly used in Soot. */
 public class StringTools

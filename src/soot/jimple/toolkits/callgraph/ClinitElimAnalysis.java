@@ -19,11 +19,14 @@
 
 package soot.jimple.toolkits.callgraph;
 
-import soot.*;
-import java.util.*;
-import soot.jimple.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
+import soot.Scene;
+import soot.jimple.Stmt;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+
+import java.util.Iterator;
 
 public class ClinitElimAnalysis extends ForwardFlowAnalysis {
 	

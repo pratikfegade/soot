@@ -18,7 +18,8 @@
  */
 
 package soot.util;
-import java.util.*;
+
+import java.util.Iterator;
 
 /** A numberer which also supports an iterator on newly-added objects.
  * @author xiao, generalize the interface

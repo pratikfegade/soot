@@ -18,9 +18,12 @@
  */
 
 package soot.jimple.spark.solver;
+
+import soot.FastHierarchy;
+import soot.G;
 import soot.jimple.spark.pag.*;
-import soot.jimple.spark.sets.*;
-import soot.*;
+import soot.jimple.spark.sets.P2SetVisitor;
+import soot.jimple.spark.sets.PointsToSetInternal;
 
 /** Checks points-to sets with pointer assignment graph to make sure everything
  * has been correctly propagated.

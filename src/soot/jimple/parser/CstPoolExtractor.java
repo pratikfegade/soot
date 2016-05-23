@@ -26,12 +26,12 @@
 
 package soot.jimple.parser;
 
-import soot.util.*;
-
+import soot.jimple.parser.analysis.DepthFirstAdapter;
 import soot.jimple.parser.node.*;
-import soot.jimple.parser.analysis.*;
+import soot.util.StringTools;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /** 

@@ -24,13 +24,15 @@
  */
 
 package soot.jimple.parser;
-import soot.options.*;
 
 import soot.*;
-import soot.jimple.*;
-
+import soot.jimple.JimpleBody;
 import soot.jimple.parser.node.*;
-import java.util.*;
+import soot.options.Options;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**

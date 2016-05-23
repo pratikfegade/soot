@@ -27,10 +27,11 @@ package soot.jimple.toolkits.annotation.profiling;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-
-import java.util.*;
 import soot.options.ProfilingOptions;
+import soot.util.Chain;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class ProfilingGenerator extends BodyTransformer
 {

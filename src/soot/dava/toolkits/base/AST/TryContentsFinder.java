@@ -20,10 +20,18 @@
 package soot.dava.toolkits.base.AST;
 
 import soot.*;
-import java.util.*;
-import soot.util.*;
-import soot.jimple.*;
-import soot.dava.internal.AST.*;
+import soot.dava.internal.AST.ASTNode;
+import soot.dava.internal.AST.ASTTryNode;
+import soot.jimple.FieldRef;
+import soot.jimple.InstanceInvokeExpr;
+import soot.jimple.InvokeExpr;
+import soot.jimple.ThrowStmt;
+import soot.util.IterableSet;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class TryContentsFinder extends ASTAnalysis
 {

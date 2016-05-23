@@ -18,10 +18,13 @@
  */
 
 package soot.jimple.spark.solver;
+
+import soot.G;
 import soot.jimple.spark.pag.*;
-import soot.jimple.spark.sets.*;
-import soot.*;
-import soot.util.queue.*;
+import soot.jimple.spark.sets.P2SetVisitor;
+import soot.jimple.spark.sets.PointsToSetInternal;
+import soot.util.queue.QueueReader;
+
 import java.util.*;
 
 /** Propagates points-to sets along pointer assignment graph using a worklist.

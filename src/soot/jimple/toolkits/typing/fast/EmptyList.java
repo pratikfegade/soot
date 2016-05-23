@@ -20,7 +20,7 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import java.util.*;
+import java.util.AbstractList;
 
 /**
  * @author Ben Bellamy

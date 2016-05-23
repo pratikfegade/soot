@@ -1,9 +1,12 @@
 
 package soot.jimple.toolkits.infoflow;
 
-import soot.*;
+import soot.EquivalentValue;
+import soot.RefLikeType;
 import soot.jimple.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** CallLocalityContext written by Richard L. Halpert 2007-03-05
  *  Acts as a container for the locality information collected about a call site

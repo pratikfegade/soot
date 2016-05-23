@@ -30,22 +30,14 @@
 
 package soot.jimple.internal;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import soot.Unit;
-import soot.UnitBox;
-import soot.UnitPrinter;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.baf.Baf;
 import soot.baf.PlaceholderInst;
-import soot.jimple.ConvertToBaf;
-import soot.jimple.Jimple;
-import soot.jimple.JimpleToBafContext;
-import soot.jimple.StmtSwitch;
-import soot.jimple.TableSwitchStmt;
+import soot.jimple.*;
 import soot.util.Switch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JTableSwitchStmt extends AbstractSwitchStmt 
     implements TableSwitchStmt

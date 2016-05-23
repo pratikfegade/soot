@@ -41,13 +41,18 @@
 
 package soot.toolkits.scalar;
 
-import soot.*;
-import soot.toolkits.graph.*;
-import soot.util.*;
-import java.util.*;
+import soot.Timers;
+import soot.Trap;
+import soot.Unit;
+import soot.UnitBox;
+import soot.options.Options;
+import soot.toolkits.graph.PseudoTopologicalOrderer;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.graph.interaction.FlowInfo;
+import soot.toolkits.graph.interaction.InteractionHandler;
+import soot.util.Chain;
 
-import soot.toolkits.graph.interaction.*;
-import soot.options.*;
+import java.util.*;
 
 /**
  * Abstract class providing an engine for branched forward flow analysis.

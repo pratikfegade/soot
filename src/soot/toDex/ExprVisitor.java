@@ -1,78 +1,16 @@
 package soot.toDex;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.writer.builder.BuilderMethodReference;
 import org.jf.dexlib2.writer.builder.BuilderReference;
 import org.jf.dexlib2.writer.builder.DexBuilder;
-
-import soot.ArrayType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.IntegerType;
-import soot.Local;
-import soot.LongType;
-import soot.NullType;
-import soot.PrimType;
-import soot.SootClass;
-import soot.Type;
-import soot.Value;
-import soot.jimple.AddExpr;
-import soot.jimple.AndExpr;
-import soot.jimple.CastExpr;
-import soot.jimple.CmpExpr;
-import soot.jimple.CmpgExpr;
-import soot.jimple.CmplExpr;
-import soot.jimple.DivExpr;
-import soot.jimple.DynamicInvokeExpr;
-import soot.jimple.EqExpr;
-import soot.jimple.ExprSwitch;
-import soot.jimple.GeExpr;
-import soot.jimple.GtExpr;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InstanceOfExpr;
-import soot.jimple.IntConstant;
-import soot.jimple.InterfaceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.LeExpr;
-import soot.jimple.LengthExpr;
-import soot.jimple.LongConstant;
-import soot.jimple.LtExpr;
-import soot.jimple.MulExpr;
-import soot.jimple.NeExpr;
-import soot.jimple.NegExpr;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.NewExpr;
-import soot.jimple.NewMultiArrayExpr;
-import soot.jimple.NullConstant;
-import soot.jimple.OrExpr;
-import soot.jimple.RemExpr;
-import soot.jimple.ShlExpr;
-import soot.jimple.ShrExpr;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.StaticInvokeExpr;
-import soot.jimple.Stmt;
-import soot.jimple.SubExpr;
-import soot.jimple.UshrExpr;
-import soot.jimple.VirtualInvokeExpr;
-import soot.jimple.XorExpr;
-import soot.toDex.instructions.Insn;
-import soot.toDex.instructions.Insn11x;
-import soot.toDex.instructions.Insn12x;
-import soot.toDex.instructions.Insn21c;
-import soot.toDex.instructions.Insn21t;
-import soot.toDex.instructions.Insn22b;
-import soot.toDex.instructions.Insn22c;
-import soot.toDex.instructions.Insn22s;
-import soot.toDex.instructions.Insn22t;
-import soot.toDex.instructions.Insn23x;
-import soot.toDex.instructions.Insn35c;
-import soot.toDex.instructions.Insn3rc;
-import soot.toDex.instructions.InsnWithOffset;
+import soot.*;
+import soot.jimple.*;
+import soot.toDex.instructions.*;
 import soot.util.Switchable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A visitor that builds a list of instructions from the Jimple expressions it visits.<br>

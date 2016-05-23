@@ -20,10 +20,10 @@
 package soot.jimple.toolkits.annotation.defs;
 
 import soot.*;
-import soot.toolkits.scalar.*;
-import soot.tagkit.*;
+import soot.tagkit.LinkTag;
+import soot.toolkits.scalar.LocalDefs;
 
-import java.util.*;
+import java.util.Map;
 
 public class ReachingDefsTagger extends BodyTransformer {
 

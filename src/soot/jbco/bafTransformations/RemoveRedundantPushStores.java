@@ -1,12 +1,14 @@
 package soot.jbco.bafTransformations;
 
-import java.util.*;
-
 import soot.*;
-import soot.baf.*;
+import soot.baf.PushInst;
+import soot.baf.StoreInst;
 import soot.jbco.IJbcoTransform;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.Chain;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Michael Batchelder 

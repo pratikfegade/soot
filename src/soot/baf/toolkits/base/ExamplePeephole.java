@@ -26,10 +26,11 @@
 
 package soot.baf.toolkits.base;
 
-import java.util.*;
+import soot.Body;
+import soot.Unit;
+import soot.baf.InstanceCastInst;
 
-import soot.*;
-import soot.baf.*;
+import java.util.Iterator;
 
 /**
  *   Example peephole that remove all checkcast operations.

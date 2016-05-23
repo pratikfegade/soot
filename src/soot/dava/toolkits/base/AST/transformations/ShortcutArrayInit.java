@@ -1,14 +1,6 @@
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import soot.G;
-import soot.Local;
-import soot.Type;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.dava.DecompilationException;
 import soot.dava.internal.AST.ASTMethodNode;
 import soot.dava.internal.AST.ASTStatementSequenceNode;
@@ -19,11 +11,11 @@ import soot.dava.internal.javaRep.DAssignStmt;
 import soot.dava.internal.javaRep.DShortcutAssignStmt;
 import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
 import soot.dava.toolkits.base.AST.traversals.InitializationDeclarationShortcut;
-import soot.jimple.ArrayRef;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.Stmt;
+import soot.jimple.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class ShortcutArrayInit extends DepthFirstAdapter {
 	public static boolean DEBUG=false;

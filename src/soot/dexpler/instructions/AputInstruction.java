@@ -27,12 +27,7 @@ package soot.dexpler.instructions;
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction23x;
-
-import soot.ArrayType;
-import soot.IntType;
-import soot.Local;
-import soot.Type;
-import soot.UnknownType;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;

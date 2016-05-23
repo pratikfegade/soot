@@ -19,11 +19,12 @@
 
 package soot.javaToJimple.jj.ast;
 
-import polyglot.ast.*;
-import polyglot.visit.*;
-import polyglot.ext.jl.ast.*;
-import polyglot.types.*;
-import polyglot.util.*;
+import polyglot.ast.ArrayAccess;
+import polyglot.ast.Expr;
+import polyglot.ext.jl.ast.ArrayAccessAssign_c;
+import polyglot.types.Type;
+import polyglot.util.Position;
+import polyglot.visit.AscriptionVisitor;
 
 public class JjArrayAccessAssign_c extends ArrayAccessAssign_c {
 

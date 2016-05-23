@@ -29,30 +29,17 @@
 
 
 package soot.grimp.toolkits.base;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Local;
-import soot.Singletons;
-import soot.Unit;
-import soot.Value;
+import soot.*;
 import soot.grimp.Grimp;
 import soot.grimp.GrimpBody;
-import soot.jimple.AssignStmt;
-import soot.jimple.InvokeStmt;
-import soot.jimple.NewExpr;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.Stmt;
+import soot.jimple.*;
 import soot.options.Options;
 import soot.toolkits.scalar.LocalUses;
 import soot.toolkits.scalar.UnitValueBoxPair;
 import soot.util.Chain;
+
+import java.util.*;
 
 public class ConstructorFolder extends BodyTransformer
 {

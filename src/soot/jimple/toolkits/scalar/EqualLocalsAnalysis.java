@@ -1,10 +1,20 @@
 package soot.jimple.toolkits.scalar;
 
-import soot.*;
-import java.util.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
-import soot.jimple.*;
+import soot.EquivalentValue;
+import soot.Local;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.IdentityStmt;
+import soot.jimple.Stmt;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 // EqualLocalsAnalysis written by Richard L. Halpert, 2006-12-04
 // Finds equal/equavalent/aliasing locals to a given local at a given statement, on demand

@@ -26,11 +26,7 @@
 
 package soot.util;
 
-import java.util.AbstractSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import java.util.*;
 
 /** Implementation of HashMap which guarantees a stable
  * (between executions) order for its elements upon iteration.

@@ -20,12 +20,14 @@
 package soot.jimple.toolkits.annotation.parity;
 
 import soot.*;
-import java.util.*;
-
 import soot.jimple.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
-import soot.options.*;
+import soot.options.Options;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+import soot.toolkits.scalar.LiveLocals;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static soot.jimple.toolkits.annotation.parity.ParityAnalysis.Parity.*;
 

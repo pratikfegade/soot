@@ -27,28 +27,15 @@
 
 package soot.jimple.toolkits.scalar;
 
-import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.PhaseOptions;
-import soot.Scene;
-import soot.Singletons;
-import soot.Trap;
-import soot.Unit;
+import soot.*;
 import soot.options.Options;
 import soot.toolkits.exceptions.PedanticThrowAnalysis;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.Chain;
+
+import java.util.*;
 
 
 public class UnreachableCodeEliminator extends BodyTransformer

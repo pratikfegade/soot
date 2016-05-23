@@ -20,32 +20,13 @@
 
 package soot.dexpler;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.Stack;
-
-import soot.ArrayType;
-import soot.Body;
-import soot.BodyTransformer;
-import soot.Local;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.Constant;
-import soot.jimple.FieldRef;
-import soot.jimple.IdentityStmt;
-import soot.jimple.InvokeExpr;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.Stmt;
+import soot.*;
+import soot.jimple.*;
 import soot.toolkits.scalar.LocalDefs;
 import soot.toolkits.scalar.LocalUses;
 import soot.toolkits.scalar.UnitValueBoxPair;
+
+import java.util.*;
 
 public abstract class DexTransformer extends BodyTransformer {
 

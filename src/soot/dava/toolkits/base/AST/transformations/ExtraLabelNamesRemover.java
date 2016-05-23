@@ -19,7 +19,7 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
 
 public class ExtraLabelNamesRemover extends DepthFirstAdapter{
 

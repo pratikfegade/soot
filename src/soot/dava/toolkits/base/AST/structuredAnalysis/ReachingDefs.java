@@ -23,13 +23,19 @@
 
 package soot.dava.toolkits.base.AST.structuredAnalysis;
 
-import soot.*;
-import java.util.*;
-import soot.jimple.*;
-//import soot.dava.internal.javaRep.*;
+import soot.Local;
+import soot.Value;
 import soot.dava.internal.AST.*;
+import soot.dava.toolkits.base.AST.traversals.AllDefinitionsFinder;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.Stmt;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+//import soot.dava.internal.javaRep.*;
 //import soot.dava.internal.SET.*;
-import soot.dava.toolkits.base.AST.traversals.*;
 
 /**
  * CHANGE LOG: * November 21st Added support for implicit breaks and continues

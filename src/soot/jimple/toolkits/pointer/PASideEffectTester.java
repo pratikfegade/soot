@@ -21,7 +21,10 @@ package soot.jimple.toolkits.pointer;
 
 import soot.*;
 import soot.jimple.*;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 //  ArrayRef, 
 //  CaughtExceptionRef, 

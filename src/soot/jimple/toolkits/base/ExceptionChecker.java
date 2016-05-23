@@ -21,9 +21,13 @@ package soot.jimple.toolkits.base;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
-import soot.tagkit.*;
+import soot.tagkit.SourceLnPosTag;
+import soot.util.NumberedString;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 public class ExceptionChecker extends BodyTransformer{
 

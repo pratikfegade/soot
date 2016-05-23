@@ -31,7 +31,8 @@
 package soot.jimple;
 
 import soot.*;
-import java.util.*;
+
+import java.util.List;
 
 public interface InvokeExpr extends Expr
 {

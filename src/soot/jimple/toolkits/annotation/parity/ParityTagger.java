@@ -18,13 +18,22 @@
  */
 
 package soot.jimple.toolkits.annotation.parity;
+
 import soot.*;
-import java.util.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
-import soot.tagkit.*;
-import soot.jimple.*;
-import soot.options.*;
+import soot.jimple.IntConstant;
+import soot.jimple.LongConstant;
+import soot.jimple.Stmt;
+import soot.options.Options;
+import soot.tagkit.ColorTag;
+import soot.tagkit.KeyTag;
+import soot.tagkit.StringTag;
+import soot.toolkits.graph.BriefUnitGraph;
+import soot.toolkits.scalar.LiveLocals;
+import soot.toolkits.scalar.SimpleLiveLocals;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /** A body transformer that records parity analysis 
  * information in tags. */

@@ -20,7 +20,7 @@
 package soot.jimple.toolkits.pointer.representations;
 
 import soot.*;
-import soot.options.*;
+import soot.options.CGOptions;
 
 public class TypeConstants {
     public static TypeConstants v() { return G.v().soot_jimple_toolkits_pointer_representations_TypeConstants(); }

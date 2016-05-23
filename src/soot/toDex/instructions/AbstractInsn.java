@@ -1,15 +1,14 @@
 package soot.toDex.instructions;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.List;
-
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.builder.BuilderInstruction;
-
 import soot.toDex.LabelAssigner;
 import soot.toDex.Register;
 import soot.toDex.SootToDexUtils;
+
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.List;
 
 /**
  * Abstract implementation of an {@link Insn}.

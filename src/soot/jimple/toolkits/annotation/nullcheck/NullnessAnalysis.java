@@ -20,39 +20,15 @@
 
 package soot.jimple.toolkits.annotation.nullcheck;
 
+import soot.*;
+import soot.jimple.*;
+import soot.jimple.internal.*;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ForwardBranchedFlowAnalysis;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import soot.Immediate;
-import soot.Local;
-import soot.RefLikeType;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.ArrayRef;
-import soot.jimple.ClassConstant;
-import soot.jimple.CaughtExceptionRef;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.FieldRef;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.MonitorStmt;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.NewExpr;
-import soot.jimple.NewMultiArrayExpr;
-import soot.jimple.NullConstant;
-import soot.jimple.Stmt;
-import soot.jimple.StringConstant;
-import soot.jimple.ThisRef;
-import soot.jimple.internal.AbstractBinopExpr;
-import soot.jimple.internal.JCastExpr;
-import soot.jimple.internal.JEqExpr;
-import soot.jimple.internal.JIfStmt;
-import soot.jimple.internal.JInstanceOfExpr;
-import soot.jimple.internal.JNeExpr;
-import soot.toolkits.graph.UnitGraph;
-import soot.toolkits.scalar.ForwardBranchedFlowAnalysis;
 
 
 /**

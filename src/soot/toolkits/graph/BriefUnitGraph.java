@@ -27,11 +27,12 @@
 package soot.toolkits.graph;
 
 
-import soot.*;
-
-import java.util.*;
-
+import soot.Body;
+import soot.Timers;
+import soot.Unit;
 import soot.options.Options;
+
+import java.util.HashMap;
 
 
 /**

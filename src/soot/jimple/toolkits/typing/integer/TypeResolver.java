@@ -26,9 +26,12 @@
 package soot.jimple.toolkits.typing.integer;
 
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.JimpleBody;
+import soot.jimple.Stmt;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.*;
-import java.io.*;
 
 /**
  * This class resolves the type of local variables.

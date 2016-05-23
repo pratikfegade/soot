@@ -28,11 +28,18 @@
 
 
 package soot.baf;
-import soot.options.*;
-import soot.*;
-import soot.jimple.*;
 
-import java.util.*;
+import soot.*;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.JimpleBody;
+import soot.jimple.JimpleToBafContext;
+import soot.jimple.Stmt;
+import soot.options.Options;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BafBody extends Body
 {

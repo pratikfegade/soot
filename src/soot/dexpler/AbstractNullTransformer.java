@@ -4,15 +4,7 @@ import soot.RefLikeType;
 import soot.Type;
 import soot.Unit;
 import soot.Value;
-import soot.jimple.AssignStmt;
-import soot.jimple.ConditionExpr;
-import soot.jimple.EqExpr;
-import soot.jimple.IfStmt;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.IntConstant;
-import soot.jimple.LongConstant;
-import soot.jimple.NeExpr;
-import soot.jimple.NullConstant;
+import soot.jimple.*;
 
 /**
  * Abstract base class for {@link DexNullTransformer} and {@link DexIfTransformer}.

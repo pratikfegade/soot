@@ -19,12 +19,13 @@
 
 package soot.javaToJimple;
 
-import soot.*;
-
-import java.util.*;
-
 import polyglot.ast.Block;
 import polyglot.ast.FieldDecl;
+import soot.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class AnonInitBodyBuilder extends JimpleBodyBuilder {
 

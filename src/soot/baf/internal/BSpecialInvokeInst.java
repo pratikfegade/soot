@@ -26,9 +26,10 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.SootMethodRef;
+import soot.baf.InstSwitch;
+import soot.baf.SpecialInvokeInst;
+import soot.util.Switch;
 
 public class BSpecialInvokeInst extends AbstractInvokeInst implements SpecialInvokeInst
 {

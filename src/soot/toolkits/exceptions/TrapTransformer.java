@@ -1,16 +1,12 @@
 package soot.toolkits.exceptions;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import soot.BodyTransformer;
 import soot.Unit;
 import soot.jimple.EnterMonitorStmt;
 import soot.jimple.ExitMonitorStmt;
 import soot.toolkits.graph.UnitGraph;
+
+import java.util.*;
 
 /**
  * Common abstract base class for all body transformers that change the trap

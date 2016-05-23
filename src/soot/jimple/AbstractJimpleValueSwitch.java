@@ -29,7 +29,7 @@
 
 package soot.jimple;
 
-import soot.*;
+import soot.Local;
 
 public abstract class AbstractJimpleValueSwitch extends AbstractConstantSwitch implements JimpleValueSwitch
 {

@@ -24,14 +24,15 @@
  */
 
 package soot.jimple.toolkits.invoke;
-import soot.options.*;
 
 import soot.*;
 import soot.jimple.*;
-import soot.jimple.toolkits.scalar.*;
 import soot.jimple.toolkits.callgraph.*;
+import soot.jimple.toolkits.scalar.LocalNameStandardizer;
+import soot.options.SMBOptions;
+import soot.util.Chain;
+
 import java.util.*;
-import soot.util.*;
 
 /** Uses the Scene's currently-active InvokeGraph to statically bind monomorphic call sites. */
 public class StaticMethodBinder extends SceneTransformer

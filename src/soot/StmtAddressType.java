@@ -25,7 +25,8 @@
 
 
 package soot;
-import soot.util.*;
+
+import soot.util.Switch;
 
 /**
  *   Soot representation of the Java type for a statement address. Implemented as

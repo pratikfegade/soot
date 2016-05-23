@@ -25,16 +25,13 @@
 
 
 package soot.jimple.toolkits.scalar;
-import java.util.Iterator;
-import java.util.Map;
 
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Singletons;
-import soot.Unit;
+import soot.*;
 import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Removes empty switch statements which always take the default action from a

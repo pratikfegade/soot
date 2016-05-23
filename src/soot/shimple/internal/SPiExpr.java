@@ -20,10 +20,13 @@
 package soot.shimple.internal;
 
 import soot.*;
-import soot.util.*;
-import soot.shimple.*;
-import soot.toolkits.scalar.*;
-import java.util.*;
+import soot.shimple.PiExpr;
+import soot.shimple.Shimple;
+import soot.toolkits.scalar.ValueUnitPair;
+import soot.util.Switch;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Navindra Umanee

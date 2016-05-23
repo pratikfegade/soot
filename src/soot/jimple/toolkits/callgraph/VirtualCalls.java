@@ -18,13 +18,15 @@
  */
 
 package soot.jimple.toolkits.callgraph;
+
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.SpecialInvokeExpr;
+import soot.util.LargeNumberedMap;
+import soot.util.NumberedString;
+import soot.util.SmallNumberedMap;
+import soot.util.queue.ChunkedQueue;
 
 import java.util.*;
-
-import soot.util.*;
-import soot.util.queue.*;
 
 /** Resolves virtual calls.
  * @author Ondrej Lhotak

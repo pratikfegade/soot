@@ -18,8 +18,12 @@
  */
 
 package soot.jimple.toolkits.pointer;
+
+import soot.G;
+import soot.PointsToSet;
+import soot.SootField;
+
 import java.util.*;
-import soot.*;
 
 /** Represents the read or write set of a statement. */
 public class MethodRWSet extends RWSet {

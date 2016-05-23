@@ -30,8 +30,9 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.AbstractValueBox;
+import soot.Value;
+import soot.jimple.InvokeExpr;
 
 public class InvokeExprBox extends AbstractValueBox
 {

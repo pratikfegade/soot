@@ -1,10 +1,13 @@
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.*;
-import java.util.*;
-import soot.toolkits.scalar.*;
-import soot.tagkit.*;
+import soot.Timers;
 import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
+import soot.tagkit.Tag;
+import soot.toolkits.scalar.ArraySparseSet;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+
+import java.util.*;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.

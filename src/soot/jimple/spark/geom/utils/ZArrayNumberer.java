@@ -18,12 +18,12 @@
  */
 package soot.jimple.spark.geom.utils;
 
+import soot.util.IterableNumberer;
+import soot.util.Numberable;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import soot.util.IterableNumberer;
-import soot.util.Numberable;
 
 /**
  * Similar to the ArrayNumberer class in soot. But, this class counts the objects from zero.

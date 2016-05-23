@@ -24,10 +24,11 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.options.*;
+
 import soot.*;
 import soot.jimple.*;
-import soot.toolkits.scalar.*;
+import soot.options.Options;
+import soot.toolkits.scalar.LocalDefs;
 
 import java.util.*;
 

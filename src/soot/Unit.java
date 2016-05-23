@@ -28,7 +28,6 @@ package soot;
 
 
 import soot.tagkit.Host;
-import soot.util.Chain;
 import soot.util.Switchable;
 
 import java.io.Serializable;

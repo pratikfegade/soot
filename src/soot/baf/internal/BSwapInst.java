@@ -32,9 +32,13 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.DoubleType;
+import soot.LongType;
+import soot.Type;
+import soot.baf.Baf;
+import soot.baf.InstSwitch;
+import soot.baf.SwapInst;
+import soot.util.Switch;
 
 public class BSwapInst extends AbstractInst implements SwapInst
 {

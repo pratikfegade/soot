@@ -28,8 +28,10 @@
 
 package soot.util.dot;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A Dot graph node with various attributes.

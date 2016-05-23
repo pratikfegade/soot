@@ -20,10 +20,12 @@
 package soot.jimple.toolkits.annotation.tags;
 
 
-import soot.*;
-import soot.baf.*;
-
-import soot.tagkit.*;
+import soot.G;
+import soot.Singletons;
+import soot.Unit;
+import soot.baf.Inst;
+import soot.tagkit.Tag;
+import soot.tagkit.TagAggregator;
 
 /** The aggregator for ArrayNullCheckAttribute. */
 

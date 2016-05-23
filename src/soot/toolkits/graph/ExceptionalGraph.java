@@ -30,13 +30,12 @@
 
 package soot.toolkits.graph;
 
-import soot.toolkits.graph.DirectedGraph;
 import soot.Body;
 import soot.Trap;
-
-import java.util.List;
-import java.util.Collection;
 import soot.toolkits.exceptions.ThrowableSet;
+
+import java.util.Collection;
+import java.util.List;
 
 
 /**

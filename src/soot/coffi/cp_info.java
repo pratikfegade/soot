@@ -30,7 +30,9 @@
 
 
 package soot.coffi;
-import soot.*;
+
+import soot.G;
+import soot.Value;
 
 import java.util.StringTokenizer;
 

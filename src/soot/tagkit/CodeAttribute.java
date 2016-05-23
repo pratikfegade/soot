@@ -25,11 +25,14 @@
 
 
 package soot.tagkit;
-import soot.options.*;
+
+import soot.G;
+import soot.Unit;
+import soot.UnitBox;
+import soot.baf.Baf;
+import soot.options.Options;
 
 import java.util.*;
-import soot.baf.*;
-import soot.*;
 
 
 /** A CodeAttribute object holds PC -> Tag pairs.

@@ -20,42 +20,12 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
-import soot.ArrayType;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.IntType;
-import soot.IntegerType;
-import soot.Local;
-import soot.PatchingChain;
-import soot.RefType;
-import soot.ShortType;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.BinopExpr;
-import soot.jimple.CastExpr;
-import soot.jimple.CaughtExceptionRef;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.InvokeStmt;
-import soot.jimple.Jimple;
-import soot.jimple.JimpleBody;
-import soot.jimple.NegExpr;
-import soot.jimple.NewExpr;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.Stmt;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.typing.Util;
 import soot.toolkits.scalar.LocalDefs;
+
+import java.util.*;
 
 /**
  * New Type Resolver by Ben Bellamy (see 'Efficient Local Type Inference'

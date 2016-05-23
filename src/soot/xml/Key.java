@@ -19,7 +19,7 @@
 
 package soot.xml;
 
-import java.io.*;
+import java.io.PrintWriter;
 
 public class Key {
 

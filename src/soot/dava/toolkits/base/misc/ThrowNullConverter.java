@@ -20,10 +20,12 @@
 package soot.dava.toolkits.base.misc;
 
 import soot.*;
-import java.util.*;
-import soot.dava.*;
-import soot.jimple.*;
-import soot.dava.internal.javaRep.*;
+import soot.dava.DavaBody;
+import soot.dava.internal.javaRep.DNewInvokeExpr;
+import soot.jimple.ThrowStmt;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ThrowNullConverter
 {

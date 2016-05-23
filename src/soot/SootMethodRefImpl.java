@@ -18,21 +18,16 @@
  */
 
 package soot;
+
+import soot.javaToJimple.LocalGenerator;
+import soot.jimple.*;
+import soot.options.Options;
+import soot.util.NumberedString;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import soot.javaToJimple.LocalGenerator;
-import soot.jimple.AssignStmt;
-import soot.jimple.InvokeStmt;
-import soot.jimple.Jimple;
-import soot.jimple.JimpleBody;
-import soot.jimple.NewExpr;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.StringConstant;
-import soot.options.Options;
-import soot.util.NumberedString;
 
 /** Representation of a reference to a method as it appears in a class file.
  * Note that the method directly referred to may not actually exist; the

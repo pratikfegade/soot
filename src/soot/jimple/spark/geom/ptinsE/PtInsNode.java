@@ -18,33 +18,22 @@
  */
 package soot.jimple.spark.geom.ptinsE;
 
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import soot.Hierarchy;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootMethod;
+import soot.*;
 import soot.jimple.spark.geom.dataMgr.PtSensVisitor;
 import soot.jimple.spark.geom.dataRep.PlainConstraint;
 import soot.jimple.spark.geom.dataRep.RectangleNode;
 import soot.jimple.spark.geom.dataRep.SegmentNode;
 import soot.jimple.spark.geom.geomE.GeometricManager;
-import soot.jimple.spark.geom.geomPA.Constants;
-import soot.jimple.spark.geom.geomPA.GeomPointsTo;
-import soot.jimple.spark.geom.geomPA.IVarAbstraction;
-import soot.jimple.spark.geom.geomPA.IWorklist;
-import soot.jimple.spark.geom.geomPA.Parameters;
+import soot.jimple.spark.geom.geomPA.*;
 import soot.jimple.spark.geom.heapinsE.HeapInsIntervalManager;
 import soot.jimple.spark.pag.AllocNode;
 import soot.jimple.spark.pag.LocalVarNode;
 import soot.jimple.spark.pag.Node;
 import soot.jimple.spark.pag.StringConstantNode;
 import soot.jimple.spark.sets.P2SetVisitor;
+
+import java.io.PrintStream;
+import java.util.*;
 
 /**
  * This class defines a pointer variable in the PtIns encoding based points-to solver.

@@ -20,10 +20,13 @@
 package soot.shimple.toolkits.graph;
 
 import soot.*;
-import soot.shimple.*;
-import soot.toolkits.graph.*;
-import java.util.*;
+import soot.shimple.Shimple;
+import soot.shimple.ShimpleBody;
 import soot.shimple.toolkits.graph.ValueGraph.Node;
+import soot.toolkits.graph.BlockGraph;
+import soot.toolkits.graph.CompleteBlockGraph;
+
+import java.util.*;
 
 public class SimpleGlobalValueNumberer implements GlobalValueNumberer
 {

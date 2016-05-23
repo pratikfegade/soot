@@ -32,9 +32,11 @@
 package soot.grimp;
 
 import soot.*;
-import soot.jimple.*;
 import soot.grimp.internal.*;
-import java.util.*;
+import soot.jimple.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
     The Grimp class contains all the constructors for the components of the Grimp

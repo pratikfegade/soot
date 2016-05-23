@@ -19,7 +19,7 @@
 
 package soot.shimple;
 
-import soot.jimple.*;
+import soot.jimple.JimpleValueSwitch;
 
 /**
  * @author Navindra Umanee

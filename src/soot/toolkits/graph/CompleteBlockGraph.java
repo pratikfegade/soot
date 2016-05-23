@@ -26,8 +26,6 @@
 package soot.toolkits.graph;
 
 import soot.Body;
-import soot.toolkits.graph.ExceptionalBlockGraph;
-import soot.toolkits.graph.CompleteUnitGraph;
 
 /**
  *  <p>Represents a CFG for a {@link Body} instance where the nodes

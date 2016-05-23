@@ -27,10 +27,15 @@
 
 
 package soot.jimple.toolkits.annotation.purity;
-import java.util.*;
-import soot.*;
-import soot.jimple.toolkits.callgraph.*;
+
+import soot.G;
+import soot.Scene;
+import soot.SceneTransformer;
+import soot.Singletons;
+import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.options.PurityOptions;
+
+import java.util.Map;
 
 /**
  * Purity analysis phase.

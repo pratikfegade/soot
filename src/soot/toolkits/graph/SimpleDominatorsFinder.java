@@ -19,19 +19,9 @@
 
 package soot.toolkits.graph;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import soot.toolkits.scalar.*;
 
-import soot.toolkits.scalar.ArrayPackedSet;
-import soot.toolkits.scalar.BoundedFlowSet;
-import soot.toolkits.scalar.CollectionFlowUniverse;
-import soot.toolkits.scalar.FlowSet;
-import soot.toolkits.scalar.FlowUniverse;
-import soot.toolkits.scalar.ForwardFlowAnalysis;
+import java.util.*;
 
 /**
  * Wrapper class for a simple dominators analysis based on a simple

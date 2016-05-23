@@ -1,10 +1,13 @@
 package soot.jimple.toolkits.infoflow;
 
 import soot.*;
-
-import java.util.*;
-import soot.toolkits.graph.*;
 import soot.jimple.*;
+import soot.toolkits.graph.*;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 // ClassInfoFlowAnalysis written by Richard L. Halpert, 2007-02-22
 // Constructs data flow tables for each method of a class.  Ignores indirect flow.

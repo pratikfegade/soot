@@ -29,8 +29,14 @@
 package soot.jimple.parser;
 
 import soot.*;
-import soot.jimple.parser.node.*;
-import java.util.*;
+import soot.jimple.parser.node.AFile;
+import soot.jimple.parser.node.AMethodMember;
+import soot.jimple.parser.node.AThrowsClause;
+import soot.jimple.parser.node.PModifier;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 /* 

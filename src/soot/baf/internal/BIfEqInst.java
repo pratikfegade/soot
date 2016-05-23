@@ -29,9 +29,11 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.Unit;
+import soot.baf.Baf;
+import soot.baf.IfEqInst;
+import soot.baf.InstSwitch;
+import soot.util.Switch;
 
 public class BIfEqInst extends AbstractBranchInst implements IfEqInst
 {

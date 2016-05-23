@@ -18,49 +18,13 @@
  */
 
 package soot.jimple.spark.pag;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import soot.Context;
-import soot.FastHierarchy;
-import soot.G;
-import soot.Kind;
-import soot.Local;
-import soot.PointsToAnalysis;
-import soot.PointsToSet;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethod;
-import soot.Type;
-import soot.Value;
-import soot.jimple.AssignStmt;
-import soot.jimple.ClassConstant;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.NullConstant;
-import soot.jimple.Stmt;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.spark.builder.GlobalNodeFactory;
 import soot.jimple.spark.builder.MethodNodeFactory;
 import soot.jimple.spark.internal.TypeManager;
-import soot.jimple.spark.sets.BitPointsToSet;
-import soot.jimple.spark.sets.DoublePointsToSet;
-import soot.jimple.spark.sets.EmptyPointsToSet;
-import soot.jimple.spark.sets.HashPointsToSet;
-import soot.jimple.spark.sets.HybridPointsToSet;
-import soot.jimple.spark.sets.P2SetFactory;
-import soot.jimple.spark.sets.P2SetVisitor;
-import soot.jimple.spark.sets.PointsToSetInternal;
-import soot.jimple.spark.sets.SharedHybridSet;
-import soot.jimple.spark.sets.SharedListSet;
-import soot.jimple.spark.sets.SortedArraySet;
+import soot.jimple.spark.sets.*;
 import soot.jimple.spark.solver.OnFlyCallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
 import soot.jimple.toolkits.pointer.util.NativeMethodDriver;
@@ -74,6 +38,8 @@ import soot.util.HashMultiMap;
 import soot.util.LargeNumberedMap;
 import soot.util.queue.ChunkedQueue;
 import soot.util.queue.QueueReader;
+
+import java.util.*;
 
 /** Pointer assignment graph.
  * @author Ondrej Lhotak

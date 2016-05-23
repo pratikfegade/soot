@@ -1,9 +1,5 @@
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import soot.Body;
 import soot.SootClass;
 import soot.SootMethod;
@@ -11,6 +7,10 @@ import soot.dava.DavaBody;
 import soot.dava.internal.AST.ASTMethodNode;
 import soot.dava.internal.AST.ASTNode;
 import soot.util.Chain;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 

@@ -25,9 +25,9 @@
 
 package soot;
 
-import java.text.DecimalFormat;
-
 import soot.options.Options;
+
+import java.text.DecimalFormat;
 
 public class Timers
 {

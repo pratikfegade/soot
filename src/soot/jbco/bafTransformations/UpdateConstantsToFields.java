@@ -19,13 +19,16 @@
 
 package soot.jbco.bafTransformations;
 
-import java.util.*;
-
 import soot.*;
-import soot.baf.*;
+import soot.baf.Baf;
+import soot.baf.PushInst;
 import soot.jbco.IJbcoTransform;
-import soot.jbco.util.*;
-import soot.jbco.jimpleTransformations.*;
+import soot.jbco.jimpleTransformations.CollectConstants;
+import soot.jbco.util.BodyBuilder;
+import soot.jbco.util.Rand;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Michael Batchelder

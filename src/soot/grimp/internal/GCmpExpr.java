@@ -30,10 +30,11 @@
 
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.CmpExpr;
+import soot.jimple.ExprSwitch;
+import soot.util.Switch;
 
 public class GCmpExpr extends AbstractGrimpIntBinopExpr implements CmpExpr
 {

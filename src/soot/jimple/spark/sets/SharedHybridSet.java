@@ -1,12 +1,12 @@
 package soot.jimple.spark.sets;
 
 import soot.Type;
-import soot.util.BitSetIterator;
-import soot.util.BitVector;
 import soot.jimple.spark.pag.Node;
 import soot.jimple.spark.pag.PAG;
+import soot.util.BitSetIterator;
+import soot.util.BitVector;
 
-import java.util.*;
+import java.util.ListIterator;
 
 /*
  * Possible sources of inefficiency:

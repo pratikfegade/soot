@@ -19,13 +19,16 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import java.util.*;
-import soot.*;
+import soot.Value;
+import soot.dava.internal.AST.ASTStatementSequenceNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DDecrementStmt;
+import soot.dava.internal.javaRep.DIncrementStmt;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
 import soot.jimple.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.internal.AST.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 /*
  * CHANGELOG: Nomair 9th Feb (For some reason only AddExpr was being checked for i++

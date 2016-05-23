@@ -29,10 +29,12 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.AbstractJasminClass;
+import soot.Type;
+import soot.baf.DupInst;
+import soot.util.Switch;
+
+import java.util.Iterator;
 
 public abstract class BDupInst extends AbstractInst implements DupInst
 {

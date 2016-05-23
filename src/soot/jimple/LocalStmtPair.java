@@ -29,7 +29,7 @@
 
 package soot.jimple;
 
-import soot.*;
+import soot.Local;
 
 public class LocalStmtPair
 {

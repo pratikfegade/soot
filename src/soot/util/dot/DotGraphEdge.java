@@ -27,8 +27,11 @@
 
 package soot.util.dot;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /* Graph edges are the major elements of a graph
  * @author Feng Qian 

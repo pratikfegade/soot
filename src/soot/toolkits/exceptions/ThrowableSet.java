@@ -19,27 +19,12 @@
 
 package soot.toolkits.exceptions;
 
-import java.lang.ref.WeakReference;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.lang.ref.Reference;
-
-import soot.AnySubType;
-import soot.FastHierarchy;
-import soot.G;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.Singletons;
-import soot.Unit;
+import soot.*;
 import soot.options.Options;
+
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
+import java.util.*;
 
 /**
  * <p>

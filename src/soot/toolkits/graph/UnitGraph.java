@@ -27,11 +27,11 @@
 package soot.toolkits.graph;
 
 import soot.*;
-import soot.util.*;
+import soot.options.Options;
+import soot.util.Chain;
+
 import java.util.*;
 import java.util.Map.Entry;
-
-import soot.options.Options;
 
 /**
  *  <p>

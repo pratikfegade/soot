@@ -2,9 +2,6 @@ package soot;
 
 import util.filter.ClassFilter;
 import util.filter.GlobClassFilter;
-import soot.ClassProvider;
-import soot.Scene;
-import soot.SootClass;
 
 import java.io.File;
 import java.util.*;

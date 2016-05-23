@@ -30,7 +30,8 @@
 
 package soot.jimple;
 
-import soot.*;
+import soot.SootField;
+import soot.SootFieldRef;
 
 public interface FieldRef extends ConcreteRef
 {

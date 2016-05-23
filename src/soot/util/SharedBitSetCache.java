@@ -18,7 +18,9 @@
  */
 
 package soot.util;
-import soot.*;
+
+import soot.G;
+import soot.Singletons;
 
 public final class SharedBitSetCache {
     public SharedBitSetCache( Singletons.Global g ) {}

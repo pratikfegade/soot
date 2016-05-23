@@ -18,11 +18,8 @@
  */
 
 package soot.util;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
-import java.util.Set;
+
+import java.util.*;
 
 /**
  * Implements a hashset with comparison over identity.

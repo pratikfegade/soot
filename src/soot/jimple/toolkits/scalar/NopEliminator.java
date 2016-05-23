@@ -25,19 +25,15 @@
 
 
 package soot.jimple.toolkits.scalar;
-import java.util.Iterator;
-import java.util.Map;
 
-import soot.Body;
-import soot.BodyTransformer;
-import soot.G;
-import soot.Singletons;
-import soot.Trap;
-import soot.Unit;
+import soot.*;
 import soot.jimple.JimpleBody;
 import soot.jimple.NopStmt;
 import soot.options.Options;
 import soot.util.Chain;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class NopEliminator extends BodyTransformer
 {

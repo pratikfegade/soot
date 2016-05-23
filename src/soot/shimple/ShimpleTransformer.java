@@ -21,7 +21,9 @@ package soot.shimple;
 
 import soot.*;
 import soot.options.Options;
-import java.util.*;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Traverses all methods, in all classes from the Scene, and

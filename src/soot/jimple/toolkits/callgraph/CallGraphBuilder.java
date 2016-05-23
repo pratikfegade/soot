@@ -18,20 +18,14 @@
  */
 
 package soot.jimple.toolkits.callgraph;
+
+import soot.*;
+import soot.util.queue.QueueReader;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import soot.EntryPoints;
-import soot.G;
-import soot.Local;
-import soot.MethodOrMethodContext;
-import soot.PointsToAnalysis;
-import soot.PointsToSet;
-import soot.Scene;
-import soot.Type;
-import soot.util.queue.QueueReader;
 
 /** Models the call graph.
  * @author Ondrej Lhotak

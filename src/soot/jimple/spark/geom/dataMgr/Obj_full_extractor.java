@@ -18,11 +18,11 @@
  */
 package soot.jimple.spark.geom.dataMgr;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import soot.jimple.spark.geom.dataRep.IntervalContextVar;
 import soot.jimple.spark.pag.Node;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Extracts the full context sensitive points-to result.

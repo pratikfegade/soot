@@ -28,9 +28,10 @@
 
 package soot.tagkit;
 
-import java.util.*;
-
 import soot.UnitBox;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents a general attribute which can be attached to implementations of

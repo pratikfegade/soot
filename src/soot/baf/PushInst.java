@@ -25,7 +25,7 @@
 
 package soot.baf;
 
-import soot.jimple.*;
+import soot.jimple.Constant;
 
 public interface PushInst extends Inst
 {

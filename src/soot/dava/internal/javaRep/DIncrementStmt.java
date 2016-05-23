@@ -19,9 +19,10 @@
 
 package soot.dava.internal.javaRep;
 
-import soot.*;
-import soot.grimp.*;
-import soot.grimp.internal.*;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.grimp.internal.GAssignStmt;
 
 public class DIncrementStmt extends GAssignStmt{
     public DIncrementStmt(Value variable, Value rvalue){

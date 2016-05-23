@@ -26,29 +26,9 @@
 
 
 package soot;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
+import android.content.res.AXmlResourceParser;
 import org.xmlpull.v1.XmlPullParser;
-
 import soot.jimple.spark.pag.SparkField;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.ContextSensitiveCallGraph;
@@ -60,14 +40,13 @@ import soot.options.Options;
 import soot.toolkits.exceptions.PedanticThrowAnalysis;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.exceptions.UnitThrowAnalysis;
-import soot.util.ArrayNumberer;
-import soot.util.Chain;
-import soot.util.HashChain;
-import soot.util.MapNumberer;
-import soot.util.Numberer;
-import soot.util.StringNumberer;
+import soot.util.*;
 import test.AXMLPrinter;
-import android.content.res.AXmlResourceParser;
+
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /** Manages the SootClasses of the application being analyzed. */
 public class Scene  //extends AbstractHost

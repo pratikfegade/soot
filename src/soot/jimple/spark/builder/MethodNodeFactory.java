@@ -18,11 +18,13 @@
  */
 
 package soot.jimple.spark.builder;
-import soot.jimple.spark.pag.*;
-import soot.jimple.*;
+
 import soot.*;
+import soot.jimple.*;
+import soot.jimple.spark.pag.*;
+import soot.shimple.AbstractShimpleValueSwitch;
+import soot.shimple.PhiExpr;
 import soot.toolkits.scalar.Pair;
-import soot.shimple.*;
 
 /** Class implementing builder parameters (this decides
  * what kinds of nodes should be built for each kind of Soot value).

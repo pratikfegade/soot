@@ -32,7 +32,8 @@ package soot.jimple.toolkits.scalar;
 
 import soot.*;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
 
 public class LocalNameStandardizer extends BodyTransformer
 {

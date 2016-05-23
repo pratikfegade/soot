@@ -19,7 +19,8 @@
 
 package soot.javaToJimple;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 public class PrivateMethodAccMethodSource implements soot.MethodSource {
 
     public PrivateMethodAccMethodSource(polyglot.types.MethodInstance methInst){

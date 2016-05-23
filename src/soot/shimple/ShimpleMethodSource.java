@@ -19,7 +19,9 @@
 
 package soot.shimple;
 
-import soot.*;
+import soot.Body;
+import soot.MethodSource;
+import soot.SootMethod;
 
 public class ShimpleMethodSource implements MethodSource
 {

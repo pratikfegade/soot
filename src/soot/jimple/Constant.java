@@ -29,10 +29,11 @@
 
 package soot.jimple;
 
-import soot.baf.*;
 import soot.*;
+import soot.baf.Baf;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public abstract class Constant implements Value, ConvertToBaf, Immediate

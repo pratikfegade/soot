@@ -18,11 +18,15 @@
  */
 
 package soot.jimple.spark.solver;
-import soot.jimple.spark.pag.*;
-import soot.jimple.spark.internal.*;
-import soot.*;
 
-import java.util.*;
+import soot.G;
+import soot.Type;
+import soot.jimple.spark.internal.TypeManager;
+import soot.jimple.spark.pag.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /** Collapses nodes that are members of simple trees (EBBs)
  * in the pointer assignment graph.

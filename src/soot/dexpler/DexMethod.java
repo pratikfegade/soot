@@ -24,11 +24,6 @@
 package soot.dexpler;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.Annotation;
 import org.jf.dexlib2.iface.AnnotationElement;
 import org.jf.dexlib2.iface.DexFile;
@@ -36,19 +31,15 @@ import org.jf.dexlib2.iface.Method;
 import org.jf.dexlib2.iface.value.ArrayEncodedValue;
 import org.jf.dexlib2.iface.value.EncodedValue;
 import org.jf.dexlib2.iface.value.TypeEncodedValue;
-
-import soot.Body;
-import soot.G;
-import soot.MethodSource;
-import soot.Modifier;
-import soot.RefType;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.SootResolver;
-import soot.Type;
+import soot.*;
 import soot.jimple.Jimple;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.options.Options;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * DexMethod is a container for all methods that are declared in a class.

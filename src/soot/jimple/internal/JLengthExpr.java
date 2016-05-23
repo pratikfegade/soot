@@ -30,11 +30,14 @@
 
 package soot.jimple.internal;
 
-import soot.*;
+import soot.Unit;
+import soot.Value;
+import soot.baf.Baf;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleToBafContext;
 
-import soot.jimple.*;
-import soot.baf.*;
-import java.util.*;
+import java.util.List;
 
 public class JLengthExpr extends AbstractLengthExpr implements ConvertToBaf
 {

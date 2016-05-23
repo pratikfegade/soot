@@ -18,7 +18,8 @@
  */
 
 package soot.util;
-import java.util.*;
+
+import java.util.Iterator;
 
 /** Holds a set of Numberable objects.
  *

@@ -30,8 +30,11 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
+import soot.AbstractTrap;
+import soot.SootClass;
+import soot.Unit;
+import soot.UnitBox;
+import soot.jimple.Jimple;
 
 public class JTrap extends AbstractTrap
 {

@@ -19,8 +19,8 @@
 
 package soot.dava.toolkits.base.misc;
 
-import soot.jimple.*;
 import soot.grimp.internal.*;
+import soot.jimple.*;
 
 public class ConditionFlipper
 {

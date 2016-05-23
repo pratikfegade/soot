@@ -25,7 +25,9 @@
 
 
 package soot.coffi;
-import soot.*;
+
+import soot.G;
+import soot.Value;
 import soot.jimple.StringConstant;
 
 import java.io.*;

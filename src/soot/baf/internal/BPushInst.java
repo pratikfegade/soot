@@ -29,10 +29,13 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.jimple.*;
-import soot.util.*;
+import soot.UnitPrinter;
+import soot.baf.InstSwitch;
+import soot.baf.PushInst;
+import soot.jimple.Constant;
+import soot.jimple.DoubleConstant;
+import soot.jimple.LongConstant;
+import soot.util.Switch;
 
 public class BPushInst extends AbstractInst implements PushInst
 {

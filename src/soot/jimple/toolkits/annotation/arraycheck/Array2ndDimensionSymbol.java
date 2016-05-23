@@ -24,7 +24,8 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.*;
+
+import soot.G;
 
 public class Array2ndDimensionSymbol
 {

@@ -30,9 +30,11 @@
 
 package soot.grimp.internal;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
+import soot.Type;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.grimp.Precedence;
+import soot.jimple.internal.AbstractNewArrayExpr;
 
 public class GNewArrayExpr extends AbstractNewArrayExpr implements Precedence
 {

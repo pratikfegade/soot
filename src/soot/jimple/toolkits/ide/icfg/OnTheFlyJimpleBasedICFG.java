@@ -1,43 +1,15 @@
 package soot.jimple.toolkits.ide.icfg;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import heros.SynchronizedBy;
 import heros.solver.IDESolver;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import soot.ArrayType;
-import soot.Body;
-import soot.FastHierarchy;
-import soot.Local;
-import soot.NullType;
-import soot.PackManager;
-import soot.RefType;
-import soot.Scene;
-import soot.SceneTransformer;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.SourceLocator;
-import soot.Transform;
-import soot.Unit;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InterfaceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.Stmt;
-import soot.jimple.VirtualInvokeExpr;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.pointer.LocalMustNotAliasAnalysis;
 import soot.options.Options;
 
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import java.util.*;
 
 /**
  * This is an implementation of AbstractJimpleBasedICFG that computes the ICFG on-the-fly. In other words,

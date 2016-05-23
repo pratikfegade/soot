@@ -19,10 +19,11 @@
 
 package soot.dava.internal.AST;
 
-import soot.*;
-import soot.jimple.*;
-import soot.dava.toolkits.base.misc.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.UnitPrinter;
+import soot.dava.toolkits.base.AST.analysis.Analysis;
+import soot.dava.toolkits.base.misc.ConditionFlipper;
+import soot.jimple.ConditionExpr;
+import soot.jimple.Jimple;
 
 public class ASTBinaryCondition extends ASTUnaryBinaryCondition{
     ConditionExpr condition;

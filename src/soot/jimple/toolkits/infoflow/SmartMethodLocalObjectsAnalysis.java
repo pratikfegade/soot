@@ -1,10 +1,17 @@
 package soot.jimple.toolkits.infoflow;
 
-import soot.*;
+import soot.EquivalentValue;
+import soot.G;
+import soot.SootMethod;
+import soot.Value;
+import soot.jimple.Constant;
+import soot.jimple.FieldRef;
+import soot.jimple.InstanceFieldRef;
+import soot.jimple.Ref;
+import soot.toolkits.graph.UnitGraph;
 
-import java.util.*;
-import soot.toolkits.graph.*;
-import soot.jimple.*;
+import java.util.Iterator;
+import java.util.List;
 
 // SmartMethodLocalObjectsAnalysis written by Richard L. Halpert, 2007-02-23
 // Uses a SmartMethodInfoFlowAnalysis to determine if a Local or FieldRef is

@@ -1,6 +1,5 @@
 package soot;
 
-import soot.*;
 import soot.jimple.*;
 import soot.shimple.PhiExpr;
 import soot.shimple.Shimple;

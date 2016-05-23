@@ -29,7 +29,9 @@ package soot.jimple.toolkits.typing;
 import soot.*;
 import soot.options.Options;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class encapsulates the typing class hierarchy, as well as non-reference types.

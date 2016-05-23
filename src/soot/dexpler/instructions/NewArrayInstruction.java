@@ -24,20 +24,12 @@
 
 package soot.dexpler.instructions;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-
-import soot.ArrayType;
-import soot.IntType;
-import soot.Local;
-import soot.Type;
-import soot.Value;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
@@ -46,6 +38,9 @@ import soot.dexpler.typing.DalvikTyper;
 import soot.jimple.AssignStmt;
 import soot.jimple.Jimple;
 import soot.jimple.NewArrayExpr;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class NewArrayInstruction extends DexlibAbstractInstruction {
 

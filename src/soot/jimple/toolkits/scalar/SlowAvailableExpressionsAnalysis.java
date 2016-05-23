@@ -25,13 +25,21 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
-import soot.jimple.*;
 
-import java.util.*;
-import soot.util.*;
+import soot.EquivalentValue;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.*;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.*;
+import soot.util.Chain;
+import soot.util.HashChain;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 // future work: fieldrefs.
 

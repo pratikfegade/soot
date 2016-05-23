@@ -26,7 +26,7 @@
 
 package soot.baf;
 
-import soot.*;
+import soot.Type;
 
 public interface SwapInst extends Inst
 {

@@ -26,12 +26,16 @@
 /* Reference Version: $SootVersion: 1.2.5.dev.5 $ */
 
 package soot.jimple.toolkits.base;
-import soot.options.*;
+
 import soot.*;
 import soot.jimple.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
-import soot.util.*;
+import soot.options.Options;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.PseudoTopologicalOrderer;
+import soot.toolkits.scalar.LocalDefs;
+import soot.toolkits.scalar.LocalUses;
+import soot.toolkits.scalar.UnitValueBoxPair;
+import soot.util.Chain;
 
 import java.util.*;
 

@@ -29,8 +29,9 @@
 
 package soot.jimple;
 
-import soot.*;
-import java.util.*;
+import soot.Local;
+
+import java.util.List;
 
 public interface EqualLocals
 {

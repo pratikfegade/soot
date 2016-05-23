@@ -31,10 +31,11 @@
 package soot.jimple.internal;
 
 import soot.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.util.Switch;
+
+import java.util.List;
 
 public class JIdentityStmt extends AbstractDefinitionStmt 
     implements IdentityStmt

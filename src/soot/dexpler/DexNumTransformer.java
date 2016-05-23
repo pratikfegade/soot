@@ -24,41 +24,13 @@
 
 package soot.dexpler;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Body;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.Local;
-import soot.Type;
-import soot.Unit;
-import soot.UnknownType;
-import soot.Value;
-import soot.jimple.AbstractStmtSwitch;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.BinopExpr;
-import soot.jimple.CastExpr;
-import soot.jimple.CmpExpr;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FieldRef;
-import soot.jimple.FloatConstant;
-import soot.jimple.IdentityStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.InvokeExpr;
-import soot.jimple.InvokeStmt;
-import soot.jimple.LengthExpr;
-import soot.jimple.LongConstant;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.ReturnStmt;
+import soot.*;
+import soot.jimple.*;
 import soot.toolkits.scalar.LocalDefs;
 import soot.toolkits.scalar.LocalUses;
 import soot.toolkits.scalar.UnitValueBoxPair;
+
+import java.util.*;
 
 /**
  * BodyTransformer to find and change initialization type of Jimple variables.
