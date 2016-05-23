@@ -25,8 +25,8 @@
 
 package soot.baf;
 
-public interface RetInst extends Inst
-{
+public interface RetInst extends Inst {
     int getIndex();
+
     void setIndex(int index);
 }

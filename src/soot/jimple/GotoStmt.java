@@ -24,17 +24,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Unit;
 import soot.UnitBox;
 
-public interface GotoStmt extends Stmt
-{
+public interface GotoStmt extends Stmt {
     Unit getTarget();
+
     void setTarget(Unit target);
+
     UnitBox getTargetBox();
 }

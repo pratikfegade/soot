@@ -8,9 +8,6 @@ import java.util.*;
 
 public class Main {
 
-    public enum Mode {INPUTS, FULL}
-
-
     private static Mode _mode = null;
     private static List<String> _inputs = new ArrayList<>();
     private static List<String> _libraries = new ArrayList<>();
@@ -23,12 +20,11 @@ public class Main {
     private static boolean _onlyApplicationClassesFactGen = false;
     private static ClassFilter applicationClassFilter;
     private static String appRegex = "**";
-
     private static boolean _bytecode2jimple = false;
     private static boolean _toStdout = false;
 
     private static int shift(String[] args, int index) {
-        if(args.length == index + 1) {
+        if (args.length == index + 1) {
             System.err.println("error: option " + args[index] + " requires an argument");
             System.exit(1);
         }
@@ -51,43 +47,36 @@ public class Main {
 
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("--full")) {
-                    if( _mode != null) {
+                    if (_mode != null) {
                         System.err.println("error: duplicate mode argument");
                         System.exit(1);
                     }
 
                     _mode = Mode.FULL;
-                }
-                else if (args[i].equals("-d")) {
+                } else if (args[i].equals("-d")) {
                     i = shift(args, i);
                     _outputDir = args[i];
-                }
-                else if (args[i].equals("--main")) {
+                } else if (args[i].equals("--main")) {
                     i = shift(args, i);
                     _main = args[i];
-                }
-                else if (args[i].equals("--ssa")) {
+                } else if (args[i].equals("--ssa")) {
                     _ssa = true;
-                }
-                else if (args[i].equals("-l")) {
+                } else if (args[i].equals("-l")) {
                     i = shift(args, i);
                     _libraries.add(args[i]);
-                }
-                else if (args[i].equals("-lsystem")) {
+                } else if (args[i].equals("-lsystem")) {
                     String javaHome = System.getProperty("java.home");
                     _libraries.add(javaHome + File.separator + "lib" + File.separator + "rt.jar");
                     _libraries.add(javaHome + File.separator + "lib" + File.separator + "jce.jar");
                     _libraries.add(javaHome + File.separator + "lib" + File.separator + "jsse.jar");
-                }
-                else if (args[i].equals("--deps")) {
+                } else if (args[i].equals("--deps")) {
                     i = shift(args, i);
                     String folderName = args[i];
                     File f = new File(folderName);
                     if (!f.exists()) {
                         System.err.println("Dependency folder " + folderName + " does not exist");
                         System.exit(0);
-                    }
-                    else if (!f.isDirectory()) {
+                    } else if (!f.isDirectory()) {
                         System.err.println("Dependency folder " + folderName + " is not a directory");
                         System.exit(0);
                     }
@@ -96,31 +85,22 @@ public class Main {
                             _libraries.add(file.getCanonicalPath());
                         }
                     }
-                }
-                else if (args[i].equals("--application-regex")) {
+                } else if (args[i].equals("--application-regex")) {
                     i = shift(args, i);
                     appRegex = args[i];
-                }
-                else if (args[i].equals("--allow-phantom")) {
+                } else if (args[i].equals("--allow-phantom")) {
                     _allowPhantom = true;
-                }
-                else if (args[i].equals("--use-original-names")) {
+                } else if (args[i].equals("--use-original-names")) {
                     _useOriginalNames = true;
-                }
-                else if (args[i].equals("--only-application-classes-fact-gen")) {
+                } else if (args[i].equals("--only-application-classes-fact-gen")) {
                     _onlyApplicationClassesFactGen = true;
-                }
-                else if (args[i].equals("--keep-line-number")) {
+                } else if (args[i].equals("--keep-line-number")) {
                     _keepLineNumber = true;
-                }
-
-                else if (args[i].equals("--bytecode2jimple")) {
+                } else if (args[i].equals("--bytecode2jimple")) {
                     _bytecode2jimple = true;
-                }
-                else if (args[i].equals("--stdout")) {
+                } else if (args[i].equals("--stdout")) {
                     _toStdout = true;
-                }
-                else if (args[i].equals("-h") || args[i].equals("--help") || args[i].equals("-help")) {
+                } else if (args[i].equals("-h") || args[i].equals("--help") || args[i].equals("-help")) {
                     System.err.println("usage: [options] file");
                     System.err.println("options:");
                     System.err.println("  --main <class>                        Specify the main name of the main class");
@@ -139,8 +119,7 @@ public class Main {
 
                     System.err.println("  -h, -help                             Print this help message.");
                     System.exit(0);
-                }
-                else if (args[i].equals("--bytecode2jimpleHelp")) {
+                } else if (args[i].equals("--bytecode2jimpleHelp")) {
                     System.err.println("usage: [options] file");
                     System.err.println("options:");
                     System.err.println("  --ssa                                 Generate SSA facts, enabling flow-sensitive analysis");
@@ -150,19 +129,17 @@ public class Main {
                     System.err.println("  -l <archive>                          Find classes in jar/zip archive.");
                     System.err.println("  -lsystem                              Find classes in default system classes.");
                     System.exit(0);
-                }
-                else {
+                } else {
                     if (args[i].charAt(0) == '-') {
                         System.err.println("error: unrecognized option: " + args[i]);
                         System.exit(0);
-                    }
-                    else {
+                    } else {
                         _inputs.add(args[i]);
                     }
                 }
             }
 
-            if(_mode == null) {
+            if (_mode == null) {
                 _mode = Mode.INPUTS;
             }
 
@@ -173,8 +150,7 @@ public class Main {
             if (_toStdout && _outputDir != null) {
                 System.err.println("error: --stdout and -d options are not compatible");
                 System.exit(2);
-            }
-            else if (!_toStdout && _outputDir == null) {
+            } else if (!_toStdout && _outputDir == null) {
                 _outputDir = System.getProperty("user.dir");
             }
 
@@ -186,8 +162,7 @@ public class Main {
              */
             Scene.v().addBasicClass("sun.net.www.protocol.ftp.FtpURLConnection", 1);
             run();
-        }
-        catch(Exception exc) {
+        } catch (Exception exc) {
             exc.printStackTrace();
             System.exit(1);
         }
@@ -196,41 +171,39 @@ public class Main {
     private static void run() throws Exception {
         NoSearchingClassProvider provider = new NoSearchingClassProvider();
 
-        for(String arg : _inputs) {
-            if(arg.endsWith(".jar") || arg.endsWith(".zip")) {
+        for (String arg : _inputs) {
+            if (arg.endsWith(".jar") || arg.endsWith(".zip")) {
                 System.out.println("Adding archive: " + arg);
                 provider.addArchive(new File(arg));
-            }
-            else {
+            } else {
                 System.out.println("Adding file: " + arg);
                 provider.addClass(new File(arg));
             }
         }
 
-        for(String lib: _libraries) {
+        for (String lib : _libraries) {
             System.out.println("Adding archive for resolving: " + lib);
 
             File libraryFile = new File(lib);
 
             if (!libraryFile.exists()) {
                 System.err.println("Library file does not exist: " + libraryFile);
-            }
-            else {
+            } else {
                 provider.addArchiveForResolving(libraryFile);
             }
         }
 
         soot.SourceLocator.v().setClassProviders(Collections.singletonList((ClassProvider) provider));
         Scene scene = Scene.v();
-        if(_main != null) {
+        if (_main != null) {
             soot.options.Options.v().set_main_class(_main);
         }
 
-        if(_mode == Mode.FULL) {
+        if (_mode == Mode.FULL) {
             soot.options.Options.v().set_full_resolver(true);
         }
 
-        if(_allowPhantom) {
+        if (_allowPhantom) {
             soot.options.Options.v().set_allow_phantom_refs(true);
         }
 
@@ -243,7 +216,7 @@ public class Main {
         }
 
         List<SootClass> classes = new ArrayList<>();
-        for(String className : provider.getClassNames()) {
+        for (String className : provider.getClassNames()) {
             scene.loadClass(className, SootClass.SIGNATURES);
             SootClass c = scene.loadClass(className, SootClass.BODIES);
 
@@ -278,12 +251,12 @@ public class Main {
         * call to `setApplicationClass()').
         */
 
-        for(SootClass c : classes) {
+        for (SootClass c : classes) {
             if (isApplicationClass(c))
                 c.setApplicationClass();
         }
 
-        if(_mode == Mode.FULL && !_onlyApplicationClassesFactGen) {
+        if (_mode == Mode.FULL && !_onlyApplicationClassesFactGen) {
             classes = new ArrayList<>(scene.getClasses());
         }
 
@@ -292,20 +265,19 @@ public class Main {
             Driver driver = new Driver(factory, _ssa, classes.size());
 
             driver.doInParallel(classes);
-        }
-        else {
+        } else {
             Database db = new CSVDatabase(new File(_outputDir));
             FactWriter writer = new FactWriter(db);
             ThreadFactory factory = new ThreadFactory(writer, _ssa);
             Driver driver = new Driver(factory, _ssa, classes.size());
 
-            for(SootClass c : classes) {
+            for (SootClass c : classes) {
                 if (c.isApplicationClass())
                     writer.writeApplicationClass(c);
             }
 
             // Read all stored properties files
-            for (Map.Entry<String,Properties> entry : provider.getProperties().entrySet()) {
+            for (Map.Entry<String, Properties> entry : provider.getProperties().entrySet()) {
                 String path = entry.getKey();
                 Properties properties = entry.getValue();
 
@@ -325,8 +297,10 @@ public class Main {
     }
 
     public static void addCommonDynamicClass(Scene scene, ClassProvider provider, String className) {
-        if(provider.find(className) != null) {
+        if (provider.find(className) != null) {
             scene.addBasicClass(className);
         }
     }
+
+    public enum Mode {INPUTS, FULL}
 }

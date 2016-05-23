@@ -24,29 +24,40 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.util.Switch;
 
-public interface StmtSwitch extends Switch
-{
+public interface StmtSwitch extends Switch {
     void caseBreakpointStmt(BreakpointStmt stmt);
+
     void caseInvokeStmt(InvokeStmt stmt);
+
     void caseAssignStmt(AssignStmt stmt);
+
     void caseIdentityStmt(IdentityStmt stmt);
+
     void caseEnterMonitorStmt(EnterMonitorStmt stmt);
+
     void caseExitMonitorStmt(ExitMonitorStmt stmt);
+
     void caseGotoStmt(GotoStmt stmt);
+
     void caseIfStmt(IfStmt stmt);
+
     void caseLookupSwitchStmt(LookupSwitchStmt stmt);
+
     void caseNopStmt(NopStmt stmt);
+
     void caseRetStmt(RetStmt stmt);
+
     void caseReturnStmt(ReturnStmt stmt);
+
     void caseReturnVoidStmt(ReturnVoidStmt stmt);
+
     void caseTableSwitchStmt(TableSwitchStmt stmt);
+
     void caseThrowStmt(ThrowStmt stmt);
+
     void defaultCase(Object obj);
 }

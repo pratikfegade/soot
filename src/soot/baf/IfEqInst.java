@@ -25,7 +25,6 @@
 
 package soot.baf;
 
-public interface IfEqInst extends TargetArgInst
-{
+public interface IfEqInst extends TargetArgInst {
 }
 

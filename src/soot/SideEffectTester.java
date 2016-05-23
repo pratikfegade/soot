@@ -26,13 +26,16 @@
 
 package soot;
 
-/** Provides side effect information. 
+/**
+ * Provides side effect information.
  * Presumably, different side-effect information can be computed by
- * different implementations of this interface. */
-public interface SideEffectTester
-{
+ * different implementations of this interface.
+ */
+public interface SideEffectTester {
     boolean unitCanReadFrom(Unit u, Value v);
+
     boolean unitCanWriteTo(Unit u, Value v);
+
     // Call this whenever starting to analyze a new method
     void newMethod(SootMethod m);
 }

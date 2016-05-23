@@ -9,39 +9,34 @@ import java.util.List;
 @SuppressWarnings("serial")
 public abstract class AbstractOpStmt extends AbstractStmt {
 
-	final ValueBox opBox;
-	
-	protected AbstractOpStmt(ValueBox opBox)
-    {
+    final ValueBox opBox;
+
+    protected AbstractOpStmt(ValueBox opBox) {
         this.opBox = opBox;
     }
-	
-	
-    final public Value getOp()
-    {
+
+
+    final public Value getOp() {
         return opBox.getValue();
     }
-	
-	
-	final public void setOp(Value op)
-    {
+
+
+    final public void setOp(Value op) {
         opBox.setValue(op);
     }
 
-	
-	final public ValueBox getOpBox()
-    {
+
+    final public ValueBox getOpBox() {
         return opBox;
     }
-	
-	@Override
-    final public List<ValueBox> getUseBoxes()
-    {
+
+    @Override
+    final public List<ValueBox> getUseBoxes() {
         List<ValueBox> list = new ArrayList<>();
 
         list.addAll(opBox.getValue().getUseBoxes());
         list.add(opBox);
-    
+
         return list;
     }
 }

@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.ArrayType;
@@ -35,63 +32,69 @@ import soot.baf.InstSwitch;
 import soot.baf.NewMultiArrayInst;
 import soot.util.Switch;
 
-public class BNewMultiArrayInst extends AbstractInst implements NewMultiArrayInst
-{
+public class BNewMultiArrayInst extends AbstractInst implements NewMultiArrayInst {
     int dimensionCount;
 
     ArrayType baseType;
 
-    public BNewMultiArrayInst(ArrayType opType, int dimensionCount)
-    {
+    public BNewMultiArrayInst(ArrayType opType, int dimensionCount) {
         this.dimensionCount = dimensionCount;
         baseType = opType;
     }
 
 
-
-    public int getInCount() 
-    {
+    public int getInCount() {
         return dimensionCount;
     }
 
-    public int getOutCount()
-    {
-        return 1; 
+    public int getOutCount() {
+        return 1;
     }
 
-    public int getInMachineCount() 
-    {
+    public int getInMachineCount() {
         return dimensionCount;
     }
 
-    public int getOutMachineCount()
-    {
-        return 1;         
+    public int getOutMachineCount() {
+        return 1;
     }
 
 
-    public Object clone() 
-    {
-        return new  BNewMultiArrayInst(getBaseType(), getDimensionCount());
+    public Object clone() {
+        return new BNewMultiArrayInst(getBaseType(), getDimensionCount());
     }
 
-    final public String getName() { return "newmultiarray"; }
-    final String getParameters()
-        { return " "+dimensionCount; }
+    final public String getName() {
+        return "newmultiarray";
+    }
+
+    final String getParameters() {
+        return " " + dimensionCount;
+    }
+
     protected void getParameters(UnitPrinter up) {
         up.literal(" ");
         up.literal(new Integer(dimensionCount).toString());
     }
 
-    public ArrayType getBaseType() { return baseType; }
-    public void setBaseType(ArrayType type) { baseType = type; }
+    public ArrayType getBaseType() {
+        return baseType;
+    }
 
-    public int getDimensionCount() { return dimensionCount; }
-    public void setDimensionCount(int x) { x = dimensionCount; }
+    public void setBaseType(ArrayType type) {
+        baseType = type;
+    }
+
+    public int getDimensionCount() {
+        return dimensionCount;
+    }
+
+    public void setDimensionCount(int x) {
+        x = dimensionCount;
+    }
 
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseNewMultiArrayInst(this);
     }
 

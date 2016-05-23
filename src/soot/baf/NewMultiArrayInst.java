@@ -27,11 +27,12 @@ package soot.baf;
 
 import soot.ArrayType;
 
-public interface NewMultiArrayInst extends Inst
-{
+public interface NewMultiArrayInst extends Inst {
     ArrayType getBaseType();
+
     void setBaseType(ArrayType type);
-    
+
     int getDimensionCount();
+
     void setDimensionCount(int count);
 }

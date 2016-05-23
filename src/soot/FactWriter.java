@@ -14,20 +14,17 @@ import static soot.PredicateFile.*;
  * @author Martin Bravenboer
  * @license MIT
  */
-public class FactWriter
-{
+public class FactWriter {
 
     private Database _db;
     private Representation _rep;
 
-    public FactWriter(Database db)
-    {
+    public FactWriter(Database db) {
         _db = db;
         _rep = new Representation();
     }
 
-     public void writeProperty(String path, String key, String value)
-    {
+    public void writeProperty(String path, String key, String value) {
         // Add heap allocations for string constants
         _db.add(STRING_CONST, _db.asEntity(path), _db.asEntity("java.lang.String"));
         _db.add(STRING_CONST, _db.asEntity(key), _db.asEntity("java.lang.String"));
@@ -39,17 +36,13 @@ public class FactWriter
                 _db.asEntity(value));
     }
 
-     public void writeClassOrInterfaceType(SootClass c)
-    {
+    public void writeClassOrInterfaceType(SootClass c) {
         String rep = _rep.type(c);
         Column col;
 
-        if(c.isInterface())
-        {
+        if (c.isInterface()) {
             col = _db.addEntity(INTERFACE_TYPE, rep);
-        }
-        else
-        {
+        } else {
             col = _db.addEntity(CLASS_TYPE, rep);
         }
 
@@ -59,22 +52,19 @@ public class FactWriter
                 col);
     }
 
-     public void writeDirectSuperclass(SootClass sub, SootClass sup)
-    {
+    public void writeDirectSuperclass(SootClass sub, SootClass sup) {
         _db.add(DIRECT_SUPER_CLASS,
                 writeType(sub),
                 writeType(sup));
     }
 
-     public void writeDirectSuperinterface(SootClass clazz, SootClass iface)
-    {
+    public void writeDirectSuperinterface(SootClass clazz, SootClass iface) {
         _db.add(DIRECT_SUPER_IFACE,
                 writeType(clazz),
                 writeType(iface));
     }
 
-     public Column writeType(SootClass c)
-    {
+    public Column writeType(SootClass c) {
         String result = _rep.type(c);
 
         // The type itself is already taken care of by writing the
@@ -84,33 +74,25 @@ public class FactWriter
         return _db.asEntity(result);
     }
 
-     public Column writeType(Type t)
-    {
+    public Column writeType(Type t) {
         String result = _rep.type(t);
         Column c;
 
-        if(t instanceof ArrayType)
-        {
+        if (t instanceof ArrayType) {
             c = _db.addEntity(ARRAY_TYPE, result);
             Type componentType = ((ArrayType) t).getElementType();
             _db.add(COMPONENT_TYPE, c, writeType(componentType));
-        }
-
-        else if(t instanceof PrimType || t instanceof NullType || t instanceof RefType || t instanceof VoidType || t instanceof BottomType)
-        {
+        } else if (t instanceof PrimType || t instanceof NullType || t instanceof RefType || t instanceof VoidType || t instanceof BottomType) {
             // taken care of by the standard facts
             c = _db.asEntity(result);
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("Don't know what to do with type " + t);
         }
 
         return c;
     }
 
-     public void writeEnterMonitor(SootMethod m, Stmt stmt, Local var, Session session)
-    {
+    public void writeEnterMonitor(SootMethod m, Stmt stmt, Local var, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -121,8 +103,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeExitMonitor(SootMethod m, Stmt stmt, Local var, Session session)
-    {
+    public void writeExitMonitor(SootMethod m, Stmt stmt, Local var, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -133,8 +114,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-    public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, Local from, Session session)
-    {
+    public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -146,8 +126,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, ThisRef ref, Session session)
-    {
+    public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, ThisRef ref, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -159,8 +138,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, ParameterRef ref, Session session)
-    {
+    public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, ParameterRef ref, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -172,8 +150,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignInvoke(SootMethod inMethod, Stmt stmt, Local to, InvokeExpr expr, Session session)
-    {
+    public void writeAssignInvoke(SootMethod inMethod, Stmt stmt, Local to, InvokeExpr expr, Session session) {
         String rep = writeInvokeHelper(inMethod, stmt, expr, session);
 
         _db.add(ASSIGN_RETURN_VALUE,
@@ -181,24 +158,21 @@ public class FactWriter
                 _db.asEntity(_rep.local(inMethod, to)));
     }
 
-     public void writeAssignHeapAllocation(SootMethod m, Stmt stmt, Local l, AnyNewExpr expr, Session session)
-    {
+    public void writeAssignHeapAllocation(SootMethod m, Stmt stmt, Local l, AnyNewExpr expr, Session session) {
         String heap = _rep.heapAlloc(m, expr, session);
 
         _db.add(NORMAL_OBJ,
                 _db.asEntity(heap),
                 writeType(expr.getType()));
 
-        if(expr instanceof NewArrayExpr)
-        {
+        if (expr instanceof NewArrayExpr) {
             NewArrayExpr newArray = (NewArrayExpr) expr;
             Value sizeVal = newArray.getSize();
 
-            if(sizeVal instanceof IntConstant)
-            {
+            if (sizeVal instanceof IntConstant) {
                 IntConstant size = (IntConstant) sizeVal;
 
-                if(size.value == 0)
+                if (size.value == 0)
                     _db.add(EMPTY_ARRAY,
                             _db.asEntity(heap));
             }
@@ -217,8 +191,7 @@ public class FactWriter
 
     }
 
-    private Type getComponentType(ArrayType type)
-    {
+    private Type getComponentType(ArrayType type) {
         // Soot calls the component type of an array type the "element
         // type", which is rather confusing, since in an array type
         // A[][][], the JVM Spec defines A to be the element type, and
@@ -231,14 +204,12 @@ public class FactWriter
      * be allocated separately for every dimension of the array.
      */
 
-    public void writeAssignNewMultiArrayExpr(SootMethod m, Stmt stmt, Local l, NewMultiArrayExpr expr, Session session)
-    {
-        writeAssignNewMultiArrayExprHelper(m, stmt, l, _rep.local(m,l), expr, (ArrayType) expr.getType(), session);
+    public void writeAssignNewMultiArrayExpr(SootMethod m, Stmt stmt, Local l, NewMultiArrayExpr expr, Session session) {
+        writeAssignNewMultiArrayExprHelper(m, stmt, l, _rep.local(m, l), expr, (ArrayType) expr.getType(), session);
     }
 
 
-    private void writeAssignNewMultiArrayExprHelper(SootMethod m, Stmt stmt, Local l, String assignTo, NewMultiArrayExpr expr, ArrayType arrayType, Session session)
-    {
+    private void writeAssignNewMultiArrayExprHelper(SootMethod m, Stmt stmt, Local l, String assignTo, NewMultiArrayExpr expr, ArrayType arrayType, Session session) {
         String heap = _rep.heapMultiArrayAlloc(m, expr, arrayType, session);
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
@@ -327,8 +298,7 @@ public class FactWriter
     }
     */
 
-     public void writeAssignStringConstant(SootMethod m, Stmt stmt, Local l, StringConstant s, Session session)
-    {
+    public void writeAssignStringConstant(SootMethod m, Stmt stmt, Local l, StringConstant s, Session session) {
         String heap = _rep.stringconstant(m, s);
 
         // statement
@@ -346,8 +316,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignNull(SootMethod m, Stmt stmt, Local l,  Session session)
-    {
+    public void writeAssignNull(SootMethod m, Stmt stmt, Local l, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -358,8 +327,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignNumConstant(SootMethod m, Stmt stmt, Local l, NumericConstant constant, Session session)
-    {
+    public void writeAssignNumConstant(SootMethod m, Stmt stmt, Local l, NumericConstant constant, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -371,8 +339,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignClassConstant(SootMethod m, Stmt stmt, Local l, ClassConstant constant, Session session)
-    {
+    public void writeAssignClassConstant(SootMethod m, Stmt stmt, Local l, ClassConstant constant, Session session) {
         // System.err.println("class constant " + constant + " in " + m);
         String s = constant.getValue().replace('/', '.');
 
@@ -383,8 +350,7 @@ public class FactWriter
            types seem to have been translated to a syntax with the initial
            L, but arrays are still represented as [, for example [C for
            char[] */
-        if(s.charAt(0) == '[')
-        {
+        if (s.charAt(0) == '[') {
             // array type
             Type t = soot.coffi.Util.v().jimpleTypeOfFieldDescriptor(s);
 
@@ -393,16 +359,13 @@ public class FactWriter
             //_db.add("ReifiedClass", _db.asEntity(_rep.type(t)), _db.asEntity(heap));
 
             // TODO only classes have their heap allocation type written already
-        }
-        else
-        {
+        } else {
             SootClass c = soot.Scene.v().getSootClass(s);
-            if(c == null)
-            {
+            if (c == null) {
                 throw new RuntimeException("Unexpected class constant: " + constant);
             }
 
-            heap =  _rep.classconstant(c);
+            heap = _rep.classconstant(c);
             actualType = _rep.type(c);
         }
 
@@ -424,8 +387,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeAssignCast(SootMethod m, Stmt stmt, Local to, Local from, Type t, Session session)
-    {
+    public void writeAssignCast(SootMethod m, Stmt stmt, Local to, Local from, Type t, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -438,8 +400,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeStoreInstanceField(SootMethod m, Stmt stmt, SootField f, Local base, Local from, Session session)
-    {
+    public void writeStoreInstanceField(SootMethod m, Stmt stmt, SootField f, Local base, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -452,8 +413,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeLoadInstanceField(SootMethod m, Stmt stmt, SootField f, Local base, Local to, Session session)
-    {
+    public void writeLoadInstanceField(SootMethod m, Stmt stmt, SootField f, Local base, Local to, Session session) {
         int index = session.calcUnitNumber(stmt);
 
         String rep = _rep.instruction(m, stmt, session, index);
@@ -467,8 +427,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeStoreStaticField(SootMethod m, Stmt stmt, SootField f, Local from, Session session)
-    {
+    public void writeStoreStaticField(SootMethod m, Stmt stmt, SootField f, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -480,8 +439,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeLoadStaticField(SootMethod m, Stmt stmt, SootField f, Local to, Session session)
-    {
+    public void writeLoadStaticField(SootMethod m, Stmt stmt, SootField f, Local to, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -493,8 +451,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeLoadArrayIndex(SootMethod m, Stmt stmt, Local base, Local to, Session session)
-    {
+    public void writeLoadArrayIndex(SootMethod m, Stmt stmt, Local base, Local to, Session session) {
         int index = session.calcUnitNumber(stmt);
 
         String rep = _rep.instruction(m, stmt, session, index);
@@ -507,8 +464,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeStoreArrayIndex(SootMethod m, Stmt stmt, Local base, Local from, Session session)
-    {
+    public void writeStoreArrayIndex(SootMethod m, Stmt stmt, Local base, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -520,14 +476,12 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeApplicationClass(SootClass application)
-    {
+    public void writeApplicationClass(SootClass application) {
         _db.add(APP_CLASS,
                 writeType(application));
     }
 
-     public void writeFieldSignature(SootField f)
-    {
+    public void writeFieldSignature(SootField f) {
         _db.add(FIELD_SIGNATURE,
                 _db.asEntity(_rep.signature(f)),
                 writeType(f.getDeclaringClass()),
@@ -535,15 +489,13 @@ public class FactWriter
                 writeType(f.getType()));
     }
 
-     public void writeFieldModifier(SootField f, String modifier)
-    {
+    public void writeFieldModifier(SootField f, String modifier) {
         _db.add(FIELD_MODIFIER,
                 _db.asEntity(_rep.modifier(modifier)),
                 _db.asEntity(FIELD_SIGNATURE, _rep.signature(f)));
     }
 
-     public void writeMethodSignature(SootMethod m)
-    {
+    public void writeMethodSignature(SootMethod m) {
         _db.add(METHOD_SIGNATURE,
                 _db.asEntity(_rep.signature(m)),
                 _db.asEntity(_rep.simpleName(m)),
@@ -552,15 +504,13 @@ public class FactWriter
                 writeType(m.getReturnType()));
     }
 
-     public void writeMethodModifier(SootMethod m, String modifier)
-    {
+    public void writeMethodModifier(SootMethod m, String modifier) {
         _db.add(METHOD_MODIFIER,
                 _db.asEntity(_rep.modifier(modifier)),
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeReturn(SootMethod m, Stmt stmt, Local l, Session session)
-    {
+    public void writeReturn(SootMethod m, Stmt stmt, Local l, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -571,8 +521,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeReturnVoid(SootMethod m, Stmt stmt, Session session)
-    {
+    public void writeReturnVoid(SootMethod m, Stmt stmt, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.instruction(m, stmt, session, index);
 
@@ -584,10 +533,8 @@ public class FactWriter
 
     // The return var of native methods is exceptional, in that it does not
     // correspond to a return instruction.
-     public void writeNativeReturnVar(SootMethod m)
-    {
-        if(!(m.getReturnType() instanceof VoidType))
-        {
+    public void writeNativeReturnVar(SootMethod m) {
+        if (!(m.getReturnType() instanceof VoidType)) {
             _db.add(NATIVE_RETURN_VAR,
                     _db.asEntity(_rep.nativeReturnVar(m)),
                     _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
@@ -602,8 +549,7 @@ public class FactWriter
         }
     }
 
-     public void writeGoto(SootMethod m, Stmt stmt, Unit to, Session session)
-    {
+    public void writeGoto(SootMethod m, Stmt stmt, Unit to, Session session) {
         // index was already computed earlier
         int index = session.getUnitNumber(stmt);
 
@@ -625,8 +571,7 @@ public class FactWriter
     /**
      * If
      */
-     public void writeIf(SootMethod m, Stmt stmt, Unit to, Session session)
-    {
+    public void writeIf(SootMethod m, Stmt stmt, Unit to, Session session) {
         // index was already computed earlier
         int index = session.getUnitNumber(stmt);
 
@@ -645,13 +590,12 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeTableSwitch(SootMethod inMethod, TableSwitchStmt stmt, Session session)
-    {
+    public void writeTableSwitch(SootMethod inMethod, TableSwitchStmt stmt, Session session) {
         int stmtIndex = session.getUnitNumber(stmt);
 
         Value v = writeImmediate(inMethod, stmt, stmt.getKey(), session);
 
-        if(!(v instanceof Local))
+        if (!(v instanceof Local))
             throw new RuntimeException("Unexpected key for TableSwitch statement " + v + " " + v.getClass());
 
         Local l = (Local) v;
@@ -664,8 +608,7 @@ public class FactWriter
                 _db.asEntity(_rep.local(inMethod, l)),
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(inMethod)));
 
-        for(int tgIndex = stmt.getLowIndex(), i = 0; tgIndex <= stmt.getHighIndex(); tgIndex++, i++)
-        {
+        for (int tgIndex = stmt.getLowIndex(), i = 0; tgIndex <= stmt.getHighIndex(); tgIndex++, i++) {
             int indexTo = session.getUnitNumber(stmt.getTarget(i));
 
             _db.add(TABLE_SWITCH_TARGET,
@@ -681,13 +624,12 @@ public class FactWriter
                 _db.asIntColumn(String.valueOf(defaultIndex)));
     }
 
-     public void writeLookupSwitch(SootMethod inMethod, LookupSwitchStmt stmt, Session session)
-    {
+    public void writeLookupSwitch(SootMethod inMethod, LookupSwitchStmt stmt, Session session) {
         int stmtIndex = session.getUnitNumber(stmt);
 
         Value v = writeImmediate(inMethod, stmt, stmt.getKey(), session);
 
-        if(!(v instanceof Local))
+        if (!(v instanceof Local))
             throw new RuntimeException("Unexpected key for TableSwitch statement " + v + " " + v.getClass());
 
         Local l = (Local) v;
@@ -700,8 +642,7 @@ public class FactWriter
                 _db.asEntity(_rep.local(inMethod, l)),
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(inMethod)));
 
-        for(int i = 0, end = stmt.getTargetCount(); i < end; i++)
-        {
+        for (int i = 0, end = stmt.getTargetCount(); i < end; i++) {
             int tgIndex = stmt.getLookupValue(i);
             int indexTo = session.getUnitNumber(stmt.getTarget(i));
 
@@ -720,8 +661,7 @@ public class FactWriter
                 _db.asIntColumn(String.valueOf(defaultIndex)));
     }
 
-     public void writeUnsupported(SootMethod m, Stmt stmt, Session session)
-    {
+    public void writeUnsupported(SootMethod m, Stmt stmt, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.unsupported(m, stmt, session, index);
 
@@ -736,8 +676,7 @@ public class FactWriter
     /**
      * Throw statement
      */
-     public void writeThrow(SootMethod m, Stmt stmt, Local l, Session session)
-    {
+    public void writeThrow(SootMethod m, Stmt stmt, Local l, Session session) {
         int index = session.calcUnitNumber(stmt);
         String rep = _rep.throwLocal(m, l, session);
 
@@ -748,15 +687,13 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeExceptionHandlerPrevious(SootMethod m, Trap current, Trap previous, Session session)
-    {
+    public void writeExceptionHandlerPrevious(SootMethod m, Trap current, Trap previous, Session session) {
         _db.add(EXCEPT_HANDLER_PREV,
                 _db.asEntity(_rep.handler(m, current, session)),
                 _db.asEntity(_rep.handler(m, previous, session)));
     }
 
-     public void writeExceptionHandler(SootMethod m, Trap handler, Session session)
-    {
+    public void writeExceptionHandler(SootMethod m, Trap handler, Session session) {
         SootClass exc = handler.getException();
 
         Local caught;
@@ -767,12 +704,9 @@ public class FactWriter
             Value right = stmt.getRightOp();
 
 
-            if(right instanceof CaughtExceptionRef && left instanceof Local)
-            {
+            if (right instanceof CaughtExceptionRef && left instanceof Local) {
                 caught = (Local) left;
-            }
-            else
-            {
+            } else {
                 throw new RuntimeException("Unexpected start of exception handler: " + handlerUnit);
             }
         }
@@ -805,8 +739,7 @@ public class FactWriter
                 _db.asIntColumn(String.valueOf(session.getUnitNumber(handler.getEndUnit()))));
     }
 
-     public void writeThisVar(SootMethod m)
-    {
+    public void writeThisVar(SootMethod m) {
         _db.add(THIS_VAR,
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)),
                 _db.asEntity(_rep.thisVar(m)));
@@ -820,15 +753,13 @@ public class FactWriter
                 _db.asEntity(_rep.method(m)));
     }
 
-     public void writeMethodDeclaresException(SootMethod m, SootClass exception)
-    {
+    public void writeMethodDeclaresException(SootMethod m, SootClass exception) {
         _db.add(METHOD_DECL_EXCEPTION,
                 writeType(exception),
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public void writeFormalParam(SootMethod m, int i)
-    {
+    public void writeFormalParam(SootMethod m, int i) {
         _db.add(FORMAL_PARAM,
                 _db.asIntColumn(_rep.index(i)),
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)),
@@ -843,8 +774,7 @@ public class FactWriter
                 _db.asEntity(_rep.method(m)));
     }
 
-     public void writeLocal(SootMethod m, Local l)
-    {
+    public void writeLocal(SootMethod m, Local l) {
         _db.add(VAR_TYPE,
                 _db.asEntity(_rep.local(m, l)),
                 writeType(l.getType()));
@@ -854,8 +784,7 @@ public class FactWriter
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
 
-     public Local writeStringConstantExpression(SootMethod inMethod, Stmt stmt, StringConstant constant, Session session)
-    {
+    public Local writeStringConstantExpression(SootMethod inMethod, Stmt stmt, StringConstant constant, Session session) {
         // introduce a new temporary variable
         String basename = "$stringconstant";
         String varname = basename + session.nextNumber(basename);
@@ -865,8 +794,7 @@ public class FactWriter
         return l;
     }
 
-     public Local writeNullExpression(SootMethod inMethod, Stmt stmt, Type type, Session session)
-    {
+    public Local writeNullExpression(SootMethod inMethod, Stmt stmt, Type type, Session session) {
         // introduce a new temporary variable
         String basename = "$null";
         String varname = basename + session.nextNumber(basename);
@@ -876,8 +804,7 @@ public class FactWriter
         return l;
     }
 
-     public Local writeNumConstantExpression(SootMethod inMethod, Stmt stmt, NumericConstant constant, Session session)
-    {
+    public Local writeNumConstantExpression(SootMethod inMethod, Stmt stmt, NumericConstant constant, Session session) {
         // introduce a new temporary variable
         String basename = "$numconstant";
         String varname = basename + session.nextNumber(basename);
@@ -887,8 +814,7 @@ public class FactWriter
         return l;
     }
 
-     public Local writeClassConstantExpression(SootMethod inMethod, Stmt stmt, ClassConstant constant, Session session)
-    {
+    public Local writeClassConstantExpression(SootMethod inMethod, Stmt stmt, ClassConstant constant, Session session) {
         // introduce a new temporary variable
         String basename = "$classconstant";
         String varname = basename + session.nextNumber(basename);
@@ -898,60 +824,45 @@ public class FactWriter
         return l;
     }
 
-     private void writeActualParams(SootMethod inMethod, Stmt stmt, InvokeExpr expr, String invokeExprRepr, Session session)
-    {
-        for(int i = 0; i < expr.getArgCount(); i++)
-        {
+    private void writeActualParams(SootMethod inMethod, Stmt stmt, InvokeExpr expr, String invokeExprRepr, Session session) {
+        for (int i = 0; i < expr.getArgCount(); i++) {
             Value v = expr.getArg(i);
 
-            if(v instanceof StringConstant)
-            {
+            if (v instanceof StringConstant) {
                 v = writeStringConstantExpression(inMethod, stmt, (StringConstant) v, session);
-            }
-            else if(v instanceof ClassConstant)
-            {
+            } else if (v instanceof ClassConstant) {
                 v = writeClassConstantExpression(inMethod, stmt, (ClassConstant) v, session);
-            }
-            else if(v instanceof NumericConstant)
-            {
+            } else if (v instanceof NumericConstant) {
                 v = writeNumConstantExpression(inMethod, stmt, (NumericConstant) v, session);
-            }
-            else if(v instanceof NullConstant)
-            {
+            } else if (v instanceof NullConstant) {
                 // Giving the type of the formal argument to be used in the creation of
                 // temporary var for the actual argument (whose value is null).
                 Type argType = expr.getMethodRef().parameterType(i);
                 v = writeNullExpression(inMethod, stmt, argType, session);
             }
 
-            if(v instanceof Local)
-            {
+            if (v instanceof Local) {
                 Local l = (Local) v;
                 _db.add(ACTUAL_PARAMETER,
                         _db.asIntColumn(_rep.index(i)),
                         _db.asEntity(invokeExprRepr),
                         _db.asEntity(_rep.local(inMethod, l)));
-            }
-            else
-            {
+            } else {
                 throw new RuntimeException("Unknown actual parameter: " + v + " " + v.getClass());
             }
         }
     }
 
-     public void writeInvoke(SootMethod inMethod, Stmt stmt, InvokeExpr expr, Session session)
-    {
+    public void writeInvoke(SootMethod inMethod, Stmt stmt, InvokeExpr expr, Session session) {
         writeInvokeHelper(inMethod, stmt, expr, session);
     }
 
-     private String writeInvokeHelper(SootMethod inMethod, Stmt stmt, InvokeExpr expr, Session session)
-    {
+    private String writeInvokeHelper(SootMethod inMethod, Stmt stmt, InvokeExpr expr, Session session) {
         String rep = _rep.invoke(inMethod, expr, session);
         writeActualParams(inMethod, stmt, expr, rep, session);
 
         LineNumberTag tag = (LineNumberTag) stmt.getTag("LineNumberTag");
-        if(tag != null)
-        {
+        if (tag != null) {
             _db.add(METHOD_INV_LINENUM,
                     _db.asEntity(rep),
                     _db.asIntColumn(String.valueOf(tag.getLineNumber())));
@@ -959,52 +870,39 @@ public class FactWriter
 
         Column index = _db.asIntColumn(String.valueOf(session.calcUnitNumber(stmt)));
 
-        if(expr instanceof StaticInvokeExpr)
-        {
+        if (expr instanceof StaticInvokeExpr) {
             _db.add(STATIC_METHOD_INV,
                     _db.asEntity(rep),
                     index,
                     _db.asEntity(_rep.signature(expr.getMethod())),
                     _db.asEntity(_rep.method(inMethod)));
-        }
-        else if(expr instanceof VirtualInvokeExpr || expr instanceof InterfaceInvokeExpr)
-        {
+        } else if (expr instanceof VirtualInvokeExpr || expr instanceof InterfaceInvokeExpr) {
             _db.add(VIRTUAL_METHOD_INV,
                     _db.asEntity(rep),
                     index,
                     _db.asEntity(_rep.signature(expr.getMethod())),
                     _db.asEntity(_rep.local(inMethod, (Local) ((InstanceInvokeExpr) expr).getBase())),
                     _db.asEntity(_rep.method(inMethod)));
-        }
-        else if(expr instanceof SpecialInvokeExpr)
-        {
+        } else if (expr instanceof SpecialInvokeExpr) {
             _db.add(SPECIAL_METHOD_INV,
                     _db.asEntity(rep),
                     index,
                     _db.asEntity(_rep.signature(expr.getMethod())),
                     _db.asEntity(_rep.local(inMethod, (Local) ((InstanceInvokeExpr) expr).getBase())),
                     _db.asEntity(_rep.method(inMethod)));
-        }
-        else
-        {
+        } else {
             throw new RuntimeException("Cannot handle invoke expr: " + expr);
         }
 
         return rep;
     }
 
-     private Value writeImmediate(SootMethod inMethod, Stmt stmt, Value v, Session session)
-    {
-        if(v instanceof StringConstant)
-        {
+    private Value writeImmediate(SootMethod inMethod, Stmt stmt, Value v, Session session) {
+        if (v instanceof StringConstant) {
             v = writeStringConstantExpression(inMethod, stmt, (StringConstant) v, session);
-        }
-        else if(v instanceof ClassConstant)
-        {
+        } else if (v instanceof ClassConstant) {
             v = writeClassConstantExpression(inMethod, stmt, (ClassConstant) v, session);
-        }
-        else if(v instanceof NumericConstant)
-        {
+        } else if (v instanceof NumericConstant) {
             v = writeNumConstantExpression(inMethod, stmt, (NumericConstant) v, session);
         }
 

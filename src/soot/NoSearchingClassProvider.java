@@ -13,7 +13,7 @@ import java.util.zip.ZipFile;
  * class files are added to the provider. In this way, it does not
  * matter at all where your classes are: the provider will never
  * return a class it accidentally found on the search path.
- *
+ * <p>
  * This provider does allow archives, which are considered in the
  * order in which they've been added to the provider. It does,
  * however, warn if the same class file is added twice.
@@ -54,9 +54,10 @@ public class NoSearchingClassProvider implements ClassProvider {
         return addClass(entry.getName(), new ZipEntryResource(archive, entry));
     }
 
-    /** Adds a properties file in a zip/jar archive. */
-    public void addProperties(ZipFile archive, ZipEntry entry) throws IOException
-    {
+    /**
+     * Adds a properties file in a zip/jar archive.
+     */
+    public void addProperties(ZipFile archive, ZipEntry entry) throws IOException {
         addProperties(entry.getName(), new ZipEntryResource(archive, entry));
     }
 
@@ -70,20 +71,18 @@ public class NoSearchingClassProvider implements ClassProvider {
         try {
             stream = resource.open();
             c.loadClassFile(stream);
-        }
-        finally {
-            if(stream != null) {
+        } finally {
+            if (stream != null) {
                 stream.close();
             }
         }
 
         String className = c.toString().replace('/', '.');
 
-        if(_classes.containsKey(className)) {
+        if (_classes.containsKey(className)) {
             throw new RuntimeException(
-                "class " + className + " has already been added to this class provider");
-        }
-        else {
+                    "class " + className + " has already been added to this class provider");
+        } else {
             _classes.put(className, resource);
         }
 
@@ -94,20 +93,17 @@ public class NoSearchingClassProvider implements ClassProvider {
      * Adds a properties file from a resource.
      */
     public void addProperties(String path, Resource resource)
-        throws IOException
-    {
+            throws IOException {
         Properties properties = new Properties();
         InputStream stream = resource.open();
 
         try {
             properties.load(stream);
-        }
-        catch (IOException exc) {
+        } catch (IOException exc) {
             properties.clear();
             properties.loadFromXML(stream);
-        }
-        finally {
-            if(stream != null)
+        } finally {
+            if (stream != null)
                 stream.close();
         }
 
@@ -122,14 +118,14 @@ public class NoSearchingClassProvider implements ClassProvider {
 
         ZipFile archive = new ZipFile(f);
         Enumeration<? extends ZipEntry> entries = archive.entries();
-        while(entries.hasMoreElements()) {
+        while (entries.hasMoreElements()) {
             ZipEntry entry = entries.nextElement();
-            if(entry.getName().endsWith(".class")) {
+            if (entry.getName().endsWith(".class")) {
                 String className = addClass(archive, entry);
                 result.add(className);
             }
 
-            if(entry.getName().endsWith(".properties"))
+            if (entry.getName().endsWith(".properties"))
                 addProperties(archive, entry);
         }
 
@@ -150,30 +146,28 @@ public class NoSearchingClassProvider implements ClassProvider {
     public ClassSource find(String className) {
         Resource resource = _classes.get(className);
 
-        if(resource == null) {
+        if (resource == null) {
             String fileName = className.replace('.', '/') + ".class";
 
-            for(ZipFile archive : _archives) {
+            for (ZipFile archive : _archives) {
                 ZipEntry entry = archive.getEntry(fileName);
-                if(entry != null) {
+                if (entry != null) {
                     resource = new ZipEntryResource(archive, entry);
                     break;
                 }
             }
         }
 
-        if(resource == null) {
+        if (resource == null) {
             return null;
-        }
-        else {
+        } else {
 
             try {
                 InputStream stream = resource.open();
                 //// (YS) We may need the change below for future Soot versions
                 //// (found out by trying a nightly build of Soot).
                 return new CoffiClassSource(className, stream, null, null);
-            }
-            catch(IOException exc) {
+            } catch (IOException exc) {
                 throw new RuntimeException(exc);
             }
         }
@@ -182,7 +176,7 @@ public class NoSearchingClassProvider implements ClassProvider {
     /**
      * A resource is something to which we can open an InputStream 1 or
      * more times.
-     *
+     * <p>
      * Similar to FoundFile in SourceLocator, which is not accessible.
      */
     public interface Resource {
@@ -218,29 +212,27 @@ public class NoSearchingClassProvider implements ClassProvider {
             _entry = entry;
         }
 
-        public InputStream open() throws IOException {
-            return doJDKBugWorkaround(_archive.getInputStream(_entry), _entry.getSize());
-        }
-
         /**
          * Copied from SourceLocator because FoundFile is not accessible
          * outside the soot package.
          */
         private static InputStream doJDKBugWorkaround(InputStream is, long size)
-            throws IOException
-        {
+                throws IOException {
             int sz = (int) size;
             byte[] buf = new byte[sz];
 
             final int N = 1024;
             int ln = 0;
             int count = 0;
-            while (sz > 0 && (ln = is.read(buf, count, Math.min(N, sz))) != -1)
-            {
+            while (sz > 0 && (ln = is.read(buf, count, Math.min(N, sz))) != -1) {
                 count += ln;
                 sz -= ln;
             }
-            return  new ByteArrayInputStream(buf);
+            return new ByteArrayInputStream(buf);
+        }
+
+        public InputStream open() throws IOException {
+            return doJDKBugWorkaround(_archive.getInputStream(_entry), _entry.getSize());
         }
     }
 }

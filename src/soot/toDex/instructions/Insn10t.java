@@ -13,20 +13,20 @@ import soot.toDex.LabelAssigner;
  */
 public class Insn10t extends InsnWithOffset {
 
-	public Insn10t(Opcode opc) {
-		super(opc);
-	}
+    public Insn10t(Opcode opc) {
+        super(opc);
+    }
 
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		if (target == null)
-			throw new RuntimeException("Cannot jump to a NULL target");
-		return new BuilderInstruction10t(opc, assigner.getOrCreateLabel(target));
-	}
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        if (target == null)
+            throw new RuntimeException("Cannot jump to a NULL target");
+        return new BuilderInstruction10t(opc, assigner.getOrCreateLabel(target));
+    }
 
-	@Override
-	public int getMaxJumpOffset() {
-		return Byte.MAX_VALUE;
-	}
+    @Override
+    public int getMaxJumpOffset() {
+        return Byte.MAX_VALUE;
+    }
 
 }

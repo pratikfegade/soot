@@ -24,18 +24,16 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Value;
 import soot.ValueBox;
 
-public interface ReturnStmt extends Stmt
-{
+public interface ReturnStmt extends Stmt {
     ValueBox getOpBox();
-    void setOp(Value returnValue);
+
     Value getOp();
+
+    void setOp(Value returnValue);
 }
 

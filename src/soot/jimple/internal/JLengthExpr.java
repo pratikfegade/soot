@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.Unit;
@@ -39,24 +35,23 @@ import soot.jimple.JimpleToBafContext;
 
 import java.util.List;
 
-public class JLengthExpr extends AbstractLengthExpr implements ConvertToBaf
-{
-    public JLengthExpr(Value op) { super(Jimple.v().newImmediateBox(op)); }
+public class JLengthExpr extends AbstractLengthExpr implements ConvertToBaf {
+    public JLengthExpr(Value op) {
+        super(Jimple.v().newImmediateBox(op));
+    }
 
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        ((ConvertToBaf)(getOp())).convertToBaf(context, out);
-	
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getOp())).convertToBaf(context, out);
+
         Unit u = Baf.v().newArrayLengthInst();
         u.addAllTagsOf(context.getCurrentUnit());
         out.add(u);
     }
-  
 
-  public Object clone() 
-  {
-    return new JLengthExpr(Jimple.cloneIfNecessary(getOp()));
-  }
+
+    public Object clone() {
+        return new JLengthExpr(Jimple.cloneIfNecessary(getOp()));
+    }
 
 }

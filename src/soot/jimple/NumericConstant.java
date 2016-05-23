@@ -25,8 +25,7 @@
 
 package soot.jimple;
 
-public abstract class NumericConstant extends Constant
-{
+public abstract class NumericConstant extends Constant {
     // PTC 1999/06/28
     public abstract NumericConstant add(NumericConstant c);
 

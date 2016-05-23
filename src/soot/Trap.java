@@ -28,74 +28,98 @@ package soot;
 
 import java.util.List;
 
-/** A trap (exception catcher), used within Body
+/**
+ * A trap (exception catcher), used within Body
  * classes.  Intermediate representations must use an implementation
  * of Trap to describe caught exceptions.
- *  */
-public interface Trap extends UnitBoxOwner
-{
-    /** <p>Returns the first trapped unit, unless this <code>Trap</code> 
-     *  does not trap any units at all.</p>
-     *
-     *  <p>If this is a degenerate <code>Trap</code> which
-     *  traps no units (which can occur if all the units originally trapped by
-     *  the exception handler have been optimized away), returns an
-     *  untrapped unit. The returned unit will likely be the first unit
-     *  remaining after the point where the trapped units were once
-     *  located, but the only guarantee provided is that for such an
-     *  empty trap, <code>getBeginUnit()</code> will return the same value 
-     *  as {@link #getEndUnit()}.</p>
+ */
+public interface Trap extends UnitBoxOwner {
+    /**
+     * <p>Returns the first trapped unit, unless this <code>Trap</code>
+     * does not trap any units at all.</p>
+     * <p>
+     * <p>If this is a degenerate <code>Trap</code> which
+     * traps no units (which can occur if all the units originally trapped by
+     * the exception handler have been optimized away), returns an
+     * untrapped unit. The returned unit will likely be the first unit
+     * remaining after the point where the trapped units were once
+     * located, but the only guarantee provided is that for such an
+     * empty trap, <code>getBeginUnit()</code> will return the same value
+     * as {@link #getEndUnit()}.</p>
      */
     Unit getBeginUnit();
 
-    /** <p>Returns the unit following the last trapped unit (that is, the
-     *  first succeeding untrapped unit in the underlying 
-     *  <Code>Chain</code>), unless this <code>Trap</code> does not trap
-     *  any units at all.</p>
-     *
-     *  <p>In the case of a degenerate <code>Trap</code> which traps
-     *  no units, returns the same untrapped unit as
-     *  <code>getBeginUnit()</code></p>
-     *
-     *  <p>Note that a weakness of marking the end of the trapped region
-     *  with the first untrapped unit is that Soot has no good mechanism
-     *  for describing a <code>Trap</code> which traps the last unit 
-     *  in a method.</p>
+    /**
+     * Sets the value to be returned by {@link #getBeginUnit()} to
+     * <code>beginUnit</code>.
+     */
+    void setBeginUnit(Unit beginUnit);
+
+    /**
+     * <p>Returns the unit following the last trapped unit (that is, the
+     * first succeeding untrapped unit in the underlying
+     * <Code>Chain</code>), unless this <code>Trap</code> does not trap
+     * any units at all.</p>
+     * <p>
+     * <p>In the case of a degenerate <code>Trap</code> which traps
+     * no units, returns the same untrapped unit as
+     * <code>getBeginUnit()</code></p>
+     * <p>
+     * <p>Note that a weakness of marking the end of the trapped region
+     * with the first untrapped unit is that Soot has no good mechanism
+     * for describing a <code>Trap</code> which traps the last unit
+     * in a method.</p>
      */
     Unit getEndUnit();
 
-    /** Returns the unit handling the exception being trapped. */
-    Unit getHandlerUnit();
-
-    /** Returns the box holding the unit returned by {@link #getBeginUnit()}. */
-    UnitBox getBeginUnitBox();
-
-    /** Returns the box holding the unit returned by {@link #getEndUnit()}. */
-    UnitBox getEndUnitBox();
-
-    /** Returns the box holding the exception handler's unit. */
-    UnitBox getHandlerUnitBox();
-
-    /** Returns the boxes for first, last and handler units. */
-    List<UnitBox> getUnitBoxes();
-
-    /** Returns the exception being caught. */
-    SootClass getException();
-
-    /** Sets the value to be returned by {@link #getBeginUnit()} to 
-     *  <code>beginUnit</code>. */
-    void setBeginUnit(Unit beginUnit);
-
-    /** Sets the value to be returned by {@link #getEndUnit()} to 
-     *  <code>endUnit</code>. */
+    /**
+     * Sets the value to be returned by {@link #getEndUnit()} to
+     * <code>endUnit</code>.
+     */
     void setEndUnit(Unit endUnit);
 
-    /** Sets the unit handling the exception to <code>handlerUnit</code>. */
+    /**
+     * Returns the unit handling the exception being trapped.
+     */
+    Unit getHandlerUnit();
+
+    /**
+     * Sets the unit handling the exception to <code>handlerUnit</code>.
+     */
     void setHandlerUnit(Unit handlerUnit);
 
-    /** Sets the exception being caught to <code>exception</code>. */
+    /**
+     * Returns the box holding the unit returned by {@link #getBeginUnit()}.
+     */
+    UnitBox getBeginUnitBox();
+
+    /**
+     * Returns the box holding the unit returned by {@link #getEndUnit()}.
+     */
+    UnitBox getEndUnitBox();
+
+    /**
+     * Returns the box holding the exception handler's unit.
+     */
+    UnitBox getHandlerUnitBox();
+
+    /**
+     * Returns the boxes for first, last and handler units.
+     */
+    List<UnitBox> getUnitBoxes();
+
+    /**
+     * Returns the exception being caught.
+     */
+    SootClass getException();
+
+    /**
+     * Sets the exception being caught to <code>exception</code>.
+     */
     void setException(SootClass exception);
 
-    /** Performs a shallow clone of this trap. */
+    /**
+     * Performs a shallow clone of this trap.
+     */
     Object clone();
 }

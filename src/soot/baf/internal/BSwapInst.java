@@ -24,12 +24,6 @@
  */
 
 
-
-
-
-
-
-
 package soot.baf.internal;
 
 import soot.DoubleType;
@@ -40,79 +34,68 @@ import soot.baf.InstSwitch;
 import soot.baf.SwapInst;
 import soot.util.Switch;
 
-public class BSwapInst extends AbstractInst implements SwapInst
-{
+public class BSwapInst extends AbstractInst implements SwapInst {
 
     protected Type mFromType, mToType;
-    
 
-    public BSwapInst(Type fromType, Type toType)
-    {
 
-        if(fromType instanceof LongType || fromType instanceof DoubleType)
-            throw  new RuntimeException("fromType is LongType or DoubleType !");
-        if(toType instanceof LongType || toType instanceof DoubleType)
-            throw  new RuntimeException("toType is LongType or DoubleType !");
-        
+    public BSwapInst(Type fromType, Type toType) {
+
+        if (fromType instanceof LongType || fromType instanceof DoubleType)
+            throw new RuntimeException("fromType is LongType or DoubleType !");
+        if (toType instanceof LongType || toType instanceof DoubleType)
+            throw new RuntimeException("toType is LongType or DoubleType !");
+
         mFromType = Baf.getDescriptorTypeOf(fromType);
         mToType = Baf.getDescriptorTypeOf(toType);
     }
 
-    public Type getFromType()
-    {
+    public Type getFromType() {
         return mFromType;
     }
-    public void setFromType(Type fromType)
-    {
+
+    public void setFromType(Type fromType) {
         mFromType = fromType;
     }
-    
-    public Type getToType()
-    {
+
+    public Type getToType() {
         return mToType;
     }
-    
-    public void setToType(Type toType)
-    {
+
+    public void setToType(Type toType) {
         mToType = toType;
     }
 
 
-
-    public int getInCount()
-    {
+    public int getInCount() {
         return 2;
     }
 
-    public int getInMachineCount()
-    {
-        return 2;
-    }
-    
-    public int getOutCount()
-    {
+    public int getInMachineCount() {
         return 2;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutCount() {
         return 2;
     }
-    
-    public void apply(Switch sw)
-    {
+
+    public int getOutMachineCount() {
+        return 2;
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseSwapInst(this);
-    }   
-    
-    public String toString()
-    {
-        return "swap." + Baf.bafDescriptorOf(mFromType)  + Baf.bafDescriptorOf(mToType);
     }
-    
-    
-    public String getName() {return "swap";}
- 
-    
+
+    public String toString() {
+        return "swap." + Baf.bafDescriptorOf(mFromType) + Baf.bafDescriptorOf(mToType);
+    }
+
+
+    public String getName() {
+        return "swap";
+    }
+
 
 }
 

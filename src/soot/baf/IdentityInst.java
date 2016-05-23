@@ -24,23 +24,23 @@
  */
 
 
-
-
-
 package soot.baf;
 
 import soot.IdentityUnit;
 import soot.Value;
 import soot.ValueBox;
 
-public interface IdentityInst extends Inst, IdentityUnit  
-{ 
+public interface IdentityInst extends Inst, IdentityUnit {
     Value getLeftOp();
-    Value getRightOp();
+
     void setLeftOp(Value variable);
+
+    Value getRightOp();
+
     void setRightOp(Value rvalue);
 
     ValueBox getLeftOpBox();
+
     ValueBox getRightOpBox();
 }
 

@@ -19,12 +19,14 @@
 
 package soot.util;
 
-/** A class that numbers objects, so they can be placed in bitsets.
+/**
+ * A class that numbers objects, so they can be placed in bitsets.
  *
  * @author Ondrej Lhotak
  */
 
 public interface Numberable {
-    void setNumber(int number);
     int getNumber();
+
+    void setNumber(int number);
 }

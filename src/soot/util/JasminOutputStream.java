@@ -31,9 +31,11 @@ import java.io.OutputStream;
  */
 public class JasminOutputStream extends ByteArrayOutputStream {
     final private OutputStream out;
-    public JasminOutputStream( OutputStream out ) {
+
+    public JasminOutputStream(OutputStream out) {
         this.out = out;
     }
+
     public void flush() {
         ByteArrayInputStream bais = new ByteArrayInputStream(this.toByteArray());
         jasmin.Main.assemble(bais, out, false);

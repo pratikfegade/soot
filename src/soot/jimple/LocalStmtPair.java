@@ -24,33 +24,26 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Local;
 
-public class LocalStmtPair
-{
+public class LocalStmtPair {
     Local local;
     Stmt stmt;
 
-    public LocalStmtPair(Local local, Stmt stmt)
-    {
+    public LocalStmtPair(Local local, Stmt stmt) {
         this.local = local;
         this.stmt = stmt;
     }
 
-    public boolean equals(Object other)
-    {
+    public boolean equals(Object other) {
         return other instanceof LocalStmtPair &&
                 ((LocalStmtPair) other).local == this.local &&
                 ((LocalStmtPair) other).stmt == this.stmt;
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         return local.hashCode() * 101 + stmt.hashCode() + 17;
     }
 

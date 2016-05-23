@@ -24,22 +24,21 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** A debugging attribute, this gives the name of the source file
+/**
+ * A debugging attribute, this gives the name of the source file
  * for this <tt>.class</tt> file.
- * @see attribute_info
+ *
  * @author Clark Verbrugge
+ * @see attribute_info
  */
 public class SourceFile_attribute extends attribute_info {
-   /** Constant pool index of a utf8 string for the name of
-    * the associated source file.
-    * @see CONSTANT_Utf8_info
-    */
-   public int sourcefile_index;
+    /**
+     * Constant pool index of a utf8 string for the name of
+     * the associated source file.
+     *
+     * @see CONSTANT_Utf8_info
+     */
+    public int sourcefile_index;
 }

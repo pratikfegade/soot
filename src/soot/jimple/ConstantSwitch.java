@@ -24,20 +24,24 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface ConstantSwitch extends soot.util.Switch
-{
+public interface ConstantSwitch extends soot.util.Switch {
     void caseDoubleConstant(DoubleConstant v);
+
     void caseFloatConstant(FloatConstant v);
+
     void caseIntConstant(IntConstant v);
+
     void caseLongConstant(LongConstant v);
+
     void caseNullConstant(NullConstant v);
+
     void caseStringConstant(StringConstant v);
+
     void caseClassConstant(ClassConstant v);
+
     void caseMethodHandle(MethodHandle handle);
+
     void defaultCase(Object object);
 }

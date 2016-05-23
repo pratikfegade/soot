@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.UnitPrinter;
@@ -41,55 +37,46 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JRetStmt extends AbstractStmt implements RetStmt
-{
+public class JRetStmt extends AbstractStmt implements RetStmt {
     final ValueBox stmtAddressBox;
     //List useBoxes;
 
-    public JRetStmt(Value stmtAddress)
-    {
+    public JRetStmt(Value stmtAddress) {
         this(Jimple.v().newLocalBox(stmtAddress));
     }
 
-    protected JRetStmt(ValueBox stmtAddressBox)
-    {
-            this.stmtAddressBox = stmtAddressBox;
+    protected JRetStmt(ValueBox stmtAddressBox) {
+        this.stmtAddressBox = stmtAddressBox;
 
     }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new JRetStmt(Jimple.cloneIfNecessary(getStmtAddress()));
     }
 
-    public String toString()
-    {
-        return Jimple.RET + " "  + stmtAddressBox.getValue().toString();
+    public String toString() {
+        return Jimple.RET + " " + stmtAddressBox.getValue().toString();
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(Jimple.RET);
         up.literal(" ");
         stmtAddressBox.toString(up);
     }
 
-    public Value getStmtAddress()
-    {
+    public Value getStmtAddress() {
         return stmtAddressBox.getValue();
     }
 
-    public ValueBox getStmtAddressBox()
-    {
-        return stmtAddressBox;
-    }
-
-    public void setStmtAddress(Value stmtAddress)
-    {
+    public void setStmtAddress(Value stmtAddress) {
         stmtAddressBox.setValue(stmtAddress);
     }
 
-    public List<ValueBox> getUseBoxes()
-    {
+    public ValueBox getStmtAddressBox() {
+        return stmtAddressBox;
+    }
+
+    public List<ValueBox> getUseBoxes() {
         List<ValueBox> useBoxes = new ArrayList<>();
 
         useBoxes.addAll(stmtAddressBox.getValue().getUseBoxes());
@@ -98,12 +85,16 @@ public class JRetStmt extends AbstractStmt implements RetStmt
         return useBoxes;
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((StmtSwitch) sw).caseRetStmt(this);
-    }    
+    }
 
-    public boolean fallsThrough(){return true;}        
-    public boolean branches(){return false;}
+    public boolean fallsThrough() {
+        return true;
+    }
+
+    public boolean branches() {
+        return false;
+    }
 
 }

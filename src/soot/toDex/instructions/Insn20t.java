@@ -12,19 +12,19 @@ import soot.toDex.LabelAssigner;
  * It is used by the "goto/16" opcode for jumps to a 16-bit wide offset.
  */
 public class Insn20t extends InsnWithOffset {
-	
-	public Insn20t(Opcode opc) {
-		super(opc);
-	}
 
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		return new BuilderInstruction20t(opc, assigner.getOrCreateLabel(target));
-	}
+    public Insn20t(Opcode opc) {
+        super(opc);
+    }
 
-	@Override
-	public int getMaxJumpOffset() {
-		return Short.MAX_VALUE;
-	}
-	
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        return new BuilderInstruction20t(opc, assigner.getOrCreateLabel(target));
+    }
+
+    @Override
+    public int getMaxJumpOffset() {
+        return Short.MAX_VALUE;
+    }
+
 }

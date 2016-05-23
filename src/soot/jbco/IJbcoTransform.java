@@ -24,16 +24,19 @@ import soot.G;
 import java.io.PrintStream;
 
 /**
- * @author Michael Batchelder 
- * 
- * Created on 19-Jun-2006 
+ * @author Michael Batchelder
+ *         <p>
+ *         Created on 19-Jun-2006
  */
 public interface IJbcoTransform {
 
-  PrintStream out = soot.G.v().out;
-  boolean output = G.v().soot_options_Options().verbose() || soot.jbco.Main.jbcoVerbose;
-  boolean debug = soot.jbco.Main.jbcoDebug;
-  void outputSummary();
-  String[] getDependancies();
-  String getName();
+    PrintStream out = soot.G.v().out;
+    boolean output = G.v().soot_options_Options().verbose() || soot.jbco.Main.jbcoVerbose;
+    boolean debug = soot.jbco.Main.jbcoDebug;
+
+    void outputSummary();
+
+    String[] getDependancies();
+
+    String getName();
 }

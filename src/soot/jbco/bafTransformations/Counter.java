@@ -26,9 +26,9 @@ import java.util.Map;
 
 public class Counter extends BodyTransformer {
 
-  protected void internalTransform(Body b, String phaseName, Map<String,String> options) {
-    // TODO Auto-generated method stub
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        // TODO Auto-generated method stub
 
-  }
+    }
 
 }

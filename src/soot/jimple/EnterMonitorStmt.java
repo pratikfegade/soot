@@ -24,17 +24,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Value;
 import soot.ValueBox;
 
-public interface EnterMonitorStmt extends MonitorStmt
-{
+public interface EnterMonitorStmt extends MonitorStmt {
     Value getOp();
+
     void setOp(Value op);
+
     ValueBox getOpBox();
 }

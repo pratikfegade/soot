@@ -40,20 +40,18 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @SuppressWarnings("Duplicates")
 public abstract class Pack implements HasPhaseOptions, Iterable<Transform> {
-    final private boolean DEBUG = true;
-    private String name;
     private static Lock lock = new ReentrantLock();
-
-
-    public String getPhaseName() {
-        return name;
-    }
+    final private boolean DEBUG = true;
+    Chain<Transform> opts = new HashChain<>();
+    private String name;
 
     public Pack(String name) {
         this.name = name;
     }
 
-    Chain<Transform> opts = new HashChain<>();
+    public String getPhaseName() {
+        return name;
+    }
 
     public Iterator<Transform> iterator() {
         return opts.iterator();

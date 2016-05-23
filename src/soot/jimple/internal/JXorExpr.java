@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.Type;
@@ -38,17 +34,25 @@ import soot.jimple.Jimple;
 import soot.jimple.XorExpr;
 import soot.util.Switch;
 
-public class JXorExpr extends AbstractJimpleIntLongBinopExpr implements XorExpr
-{
-    public JXorExpr(Value op1, Value op2) { super(op1, op2); }
-    public final String getSymbol() { return " ^ "; }
-    public void apply(Switch sw) { ((ExprSwitch) sw).caseXorExpr(this); }
+public class JXorExpr extends AbstractJimpleIntLongBinopExpr implements XorExpr {
+    public JXorExpr(Value op1, Value op2) {
+        super(op1, op2);
+    }
 
-    Object makeBafInst(Type opType) { return Baf.v().newXorInst(this.getOp1().getType()); }
+    public final String getSymbol() {
+        return " ^ ";
+    }
 
-    
-    public Object clone() 
-    {
+    public void apply(Switch sw) {
+        ((ExprSwitch) sw).caseXorExpr(this);
+    }
+
+    Object makeBafInst(Type opType) {
+        return Baf.v().newXorInst(this.getOp1().getType());
+    }
+
+
+    public Object clone() {
         return new JXorExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));
     }
 

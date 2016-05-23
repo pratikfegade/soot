@@ -24,16 +24,12 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Unit;
 
 import java.util.List;
 
-public interface ConvertToBaf
-{
+public interface ConvertToBaf {
     void convertToBaf(JimpleToBafContext context, List<Unit> out);
 }

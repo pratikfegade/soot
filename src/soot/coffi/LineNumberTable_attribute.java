@@ -24,39 +24,38 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** A debugging attribute, this associates blocks of bytecode with
+/**
+ * A debugging attribute, this associates blocks of bytecode with
  * specific source code line numbers.
- * @see attribute_info
+ *
  * @author Clark Verbrugge
+ * @see attribute_info
  */
 public class LineNumberTable_attribute extends attribute_info {
 
-   /** Length of the line_number_table array. */
-   public int line_number_table_length;
+    /**
+     * Length of the line_number_table array.
+     */
+    public int line_number_table_length;
 
-   /** Line number table.
-    * @see line_number_table_entry
-    */
-   public line_number_table_entry line_number_table[];
+    /**
+     * Line number table.
+     *
+     * @see line_number_table_entry
+     */
+    public line_number_table_entry line_number_table[];
 
-    public String toString()
-    {
-	String sv = "LineNumberTable : " + line_number_table_length + "\n";
-	for (int i=0; i<line_number_table_length; i++)
-	{
-	    sv += "LineNumber("+line_number_table[i].start_pc
-		+":"+line_number_table[i].start_inst+","
-		+ line_number_table[i].line_number +")";
-	    sv += "\n";
-	}
+    public String toString() {
+        String sv = "LineNumberTable : " + line_number_table_length + "\n";
+        for (int i = 0; i < line_number_table_length; i++) {
+            sv += "LineNumber(" + line_number_table[i].start_pc
+                    + ":" + line_number_table[i].start_inst + ","
+                    + line_number_table[i].line_number + ")";
+            sv += "\n";
+        }
 
-	return sv;
+        return sv;
     }
 }

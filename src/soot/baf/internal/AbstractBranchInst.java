@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.Unit;
@@ -37,14 +34,11 @@ import soot.util.Switch;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractBranchInst extends AbstractInst
-{
+public abstract class AbstractBranchInst extends AbstractInst {
+    final List<UnitBox> targetBoxes;
     UnitBox targetBox;
 
-    final List<UnitBox> targetBoxes;
-
-    AbstractBranchInst(UnitBox targetBox)
-    {
+    AbstractBranchInst(UnitBox targetBox) {
         this.targetBox = targetBox;
 
         targetBoxes = Collections.singletonList(targetBox);
@@ -52,51 +46,45 @@ public abstract class AbstractBranchInst extends AbstractInst
 
     abstract public String getName();
 
-    public String toString()
-    {
-		String target = ""; 
-		Unit targetUnit = getTarget();
-		if (this == targetUnit)
-		  target = getName();
-		else
-		  target = getTarget().toString();
-		return getName() + " " + target;	    	
+    public String toString() {
+        String target = "";
+        Unit targetUnit = getTarget();
+        if (this == targetUnit)
+            target = getName();
+        else
+            target = getTarget().toString();
+        return getName() + " " + target;
     }
 
-    public void toString( UnitPrinter up ) {
-        up.literal( getName() );
+    public void toString(UnitPrinter up) {
+        up.literal(getName());
         up.literal(" ");
-        targetBox.toString( up );
+        targetBox.toString(up);
     }
-    
-    public Unit getTarget()
-    {
+
+    public Unit getTarget() {
         return targetBox.getUnit();
     }
 
-    public void setTarget(Unit target)
-    {
+    public void setTarget(Unit target) {
         targetBox.setUnit(target);
     }
 
-    public UnitBox getTargetBox()
-    {
+    public UnitBox getTargetBox() {
         return targetBox;
     }
 
-    public List<UnitBox> getUnitBoxes()
-    {
+    public List<UnitBox> getUnitBoxes() {
         return targetBoxes;
     }
 
     abstract public void apply(Switch sw);
 
-    
-    public boolean branches()
-    {
+
+    public boolean branches() {
         return true;
     }
-    
+
 
 }
 

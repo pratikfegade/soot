@@ -31,21 +31,30 @@ import soot.jimple.IntConstant;
 
 import java.util.List;
 
-public interface LookupSwitchInst extends Inst
-{
+public interface LookupSwitchInst extends Inst {
     Unit getDefaultTarget();
+
     void setDefaultTarget(Unit defTarget);
+
     UnitBox getDefaultTargetBox();
 
     void setLookupValue(int index, int value);
+
     int getLookupValue(int index);
+
     List<IntConstant> getLookupValues();
+
     void setLookupValues(List<IntConstant> values);
-    
+
     int getTargetCount();
+
     Unit getTarget(int index);
+
     UnitBox getTargetBox(int index);
+
     void setTarget(int index, Unit target);
+
     List<Unit> getTargets();
+
     void setTargets(List<Unit> targets);
 }

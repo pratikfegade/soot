@@ -1,6 +1,5 @@
 package util.filter;
 
-public interface ClassFilter
-{
+public interface ClassFilter {
     boolean matches(String className);
 }

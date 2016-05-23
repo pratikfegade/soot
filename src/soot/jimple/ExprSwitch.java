@@ -24,44 +24,72 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface ExprSwitch extends soot.util.Switch
-{
+public interface ExprSwitch extends soot.util.Switch {
     void caseAddExpr(AddExpr v);
+
     void caseAndExpr(AndExpr v);
+
     void caseCmpExpr(CmpExpr v);
+
     void caseCmpgExpr(CmpgExpr v);
+
     void caseCmplExpr(CmplExpr v);
+
     void caseDivExpr(DivExpr v);
+
     void caseEqExpr(EqExpr v);
+
     void caseNeExpr(NeExpr v);
+
     void caseGeExpr(GeExpr v);
+
     void caseGtExpr(GtExpr v);
+
     void caseLeExpr(LeExpr v);
+
     void caseLtExpr(LtExpr v);
+
     void caseMulExpr(MulExpr v);
+
     void caseOrExpr(OrExpr v);
+
     void caseRemExpr(RemExpr v);
+
     void caseShlExpr(ShlExpr v);
+
     void caseShrExpr(ShrExpr v);
+
     void caseUshrExpr(UshrExpr v);
+
     void caseSubExpr(SubExpr v);
+
     void caseXorExpr(XorExpr v);
+
     void caseInterfaceInvokeExpr(InterfaceInvokeExpr v);
+
     void caseSpecialInvokeExpr(SpecialInvokeExpr v);
+
     void caseStaticInvokeExpr(StaticInvokeExpr v);
+
     void caseVirtualInvokeExpr(VirtualInvokeExpr v);
+
     void caseDynamicInvokeExpr(DynamicInvokeExpr v);
+
     void caseCastExpr(CastExpr v);
+
     void caseInstanceOfExpr(InstanceOfExpr v);
+
     void caseNewArrayExpr(NewArrayExpr v);
+
     void caseNewMultiArrayExpr(NewMultiArrayExpr v);
+
     void caseNewExpr(NewExpr v);
+
     void caseLengthExpr(LengthExpr v);
+
     void caseNegExpr(NegExpr v);
+
     void defaultCase(Object obj);
 }

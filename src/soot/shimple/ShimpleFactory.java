@@ -26,8 +26,7 @@ import soot.toolkits.graph.*;
 /**
  * @author Navindra Umanee
  **/
-public interface ShimpleFactory
-{
+public interface ShimpleFactory {
     /**
      * Some constructors may require a body.  If this is not set at
      * the time of need, an exception will be thrown.
@@ -42,14 +41,22 @@ public interface ShimpleFactory
     void clearCache();
 
     UnitGraph getUnitGraph();
+
     BlockGraph getBlockGraph();
+
     DominatorsFinder<Block> getDominatorsFinder();
+
     DominatorTree<Block> getDominatorTree();
+
     DominanceFrontier<Block> getDominanceFrontier();
 
     GlobalValueNumberer getGlobalValueNumberer();
+
     ReversibleGraph<Block> getReverseBlockGraph();
+
     DominatorsFinder<Block> getReverseDominatorsFinder();
+
     DominatorTree<Block> getReverseDominatorTree();
+
     DominanceFrontier<Block> getReverseDominanceFrontier();
 }

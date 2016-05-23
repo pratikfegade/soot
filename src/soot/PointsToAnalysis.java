@@ -19,36 +19,13 @@
 
 package soot;
 
-/** A generic interface to any type of pointer analysis.
+/**
+ * A generic interface to any type of pointer analysis.
+ *
  * @author Ondrej Lhotak
  */
 
 public interface PointsToAnalysis {
-    /** Returns the set of objects pointed to by variable l. */
-    PointsToSet reachingObjects(Local l);
-
-    /** Returns the set of objects pointed to by variable l in context c. */
-    PointsToSet reachingObjects(Context c, Local l);
-
-    /** Returns the set of objects pointed to by static field f. */
-    PointsToSet reachingObjects(SootField f);
-
-    /** Returns the set of objects pointed to by instance field f
-     * of the objects in the PointsToSet s. */
-    PointsToSet reachingObjects(PointsToSet s, SootField f);
-
-    /** Returns the set of objects pointed to by instance field f
-     * of the objects pointed to by l. */
-    PointsToSet reachingObjects(Local l, SootField f);
-
-    /** Returns the set of objects pointed to by instance field f
-     * of the objects pointed to by l in context c. */
-    PointsToSet reachingObjects(Context c, Local l, SootField f);
-
-    /** Returns the set of objects pointed to by elements of the arrays
-     * in the PointsToSet s. */
-    PointsToSet reachingObjectsOfArrayElement(PointsToSet s);
-
     String THIS_NODE = "THIS_NODE";
     int RETURN_NODE = -2;
     String THROW_NODE = "THROW_NODE";
@@ -74,5 +51,44 @@ public interface PointsToAnalysis {
     String PRIVILEGED_ACTION_EXCEPTION = "PRIVILEGED_ACTION_EXCEPTION";
     String PRIVILEGED_ACTION_EXCEPTION_LOCAL = "PRIVILEGED_ACTION_EXCEPTION_LOCAL";
     String PHI_NODE = "PHI_NODE";
+
+    /**
+     * Returns the set of objects pointed to by variable l.
+     */
+    PointsToSet reachingObjects(Local l);
+
+    /**
+     * Returns the set of objects pointed to by variable l in context c.
+     */
+    PointsToSet reachingObjects(Context c, Local l);
+
+    /**
+     * Returns the set of objects pointed to by static field f.
+     */
+    PointsToSet reachingObjects(SootField f);
+
+    /**
+     * Returns the set of objects pointed to by instance field f
+     * of the objects in the PointsToSet s.
+     */
+    PointsToSet reachingObjects(PointsToSet s, SootField f);
+
+    /**
+     * Returns the set of objects pointed to by instance field f
+     * of the objects pointed to by l.
+     */
+    PointsToSet reachingObjects(Local l, SootField f);
+
+    /**
+     * Returns the set of objects pointed to by instance field f
+     * of the objects pointed to by l in context c.
+     */
+    PointsToSet reachingObjects(Context c, Local l, SootField f);
+
+    /**
+     * Returns the set of objects pointed to by elements of the arrays
+     * in the PointsToSet s.
+     */
+    PointsToSet reachingObjectsOfArrayElement(PointsToSet s);
 }
 

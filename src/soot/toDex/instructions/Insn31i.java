@@ -15,39 +15,39 @@ import java.util.BitSet;
  * It is used by the opcodes "const" and "const-wide/32".
  */
 public class Insn31i extends AbstractInsn implements OneRegInsn {
-	
-	private int litB;
 
-	public Insn31i(Opcode opc, Register regA, int litB) {
-		super(opc);
-		regs.add(regA);
-		this.litB = litB;
-	}
-	
-	public Register getRegA() {
-		return regs.get(REG_A_IDX);
-	}
-	
-	public int getLitB() {
-		return litB;
-	}
+    private int litB;
 
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		return new BuilderInstruction31i(opc, (short) getRegA().getNumber(), getLitB());
-	}
-	
-	@Override
-	public BitSet getIncompatibleRegs() {
-		BitSet incompatRegs = new BitSet(1);
-		if (!getRegA().fitsShort()) {
-			incompatRegs.set(REG_A_IDX);
-		}
-		return incompatRegs;
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + " lit: " + getLitB();
-	}
+    public Insn31i(Opcode opc, Register regA, int litB) {
+        super(opc);
+        regs.add(regA);
+        this.litB = litB;
+    }
+
+    public Register getRegA() {
+        return regs.get(REG_A_IDX);
+    }
+
+    public int getLitB() {
+        return litB;
+    }
+
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        return new BuilderInstruction31i(opc, (short) getRegA().getNumber(), getLitB());
+    }
+
+    @Override
+    public BitSet getIncompatibleRegs() {
+        BitSet incompatRegs = new BitSet(1);
+        if (!getRegA().fitsShort()) {
+            incompatRegs.set(REG_A_IDX);
+        }
+        return incompatRegs;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " lit: " + getLitB();
+    }
 }

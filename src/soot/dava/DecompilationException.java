@@ -23,21 +23,20 @@ package soot.dava;
 //import soot.util.*;
 //import soot.dava.toolkits.base.finders.*;
 
-public class DecompilationException extends RuntimeException 
-{
+public class DecompilationException extends RuntimeException {
 
-    public DecompilationException(){
-	System.out.println("DECOMPILATION INCOMPLETE:");
-	//printStackTrace();
+    public DecompilationException() {
+        System.out.println("DECOMPILATION INCOMPLETE:");
+        //printStackTrace();
     }
 
-    public DecompilationException(String message){
-    	super("DECOMPILATION INCOMPLETE"+message);
-	//printStackTrace();
+    public DecompilationException(String message) {
+        super("DECOMPILATION INCOMPLETE" + message);
+        //printStackTrace();
     }
-    
-    public void report(){
-	System.out.println("\n\nPlease report this exception to nomair.naeem@mail.mcgill.ca");
-	System.out.println("Please include the soot version, sample code and this output.\n\n");
+
+    public void report() {
+        System.out.println("\n\nPlease report this exception to nomair.naeem@mail.mcgill.ca");
+        System.out.println("Please include the soot version, sample code and this output.\n\n");
     }
 }

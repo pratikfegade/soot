@@ -24,66 +24,51 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public abstract class AbstractConstantSwitch implements ConstantSwitch
-{
+public abstract class AbstractConstantSwitch implements ConstantSwitch {
     Object result;
 
-    public void caseDoubleConstant(DoubleConstant v)
-    {
+    public void caseDoubleConstant(DoubleConstant v) {
         defaultCase(v);
     }
 
-    public void caseFloatConstant(FloatConstant v)
-    {
+    public void caseFloatConstant(FloatConstant v) {
         defaultCase(v);
     }
 
-    public void caseIntConstant(IntConstant v)
-    {
+    public void caseIntConstant(IntConstant v) {
         defaultCase(v);
     }
 
-    public void caseLongConstant(LongConstant v)
-    {
+    public void caseLongConstant(LongConstant v) {
         defaultCase(v);
     }
 
-    public void caseNullConstant(NullConstant v)
-    {
+    public void caseNullConstant(NullConstant v) {
         defaultCase(v);
     }
 
-    public void caseStringConstant(StringConstant v)
-    {
+    public void caseStringConstant(StringConstant v) {
         defaultCase(v);
     }
 
-    public void caseClassConstant(ClassConstant v)
-    {
-        defaultCase(v);
-    }
-    
-    public void caseMethodHandle(MethodHandle v)
-    {
+    public void caseClassConstant(ClassConstant v) {
         defaultCase(v);
     }
 
-    public void defaultCase(Object v)
-    {
+    public void caseMethodHandle(MethodHandle v) {
+        defaultCase(v);
     }
 
-    public Object getResult()
-    {
+    public void defaultCase(Object v) {
+    }
+
+    public Object getResult() {
         return result;
     }
 
-    public void setResult(Object result)
-    {
+    public void setResult(Object result) {
         this.result = result;
     }
 }

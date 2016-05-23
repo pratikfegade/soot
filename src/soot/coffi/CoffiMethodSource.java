@@ -33,25 +33,22 @@ import soot.options.Options;
 
 import java.util.Map;
 
-public class CoffiMethodSource implements MethodSource
-{
+public class CoffiMethodSource implements MethodSource {
     public ClassFile coffiClass;
     public method_info coffiMethod;
 
-    CoffiMethodSource(soot.coffi.ClassFile coffiClass, soot.coffi.method_info coffiMethod)
-    {
+    CoffiMethodSource(soot.coffi.ClassFile coffiClass, soot.coffi.method_info coffiMethod) {
         this.coffiClass = coffiClass;
         this.coffiMethod = coffiMethod;
     }
 
-    public Body getBody(SootMethod m, String phaseName)
-    {
+    public Body getBody(SootMethod m, String phaseName) {
         JimpleBody jb = Jimple.v().newBody(m);
 
         Map options = PhaseOptions.v().getPhaseOptions(phaseName);
         boolean useOriginalNames = PhaseOptions.getBoolean(options, "use-original-names");
 
-        if(useOriginalNames)
+        if (useOriginalNames)
             soot.coffi.Util.v().setFaithfulNaming(true);
 
         /*
@@ -60,27 +57,25 @@ public class CoffiMethodSource implements MethodSource
         bafBody.coffiMethod = null;
 
         */
-        if(Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("[" + m.getName() + "] Constructing JimpleBody from coffi...");
 
-        if(m.isAbstract() || m.isNative() || m.isPhantom())
+        if (m.isAbstract() || m.isNative() || m.isPhantom())
             return jb;
 
-        if(Options.v().time())
+        if (Options.v().time())
             Timers.v().conversionTimer.start();
 
-        if(coffiMethod.instructions == null)
-        {
-            if(Options.v().verbose())
+        if (coffiMethod.instructions == null) {
+            if (Options.v().verbose())
                 G.v().out.println("[" + m.getName() +
                         "]     Parsing Coffi instructions...");
 
             coffiClass.parseMethod(coffiMethod);
         }
 
-        if(coffiMethod.cfg == null)
-        {
-            if(Options.v().verbose())
+        if (coffiMethod.cfg == null) {
+            if (Options.v().verbose())
                 G.v().out.println("[" + m.getName() +
                         "]     Building Coffi CFG...");
 
@@ -90,7 +85,7 @@ public class CoffiMethodSource implements MethodSource
             if (soot.jbco.Main.metrics) return null;
         }
 
-        if(Options.v().verbose())
+        if (Options.v().verbose())
             G.v().out.println("[" + m.getName() +
                     "]     Producing naive Jimple...");
 
@@ -101,7 +96,7 @@ public class CoffiMethodSource implements MethodSource
                 coffiClass.this_class, coffiClass.bootstrap_methods_attribute, jb);
         Scene.v().setPhantomRefs(oldPhantomValue);
 
-        if(Options.v().time())
+        if (Options.v().time())
             Timers.v().conversionTimer.end();
 
         coffiMethod.instructions = null;

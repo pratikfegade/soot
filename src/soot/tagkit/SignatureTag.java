@@ -26,39 +26,43 @@
 package soot.tagkit;
 
 
-/** Represents the signature attribute used by fields, methods and classes 
+/**
+ * Represents the signature attribute used by fields, methods and classes
  * for dealing with generics in Java 1.5.
  */
 
-public class SignatureTag implements  Tag
-{
+public class SignatureTag implements Tag {
 
     private String signature;
-    
-    public SignatureTag(String signature){
+
+    public SignatureTag(String signature) {
         this.signature = signature;
     }
-    
+
     public String toString() {
-        return "Signature: "+signature;
+        return "Signature: " + signature;
     }
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "SignatureTag";
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return "Signature";
     }
-    
-    public String getSignature(){
+
+    public String getSignature() {
         return signature;
     }
-    
-    /** Returns the tag raw data. */
+
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "SignatureTag has no value for bytecode" );
+        throw new RuntimeException("SignatureTag has no value for bytecode");
     }
 }
 

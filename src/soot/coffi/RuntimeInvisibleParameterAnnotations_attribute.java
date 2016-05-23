@@ -24,26 +24,24 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** 
- * There should be at most one RuntimeVisibleParameterAnnotations 
+/**
+ * There should be at most one RuntimeVisibleParameterAnnotations
  * attribute in method
  * indicating the list of annotations for each method parameter
+ *
+ * @author Jennifer Lhotak
  * @see attribute_info
  * @see method_info#attributes
- * @author Jennifer Lhotak
  */
 public class RuntimeInvisibleParameterAnnotations_attribute extends attribute_info {
-   /** Length of annotations table array. */
-   public int num_parameters;
-   /** 
-    * Each entry represents a single runtime visible annotation.
-    */
-   public parameter_annotation parameter_annotations[];
+    /**
+     * Length of annotations table array.
+     */
+    public int num_parameters;
+    /**
+     * Each entry represents a single runtime visible annotation.
+     */
+    public parameter_annotation parameter_annotations[];
 }

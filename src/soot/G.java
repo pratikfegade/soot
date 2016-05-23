@@ -41,42 +41,28 @@ import soot.toolkits.astmetrics.ClassData;
 import java.io.PrintStream;
 import java.util.*;
 
-/** A class to group together all the global variables in Soot. */
-public class G extends Singletons 
-{
-    
-    public interface GlobalObjectGetter {
-    	G getG();
-    	void reset();
-    }
-    
-    public static G v() { return objectGetter.getG(); }
-    public static void reset() { objectGetter.reset(); }
-    
+/**
+ * A class to group together all the global variables in Soot.
+ */
+public class G extends Singletons {
+
     private static GlobalObjectGetter objectGetter = new GlobalObjectGetter() {
 
         private G instance = new G();
-        
-		@Override
-		public G getG() {
-			return instance;
-		}
 
-		@Override
-		public void reset() {
-			instance = new G();
-		}
-	};
-	
-	public static void setGlobalObjectGetter(GlobalObjectGetter newGetter) {
-		objectGetter = newGetter;
-	}
+        @Override
+        public G getG() {
+            return instance;
+        }
 
+        @Override
+        public void reset() {
+            instance = new G();
+        }
+    };
+    public final Map<Scene, ClassHierarchy> ClassHierarchy_classHierarchyMap = new HashMap<>();
+    public final Map<MethodContext, MethodContext> MethodContext_map = new HashMap<>();
     public PrintStream out = System.out;
-
-    public class Global {
-    }
-
     public long coffi_BasicBlock_ids = 0;
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e1 = new Utf8_Enumeration();
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e2 = new Utf8_Enumeration();
@@ -101,14 +87,8 @@ public class G extends Singletons
     public boolean Timer_isGarbageCollecting;
     public Timer Timer_forcedGarbageCollectionTimer = new Timer("gc");
     public int Timer_count;
-    public final Map<Scene, ClassHierarchy> ClassHierarchy_classHierarchyMap = new HashMap<>();
-    public final Map<MethodContext, MethodContext> MethodContext_map = new HashMap<>();
-
     public ShimpleFactory shimpleFactory = new DefaultShimpleFactory();
-
-    
     public boolean ASTTransformations_modified;
-    
     /*
      * 16th Feb 2006 Nomair
      * The AST transformations are unfortunately non-monotonic.
@@ -117,9 +97,6 @@ public class G extends Singletons
      * a separate flag...clumsy but works
      */
     public boolean ASTIfElseFlipped;
-    
-    
-    
     /*
      * Nomair A. Naeem January 15th 2006
      * Added For Dava.toolkits.AST.transformations.SuperFirstStmtHandler
@@ -129,9 +106,9 @@ public class G extends Singletons
      * were added by the decompiler (refer to filer SuperFirstStmtHandler)
      * SootMethodsAdded ArrayList contains these method. These
      * methods are then added to the SootClass
-     * 
-     * Some of these newly added methods make use of an object of 
-     * a static inner class DavaSuperHandler which is to be output 
+     *
+     * Some of these newly added methods make use of an object of
+     * a static inner class DavaSuperHandler which is to be output
      * in the decompilers
      * output. The class is marked to need a DavaSuperHandlerClass
      * by adding it into the SootClassNeedsDavaSuperHandlerClass list.
@@ -142,8 +119,27 @@ public class G extends Singletons
     public boolean SootMethodAddedByDava;
     public ArrayList<SootClass> SootClassNeedsDavaSuperHandlerClass = new ArrayList<>();
     public ArrayList<SootMethod> SootMethodsAdded = new ArrayList<>();
-    
     //ASTMetrics Data
     public ArrayList<ClassData> ASTMetricsData = new ArrayList<>();
+
+    public static G v() {
+        return objectGetter.getG();
+    }
+
+    public static void reset() {
+        objectGetter.reset();
+    }
+
+    public static void setGlobalObjectGetter(GlobalObjectGetter newGetter) {
+        objectGetter = newGetter;
+    }
+    public interface GlobalObjectGetter {
+        G getG();
+
+        void reset();
+    }
+
+    public class Global {
+    }
 }
 

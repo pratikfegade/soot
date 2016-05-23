@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.Type;
@@ -38,15 +34,24 @@ import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
 import soot.util.Switch;
 
-public class JCmpgExpr extends AbstractJimpleIntBinopExpr implements CmpgExpr
-{
-    public JCmpgExpr(Value op1, Value op2) { super(op1, op2); }
-    public final String getSymbol() { return " " + Jimple.CMPG + " " ; }
-    public void apply(Switch sw) { ((ExprSwitch) sw).caseCmpgExpr(this); }
-    Object makeBafInst(Type opType) { return Baf.v().newCmpgInst(this.getOp1().getType()); }
-    
-    public Object clone() 
-    {
+public class JCmpgExpr extends AbstractJimpleIntBinopExpr implements CmpgExpr {
+    public JCmpgExpr(Value op1, Value op2) {
+        super(op1, op2);
+    }
+
+    public final String getSymbol() {
+        return " " + Jimple.CMPG + " ";
+    }
+
+    public void apply(Switch sw) {
+        ((ExprSwitch) sw).caseCmpgExpr(this);
+    }
+
+    Object makeBafInst(Type opType) {
+        return Baf.v().newCmpgInst(this.getOp1().getType());
+    }
+
+    public Object clone() {
         return new JCmpgExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));
     }
 

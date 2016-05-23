@@ -26,48 +26,44 @@
 
 package soot.tagkit;
 
-public class SourceLineNumberTag implements Tag
-{
+public class SourceLineNumberTag implements Tag {
     /* it is a value representing line number. */
     private final int startLineNumber;
-	private final int endLineNumber;
-    
-    public SourceLineNumberTag(int ln)
-    {
-		startLineNumber = ln;
-		endLineNumber = ln;
+    private final int endLineNumber;
+
+    public SourceLineNumberTag(int ln) {
+        startLineNumber = ln;
+        endLineNumber = ln;
     }
 
-	public SourceLineNumberTag(int startLn, int endLn){
-		startLineNumber = startLn;
-		endLineNumber = endLn;
-	}
+    public SourceLineNumberTag(int startLn, int endLn) {
+        startLineNumber = startLn;
+        endLineNumber = endLn;
+    }
 
     public int getLineNumber() {
-    	return startLineNumber;
-    }
-	public int getStartLineNumber() {
-		return startLineNumber;
-	}
-	
-	public int getEndLineNumber() {
-		return endLineNumber;
-	}
-    
-    public String getName()
-    {
-		return "SourceLineNumberTag";
+        return startLineNumber;
     }
 
-    public byte[] getValue()
-    {
-		byte[] v = new byte[2];
-		return v;
+    public int getStartLineNumber() {
+        return startLineNumber;
     }
 
-    public String toString()
-    {
-   		return ""+startLineNumber;
+    public int getEndLineNumber() {
+        return endLineNumber;
+    }
+
+    public String getName() {
+        return "SourceLineNumberTag";
+    }
+
+    public byte[] getValue() {
+        byte[] v = new byte[2];
+        return v;
+    }
+
+    public String toString() {
+        return "" + startLineNumber;
     }
 
 }

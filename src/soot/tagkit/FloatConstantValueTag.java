@@ -25,8 +25,7 @@
 
 package soot.tagkit;
 
-public class FloatConstantValueTag extends ConstantValueTag
-{
+public class FloatConstantValueTag extends ConstantValueTag {
     private final float value;
   /*  private final int value;
 
@@ -49,20 +48,20 @@ public class FloatConstantValueTag extends ConstantValueTag
 	        (byte)((value      ) & 0xff)
 	    };
     }*/
-    
-    public FloatConstantValueTag(float value){
+
+    public FloatConstantValueTag(float value) {
         this.value = value;
     }
 
     public float getFloatValue() {
-	    return value;
+        return value;
     }
 
     /*public int getRawBits() {
-	return value;
+    return value;
     }*/
     public String toString() {
-        return "ConstantValue: "+Float.toString(value);
+        return "ConstantValue: " + Float.toString(value);
     }
 }
 

@@ -24,17 +24,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Value;
 import soot.ValueBox;
 
-public interface UnopExpr extends Expr
-{
+public interface UnopExpr extends Expr {
     Value getOp();
+
     void setOp(Value op);
+
     ValueBox getOpBox();
 }

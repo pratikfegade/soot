@@ -31,125 +31,120 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author Michael Batchelder 
- * 
- * Created on 7-Feb-2006 
+ * @author Michael Batchelder
+ *         <p>
+ *         Created on 7-Feb-2006
  */
 public class BodyBuilder {
 
-  public static boolean bodiesHaveBeenBuilt = false;
-  public static boolean namesHaveBeenRetrieved = false;
-  public static List<String> nameList = new ArrayList<>();
-  public static void retrieveAllBodies() 
-  {
-    if (bodiesHaveBeenBuilt) return;
-      
-    //  iterate through application classes, rename fields with junk
-    for (SootClass c : soot.Scene.v().getApplicationClasses()) {
+    public static boolean bodiesHaveBeenBuilt = false;
+    public static boolean namesHaveBeenRetrieved = false;
+    public static List<String> nameList = new ArrayList<>();
 
-      for (SootMethod m : c.getMethods()) {
-        if (!m.isConcrete()) continue;
-        
-        if (!m.hasActiveBody())
-          m.retrieveActiveBody();
-      }
-    }
-    
-    bodiesHaveBeenBuilt = true;
-  }
-  
-  public static void retrieveAllNames() 
-  {
-    if (namesHaveBeenRetrieved) return;
-      
-    //  iterate through application classes, rename fields with junk
-    
-    for (SootClass c : soot.Scene.v().getApplicationClasses()) {      
-      nameList.add(c.getName());
-      
-      for (SootMethod m : c.getMethods()) {
-    	  nameList.add(m.getName());
-      }
-      for (SootField m : c.getFields()) {
-    	  nameList.add(m.getName());
-      }
-    }
-    
-    namesHaveBeenRetrieved = true;
-  }
-  
-  public static Local buildThisLocal(PatchingChain<Unit> units, ThisRef tr, Collection<Local> locals)
-  {
-    Local ths = Jimple.v().newLocal("ths", tr.getType());
-    locals.add(ths);
-    units.add(Jimple.v().newIdentityStmt(ths,
-        Jimple.v().newThisRef((RefType) tr.getType())));
-    return ths;
-  }
-  
-  public static List<Local> buildParameterLocals(PatchingChain<Unit> units, Collection<Local> locals, List<Type> paramTypes)
-  {
-    List<Local> args = new ArrayList<>();
-    for (int k = 0; k < paramTypes.size(); k++) {
-      Type type = paramTypes.get(k);
-      Local loc = Jimple.v().newLocal("l" + k, type);
-      locals.add(loc);
+    public static void retrieveAllBodies() {
+        if (bodiesHaveBeenBuilt) return;
 
-      units.add(Jimple.v().newIdentityStmt(loc,
-          Jimple.v().newParameterRef(type, k)));
+        //  iterate through application classes, rename fields with junk
+        for (SootClass c : soot.Scene.v().getApplicationClasses()) {
 
-      args.add(loc);
+            for (SootMethod m : c.getMethods()) {
+                if (!m.isConcrete()) continue;
+
+                if (!m.hasActiveBody())
+                    m.retrieveActiveBody();
+            }
+        }
+
+        bodiesHaveBeenBuilt = true;
     }
-    return args;
-  }
-  
-  public static void updateTraps(Unit oldu, Unit newu, Chain<Trap> traps) {
-    int size = traps.size();
-    if (size == 0) return;
-    
-    Trap t = traps.getFirst();
-    do {
-      if (t.getBeginUnit() == oldu)
-        t.setBeginUnit(newu);
-      if (t.getEndUnit() == oldu)
-        t.setEndUnit(newu);
-      if (t.getHandlerUnit() == oldu)
-        t.setHandlerUnit(newu);
-    } while ((--size > 0) && (t = traps.getSuccOf(t)) != null);
-  }
-  
-  public static boolean isExceptionCaughtAt(Chain<Unit> units, Unit u, Iterator<Trap> trapsIt)
-  {
-    while (trapsIt.hasNext())
-    {
-      Trap t = trapsIt.next();
-      Iterator<Unit> it = units.iterator(t.getBeginUnit(),units.getPredOf(t.getEndUnit()));
-      while (it.hasNext())
-        if (u.equals(it.next()))
-          return true;
+
+    public static void retrieveAllNames() {
+        if (namesHaveBeenRetrieved) return;
+
+        //  iterate through application classes, rename fields with junk
+
+        for (SootClass c : soot.Scene.v().getApplicationClasses()) {
+            nameList.add(c.getName());
+
+            for (SootMethod m : c.getMethods()) {
+                nameList.add(m.getName());
+            }
+            for (SootField m : c.getFields()) {
+                nameList.add(m.getName());
+            }
+        }
+
+        namesHaveBeenRetrieved = true;
     }
-    
-    return false;
-  }
-  
-  public static int getIntegerNine() {
-    int r1 = Rand.getInt(8388606) * 256;
-    
-    int r2 = Rand.getInt(28) * 9;
-    
-    if (r2 > 126)
-      r2 += 4; 
-    
-    return r1 + r2;
-  }
-  
-  public static boolean isBafIf(Unit u) {
-    return u instanceof IfCmpEqInst || u instanceof IfCmpGeInst
-            || u instanceof IfCmpGtInst || u instanceof IfCmpLeInst
-            || u instanceof IfCmpLtInst || u instanceof IfCmpNeInst
-            || u instanceof IfEqInst || u instanceof IfGeInst
-            || u instanceof IfGtInst || u instanceof IfLeInst
-            || u instanceof IfLtInst || u instanceof IfNeInst
-            || u instanceof IfNonNullInst || u instanceof IfNullInst;
-  }
+
+    public static Local buildThisLocal(PatchingChain<Unit> units, ThisRef tr, Collection<Local> locals) {
+        Local ths = Jimple.v().newLocal("ths", tr.getType());
+        locals.add(ths);
+        units.add(Jimple.v().newIdentityStmt(ths,
+                Jimple.v().newThisRef((RefType) tr.getType())));
+        return ths;
+    }
+
+    public static List<Local> buildParameterLocals(PatchingChain<Unit> units, Collection<Local> locals, List<Type> paramTypes) {
+        List<Local> args = new ArrayList<>();
+        for (int k = 0; k < paramTypes.size(); k++) {
+            Type type = paramTypes.get(k);
+            Local loc = Jimple.v().newLocal("l" + k, type);
+            locals.add(loc);
+
+            units.add(Jimple.v().newIdentityStmt(loc,
+                    Jimple.v().newParameterRef(type, k)));
+
+            args.add(loc);
+        }
+        return args;
+    }
+
+    public static void updateTraps(Unit oldu, Unit newu, Chain<Trap> traps) {
+        int size = traps.size();
+        if (size == 0) return;
+
+        Trap t = traps.getFirst();
+        do {
+            if (t.getBeginUnit() == oldu)
+                t.setBeginUnit(newu);
+            if (t.getEndUnit() == oldu)
+                t.setEndUnit(newu);
+            if (t.getHandlerUnit() == oldu)
+                t.setHandlerUnit(newu);
+        } while ((--size > 0) && (t = traps.getSuccOf(t)) != null);
+    }
+
+    public static boolean isExceptionCaughtAt(Chain<Unit> units, Unit u, Iterator<Trap> trapsIt) {
+        while (trapsIt.hasNext()) {
+            Trap t = trapsIt.next();
+            Iterator<Unit> it = units.iterator(t.getBeginUnit(), units.getPredOf(t.getEndUnit()));
+            while (it.hasNext())
+                if (u.equals(it.next()))
+                    return true;
+        }
+
+        return false;
+    }
+
+    public static int getIntegerNine() {
+        int r1 = Rand.getInt(8388606) * 256;
+
+        int r2 = Rand.getInt(28) * 9;
+
+        if (r2 > 126)
+            r2 += 4;
+
+        return r1 + r2;
+    }
+
+    public static boolean isBafIf(Unit u) {
+        return u instanceof IfCmpEqInst || u instanceof IfCmpGeInst
+                || u instanceof IfCmpGtInst || u instanceof IfCmpLeInst
+                || u instanceof IfCmpLtInst || u instanceof IfCmpNeInst
+                || u instanceof IfEqInst || u instanceof IfGeInst
+                || u instanceof IfGtInst || u instanceof IfLeInst
+                || u instanceof IfLtInst || u instanceof IfNeInst
+                || u instanceof IfNonNullInst || u instanceof IfNullInst;
+    }
 }

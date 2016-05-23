@@ -25,9 +25,11 @@
 
 package soot.coffi;
 
-/** Attribute that connects enclosing method attribute.
- * @see attribute_info
+/**
+ * Attribute that connects enclosing method attribute.
+ *
  * @author Jennifer Lhotak
+ * @see attribute_info
  */
 class EnclosingMethod_attribute extends attribute_info {
 

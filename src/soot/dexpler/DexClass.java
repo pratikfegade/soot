@@ -39,7 +39,6 @@ import java.util.Set;
 /**
  * DexClass is a container for all relevant information of that class
  * the name of the superclass, interfaces and its annotations, and modifier are stored, as well as all fields, methods, and types that are referenced throughout the class are available here.
- *
  */
 
 public class DexClass {
@@ -56,13 +55,15 @@ public class DexClass {
     protected Set<Type> types;
 
     protected int accessFlags;
-    
+
 
     /**
      * The constructor consumes a class definition item of dexlib and retrieves all subsequent methods, types and fields.
+     *
      * @param classDef
      */
-    private DexClass(ClassDef classDef) {}
+    private DexClass(ClassDef classDef) {
+    }
 
 
     public static Dependencies makeSootClass(SootClass sc, ClassDef defItem, DexFile dexFile) {
@@ -77,10 +78,10 @@ public class DexClass {
 
         // super class for hierarchy level
         if (superClass != null) {
-	        String superClassName = Util.dottedClassName(superClass);
-	        SootClass sootSuperClass = SootResolver.v().makeClassRef(superClassName);
-	        sc.setSuperclass(sootSuperClass);
-	        deps.typesToHierarchy.add(sootSuperClass.getType());
+            String superClassName = Util.dottedClassName(superClass);
+            SootClass sootSuperClass = SootResolver.v().makeClassRef(superClassName);
+            sc.setSuperclass(sootSuperClass);
+            deps.typesToHierarchy.add(sootSuperClass.getType());
         }
 
         // access flags
@@ -93,19 +94,19 @@ public class DexClass {
                 String interfaceClassName = Util.dottedClassName(interfaceName);
                 if (sc.implementsInterface(interfaceClassName))
                     continue;
-                
+
                 SootClass interfaceClass = SootResolver.v().makeClassRef(interfaceClassName);
                 interfaceClass.setModifiers(interfaceClass.getModifiers() | Modifier.INTERFACE);
                 sc.addInterface(interfaceClass);
                 deps.typesToHierarchy.add(interfaceClass.getType());
             }
         }
-        
+
         if (Options.v().oaat() && sc.resolvingLevel() <= SootClass.HIERARCHY) {
             return deps;
         }
         DexAnnotation da = new DexAnnotation(sc, deps);
-        
+
         // get the fields of the class
         for (Field sf : defItem.getStaticFields()) {
             if (sc.declaresField(sf.getName(), DexType.toSoot(sf.getType())))
@@ -114,14 +115,14 @@ public class DexClass {
             sc.addField(sootField);
             da.handleFieldAnnotation(sootField, sf);
         }
-        for (Field f: defItem.getInstanceFields()) {
+        for (Field f : defItem.getInstanceFields()) {
             if (sc.declaresField(f.getName(), DexType.toSoot(f.getType())))
                 continue;
             SootField sootField = DexField.makeSootField(f);
             sc.addField(sootField);
             da.handleFieldAnnotation(sootField, f);
         }
-        
+
         // get the methods of the class
         for (Method method : defItem.getDirectMethods()) {
             SootMethod sm = DexMethod.makeSootMethod(dexFile, method, sc);
@@ -137,60 +138,60 @@ public class DexClass {
             sc.addMethod(sm);
             da.handleMethodAnnotation(sm, method);
         }
-                
+
         da.handleClassAnnotation(defItem);
-                
+
         // In contrast to Java, Dalvik associates the InnerClassAttribute
         // with the inner class, not the outer one. We need to copy the
         // tags over to correspond to the Soot semantics.
         InnerClassAttribute ica = (InnerClassAttribute) sc.getTag("InnerClassAttribute");
         if (ica != null) {
-        	Iterator<InnerClassTag> innerTagIt = ica.getSpecs().iterator();
-        	while (innerTagIt.hasNext()) {
-        		Tag t = innerTagIt.next();
-        		if (t instanceof InnerClassTag) {
-        			InnerClassTag ict = (InnerClassTag) t;
-        			
-        			// Check the inner class to make sure that this tag actually
-        			// refers to the current class as the inner class
-        			String inner = ict.getInnerClass().replaceAll("/", ".");
-        			if (!inner.equals(sc.getName()))
-        				continue;
-        			
-        			String outer = null;
-					if (ict.getOuterClass() == null) { // anonymous and local classes
-						outer = ict.getInnerClass().replaceAll("\\$[0-9].*$", "").replaceAll("/", ".");
-        			} else {
-        				outer = ict.getOuterClass().replaceAll("/", ".");
-        			}
-        			
-        			SootClass osc = SootResolver.v().makeClassRef(outer);
-        			if (osc == sc) {
-        				if (!sc.hasOuterClass())
-        					continue;
-        				osc = sc.getOuterClass();
-        			}
-        			
-        			// Get the InnerClassAttribute of the outer class
-        			InnerClassAttribute icat = (InnerClassAttribute)osc.getTag("InnerClassAttribute");
-        			if (icat == null) {
-        				icat = new InnerClassAttribute();
-        				osc.addTag(icat);
-        			}
-        			
-        			// Transfer the tag from the inner class to the outer class
-        			InnerClassTag newt = new InnerClassTag(ict.getInnerClass(), ict.getOuterClass(),
-        					ict.getShortName(), ict.getAccessFlags());
-        			icat.add(newt);
-        			
-        			// Remove the tag from the inner class as inner classes do
-        			// not have these tags in the Java / Soot semantics. The
-        			// DexPrinter will copy it back if we do dex->dex.
-					innerTagIt.remove();
-        		}
-        	}
+            Iterator<InnerClassTag> innerTagIt = ica.getSpecs().iterator();
+            while (innerTagIt.hasNext()) {
+                Tag t = innerTagIt.next();
+                if (t instanceof InnerClassTag) {
+                    InnerClassTag ict = (InnerClassTag) t;
+
+                    // Check the inner class to make sure that this tag actually
+                    // refers to the current class as the inner class
+                    String inner = ict.getInnerClass().replaceAll("/", ".");
+                    if (!inner.equals(sc.getName()))
+                        continue;
+
+                    String outer = null;
+                    if (ict.getOuterClass() == null) { // anonymous and local classes
+                        outer = ict.getInnerClass().replaceAll("\\$[0-9].*$", "").replaceAll("/", ".");
+                    } else {
+                        outer = ict.getOuterClass().replaceAll("/", ".");
+                    }
+
+                    SootClass osc = SootResolver.v().makeClassRef(outer);
+                    if (osc == sc) {
+                        if (!sc.hasOuterClass())
+                            continue;
+                        osc = sc.getOuterClass();
+                    }
+
+                    // Get the InnerClassAttribute of the outer class
+                    InnerClassAttribute icat = (InnerClassAttribute) osc.getTag("InnerClassAttribute");
+                    if (icat == null) {
+                        icat = new InnerClassAttribute();
+                        osc.addTag(icat);
+                    }
+
+                    // Transfer the tag from the inner class to the outer class
+                    InnerClassTag newt = new InnerClassTag(ict.getInnerClass(), ict.getOuterClass(),
+                            ict.getShortName(), ict.getAccessFlags());
+                    icat.add(newt);
+
+                    // Remove the tag from the inner class as inner classes do
+                    // not have these tags in the Java / Soot semantics. The
+                    // DexPrinter will copy it back if we do dex->dex.
+                    innerTagIt.remove();
+                }
+            }
         }
-        
+
         return deps;
     }
 

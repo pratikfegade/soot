@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.Type;
@@ -37,16 +33,25 @@ import soot.jimple.Jimple;
 import soot.jimple.NeExpr;
 import soot.util.Switch;
 
-public class JNeExpr extends AbstractJimpleIntBinopExpr implements NeExpr
-{
-    public JNeExpr(Value op1, Value op2) { super(op1, op2); }
-    public final String getSymbol() { return " != "; }
-    public void apply(Switch sw) { ((ExprSwitch) sw).caseNeExpr(this); }
-    Object makeBafInst(Type opType) { throw new RuntimeException("unsupported conversion: "+this); }
+public class JNeExpr extends AbstractJimpleIntBinopExpr implements NeExpr {
+    public JNeExpr(Value op1, Value op2) {
+        super(op1, op2);
+    }
+
+    public final String getSymbol() {
+        return " != ";
+    }
+
+    public void apply(Switch sw) {
+        ((ExprSwitch) sw).caseNeExpr(this);
+    }
+
+    Object makeBafInst(Type opType) {
+        throw new RuntimeException("unsupported conversion: " + this);
+    }
 //      Object makeBafInst(Type opType) { return Baf.v().newNeInst(this.getOp1().getType()); }
 
-    public Object clone() 
-    {
+    public Object clone() {
         return new JNeExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));
     }
 

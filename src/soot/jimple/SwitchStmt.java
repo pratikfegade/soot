@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Unit;
@@ -36,17 +33,25 @@ import soot.ValueBox;
 
 import java.util.List;
 
-public interface SwitchStmt extends Stmt
-{
+public interface SwitchStmt extends Stmt {
     Unit getDefaultTarget();
+
     void setDefaultTarget(Unit defaultTarget);
+
     UnitBox getDefaultTargetBox();
+
     Value getKey();
+
     void setKey(Value key);
+
     ValueBox getKeyBox();
+
     List<Unit> getTargets();
+
     Unit getTarget(int index);
+
     void setTarget(int index, Unit target);
+
     UnitBox getTargetBox(int index);
 }
 

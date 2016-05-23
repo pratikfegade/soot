@@ -30,9 +30,14 @@ public class InnerClassInfoFinder extends polyglot.visit.NodeVisitor {
     private final ArrayList<Node> memberList;
     //private ArrayList declaredInstList;
     //private ArrayList usedInstList;
-    
-    public ArrayList<Node> memberList(){
-        return memberList;
+
+    public InnerClassInfoFinder() {
+        //declFound = null;
+        localClassDeclList = new ArrayList<>();
+        anonBodyList = new ArrayList<>();
+        memberList = new ArrayList<>();
+        //declaredInstList = new ArrayList();
+        //usedInstList = new ArrayList();
     }
 
     /*public ArrayList declaredInstList(){
@@ -43,30 +48,25 @@ public class InnerClassInfoFinder extends polyglot.visit.NodeVisitor {
         return usedInstList;
     }*/
 
-    public ArrayList<Node> localClassDeclList(){
+    public ArrayList<Node> memberList() {
+        return memberList;
+    }
+
+    public ArrayList<Node> localClassDeclList() {
         return localClassDeclList;
     }
 
-    public ArrayList<Node> anonBodyList(){
+    public ArrayList<Node> anonBodyList() {
         return anonBodyList;
     }
 
-    public InnerClassInfoFinder(){
-        //declFound = null;
-        localClassDeclList = new ArrayList<>();
-        anonBodyList = new ArrayList<>();
-        memberList = new ArrayList<>();
-        //declaredInstList = new ArrayList();
-        //usedInstList = new ArrayList();
-    }
-
     public polyglot.visit.NodeVisitor enter(polyglot.ast.Node parent, polyglot.ast.Node n) {
-    
+
         if (n instanceof polyglot.ast.LocalClassDecl) {
             localClassDeclList.add(n);
         }
         if (n instanceof polyglot.ast.New) {
-            if (((polyglot.ast.New)n).anonType() != null){
+            if (((polyglot.ast.New) n).anonType() != null) {
                 anonBodyList.add(n);
             }
             /*polyglot.types.ProcedureInstance pi = ((polyglot.ast.New)n).constructorInstance();
@@ -74,7 +74,7 @@ public class InnerClassInfoFinder extends polyglot.visit.NodeVisitor {
                 usedInstList.add(new polyglot.util.IdentityKey(pi));
             }*/
         }
-        
+
         if (n instanceof polyglot.ast.ProcedureDecl) {
             memberList.add(n);
             /*polyglot.types.ProcedureInstance pi = ((polyglot.ast.ProcedureDecl)n).procedureInstance();
@@ -111,8 +111,8 @@ public class InnerClassInfoFinder extends polyglot.visit.NodeVisitor {
                 usedInstList.add(new polyglot.util.IdentityKey(pi));
             }
         }*/
-        
-        
+
+
         return enter(n);
     }
 }

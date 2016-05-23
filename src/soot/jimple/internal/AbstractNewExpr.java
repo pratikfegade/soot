@@ -39,63 +39,54 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public abstract class AbstractNewExpr implements NewExpr
-{
+public abstract class AbstractNewExpr implements NewExpr {
     RefType type;
 
-    public boolean equivTo(Object o)
-    {
-        if (o instanceof AbstractNewExpr)
-        {
-            AbstractNewExpr ae = (AbstractNewExpr)o;
+    public boolean equivTo(Object o) {
+        if (o instanceof AbstractNewExpr) {
+            AbstractNewExpr ae = (AbstractNewExpr) o;
             return type.equals(ae.type);
         }
         return false;
     }
 
-    /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
-    {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return type.hashCode();
     }
 
-    public abstract Object clone(); 
+    public abstract Object clone();
 
-    public String toString()
-    {
+    public String toString() {
         return Jimple.NEW + " " + type.toString();
     }
-    
-    public void toString( UnitPrinter up )
-    {
+
+    public void toString(UnitPrinter up) {
         up.literal(Jimple.NEW);
         up.literal(" ");
         up.type(type);
     }
 
-    public RefType getBaseType()
-    {
+    public RefType getBaseType() {
         return type;
     }
 
-    public void setBaseType(RefType type)
-    {
+    public void setBaseType(RefType type) {
         this.type = type;
     }
 
-    public Type getType()
-    {
+    public Type getType() {
         return type;
     }
 
 
-    public List<ValueBox> getUseBoxes()
-    {
+    public List<ValueBox> getUseBoxes() {
         return Collections.emptyList();
     }
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((ExprSwitch) sw).caseNewExpr(this);
     }
 }

@@ -25,39 +25,60 @@
 
 package soot;
 
-/** Provides methods common to Soot objects belonging to classes,
- * namely SootField and SootMethod. */
-public interface ClassMember
-{
-    /** Returns the SootClass declaring this one. */
+/**
+ * Provides methods common to Soot objects belonging to classes,
+ * namely SootField and SootMethod.
+ */
+public interface ClassMember {
+    /**
+     * Returns the SootClass declaring this one.
+     */
     SootClass getDeclaringClass();
 
-    /** Returns true when some SootClass object declares this object. */
+    /**
+     * Returns true when some SootClass object declares this object.
+     */
     boolean isDeclared();
 
-    /** Returns true when this object is from a phantom class. */
+    /**
+     * Returns true when this object is from a phantom class.
+     */
     boolean isPhantom();
 
-    /** Sets the phantom flag */
+    /**
+     * Sets the phantom flag
+     */
     void setPhantom(boolean value);
 
-    /** Convenience method returning true if this class member is protected. */
+    /**
+     * Convenience method returning true if this class member is protected.
+     */
     boolean isProtected();
 
-    /** Convenience method returning true if this class member is private. */
+    /**
+     * Convenience method returning true if this class member is private.
+     */
     boolean isPrivate();
 
-    /** Convenience method returning true if this class member is public. */
+    /**
+     * Convenience method returning true if this class member is public.
+     */
     boolean isPublic();
 
-    /** Convenience method returning true if this class member is static. */
+    /**
+     * Convenience method returning true if this class member is static.
+     */
     boolean isStatic();
 
-    /** Sets modifiers of this class member. */
-    void setModifiers(int modifiers);
-
-    /** Returns modifiers of this class member. */
+    /**
+     * Returns modifiers of this class member.
+     */
     int getModifiers();
+
+    /**
+     * Sets modifiers of this class member.
+     */
+    void setModifiers(int modifiers);
 
 
 }

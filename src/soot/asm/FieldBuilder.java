@@ -26,35 +26,35 @@ import soot.SootField;
 
 /**
  * Soot field builder.
- * 
+ *
  * @author Aaloan Miftah
  */
 final class FieldBuilder extends FieldVisitor {
 
-	private TagBuilder tb;
-	private final SootField field;
-	private final SootClassBuilder scb;
-	
-	FieldBuilder(SootField field, SootClassBuilder scb) {
-		super(Opcodes.ASM5);
-		this.field = field;
-		this.scb = scb;
-	}
-	
-	private TagBuilder getTagBuilder() {
-		TagBuilder t = tb;
-		if (t == null)
-			t = tb = new TagBuilder(field, scb);
-		return t;
-	}
-	
-	@Override
-	public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-		return getTagBuilder().visitAnnotation(desc, visible);
-	}
-	
-	@Override
-	public void visitAttribute(Attribute attr) {
-		getTagBuilder().visitAttribute(attr);
-	}
+    private final SootField field;
+    private final SootClassBuilder scb;
+    private TagBuilder tb;
+
+    FieldBuilder(SootField field, SootClassBuilder scb) {
+        super(Opcodes.ASM5);
+        this.field = field;
+        this.scb = scb;
+    }
+
+    private TagBuilder getTagBuilder() {
+        TagBuilder t = tb;
+        if (t == null)
+            t = tb = new TagBuilder(field, scb);
+        return t;
+    }
+
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        return getTagBuilder().visitAnnotation(desc, visible);
+    }
+
+    @Override
+    public void visitAttribute(Attribute attr) {
+        getTagBuilder().visitAttribute(attr);
+    }
 }

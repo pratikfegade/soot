@@ -24,13 +24,11 @@
  */
 
 
-
 package soot.grimp;
 
 import soot.jimple.JimpleValueSwitch;
 
-public interface GrimpValueSwitch extends JimpleValueSwitch
-{
+public interface GrimpValueSwitch extends JimpleValueSwitch {
     void caseNewInvokeExpr(NewInvokeExpr e);
 
 }

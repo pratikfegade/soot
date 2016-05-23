@@ -26,14 +26,14 @@ public class Driver {
         _totalClasses = totalClasses;
         _cores = Runtime.getRuntime().availableProcessors();
         if (_cores > 2) {
-            _executor = new ThreadPoolExecutor(_cores/2, _cores, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
+            _executor = new ThreadPoolExecutor(_cores / 2, _cores, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
         } else {
             _executor = new ThreadPoolExecutor(1, _cores, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
         }
     }
 
     public void doInParallel(List<SootClass> sootClasses) {
-        for(SootClass c : sootClasses) {
+        for (SootClass c : sootClasses) {
             generate(c);
         }
         _executor.shutdown();
@@ -48,7 +48,7 @@ public class Driver {
         _classCounter++;
         _sootClasses.add(_sootClass);
 
-        if ((_classCounter % _classSplit == 0) || (_classCounter + _classSplit-1 >= _totalClasses)) {
+        if ((_classCounter % _classSplit == 0) || (_classCounter + _classSplit - 1 >= _totalClasses)) {
             Runnable runnable = _factory.newRunnable(_sootClasses);
             _executor.execute(runnable);
             _sootClasses = new ArrayList<>();

@@ -12,18 +12,18 @@ import java.util.List;
  * Interface for the dalvik instruction formats.
  */
 public interface Insn extends Cloneable {
-	
-	Opcode getOpcode();
-	
-	List<Register> getRegs();
-	
-	BitSet getIncompatibleRegs();
 
-	boolean hasIncompatibleRegs();
-	
-	int getMinimumRegsNeeded();
-	
-	BuilderInstruction getRealInsn(LabelAssigner assigner);
+    Opcode getOpcode();
 
-	int getSize();
+    List<Register> getRegs();
+
+    BitSet getIncompatibleRegs();
+
+    boolean hasIncompatibleRegs();
+
+    int getMinimumRegsNeeded();
+
+    BuilderInstruction getRealInsn(LabelAssigner assigner);
+
+    int getSize();
 }

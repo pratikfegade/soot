@@ -7,8 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-public enum PredicateFile
-{
+public enum PredicateFile {
     CLASS_TYPE("ClassType"),
     ARRAY_TYPE("ArrayType"),
     INTERFACE_TYPE("InterfaceType"),
@@ -69,19 +68,16 @@ public enum PredicateFile
 
     private final String name;
 
-    PredicateFile(String name)
-    {
+    PredicateFile(String name) {
         this.name = name;
     }
 
     @Override
-    public String toString()
-    {
-        return  name;
+    public String toString() {
+        return name;
     }
 
-    public Writer getWriter(File directory, String suffix) throws IOException
-    {
+    public Writer getWriter(File directory, String suffix) throws IOException {
         File factsFile = new File(directory, name + suffix);
         FileUtils.touch(factsFile);
         return new FileWriter(factsFile);

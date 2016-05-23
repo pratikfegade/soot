@@ -34,26 +34,34 @@ import java.util.List;
 import java.util.Map;
 
 public class BafLineNumberer extends BodyTransformer implements IJbcoTransform {
-  public void outputSummary() {}
-  public String[] getDependancies() { return new String[]{"bb.jbco_bln"};}
-  public String getName() { return "bb.jbco_bln";}
-  protected void internalTransform(Body b, String phaseName, Map<String,String> options) {
-    int idx = 0;
-    PatchingChain<Unit> units = b.getUnits();
-    Iterator<Unit> it = units.iterator();
-    while (it.hasNext()) {
-      Inst i  = (Inst)it.next();
-      List<Tag> tags = i.getTags();
-      for (int k = 0; k < tags.size(); k++) {
-        Tag t = tags.get(k);
-        if (t instanceof LineNumberTag) {
-            tags.remove(k);
-            break;
-        }
-      }
-      if (i instanceof IdentityInst)
-        continue;
-      i.addTag(new LineNumberTag(idx++));    
+    public void outputSummary() {
     }
-  }
+
+    public String[] getDependancies() {
+        return new String[]{"bb.jbco_bln"};
+    }
+
+    public String getName() {
+        return "bb.jbco_bln";
+    }
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        int idx = 0;
+        PatchingChain<Unit> units = b.getUnits();
+        Iterator<Unit> it = units.iterator();
+        while (it.hasNext()) {
+            Inst i = (Inst) it.next();
+            List<Tag> tags = i.getTags();
+            for (int k = 0; k < tags.size(); k++) {
+                Tag t = tags.get(k);
+                if (t instanceof LineNumberTag) {
+                    tags.remove(k);
+                    break;
+                }
+            }
+            if (i instanceof IdentityInst)
+                continue;
+            i.addTag(new LineNumberTag(idx++));
+        }
+    }
 }

@@ -24,24 +24,29 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** An entry in the inner classes table.
- * @see InnerClasses_attribute
+/**
+ * An entry in the inner classes table.
+ *
  * @author Archie L. Cobbs
+ * @see InnerClasses_attribute
  */
 class inner_class_entry {
-    /** Constant pool index for the inner class name */
+    /**
+     * Constant pool index for the inner class name
+     */
     public int inner_class_index;
-    /** Constant pool index for the outer class name */
+    /**
+     * Constant pool index for the outer class name
+     */
     public int outer_class_index;
-    /** Short name for the inner class if any, otherwise zero */
+    /**
+     * Short name for the inner class if any, otherwise zero
+     */
     public int name_index;
-    /** Access flags for inner class */
+    /**
+     * Access flags for inner class
+     */
     public int access_flags;
 }

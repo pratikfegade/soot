@@ -24,17 +24,15 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Value;
 import soot.ValueBox;
 
-public interface InvokeStmt extends Stmt
-{
-    void setInvokeExpr(Value invokeExpr);
+public interface InvokeStmt extends Stmt {
     InvokeExpr getInvokeExpr();
+
+    void setInvokeExpr(Value invokeExpr);
+
     ValueBox getInvokeExprBox();
 }

@@ -25,8 +25,8 @@
 
 package soot.baf;
 
-public interface InterfaceInvokeInst extends MethodArgInst
-{
+public interface InterfaceInvokeInst extends MethodArgInst {
     int getArgCount();
+
     void setArgCount(int x);
 }

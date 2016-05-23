@@ -26,8 +26,13 @@
 
 package soot.tagkit;
 
-public class ColorTag implements Tag
-{
+public class ColorTag implements Tag {
+    public static final int RED = 0;
+    public static final int GREEN = 1;
+    public static final int YELLOW = 2;
+    public static final int BLUE = 3;
+    public static final int ORANGE = 4;
+    public static final int PURPLE = 5;
     /* it is a value representing red. */
     private int red;
     /* it is a value representing green. */
@@ -38,132 +43,120 @@ public class ColorTag implements Tag
      * higlight background */
     private boolean foreground = false;
     private String analysisType = "Unknown";
-    
-    public static final int RED = 0;
-	public static final int GREEN = 1;
-	public static final int YELLOW = 2;
-	public static final int BLUE = 3;
-	public static final int ORANGE = 4;
-	public static final int PURPLE = 5;
-	
-	public ColorTag(int r, int g, int b, boolean fg)
-    {
-		red = r;
-		green = g;
-		blue = b;
+
+    public ColorTag(int r, int g, int b, boolean fg) {
+        red = r;
+        green = g;
+        blue = b;
         foreground = fg;
     }
-    
-	public ColorTag(int r, int g, int b)
-    {
-	    this(r, g, b, false);
+
+    public ColorTag(int r, int g, int b) {
+        this(r, g, b, false);
     }
 
-    public ColorTag(int r, int g, int b, String type){
+    public ColorTag(int r, int g, int b, String type) {
         this(r, g, b, false, type);
     }
-    
-    public ColorTag(int r, int g, int b, boolean fg, String type){
+
+    public ColorTag(int r, int g, int b, boolean fg, String type) {
         this(r, g, b, false);
         analysisType = type;
     }
 
-    public ColorTag(int color, String type){
+    public ColorTag(int color, String type) {
         this(color, false, type);
     }
-    
-    public ColorTag(int color, boolean fg, String type){
+
+    public ColorTag(int color, boolean fg, String type) {
         this(color, fg);
         analysisType = type;
     }
-    
-    public ColorTag(int color){
+
+    public ColorTag(int color) {
         this(color, false);
     }
-    
-	public ColorTag(int color, boolean fg){
-		//G.v().out.println("color: "+color);
-		switch (color) {
-			case RED: {
-				red = 255;
-				green = 0;
-				blue = 0;
-				break;
-			}
-			case GREEN: {
-				red = 45;
-				green = 255;
-				blue = 84;
-				break;
-			}
-			case YELLOW: {
-				red = 255;
-				green = 248;
-				blue = 35;
-				break;
-			}
-			case BLUE: {
-				red = 174;
-				green = 210;
-				blue = 255;
-				break;
-			}
-			case ORANGE: {
-				red = 255;
-				green = 163;
-				blue = 0;
-				break;
-			}
-			case PURPLE: {
-				red = 159;
-				green = 34;
-				blue = 193;
-				break;
-			}
-			default: {
-				red = 220;
-				green = 220;
-				blue = 220;
-				break;
-			}
-		}
-        foreground = fg;
-	}
 
-    public String getAnalysisType(){
+    public ColorTag(int color, boolean fg) {
+        //G.v().out.println("color: "+color);
+        switch (color) {
+            case RED: {
+                red = 255;
+                green = 0;
+                blue = 0;
+                break;
+            }
+            case GREEN: {
+                red = 45;
+                green = 255;
+                blue = 84;
+                break;
+            }
+            case YELLOW: {
+                red = 255;
+                green = 248;
+                blue = 35;
+                break;
+            }
+            case BLUE: {
+                red = 174;
+                green = 210;
+                blue = 255;
+                break;
+            }
+            case ORANGE: {
+                red = 255;
+                green = 163;
+                blue = 0;
+                break;
+            }
+            case PURPLE: {
+                red = 159;
+                green = 34;
+                blue = 193;
+                break;
+            }
+            default: {
+                red = 220;
+                green = 220;
+                blue = 220;
+                break;
+            }
+        }
+        foreground = fg;
+    }
+
+    public String getAnalysisType() {
         return analysisType;
     }
-    
-	public int getRed(){
-		return red;
-	}
 
-	public int getGreen(){
-		return green;
-	}
+    public int getRed() {
+        return red;
+    }
 
-	public int getBlue(){
-		return blue;
-	}
-   
-    public boolean isForeground(){
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+
+    public boolean isForeground() {
         return foreground;
     }
-    
-    public String getName()
-    {
-		return "ColorTag";
+
+    public String getName() {
+        return "ColorTag";
     }
 
-    public byte[] getValue()
-    {
-	byte[] v = new byte[2];
-	return v;
+    public byte[] getValue() {
+        byte[] v = new byte[2];
+        return v;
     }
 
-    public String toString()
-    {
-   	return ""+red+" "+green+" "+blue;
+    public String toString() {
+        return "" + red + " " + green + " " + blue;
     }
 
 }

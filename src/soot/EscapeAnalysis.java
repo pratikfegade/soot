@@ -21,27 +21,37 @@ package soot;
 
 import soot.jimple.AnyNewExpr;
 
-/** A generic interface to an escape analysis.
+/**
+ * A generic interface to an escape analysis.
+ *
  * @author Ondrej Lhotak
  */
 
 public interface EscapeAnalysis {
-    /** Returns true if objects allocated at n may continue to be live
-     * after the method in which they are allocated returns. */
+    /**
+     * Returns true if objects allocated at n may continue to be live
+     * after the method in which they are allocated returns.
+     */
     boolean mayEscapeMethod(AnyNewExpr n);
 
-    /** Returns true if objects allocated at n in context c may
+    /**
+     * Returns true if objects allocated at n in context c may
      * continue to be live after the method in which they are allocated
-     * returns. */
+     * returns.
+     */
     boolean mayEscapeMethod(Context c, AnyNewExpr n);
 
-    /** Returns true if objects allocated at n may be accessed in
-     * a thread other than the thread in which they were allocated. */
+    /**
+     * Returns true if objects allocated at n may be accessed in
+     * a thread other than the thread in which they were allocated.
+     */
     boolean mayEscapeThread(AnyNewExpr n);
 
-    /** Returns true if objects allocated at n in context c may be
-     * accessed in a thread other than the thread in which they 
-     * were allocated. */
+    /**
+     * Returns true if objects allocated at n in context c may be
+     * accessed in a thread other than the thread in which they
+     * were allocated.
+     */
     boolean mayEscapeThread(Context c, AnyNewExpr n);
 }
 

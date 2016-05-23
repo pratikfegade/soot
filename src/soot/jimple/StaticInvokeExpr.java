@@ -24,17 +24,14 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Type;
 import soot.util.Switch;
 
-public interface StaticInvokeExpr extends InvokeExpr
-{
+public interface StaticInvokeExpr extends InvokeExpr {
     Type getType();
+
     void apply(Switch sw);
 }
 

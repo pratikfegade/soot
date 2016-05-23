@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Type;
@@ -34,13 +31,18 @@ import soot.Value;
 import soot.ValueBox;
 import soot.util.Switch;
 
-public interface NewArrayExpr extends Expr, AnyNewExpr
-{
+public interface NewArrayExpr extends Expr, AnyNewExpr {
     Type getBaseType();
+
     void setBaseType(Type type);
+
     ValueBox getSizeBox();
+
     Value getSize();
+
     void setSize(Value size);
+
     Type getType();
+
     void apply(Switch sw);
 }

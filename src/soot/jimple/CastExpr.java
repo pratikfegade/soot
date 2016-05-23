@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Type;
@@ -34,13 +31,18 @@ import soot.Value;
 import soot.ValueBox;
 import soot.util.Switch;
 
-public interface CastExpr extends Expr
-{
+public interface CastExpr extends Expr {
     Value getOp();
+
     void setOp(Value op);
+
     ValueBox getOpBox();
+
     Type getCastType();
+
     void setCastType(Type castType);
+
     Type getType();
+
     void apply(Switch sw);
 }

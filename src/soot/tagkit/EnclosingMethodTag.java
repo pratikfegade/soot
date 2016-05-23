@@ -26,52 +26,56 @@
 package soot.tagkit;
 
 
-/** Represents the enclosing method attribute attatched to anon and
+/**
+ * Represents the enclosing method attribute attatched to anon and
  * inner classes to indicate the class and method it is declared in
  * for Java 1.5.
  */
 
-public class EnclosingMethodTag implements  Tag
-{
+public class EnclosingMethodTag implements Tag {
 
     private String enclosingClass;
     private String enclosingMethod;
     private String enclosingMethodSig;
-    
-    public EnclosingMethodTag(String c, String m, String s){
+
+    public EnclosingMethodTag(String c, String m, String s) {
         this.enclosingClass = c;
         this.enclosingMethod = m;
         this.enclosingMethodSig = s;
     }
-    
+
     public String toString() {
-        return "Enclosing Class: "+enclosingClass+" Enclosing Method: "+enclosingMethod+" Sig: "+enclosingMethodSig;
+        return "Enclosing Class: " + enclosingClass + " Enclosing Method: " + enclosingMethod + " Sig: " + enclosingMethodSig;
     }
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "EnclosingMethodTag";
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return "EnclosingMethod";
     }
-    
-    public String getEnclosingClass(){
+
+    public String getEnclosingClass() {
         return enclosingClass;
     }
-    
-    public String getEnclosingMethod(){
+
+    public String getEnclosingMethod() {
         return enclosingMethod;
     }
-    
-    public String getEnclosingMethodSig(){
+
+    public String getEnclosingMethodSig() {
         return enclosingMethodSig;
     }
-    
-    /** Returns the tag raw data. */
+
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "EnclosingMethodTag has no value for bytecode" );
+        throw new RuntimeException("EnclosingMethodTag has no value for bytecode");
     }
 }
 

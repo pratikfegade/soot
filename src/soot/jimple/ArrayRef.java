@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Local;
@@ -35,15 +32,21 @@ import soot.Value;
 import soot.ValueBox;
 import soot.util.Switch;
 
-public interface ArrayRef extends ConcreteRef
-{
+public interface ArrayRef extends ConcreteRef {
     Value getBase();
+
     void setBase(Local base);
+
     ValueBox getBaseBox();
+
     Value getIndex();
+
     void setIndex(Value index);
+
     ValueBox getIndexBox();
+
     Type getType();
+
     void apply(Switch sw);
 }
 

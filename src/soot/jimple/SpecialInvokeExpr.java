@@ -24,11 +24,7 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface SpecialInvokeExpr extends InstanceInvokeExpr
-{
+public interface SpecialInvokeExpr extends InstanceInvokeExpr {
 }

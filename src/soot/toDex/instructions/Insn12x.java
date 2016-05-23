@@ -17,34 +17,34 @@ import java.util.BitSet;
  */
 public class Insn12x extends AbstractInsn implements TwoRegInsn {
 
-	public Insn12x(Opcode opc, Register regA, Register regB) {
-		super(opc);
-		regs.add(regA);
-		regs.add(regB);
-	}
+    public Insn12x(Opcode opc, Register regA, Register regB) {
+        super(opc);
+        regs.add(regA);
+        regs.add(regB);
+    }
 
-	public Register getRegA() {
-		return regs.get(REG_A_IDX);
-	}
+    public Register getRegA() {
+        return regs.get(REG_A_IDX);
+    }
 
-	public Register getRegB() {
-		return regs.get(REG_B_IDX);
-	}
-	
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		return new BuilderInstruction12x(opc, (byte) getRegA().getNumber(), (byte) getRegB().getNumber());
-	}
-	
-	@Override
-	public BitSet getIncompatibleRegs() {
-		BitSet incompatRegs = new BitSet(2);
-		if (!getRegA().fitsByte()) {
-			incompatRegs.set(REG_A_IDX);
-		}
-		if (!getRegB().fitsByte()) {
-			incompatRegs.set(REG_B_IDX);
-		}
-		return incompatRegs;
-	}
+    public Register getRegB() {
+        return regs.get(REG_B_IDX);
+    }
+
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        return new BuilderInstruction12x(opc, (byte) getRegA().getNumber(), (byte) getRegB().getNumber());
+    }
+
+    @Override
+    public BitSet getIncompatibleRegs() {
+        BitSet incompatRegs = new BitSet(2);
+        if (!getRegA().fitsByte()) {
+            incompatRegs.set(REG_A_IDX);
+        }
+        if (!getRegB().fitsByte()) {
+            incompatRegs.set(REG_B_IDX);
+        }
+        return incompatRegs;
+    }
 }

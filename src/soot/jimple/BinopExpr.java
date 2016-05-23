@@ -24,22 +24,25 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Value;
 import soot.ValueBox;
 
-public interface BinopExpr extends Expr
-{
+public interface BinopExpr extends Expr {
     Value getOp1();
-    Value getOp2();
-    ValueBox getOp1Box();
-    ValueBox getOp2Box();
+
     void setOp1(Value op1);
+
+    Value getOp2();
+
     void setOp2(Value op2);
+
+    ValueBox getOp1Box();
+
+    ValueBox getOp2Box();
+
     String getSymbol();
+
     String toString();
 }

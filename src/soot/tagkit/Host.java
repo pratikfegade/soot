@@ -29,45 +29,59 @@ import java.util.List;
 
 // implemented by SootClass, SootField, SootMethod, Scene
 
-/** A "taggable" object.
+/**
+ * A "taggable" object.
  * Implementing classes can have arbitrary labelled data attached to them.
- * 
+ * <p>
  * Currently, only classes, fields, methods and the Scene are Hosts.
- *
+ * <p>
  * One example of a tag would be to store Boolean values, associated with
  * array accesses, indicating whether bounds checks can be omitted.
  *
  * @see Tag
  */
-public interface Host
-{
-    /** Gets a list of tags associated with the current object. */
+public interface Host {
+    /**
+     * Gets a list of tags associated with the current object.
+     */
     List<Tag> getTags();
-    
-    /** Returns the tag with the given name. */
+
+    /**
+     * Returns the tag with the given name.
+     */
     Tag getTag(String aName);
 
-  /** Adds a tag. */
-  void addTag(Tag t);
+    /**
+     * Adds a tag.
+     */
+    void addTag(Tag t);
 
-    /** Removes the first tag with the given name. */
+    /**
+     * Removes the first tag with the given name.
+     */
     void removeTag(String name);
-   
-    /** Returns true if this host has a tag with the given name. */
+
+    /**
+     * Returns true if this host has a tag with the given name.
+     */
     boolean hasTag(String aName);
 
-    /** Removes all the tags from this host. */
+    /**
+     * Removes all the tags from this host.
+     */
     void removeAllTags();
 
-    /** Adds all the tags from h to this host. */
+    /**
+     * Adds all the tags from h to this host.
+     */
     void addAllTagsOf(Host h);
-    
+
     /**
      * Returns the Java source line number if available.
      * Returns -1 if not.
      */
     int getJavaSourceStartLineNumber();
-    
+
     /**
      * Returns the Java source line column if available.
      * Returns -1 if not.

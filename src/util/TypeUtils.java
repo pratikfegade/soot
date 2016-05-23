@@ -4,25 +4,20 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 
-public class TypeUtils implements Opcodes
-{
-    private TypeUtils()
-    {
+public class TypeUtils implements Opcodes {
+    private TypeUtils() {
         throw new AssertionError();
     }
 
-    public static String getClassName(Type classType)
-    {
+    public static String getClassName(Type classType) {
         return classType.getClassName();
     }
 
-    public static String getPackageName(Type classType)
-    {
+    public static String getPackageName(Type classType) {
         return getPackageName(getClassName(classType));
     }
 
-    public static String getPackageName(String className)
-    {
+    public static String getPackageName(String className) {
         int index = className.lastIndexOf('.');
 
         return (index < 0) ? "" : className.substring(0, index);

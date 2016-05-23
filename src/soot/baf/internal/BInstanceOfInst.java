@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.ArrayType;
@@ -36,55 +33,54 @@ import soot.baf.InstSwitch;
 import soot.baf.InstanceOfInst;
 import soot.util.Switch;
 
-public class BInstanceOfInst extends AbstractInst 
-                            implements InstanceOfInst
-{
+public class BInstanceOfInst extends AbstractInst
+        implements InstanceOfInst {
 
 
     protected Type checkType;
 
-    public BInstanceOfInst(Type opType) 
-    { 
+    public BInstanceOfInst(Type opType) {
         if (!(opType instanceof RefType) && !(opType instanceof ArrayType))
-            throw new RuntimeException("invalid InstanceOfInst: "+ opType);
+            throw new RuntimeException("invalid InstanceOfInst: " + opType);
 
         checkType = opType;
     }
-    
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 1;
     }
 
-    public int getInMachineCount()
-    {
-        return 1;
-    }
-    
-    public int getOutCount()
-    {
+    public int getInMachineCount() {
         return 1;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutCount() {
         return 1;
     }
-    
-    final public String getName() { return "instanceof"; }
 
-    public Type getCheckType() { return checkType; }
-    public void setCheckType(Type t) { checkType = t; }
+    public int getOutMachineCount() {
+        return 1;
+    }
 
-    public void apply(Switch sw)
-    {
+    final public String getName() {
+        return "instanceof";
+    }
+
+    public Type getCheckType() {
+        return checkType;
+    }
+
+    public void setCheckType(Type t) {
+        checkType = t;
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseInstanceOfInst(this);
-    }   
+    }
 
 
-    public Object clone() 
-    {
-        return new BInstanceOfInst(checkType); 
+    public Object clone() {
+        return new BInstanceOfInst(checkType);
     }
 
 }

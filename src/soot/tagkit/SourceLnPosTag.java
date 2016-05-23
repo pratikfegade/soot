@@ -25,42 +25,42 @@ public class SourceLnPosTag implements Tag {
     private final int endLn;
     private final int startPos;
     private final int endPos;
-    
-    public SourceLnPosTag(int sline, int eline, int spos, int epos){
+
+    public SourceLnPosTag(int sline, int eline, int spos, int epos) {
         startLn = sline;
         endLn = eline;
         startPos = spos;
         endPos = epos;
     }
 
-    public int startLn(){
+    public int startLn() {
         return startLn;
     }
 
-    public int endLn(){
+    public int endLn() {
         return endLn;
     }
 
-    public int startPos(){
+    public int startPos() {
         return startPos;
     }
 
-    public int endPos(){
+    public int endPos() {
         return endPos;
     }
 
-    public String getName(){
+    public String getName() {
         return "SourceLnPosTag";
     }
 
     public byte[] getValue() {
-	    byte[] v = new byte[2];
-	    v[0] = (byte)(startLn/256);
-	    v[1] = (byte)(startLn%256);
-	    return v;
+        byte[] v = new byte[2];
+        v[0] = (byte) (startLn / 256);
+        v[1] = (byte) (startLn % 256);
+        return v;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("Source Line Pos Tag: ");
         sb.append("sline: ");

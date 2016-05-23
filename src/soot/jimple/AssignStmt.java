@@ -24,15 +24,12 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Value;
 
-public interface AssignStmt extends DefinitionStmt
-{
+public interface AssignStmt extends DefinitionStmt {
     void setLeftOp(Value variable);
+
     void setRightOp(Value rvalue);
 }

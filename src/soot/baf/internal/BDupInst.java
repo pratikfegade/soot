@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.AbstractJasminClass;
@@ -36,61 +33,53 @@ import soot.util.Switch;
 
 import java.util.Iterator;
 
-public abstract class BDupInst extends AbstractInst implements DupInst
-{
+public abstract class BDupInst extends AbstractInst implements DupInst {
 
-    public int getInCount()
-    {
+    public int getInCount() {
         return getUnderTypes().size() + getOpTypes().size();
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         int count = 0;
 
         Iterator<Type> underTypesIt = getUnderTypes().iterator();
-        while(underTypesIt.hasNext()) {
+        while (underTypesIt.hasNext()) {
             count += AbstractJasminClass.sizeOfType(underTypesIt.next());
         }
 
         Iterator<Type> opTypesIt = getOpTypes().iterator();
-        while(opTypesIt.hasNext()) {
+        while (opTypesIt.hasNext()) {
             count += AbstractJasminClass.sizeOfType(opTypesIt.next());
         }
-        
-        
+
+
         return count;
     }
-    
-    public int getOutCount()
-    {
-	    return  getUnderTypes().size() + 2*getOpTypes().size(); 
-    } 
 
-    
+    public int getOutCount() {
+        return getUnderTypes().size() + 2 * getOpTypes().size();
+    }
 
-    public int getOutMachineCount()
-    {
+
+    public int getOutMachineCount() {
         int count = 0;
 
         Iterator<Type> underTypesIt = getUnderTypes().iterator();
-        while(underTypesIt.hasNext()) {
+        while (underTypesIt.hasNext()) {
             count += AbstractJasminClass.sizeOfType(underTypesIt.next());
         }
 
         Iterator<Type> opTypesIt = getOpTypes().iterator();
-        while(opTypesIt.hasNext()) {                        
-            count += 2*AbstractJasminClass.sizeOfType(opTypesIt.next());
-        }                
+        while (opTypesIt.hasNext()) {
+            count += 2 * AbstractJasminClass.sizeOfType(opTypesIt.next());
+        }
         return count;
     }
-    
 
-    
-    public void apply(Switch sw)
-    {
+
+    public void apply(Switch sw) {
         throw new RuntimeException();
-    }   
+    }
 
 }
 

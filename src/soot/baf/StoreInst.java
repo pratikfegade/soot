@@ -28,10 +28,12 @@ package soot.baf;
 import soot.Local;
 import soot.Type;
 
-public interface StoreInst extends Inst
-{
+public interface StoreInst extends Inst {
     Type getOpType();
+
     void setOpType(Type opType);
+
     Local getLocal();
+
     void setLocal(Local l);
 }

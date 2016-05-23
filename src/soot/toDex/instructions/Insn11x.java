@@ -16,26 +16,26 @@ import java.util.BitSet;
  */
 public class Insn11x extends AbstractInsn implements OneRegInsn {
 
-	public Insn11x(Opcode opc, Register regA) {
-		super(opc);
-		regs.add(regA);
-	}
-	
-	public Register getRegA() {
-		return regs.get(REG_A_IDX);
-	}
+    public Insn11x(Opcode opc, Register regA) {
+        super(opc);
+        regs.add(regA);
+    }
 
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		return new BuilderInstruction11x(opc, (short) getRegA().getNumber());
-	}
-	
-	@Override
-	public BitSet getIncompatibleRegs() {
-		BitSet incompatRegs = new BitSet(1);
-		if (!getRegA().fitsShort()) {
-			incompatRegs.set(REG_A_IDX);
-		}
-		return incompatRegs;
-	}
+    public Register getRegA() {
+        return regs.get(REG_A_IDX);
+    }
+
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        return new BuilderInstruction11x(opc, (short) getRegA().getNumber());
+    }
+
+    @Override
+    public BitSet getIncompatibleRegs() {
+        BitSet incompatRegs = new BitSet(1);
+        if (!getRegA().fitsShort()) {
+            incompatRegs.set(REG_A_IDX);
+        }
+        return incompatRegs;
+    }
 }

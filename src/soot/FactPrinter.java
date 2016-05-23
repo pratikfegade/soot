@@ -9,11 +9,11 @@ import java.util.List;
 
 public class FactPrinter implements Runnable {
 
+    final String _suffix;
     boolean _ssa;
     boolean _toStdout;
     String _outputDir;
     PrintWriter _writer;
-    final String _suffix;
     List<SootClass> _sootClasses;
 
     public FactPrinter(boolean ssa, boolean toStdout, String outputDir, PrintWriter writer, List<SootClass> sootClasses) {
@@ -47,13 +47,12 @@ public class FactPrinter implements Runnable {
                     }
                 }
 
-                if ( _toStdout ) {
+                if (_toStdout) {
                     synchronized (_writer) {
                         Printer.v().printTo(c, _writer);
                         _writer.flush();
                     }
-                }
-                else {
+                } else {
                     _writer = new PrintWriter(new File(_outputDir, c.getName() + _suffix));
                     Printer.v().printTo(c, _writer);
                     _writer.close();

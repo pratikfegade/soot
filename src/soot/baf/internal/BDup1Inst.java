@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.Type;
@@ -39,59 +36,52 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BDup1Inst extends BDupInst implements Dup1Inst
-{
+public class BDup1Inst extends BDupInst implements Dup1Inst {
 
     private final Type mOpType;
 
-    
 
-    public BDup1Inst(Type aOpType)
-    {
+    public BDup1Inst(Type aOpType) {
         mOpType = Baf.getDescriptorTypeOf(aOpType);
     }
 
-    public Type getOp1Type()
-    {
+    public Type getOp1Type() {
         return mOpType;
     }
 
 
-    public List<Type> getOpTypes()
-    {
+    public List<Type> getOpTypes() {
         List<Type> res = new ArrayList<>();
         res.add(mOpType);
         return res;
     }
-    
-    public List<Type> getUnderTypes()
-    {
+
+    public List<Type> getUnderTypes() {
         return new ArrayList<>();
     }
 
-    
-    final public String getName() { return "dup1"; }
 
-
-    public void apply(Switch sw)
-    {
-        ((InstSwitch) sw).caseDup1Inst(this);
-    }   
-
-
-
-    public String toString()
-    {
-        return "dup1." +  Baf.bafDescriptorOf(mOpType);        
+    final public String getName() {
+        return "dup1";
     }
 
-    public void toString( UnitPrinter up ) {
+
+    public void apply(Switch sw) {
+        ((InstSwitch) sw).caseDup1Inst(this);
+    }
+
+
+    public String toString() {
+        return "dup1." + Baf.bafDescriptorOf(mOpType);
+    }
+
+    public void toString(UnitPrinter up) {
         up.literal("dup1");
         up.literal(".");
         up.literal(Baf.bafDescriptorOf(mOpType));
     }
 
-  
+
 }
 
 

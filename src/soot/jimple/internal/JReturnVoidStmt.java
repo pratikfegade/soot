@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.Unit;
@@ -41,41 +37,40 @@ import soot.util.Switch;
 
 import java.util.List;
 
-public class JReturnVoidStmt extends AbstractStmt implements ReturnVoidStmt
-{
-    public JReturnVoidStmt()
-    {
+public class JReturnVoidStmt extends AbstractStmt implements ReturnVoidStmt {
+    public JReturnVoidStmt() {
     }
-  
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new JReturnVoidStmt();
     }
 
-    public String toString()
-    {
+    public String toString() {
         return Jimple.RETURN;
     }
-    
+
     public void toString(UnitPrinter up) {
         up.literal(Jimple.RETURN);
     }
-    
-    public void apply(Switch sw)
-    {
+
+    public void apply(Switch sw) {
         ((StmtSwitch) sw).caseReturnVoidStmt(this);
     }
-    
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-    	Unit u = Baf.v().newReturnVoidInst();
-    	u.addAllTagsOf(this);
+
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        Unit u = Baf.v().newReturnVoidInst();
+        u.addAllTagsOf(this);
         out.add(u);
     }
 
 
-    public boolean fallsThrough(){return false;}
-    public boolean branches(){return false;}
+    public boolean fallsThrough() {
+        return false;
+    }
+
+    public boolean branches() {
+        return false;
+    }
 
 }
 

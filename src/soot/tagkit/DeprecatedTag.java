@@ -26,32 +26,35 @@
 package soot.tagkit;
 
 
-/** 
- * Represents the deprecated attribute used by fields, methods and classes 
+/**
+ * Represents the deprecated attribute used by fields, methods and classes
  */
 
-public class DeprecatedTag implements  Tag
-{
+public class DeprecatedTag implements Tag {
 
-    public DeprecatedTag(){
+    public DeprecatedTag() {
     }
-    
+
     public String toString() {
         return "Deprecated";
     }
 
-    /** Returns the tag name. */
+    /**
+     * Returns the tag name.
+     */
     public String getName() {
         return "DeprecatedTag";
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return "Deprecated";
     }
-    
-    /** Returns the tag raw data. */
+
+    /**
+     * Returns the tag raw data.
+     */
     public byte[] getValue() {
-        throw new RuntimeException( "DeprecatedTag has no value for bytecode" );
+        throw new RuntimeException("DeprecatedTag has no value for bytecode");
     }
 }
 

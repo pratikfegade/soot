@@ -23,34 +23,53 @@ import soot.jimple.Constant;
 import soot.jimple.IdentityRef;
 
 /**
-* Interface for different methods of printing out a Unit.
-*/
+ * Interface for different methods of printing out a Unit.
+ */
 public interface UnitPrinter {
     void startUnit(Unit u);
+
     void endUnit(Unit u);
+
     void startUnitBox(UnitBox u);
+
     void endUnitBox(UnitBox u);
+
     void startValueBox(ValueBox u);
+
     void endValueBox(ValueBox u);
 
     void incIndent();
+
     void decIndent();
+
     void noIndent();
-    void setIndent(String newIndent);
+
     String getIndent();
-    
+
+    void setIndent(String newIndent);
+
     void literal(String s);
+
     void newline();
+
     void local(Local l);
+
     void type(Type t);
+
     void methodRef(SootMethodRef m);
+
     void constant(Constant c);
+
     void fieldRef(SootFieldRef f);
+
     void unitRef(Unit u, boolean branchTarget);
+
     void identityRef(IdentityRef r);
 
-    void setPositionTagger(AttributesUnitPrinter pt);
     AttributesUnitPrinter getPositionTagger();
+
+    void setPositionTagger(AttributesUnitPrinter pt);
+
     StringBuffer output();
 }
 

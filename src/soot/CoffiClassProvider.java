@@ -19,20 +19,22 @@
 
 package soot;
 
-/** A class provider looks for a file of a specific format for a specified
+/**
+ * A class provider looks for a file of a specific format for a specified
  * class, and returns a ClassSource for it if it finds it.
  */
-public class CoffiClassProvider implements ClassProvider
-{
-    /** Look for the specified class. Return a ClassSource for it if found,
-     * or null if it was not found. */
-    public ClassSource find( String className ) {
+public class CoffiClassProvider implements ClassProvider {
+    /**
+     * Look for the specified class. Return a ClassSource for it if found,
+     * or null if it was not found.
+     */
+    public ClassSource find(String className) {
         String fileName = className.replace('.', '/') + ".class";
-        SourceLocator.FoundFile file = 
-            SourceLocator.v().lookupInClassPath(fileName);
-        if( file == null ) return null;
+        SourceLocator.FoundFile file =
+                SourceLocator.v().lookupInClassPath(fileName);
+        if (file == null) return null;
         return new CoffiClassSource(className, file.inputStream(), file.inputFile().getAbsolutePath(),
-        		file.zipFile == null ? null : file.zipFile.getName());
+                file.zipFile == null ? null : file.zipFile.getName());
     }
 }
 

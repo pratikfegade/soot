@@ -26,13 +26,18 @@ import soot.toolkits.scalar.ValueUnitPair;
 /**
  * @author Navindra Umanee
  **/
-public interface PiExpr extends ShimpleExpr
-{
+public interface PiExpr extends ShimpleExpr {
     ValueUnitPair getArgBox();
+
     Value getValue();
-    Unit getCondStmt();
-    Object getTargetKey();
+
     void setValue(Value v);
+
+    Unit getCondStmt();
+
     void setCondStmt(Unit cs);
+
+    Object getTargetKey();
+
     void setTargetKey(Object targetKey);
 }

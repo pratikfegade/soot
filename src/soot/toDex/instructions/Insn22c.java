@@ -16,44 +16,44 @@ import java.util.BitSet;
  * It is used e.g. by the opcodes "instance-of", "new-array" and "iget".
  */
 public class Insn22c extends AbstractInsn implements TwoRegInsn {
-	
-	private BuilderReference referencedItem;
 
-	public Insn22c(Opcode opc, Register regA, Register regB, BuilderReference referencedItem) {
-		super(opc);
-		regs.add(regA);
-		regs.add(regB);
-		this.referencedItem = referencedItem;
-	}
+    private BuilderReference referencedItem;
 
-	public Register getRegA() {
-		return regs.get(REG_A_IDX);
-	}
-	
-	public Register getRegB() {
-		return regs.get(REG_B_IDX);
-	}
+    public Insn22c(Opcode opc, Register regA, Register regB, BuilderReference referencedItem) {
+        super(opc);
+        regs.add(regA);
+        regs.add(regB);
+        this.referencedItem = referencedItem;
+    }
 
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		return new BuilderInstruction22c(opc, getRegA().getNumber(),
-				getRegB().getNumber(), referencedItem);
-	}
-	
-	@Override
-	public BitSet getIncompatibleRegs() {
-		BitSet incompatRegs = new BitSet(2);
-		if (!getRegA().fitsByte()) {
-			incompatRegs.set(REG_A_IDX);
-		}
-		if (!getRegB().fitsByte()) {
-			incompatRegs.set(REG_B_IDX);
-		}
-		return incompatRegs;
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + " ref: " + referencedItem;
-	}
+    public Register getRegA() {
+        return regs.get(REG_A_IDX);
+    }
+
+    public Register getRegB() {
+        return regs.get(REG_B_IDX);
+    }
+
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        return new BuilderInstruction22c(opc, getRegA().getNumber(),
+                getRegB().getNumber(), referencedItem);
+    }
+
+    @Override
+    public BitSet getIncompatibleRegs() {
+        BitSet incompatRegs = new BitSet(2);
+        if (!getRegA().fitsByte()) {
+            incompatRegs.set(REG_A_IDX);
+        }
+        if (!getRegB().fitsByte()) {
+            incompatRegs.set(REG_B_IDX);
+        }
+        return incompatRegs;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " ref: " + referencedItem;
+    }
 }

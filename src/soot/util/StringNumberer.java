@@ -21,19 +21,20 @@ package soot.util;
 
 import java.util.HashMap;
 
-/** A class that numbers strings, so they can be placed in bitsets.
+/**
+ * A class that numbers strings, so they can be placed in bitsets.
  *
  * @author Ondrej Lhotak
  */
 
 public class StringNumberer extends ArrayNumberer<NumberedString> {
     HashMap<String, NumberedString> stringToNumbered = new HashMap<>(1024);
-    
-    public NumberedString findOrAdd( String s ) {
-        NumberedString ret = stringToNumbered.get( s );
-        if( ret == null ) {
-            stringToNumbered.put( s, ret = new NumberedString(s) );
-            add( ret );
+
+    public NumberedString findOrAdd(String s) {
+        NumberedString ret = stringToNumbered.get(s);
+        if (ret == null) {
+            stringToNumbered.put(s, ret = new NumberedString(s));
+            add(ret);
         }
         return ret;
     }

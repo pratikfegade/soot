@@ -26,17 +26,18 @@ import java.util.List;
 import java.util.Set;
 
 public interface IInitialResolver {
-	
-	void formAst(String fullPath, List<String> locations, String className);
-	
-	Dependencies resolveFromJavaFile(SootClass sc);
-	
-	class Dependencies {
-		public final Set<Type> typesToHierarchy, typesToSignature;
-		public Dependencies() {
-			typesToHierarchy = new HashSet<>();
-			typesToSignature = new HashSet<>();
-		}
-	}
+
+    void formAst(String fullPath, List<String> locations, String className);
+
+    Dependencies resolveFromJavaFile(SootClass sc);
+
+    class Dependencies {
+        public final Set<Type> typesToHierarchy, typesToSignature;
+
+        public Dependencies() {
+            typesToHierarchy = new HashSet<>();
+            typesToSignature = new HashSet<>();
+        }
+    }
 
 }

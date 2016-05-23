@@ -30,25 +30,22 @@ import soot.Local;
 import soot.Value;
 import soot.jimple.*;
 
-public class ObjExprBox extends ExprBox
-{
+public class ObjExprBox extends ExprBox {
     /* an ExprBox which can only contain object-looking references */
-    public ObjExprBox(Value value)
-    {
+    public ObjExprBox(Value value) {
         super(value);
     }
 
-    public boolean canContainValue(Value value)
-    {
+    public boolean canContainValue(Value value) {
         return value instanceof ConcreteRef ||
-            value instanceof InvokeExpr || 
-        value instanceof NewArrayExpr ||
-        value instanceof NewMultiArrayExpr ||
-            value instanceof Local ||
-        value instanceof NullConstant ||
-        value instanceof StringConstant ||
-        value instanceof ClassConstant ||
-            (value instanceof CastExpr && 
-                canContainValue(((CastExpr)value).getOp()));
+                value instanceof InvokeExpr ||
+                value instanceof NewArrayExpr ||
+                value instanceof NewMultiArrayExpr ||
+                value instanceof Local ||
+                value instanceof NullConstant ||
+                value instanceof StringConstant ||
+                value instanceof ClassConstant ||
+                (value instanceof CastExpr &&
+                        canContainValue(((CastExpr) value).getOp()));
     }
 }

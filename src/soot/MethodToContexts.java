@@ -23,38 +23,38 @@ import java.util.*;
 
 /**
  * Keeps track of the various contexts associated with each method.
- * 
+ *
  * @author Ondrej Lhotak
  */
 public final class MethodToContexts {
-	private final Map<SootMethod, List<MethodOrMethodContext>> map = new HashMap<>();
+    private final Map<SootMethod, List<MethodOrMethodContext>> map = new HashMap<>();
 
-	public void add(MethodOrMethodContext momc) {
-		SootMethod m = momc.method();
-		List<MethodOrMethodContext> l = map.get(m);
-		if (l == null)
-			map.put(m, l = new ArrayList<>());
-		l.add(momc);
-	}
+    public MethodToContexts() {
+    }
 
-	public MethodToContexts() {
-	}
+    public MethodToContexts(Iterator<MethodOrMethodContext> it) {
+        add(it);
+    }
 
-	public MethodToContexts(Iterator<MethodOrMethodContext> it) {
-		add(it);
-	}
+    public void add(MethodOrMethodContext momc) {
+        SootMethod m = momc.method();
+        List<MethodOrMethodContext> l = map.get(m);
+        if (l == null)
+            map.put(m, l = new ArrayList<>());
+        l.add(momc);
+    }
 
-	public void add(Iterator<MethodOrMethodContext> it) {
-		while (it.hasNext()) {
-			MethodOrMethodContext momc = it.next();
-			add(momc);
-		}
-	}
+    public void add(Iterator<MethodOrMethodContext> it) {
+        while (it.hasNext()) {
+            MethodOrMethodContext momc = it.next();
+            add(momc);
+        }
+    }
 
-	public List<MethodOrMethodContext> get(SootMethod m) {
-		List<MethodOrMethodContext> ret = map.get(m);
-		if (ret == null)
-			ret = new ArrayList<>();
-		return ret;
-	}
+    public List<MethodOrMethodContext> get(SootMethod m) {
+        List<MethodOrMethodContext> ret = map.get(m);
+        if (ret == null)
+            ret = new ArrayList<>();
+        return ret;
+    }
 }

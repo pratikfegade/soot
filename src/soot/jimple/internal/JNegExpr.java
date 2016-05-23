@@ -24,10 +24,6 @@
  */
 
 
-
-
-
-
 package soot.jimple.internal;
 
 import soot.Unit;
@@ -39,26 +35,22 @@ import soot.jimple.JimpleToBafContext;
 
 import java.util.List;
 
-public class JNegExpr extends AbstractNegExpr implements ConvertToBaf
-{
-    public JNegExpr(Value op)
-    {
+public class JNegExpr extends AbstractNegExpr implements ConvertToBaf {
+    public JNegExpr(Value op) {
         super(Jimple.v().newImmediateBox(op));
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        ((ConvertToBaf)(getOp())).convertToBaf(context, out);
+    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
+        ((ConvertToBaf) (getOp())).convertToBaf(context, out);
         Unit u = Baf.v().newNegInst(getType());
         u.addAllTagsOf(context.getCurrentUnit());
         out.add(u);
     }
 
-    
-    public Object clone()  
-    {
+
+    public Object clone() {
         return new JNegExpr(Jimple.cloneIfNecessary(getOp()));
     }
-    
+
 
 }

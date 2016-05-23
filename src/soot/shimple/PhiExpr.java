@@ -35,13 +35,13 @@ import java.util.List;
  * predecessor for each argument.  This may be provided either as a
  * Soot CFG Block or more directly as the Unit at the end of the
  * corresponding CFG block.
- *
+ * <p>
  * <p> As much as possible we try to conform to the semantics as
  * described by Cytron et al., TOPLAS Oct. 91.  A Phi node such as
  * "x_1 = Phi(x_2, x_3)" is eliminated by respectively adding the
  * statements "x_1 = x_2" and "x_1 = x_3" at the end of the
  * corresponding control flow predecessor.
- *
+ * <p>
  * <p> However, due to the fact that each argument is explicitly
  * associated with the control flow predecessor, there may be some
  * subtle differences.  We tried to make the behaviour as robust and
@@ -50,16 +50,14 @@ import java.util.List;
  * PatchingChain.
  *
  * @author Navindra Umanee
- * @see
- <a
+ * @see <a
  * href="http://citeseer.nj.nec.com/cytron91efficiently.html">Efficiently
  * Computing Static Single Assignment Form and the Control Dependence
  * Graph</a>
  * @see Shimple#newPhiExpr(List, List)
  * @see Shimple#newPhiExpr(Local, List)
  **/
-public interface PhiExpr extends ShimpleExpr
-{
+public interface PhiExpr extends ShimpleExpr {
     /**
      * Returns an unmodifiable, backed view of the arguments to this PhiExpr.
      * Each argument is a ValueUnitPair.
@@ -113,13 +111,13 @@ public interface PhiExpr extends ShimpleExpr
      * predecessor.  Returns null if not found.
      **/
     ValueUnitPair getArgBox(Unit predTailUnit);
-    
+
     /**
      * Get the PhiExpr argument corresponding to the given control
      * flow predecessor, returns null if not available.
      **/
     Value getValue(Unit predTailUnit);
-    
+
     /**
      * Returns the index of the argument associated with the given
      * control flow predecessor.  Returns -1 if not found.
@@ -131,7 +129,7 @@ public interface PhiExpr extends ShimpleExpr
      * predecessor.  Returns null if not found.
      **/
     ValueUnitPair getArgBox(Block pred);
-    
+
     /**
      * Get the PhiExpr argument corresponding to the given control flow
      * predecessor, returns null if not available.
@@ -167,7 +165,7 @@ public interface PhiExpr extends ShimpleExpr
      * and set the value.  Returns false on failure.
      **/
     boolean setValue(Block pred, Value arg);
-    
+
     /**
      * Update the CFG predecessor associated with the PhiExpr
      * argument at the given index.  Returns false on failure.
@@ -214,17 +212,17 @@ public interface PhiExpr extends ShimpleExpr
      * predecessor.  Returns false on failure.
      **/
     boolean addArg(Value arg, Unit predTailUnit);
-        
-    /**
-     * Set the block number of the Phi node.
-     **/
-    void setBlockId(int blockId);
-     
+
     /**
      * Returns the id number of the block from which the Phi node
      * originated from.
      **/
     int getBlockId();
+
+    /**
+     * Set the block number of the Phi node.
+     **/
+    void setBlockId(int blockId);
 
     /**
      * The type of the PhiExpr is usually the same as the type of its

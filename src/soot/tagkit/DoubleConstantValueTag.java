@@ -25,13 +25,12 @@
 
 package soot.tagkit;
 
-public class DoubleConstantValueTag extends ConstantValueTag
-{
+public class DoubleConstantValueTag extends ConstantValueTag {
     private final double value;
     //private final long value;
 
     /*public DoubleConstantValueTag(long value) {
-	this.value = value;
+    this.value = value;
 	/*this.bytes = new byte[] {
 	  (byte)((value >> 56) & 0xff),
 	  (byte)((value >> 48) & 0xff),
@@ -58,19 +57,20 @@ public class DoubleConstantValueTag extends ConstantValueTag
 	};
     }*/
 
-    public double getDoubleValue() {
-	    return value;
+    public DoubleConstantValueTag(double val) {
+        this.value = val;
     }
 
    /* public long getRawBits() {
 	return value;
     }*/
 
-    public DoubleConstantValueTag(double val){
-        this.value = val;
+    public double getDoubleValue() {
+        return value;
     }
+
     public String toString() {
-        return "ConstantValue: "+Double.toString(value);
+        return "ConstantValue: " + Double.toString(value);
     }
 }
 

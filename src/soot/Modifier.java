@@ -24,38 +24,32 @@
  */
 
 
-
-
 // Incomplete class
 
 package soot;
 
 
-
-
 /**
- *   A class that provides static methods and constants to represent and
- *   work with with Java modifiers (ie public, final,...)
- *   Represents Java modifiers as int constants that can be packed and
- *   combined by bitwise operations and methods to query these.
- *   
+ * A class that provides static methods and constants to represent and
+ * work with with Java modifiers (ie public, final,...)
+ * Represents Java modifiers as int constants that can be packed and
+ * combined by bitwise operations and methods to query these.
  */
-public class Modifier
-{
-    public static final int ABSTRACT =     0x0400;
-    public static final int FINAL =        0x0010;
-    public static final int INTERFACE =    0x0200;
-    public static final int NATIVE =       0x0100;
-    public static final int PRIVATE =      0x0002;
-    public static final int PROTECTED =    0x0004;
-    public static final int PUBLIC =       0x0001;
-    public static final int STATIC =       0x0008;
+public class Modifier {
+    public static final int ABSTRACT = 0x0400;
+    public static final int FINAL = 0x0010;
+    public static final int INTERFACE = 0x0200;
+    public static final int NATIVE = 0x0100;
+    public static final int PRIVATE = 0x0002;
+    public static final int PROTECTED = 0x0004;
+    public static final int PUBLIC = 0x0001;
+    public static final int STATIC = 0x0008;
     public static final int SYNCHRONIZED = 0x0020;
-    public static final int TRANSIENT =    0x0080; /* VARARGS for methods */
-    public static final int VOLATILE =     0x0040; /* BRIDGE for methods */
-    public static final int STRICTFP =     0x0800; 
-    public static final int ANNOTATION =   0x2000; 
-    public static final int ENUM =         0x4000; 
+    public static final int TRANSIENT = 0x0080; /* VARARGS for methods */
+    public static final int VOLATILE = 0x0040; /* BRIDGE for methods */
+    public static final int STRICTFP = 0x0800;
+    public static final int ANNOTATION = 0x2000;
+    public static final int ENUM = 0x4000;
 
     // dex specifific modifiers
     public static final int SYNTHETIC = 0x1000;
@@ -63,77 +57,62 @@ public class Modifier
     public static final int DECLARED_SYNCHRONIZED = 0x20000;
     // add
 
-    private Modifier()
-    {
+    private Modifier() {
     }
 
-    public static boolean isAbstract(int m)
-    {
+    public static boolean isAbstract(int m) {
         return (m & ABSTRACT) != 0;
     }
 
-    public static boolean isFinal(int m )
-    {
+    public static boolean isFinal(int m) {
         return (m & FINAL) != 0;
     }
 
-    public static boolean isInterface(int m)
-    {
+    public static boolean isInterface(int m) {
         return (m & INTERFACE) != 0;
     }
 
-    public static boolean isNative(int m)
-    {
+    public static boolean isNative(int m) {
         return (m & NATIVE) != 0;
     }
 
-    public static boolean isPrivate(int m)
-    {
+    public static boolean isPrivate(int m) {
         return (m & PRIVATE) != 0;
     }
 
-    public static boolean isProtected(int m)
-    {
+    public static boolean isProtected(int m) {
         return (m & PROTECTED) != 0;
     }
 
-    public static boolean isPublic(int m)
-    {
+    public static boolean isPublic(int m) {
         return (m & PUBLIC) != 0;
     }
 
-    public static boolean isStatic(int m)
-    {
+    public static boolean isStatic(int m) {
         return (m & STATIC) != 0;
     }
 
-    public static boolean isSynchronized(int m)
-    {
+    public static boolean isSynchronized(int m) {
         return (m & SYNCHRONIZED) != 0;
     }
 
-    public static boolean isTransient(int m )
-    {
+    public static boolean isTransient(int m) {
         return (m & TRANSIENT) != 0;
     }
 
-    public static boolean isVolatile(int m)
-    {
+    public static boolean isVolatile(int m) {
         return (m & VOLATILE) != 0;
     }
 
-    public static boolean isStrictFP(int m)
-    {
+    public static boolean isStrictFP(int m) {
         return (m & STRICTFP) != 0;
     }
-    
-    public static boolean isAnnotation(int m)
-    {
+
+    public static boolean isAnnotation(int m) {
         return (m & ANNOTATION) != 0;
     }
-    
-    public static boolean isEnum(int m)
-    {
+
+    public static boolean isEnum(int m) {
         return (m & ENUM) != 0;
     }
 
@@ -150,53 +129,53 @@ public class Modifier
     }
 
     /**
-     *  Converts the given modifiers to their string representation, in canonical form.
-     *   @param m  a modifier set
-     *   @return a textual representation of the modifiers.
+     * Converts the given modifiers to their string representation, in canonical form.
+     *
+     * @param m a modifier set
+     * @return a textual representation of the modifiers.
      */
-    public static String toString(int m)
-    {
+    public static String toString(int m) {
         StringBuffer buffer = new StringBuffer();
 
-        if(isPublic(m))
+        if (isPublic(m))
             buffer.append("public ");
-        else if(isPrivate(m))
+        else if (isPrivate(m))
             buffer.append("private ");
-        else if(isProtected(m))
+        else if (isProtected(m))
             buffer.append("protected ");
 
-        if(isAbstract(m))
+        if (isAbstract(m))
             buffer.append("abstract ");
 
-        if(isStatic(m))
+        if (isStatic(m))
             buffer.append("static ");
 
-        if(isFinal(m))
+        if (isFinal(m))
             buffer.append("final ");
 
-        if(isSynchronized(m))
+        if (isSynchronized(m))
             buffer.append("synchronized ");
 
-        if(isNative(m))
+        if (isNative(m))
             buffer.append("native ");
 
-        if(isTransient(m))
+        if (isTransient(m))
             buffer.append("transient ");
 
-        if(isVolatile(m))
+        if (isVolatile(m))
             buffer.append("volatile ");
 
-        if(isStrictFP(m))
+        if (isStrictFP(m))
             buffer.append("strictfp ");
-        
-        if(isAnnotation(m))
+
+        if (isAnnotation(m))
             buffer.append("annotation ");
-        
-        if(isEnum(m))
+
+        if (isEnum(m))
             buffer.append("enum ");
-        
-        if(isInterface(m))
-        	buffer.append("interface ");
+
+        if (isInterface(m))
+            buffer.append("interface ");
 
         return (buffer.toString()).trim();
     }

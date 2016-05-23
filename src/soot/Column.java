@@ -3,8 +3,7 @@ package soot;
 /**
  * Column
  */
-public class Column
-{
+public class Column {
     private String data;
 
     public Column(String data) {

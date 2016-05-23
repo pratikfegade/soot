@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.AbstractJasminClass;
@@ -35,46 +32,40 @@ import soot.baf.CmplInst;
 import soot.baf.InstSwitch;
 import soot.util.Switch;
 
-public class BCmplInst extends AbstractOpTypeInst implements CmplInst
-{
-    public BCmplInst(Type opType)
-    {
+public class BCmplInst extends AbstractOpTypeInst implements CmplInst {
+    public BCmplInst(Type opType) {
         super(opType);
     }
 
-    
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 2;
     }
 
-    
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new BCmplInst(getOpType());
     }
 
-    
-    public int getInMachineCount()
-    {
-        return 2*AbstractJasminClass.sizeOfType(getOpType());
+
+    public int getInMachineCount() {
+        return 2 * AbstractJasminClass.sizeOfType(getOpType());
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 1;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 1;
     }
 
-    public final String getName() { return "cmpl"; }
+    public final String getName() {
+        return "cmpl";
+    }
 
 
-    public void apply(Switch sw)
-    {
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseCmplInst(this);
     }
 }

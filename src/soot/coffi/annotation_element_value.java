@@ -24,16 +24,13 @@
  */
 
 
-
-
-
-
-
 package soot.coffi;
 
-/** There can be many element_value pairs in each annotation 
- * @see attribute_info
+/**
+ * There can be many element_value pairs in each annotation
+ *
  * @author Jennifer Lhotak
+ * @see attribute_info
  */
 public class annotation_element_value extends element_value {
     annotation annotation_value;

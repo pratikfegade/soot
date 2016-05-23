@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.Type;
@@ -34,43 +31,40 @@ import soot.baf.ArrayReadInst;
 import soot.baf.InstSwitch;
 import soot.util.Switch;
 
-public class BArrayReadInst extends AbstractOpTypeInst implements ArrayReadInst
-{
-    public BArrayReadInst(Type opType)
-    {
+public class BArrayReadInst extends AbstractOpTypeInst implements ArrayReadInst {
+    public BArrayReadInst(Type opType) {
         super(opType);
     }
 
 
-    public int getInCount()
-    {
+    public int getInCount() {
         return 2;
     }
 
-    
-    public Object clone() 
-    {
+
+    public Object clone() {
         return new BArrayReadInst(getOpType());
     }
 
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 2;
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 1;
     }
 
-    
 
-    final public String getName() { return "arrayread"; }
+    final public String getName() {
+        return "arrayread";
+    }
 
-    
-    public void apply(Switch sw)
-    {
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseArrayReadInst(this);
-    }   
-    public boolean containsArrayRef() { return true; }
+    }
+
+    public boolean containsArrayRef() {
+        return true;
+    }
 }

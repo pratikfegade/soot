@@ -12,29 +12,29 @@ import java.util.List;
 
 /**
  * The payload for a packed-switch instruction.
- * 
+ *
  * @see SwitchPayload
  */
 public class PackedSwitchPayload extends SwitchPayload {
-	
-	private int firstKey;
-	
-	public PackedSwitchPayload(int firstKey, List<Unit> targets) {
-		super(targets);
-		this.firstKey = firstKey;
-	}
-	
-	@Override
-	public int getSize() {
-		// size = (identFieldSize+sizeFieldSize+firstKeyFieldSize) + (numTargets * targetFieldSize)
-		return 4 + targets.size() * 2;
-	}
 
-	@Override
-	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		List<Label> elements = new ArrayList<>();
-		for (int i = 0; i < targets.size(); i++)
-			elements.add(assigner.getOrCreateLabel((Stmt) targets.get(i)));
-		return new BuilderPackedSwitchPayload(firstKey, elements);
-	}
+    private int firstKey;
+
+    public PackedSwitchPayload(int firstKey, List<Unit> targets) {
+        super(targets);
+        this.firstKey = firstKey;
+    }
+
+    @Override
+    public int getSize() {
+        // size = (identFieldSize+sizeFieldSize+firstKeyFieldSize) + (numTargets * targetFieldSize)
+        return 4 + targets.size() * 2;
+    }
+
+    @Override
+    protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
+        List<Label> elements = new ArrayList<>();
+        for (int i = 0; i < targets.size(); i++)
+            elements.add(assigner.getOrCreateLabel((Stmt) targets.get(i)));
+        return new BuilderPackedSwitchPayload(firstKey, elements);
+    }
 }

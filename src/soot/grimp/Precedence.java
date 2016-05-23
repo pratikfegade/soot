@@ -24,13 +24,8 @@
  */
 
 
-
-
-
-
 package soot.grimp;
 
-public interface Precedence
-{
+public interface Precedence {
     int getPrecedence();
 }

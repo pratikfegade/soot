@@ -21,17 +21,21 @@ package soot;
 
 import soot.javaToJimple.IInitialResolver.Dependencies;
 
-/** A class source is responsible for resolving a single class from a
+/**
+ * A class source is responsible for resolving a single class from a
  * particular source format (.class, .jimple, .java, etc.)
  */
-public abstract class ClassSource 
-{
-    public ClassSource( String className ) {
+public abstract class ClassSource {
+    protected String className;
+
+    public ClassSource(String className) {
         this.className = className;
     }
-    /** Resolve the class into the SootClass sc. Returns a list of Strings
-     * or Types referenced by the class. */
-    public abstract Dependencies resolve( SootClass sc );
-    protected String className;
+
+    /**
+     * Resolve the class into the SootClass sc. Returns a list of Strings
+     * or Types referenced by the class.
+     */
+    public abstract Dependencies resolve(SootClass sc);
 }
 

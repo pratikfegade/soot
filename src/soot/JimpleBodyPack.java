@@ -25,6 +25,7 @@
 
 
 package soot;
+
 import soot.jimple.JimpleBody;
 import soot.options.JBOptions;
 import soot.options.Options;
@@ -34,11 +35,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-/** A wrapper object for a pack of optimizations.
+/**
+ * A wrapper object for a pack of optimizations.
  * Provides chain-like operations, except that the key is the phase name.
- * This is a specific one for the very messy jb phase. */
-public class JimpleBodyPack extends BodyPack
-{
+ * This is a specific one for the very messy jb phase.
+ */
+public class JimpleBodyPack extends BodyPack {
 
     private static final Lock lock = new ReentrantLock();
 
@@ -47,57 +49,56 @@ public class JimpleBodyPack extends BodyPack
     }
 
 
-    /** Applies the transformations corresponding to the given options. */
-    private void applyPhaseOptions(JimpleBody b, Map<String,String> opts) 
-    {
-        JBOptions options = new JBOptions( opts );
-        
-        if(options.use_original_names())
-            PhaseOptions.v().setPhaseOptionIfUnset( "jb.lns", "only-stack-locals");
-        
-        if(Options.v().time()) Timers.v().splitTimer.start();
+    /**
+     * Applies the transformations corresponding to the given options.
+     */
+    private void applyPhaseOptions(JimpleBody b, Map<String, String> opts) {
+        JBOptions options = new JBOptions(opts);
 
-        PackManager.v().getTransform( "jb.tt" ).apply( b );
+        if (options.use_original_names())
+            PhaseOptions.v().setPhaseOptionIfUnset("jb.lns", "only-stack-locals");
+
+        if (Options.v().time()) Timers.v().splitTimer.start();
+
+        PackManager.v().getTransform("jb.tt").apply(b);
         // UnreachableCodeEliminator: We need to do this before splitting
         // locals for not creating disconnected islands of useless assignments
         // that afterwards mess up type assignment.
-        PackManager.v().getTransform( "jb.uce" ).apply( b );
-        PackManager.v().getTransform( "jb.ls" ).apply( b );
+        PackManager.v().getTransform("jb.uce").apply(b);
+        PackManager.v().getTransform("jb.ls").apply(b);
 
-        if(Options.v().time()) Timers.v().splitTimer.end();
+        if (Options.v().time()) Timers.v().splitTimer.end();
 
-        PackManager.v().getTransform( "jb.a" ).apply( b );
-        PackManager.v().getTransform( "jb.ule" ).apply( b );
+        PackManager.v().getTransform("jb.a").apply(b);
+        PackManager.v().getTransform("jb.ule").apply(b);
 
-        if(Options.v().time()) Timers.v().assignTimer.start();
+        if (Options.v().time()) Timers.v().assignTimer.start();
 
         lock.lock();
 
-        PackManager.v().getTransform( "jb.tr" ).apply( b );
+        PackManager.v().getTransform("jb.tr").apply(b);
 
         lock.unlock();
-        if(Options.v().time()) Timers.v().assignTimer.end();
+        if (Options.v().time()) Timers.v().assignTimer.end();
 
-        if(options.use_original_names())
-        {   
-            PackManager.v().getTransform( "jb.ulp" ).apply( b );
+        if (options.use_original_names()) {
+            PackManager.v().getTransform("jb.ulp").apply(b);
         }
-        PackManager.v().getTransform( "jb.lns" ).apply( b );		// LocalNameStandardizer
-        PackManager.v().getTransform( "jb.cp" ).apply( b );			// CopyPropagator
-        PackManager.v().getTransform( "jb.dae" ).apply( b );		// DeadAssignmentElimintaor
-        PackManager.v().getTransform( "jb.cp-ule" ).apply( b );		// UnusedLocalEliminator
-        PackManager.v().getTransform( "jb.lp" ).apply( b );			// LocalPacker
-        PackManager.v().getTransform( "jb.ne" ).apply( b );			// NopEliminator
-        PackManager.v().getTransform( "jb.uce" ).apply( b );		// UnreachableCodeEliminator
-                    
-        if(Options.v().time())
+        PackManager.v().getTransform("jb.lns").apply(b);        // LocalNameStandardizer
+        PackManager.v().getTransform("jb.cp").apply(b);            // CopyPropagator
+        PackManager.v().getTransform("jb.dae").apply(b);        // DeadAssignmentElimintaor
+        PackManager.v().getTransform("jb.cp-ule").apply(b);        // UnusedLocalEliminator
+        PackManager.v().getTransform("jb.lp").apply(b);            // LocalPacker
+        PackManager.v().getTransform("jb.ne").apply(b);            // NopEliminator
+        PackManager.v().getTransform("jb.uce").apply(b);        // UnreachableCodeEliminator
+
+        if (Options.v().time())
             Timers.v().stmtCount += b.getUnits().size();
     }
 
 
-    protected void internalApply(Body b)
-    {
-        applyPhaseOptions( (JimpleBody) b,
-                PhaseOptions.v().getPhaseOptions( getPhaseName() ) );
+    protected void internalApply(Body b) {
+        applyPhaseOptions((JimpleBody) b,
+                PhaseOptions.v().getPhaseOptions(getPhaseName()));
     }
 }

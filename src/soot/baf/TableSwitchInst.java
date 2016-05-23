@@ -30,21 +30,28 @@ import soot.UnitBox;
 
 import java.util.List;
 
-public interface TableSwitchInst extends Inst
-{
+public interface TableSwitchInst extends Inst {
     Unit getDefaultTarget();
+
     void setDefaultTarget(Unit defTarget);
+
     UnitBox getDefaultTargetBox();
-    
+
     int getLowIndex();
+
     void setLowIndex(int index);
-    
+
     int getHighIndex();
+
     void setHighIndex(int index);
-    
+
     List<Unit> getTargets();
-    Unit getTarget(int index);
-    void setTarget(int index, Unit target);
+
     void setTargets(List<Unit> targets);
+
+    Unit getTarget(int index);
+
+    void setTarget(int index, Unit target);
+
     UnitBox getTargetBox(int index);
 }

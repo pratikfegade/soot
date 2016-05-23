@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.Type;
@@ -38,65 +35,57 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BDup2_x1Inst extends BDupInst implements Dup2_x1Inst
-{
+public class BDup2_x1Inst extends BDupInst implements Dup2_x1Inst {
     private final Type mOp1Type, mOp2Type;
     private final Type mUnderType;
 
-    public BDup2_x1Inst(Type aOp1Type, Type aOp2Type, Type aUnderType)
-    {
+    public BDup2_x1Inst(Type aOp1Type, Type aOp2Type, Type aUnderType) {
         mOp1Type = Baf.getDescriptorTypeOf(aOp1Type);
         mOp2Type = Baf.getDescriptorTypeOf(aOp2Type);
         mUnderType = Baf.getDescriptorTypeOf(aUnderType);
     }
 
-    public Type getOp1Type()
-    {
+    public Type getOp1Type() {
         return mOp1Type;
     }
 
-    public Type getOp2Type()
-    {
+    public Type getOp2Type() {
         return mOp2Type;
     }
 
-    public Type getUnder1Type()
-    {
+    public Type getUnder1Type() {
         return mUnderType;
     }
 
 
-    public List<Type> getOpTypes()
-    {
+    public List<Type> getOpTypes() {
         List<Type> res = new ArrayList<>();
         res.add(mOp1Type);
         res.add(mOp2Type);
         return res;
     }
-    
-    public List<Type> getUnderTypes()
-    {
+
+    public List<Type> getUnderTypes() {
         List<Type> res = new ArrayList<>();
         res.add(mUnderType);
         return res;
     }
 
-    
-    final public String getName() { return "dup2_x1"; }
 
-
-    public void apply(Switch sw)
-    {
-        ((InstSwitch) sw).caseDup2_x1Inst(this);
-    }   
-
-
-
-    public String toString()
-    {
-        return "dup2_x1." +  Baf.bafDescriptorOf(mOp1Type) + "." + Baf.bafDescriptorOf(mOp2Type) + "_" +  Baf.bafDescriptorOf(mUnderType);        
+    final public String getName() {
+        return "dup2_x1";
     }
-  
+
+
+    public void apply(Switch sw) {
+        ((InstSwitch) sw).caseDup2_x1Inst(this);
+    }
+
+
+    public String toString() {
+        return "dup2_x1." + Baf.bafDescriptorOf(mOp1Type) + "." + Baf.bafDescriptorOf(mOp2Type) + "_" + Baf.bafDescriptorOf(mUnderType);
+    }
+
 }
 
 

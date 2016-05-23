@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.AbstractJasminClass;
@@ -35,46 +32,38 @@ import soot.baf.InstSwitch;
 import soot.baf.OrInst;
 import soot.util.Switch;
 
-public class BOrInst extends AbstractOpTypeInst implements OrInst
-{
-    public BOrInst(Type opType)
-    {
+public class BOrInst extends AbstractOpTypeInst implements OrInst {
+    public BOrInst(Type opType) {
         super(opType);
     }
 
-    public int getInCount()
-    {
+    public int getInCount() {
         return 2;
     }
 
 
-
-    public Object clone() 
-    {
-        return new  BOrInst(getOpType());
+    public Object clone() {
+        return new BOrInst(getOpType());
     }
 
 
-
-    public int getInMachineCount()
-    {
+    public int getInMachineCount() {
         return 2 * AbstractJasminClass.sizeOfType(getOpType());
     }
-    
-    public int getOutCount()
-    {
+
+    public int getOutCount() {
         return 1;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutMachineCount() {
         return 1 * AbstractJasminClass.sizeOfType(getOpType());
     }
-    
-    public final String getName() { return "or"; }
 
-    public void apply(Switch sw)
-    {
+    public final String getName() {
+        return "or";
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseOrInst(this);
     }
 }

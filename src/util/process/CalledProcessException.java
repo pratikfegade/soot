@@ -4,18 +4,16 @@ package util.process;
  * Thrown by methods that call another process, which is required to
  * succeed (and thus expected to return a zero exit code).
  */
-public class CalledProcessException extends RuntimeException
-{
+public class CalledProcessException extends RuntimeException {
     private final String commandLine;
     private final int returnCode;
 
-    public CalledProcessException(int returnCode, String commandLine)
-    {
+    public CalledProcessException(int returnCode, String commandLine) {
         super(
-            String.format(
-                "Command '%s' returned non-zero exit status %d",
-                commandLine, returnCode)
-            );
+                String.format(
+                        "Command '%s' returned non-zero exit status %d",
+                        commandLine, returnCode)
+        );
 
 
         // Store command that failed and its return code for later

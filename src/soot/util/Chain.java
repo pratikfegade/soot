@@ -31,81 +31,135 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/** Augmented data type guaranteeing O(1) insertion and removal from a set
+/**
+ * Augmented data type guaranteeing O(1) insertion and removal from a set
  * of ordered, unique elements.
- * @param <E> element type  */
-public interface Chain<E> extends Collection<E>, Serializable
-{
-    /** Inserts <code>toInsert</code> in the Chain before <code>point</code>. */
+ *
+ * @param <E> element type
+ */
+public interface Chain<E> extends Collection<E>, Serializable {
+    /**
+     * Inserts <code>toInsert</code> in the Chain before <code>point</code>.
+     */
     void insertBefore(List<E> toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain after <code>point</code>. */
+
+    /**
+     * Inserts <code>toInsert</code> in the Chain after <code>point</code>.
+     */
     void insertAfter(List<E> toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain after <code>point</code>. */
+
+    /**
+     * Inserts <code>toInsert</code> in the Chain after <code>point</code>.
+     */
     void insertAfter(E toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain before <code>point</code>. */
+
+    /**
+     * Inserts <code>toInsert</code> in the Chain before <code>point</code>.
+     */
     void insertBefore(E toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain before <code>point</code>.
-     * (It would probably be better to make Chain implement List)*/
+
+    /**
+     * Inserts <code>toInsert</code> in the Chain before <code>point</code>.
+     * (It would probably be better to make Chain implement List)
+     */
     void insertBefore(Chain<E> toInsert, E point);
-    /** Inserts <code>toInsert</code> in the Chain after <code>point</code>. 
-     * (It would probably be better to make Chain implement List)*/
+
+    /**
+     * Inserts <code>toInsert</code> in the Chain after <code>point</code>.
+     * (It would probably be better to make Chain implement List)
+     */
     void insertAfter(Chain<E> toInsert, E point);
 
-    
-    /** Replaces <code>out</code> in the Chain by <code>in</code>. */
+
+    /**
+     * Replaces <code>out</code> in the Chain by <code>in</code>.
+     */
     void swapWith(E out, E in);
 
-    /** Removes the given object from this Chain.
-     *  Parameter has to be of type {@link Object} to be compatible
-     *  with the {@link Collection} interface. */
+    /**
+     * Removes the given object from this Chain.
+     * Parameter has to be of type {@link Object} to be compatible
+     * with the {@link Collection} interface.
+     */
     boolean remove(Object u);
 
-    /** Adds the given object at the beginning of the Chain. */
+    /**
+     * Adds the given object at the beginning of the Chain.
+     */
     void addFirst(E u);
 
-    /** Adds the given object at the end of the Chain. */
+    /**
+     * Adds the given object at the end of the Chain.
+     */
     void addLast(E u);
 
-    /** Removes the first object contained in this Chain. */
+    /**
+     * Removes the first object contained in this Chain.
+     */
     void removeFirst();
-    /** Removes the last object contained in this Chain. */
+
+    /**
+     * Removes the last object contained in this Chain.
+     */
     void removeLast();
 
-    /** Returns true if object <code>someObject</code> follows object <code>someReferenceObject</code> in the Chain. */
+    /**
+     * Returns true if object <code>someObject</code> follows object <code>someReferenceObject</code> in the Chain.
+     */
     boolean follows(E someObject, E someReferenceObject);
 
-    /** Returns the first object in this Chain. */
+    /**
+     * Returns the first object in this Chain.
+     */
     E getFirst();
 
-    /** Returns the last object in this Chain. */
+    /**
+     * Returns the last object in this Chain.
+     */
     E getLast();
-    
-    /** Returns the object immediately following <code>point</code>. */
+
+    /**
+     * Returns the object immediately following <code>point</code>.
+     */
     E getSuccOf(E point);
 
-    /** Returns the object immediately preceding <code>point</code>. */
+    /**
+     * Returns the object immediately preceding <code>point</code>.
+     */
     E getPredOf(E point);
 
-    /** Returns an iterator over a copy of this chain. 
+    /**
+     * Returns an iterator over a copy of this chain.
      * This avoids ConcurrentModificationExceptions from being thrown
      * if the underlying Chain is modified during iteration.
      * Do not use this to remove elements which have not yet been
-     * iterated over! */
+     * iterated over!
+     */
     Iterator<E> snapshotIterator();
 
-    /** Returns an iterator over this Chain. */
+    /**
+     * Returns an iterator over this Chain.
+     */
     Iterator<E> iterator();
 
-    /** Returns an iterator over this Chain, starting at the given object. */
+    /**
+     * Returns an iterator over this Chain, starting at the given object.
+     */
     Iterator<E> iterator(E u);
 
-    /** Returns an iterator over this Chain, starting at head and reaching tail (inclusive). */
+    /**
+     * Returns an iterator over this Chain, starting at head and reaching tail (inclusive).
+     */
     Iterator<E> iterator(E head, E tail);
 
-    /** Returns the size of this Chain. */
+    /**
+     * Returns the size of this Chain.
+     */
     int size();
-    
-    /** Returns the number of times this chain has been modified. */
-	long getModificationCount();   
+
+    /**
+     * Returns the number of times this chain has been modified.
+     */
+    long getModificationCount();
 }
 

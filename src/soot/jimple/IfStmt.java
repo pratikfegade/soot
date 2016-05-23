@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.Unit;
@@ -34,15 +31,19 @@ import soot.UnitBox;
 import soot.Value;
 import soot.ValueBox;
 
-public interface IfStmt extends Stmt
-{
+public interface IfStmt extends Stmt {
     Value getCondition();
+
     /**
-	 * condition must be soot.jimple.ConditionExpr
-	 */
+     * condition must be soot.jimple.ConditionExpr
+     */
     void setCondition(Value condition);
+
     ValueBox getConditionBox();
+
     Stmt getTarget();
+
     void setTarget(Unit target);
+
     UnitBox getTargetBox();
 }

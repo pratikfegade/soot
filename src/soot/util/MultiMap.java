@@ -22,34 +22,53 @@ package soot.util;
 import java.util.Map;
 import java.util.Set;
 
-/** A map with sets as values.
+/**
+ * A map with sets as values.
  *
  * @author Ondrej Lhotak
  */
 
-public interface MultiMap<K,V> {
+public interface MultiMap<K, V> {
     boolean isEmpty();
+
     int numKeys();
+
     boolean contains(K key, V value);
+
     boolean containsKey(K key);
+
     boolean containsValue(V value);
+
     boolean put(K key, V value);
+
     boolean putAll(K key, Set<V> values);
+
     void putAll(Map<K, Set<V>> m);
+
     void putAll(MultiMap<K, V> m);
+
     boolean remove(K key, V value);
+
     boolean remove(K key);
+
     boolean removeAll(K key, Set<V> values);
+
     Set<V> get(K o);
+
     Set<K> keySet();
+
     Set<V> values();
+
     boolean equals(Object o);
+
     int hashCode();
-    
+
     /**
      * Gets the number of keys in this MultiMap
+     *
      * @return The number of keys in this MultiMap
      */
     int size();
-	void clear();
+
+    void clear();
 }

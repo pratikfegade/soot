@@ -30,19 +30,25 @@ import soot.tagkit.Host;
 
 import java.io.Serializable;
 
-/** A box which can contain values. 
+/**
+ * A box which can contain values.
  *
  * @see Value
  */
-public interface ValueBox extends Host, Serializable
-{
-    /** Sets the value contained in this box as given.  Subject to canContainValue() checks. */
-    void setValue(Value value);
-
-    /** Returns the value contained in this box. */
+public interface ValueBox extends Host, Serializable {
+    /**
+     * Returns the value contained in this box.
+     */
     Value getValue();
 
-    /** Returns true if the given Value fits in this box. */
+    /**
+     * Sets the value contained in this box as given.  Subject to canContainValue() checks.
+     */
+    void setValue(Value value);
+
+    /**
+     * Returns true if the given Value fits in this box.
+     */
     boolean canContainValue(Value value);
 
     void toString(UnitPrinter up);

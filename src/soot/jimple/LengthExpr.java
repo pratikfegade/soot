@@ -24,11 +24,7 @@
  */
 
 
-
-
-
 package soot.jimple;
 
-public interface LengthExpr extends UnopExpr
-{
+public interface LengthExpr extends UnopExpr {
 }

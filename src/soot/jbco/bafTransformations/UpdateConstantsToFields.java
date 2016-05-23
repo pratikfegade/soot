@@ -32,49 +32,48 @@ import java.util.Map;
 
 /**
  * @author Michael Batchelder
- * 
- * Created on 31-May-2006
+ *         <p>
+ *         Created on 31-May-2006
  */
-public class UpdateConstantsToFields extends BodyTransformer  implements IJbcoTransform {
+public class UpdateConstantsToFields extends BodyTransformer implements IJbcoTransform {
 
-  public static String dependancies[] = new String[] {"wjtp.jbco_cc","bb.jbco_ecvf", "bb.jbco_ful", "bb.lp"};
-  
-  public String[] getDependancies() {
-    return dependancies;
-  }
-  public static String name = "bb.jbco_ecvf";
-  
-  public String getName() {
-    return name;
-  }
-  
-  static int updated = 0;
-  
-  public void outputSummary() {
-    out.println("Updated constant references: "+updated);
-  }
+    public static String dependancies[] = new String[]{"wjtp.jbco_cc", "bb.jbco_ecvf", "bb.jbco_ful", "bb.lp"};
+    public static String name = "bb.jbco_ecvf";
+    static int updated = 0;
 
-  protected void internalTransform(Body b, String phaseName, Map<String,String> options) {
-    if (b.getMethod().getName().indexOf("<clinit>")>=0) 
-      return;
-    
-    int weight = soot.jbco.Main.getWeight(phaseName, b.getMethod().getSignature());
-    if (weight == 0) return;
-    
-    PatchingChain<Unit> units = b.getUnits();
-    Iterator<Unit> iter = units.snapshotIterator();
-    while (iter.hasNext()) {
-      Unit u = iter.next();
-      if (u instanceof PushInst) {
-        SootField f = CollectConstants.constantsToFields.get(((PushInst)u).getConstant());
-        if (f!=null && Rand.getInt(10) <= weight) {
-            Unit get = Baf.v().newStaticGetInst(f.makeRef());
-            units.insertBefore(get, u);
-            BodyBuilder.updateTraps(get,u,b.getTraps());
-            units.remove(u);
-            updated++;
-        }
-      }
+    public String[] getDependancies() {
+        return dependancies;
     }
-  }  
+
+    public String getName() {
+        return name;
+    }
+
+    public void outputSummary() {
+        out.println("Updated constant references: " + updated);
+    }
+
+    protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+        if (b.getMethod().getName().indexOf("<clinit>") >= 0)
+            return;
+
+        int weight = soot.jbco.Main.getWeight(phaseName, b.getMethod().getSignature());
+        if (weight == 0) return;
+
+        PatchingChain<Unit> units = b.getUnits();
+        Iterator<Unit> iter = units.snapshotIterator();
+        while (iter.hasNext()) {
+            Unit u = iter.next();
+            if (u instanceof PushInst) {
+                SootField f = CollectConstants.constantsToFields.get(((PushInst) u).getConstant());
+                if (f != null && Rand.getInt(10) <= weight) {
+                    Unit get = Baf.v().newStaticGetInst(f.makeRef());
+                    units.insertBefore(get, u);
+                    BodyBuilder.updateTraps(get, u, b.getTraps());
+                    units.remove(u);
+                    updated++;
+                }
+            }
+        }
+    }
 }

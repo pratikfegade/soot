@@ -31,36 +31,34 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- *  An abstract class which acts on a Body. This class provides a harness and acts as an
- *  interface for classes that wish to transform a Body. Subclasses 
- *  provide the actual Body transformation  implementation.
+ * An abstract class which acts on a Body. This class provides a harness and acts as an
+ * interface for classes that wish to transform a Body. Subclasses
+ * provide the actual Body transformation  implementation.
  */
 
-public abstract class BodyTransformer extends Transformer
-{
+public abstract class BodyTransformer extends Transformer {
     private static final Lock lock = new ReentrantLock();
 
-    /** 
-     *  Called by clients of the transformation. Acts as a generic interface
-     *  for BodyTransformers.
-     *  Calls internalTransform with the optionsString properly set up.
-     *  That is, the options in optionsString override those in the Scene. 
-     *  @param b the body on which to apply the transformation
-     *  @param phaseName phaseName for the transform. Used to retrieve options from the Scene.
+    /**
+     * Called by clients of the transformation. Acts as a generic interface
+     * for BodyTransformers.
+     * Calls internalTransform with the optionsString properly set up.
+     * That is, the options in optionsString override those in the Scene.
+     *
+     * @param b         the body on which to apply the transformation
+     * @param phaseName phaseName for the transform. Used to retrieve options from the Scene.
      */
-    public final void transform(Body b, String phaseName, Map<String, String> options)
-    {
+    public final void transform(Body b, String phaseName, Map<String, String> options) {
 
-        if(!PhaseOptions.getBoolean(options, "enabled"))
+        if (!PhaseOptions.getBoolean(options, "enabled"))
             return;
 
         internalTransform(b, phaseName, options);
     }
 
-    public final void transform(Body b, String phaseName)
-    {
+    public final void transform(Body b, String phaseName) {
         HashMap<String, String> dummyOptions = new HashMap<>();
-        dummyOptions.put( "enabled", "true" );
+        dummyOptions.put("enabled", "true");
 
 //        System.out.println("Trying to acquire lock");
 //        lock.lock();
@@ -69,18 +67,18 @@ public abstract class BodyTransformer extends Transformer
 //        System.out.println("Leaving lock");
     }
 
-    public final void transform(Body b)
-    {
-	transform(b, "");
+    public final void transform(Body b) {
+        transform(b, "");
     }
 
     /**
-     *  This method is called to perform the transformation itself. It is declared
-     *  abstract; subclasses must implement this method by making it the entry point
-     *  to their actual Body transformation. 
-     *  @param b the body on which to apply the transformation
-     *  @param phaseName the phasename for this transform; not typically used by implementations.
-     *  @param options  the actual computed options; a combination of default options and Scene specified options.
+     * This method is called to perform the transformation itself. It is declared
+     * abstract; subclasses must implement this method by making it the entry point
+     * to their actual Body transformation.
+     *
+     * @param b         the body on which to apply the transformation
+     * @param phaseName the phasename for this transform; not typically used by implementations.
+     * @param options   the actual computed options; a combination of default options and Scene specified options.
      */
     protected abstract void internalTransform(Body b, String phaseName, Map<String, String> options);
 

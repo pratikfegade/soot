@@ -30,9 +30,9 @@ import soot.Type;
 import java.util.List;
 
 
-public interface DupInst extends Inst
-{ 
+public interface DupInst extends Inst {
     List<Type> getOpTypes();
+
     List<Type> getUnderTypes();
-    
+
 }

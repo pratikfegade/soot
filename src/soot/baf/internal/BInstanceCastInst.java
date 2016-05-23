@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.baf.internal;
 
 import soot.ArrayType;
@@ -36,62 +33,58 @@ import soot.baf.InstSwitch;
 import soot.baf.InstanceCastInst;
 import soot.util.Switch;
 
-public class BInstanceCastInst extends AbstractInst 
-                            implements InstanceCastInst
-{
+public class BInstanceCastInst extends AbstractInst
+        implements InstanceCastInst {
 
     protected Type castType;
 
-    public BInstanceCastInst(Type opType) 
-    { 
-        
+    public BInstanceCastInst(Type opType) {
+
         if (!(opType instanceof RefType) && !(opType instanceof ArrayType))
-            throw new RuntimeException("invalid InstanceCastInst: "+ opType);
+            throw new RuntimeException("invalid InstanceCastInst: " + opType);
         castType = opType;
     }
 
-    
-    public int getInCount()
-    {
+
+    public int getInCount() {
         return 1;
     }
 
 
+    public Object clone() {
 
-
-
-    public Object clone() 
-    {
-
-        return new  BInstanceCastInst(castType);
+        return new BInstanceCastInst(castType);
 
     }
 
-    
-    public int getInMachineCount()
-    {
-        return 1;
-    }
-    
-    public int getOutCount()
-    {
+
+    public int getInMachineCount() {
         return 1;
     }
 
-    public int getOutMachineCount()
-    {
+    public int getOutCount() {
         return 1;
     }
-    
 
-    final public String getName() { return "checkcast"; }
+    public int getOutMachineCount() {
+        return 1;
+    }
 
-    public Type getCastType() { return castType; }
-    public void setCastType(Type t) { castType = t; }
 
-    public void apply(Switch sw)
-    {
+    final public String getName() {
+        return "checkcast";
+    }
+
+    public Type getCastType() {
+        return castType;
+    }
+
+    public void setCastType(Type t) {
+        castType = t;
+    }
+
+    public void apply(Switch sw) {
         ((InstSwitch) sw).caseInstanceCastInst(this);
-    }   
+    }
 }
 

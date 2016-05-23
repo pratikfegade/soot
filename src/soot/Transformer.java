@@ -25,9 +25,10 @@
 
 package soot;
 
-/** An abstract class which acts on some Soot object.  Transformers
+/**
+ * An abstract class which acts on some Soot object.  Transformers
  * are generally expected to supply some sort of transform()
- * method. */
-public abstract class Transformer
-{
+ * method.
+ */
+public abstract class Transformer {
 }

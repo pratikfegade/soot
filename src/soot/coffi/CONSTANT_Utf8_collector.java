@@ -31,25 +31,28 @@ import soot.Singletons;
 
 import java.util.HashMap;
 
-/** Provides sharing for Utf8_info string objects 
- * reused in different contexts. */
+/**
+ * Provides sharing for Utf8_info string objects
+ * reused in different contexts.
+ */
 
-public class CONSTANT_Utf8_collector 
-{
-    public CONSTANT_Utf8_collector( Singletons.Global g ) {}
-    public static CONSTANT_Utf8_collector v() { return G.v().soot_coffi_CONSTANT_Utf8_collector(); }
+public class CONSTANT_Utf8_collector {
     HashMap<String, CONSTANT_Utf8_info> hash = null;
 
-    synchronized CONSTANT_Utf8_info add(CONSTANT_Utf8_info _Utf8_info) 
-    {
-        if (hash == null) 
-        {
+    public CONSTANT_Utf8_collector(Singletons.Global g) {
+    }
+
+    public static CONSTANT_Utf8_collector v() {
+        return G.v().soot_coffi_CONSTANT_Utf8_collector();
+    }
+
+    synchronized CONSTANT_Utf8_info add(CONSTANT_Utf8_info _Utf8_info) {
+        if (hash == null) {
             hash = new HashMap<>();
         }
 
         String Utf8_str_key = _Utf8_info.convert();
-        if (hash.containsKey(Utf8_str_key)) 
-        {
+        if (hash.containsKey(Utf8_str_key)) {
             return hash.get(Utf8_str_key);
         }
         hash.put(Utf8_str_key, _Utf8_info);

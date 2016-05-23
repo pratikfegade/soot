@@ -28,33 +28,32 @@ package soot.tagkit;
 import soot.util.Switch;
 
 
-/** 
+/**
  * Represents the int annotation element
- * each annotation can have several elements 
+ * each annotation can have several elements
  * for Java 1.5.
  */
 
-public class AnnotationDoubleElem extends AnnotationElem
-{
+public class AnnotationDoubleElem extends AnnotationElem {
 
     double value;
 
-    public AnnotationDoubleElem(double v, char kind, String name){
+    public AnnotationDoubleElem(double v, char kind, String name) {
         super(kind, name);
         this.value = v;
     }
-    
-    public String toString(){
-        return super.toString()+" value: "+value;
+
+    public String toString() {
+        return super.toString() + " value: " + value;
     }
 
-    public double getValue(){
+    public double getValue() {
         return value;
     }
-    
-	@Override
-	public void apply(Switch sw) {
-		((IAnnotationElemTypeSwitch) sw).caseAnnotationDoubleElem(this);
-	}
+
+    @Override
+    public void apply(Switch sw) {
+        ((IAnnotationElemTypeSwitch) sw).caseAnnotationDoubleElem(this);
+    }
 }
 

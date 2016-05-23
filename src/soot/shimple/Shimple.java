@@ -36,10 +36,10 @@ import java.util.*;
  * grammar.  Methods are available to construct Shimple from
  * Jimple/Shimple, create Phi nodes, and converting back from
  * Shimple to Jimple.
- *
+ * <p>
  * <p> This should normally be used in conjunction with the
  * constructor methods from soot.jimple.Jimple.
- *
+ * <p>
  * <p> Miscellaneous utility functions are also available in this
  * class.
  *
@@ -49,108 +49,32 @@ import java.util.*;
  * href="http://citeseer.nj.nec.com/cytron91efficiently.html">Efficiently
  * Computing Static Single Assignment Form and the Control Dependence
  * Graph</a>
-**/
-public class Shimple
-{
+ **/
+public class Shimple {
     public static final String IFALIAS = "IfAlias";
     public static final String MAYMODIFY = "MayModify";
     public static final String PHI = "Phi";
     public static final String PI = "Pi";
     public static final String PHASE = "shimple";
-    
-    public Shimple(Singletons.Global g) {}
 
-    synchronized public static Shimple v()
-    { return G.v().soot_shimple_Shimple(); }
-
-    /**
-     * Returns an empty ShimpleBody associated with method m, using
-     * default phase options.
-     **/
-    synchronized public ShimpleBody newBody(SootMethod m)
-    {
-        Map<String, String> options = PhaseOptions.v().getPhaseOptions(PHASE);
-        return new ShimpleBody(m, options);
+    public Shimple(Singletons.Global g) {
     }
 
-    /**
-     * Returns an empty ShimpleBody associated with method m, using
-     * provided option map.
-     **/
-    synchronized public ShimpleBody newBody(SootMethod m, Map<String, String> options)
-    {
-        return new ShimpleBody(m, options);
-    }
-
-    /**
-     * Returns a ShimpleBody constructed from b, using default phase
-     * options.
-     **/
-    synchronized public ShimpleBody newBody(Body b)
-    {
-        Map<String, String> options = PhaseOptions.v().getPhaseOptions(PHASE);
-        return new ShimpleBody(b, options);
-    }
-
-    /**
-     * Returns a ShimpleBody constructed from b, using provided option
-     * Map.
-     **/
-    synchronized public ShimpleBody newBody(Body b, Map<String, String> options)
-    {
-        return new ShimpleBody(b, options);
-    }
-
-    /**
-     * Create a trivial PhiExpr, where preds are an ordered list of
-     * the control predecessor Blocks of the Phi expression.  Instead
-     * of a list of blocks, you may provide a list of the tail Units
-     * from the corresponding blocks.
-     **/
-    synchronized public PhiExpr newPhiExpr(Local leftLocal, List<Block> preds)
-    {
-        return new SPhiExpr(leftLocal, preds);
-    }
-
-    synchronized public PiExpr newPiExpr(Local local, Unit predicate, Object targetKey)
-    {
-        return new SPiExpr(local, predicate, targetKey);
-    }
-    
-    /**
-     * Create a PhiExpr with the provided list of Values (Locals or
-     * Constants) and the corresponding control flow predecessor
-     * Blocks.  Instead of a list of predecessor blocks, you may
-     * provide a list of the tail Units from the corresponding blocks.
-     **/
-    synchronized public PhiExpr newPhiExpr(List<Value> args, List<Unit> preds)
-    {
-        return new SPhiExpr(args, preds);
-    }
-
-    /**
-     * Constructs a JimpleBody from a ShimpleBody.
-     *
-     * @see soot.options.ShimpleOptions
-     **/
-    synchronized public JimpleBody newJimpleBody(ShimpleBody body)
-    {
-        return body.toJimpleBody();
+    synchronized public static Shimple v() {
+        return G.v().soot_shimple_Shimple();
     }
 
     /**
      * Returns true if the value is a Phi expression, false otherwise.
      **/
-    synchronized public static boolean isPhiExpr(Value value)
-    {
+    synchronized public static boolean isPhiExpr(Value value) {
         return (value instanceof PhiExpr);
     }
-    
+
     /**
      * Returns true if the unit is a Phi node, false otherwise.
      **/
-    synchronized public static boolean isPhiNode(Unit unit)
-    {
+    synchronized public static boolean isPhiNode(Unit unit) {
         return
                 getPhiExpr(unit) != null;
     }
@@ -159,37 +83,33 @@ public class Shimple
      * Returns the corresponding PhiExpr if the unit is a Phi node,
      * null otherwise.
      **/
-    synchronized public static PhiExpr getPhiExpr(Unit unit)
-    {
-        if(!(unit instanceof AssignStmt))
+    synchronized public static PhiExpr getPhiExpr(Unit unit) {
+        if (!(unit instanceof AssignStmt))
             return null;
 
-        Value right = ((AssignStmt)unit).getRightOp();
-        
-        if(isPhiExpr(right))
+        Value right = ((AssignStmt) unit).getRightOp();
+
+        if (isPhiExpr(right))
             return (PhiExpr) right;
 
         return null;
     }
 
-    synchronized public static boolean isPiExpr(Value value)
-    {
+    synchronized public static boolean isPiExpr(Value value) {
         return (value instanceof PiExpr);
     }
 
-    synchronized public static boolean isPiNode(Unit unit)
-    {
+    synchronized public static boolean isPiNode(Unit unit) {
         return getPiExpr(unit) != null;
     }
 
-    synchronized public static PiExpr getPiExpr(Unit unit)
-    {
-        if(!(unit instanceof AssignStmt))
+    synchronized public static PiExpr getPiExpr(Unit unit) {
+        if (!(unit instanceof AssignStmt))
             return null;
 
-        Value right = ((AssignStmt)unit).getRightOp();
+        Value right = ((AssignStmt) unit).getRightOp();
 
-        if(isPiExpr(right))
+        if (isPiExpr(right))
             return (PiExpr) right;
 
         return null;
@@ -199,15 +119,14 @@ public class Shimple
      * Returns the corresponding left Local if the unit is a Shimple node,
      * null otherwise.
      **/
-    synchronized public static Local getLhsLocal(Unit unit)
-    {
-        if(!(unit instanceof AssignStmt))
+    synchronized public static Local getLhsLocal(Unit unit) {
+        if (!(unit instanceof AssignStmt))
             return null;
 
-        Value right = ((AssignStmt)unit).getRightOp();
-        
-        if(right instanceof ShimpleExpr){
-            Value left = ((AssignStmt)unit).getLeftOp();
+        Value right = ((AssignStmt) unit).getRightOp();
+
+        if (right instanceof ShimpleExpr) {
+            Value left = ((AssignStmt) unit).getLeftOp();
             return (Local) left;
         }
 
@@ -220,53 +139,52 @@ public class Shimple
      * order to update any PhiExpr pointers to the Unit to point to
      * the Unit's predecessor(s). This function will not modify
      * "branch target" UnitBoxes.
-     *
+     * <p>
      * <p> Normally you should not have to call this function
      * directly, since patching is taken care of Shimple's internal
      * implementation of PatchingChain.
      **/
-    synchronized public static void redirectToPreds(Body body, Unit remove)
-    {
+    synchronized public static void redirectToPreds(Body body, Unit remove) {
         boolean debug = Options.v().debug();
-        if(body instanceof ShimpleBody)
-            debug |= ((ShimpleBody)body).getOptions().debug();
-            
+        if (body instanceof ShimpleBody)
+            debug |= ((ShimpleBody) body).getOptions().debug();
+
         Chain<Unit> units = body.getUnits();
 
         /* Determine whether we should continue processing or not. */
         List<UnitBox> boxesPointingToThis = remove.getBoxesPointingToThis();
-        if(boxesPointingToThis.isEmpty())
+        if (boxesPointingToThis.isEmpty())
             return;
 
         for (UnitBox pointer : boxesPointingToThis) {
             // a PhiExpr may be involved, hence continue processing.
             // note that we will use the value of "pointer" and
             // continue iteration from where we left off.
-            if(!pointer.isBranchTarget())
+            if (!pointer.isBranchTarget())
                 break;
         }
 
         /* Ok, continuing... */
-            
+
         Set<Unit> preds = new HashSet<>();
-        Set<PhiExpr> phis  = new HashSet<>();
-        
+        Set<PhiExpr> phis = new HashSet<>();
+
         // find fall-through pred
-        if(!remove.equals(units.getFirst())){
+        if (!remove.equals(units.getFirst())) {
             Unit possiblePred = units.getPredOf(remove);
-            if(possiblePred.fallsThrough())
+            if (possiblePred.fallsThrough())
                 preds.add(possiblePred);
         }
 
         // find the rest of the preds and all Phi's that point to remove
         for (Unit unit : units) {
-        	for (UnitBox targetBox : unit.getUnitBoxes()) {
-                if(remove.equals(targetBox.getUnit())){
-                    if(targetBox.isBranchTarget())
+            for (UnitBox targetBox : unit.getUnitBoxes()) {
+                if (remove.equals(targetBox.getUnit())) {
+                    if (targetBox.isBranchTarget())
                         preds.add(unit);
-                    else{
+                    else {
                         PhiExpr phiExpr = Shimple.getPhiExpr(unit);
-                        if(phiExpr != null)
+                        if (phiExpr != null)
                             phis.add(phiExpr);
                     }
                 }
@@ -274,30 +192,28 @@ public class Shimple
         }
 
         /* sanity check */
-        
-        if(phis.size() == 0){
-            if(debug)
+
+        if (phis.size() == 0) {
+            if (debug)
                 G.v().out.println("Warning: Orphaned UnitBoxes to " + remove + "? Shimple.redirectToPreds is giving up.");
             return;
         }
 
-        if(preds.size() == 0){
-            if(debug)
+        if (preds.size() == 0) {
+            if (debug)
                 G.v().out.println("Warning: Shimple.redirectToPreds couldn't find any predecessors for " + remove + " in " + body.getMethod() + ".");
 
-            if(!remove.equals(units.getFirst())){
+            if (!remove.equals(units.getFirst())) {
                 Unit pred = units.getPredOf(remove);
-                if(debug)
+                if (debug)
                     G.v().out.println("Warning: Falling back to immediate chain predecessor: " + pred + ".");
                 preds.add(pred);
-            }
-            else if(!remove.equals(units.getLast())){
+            } else if (!remove.equals(units.getLast())) {
                 Unit succ = units.getSuccOf(remove);
-                if(debug)
+                if (debug)
                     G.v().out.println("Warning: Falling back to immediate chain successor: " + succ + ".");
                 preds.add(succ);
-            }
-            else
+            } else
                 throw new RuntimeException("Assertion failed.");
         }
 
@@ -305,20 +221,20 @@ public class Shimple
 
         /* Each Phi needs an argument for each pred. */
         Iterator<PhiExpr> phiIt = phis.iterator();
-        while(phiIt.hasNext()){
+        while (phiIt.hasNext()) {
             PhiExpr phiExpr = phiIt.next();
             ValueUnitPair argBox = phiExpr.getArgBox(remove);
 
-            if(argBox == null)
+            if (argBox == null)
                 throw new RuntimeException("Assertion failed.");
-            
+
             // now we've got the value!
             Value arg = argBox.getValue();
             phiExpr.removeArg(argBox);
 
             // add new arguments to Phi
             Iterator<Unit> predsIt = preds.iterator();
-            while(predsIt.hasNext()){
+            while (predsIt.hasNext()) {
                 Unit pred = predsIt.next();
                 phiExpr.addArg(arg, pred);
             }
@@ -327,23 +243,89 @@ public class Shimple
 
     /**
      * Redirects PhiExpr pointers to the given Unit to the new Unit.
-     *
+     * <p>
      * <p> Normally you should not have to call this function
      * directly, since patching is taken care of Shimple's internal
      * implementation of PatchingChain.
      **/
-    synchronized public static void redirectPointers(Unit oldLocation, Unit newLocation)
-    {
+    synchronized public static void redirectPointers(Unit oldLocation, Unit newLocation) {
         List<UnitBox> boxesPointing = oldLocation.getBoxesPointingToThis();
 
         // important to change this to an array to have a static copy
         UnitBox[] boxes = boxesPointing.toArray(new UnitBox[boxesPointing.size()]);
         for (UnitBox box : boxes) {
-            if(box.getUnit() != oldLocation)
+            if (box.getUnit() != oldLocation)
                 throw new RuntimeException("Something weird's happening");
-            
-            if(!box.isBranchTarget())
+
+            if (!box.isBranchTarget())
                 box.setUnit(newLocation);
         }
+    }
+
+    /**
+     * Returns an empty ShimpleBody associated with method m, using
+     * default phase options.
+     **/
+    synchronized public ShimpleBody newBody(SootMethod m) {
+        Map<String, String> options = PhaseOptions.v().getPhaseOptions(PHASE);
+        return new ShimpleBody(m, options);
+    }
+
+    /**
+     * Returns an empty ShimpleBody associated with method m, using
+     * provided option map.
+     **/
+    synchronized public ShimpleBody newBody(SootMethod m, Map<String, String> options) {
+        return new ShimpleBody(m, options);
+    }
+
+    /**
+     * Returns a ShimpleBody constructed from b, using default phase
+     * options.
+     **/
+    synchronized public ShimpleBody newBody(Body b) {
+        Map<String, String> options = PhaseOptions.v().getPhaseOptions(PHASE);
+        return new ShimpleBody(b, options);
+    }
+
+    /**
+     * Returns a ShimpleBody constructed from b, using provided option
+     * Map.
+     **/
+    synchronized public ShimpleBody newBody(Body b, Map<String, String> options) {
+        return new ShimpleBody(b, options);
+    }
+
+    /**
+     * Create a trivial PhiExpr, where preds are an ordered list of
+     * the control predecessor Blocks of the Phi expression.  Instead
+     * of a list of blocks, you may provide a list of the tail Units
+     * from the corresponding blocks.
+     **/
+    synchronized public PhiExpr newPhiExpr(Local leftLocal, List<Block> preds) {
+        return new SPhiExpr(leftLocal, preds);
+    }
+
+    synchronized public PiExpr newPiExpr(Local local, Unit predicate, Object targetKey) {
+        return new SPiExpr(local, predicate, targetKey);
+    }
+
+    /**
+     * Create a PhiExpr with the provided list of Values (Locals or
+     * Constants) and the corresponding control flow predecessor
+     * Blocks.  Instead of a list of predecessor blocks, you may
+     * provide a list of the tail Units from the corresponding blocks.
+     **/
+    synchronized public PhiExpr newPhiExpr(List<Value> args, List<Unit> preds) {
+        return new SPhiExpr(args, preds);
+    }
+
+    /**
+     * Constructs a JimpleBody from a ShimpleBody.
+     *
+     * @see soot.options.ShimpleOptions
+     **/
+    synchronized public JimpleBody newJimpleBody(ShimpleBody body) {
+        return body.toJimpleBody();
     }
 }

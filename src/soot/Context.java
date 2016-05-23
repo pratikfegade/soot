@@ -25,7 +25,8 @@
 
 package soot;
 
-/** A context in a context-sensitive all graph. May be a unit
+/**
+ * A context in a context-sensitive all graph. May be a unit
  * (in a 1CFA call graph) or a Spark AllocNode (in an object-sensitive call
  * graph).
  */

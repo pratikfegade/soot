@@ -19,9 +19,13 @@
 
 package soot;
 
-/** Interface for things like Packs and phases that have phase options. */
+/**
+ * Interface for things like Packs and phases that have phase options.
+ */
 public interface HasPhaseOptions {
     String getDeclaredOptions();
+
     String getDefaultOptions();
+
     String getPhaseName();
 }

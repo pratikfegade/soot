@@ -28,33 +28,32 @@ package soot.tagkit;
 import soot.util.Switch;
 
 
-/** 
+/**
  * Represents the base class of annotation elements
- * each annotation can have several elements 
+ * each annotation can have several elements
  * for Java 1.5.
  */
 
-public class AnnotationClassElem extends AnnotationElem
-{
+public class AnnotationClassElem extends AnnotationElem {
 
     String desc;
 
-    public AnnotationClassElem(String s, char kind, String name){
+    public AnnotationClassElem(String s, char kind, String name) {
         super(kind, name);
         this.desc = s;
     }
-    
-    public String toString(){
-        return super.toString()+" decription: "+desc;
+
+    public String toString() {
+        return super.toString() + " decription: " + desc;
     }
 
-    public String getDesc(){
+    public String getDesc() {
         return desc;
     }
-    
-	@Override
-	public void apply(Switch sw) {
-		((IAnnotationElemTypeSwitch) sw).caseAnnotationClassElem(this);
-	}
+
+    @Override
+    public void apply(Switch sw) {
+        ((IAnnotationElemTypeSwitch) sw).caseAnnotationClassElem(this);
+    }
 }
 

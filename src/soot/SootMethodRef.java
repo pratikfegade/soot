@@ -23,7 +23,8 @@ import soot.util.NumberedString;
 
 import java.util.List;
 
-/** Representation of a reference to a method as it appears in a class file.
+/**
+ * Representation of a reference to a method as it appears in a class file.
  * Note that the method directly referred to may not actually exist; the
  * actual target of the reference is determined according to the resolution
  * procedure in the Java Virtual Machine Specification, 2nd ed, section 5.4.3.3.
@@ -31,9 +32,13 @@ import java.util.List;
 
 public interface SootMethodRef {
     SootClass declaringClass();
+
     String name();
+
     List<Type> parameterTypes();
+
     Type returnType();
+
     boolean isStatic();
 
     NumberedString getSubSignature();

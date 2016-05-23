@@ -24,9 +24,6 @@
  */
 
 
-
-
-
 package soot.jimple;
 
 import soot.ArrayType;
@@ -37,15 +34,22 @@ import soot.util.Switch;
 
 import java.util.List;
 
-public interface NewMultiArrayExpr extends Expr, AnyNewExpr
-{
+public interface NewMultiArrayExpr extends Expr, AnyNewExpr {
     ArrayType getBaseType();
+
     void setBaseType(ArrayType baseType);
+
     ValueBox getSizeBox(int index);
+
     int getSizeCount();
+
     Value getSize(int index);
+
     List<Value> getSizes();
+
     void setSize(int index, Value size);
+
     Type getType();
+
     void apply(Switch sw);
 }
