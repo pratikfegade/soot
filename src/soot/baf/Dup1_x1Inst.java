@@ -31,7 +31,7 @@ import soot.*;
 
 public interface Dup1_x1Inst extends DupInst
 { 
-    public Type getOp1Type();
-    public Type getUnder1Type();
+    Type getOp1Type();
+    Type getUnder1Type();
 }
 

@@ -62,7 +62,7 @@ public class ValueGraph
         List<Block> blocks = pto.newList(cfg,false);
 
         for(Iterator<Block> blocksIt = blocks.iterator(); blocksIt.hasNext();){
-            Block block = (Block) blocksIt.next();
+            Block block = blocksIt.next();
             for(Iterator<Unit> blockIt = block.iterator(); blockIt.hasNext();)
                 handleStmt((Stmt) blockIt.next());
         }
@@ -176,7 +176,7 @@ public class ValueGraph
             public void handleUnop(UnopExpr unop)
             {
                 Node nop = fetchNode(unop.getOp());
-                List<Node> child = Collections.<Node>singletonList(nop);
+                List<Node> child = Collections.singletonList(nop);
                 setResult(new Node(unop, true, child));
             }
             
@@ -651,7 +651,7 @@ public class ValueGraph
 
         public List<ValueBox> getUseBoxes()
         {
-            return Collections.<ValueBox>emptyList();
+            return Collections.emptyList();
         }
 
         public Type getType()

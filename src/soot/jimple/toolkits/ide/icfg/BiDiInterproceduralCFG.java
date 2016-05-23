@@ -14,24 +14,24 @@ import soot.toolkits.graph.DirectedGraph;
  */
 public interface BiDiInterproceduralCFG<N, M> extends InterproceduralCFG<N, M> {
 
-	public List<N> getPredsOf(N u);
+	List<N> getPredsOf(N u);
 	
-	public Collection<N> getEndPointsOf(M m);
+	Collection<N> getEndPointsOf(M m);
 
-	public List<N> getPredsOfCallAt(N u);
+	List<N> getPredsOfCallAt(N u);
 
-	public Set<N> allNonCallEndNodes();
+	Set<N> allNonCallEndNodes();
 		
 	//also exposed to some clients who need it
-	public DirectedGraph<N> getOrCreateUnitGraph(M body);
+	DirectedGraph<N> getOrCreateUnitGraph(M body);
 
-	public List<Value> getParameterRefs(M m);
+	List<Value> getParameterRefs(M m);
 	
 	/**
 	 * Gets whether the given statement is a return site of at least one call
 	 * @param n The statement to check
 	 * @return True if the given statement is a return site, otherwise false
 	 */
-	public boolean isReturnSite(N n);
+	boolean isReturnSite(N n);
 
 }

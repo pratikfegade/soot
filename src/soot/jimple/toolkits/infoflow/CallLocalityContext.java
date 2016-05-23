@@ -65,7 +65,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof InstanceFieldRef)
 			{
 				isNodeLocal.remove(i);
@@ -78,7 +78,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof InstanceFieldRef)
 			{
 				isNodeLocal.remove(i);
@@ -91,7 +91,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof ParameterRef)
 			{
 				ParameterRef pr = (ParameterRef) r;
@@ -108,7 +108,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof ParameterRef)
 			{
 				ParameterRef pr = (ParameterRef) r;
@@ -125,7 +125,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof ParameterRef)
 			{
 				ParameterRef pr = (ParameterRef) r;
@@ -142,7 +142,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof ParameterRef)
 			{
 				ParameterRef pr = (ParameterRef) r;
@@ -159,7 +159,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof ThisRef)
 			{
 				isNodeLocal.remove(i);
@@ -172,7 +172,7 @@ public class CallLocalityContext
 	{
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof ThisRef)
 			{
 				isNodeLocal.remove(i);
@@ -283,7 +283,7 @@ public class CallLocalityContext
 			{
 				return false;
 			}
-			else if( ((EquivalentValue) nodes.get(i)).getValue().getType() instanceof RefLikeType && isNodeLocal.get(i).booleanValue() )
+			else if( nodes.get(i).getValue().getType() instanceof RefLikeType && isNodeLocal.get(i).booleanValue() )
 			{
 				return false;
 			}
@@ -301,7 +301,7 @@ public class CallLocalityContext
 			return "Call Locality Context: NO NODES\n";
 		for(int i = 0; i < nodes.size(); i++)
 		{
-			Ref r = (Ref) ((EquivalentValue) nodes.get(i)).getValue();
+			Ref r = (Ref) nodes.get(i).getValue();
 			if(r instanceof InstanceFieldRef)
 				fieldrefs = fieldrefs + r + ": " + (isNodeLocal.get(i).booleanValue() ? "local" : "shared") + "\n";
 			else if(r instanceof StaticFieldRef)

@@ -61,8 +61,8 @@ public class GLBTypeFactory extends java.lang.Object {
          */
         private static void addInterfaces(ArrayList intersectInterfaceList, ArrayList allInterfaceList, TypeDecl typeDecl) {
             if(typeDecl.isInterfaceDecl()) {
-                intersectInterfaceList.add((InterfaceDecl)typeDecl);
-                allInterfaceList.add((InterfaceDecl)typeDecl);
+                intersectInterfaceList.add(typeDecl);
+                allInterfaceList.add(typeDecl);
             }
             else if (typeDecl instanceof TypeVariable) {
                 TypeVariable varTD = (TypeVariable)typeDecl;
@@ -136,7 +136,7 @@ public class GLBTypeFactory extends java.lang.Object {
             if (result.size() == 1)
                 return (TypeDecl) result.get(0);
             else
-                return (TypeDecl) t.typeObject();
+                return t.typeObject();
         }
 
 
@@ -161,7 +161,7 @@ public class GLBTypeFactory extends java.lang.Object {
 
             // class
             if (t.isClassDecl() && !result.contains(t)) {
-                result.add((ClassDecl) t);
+                result.add(t);
             }
             // type variable, probably called from from 1st if case.
             else if (t.isTypeVariable()) {
@@ -175,7 +175,7 @@ public class GLBTypeFactory extends java.lang.Object {
             }
             // interface
             else if (t.isInterfaceDecl())
-                result.add((ClassDecl) t.typeObject());
+                result.add(t.typeObject());
 
         }
 

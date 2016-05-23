@@ -52,10 +52,10 @@ public class ParseName extends Access implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ParseName copy() {
     try {
-      ParseName node = (ParseName) clone();
+      ParseName node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -70,10 +70,10 @@ public class ParseName extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParseName fullCopy() {
-    ParseName tree = (ParseName) copy();
+    ParseName tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

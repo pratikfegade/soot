@@ -72,10 +72,10 @@ public class ConditionalExpr extends Expr implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ConditionalExpr copy() {
     try {
-      ConditionalExpr node = (ConditionalExpr) clone();
+      ConditionalExpr node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -90,10 +90,10 @@ public class ConditionalExpr extends Expr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ConditionalExpr fullCopy() {
-    ConditionalExpr tree = (ConditionalExpr) copy();
+    ConditionalExpr tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

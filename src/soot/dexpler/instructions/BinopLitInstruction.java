@@ -63,7 +63,7 @@ public class BinopLitInstruction extends TaggedInstruction {
 
         Local source1 = body.getRegisterLocal(source);
 
-        IntConstant constant = IntConstant.v((int)binOpLitInstr.getNarrowLiteral());
+        IntConstant constant = IntConstant.v(binOpLitInstr.getNarrowLiteral());
 
         expr = getExpression(source1, constant);
 

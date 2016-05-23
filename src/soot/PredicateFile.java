@@ -70,7 +70,7 @@ public enum PredicateFile
 
     private final String name;
 
-    private PredicateFile(String name)
+    PredicateFile(String name)
     {
         this.name = name;
     }

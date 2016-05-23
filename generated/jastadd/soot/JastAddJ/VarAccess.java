@@ -76,10 +76,10 @@ public class VarAccess extends Access implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public VarAccess copy() {
     try {
-      VarAccess node = (VarAccess) clone();
+      VarAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -94,10 +94,10 @@ public class VarAccess extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public VarAccess fullCopy() {
-    VarAccess tree = (VarAccess) copy();
+    VarAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -910,10 +910,8 @@ public class VarAccess extends Access implements Cloneable {
       return true;
     if(b instanceof InstanceInitializer && !decl().isStatic())
       return true;
-    if(b instanceof StaticInitializer && decl().isStatic())
-      return true;
-    return false;
-  }
+      return b instanceof StaticInitializer && decl().isStatic();
+    }
     finally {
     }
   }
@@ -1066,10 +1064,8 @@ public class VarAccess extends Access implements Cloneable {
     FieldDeclaration f = (FieldDeclaration)v;
     if(f.isPrivate() && !hostType().hasField(v.name()))
       return true;
-    if(f.isProtected() && !f.hostPackage().equals(hostPackage()) && !hostType().hasField(v.name()))
-      return true;
-    return false;
-  }
+      return f.isProtected() && !f.hostPackage().equals(hostPackage()) && !hostType().hasField(v.name());
+    }
     finally {
     }
   }

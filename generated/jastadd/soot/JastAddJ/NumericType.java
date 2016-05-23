@@ -230,7 +230,7 @@ public abstract class NumericType extends PrimitiveType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperClassAccess() {
-    return (Access)getSuperClassAccessOpt().getChild(0);
+    return getSuperClassAccessOpt().getChild(0);
   }
   /**
    * Replaces the (optional) SuperClassAccess child.
@@ -304,7 +304,7 @@ public abstract class NumericType extends PrimitiveType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.

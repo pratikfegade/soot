@@ -121,7 +121,7 @@ public class NullPointerChecker extends BodyTransformer
                             boxIt = s.getDefBoxes().iterator();
 			    while (boxIt.hasNext())
 			    {
-				ValueBox vBox = (ValueBox)boxIt.next();
+				ValueBox vBox = boxIt.next();
 				Value v = vBox.getValue();
 
 				// putfield, and getfield 
@@ -148,7 +148,7 @@ public class NullPointerChecker extends BodyTransformer
                             boxIt = s.getUseBoxes().iterator();
 			    while (boxIt.hasNext())
 			    {
-				ValueBox vBox = (ValueBox)boxIt.next();
+				ValueBox vBox = boxIt.next();
 				Value v = vBox.getValue();
 
 				// putfield, and getfield 

@@ -122,10 +122,8 @@ public class FactGenerator implements Runnable {
             if(phantomBased(m.getParameterType(i)))
                 return true;
 
-        if (phantomBased(m.getReturnType()))
-            return true;
+        return phantomBased(m.getReturnType());
 
-        return false;
     }
 
     public void generate(SootMethod m, Session session)

@@ -37,7 +37,7 @@ abstract class AbstractMultiMap<K, V> implements MultiMap<K, V> {
 	protected abstract Set<V> createSet();
 	
 	protected Set<V> emptySet() {
-		return Collections.<V>emptySet();
+		return Collections.emptySet();
 	}
     /* (non-Javadoc)
 	 * @see AAA.util.MultiMap#get(K)

@@ -986,11 +986,11 @@ public class UnitThrowAnalysis extends AbstractThrowAnalysis {
 		result = result.add(mgr.ARITHMETIC_EXCEPTION);
 	    } else if ((divisorType instanceof IntegerType) &&
 		((! (divisor instanceof IntConstant)) ||
-		 (((IntConstant) divisor).equals(INT_CONSTANT_ZERO)))) {
+		 (divisor.equals(INT_CONSTANT_ZERO)))) {
 		result = result.add(mgr.ARITHMETIC_EXCEPTION);
 	    } else if ((divisorType == LongType.v()) &&
 		       ((! (divisor instanceof LongConstant)) ||
-			(((LongConstant) divisor).equals(LONG_CONSTANT_ZERO)))) {
+			(divisor.equals(LONG_CONSTANT_ZERO)))) {
 		result = result.add(mgr.ARITHMETIC_EXCEPTION);
 	    }
 	    caseBinopExpr(expr);

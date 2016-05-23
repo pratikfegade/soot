@@ -105,7 +105,7 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
     HashMap<Unit,Unit> popsBuilt = new HashMap<Unit,Unit>();
     Unit prev = null;
     while (it.hasNext()) {
-      Unit unit = (Unit) it.next();
+      Unit unit = it.next();
 
       // check if prev unit falls through to this unit (non-jump). If so, and
       // it's ALSO a target
@@ -129,7 +129,7 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
 
     it = u.snapshotIterator();
     while (it.hasNext()) {
-      Unit unit = (Unit) it.next();
+      Unit unit = it.next();
       if (builtJsrs.containsValue(unit))
         continue;
 
@@ -179,7 +179,7 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
     targets.clear();
     it = u.snapshotIterator();
     while (it.hasNext()) {
-      Unit unit = (Unit) it.next();
+      Unit unit = it.next();
       if (!(unit instanceof TargetArgInst))
         continue;
       Unit targ = ((TargetArgInst) unit).getTarget();
@@ -189,14 +189,14 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
 
     it = popsBuilt.keySet().iterator();
     while (it.hasNext()) {
-      Unit pop = (Unit) it.next();
+      Unit pop = it.next();
       if (!targets.contains(pop))
         u.remove(pop);
     }
 
     it = switches.keySet().iterator();
     while (it.hasNext()) {
-      Unit sw = (Unit) it.next();
+      Unit sw = it.next();
       List<Unit> targs = switches.get(sw);
 
       for (int i = 0; i < targs.size(); i++) {

@@ -34,8 +34,8 @@ import soot.util.*;
 
 public interface NewExpr extends Expr, AnyNewExpr
 {
-    public RefType getBaseType();
-    public void setBaseType(RefType type);
-    public Type getType();
-    public void apply(Switch sw);
+    RefType getBaseType();
+    void setBaseType(RefType type);
+    Type getType();
+    void apply(Switch sw);
 }

@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Main {
 
-    public static enum Mode {INPUTS, FULL;}
+    public enum Mode {INPUTS, FULL}
 
 
     private static Mode _mode = null;

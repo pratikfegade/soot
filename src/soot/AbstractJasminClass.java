@@ -124,7 +124,7 @@ public abstract class AbstractJasminClass
 
         while(typeIt.hasNext())
         {
-            Type t = (Type) typeIt.next();
+            Type t = typeIt.next();
 
             argCount += sizeOfType(t);
         }
@@ -220,7 +220,7 @@ public abstract class AbstractJasminClass
 
             while(typeIt.hasNext())
             {
-                Type t = (Type) typeIt.next();
+                Type t = typeIt.next();
 
                 buffer.append(jasminDescriptorOf(t));
             }
@@ -512,7 +512,7 @@ public abstract class AbstractJasminClass
 	while(it.hasNext()) {
 	    Tag tag = it.next();
 	    if(tag instanceof Attribute)
-		emit(".class_attribute "  + tag.getName() + " \"" + new String(Base64.encode(((Attribute)tag).getValue()))+"\"");
+		emit(".class_attribute "  + tag.getName() + " \"" + new String(Base64.encode(tag.getValue()))+"\"");
         /*else {
             emit("");
         }*/
@@ -565,7 +565,7 @@ public abstract class AbstractJasminClass
     
     Iterator<Tag> vit = sootClass.getTags().iterator();
     while (vit.hasNext()){
-        Tag t = (Tag)vit.next();
+        Tag t = vit.next();
         if (t.getName().equals("VisibilityAnnotationTag")){
             emit(getVisibilityAnnotationAttr((VisibilityAnnotationTag)t));
         }
@@ -577,7 +577,7 @@ public abstract class AbstractJasminClass
 
             while(fieldIt.hasNext())
             {
-                SootField field = (SootField) fieldIt.next();
+                SootField field = fieldIt.next();
 
                 String fieldString = ".field " + Modifier.toString(field.getModifiers()) + " " +  "\"" + field.getName() + "\"" + " " + jasminDescriptorOf(field.getType());
     
@@ -618,7 +618,7 @@ public abstract class AbstractJasminClass
                 }
                 Iterator<Tag> vfit = field.getTags().iterator();
                 while (vfit.hasNext()){
-                    Tag t = (Tag)vfit.next();
+                    Tag t = vfit.next();
                     if (t.getName().equals("VisibilityAnnotationTag")){
                         fieldString += getVisibilityAnnotationAttr((VisibilityAnnotationTag)t);
                     }
@@ -628,9 +628,9 @@ public abstract class AbstractJasminClass
 
 		Iterator<Tag> attributeIt =  field.getTags().iterator(); 
 		while(attributeIt.hasNext()) {
-		    Tag tag = (Tag) attributeIt.next();
+		    Tag tag = attributeIt.next();
 		    if(tag instanceof Attribute)
-			emit(".field_attribute " + tag.getName() + " \"" + new String(Base64.encode(((Attribute)tag).getValue())) +"\"");
+			emit(".field_attribute " + tag.getName() + " \"" + new String(Base64.encode(tag.getValue())) +"\"");
 		}
 
             }
@@ -663,9 +663,9 @@ public abstract class AbstractJasminClass
         if(Options.v().time())
             Timers.v().packTimer.start();
 
-        localToGroup = new HashMap<Local, Object>(body.getLocalCount() * 2 + 1, 0.7f);
-        groupToColorCount = new HashMap<Object, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
-        localToColor = new HashMap<Local, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
+        localToGroup = new HashMap<>(body.getLocalCount() * 2 + 1, 0.7f);
+        groupToColorCount = new HashMap<>(body.getLocalCount() * 2 + 1, 0.7f);
+        localToColor = new HashMap<>(body.getLocalCount() * 2 + 1, 0.7f);
         
         // Assign each local to a group, and set that group's color count to 0.
         {
@@ -752,7 +752,7 @@ public abstract class AbstractJasminClass
             }
             Iterator<Tag> vit = method.getTags().iterator();
             while (vit.hasNext()){
-                Tag t = (Tag)vit.next();
+                Tag t = vit.next();
                 if (t.getName().equals("VisibilityAnnotationTag")){
                     emit(getVisibilityAnnotationAttr((VisibilityAnnotationTag)t));
                 }
@@ -774,7 +774,7 @@ public abstract class AbstractJasminClass
 
 	    Iterator<Tag> it =  method.getTags().iterator();
 	    while(it.hasNext()) {
-		Tag tag = (Tag) it.next();
+		Tag tag = it.next();
 		if(tag instanceof Attribute)
 		    emit(".method_attribute "  + tag.getName() + " \"" + new String(Base64.encode(tag.getValue())) +"\"");
 	    }	    

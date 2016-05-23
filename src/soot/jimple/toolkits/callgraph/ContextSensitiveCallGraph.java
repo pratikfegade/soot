@@ -29,24 +29,24 @@ public interface ContextSensitiveCallGraph
     /** Returns all MethodOrMethodContext's (context,method pairs) that are 
      * the source of some edge.
      */
-    public Iterator edgeSources();
+    Iterator edgeSources();
 
     /** Returns all ContextSensitiveEdge's in the call graph.
      */
-    public Iterator allEdges();
+    Iterator allEdges();
 
     /** Returns all ContextSensitiveEdge's out of unit srcUnit in method src
      * in context srcCtxt.
      */
-    public Iterator edgesOutOf(Context srcCtxt, SootMethod src, Unit srcUnit);
+    Iterator edgesOutOf(Context srcCtxt, SootMethod src, Unit srcUnit);
 
     /** Returns all ContextSensitiveEdge's out of method src
      * in context srcCtxt.
      */
-    public Iterator edgesOutOf(Context srcCtxt, SootMethod src);
+    Iterator edgesOutOf(Context srcCtxt, SootMethod src);
 
     /** Returns all ContextSensitiveEdge's into method tgt in context tgtCtxt.
      */
-    public Iterator edgesInto(Context tgtCtxt, SootMethod tgt);
+    Iterator edgesInto(Context tgtCtxt, SootMethod tgt);
 }
 

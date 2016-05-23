@@ -109,7 +109,7 @@ public class ClassResolver {
                 polyglot.types.ClassType superType = (polyglot.types.ClassType)cDecl.superClass().type();
                 // add inner clas tag
                 
-                Util.addInnerClassTag(sootClass, sootClass.getName(), ((soot.RefType)Util.getSootType(superType.outer())).toString(), superType.name(), Util.getModifier(superType.flags()));
+                Util.addInnerClassTag(sootClass, sootClass.getName(), Util.getSootType(superType.outer()).toString(), superType.name(), Util.getModifier(superType.flags()));
             }
         
         }
@@ -382,7 +382,7 @@ public class ClassResolver {
             if (((polyglot.types.ClassType)aNew.objectType().type()).isNested()){
                 polyglot.types.ClassType superType = (polyglot.types.ClassType)aNew.objectType().type();
                 // add inner clas tag
-                Util.addInnerClassTag(sootClass, typeClass.getName(), ((soot.RefType)Util.getSootType(superType.outer())).toString(), superType.name(), Util.getModifier(superType.flags()));
+                Util.addInnerClassTag(sootClass, typeClass.getName(), Util.getSootType(superType.outer()).toString(), superType.name(), Util.getModifier(superType.flags()));
 
             }
         }

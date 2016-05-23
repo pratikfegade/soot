@@ -56,7 +56,7 @@ public class NullnessAnalysisColorer extends BodyTransformer {
                               Stmt s, NullnessAnalysis analysis) {
         Value val = vBox.getValue();
         if (val.getType() instanceof RefLikeType &&
-                ((ArraySparseSet)set).contains(val))
+                set.contains(val))
             vBox.addTag(new ColorTag(ColorTag.GREEN));
     }
 }

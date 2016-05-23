@@ -37,26 +37,26 @@ public interface MemberSubstitutor extends Parameterization {
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:1084
    */
   @SuppressWarnings({"unchecked", "cast"})
-  public HashMap localMethodsSignatureMap();
+  HashMap localMethodsSignatureMap();
   /**
    * @attribute syn
    * @aspect LookupParTypeDecl
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:1119
    */
   @SuppressWarnings({"unchecked", "cast"})
-  public SimpleSet localFields(String name);
+  SimpleSet localFields(String name);
   /**
    * @attribute syn
    * @aspect LookupParTypeDecl
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:1154
    */
   @SuppressWarnings({"unchecked", "cast"})
-  public SimpleSet localTypeDecls(String name);
+  SimpleSet localTypeDecls(String name);
   /**
    * @attribute syn
    * @aspect LookupParTypeDecl
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:1213
    */
   @SuppressWarnings({"unchecked", "cast"})
-  public Collection constructors();
+  Collection constructors();
 }

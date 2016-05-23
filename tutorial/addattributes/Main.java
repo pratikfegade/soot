@@ -57,7 +57,7 @@ class AnnExampleWrapper extends BodyTransformer
     private static AnnExampleWrapper instance =
         new AnnExampleWrapper();
 
-    private AnnExampleWrapper() {};
+    private AnnExampleWrapper() {}
 
     public static AnnExampleWrapper v()
     {

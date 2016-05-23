@@ -76,10 +76,10 @@ public class EnhancedForStmt extends BranchTargetStmt implements Cloneable, Vari
   @SuppressWarnings({"unchecked", "cast"})
   public EnhancedForStmt copy() {
     try {
-      EnhancedForStmt node = (EnhancedForStmt) clone();
+      EnhancedForStmt node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -94,10 +94,10 @@ public class EnhancedForStmt extends BranchTargetStmt implements Cloneable, Vari
    */
   @SuppressWarnings({"unchecked", "cast"})
   public EnhancedForStmt fullCopy() {
-    EnhancedForStmt tree = (EnhancedForStmt) copy();
+    EnhancedForStmt tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

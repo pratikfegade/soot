@@ -54,8 +54,6 @@ public class AllocAndContext {
     final AllocAndContext other = (AllocAndContext) obj;
     if (!alloc.equals(other.alloc))
       return false;
-    if (!context.equals(other.context))
-      return false;
-    return true;
+    return context.equals(other.context);
   }
 }

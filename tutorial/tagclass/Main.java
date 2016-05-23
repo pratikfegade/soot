@@ -50,7 +50,7 @@ import java.util.*;
 
 public class Main
 {
-    public static void main(String[] args) throws FileNotFoundException, IOException
+    public static void main(String[] args) throws IOException
     {
         SootClass sClass;
         SootMethod method;
@@ -125,7 +125,7 @@ public class Main
         MyTagAggregator mta = new MyTagAggregator();
         // convert the body to Baf
         method.setActiveBody(
-            Baf.v().newBody((JimpleBody) method.getActiveBody()));
+            Baf.v().newBody(method.getActiveBody()));
         // aggregate the tags and produce a CodeAttribute
         mta.transform(method.getActiveBody());
 

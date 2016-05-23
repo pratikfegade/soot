@@ -18,7 +18,7 @@ import soot.EquivTo;
  * references).</li>
  * <li>All fields and methods declared as private, changed to protected.</li>
  * </ol> 
- * @author Changes made by Árni Einarsson
+ * @author Changes made by ï¿½rni Einarsson
  * 
  */public class ValueArraySparseSet extends AbstractFlowSet {
 	protected static final int DEFAULT_SIZE = 8;
@@ -35,7 +35,7 @@ import soot.EquivTo;
 	protected ValueArraySparseSet(ValueArraySparseSet other) {
 		numElements = other.numElements;
 		maxElements = other.maxElements;
-		elements = (Object[]) other.elements.clone();
+		elements = other.elements.clone();
 	}
 
 	/** Returns true if flowSet is the same type of flow set as this. */
@@ -81,7 +81,7 @@ import soot.EquivTo;
 			// Expand array if necessary
 			if (numElements == maxElements)
 				doubleCapacity();
-			elements[numElements++] = (Object)e;
+			elements[numElements++] = e;
 		}
 	}
 

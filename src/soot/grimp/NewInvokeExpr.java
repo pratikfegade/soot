@@ -31,8 +31,8 @@ import soot.jimple.*;
 
 public interface NewInvokeExpr extends StaticInvokeExpr
 {
-    public RefType getBaseType();
-    public void setBaseType(RefType type);
+    RefType getBaseType();
+    void setBaseType(RefType type);
 }
 
 

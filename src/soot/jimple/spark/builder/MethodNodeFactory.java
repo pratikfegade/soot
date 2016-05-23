@@ -131,7 +131,7 @@ public class MethodNodeFactory extends AbstractShimpleValueSwitch {
 	    		&& is.getRightOp() instanceof ParameterRef 
 	    		&& is.getLeftOp().getType() instanceof RefType) {
 	    	RefType leftType = (RefType) is.getLeftOp().getType();
-	    	Node alloc = pag.makeAllocNode((ParameterRef) is.getRightOp(), AnySubType.v(leftType), method);
+	    	Node alloc = pag.makeAllocNode(is.getRightOp(), AnySubType.v(leftType), method);
 	    	mpag.addInternalEdge(alloc, src);
 	    }	    
 	    }
@@ -237,8 +237,7 @@ public class MethodNodeFactory extends AbstractShimpleValueSwitch {
         RefType rt = (RefType) t;
         String s = rt.toString();
         if(s.equals("java.lang.StringBuffer")) return true;
-        if(s.equals("java.lang.StringBuilder")) return true;
-        return false;
+        return s.equals("java.lang.StringBuilder");
     }
     
     @Override

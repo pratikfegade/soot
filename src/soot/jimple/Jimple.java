@@ -377,7 +377,7 @@ public class Jimple {
 	}
 
 	public SpecialInvokeExpr newSpecialInvokeExpr(Local base, SootMethodRef method, Value arg) {
-		return newSpecialInvokeExpr(base, method, Collections.<Value>singletonList(arg));
+		return newSpecialInvokeExpr(base, method, Collections.singletonList(arg));
 	}
 	
 	public SpecialInvokeExpr newSpecialInvokeExpr(Local base,
@@ -429,7 +429,7 @@ public class Jimple {
 	}
 	
 	public VirtualInvokeExpr newVirtualInvokeExpr(Local base, SootMethodRef method, Value arg) {
-		return newVirtualInvokeExpr(base, method, Collections.<Value>singletonList(arg));
+		return newVirtualInvokeExpr(base, method, Collections.singletonList(arg));
 	}
 	
 	public VirtualInvokeExpr newVirtualInvokeExpr(Local base,
@@ -456,7 +456,7 @@ public class Jimple {
 	}
 	
 	public InterfaceInvokeExpr newInterfaceInvokeExpr(Local base, SootMethodRef method, Value arg) {
-		return newInterfaceInvokeExpr(base, method, Collections.<Value>singletonList(arg));
+		return newInterfaceInvokeExpr(base, method, Collections.singletonList(arg));
 	}
 	
 	public InterfaceInvokeExpr newInterfaceInvokeExpr(Local base,

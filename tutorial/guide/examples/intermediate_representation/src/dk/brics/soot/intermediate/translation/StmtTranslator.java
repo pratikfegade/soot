@@ -83,7 +83,7 @@ public class StmtTranslator extends AbstractStmtSwitch {
 	
 	Variable getLocalVariable(Local l) {
 		if (local_var.containsKey(l)) {
-			return (Variable)local_var.get(l);
+			return local_var.get(l);
 		}
 		Variable var = jt.makeVariable(l);
 		local_var.put(l, var);

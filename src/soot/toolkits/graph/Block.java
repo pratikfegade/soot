@@ -330,10 +330,10 @@ public class Block implements Iterable<Unit>
         Iterator<Unit> basicBlockIt = methodUnits.iterator(mHead, mTail);
         
         if(basicBlockIt.hasNext()) {
-            Unit someUnit = (Unit) basicBlockIt.next();
+            Unit someUnit = basicBlockIt.next();
             strBuf.append(someUnit.toString() + ";" + System.getProperty("line.separator"));
             while(basicBlockIt.hasNext()){
-                someUnit = (Unit) basicBlockIt.next();
+                someUnit = basicBlockIt.next();
                 if(someUnit == mTail)
                     break;
                 strBuf.append(someUnit.toString() + ";" + System.getProperty("line.separator"));        

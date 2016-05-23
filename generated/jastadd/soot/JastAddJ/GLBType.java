@@ -58,10 +58,10 @@ public class GLBType extends ReferenceType implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public GLBType copy() {
     try {
-      GLBType node = (GLBType) clone();
+      GLBType node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -76,10 +76,10 @@ public class GLBType extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public GLBType fullCopy() {
-    GLBType tree = (GLBType) copy();
+    GLBType tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -263,7 +263,7 @@ public class GLBType extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -384,7 +384,7 @@ public class GLBType extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getTypeBound(int i) {
-    return (Access)getTypeBoundList().getChild(i);
+    return getTypeBoundList().getChild(i);
   }
   /**
    * Append an element to the TypeBound list.

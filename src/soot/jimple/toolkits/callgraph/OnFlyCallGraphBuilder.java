@@ -414,7 +414,7 @@ public final class OnFlyCallGraphBuilder
                 rm.update();
                 if( !worklist.hasNext() ) break;
             }
-            MethodOrMethodContext momc = (MethodOrMethodContext) worklist.next();
+            MethodOrMethodContext momc = worklist.next();
             SootMethod m = momc.method();
             if( appOnly && !m.getDeclaringClass().isApplicationClass() ) continue;
             if( analyzedMethods.add( m ) ) processNewMethod( m );
@@ -455,7 +455,7 @@ public final class OnFlyCallGraphBuilder
                         targetsQueue );
             }
             while(targets.hasNext()) {
-                SootMethod target = (SootMethod) targets.next();
+                SootMethod target = targets.next();
                 cm.addVirtualEdge(
                         MethodContext.v( site.container(), srcContext ),
                         site.stmt(),
@@ -512,10 +512,10 @@ public final class OnFlyCallGraphBuilder
 
     private void addVirtualCallSite( Stmt s, SootMethod m, Local receiver,
             InstanceInvokeExpr iie, NumberedString subSig, Kind kind ) {
-        List<VirtualCallSite> sites = (List<VirtualCallSite>) receiverToSites.get(receiver);
+        List<VirtualCallSite> sites = receiverToSites.get(receiver);
         if (sites == null) {
             receiverToSites.put(receiver, sites = new ArrayList<VirtualCallSite>());
-            List<Local> receivers = (List<Local>) methodToReceivers.get(m);
+            List<Local> receivers = methodToReceivers.get(m);
             if( receivers == null )
                 methodToReceivers.put(m, receivers = new ArrayList<Local>());
             receivers.add(receiver);
@@ -659,7 +659,7 @@ public final class OnFlyCallGraphBuilder
         SootMethod m = momc.method();
         Iterator<Edge> it = cicg.edgesOutOf(m);
         while( it.hasNext() ) {
-            Edge e = (Edge) it.next();
+            Edge e = it.next();
             cm.addStaticEdge( momc, e.srcUnit(), e.tgt(), e.kind() );
         }
     }

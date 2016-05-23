@@ -163,7 +163,7 @@ public class DexIfTransformer extends AbstractNullTransformer {
 									doBreak = true;
 								return;
 							} else if (r instanceof InvokeExpr) {
-								usedAsObject = isObject(((InvokeExpr) r).getType());
+								usedAsObject = isObject(r.getType());
 								if (usedAsObject)
 									doBreak = true;
 								return;
@@ -277,7 +277,7 @@ public class DexIfTransformer extends AbstractNullTransformer {
 											doBreak = true;
 										return;
 									} else if (l instanceof ArrayRef) {
-										Type aType = ((ArrayRef) l).getType();
+										Type aType = l.getType();
 										if (aType instanceof UnknownType) {
 											usedAsObject = stmt.hasTag("ObjectOpTag"); // isObject(
 																						// findArrayType(g,
@@ -303,11 +303,8 @@ public class DexIfTransformer extends AbstractNullTransformer {
 									return;
 								} else if (r instanceof ArrayRef) {
 									ArrayRef ar = (ArrayRef) r;
-									if (ar.getBase() == l) {
-										usedAsObject = true;
-									} else { // used as index
-										usedAsObject = false;
-									}
+									// used as index
+									usedAsObject = ar.getBase() == l;
 									if (usedAsObject)
 										doBreak = true;
 									return;

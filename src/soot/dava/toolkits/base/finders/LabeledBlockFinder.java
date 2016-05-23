@@ -88,7 +88,7 @@ public class LabeledBlockFinder implements FactFinder
 			}
 		}
 		if (startSETNode == null)
-		    startSETNode = ((SETTryNode) SETParent).get_EntryStmt().myNode;
+		    startSETNode = SETParent.get_EntryStmt().myNode;
 
 		while (children.contains( startSETNode) == false)
 		    startSETNode = startSETNode.get_Parent();

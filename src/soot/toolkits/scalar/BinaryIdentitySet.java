@@ -67,9 +67,7 @@ public class BinaryIdentitySet<T> {
         //must be commutative
         if (o1 != other.o1 && o1 != other.o2)
             return false;
-        if (o2 != other.o2 && o2 != other.o1)
-            return false;
-        return true;
+        return !(o2 != other.o2 && o2 != other.o1);
     }
 
     public T getO1() {

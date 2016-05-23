@@ -78,7 +78,7 @@ public class GotoInstrumenter extends BodyTransformer implements IJbcoTransform 
     if (size < 8) return;
     
     if (first == null)
-      first = (Unit)units.getFirst();
+      first = units.getFirst();
     
     Chain<Trap> traps = b.getTraps();
     int i = 0, rand = 0;
@@ -113,7 +113,7 @@ public class GotoInstrumenter extends BodyTransformer implements IJbcoTransform 
     }*/
   
     // move random-size chunk at beginning to end
-    first = (Unit)units.getSuccOf(first);
+    first = units.getSuccOf(first);
     Unit u = first;
     do {
       Object toU[] = u.getBoxesPointingToThis().toArray();
@@ -121,7 +121,7 @@ public class GotoInstrumenter extends BodyTransformer implements IJbcoTransform 
 		u.removeBoxPointingToThis((UnitBox)element);
       
       // unit box targets stay with a unit even if the unit is removed.
-      Unit u2 = (Unit)units.getSuccOf(u);
+      Unit u2 = units.getSuccOf(u);
       units.remove(u);
       units.add(u);
       
@@ -141,7 +141,7 @@ public class GotoInstrumenter extends BodyTransformer implements IJbcoTransform 
     units.insertBeforeNoRedirect(first,u);
 
     // add goto as LAST unit to point to new position of second chunk
-    if (((Unit)units.getLast()).fallsThrough()) {
+    if (units.getLast().fallsThrough()) {
       Stmt gtS = null;
       if (u instanceof GotoStmt)
         gtS = Jimple.v().newGotoStmt(((GotoStmt)u).getTargetBox().getUnit());
@@ -160,12 +160,12 @@ public class GotoInstrumenter extends BodyTransformer implements IJbcoTransform 
     units.add(handler);
     units.add(Jimple.v().newThrowStmt(excLocal));
     
-    Unit trapEnd = (Unit)units.getSuccOf(oldFirst);
+    Unit trapEnd = units.getSuccOf(oldFirst);
     try {
 	    while (trapEnd instanceof IdentityStmt)
-	      trapEnd = (Unit)units.getSuccOf(trapEnd);
-	    trapEnd = (Unit)units.getSuccOf(trapEnd);
-	    b.getTraps().add(Jimple.v().newTrap(throwable.getSootClass(), (Unit)units.getPredOf(oldFirst), trapEnd, handler));
+	      trapEnd = units.getSuccOf(trapEnd);
+	    trapEnd = units.getSuccOf(trapEnd);
+	    b.getTraps().add(Jimple.v().newTrap(throwable.getSootClass(), units.getPredOf(oldFirst), trapEnd, handler));
 	    trapsAdded++;
     } catch (Exception exc) {}
     gotosInstrumented++;
@@ -190,7 +190,7 @@ public class GotoInstrumenter extends BodyTransformer implements IJbcoTransform 
     //System.out.println("\r\tselected unit is "+u);
     while (trapsIt.hasNext())
     {
-      Trap t = (Trap)trapsIt.next();
+      Trap t = trapsIt.next();
       it = units.iterator(t.getBeginUnit(),units.getPredOf(t.getEndUnit()));
       while (it.hasNext())
         if (u.equals(it.next()))

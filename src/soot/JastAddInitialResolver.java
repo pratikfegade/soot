@@ -47,14 +47,14 @@ public class JastAddInitialResolver implements IInitialResolver {
         return soot.G.v().soot_JastAddInitialResolver();
     }
 	
-	protected Map<String,CompilationUnit> classNameToCU = new HashMap<String, CompilationUnit>();
+	protected Map<String,CompilationUnit> classNameToCU = new HashMap<>();
 	
 	public void formAst(String fullPath, List<String> locations, String className) {
 	      Program program = SootResolver.v().getProgram();
     	  CompilationUnit u = program.getCachedOrLoadCompilationUnit(fullPath);
     	  if(u != null && !u.isResolved) {
     		  u.isResolved = true;
-	          java.util.ArrayList<soot.JastAddJ.Problem> errors = new java.util.ArrayList<soot.JastAddJ.Problem>();
+	          java.util.ArrayList<soot.JastAddJ.Problem> errors = new java.util.ArrayList<>();
 	          u.errorCheck(errors);
 	          if(!errors.isEmpty()) {
 	        	  for(soot.JastAddJ.Problem p : errors)
@@ -66,7 +66,7 @@ public class JastAddInitialResolver implements IInitialResolver {
 	          u.transformation();
 	          u.jimplify1phase1();
 	          u.jimplify1phase2();
-	  		  HashSet<SootClass> types = new HashSet<SootClass>();
+	  		  HashSet<SootClass> types = new HashSet<>();
 			  for(TypeDecl typeDecl : u.getTypeDecls())
 				  collectTypeDecl(typeDecl, types);
 			  if(types.isEmpty())
@@ -104,7 +104,7 @@ public class JastAddInitialResolver implements IInitialResolver {
 			throw new RuntimeException("Error: couldn't find class: "+sootclass.getName()+" are the packages set properly?");
 
 
-		HashSet<SootClass> types = new HashSet<SootClass>();
+		HashSet<SootClass> types = new HashSet<>();
 		for(TypeDecl typeDecl : u.getTypeDecls()) {
 			collectTypeDecl(typeDecl, types);
 		}

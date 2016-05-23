@@ -189,7 +189,7 @@ public class ASTSwitchNode extends ASTLabeledNode
 
 	    else {
 		b.append( "case ");
-		b.append( ((Integer) index).toString());
+		b.append( index.toString());
 	    }
 	    
 	    b.append( ":");

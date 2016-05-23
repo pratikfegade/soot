@@ -201,7 +201,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 				}
 				else if( tn.group.useLocksets )
 				{
-					Value lock = getLockFor((EquivalentValue) tn.lockset.get(lockNum)); // adds local vars and global objects if needed
+					Value lock = getLockFor(tn.lockset.get(lockNum)); // adds local vars and global objects if needed
 					if( lock instanceof FieldRef )
 					{
 						if(lock instanceof InstanceFieldRef)
@@ -230,10 +230,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 					else
 						throw new RuntimeException("Unknown type of lock (" + lock + "): expected FieldRef or Local");
 
-					if(lockNum + 1 >= tn.lockset.size())
-						moreLocks = false;
-					else
-						moreLocks = true;
+					moreLocks = lockNum + 1 < tn.lockset.size();
 
 					if( lockNum > 0 )
 					{

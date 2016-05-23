@@ -75,10 +75,10 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
   @SuppressWarnings({"unchecked", "cast"})
   public GenericClassDecl copy() {
     try {
-      GenericClassDecl node = (GenericClassDecl) clone();
+      GenericClassDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -93,10 +93,10 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    */
   @SuppressWarnings({"unchecked", "cast"})
   public GenericClassDecl fullCopy() {
-    GenericClassDecl tree = (GenericClassDecl) copy();
+    GenericClassDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -122,7 +122,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    */
   public ClassDecl substitutedClassDecl(Parameterization parTypeDecl) {
     GenericClassDecl c = new GenericClassDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       hasSuperClassAccess() ? new Opt(getSuperClassAccess().type().substitute(parTypeDecl)) : new Opt(),
       getImplementsList().substitute(parTypeDecl),
@@ -200,7 +200,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:235
    */
   public TypeDecl makeGeneric(Signatures.ClassSignature s) {
-    return (TypeDecl)this;
+    return this;
   }
   /**
    * @ast method 
@@ -393,7 +393,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperClassAccess() {
-    return (Access)getSuperClassAccessOpt().getChild(0);
+    return getSuperClassAccessOpt().getChild(0);
   }
   /**
    * Replaces the (optional) SuperClassAccess child.
@@ -467,7 +467,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getImplements(int i) {
-    return (Access)getImplementsList().getChild(i);
+    return getImplementsList().getChild(i);
   }
   /**
    * Append an element to the Implements list.
@@ -588,7 +588,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -709,7 +709,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeVariable getTypeParameter(int i) {
-    return (TypeVariable)getTypeParameterList().getChild(i);
+    return getTypeParameterList().getChild(i);
   }
   /**
    * Append an element to the TypeParameter list.
@@ -868,7 +868,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
     */
         
     ParClassDecl typeDecl = list.size() == 0 ? new RawClassDecl() : new ParClassDecl();
-    typeDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    typeDecl.setModifiers(getModifiers().fullCopy());
     typeDecl.setID(getID());
     // ES: trying to only so this for ParClassDecl and then later for RawClassDecl 
     if (!(typeDecl instanceof RawClassDecl)) 

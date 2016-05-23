@@ -33,7 +33,7 @@ import soot.*;
 
 public interface InvokeStmt extends Stmt
 {
-    public void setInvokeExpr(Value invokeExpr);
-    public InvokeExpr getInvokeExpr();
-    public ValueBox getInvokeExprBox();
+    void setInvokeExpr(Value invokeExpr);
+    InvokeExpr getInvokeExpr();
+    ValueBox getInvokeExprBox();
 }

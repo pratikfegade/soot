@@ -66,7 +66,7 @@ public class ReachingDefs extends StructuredAnalysis {
 	public ReachingDefs(Object analyze) {
 		super();
 		toAnalyze = analyze;
-		DavaFlowSet temp = (DavaFlowSet) process(analyze, new DavaFlowSet());
+		DavaFlowSet temp = process(analyze, new DavaFlowSet());
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class ReachingDefs extends StructuredAnalysis {
 
 	@Override
 	public DavaFlowSet cloneFlowSet(DavaFlowSet flowSet) {
-		return ((DavaFlowSet) flowSet).clone();
+		return flowSet.clone();
 	}
 
 	/*

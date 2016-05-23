@@ -31,15 +31,15 @@ public interface IWorklist
 	 * @param size
 	 * @return
 	 */
-	public void initialize(int size);
+	void initialize(int size);
 	
-	public boolean has_job();
+	boolean has_job();
 
-	public IVarAbstraction next();
+	IVarAbstraction next();
 
-	public void push(IVarAbstraction p);
+	void push(IVarAbstraction p);
 
-	public int size();
+	int size();
 	
-	public void clear();
-};
+	void clear();
+}

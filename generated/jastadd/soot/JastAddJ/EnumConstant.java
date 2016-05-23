@@ -60,10 +60,10 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public EnumConstant copy() {
     try {
-      EnumConstant node = (EnumConstant) clone();
+      EnumConstant node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -78,7 +78,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public EnumConstant fullCopy() {
-    EnumConstant tree = (EnumConstant) copy();
+    EnumConstant tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -86,7 +86,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
             tree.children[i] = null;
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -339,7 +339,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getArg(int i) {
-    return (Expr)getArgList().getChild(i);
+    return getArgList().getChild(i);
   }
   /**
    * Append an element to the Arg list.
@@ -448,7 +448,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getInit() {
-    return (Expr)getInitOpt().getChild(0);
+    return getInitOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Init child.
@@ -649,7 +649,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
   public boolean implementsMethod(MethodDecl method) {
     ASTNode$State state = state();
     try {
-    SimpleSet set = (SimpleSet)localMethodsSignature(method.signature());
+    SimpleSet set = localMethodsSignature(method.signature());
     if (set.size() == 1) {
       MethodDecl n = (MethodDecl)set.iterator().next();
       if (!n.isAbstract())

@@ -169,7 +169,7 @@ public class DeadlockDetector {
 			iteration++;
 			G.v().out.println("[DeadlockDetector] Deadlock Iteration #" + iteration);
 			foundDeadlock = false;
-			lockOrder = (HashMutableEdgeLabelledDirectedGraph) ((HashMutableEdgeLabelledDirectedGraph) permanentOrder).clone(); // start each iteration with a fresh copy of the permanent orders
+			lockOrder = ((HashMutableEdgeLabelledDirectedGraph) permanentOrder).clone(); // start each iteration with a fresh copy of the permanent orders
 			
 			// Assemble the partial ordering of locks
 			Iterator<CriticalSection> deadlockIt1 = criticalSections.iterator();

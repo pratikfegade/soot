@@ -3841,8 +3841,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         else if (expr instanceof polyglot.ast.Assign) {
             polyglot.ast.Assign assign = (polyglot.ast.Assign)expr;
             if (assign.operator() == polyglot.ast.Assign.ADD_ASSIGN){
-                if (assign.type().toString().equals("java.lang.String")) return true;
-                return false;
+                return assign.type().toString().equals("java.lang.String");
             }
             return false;
         }
@@ -3879,14 +3878,14 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
                 appendType = toApp.getType();
             }
             else if (toApp instanceof soot.Local) {
-                if (((soot.Local)toApp).getType() instanceof soot.PrimType) {
-                    appendType = ((soot.Local)toApp).getType();   
+                if (toApp.getType() instanceof soot.PrimType) {
+                    appendType = toApp.getType();
                 }
-                else if (((soot.Local)toApp).getType() instanceof soot.RefType) {
-                    if (((soot.Local)toApp).getType().toString().equals("java.lang.String")){
+                else if (toApp.getType() instanceof soot.RefType) {
+                    if (toApp.getType().toString().equals("java.lang.String")){
                         appendType = soot.RefType.v("java.lang.String");
                     }
-                    else if (((soot.Local)toApp).getType().toString().equals("java.lang.StringBuffer")){
+                    else if (toApp.getType().toString().equals("java.lang.StringBuffer")){
                         appendType = soot.RefType.v("java.lang.StringBuffer");
                     }
                     else{
@@ -4596,7 +4595,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         
         sootParamsTypes.addAll(getSootParamsTypes(newExpr));
 
-        handleFinalLocalParams(sootParams, sootParamsTypes, (polyglot.types.ClassType)objType);
+        handleFinalLocalParams(sootParams, sootParamsTypes, objType);
     
         soot.SootMethodRef methodToInvoke = getMethodFromClass(classToInvoke, "<init>", sootParamsTypes, soot.VoidType.v(), false);
         soot.jimple.SpecialInvokeExpr specialInvokeExpr = soot.jimple.Jimple.v().newSpecialInvokeExpr(retLocal, methodToInvoke, sootParams);
@@ -4830,7 +4829,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
     protected soot.Value getBaseLocal(polyglot.ast.Receiver receiver) {
       
         if (receiver instanceof polyglot.ast.TypeNode) {
-            return generateLocal(((polyglot.ast.TypeNode)receiver).type());
+            return generateLocal(receiver.type());
         }
         else {
             soot.Value val = base().createAggressiveExpr((polyglot.ast.Expr)receiver, false, false);
@@ -4941,7 +4940,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
             soot.Value elem;
             if (elemExpr instanceof polyglot.ast.ArrayInit){
                
-                if (((polyglot.ast.ArrayInit)elemExpr).type() instanceof polyglot.types.NullType) {
+                if (elemExpr.type() instanceof polyglot.types.NullType) {
                     if (lhsType instanceof polyglot.types.ArrayType){
                         //System.out.println("coming from 1 in get arrayinitlocal"+((polyglot.types.ArrayType)lhsType).base());
                         elem = getArrayInitLocal((polyglot.ast.ArrayInit)elemExpr, ((polyglot.types.ArrayType)lhsType).base());

@@ -598,7 +598,7 @@ class MethodCallFinder extends DepthFirstAdapter {
 
 	public void outDefinitionStmt(DefinitionStmt s) {
 		if (s instanceof GAssignStmt) {
-			if (((GAssignStmt) s).equals(def)) {
+			if (s.equals(def)) {
 				foundIt = true;
 				//System.out.println("Found it" + s);
 			}

@@ -56,10 +56,10 @@ public class VariableArityParameterDeclaration extends ParameterDeclaration impl
   @SuppressWarnings({"unchecked", "cast"})
   public VariableArityParameterDeclaration copy() {
     try {
-      VariableArityParameterDeclaration node = (VariableArityParameterDeclaration) clone();
+      VariableArityParameterDeclaration node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -74,10 +74,10 @@ public class VariableArityParameterDeclaration extends ParameterDeclaration impl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public VariableArityParameterDeclaration fullCopy() {
-    VariableArityParameterDeclaration tree = (VariableArityParameterDeclaration) copy();
+    VariableArityParameterDeclaration tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

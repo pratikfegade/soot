@@ -33,12 +33,12 @@ import soot.*;
 
 public interface BinopExpr extends Expr
 {
-    public Value getOp1();
-    public Value getOp2();
-    public ValueBox getOp1Box();
-    public ValueBox getOp2Box();
-    public void setOp1(Value op1);
-    public void setOp2(Value op2);
-    public String getSymbol();
-    public String toString();
+    Value getOp1();
+    Value getOp2();
+    ValueBox getOp1Box();
+    ValueBox getOp2Box();
+    void setOp1(Value op1);
+    void setOp2(Value op2);
+    String getSymbol();
+    String toString();
 }

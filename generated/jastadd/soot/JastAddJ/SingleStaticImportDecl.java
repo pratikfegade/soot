@@ -56,10 +56,10 @@ public class SingleStaticImportDecl extends StaticImportDecl implements Cloneabl
   @SuppressWarnings({"unchecked", "cast"})
   public SingleStaticImportDecl copy() {
     try {
-      SingleStaticImportDecl node = (SingleStaticImportDecl) clone();
+      SingleStaticImportDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -74,10 +74,10 @@ public class SingleStaticImportDecl extends StaticImportDecl implements Cloneabl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public SingleStaticImportDecl fullCopy() {
-    SingleStaticImportDecl tree = (SingleStaticImportDecl) copy();
+    SingleStaticImportDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

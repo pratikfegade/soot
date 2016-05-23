@@ -556,7 +556,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 
 				while(usesIt.hasNext() && !lostObjects)
 				{
-					Value use = (Value) usesIt.next();
+					Value use = usesIt.next();
 					// if present, ok, if not, add as new group
 
 					if(use instanceof InstanceFieldRef)
@@ -775,7 +775,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 							FakeJimpleLocal newbase = (FakeJimpleLocal) ar.getBase();
 							Local oldbase = newbase.getRealLocal();
 							FakeJimpleLocal newindex = (ar.getIndex() instanceof FakeJimpleLocal) ? (FakeJimpleLocal) ar.getIndex() : null;
-							Value oldindex = (newindex != null) ? (Value) newindex.getRealLocal() : ar.getIndex(); // it's a FJL or a Constant
+							Value oldindex = (newindex != null) ? newindex.getRealLocal() : ar.getIndex(); // it's a FJL or a Constant
 							
 							out.put(rvalue, lvaluevalue);
 							

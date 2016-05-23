@@ -70,16 +70,16 @@ public class ShimpleLocalDefs implements LocalDefs
             localToDefs = new HashMap<Value, List<Unit>>(unitsChain.size() * 2 + 1, 0.7f);
         
             while(unitsIt.hasNext()){
-                Unit unit = (Unit) unitsIt.next();
+                Unit unit = unitsIt.next();
                 Iterator<ValueBox> defBoxesIt = unit.getDefBoxes().iterator();
                 while(defBoxesIt.hasNext()){
-                    Value value = ((ValueBox)defBoxesIt.next()).getValue();
+                    Value value = defBoxesIt.next().getValue();
 
                     // only map locals
                     if(!(value instanceof Local))
                         continue;
                         
-                    localToDefs.put(value, Collections.<Unit>singletonList(unit));
+                    localToDefs.put(value, Collections.singletonList(unit));
                 }
             }
         }
@@ -122,7 +122,7 @@ public class ShimpleLocalDefs implements LocalDefs
             boolean defined = false;
 
             while(boxIt.hasNext()){
-                Value value = ((ValueBox) boxIt.next()).getValue();
+                Value value = boxIt.next().getValue();
                 if(value.equals(l)){
                     defined = true;
                     break;

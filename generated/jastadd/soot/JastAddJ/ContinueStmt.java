@@ -74,10 +74,10 @@ public class ContinueStmt extends Stmt implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ContinueStmt copy() {
     try {
-      ContinueStmt node = (ContinueStmt) clone();
+      ContinueStmt node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -92,10 +92,10 @@ public class ContinueStmt extends Stmt implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ContinueStmt fullCopy() {
-    ContinueStmt tree = (ContinueStmt) copy();
+    ContinueStmt tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

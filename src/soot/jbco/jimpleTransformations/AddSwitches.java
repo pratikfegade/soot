@@ -92,7 +92,7 @@ public class AddSwitches extends BodyTransformer implements IJbcoTransform {
     
     Iterator<Unit> it = units.snapshotIterator();
     while (it.hasNext()) {
-      Unit unit = (Unit)it.next();
+      Unit unit = it.next();
       if (unit instanceof IdentityStmt || checkTraps(unit,b)) 
         continue;
       // very conservative estimate about where new-<init> ranges are
@@ -108,7 +108,7 @@ public class AddSwitches extends BodyTransformer implements IJbcoTransform {
     for (int i = 0; i < zeroheight.size(); i++)
     {
       idx = Rand.getInt(zeroheight.size()-1) + 1;
-      u = (Unit)zeroheight.get(idx);
+      u = zeroheight.get(idx);
       if (u.fallsThrough())
         break;
       u = null;
@@ -165,7 +165,7 @@ public class AddSwitches extends BodyTransformer implements IJbcoTransform {
     
     Iterator<Unit> tit = targs.iterator();
     while (tit.hasNext()) {
-      Unit nxt = (Unit)tit.next();
+      Unit nxt = tit.next();
       if (Rand.getInt(5) < 4) {
         units.insertBefore(Jimple.v().newAssignStmt(l,Jimple.v().newAddExpr(l,IntConstant.v(Rand.getInt(3)+1))), nxt);
       }

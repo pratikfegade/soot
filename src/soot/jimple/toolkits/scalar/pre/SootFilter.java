@@ -162,9 +162,7 @@ public class SootFilter {
    */
   public static boolean isInvoke(Value val) {
     val = getEquivalentValueRoot(val);
-    if (val instanceof InvokeExpr)
-      return true;
-    return false;
+    return val instanceof InvokeExpr;
   }
 
   /**
@@ -232,11 +230,9 @@ public class SootFilter {
 	val instanceof UnopExpr ||
 	val instanceof Local ||
 	val instanceof Constant) {
-      if (val instanceof DivExpr ||
-	  val instanceof RemExpr ||
-	  val instanceof LengthExpr)
-	return true;
-      return false;
+      return val instanceof DivExpr ||
+              val instanceof RemExpr ||
+              val instanceof LengthExpr;
     }
     return true;
   }

@@ -45,7 +45,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  @param to     in node for the edge.
      *  @param label  label for the edge.
      */
-    public void addEdge(N from, N to, L label);
+    void addEdge(N from, N to, L label);
 
 
     /**
@@ -53,7 +53,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  @param from   out node for the edges to remove.
      *  @param to     in node for the edges to remove.
      */
-    public List<L> getLabelsForEdges(N from, N to);
+    List<L> getLabelsForEdges(N from, N to);
 
 
     /**
@@ -62,7 +62,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  Nodes without edges are not included in the new graph.
      *  @param label  label for the edge to remove.
      */
-	public MutableDirectedGraph<N> getEdgesForLabel(L label);
+    MutableDirectedGraph<N> getEdgesForLabel(L label);
 
 
     /**
@@ -72,7 +72,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  @param to     in node for the edges to remove.
      *  @param label  label for the edge to remove.
      */
-    public void removeEdge(N from, N to, L label);
+    void removeEdge(N from, N to, L label);
     
     
     /**
@@ -81,7 +81,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  @param from  out node for the edges to remove.
      *  @param to    in node for the edges to remove.
      */
-    public void removeAllEdges(N from, N to);
+    void removeAllEdges(N from, N to);
     
     
     /**
@@ -89,32 +89,32 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  If no edges are present, no change is made.
      *  @param label  label for the edge to remove.
      */
-    public void removeAllEdges(L label);
+    void removeAllEdges(L label);
 
 
     /** @return true if the graph contains an edge between 
      *  the 2 nodes with the given label, otherwise return false.
-     */ 
-    public boolean containsEdge(N from, N to, L label);
+     */
+    boolean containsEdge(N from, N to, L label);
     
     
     /** @return true if the graph contains any edges between 
      *  the 2 nodes, otherwise return false.
      *  @param from  out node for the edges.
      *  @param to    in node for the edges.
-     */ 
-    public boolean containsAnyEdge(N from, N to);
+     */
+    boolean containsAnyEdge(N from, N to);
     
     
     /** @return true if the graph contains any edges
      *  with the given label, otherwise return false.
      *  @param label  label for the edges.
-     */ 
-    public boolean containsAnyEdge(L label);
+     */
+    boolean containsAnyEdge(L label);
 
 
     /** @return a list of the nodes that compose the graph. No ordering is implied.*/
-    public List<N> getNodes();
+    List<N> getNodes();
 
 
     /**
@@ -124,7 +124,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  @see #getHeads
      *  @see #getTails
      */
-    public void addNode(N node);
+    void addNode(N node);
 
 
     /**
@@ -132,7 +132,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *  found in the graph, no change is made.
      *  @param node the node to be removed.
      */
-    public void removeNode(N node);
+    void removeNode(N node);
 
 
     /**
@@ -140,7 +140,7 @@ public interface MutableEdgeLabelledDirectedGraph<N,L> extends DirectedGraph<N>
      *   @return  true if the graph contains the node.
      *            false otherwise.
      */
-    public boolean containsNode(N node);
+    boolean containsNode(N node);
 }
 
  

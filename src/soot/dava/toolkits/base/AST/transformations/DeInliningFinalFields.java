@@ -174,12 +174,9 @@ public class DeInliningFinalFields extends DepthFirstAdapter{
      * LongConstant
      */
     private boolean isConstant(Value val){
-	if(val instanceof StringConstant || val instanceof DoubleConstant ||
-	   val instanceof FloatConstant || val instanceof IntConstant || val instanceof LongConstant){
-	    return true;
+		return val instanceof StringConstant || val instanceof DoubleConstant ||
+				val instanceof FloatConstant || val instanceof IntConstant || val instanceof LongConstant;
 	}
-	return false;
-    }
 
 
 
@@ -232,32 +229,32 @@ public class DeInliningFinalFields extends DepthFirstAdapter{
 	    
 	    //can be a byte or short or char......or an int ...in the case of int you also have to check for Booleans
 	    if(val instanceof StringConstant){
-		String myString = ((StringConstant)val).toString();
+		String myString = val.toString();
 		myString = myString.substring(1,myString.length()-1);
 		//System.out.println("looking for:"+myString);
 		finalField = finalFields.get(myString);
 	    }
 	    else if(val instanceof DoubleConstant){
-		String myString = ((DoubleConstant)val).toString();
+		String myString = val.toString();
 		
 		finalField = finalFields.get(new Double(myString));
 	    }
 	    else if(val instanceof FloatConstant){
-		String myString = ((FloatConstant)val).toString();
+		String myString = val.toString();
 		
 		finalField = finalFields.get(new Float(myString));
 	    } 
 	    else if(val instanceof LongConstant){
-		String myString = ((LongConstant)val).toString();
+		String myString = val.toString();
 		
 		finalField = finalFields.get(new Long(myString.substring(0,myString.length()-1)));
 	    }
 	    else if(val instanceof IntConstant){
-		String myString = ((IntConstant)val).toString();
+		String myString = val.toString();
 		if(myString.length()==0)
 		    return null;
 
-		Type valType = ((IntConstant)val).getType();		
+		Type valType = val.getType();
 
 
 		Integer myInt=null;

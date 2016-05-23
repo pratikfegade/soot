@@ -33,12 +33,12 @@ import soot.*;
 
 public interface IdentityInst extends Inst, IdentityUnit  
 { 
-    public Value getLeftOp();
-    public Value getRightOp();
-    public void setLeftOp(Value variable);
-    public void setRightOp(Value rvalue);
+    Value getLeftOp();
+    Value getRightOp();
+    void setLeftOp(Value variable);
+    void setRightOp(Value rvalue);
 
-    public ValueBox getLeftOpBox();
-    public ValueBox getRightOpBox();
+    ValueBox getLeftOpBox();
+    ValueBox getRightOpBox();
 }
 

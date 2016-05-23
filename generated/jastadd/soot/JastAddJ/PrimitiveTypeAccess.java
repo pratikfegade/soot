@@ -64,10 +64,10 @@ public class PrimitiveTypeAccess extends TypeAccess implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public PrimitiveTypeAccess copy() {
     try {
-      PrimitiveTypeAccess node = (PrimitiveTypeAccess) clone();
+      PrimitiveTypeAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -82,10 +82,10 @@ public class PrimitiveTypeAccess extends TypeAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public PrimitiveTypeAccess fullCopy() {
-    PrimitiveTypeAccess tree = (PrimitiveTypeAccess) copy();
+    PrimitiveTypeAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

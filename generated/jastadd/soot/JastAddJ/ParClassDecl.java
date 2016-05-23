@@ -121,10 +121,10 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
   @SuppressWarnings({"unchecked", "cast"})
   public ParClassDecl copy() {
     try {
-      ParClassDecl node = (ParClassDecl) clone();
+      ParClassDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -139,7 +139,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParClassDecl fullCopy() {
-    ParClassDecl tree = (ParClassDecl) copy();
+    ParClassDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -151,7 +151,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
             tree.children[i] = new List();
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -250,7 +250,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
   public Access createQualifiedAccess() {
     List typeArgumentList = new List();
     for(int i = 0; i < getNumArgument(); i++) {
-      Access a = (Access)getArgument(i);
+      Access a = getArgument(i);
       if(a instanceof TypeAccess)
         typeArgumentList.add(a.type().createQualifiedAccess());
       else
@@ -443,7 +443,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getArgument(int i) {
-    return (Access)getArgumentList().getChild(i);
+    return getArgumentList().getChild(i);
   }
   /**
    * Append an element to the Argument list.
@@ -1890,7 +1890,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
         _value.visited = new Integer(state.CIRCLE_INDEX);
         state.CHANGE = false;
         new_localTypeDecls_String_value = localTypeDecls_compute(name);
-        if ((new_localTypeDecls_String_value==null && (SimpleSet)_value.value!=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals((SimpleSet)_value.value))) {
+        if ((new_localTypeDecls_String_value==null && _value.value !=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals(_value.value))) {
           state.CHANGE = true;
           _value.value = new_localTypeDecls_String_value;
         }
@@ -1914,7 +1914,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
       if (state.RESET_CYCLE) {
         localTypeDecls_String_values.remove(_parameters);
       }
-      else if ((new_localTypeDecls_String_value==null && (SimpleSet)_value.value!=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals((SimpleSet)_value.value))) {
+      else if ((new_localTypeDecls_String_value==null && _value.value !=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals(_value.value))) {
         state.CHANGE = true;
         _value.value = new_localTypeDecls_String_value;
       }

@@ -49,7 +49,7 @@ public class GuaranteedDefs
             Iterator<Unit> unitIt = graph.iterator();
 
             while(unitIt.hasNext()){
-                Unit s = (Unit) unitIt.next();
+                Unit s = unitIt.next();
                 FlowSet set = (FlowSet) analysis.getFlowBefore(s);
                 unitToGuaranteedDefs.put
                     (s, Collections.unmodifiableList(set.toList()));

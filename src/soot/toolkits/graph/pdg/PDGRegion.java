@@ -46,7 +46,7 @@ import soot.toolkits.graph.UnitGraph;
 
 public class PDGRegion implements IRegion, Iterable<PDGNode>{
 	
-	private SootClass m_class = null;;
+	private SootClass m_class = null;
 	private SootMethod m_method = null;
 	private List<PDGNode> m_nodes = null;
 	private List<Unit> m_units = null;
@@ -85,8 +85,8 @@ public class PDGRegion implements IRegion, Iterable<PDGNode>{
 	
 	public PDGRegion(PDGNode node)
 	{
-		this(((IRegion)node.getNode()).getID(), 
-				(List<PDGNode>)new ArrayList<PDGNode>(), 
+		this(((IRegion)node.getNode()).getID(),
+				new ArrayList<PDGNode>(),
 				((IRegion)node.getNode()).getSootMethod(), 
 				((IRegion)node.getNode()).getSootClass(), 
 				((IRegion)node.getNode()).getUnitGraph(), 
@@ -378,7 +378,7 @@ public class PDGRegion implements IRegion, Iterable<PDGNode>{
 		str += "Children Regions are: ";
 		
 		for(Iterator<IRegion> ritr = this.m_children.iterator(); ritr.hasNext();)
-			str += ((IRegion)ritr.next()).getID() + ", ";
+			str += ritr.next().getID() + ", ";
 		
 		str += "\nUnits are: \n";
 		

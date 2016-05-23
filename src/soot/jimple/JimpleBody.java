@@ -72,8 +72,8 @@ public class JimpleBody extends StmtBody
 			};
 		}
 		return validators;
-	};
-	
+	}
+
     /**
         Construct an empty JimpleBody 
      **/
@@ -139,7 +139,7 @@ public class JimpleBody extends StmtBody
         Iterator<Type> parIt = getMethod().getParameterTypes().iterator();
         while (parIt.hasNext())
         {
-            Type t = (Type)parIt.next();
+            Type t = parIt.next();
             Local l = Jimple.v().newLocal("parameter"+i, t);
             getLocals().add(l);
             getUnits().addFirst(Jimple.v().newIdentityStmt(l, Jimple.v().newParameterRef(l.getType(), i)));

@@ -57,10 +57,10 @@ public class BoundFieldAccess extends VarAccess implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public BoundFieldAccess copy() {
     try {
-      BoundFieldAccess node = (BoundFieldAccess) clone();
+      BoundFieldAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -75,10 +75,10 @@ public class BoundFieldAccess extends VarAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BoundFieldAccess fullCopy() {
-    BoundFieldAccess tree = (BoundFieldAccess) copy();
+    BoundFieldAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

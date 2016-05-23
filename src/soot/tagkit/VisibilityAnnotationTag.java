@@ -97,7 +97,7 @@ public class VisibilityAnnotationTag implements  Tag
     }
 
     public boolean hasAnnotations(){
-        return annotations == null ? false : true;
+        return annotations != null;
     }
 }
 

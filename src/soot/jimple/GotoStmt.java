@@ -33,7 +33,7 @@ import soot.*;
 
 public interface GotoStmt extends Stmt
 {
-    public Unit getTarget();
-    public void setTarget(Unit target);
-    public UnitBox getTargetBox();
+    Unit getTarget();
+    void setTarget(Unit target);
+    UnitBox getTargetBox();
 }

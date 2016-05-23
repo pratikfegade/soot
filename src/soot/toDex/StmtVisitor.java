@@ -589,13 +589,13 @@ public class StmtVisitor implements StmtSwitch {
 			
             addInsn(new Insn11x(Opcode.MOVE_EXCEPTION, localReg), stmt);
 
-            this.insnRegisterMap.put(insns.get(insns.size() - 1), LocalRegisterAssignmentInformation.v(localReg, (Local)lhs));
+            this.insnRegisterMap.put(insns.get(insns.size() - 1), LocalRegisterAssignmentInformation.v(localReg, lhs));
 		} else if (rhs instanceof ThisRef || rhs instanceof ParameterRef) {
 			/* 
 			 * do not save the ThisRef or ParameterRef in a local, because it always has a parameter register already.
 			 * at least use the local for further reference in the statements
 			 */
-			Local localForThis = (Local) lhs;
+			Local localForThis = lhs;
 			regAlloc.asParameter(belongingMethod, localForThis);
 			
 			parameterInstructionsList.add(LocalRegisterAssignmentInformation.v(regAlloc.asLocal(localForThis).clone(), localForThis));

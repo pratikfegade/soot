@@ -67,7 +67,7 @@ public class RemoveEmptyBodyDefaultConstructor{
 		}
 
 		Body body = constructor.getActiveBody();
-        Chain units = ((DavaBody) body).getUnits();
+        Chain units = body.getUnits();
 
         if (units.size() != 1) {
         	debug(" DavaBody AST does not have single root");

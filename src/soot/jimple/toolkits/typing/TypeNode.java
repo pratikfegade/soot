@@ -365,7 +365,7 @@ class TypeNode
       {
 	if(type.parents.size() == 1)
 	  {
-	    type = (TypeNode) type.parents.get(0);
+	    type = type.parents.get(0);
 	  }
 	else
 	  {
@@ -425,47 +425,31 @@ class TypeNode
 
   public boolean isNull()
   {
-    if(type instanceof NullType)
-      {
-	return true;
-      }
+      return type instanceof NullType;
 
-    return false;
   }
 
   public boolean isClass()
   {
-    if(type instanceof ArrayType ||
-       type instanceof NullType ||
-       (type instanceof RefType &&
-	!((RefType) type).getSootClass().isInterface()))
-      {
-	return true;
-      }
+      return type instanceof ArrayType ||
+              type instanceof NullType ||
+              (type instanceof RefType &&
+                      !((RefType) type).getSootClass().isInterface());
 
-    return false;
   }
 
   public boolean isClassOrInterface()
   {
-    if(type instanceof ArrayType ||
-       type instanceof NullType ||
-       type instanceof RefType)
-      {
-	return true;
-      }
+      return type instanceof ArrayType ||
+              type instanceof NullType ||
+              type instanceof RefType;
 
-    return false;
   }
 
   public boolean isArray()
   {
-    if(type instanceof ArrayType ||
-       type instanceof NullType)
-      {
-	return true;
-      }
+      return type instanceof ArrayType ||
+              type instanceof NullType;
 
-    return false;
   }
 }

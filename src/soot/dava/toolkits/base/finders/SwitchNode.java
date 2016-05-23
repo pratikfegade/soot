@@ -101,7 +101,7 @@ public class SwitchNode implements Comparable
 
     public void setup_Graph( HashMap<AugmentedStmt,SwitchNode> binding)
     {
-	Iterator rit = ((AugmentedStmt) as.bsuccs.get(0)).get_Reachers().iterator();
+	Iterator rit = as.bsuccs.get(0).get_Reachers().iterator();
 	while (rit.hasNext()) {
 	    SwitchNode pred = binding.get( rit.next());
 	    

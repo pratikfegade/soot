@@ -70,10 +70,10 @@ public class VariableDeclaration extends Stmt implements Cloneable, SimpleSet, I
   @SuppressWarnings({"unchecked", "cast"})
   public VariableDeclaration copy() {
     try {
-      VariableDeclaration node = (VariableDeclaration) clone();
+      VariableDeclaration node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -88,10 +88,10 @@ public class VariableDeclaration extends Stmt implements Cloneable, SimpleSet, I
    */
   @SuppressWarnings({"unchecked", "cast"})
   public VariableDeclaration fullCopy() {
-    VariableDeclaration tree = (VariableDeclaration) copy();
+    VariableDeclaration tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -439,7 +439,7 @@ public class VariableDeclaration extends Stmt implements Cloneable, SimpleSet, I
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getInit() {
-    return (Expr)getInitOpt().getChild(0);
+    return getInitOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Init child.

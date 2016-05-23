@@ -59,15 +59,11 @@ public class DexReturnInliner extends DexTransformer {
     }
 
 	private boolean isInstanceofReturn(Unit u) {
-		if (u instanceof ReturnStmt || u instanceof ReturnVoidStmt)
-			return true;
-		return false;
+		return u instanceof ReturnStmt || u instanceof ReturnVoidStmt;
 	}
 
 	private boolean isInstanceofFlowChange(Unit u) {
-		if (u instanceof GotoStmt || isInstanceofReturn(u))
-			return true;
-		return false;
+		return u instanceof GotoStmt || isInstanceofReturn(u);
 	}
 
 	@Override

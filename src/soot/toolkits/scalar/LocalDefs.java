@@ -44,7 +44,7 @@ import soot.toolkits.graph.UnitGraph;
  */
 public interface LocalDefs
 {
-	static final public class Factory {
+	final class Factory {
 		private Factory() {}
 		
 		/**
@@ -113,6 +113,6 @@ public interface LocalDefs
      *   @return a list of Units where the local is defined in the current
      *            method context. If there are no uses an empty list will returned.
      */
-    public List<Unit> getDefsOfAt(Local l, Unit s);
+	List<Unit> getDefsOfAt(Local l, Unit s);
     
 }

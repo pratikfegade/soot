@@ -487,13 +487,13 @@ AddExceptionalEdge:
 			    	Unit a = itr.next();
 			    	List<Unit> succsOfA = this.unitToSuccs.get(a);
 			    	succsOfA.remove(b);
-			    	succsOfA.add((Unit)ehnop);
+			    	succsOfA.add(ehnop);
 			    }
 			    
 			    predsOfB.clear();
-			    predsOfB.add((Unit)ehnop);
+			    predsOfB.add(ehnop);
 			    
-			    this.unitToPreds.put((Unit)ehnop, predsOfehnop);
+			    this.unitToPreds.put(ehnop, predsOfehnop);
 			    
 		    }
 		    
@@ -510,13 +510,13 @@ AddExceptionalEdge:
 		    	this.unitToPreds.put(handler, new ArrayList<Unit>());
 		    
 		    List<Unit> predsOfhandler = this.unitToPreds.get(handler);
-		    predsOfhandler.add((Unit)ehnop);
+		    predsOfhandler.add(ehnop);
  		    
 	
 		    Chain<Unit> units = body.getUnits().getNonPatchingChain();
 		   
 		    if(!units.contains(ehnop))
-		    	units.insertBefore((Unit)ehnop, b);
+		    	units.insertBefore(ehnop, b);
 	
 		    
 		    nop2added.put(ehnop, Boolean.TRUE);

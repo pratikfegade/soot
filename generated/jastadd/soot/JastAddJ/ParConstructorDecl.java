@@ -60,10 +60,10 @@ public class ParConstructorDecl extends ConstructorDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ParConstructorDecl copy() {
     try {
-      ParConstructorDecl node = (ParConstructorDecl) clone();
+      ParConstructorDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -78,10 +78,10 @@ public class ParConstructorDecl extends ConstructorDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParConstructorDecl fullCopy() {
-    ParConstructorDecl tree = (ParConstructorDecl) copy();
+    ParConstructorDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -261,7 +261,7 @@ public class ParConstructorDecl extends ConstructorDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -382,7 +382,7 @@ public class ParConstructorDecl extends ConstructorDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -491,7 +491,7 @@ public class ParConstructorDecl extends ConstructorDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Stmt getConstructorInvocation() {
-    return (Stmt)getConstructorInvocationOpt().getChild(0);
+    return getConstructorInvocationOpt().getChild(0);
   }
   /**
    * Replaces the (optional) ConstructorInvocation child.
@@ -596,7 +596,7 @@ public class ParConstructorDecl extends ConstructorDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getTypeArgument(int i) {
-    return (Access)getTypeArgumentList().getChild(i);
+    return getTypeArgumentList().getChild(i);
   }
   /**
    * Append an element to the TypeArgument list.

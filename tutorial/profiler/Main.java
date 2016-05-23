@@ -170,10 +170,10 @@ class GotoInstrumenter extends BodyTransformer
                 }
                 else if (s instanceof InvokeStmt)
                 {
-                    InvokeExpr iexpr = (InvokeExpr) ((InvokeStmt)s).getInvokeExpr();
+                    InvokeExpr iexpr = s.getInvokeExpr();
                     if (iexpr instanceof StaticInvokeExpr)
                     {
-                        SootMethod target = ((StaticInvokeExpr)iexpr).getMethod();
+                        SootMethod target = iexpr.getMethod();
                         
                         if (target.getSignature().equals("<java.lang.System: void exit(int)>"))
                         {

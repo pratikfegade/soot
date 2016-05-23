@@ -31,7 +31,7 @@ import java.util.*;
 
 public interface DupInst extends Inst
 { 
-    public List<Type> getOpTypes();    
-    public List<Type> getUnderTypes();
+    List<Type> getOpTypes();
+    List<Type> getUnderTypes();
     
 }

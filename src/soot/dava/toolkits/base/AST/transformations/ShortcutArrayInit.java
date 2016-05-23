@@ -423,10 +423,8 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 		
 		DShortcutAssignStmt shortcut = (DShortcutAssignStmt)one;
 		Value shortcutVar = shortcut.getLeftOp();
-		if(!shortcutVar.equals(rightOp))
-			return false;
+		return shortcutVar.equals(rightOp);
 
-		return true;
 	}
 
 

@@ -66,10 +66,10 @@ public class AnonymousDecl extends ClassDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public AnonymousDecl copy() {
     try {
-      AnonymousDecl node = (AnonymousDecl) clone();
+      AnonymousDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -84,7 +84,7 @@ public class AnonymousDecl extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public AnonymousDecl fullCopy() {
-    AnonymousDecl tree = (AnonymousDecl) copy();
+    AnonymousDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -95,7 +95,7 @@ public class AnonymousDecl extends ClassDecl implements Cloneable {
             tree.children[i] = new List();
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -266,7 +266,7 @@ public class AnonymousDecl extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -540,7 +540,7 @@ public class AnonymousDecl extends ClassDecl implements Cloneable {
         parameterList.add(
             new VariableArityParameterDeclaration(
               new Modifiers(new List()),
-              ((ArrayDecl) param.type()).componentType().createBoundAccess(),
+              param.type().componentType().createBoundAccess(),
               param.name()
               ));
       } else {
@@ -756,7 +756,7 @@ public class AnonymousDecl extends ClassDecl implements Cloneable {
       setModifiers(new Modifiers(new List().add(new Modifier("final"))));
 
       ConstructorDecl decl = constructorDecl();
-      Modifiers modifiers = (Modifiers)decl.getModifiers().fullCopy();
+      Modifiers modifiers = decl.getModifiers().fullCopy();
       String anonName = "Anonymous" + nextAnonymousIndex();
 
       ConstructorDecl constructor = new ConstructorDecl(modifiers, anonName,

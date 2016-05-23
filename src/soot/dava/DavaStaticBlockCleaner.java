@@ -87,7 +87,7 @@ public class DavaStaticBlockCleaner {
 
 	
     	Body clinitBody = clinit.getActiveBody();	
-        Chain units = ((DavaBody) clinitBody).getUnits();
+        Chain units = clinitBody.getUnits();
 
         if (units.size() != 1) {
             throw new RuntimeException("DavaBody AST doesn't have single root.");
@@ -130,7 +130,7 @@ public class DavaStaticBlockCleaner {
 	
 		    Body bod = maybeInline.getActiveBody();
 	
-		    Chain units = ((DavaBody) bod).getUnits();
+		    Chain units = bod.getUnits();
 
 		    if (units.size() != 1) {
 			throw new RuntimeException("DavaBody AST doesn't have single root.");

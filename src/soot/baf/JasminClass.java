@@ -233,7 +233,7 @@ public class JasminClass extends AbstractJasminClass
                     if(assignedLocals.add(local))
                     {
                         localToSlot.put(local, new Integer(localCount));
-                        localCount += sizeOfType((Type)local.getType());
+                        localCount += sizeOfType(local.getType());
                     }
                 }
 
@@ -278,7 +278,7 @@ public class JasminClass extends AbstractJasminClass
 
                     if(blocks.size() != 0) {
                         // set the stack height of the entry points
-                        List<Block> entryPoints = ((DirectedGraph<Block>)blockGraph).getHeads();                
+                        List<Block> entryPoints = blockGraph.getHeads();
                         for (Block entryBlock : entryPoints) {
                             Integer initialHeight;
                             if(handlerUnits.contains(entryBlock.getHead())) {
@@ -1617,7 +1617,7 @@ public class JasminClass extends AbstractJasminClass
 
             public void caseIncInst(IncInst i)
             {
-                if(((ValueBox) i.getUseBoxes().get(0)).getValue() != ((ValueBox) i.getDefBoxes().get(0)).getValue())
+                if(i.getUseBoxes().get(0).getValue() != i.getDefBoxes().get(0).getValue())
                     throw new RuntimeException("iinc def and use boxes don't match");
                     
                 emit("iinc " + localToSlot.get(i.getLocal()) + " " + i.getConstant());

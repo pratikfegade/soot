@@ -71,10 +71,10 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
   @SuppressWarnings({"unchecked", "cast"})
   public GenericInterfaceDecl copy() {
     try {
-      GenericInterfaceDecl node = (GenericInterfaceDecl) clone();
+      GenericInterfaceDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -89,10 +89,10 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
    */
   @SuppressWarnings({"unchecked", "cast"})
   public GenericInterfaceDecl fullCopy() {
-    GenericInterfaceDecl tree = (GenericInterfaceDecl) copy();
+    GenericInterfaceDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -118,7 +118,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
    */
   public InterfaceDecl substitutedInterfaceDecl(Parameterization parTypeDecl) {
     GenericInterfaceDecl c = new GenericInterfaceDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       getSuperInterfaceIdList().substitute(parTypeDecl),
      // ES:  new List(),
@@ -183,7 +183,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:235
    */
   public TypeDecl makeGeneric(Signatures.ClassSignature s) {
-    return (TypeDecl)this;
+    return this;
   }
   /**
    * @ast method 
@@ -385,7 +385,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperInterfaceId(int i) {
-    return (Access)getSuperInterfaceIdList().getChild(i);
+    return getSuperInterfaceIdList().getChild(i);
   }
   /**
    * Append an element to the SuperInterfaceId list.
@@ -506,7 +506,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -627,7 +627,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeVariable getTypeParameter(int i) {
-    return (TypeVariable)getTypeParameterList().getChild(i);
+    return getTypeParameterList().getChild(i);
   }
   /**
    * Append an element to the TypeParameter list.
@@ -786,7 +786,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
     */
     
     ParInterfaceDecl typeDecl = list.size() == 0 ? new RawInterfaceDecl() : new ParInterfaceDecl();
-    typeDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    typeDecl.setModifiers(getModifiers().fullCopy());
     typeDecl.setID(getID());
     // ES: trying to only so this for ParInterfaceDecl and then later for RawInterfaceDecl
     if (!(typeDecl instanceof RawInterfaceDecl)) 

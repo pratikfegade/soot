@@ -72,7 +72,7 @@ public class ExceptionFinder implements FactFinder {
 				IterableSet<AugmentedStmt> tryBody = new IterableSet<AugmentedStmt>();
 
 				Iterator<Unit> btit = body.getUnits().iterator(trap.getBeginUnit());
-				for (Unit u = (Unit) btit.next(); u != endUnit; u = (Unit) btit
+				for (Unit u = btit.next(); u != endUnit; u = btit
 						.next())
 					tryBody.add(asg.get_AugStmt((Stmt) u));
 
@@ -120,7 +120,7 @@ public class ExceptionFinder implements FactFinder {
 				ExceptionNode[] ena = new ExceptionNode[enlist.size()];
 				Iterator<ExceptionNode> enlit = enlist.iterator();
 				for (int i = 0; enlit.hasNext(); i++)
-					ena[i] = (ExceptionNode) enlit.next();
+					ena[i] = enlit.next();
 
 				for (int i = 0; i < ena.length - 1; i++) {
 					ExceptionNode eni = ena[i];
@@ -268,7 +268,7 @@ public class ExceptionFinder implements FactFinder {
 		catchQueue.addAll(handlerAugmentedStmt.csuccs);
 
 		while (catchQueue.isEmpty() == false) {
-			AugmentedStmt as = (AugmentedStmt) catchQueue.removeFirst();
+			AugmentedStmt as = catchQueue.removeFirst();
 
 			if (catchBody.contains(as))
 				continue;

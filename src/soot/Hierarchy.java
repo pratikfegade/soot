@@ -73,18 +73,18 @@ public class Hierarchy
         {
             Chain<SootClass> allClasses = sc.getClasses();
 
-            classToSubclasses = new HashMap<SootClass, List<SootClass>>(allClasses.size() * 2 + 1, 0.7f);
-            interfaceToSubinterfaces = new HashMap<SootClass, List<SootClass>>(allClasses.size() * 2 + 1, 0.7f);
-            interfaceToSuperinterfaces = new HashMap<SootClass, List<SootClass>>(allClasses.size() * 2 + 1, 0.7f);
+            classToSubclasses = new HashMap<>(allClasses.size() * 2 + 1, 0.7f);
+            interfaceToSubinterfaces = new HashMap<>(allClasses.size() * 2 + 1, 0.7f);
+            interfaceToSuperinterfaces = new HashMap<>(allClasses.size() * 2 + 1, 0.7f);
             
-            classToDirSubclasses = new HashMap<SootClass, List<SootClass>>
-                (allClasses.size() * 2 + 1, 0.7f);
-            interfaceToDirSubinterfaces = new HashMap<SootClass, List<SootClass>>
-                (allClasses.size() * 2 + 1, 0.7f);
-            interfaceToDirSuperinterfaces = new HashMap<SootClass, List<SootClass>>
-            	(allClasses.size() * 2 + 1, 0.7f);
-            interfaceToDirImplementers = new HashMap<SootClass, List<SootClass>>
-                (allClasses.size() * 2 + 1, 0.7f);
+            classToDirSubclasses = new HashMap<>
+                    (allClasses.size() * 2 + 1, 0.7f);
+            interfaceToDirSubinterfaces = new HashMap<>
+                    (allClasses.size() * 2 + 1, 0.7f);
+            interfaceToDirSuperinterfaces = new HashMap<>
+                    (allClasses.size() * 2 + 1, 0.7f);
+            interfaceToDirImplementers = new HashMap<>
+                    (allClasses.size() * 2 + 1, 0.7f);
             
             for (SootClass c : allClasses) {
                 if( c.resolvingLevel() < SootClass.HIERARCHY ) continue;
@@ -157,7 +157,7 @@ public class Hierarchy
         if (c.isInterface())
             throw new RuntimeException("class needed!");
 
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
         l.addAll(getSubclassesOf(c));
         l.add(c);
 
@@ -178,7 +178,7 @@ public class Hierarchy
             return classToSubclasses.get(c);        
         
         // Otherwise, build up the hashmap.
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
 
         for (SootClass cls : classToDirSubclasses.get(c)) {
             if( cls.resolvingLevel() < SootClass.HIERARCHY ) continue;
@@ -196,7 +196,7 @@ public class Hierarchy
     {
         c.checkLevel(SootClass.HIERARCHY);
         List<SootClass> l = getSuperclassesOf(c);
-        ArrayList<SootClass> al = new ArrayList<SootClass>(); al.add(c); al.addAll(l);
+        ArrayList<SootClass> al = new ArrayList<>(); al.add(c); al.addAll(l);
         return Collections.unmodifiableList(al);
     }
 
@@ -209,7 +209,7 @@ public class Hierarchy
 
         checkState();
 
-        ArrayList<SootClass> l = new ArrayList<SootClass>();
+        ArrayList<SootClass> l = new ArrayList<>();
         SootClass cl = c;
 
         while (cl.hasSuperclass())
@@ -228,7 +228,7 @@ public class Hierarchy
         if (!c.isInterface())
             throw new RuntimeException("interface needed!");
 
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
         l.addAll(getSubinterfacesOf(c));
         l.add(c);
 
@@ -249,7 +249,7 @@ public class Hierarchy
             return interfaceToSubinterfaces.get(c);
 
         // Otherwise, build up the hashmap.
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
 
         for (SootClass si : interfaceToDirSubinterfaces.get(c)) {
             l.addAll(getSubinterfacesOfIncluding(si));
@@ -267,7 +267,7 @@ public class Hierarchy
         if (!c.isInterface())
             throw new RuntimeException("interface needed!");
 
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
         l.addAll(getSuperinterfacesOf(c));
         l.add(c);
 
@@ -289,7 +289,7 @@ public class Hierarchy
             return cached;
 
         // Otherwise, build up the hashmap.
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
 
         for (SootClass si : interfaceToDirSuperinterfaces.get(c)) {
             l.addAll(getSuperinterfacesOfIncluding(si));

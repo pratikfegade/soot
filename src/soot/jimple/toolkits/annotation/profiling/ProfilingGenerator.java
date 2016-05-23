@@ -71,11 +71,11 @@ public class ProfilingGenerator extends BodyTransformer
 
 		if (stmt instanceof InvokeStmt)
 		{
-		    InvokeExpr iexpr = ((InvokeStmt)stmt).getInvokeExpr() ;
+		    InvokeExpr iexpr = stmt.getInvokeExpr() ;
 		
 		    if (iexpr instanceof StaticInvokeExpr)
 		    {
-		        SootMethod tempm = ((StaticInvokeExpr)iexpr).getMethod() ;
+		        SootMethod tempm = iexpr.getMethod() ;
 			
 			if (tempm.getSignature().equals(
 				"<java.lang.System: void exit(int)>"))

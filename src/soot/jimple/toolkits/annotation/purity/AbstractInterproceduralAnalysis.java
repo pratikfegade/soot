@@ -329,8 +329,8 @@ public abstract class AbstractInterproceduralAnalysis {
 		Integer v2 = order.get(o2);
 		return v1.intValue()-v2.intValue();
 	    }
-	};
-	SortedSet queue = new TreeSet(new IntComparator());
+	}
+		SortedSet queue = new TreeSet(new IntComparator());
 	
 	// init
 	Iterator it = order.keySet().iterator();

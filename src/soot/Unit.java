@@ -27,10 +27,12 @@
 package soot;
 
 
-import soot.tagkit.*;
-import soot.util.*;
-import java.util.*;
-import java.io.*;
+import soot.tagkit.Host;
+import soot.util.Chain;
+import soot.util.Switchable;
+
+import java.io.Serializable;
+import java.util.List;
 
 /** A code fragment (eg Stmt or Inst), used within Body
  * classes.  Intermediate representations must use an implementation
@@ -40,37 +42,37 @@ import java.io.*;
 public interface Unit extends Switchable, Host, Serializable, Context
 {
     /** Returns a list of Boxes containing Values used in this Unit. */
-    public List<ValueBox> getUseBoxes();
+    List<ValueBox> getUseBoxes();
 
     /** Returns a list of Boxes containing Values defined in this Unit. */
-    public List<ValueBox> getDefBoxes();
+    List<ValueBox> getDefBoxes();
 
     /** Returns a list of Boxes containing Units defined in this Unit; typically
      * branch targets. */
-    public List<UnitBox> getUnitBoxes();
+    List<UnitBox> getUnitBoxes();
 
     /** Returns a list of Boxes pointing to this Unit. */
-    public List<UnitBox> getBoxesPointingToThis();
+    List<UnitBox> getBoxesPointingToThis();
     /** Adds a box to the list returned by getBoxesPointingToThis. */
-    public void addBoxPointingToThis( UnitBox b );
+    void addBoxPointingToThis(UnitBox b);
     /** Removes a box from the list returned by getBoxesPointingToThis. */
-    public void removeBoxPointingToThis( UnitBox b );
+    void removeBoxPointingToThis(UnitBox b);
     /** Clears any pointers to and from this Unit's UnitBoxes. */
-    public void clearUnitBoxes();
+    void clearUnitBoxes();
     
     /** Returns a list of Boxes containing any Value either used or defined
      * in this Unit. */
-    public List<ValueBox> getUseAndDefBoxes();
+    List<ValueBox> getUseAndDefBoxes();
 
-    public Object clone();
+    Object clone();
 
     /** Returns true if execution after this statement may continue at the following statement.
      * GotoStmt will return false but IfStmt will return true. */
-    public boolean fallsThrough();
+    boolean fallsThrough();
     /** Returns true if execution after this statement does not necessarily continue at the following statement. GotoStmt and IfStmt will both return true. */
-    public boolean branches();        
+    boolean branches();
     
-    public void toString(UnitPrinter up);
+    void toString(UnitPrinter up);
 
     /**
      * Redirects jumps to this Unit to newLocation.  In general, you shouldn't
@@ -80,5 +82,5 @@ public interface Unit extends Switchable, Host, Serializable, Context
      * @see soot.shimple.Shimple#redirectToPreds(Chain, Unit)
      * @see soot.shimple.Shimple#redirectPointers(Unit, Unit)
      **/
-    public void redirectJumpsToThisTo(Unit newLocation);
+    void redirectJumpsToThisTo(Unit newLocation);
 }

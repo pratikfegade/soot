@@ -514,7 +514,7 @@ public class CFGToDotGraph {
 	  StringBuffer buffer = new StringBuffer();
 	  while (units.hasNext()) {
 	    Unit unit = units.next();
-	    String targetLabel = (String) printer.labels().get(unit);
+	    String targetLabel = printer.labels().get(unit);
 	    if (targetLabel != null) {
 	      buffer.append(targetLabel)
 		.append(":\\n");

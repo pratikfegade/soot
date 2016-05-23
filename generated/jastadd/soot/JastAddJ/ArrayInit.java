@@ -64,10 +64,10 @@ public class ArrayInit extends Expr implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ArrayInit copy() {
     try {
-      ArrayInit node = (ArrayInit) clone();
+      ArrayInit node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -82,10 +82,10 @@ public class ArrayInit extends Expr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ArrayInit fullCopy() {
-    ArrayInit tree = (ArrayInit) copy();
+    ArrayInit tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -235,7 +235,7 @@ public class ArrayInit extends Expr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getInit(int i) {
-    return (Expr)getInitList().getChild(i);
+    return getInitList().getChild(i);
   }
   /**
    * Append an element to the Init list.

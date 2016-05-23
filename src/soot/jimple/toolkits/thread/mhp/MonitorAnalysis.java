@@ -212,7 +212,7 @@ public class MonitorAnalysis extends ForwardFlowAnalysis
 		MonitorSet in  = (MonitorSet) inValue;
 		MonitorSet out = (MonitorSet) outValue;
 		JPegStmt s = (JPegStmt)unit;
-		Tag tag = (Tag)s.getTags().get(0);	 
+		Tag tag = s.getTags().get(0);
 		//System.out.println("s: "+tag+" "+s);
 		// Copy in to out
 		//if (in.contains("&")) in.remove("&");
@@ -486,7 +486,7 @@ public class MonitorAnalysis extends ForwardFlowAnalysis
 				Iterator it = list.iterator();
 				while (it.hasNext()){
 					JPegStmt stmt = (JPegStmt)it.next();
-					Tag tag1 = (Tag)stmt.getTags().get(0);
+					Tag tag1 = stmt.getTags().get(0);
 					System.out.println(tag1+" "+stmt);
 					
 					

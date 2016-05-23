@@ -44,14 +44,9 @@ public class LocalStmtPair
 
     public boolean equals(Object other)
     {
-        if(other instanceof LocalStmtPair &&
-            ((LocalStmtPair) other).local == this.local &&
-            ((LocalStmtPair) other).stmt == this.stmt)
-        {
-            return true;
-        }
-        else
-            return false;
+        return other instanceof LocalStmtPair &&
+                ((LocalStmtPair) other).local == this.local &&
+                ((LocalStmtPair) other).stmt == this.stmt;
     }
 
     public int hashCode()

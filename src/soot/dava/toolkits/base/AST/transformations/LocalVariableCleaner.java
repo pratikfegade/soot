@@ -178,11 +178,9 @@ public class LocalVariableCleaner extends DepthFirstAdapter {
 			return false;
 
 		//there is no use of this def, we can remove it if it is copy stmt or a constant assignment
-		if (ds.getRightOp() instanceof Local
-				|| ds.getRightOp() instanceof Constant)
-			return true;
+		return ds.getRightOp() instanceof Local
+				|| ds.getRightOp() instanceof Constant;
 
-		return false;
 	}
 
 	/*
@@ -235,10 +233,8 @@ public class LocalVariableCleaner extends DepthFirstAdapter {
 		}
 		//System.out.println("STMT REMOVED---------------->"+stmt);
 		parentNode.setStatements(newSequence);
-		if (newSequence.size() < size)
-			return true; //size of new node is smaller than orignal size
+		return newSequence.size() < size;
 
-		return false;//didnt actually delete anything for some weird reason...shouldnt happen
 	}
 
 }

@@ -137,7 +137,7 @@ public class DexMethod {
 //        }
 
         //add the body of this code item
-        final DexBody dexBody = new DexBody(dexFile, method, (RefType) declaringClass.getType());
+        final DexBody dexBody = new DexBody(dexFile, method, declaringClass.getType());
 
         for (Type t : dexBody.usedTypes())
             types.add(t);

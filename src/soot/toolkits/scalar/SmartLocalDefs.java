@@ -70,7 +70,7 @@ public class SmartLocalDefs implements LocalDefs {
 	 */
 	private static <T> List<T> asList(Set<T> a, Set<T> b) {
 		if (a == null || b == null || a.isEmpty() || b.isEmpty()) {
-			return Collections.<T> emptyList();
+			return Collections.emptyList();
 		}
 
 		if (a.size() < b.size()) {

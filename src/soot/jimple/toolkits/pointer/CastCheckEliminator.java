@@ -51,7 +51,7 @@ public class CastCheckEliminator extends ForwardBranchedFlowAnalysis<LocalTypeSe
                     if( t instanceof RefType ) {
                         if( cast.getOp() instanceof Local ) {
                             Local l = (Local) cast.getOp(); 
-                            LocalTypeSet set = (LocalTypeSet) getFlowBefore(s);
+                            LocalTypeSet set = getFlowBefore(s);
                             s.addTag( new CastCheckTag( set.get( set.indexOf(
                                     l, (RefType) t ) ) ) );
                         } else {
@@ -72,7 +72,7 @@ public class CastCheckEliminator extends ForwardBranchedFlowAnalysis<LocalTypeSe
         Collection<Local> locals = ((UnitGraph)graph).getBody().getLocals();
         List<Local> refLocals = new ArrayList<Local>();
         for( Iterator<Local> lIt = locals.iterator(); lIt.hasNext(); ) {
-            final Local l = (Local) lIt.next();
+            final Local l = lIt.next();
             if( l.getType() instanceof RefType ) {
                 refLocals.add( l );
             }
@@ -117,7 +117,7 @@ public class CastCheckEliminator extends ForwardBranchedFlowAnalysis<LocalTypeSe
         
         // First kill all locals defined in this statement
         for( Iterator<ValueBox> bIt = stmt.getDefBoxes().iterator(); bIt.hasNext(); ) {
-            final ValueBox b = (ValueBox) bIt.next();
+            final ValueBox b = bIt.next();
             Value v = b.getValue();
             if( v instanceof Local && v.getType() instanceof RefType ) {
                 out.killLocal( (Local) v );

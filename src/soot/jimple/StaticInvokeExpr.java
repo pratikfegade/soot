@@ -34,8 +34,8 @@ import soot.util.*;
 
 public interface StaticInvokeExpr extends InvokeExpr
 {
-    public Type getType();
-    public void apply(Switch sw);
+    Type getType();
+    void apply(Switch sw);
 }
 
 

@@ -272,7 +272,7 @@ public class PiNodeManager
             {
                 Unit predOfTarget = null;
                 try{
-                    predOfTarget = (Unit) units.getPredOf(target);
+                    predOfTarget = units.getPredOf(target);
                 }
                 catch(NoSuchElementException e){
                     predOfTarget = null;

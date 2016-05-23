@@ -877,7 +877,7 @@ final class AsmMethodSource implements MethodSource {
 			else
 				popImmediate();
 		} else if (op >= DUP && op <= DUP2_X2) {
-			convertDupInsn((InsnNode) insn);
+			convertDupInsn(insn);
 		} else if (op == SWAP) {
 			Operand o1 = popImmediate();
 			Operand o2 = popImmediate();
@@ -886,7 +886,7 @@ final class AsmMethodSource implements MethodSource {
 		} else if ((op >= IADD && op <= DREM) ||
 				(op >= ISHL && op <= LXOR) ||
 				(op >= LCMP && op <= DCMPG)) {
-			convertBinopInsn((InsnNode) insn);
+			convertBinopInsn(insn);
 		} else if ((op >= INEG && op <= DNEG) ||
 				op == ARRAYLENGTH) {
 			convertUnopInsn(insn);

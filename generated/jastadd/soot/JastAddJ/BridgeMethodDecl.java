@@ -52,10 +52,10 @@ public class BridgeMethodDecl extends MethodDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public BridgeMethodDecl copy() {
     try {
-      BridgeMethodDecl node = (BridgeMethodDecl) clone();
+      BridgeMethodDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -70,10 +70,10 @@ public class BridgeMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BridgeMethodDecl fullCopy() {
-    BridgeMethodDecl tree = (BridgeMethodDecl) copy();
+    BridgeMethodDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -287,7 +287,7 @@ public class BridgeMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -408,7 +408,7 @@ public class BridgeMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -517,7 +517,7 @@ public class BridgeMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Block getBlock() {
-    return (Block)getBlockOpt().getChild(0);
+    return getBlockOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Block child.

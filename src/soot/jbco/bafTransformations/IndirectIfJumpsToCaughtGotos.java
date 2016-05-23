@@ -65,7 +65,7 @@ public class IndirectIfJumpsToCaughtGotos extends BodyTransformer implements IJb
       Unit last = null;
       nonTrap = Baf.v().newNopInst();
       for (Iterator<Unit> it = units.iterator(); it.hasNext(); ) {
-        Unit u = (Unit)it.next();
+        Unit u = it.next();
         if (u instanceof IdentityInst && ((IdentityInst)u).getLeftOp() instanceof Local) {
           last = u;
           continue;
@@ -84,7 +84,7 @@ public class IndirectIfJumpsToCaughtGotos extends BodyTransformer implements IJb
     ArrayList<Unit> addedUnits = new ArrayList<Unit>();
     Iterator<Unit> it = units.snapshotIterator();
     while (it.hasNext()) {
-      Unit u = (Unit)it.next();
+      Unit u = it.next();
       if (isIf(u) && Rand.getInt(10) <= weight) {
         TargetArgInst ifu = (TargetArgInst)u;
         Unit newTarg = Baf.v().newGotoInst(ifu.getTarget());
@@ -108,11 +108,11 @@ public class IndirectIfJumpsToCaughtGotos extends BodyTransformer implements IJb
     if (field != null && Rand.getInt(3) > 0) {
       toinsert.add(Baf.v().newStaticGetInst(field.makeRef()));
       if (field.getType() instanceof IntegerType) {
-        toinsert.add(Baf.v().newIfGeInst((Unit)units.getSuccOf(nonTrap)));
+        toinsert.add(Baf.v().newIfGeInst(units.getSuccOf(nonTrap)));
       } else {
         SootMethod boolInit = ((RefType)field.getType()).getSootClass().getMethod("boolean booleanValue()");
         toinsert.add(Baf.v().newVirtualInvokeInst(boolInit.makeRef()));
-        toinsert.add(Baf.v().newIfGeInst((Unit)units.getSuccOf(nonTrap)));
+        toinsert.add(Baf.v().newIfGeInst(units.getSuccOf(nonTrap)));
       }
     } else {
       toinsert.add(Baf.v().newPushInst(soot.jimple.IntConstant.v(BodyBuilder.getIntegerNine())));
@@ -128,7 +128,7 @@ public class IndirectIfJumpsToCaughtGotos extends BodyTransformer implements IJb
       parms.add(IntType.v());
       toinsert.add(Baf.v().newVirtualInvokeInst(out.getMethod("println",parms).makeRef()));
       */
-      toinsert.add(Baf.v().newIfEqInst((Unit)units.getSuccOf(nonTrap)));
+      toinsert.add(Baf.v().newIfEqInst(units.getSuccOf(nonTrap)));
     }
 
     ArrayList<Unit> toinserttry = new ArrayList<Unit>();

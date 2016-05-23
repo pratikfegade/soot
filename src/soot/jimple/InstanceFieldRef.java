@@ -33,9 +33,9 @@ import soot.*;
 
 public interface InstanceFieldRef extends FieldRef
 {
-    public Value getBase();
-    public ValueBox getBaseBox();
-    public void setBase(Value base);
+    Value getBase();
+    ValueBox getBaseBox();
+    void setBase(Value base);
 }
 
 

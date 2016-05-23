@@ -53,10 +53,10 @@ public class PlaceholderMethodDecl extends GenericMethodDecl implements Cloneabl
   @SuppressWarnings({"unchecked", "cast"})
   public PlaceholderMethodDecl copy() {
     try {
-      PlaceholderMethodDecl node = (PlaceholderMethodDecl) clone();
+      PlaceholderMethodDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -71,10 +71,10 @@ public class PlaceholderMethodDecl extends GenericMethodDecl implements Cloneabl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public PlaceholderMethodDecl fullCopy() {
-    PlaceholderMethodDecl tree = (PlaceholderMethodDecl) copy();
+    PlaceholderMethodDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -328,7 +328,7 @@ public class PlaceholderMethodDecl extends GenericMethodDecl implements Cloneabl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -449,7 +449,7 @@ public class PlaceholderMethodDecl extends GenericMethodDecl implements Cloneabl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -558,7 +558,7 @@ public class PlaceholderMethodDecl extends GenericMethodDecl implements Cloneabl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Block getBlock() {
-    return (Block)getBlockOpt().getChild(0);
+    return getBlockOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Block child.
@@ -632,7 +632,7 @@ public class PlaceholderMethodDecl extends GenericMethodDecl implements Cloneabl
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeVariable getTypeParameter(int i) {
-    return (TypeVariable)getTypeParameterList().getChild(i);
+    return getTypeParameterList().getChild(i);
   }
   /**
    * Append an element to the TypeParameter list.

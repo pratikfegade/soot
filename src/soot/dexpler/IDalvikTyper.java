@@ -26,14 +26,14 @@ import soot.ValueBox;
 
 public interface IDalvikTyper {
   
-  public static boolean ENABLE_DVKTYPER = false;
-  public static boolean DEBUG = false;
+  boolean ENABLE_DVKTYPER = false;
+  boolean DEBUG = false;
   
-  public abstract void setType(ValueBox v, Type type, boolean isUse);
+  void setType(ValueBox v, Type type, boolean isUse);
   //public abstract void setObjectType(ValueBox v);
-  public abstract void addConstraint(ValueBox box1, ValueBox box2);
+  void addConstraint(ValueBox box1, ValueBox box2);
   //public abstract void addStrongConstraint(ValueBox vb, Type t);
-  abstract void assignType(Body b);
+  void assignType(Body b);
   //public static IDalvikTyper getDvkTyper(); 
   //public Stmt captureAssign(JAssignStmt stmt, int current);
 }

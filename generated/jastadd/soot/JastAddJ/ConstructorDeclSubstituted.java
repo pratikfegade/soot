@@ -56,10 +56,10 @@ public class ConstructorDeclSubstituted extends ConstructorDecl implements Clone
   @SuppressWarnings({"unchecked", "cast"})
   public ConstructorDeclSubstituted copy() {
     try {
-      ConstructorDeclSubstituted node = (ConstructorDeclSubstituted) clone();
+      ConstructorDeclSubstituted node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -74,10 +74,10 @@ public class ConstructorDeclSubstituted extends ConstructorDecl implements Clone
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ConstructorDeclSubstituted fullCopy() {
-    ConstructorDeclSubstituted tree = (ConstructorDeclSubstituted) copy();
+    ConstructorDeclSubstituted tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -272,7 +272,7 @@ public class ConstructorDeclSubstituted extends ConstructorDecl implements Clone
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -393,7 +393,7 @@ public class ConstructorDeclSubstituted extends ConstructorDecl implements Clone
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -502,7 +502,7 @@ public class ConstructorDeclSubstituted extends ConstructorDecl implements Clone
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Stmt getConstructorInvocation() {
-    return (Stmt)getConstructorInvocationOpt().getChild(0);
+    return getConstructorInvocationOpt().getChild(0);
   }
   /**
    * Replaces the (optional) ConstructorInvocation child.

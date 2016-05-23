@@ -140,9 +140,9 @@ public abstract class AbstractInterfaceInvokeExpr extends AbstractInstanceInvoke
 
     public void convertToBaf(JimpleToBafContext context, List<Unit> out)
     {
-        ((ConvertToBaf)getBase()).convertToBaf(context, out);;
+        ((ConvertToBaf)getBase()).convertToBaf(context, out);
 
-       for (ValueBox element : argBoxes) {
+        for (ValueBox element : argBoxes) {
 	    ((ConvertToBaf)(element.getValue())).convertToBaf(context, out);
 	}
        

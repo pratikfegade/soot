@@ -446,7 +446,7 @@ class MhpAnalysis
 						//System.out.println("localSucc: "+localSucc);
 						
 						if (localSucc instanceof JPegStmt){
-							if ((JPegStmt)localSucc instanceof NotifiedEntryStmt){
+							if (localSucc instanceof NotifiedEntryStmt){
 								//if (((JPegStmt)localSucc).getName().equals("notified-entry")){
 								continue;
 								
@@ -499,7 +499,7 @@ class MhpAnalysis
 			else{
 				JPegStmt currentNode = (JPegStmt)currentObj;
 				
-				Tag tag = (Tag)currentNode.getTags().get(0);
+				Tag tag = currentNode.getTags().get(0);
 				
 				
 				
@@ -937,7 +937,7 @@ class MhpAnalysis
 						
 						Object localSucc = localSuccIt.next();
 						if (localSucc instanceof JPegStmt){
-							if ((JPegStmt)localSucc  instanceof NotifiedEntryStmt){
+							if (localSucc instanceof NotifiedEntryStmt){
 								continue;
 							}
 							else{
@@ -984,7 +984,7 @@ class MhpAnalysis
 									//JPegStmt tempStmt = (JPegStmt)chainIt.next();
 									Object tempStmt = chainIt.next();
 									if (tempStmt instanceof JPegStmt){
-										if ((JPegStmt)tempStmt instanceof BeginStmt){
+										if (tempStmt instanceof BeginStmt){
 											// if (((JPegStmt)tempStmt).getName().equals("begin")){
 											if(!workList.contains(tempStmt)){
 												workList.addLast(tempStmt);

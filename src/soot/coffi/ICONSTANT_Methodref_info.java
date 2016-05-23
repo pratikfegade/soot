@@ -24,8 +24,8 @@ package soot.coffi;
  */
 public interface ICONSTANT_Methodref_info {
 	
-	public int getClassIndex();
+	int getClassIndex();
 	
-	public int getNameAndTypeIndex();
+	int getNameAndTypeIndex();
 
 }

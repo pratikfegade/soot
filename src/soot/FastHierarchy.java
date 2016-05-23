@@ -47,37 +47,37 @@ public class FastHierarchy
      * the inverse of the relationships given by the getSuperclass and
      * getInterfaces methods of SootClass. */
     protected MultiMap<SootClass,SootClass> classToSubclasses =
-    		new ConcurrentHashMultiMap<SootClass,SootClass>();
+            new ConcurrentHashMultiMap<>();
 
     /** This map holds all key,value pairs such that value is an interface 
      * and key is in value.getInterfaces(). This is one of the three maps 
      * that hold the inverse of the relationships given by the getSuperclass 
      * and getInterfaces methods of SootClass. */
     protected MultiMap<SootClass,SootClass> interfaceToSubinterfaces =
-    		new ConcurrentHashMultiMap<SootClass,SootClass>();
+            new ConcurrentHashMultiMap<>();
 
     /** This map holds all key,value pairs such that value is a class 
      * (NOT an interface) and key is in value.getInterfaces(). This is one of 
      * the three maps that hold the inverse of the relationships given by the 
      * getSuperclass and getInterfaces methods of SootClass. */
     protected MultiMap<SootClass,SootClass> interfaceToImplementers =
-    		new ConcurrentHashMultiMap<SootClass,SootClass>();
+            new ConcurrentHashMultiMap<>();
 
     /** This map is a transitive closure of interfaceToSubinterfaces,
      * and each set contains its superinterface itself. */
     protected MultiMap<SootClass,SootClass> interfaceToAllSubinterfaces =
-    		new ConcurrentHashMultiMap<SootClass,SootClass>();
+            new ConcurrentHashMultiMap<>();
 
     /** This map gives, for an interface, all concrete classes that
      * implement that interface and all its subinterfaces, but
      * NOT their subclasses. */
     protected MultiMap<SootClass,SootClass> interfaceToAllImplementers =
-    		new ConcurrentHashMultiMap<SootClass,SootClass>();
+            new ConcurrentHashMultiMap<>();
 
     /** For each class (NOT interface), this map contains a Interval, which is
      * a pair of numbers giving a preorder and postorder ordering of classes
      * in the inheritance tree. */
-    protected Map<SootClass, Interval> classToInterval = new HashMap<SootClass, Interval>();
+    protected Map<SootClass, Interval> classToInterval = new HashMap<>();
 
     protected Scene sc;
 
@@ -87,8 +87,7 @@ public class FastHierarchy
         boolean isSubrange( Interval potentialSubrange ) {
         	if (potentialSubrange == null) return false;
             if( lower > potentialSubrange.lower ) return false;
-            if( upper < potentialSubrange.upper ) return false;
-            return true;
+            return upper >= potentialSubrange.upper;
         }
     }
     protected int dfsVisit( int start, SootClass c ) {
@@ -176,7 +175,7 @@ public class FastHierarchy
      * */
     public Set<SootClass> getAllSubinterfaces( SootClass parent ) {
         parent.checkLevel(SootClass.HIERARCHY);
-        if (!parent.isInterface()) return Collections.<SootClass>emptySet();
+        if (!parent.isInterface()) return Collections.emptySet();
         if( !interfaceToAllSubinterfaces.containsKey( parent ) ) {
             interfaceToAllSubinterfaces.put( parent, parent );
             for(SootClass si : interfaceToSubinterfaces.get( parent )) {
@@ -225,7 +224,7 @@ public class FastHierarchy
                 else worklist.add(base);
                 Set<SootClass> workset = new HashSet<SootClass>();
                 while(!worklist.isEmpty()) {
-                    SootClass cl = (SootClass) worklist.removeFirst();
+                    SootClass cl = worklist.removeFirst();
                     if( !workset.add(cl) ) continue;
                     if( cl.isConcrete() 
                     &&  canStoreClass(cl, parentClass) ) return true;
@@ -257,9 +256,7 @@ public class FastHierarchy
                     return true;
                 if( aparent.baseType.equals( RefType.v( "java.io.Serializable" ) ) )
                     return true;
-                if( aparent.baseType.equals( RefType.v( "java.lang.Cloneable" ) ) )
-                    return true;
-                return false;
+                return aparent.baseType.equals(RefType.v("java.lang.Cloneable"));
             } else return false;
         } else
         	return false;
@@ -306,7 +303,7 @@ public class FastHierarchy
                 HashSet<SootClass> s = new HashSet<SootClass>();
                 s.add( declaringClass );
                 while( !s.isEmpty() ) {
-                    SootClass c = (SootClass) s.iterator().next();
+                    SootClass c = s.iterator().next();
                     s.remove( c );
                     if( !c.isInterface() && !c.isAbstract()
                             && canStoreClass( c, declaringClass ) ) {
@@ -362,7 +359,7 @@ public class FastHierarchy
                 HashSet<SootClass> s = new HashSet<SootClass>();
                 s.add( declaringClass );
                 while( !s.isEmpty() ) {
-                    SootClass c = (SootClass) s.iterator().next();
+                    SootClass c = s.iterator().next();
                     s.remove( c );
                     if( !c.isInterface() && !c.isAbstract()
                             && canStoreClass( c, declaringClass ) ) {
@@ -426,7 +423,7 @@ public class FastHierarchy
         LinkedList<SootClass> worklist = new LinkedList<SootClass>();
         worklist.add( abstractType );
         while( !worklist.isEmpty() ) {
-            SootClass concreteType = (SootClass) worklist.removeFirst();
+            SootClass concreteType = worklist.removeFirst();
             SootClass savedConcreteType = concreteType;
             if( concreteType.isInterface() ) {
                 worklist.addAll( getAllImplementersOfInterface( concreteType ) );

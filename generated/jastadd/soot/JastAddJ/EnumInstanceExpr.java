@@ -60,10 +60,10 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public EnumInstanceExpr copy() {
     try {
-      EnumInstanceExpr node = (EnumInstanceExpr) clone();
+      EnumInstanceExpr node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -78,7 +78,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public EnumInstanceExpr fullCopy() {
-    EnumInstanceExpr tree = (EnumInstanceExpr) copy();
+    EnumInstanceExpr tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -89,7 +89,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
             tree.children[i] = new List();
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -172,7 +172,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeDecl getTypeDecl() {
-    return (TypeDecl)getTypeDeclOpt().getChild(0);
+    return getTypeDeclOpt().getChild(0);
   }
   /**
    * Replaces the (optional) TypeDecl child.
@@ -277,7 +277,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getArg(int i) {
-    return (Expr)getArgList().getChild(i);
+    return getArgList().getChild(i);
   }
   /**
    * Append an element to the Arg list.

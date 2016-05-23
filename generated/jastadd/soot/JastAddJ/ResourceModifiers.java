@@ -57,10 +57,10 @@ public class ResourceModifiers extends Modifiers implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ResourceModifiers copy() {
     try {
-      ResourceModifiers node = (ResourceModifiers) clone();
+      ResourceModifiers node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -75,10 +75,10 @@ public class ResourceModifiers extends Modifiers implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ResourceModifiers fullCopy() {
-    ResourceModifiers tree = (ResourceModifiers) copy();
+    ResourceModifiers tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -172,7 +172,7 @@ public class ResourceModifiers extends Modifiers implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Modifier getModifier(int i) {
-    return (Modifier)getModifierList().getChild(i);
+    return getModifierList().getChild(i);
   }
   /**
    * Append an element to the Modifier list.

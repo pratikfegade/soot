@@ -1576,8 +1576,8 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseIncInst(IncInst i) {
-				if (((ValueBox) i.getUseBoxes().get(0)).getValue() != ((ValueBox) i
-						.getDefBoxes().get(0)).getValue()) {
+				if (i.getUseBoxes().get(0).getValue() != i
+						.getDefBoxes().get(0).getValue()) {
 					throw new RuntimeException(
 							"iinc def and use boxes don't match");
 				}

@@ -83,9 +83,9 @@ public abstract class PointerStmtSwitch extends AbstractStmtSwitch {
 	caseUninterestingStmt(statement);
     }
     /** Any other statement */
-    protected void caseUninterestingStmt( Stmt s ) {};
+    protected void caseUninterestingStmt( Stmt s ) {}
 
-    public final void caseAssignStmt( AssignStmt s ) {
+	public final void caseAssignStmt( AssignStmt s ) {
 	statement = s;
 	Value lhs = s.getLeftOp();
 	Value rhs = s.getRightOp();

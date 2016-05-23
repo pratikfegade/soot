@@ -64,7 +64,7 @@ public class LocalCreation {
     localChain = locals;
     Iterator<Local> it = locals.iterator();
     while (it.hasNext()) {
-      Local l = (Local)it.next();
+      Local l = it.next();
       this.locals.add(l.getName());
     }
     this.prefix = prefix;

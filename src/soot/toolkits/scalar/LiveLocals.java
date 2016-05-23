@@ -42,7 +42,7 @@ import java.util.*;
  */
 public interface LiveLocals
 {
-	static final public class Factory {
+	final class Factory {
 		private Factory() {}
 		public static LiveLocals newLiveLocals(UnitGraph graph) {
 			return new SimpleLiveLocals(graph);
@@ -55,7 +55,7 @@ public interface LiveLocals
      *   @param s the Unit that defines this query.
      *   @return a list of Locals that are live before the specified unit in the method.
      */
-    public List<Local> getLiveLocalsBefore(Unit s);
+	List<Local> getLiveLocalsBefore(Unit s);
 
 
     /**
@@ -64,7 +64,7 @@ public interface LiveLocals
      *   @param s the Unit that defines this query.
      *   @return a list of Locals that are live after the specified unit in the method.
      */
-    public List<Local> getLiveLocalsAfter(Unit s);
+	List<Local> getLiveLocalsAfter(Unit s);
 }
 
 

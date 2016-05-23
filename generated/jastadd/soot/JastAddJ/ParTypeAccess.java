@@ -57,10 +57,10 @@ public class ParTypeAccess extends Access implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ParTypeAccess copy() {
     try {
-      ParTypeAccess node = (ParTypeAccess) clone();
+      ParTypeAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -75,10 +75,10 @@ public class ParTypeAccess extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParTypeAccess fullCopy() {
-    ParTypeAccess tree = (ParTypeAccess) copy();
+    ParTypeAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -259,7 +259,7 @@ public class ParTypeAccess extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getTypeArgument(int i) {
-    return (Access)getTypeArgumentList().getChild(i);
+    return getTypeArgumentList().getChild(i);
   }
   /**
    * Append an element to the TypeArgument list.

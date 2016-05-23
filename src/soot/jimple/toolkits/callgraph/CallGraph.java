@@ -199,8 +199,7 @@ public class CallGraph implements Iterable<Edge>
         }
         public boolean hasNext() {
             if( position.srcUnit() != u ) return false;
-            if( position.kind() == Kind.INVALID ) return false;
-            return true;
+            return position.kind() != Kind.INVALID;
         }
         public Edge next() {
             Edge ret = position;
@@ -226,8 +225,7 @@ public class CallGraph implements Iterable<Edge>
         }
         public boolean hasNext() {
             if( position.getSrc() != m ) return false;
-            if( position.kind() == Kind.INVALID ) return false;
-            return true;
+            return position.kind() != Kind.INVALID;
         }
         public Edge next() {
             Edge ret = position;
@@ -253,8 +251,7 @@ public class CallGraph implements Iterable<Edge>
         }
         public boolean hasNext() {
             if( position.getTgt() != m ) return false;
-            if( position.kind() == Kind.INVALID ) return false;
-            return true;
+            return position.kind() != Kind.INVALID;
         }
         public Edge next() {
             Edge ret = position;
@@ -281,7 +278,7 @@ public class CallGraph implements Iterable<Edge>
         QueueReader<Edge> reader = listener();
         StringBuffer out = new StringBuffer();
         while(reader.hasNext()) {
-            Edge e = (Edge) reader.next();
+            Edge e = reader.next();
             out.append( e.toString() + "\n" );
         }
         return out.toString();

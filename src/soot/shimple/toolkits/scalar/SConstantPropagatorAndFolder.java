@@ -272,7 +272,7 @@ class SCPFAnalysis extends ForwardBranchedFlowAnalysis
             localToConstant = new HashMap<Local, Constant>(graph.size() * 2 + 1, 0.7f);
 
             while(localsIt.hasNext()){
-                Local local = (Local) localsIt.next();
+                Local local = localsIt.next();
                 localToConstant.put(local, TopConstant.v());
             }
         }
@@ -296,7 +296,7 @@ class SCPFAnalysis extends ForwardBranchedFlowAnalysis
      **/
     protected Object entryInitialFlow()
     {
-        FlowSet entrySet = (FlowSet) emptySet.emptySet();
+        FlowSet entrySet = emptySet.emptySet();
         entrySet.add(TopConstant.v());
         return entrySet;
     }

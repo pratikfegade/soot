@@ -193,8 +193,8 @@ public class LazyCodeMotion extends BodyTransformer {
 		{ /* replace old computations by the helper-vars */
 			Iterator<Unit> unitIt = unitChain.iterator();
 			while (unitIt.hasNext()) {
-				Unit currentUnit = (Unit) unitIt.next();
-				EquivalentValue rhs = (EquivalentValue) unitToEquivRhs.get(currentUnit);
+				Unit currentUnit = unitIt.next();
+				EquivalentValue rhs = unitToEquivRhs.get(currentUnit);
 				if (rhs != null) {
 					FlowSet<EquivalentValue> latestSet = latest.getFlowBefore(currentUnit);
 					FlowSet<EquivalentValue> notIsolatedSet = notIsolated.getFlowAfter(currentUnit);

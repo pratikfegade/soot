@@ -61,10 +61,10 @@ public class BooleanLiteral extends Literal implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public BooleanLiteral copy() {
     try {
-      BooleanLiteral node = (BooleanLiteral) clone();
+      BooleanLiteral node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -79,10 +79,10 @@ public class BooleanLiteral extends Literal implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BooleanLiteral fullCopy() {
-    BooleanLiteral tree = (BooleanLiteral) copy();
+    BooleanLiteral tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

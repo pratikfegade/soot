@@ -119,7 +119,7 @@ public class SPhiExpr implements PhiExpr
     {
         if(index < 0 || index >= argPairs.size())
             return null;
-        return (ValueUnitPair) argPairs.get(index);
+        return argPairs.get(index);
     }
     
     public Value getValue(int index)

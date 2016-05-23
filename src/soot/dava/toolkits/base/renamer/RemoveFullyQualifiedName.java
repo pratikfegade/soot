@@ -28,9 +28,7 @@ public class RemoveFullyQualifiedName {
 			if(tempName.equals(className))
 				count++;
 		}
-		if(count>1)
-			return true;
-		return false;
+		return count > 1;
 	}
 	
 	/*

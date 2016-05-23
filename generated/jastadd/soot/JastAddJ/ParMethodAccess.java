@@ -54,10 +54,10 @@ public class ParMethodAccess extends MethodAccess implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ParMethodAccess copy() {
     try {
-      ParMethodAccess node = (ParMethodAccess) clone();
+      ParMethodAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -72,10 +72,10 @@ public class ParMethodAccess extends MethodAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParMethodAccess fullCopy() {
-    ParMethodAccess tree = (ParMethodAccess) copy();
+    ParMethodAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -247,7 +247,7 @@ public class ParMethodAccess extends MethodAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getArg(int i) {
-    return (Expr)getArgList().getChild(i);
+    return getArgList().getChild(i);
   }
   /**
    * Append an element to the Arg list.
@@ -368,7 +368,7 @@ public class ParMethodAccess extends MethodAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getTypeArgument(int i) {
-    return (Access)getTypeArgumentList().getChild(i);
+    return getTypeArgumentList().getChild(i);
   }
   /**
    * Append an element to the TypeArgument list.

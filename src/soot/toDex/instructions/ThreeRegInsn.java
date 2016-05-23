@@ -7,7 +7,7 @@ import soot.toDex.Register;
  */
 public interface ThreeRegInsn extends TwoRegInsn {
 	
-	static final int REG_C_IDX = REG_B_IDX + 1;
+	int REG_C_IDX = REG_B_IDX + 1;
 
 	Register getRegC();
 }

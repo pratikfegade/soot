@@ -60,14 +60,9 @@ public class LocalUnitPair
      */
     public boolean equals(Object other)
     {
-        if(other instanceof LocalUnitPair &&
-            ((LocalUnitPair) other).local == this.local &&
-            ((LocalUnitPair) other).unit == this.unit)
-        {
-            return true;
-        }
-        else
-            return false;
+        return other instanceof LocalUnitPair &&
+                ((LocalUnitPair) other).local == this.local &&
+                ((LocalUnitPair) other).unit == this.unit;
     }
 
     public int hashCode()

@@ -33,7 +33,7 @@ import soot.*;
 
 public interface InstanceInvokeExpr extends InvokeExpr
 {
-    public Value getBase();
-    public ValueBox getBaseBox();
-    public void setBase(Value base);
+    Value getBase();
+    ValueBox getBaseBox();
+    void setBase(Value base);
 }

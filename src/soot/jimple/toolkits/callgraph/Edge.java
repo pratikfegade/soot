@@ -130,8 +130,7 @@ public final class Edge
         if( o.src != src ) return false;
         if( o.srcUnit != srcUnit ) return false;
         if( o.tgt != tgt ) return false;
-        if( o.kind != kind ) return false;
-        return true;
+        return o.kind == kind;
     }
     
     public String toString() {

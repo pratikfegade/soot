@@ -102,7 +102,7 @@ public class FieldRenamer extends SceneTransformer implements IJbcoTransform {
       
       // add one opaq predicate for true and one for false to each class 
       String bool = "opPred1";
-      Type t = Rand.getInt() % 2 == 0 ? (Type)BooleanType.v() : (Type)boolRef;
+      Type t = Rand.getInt() % 2 == 0 ? BooleanType.v() : boolRef;
       while (oldToNewFieldNames.containsKey(bool))
         bool += "_";
       SootField f = new SootField(bool, t, Modifier.PUBLIC | Modifier.STATIC);
@@ -113,7 +113,7 @@ public class FieldRenamer extends SceneTransformer implements IJbcoTransform {
       setBooleanTo(c,f,true);
       
       bool = "opPred2";
-      t = t == BooleanType.v() ? (Type)boolRef : (Type)BooleanType.v();
+      t = t == BooleanType.v() ? boolRef : BooleanType.v();
       while (oldToNewFieldNames.containsKey(bool))
         bool += "_";
       f = new SootField(bool, t, Modifier.PUBLIC | Modifier.STATIC);

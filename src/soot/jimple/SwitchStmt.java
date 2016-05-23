@@ -34,16 +34,16 @@ import java.util.*;
 
 public interface SwitchStmt extends Stmt
 {
-    public Unit getDefaultTarget();
-    public void setDefaultTarget(Unit defaultTarget);
-    public UnitBox getDefaultTargetBox();
-    public Value getKey();
-    public void setKey(Value key);
-    public ValueBox getKeyBox();
-    public List<Unit> getTargets();
-    public Unit getTarget(int index);
-    public void setTarget(int index, Unit target);
-    public UnitBox getTargetBox(int index);
+    Unit getDefaultTarget();
+    void setDefaultTarget(Unit defaultTarget);
+    UnitBox getDefaultTargetBox();
+    Value getKey();
+    void setKey(Value key);
+    ValueBox getKeyBox();
+    List<Unit> getTargets();
+    Unit getTarget(int index);
+    void setTarget(int index, Unit target);
+    UnitBox getTargetBox(int index);
 }
 
 

@@ -97,7 +97,7 @@ public class ConstantInitializerToTagTransformer extends SceneTransformer {
 										itU.remove();
 								}
 								else {
-									G.v().out.println("WARNING: Constant value for field '"+ field +"' mismatch between code ("+ (Constant) assign.getRightOp() +") and constant table ("+ t +")");
+									G.v().out.println("WARNING: Constant value for field '"+ field +"' mismatch between code ("+ assign.getRightOp() +") and constant table ("+ t +")");
 									removeTagList.add(field);
 								}
 								found = true;

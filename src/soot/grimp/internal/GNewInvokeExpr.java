@@ -154,8 +154,7 @@ public class GNewInvokeExpr extends AbstractInvokeExpr
             for (ValueBox element : argBoxes)
 				if (!(element.getValue().equivTo(element.getValue())))
                     return false;
-            if( !type.equals(ie.type) ) return false;
-            return true;
+            return type.equals(ie.type);
         }
         return false;
     }

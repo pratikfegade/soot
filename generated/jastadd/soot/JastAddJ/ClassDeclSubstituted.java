@@ -77,10 +77,10 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
   @SuppressWarnings({"unchecked", "cast"})
   public ClassDeclSubstituted copy() {
     try {
-      ClassDeclSubstituted node = (ClassDeclSubstituted) clone();
+      ClassDeclSubstituted node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -95,7 +95,7 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ClassDeclSubstituted fullCopy() {
-    ClassDeclSubstituted tree = (ClassDeclSubstituted) copy();
+    ClassDeclSubstituted tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -103,7 +103,7 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
             tree.children[i] = new List();
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -266,7 +266,7 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperClassAccess() {
-    return (Access)getSuperClassAccessOpt().getChild(0);
+    return getSuperClassAccessOpt().getChild(0);
   }
   /**
    * Replaces the (optional) SuperClassAccess child.
@@ -340,7 +340,7 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getImplements(int i) {
-    return (Access)getImplementsList().getChild(i);
+    return getImplementsList().getChild(i);
   }
   /**
    * Append an element to the Implements list.
@@ -903,7 +903,7 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
         _value.visited = new Integer(state.CIRCLE_INDEX);
         state.CHANGE = false;
         new_localTypeDecls_String_value = localTypeDecls_compute(name);
-        if ((new_localTypeDecls_String_value==null && (SimpleSet)_value.value!=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals((SimpleSet)_value.value))) {
+        if ((new_localTypeDecls_String_value==null && _value.value !=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals(_value.value))) {
           state.CHANGE = true;
           _value.value = new_localTypeDecls_String_value;
         }
@@ -927,7 +927,7 @@ public class ClassDeclSubstituted extends ClassDecl implements Cloneable, Member
       if (state.RESET_CYCLE) {
         localTypeDecls_String_values.remove(_parameters);
       }
-      else if ((new_localTypeDecls_String_value==null && (SimpleSet)_value.value!=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals((SimpleSet)_value.value))) {
+      else if ((new_localTypeDecls_String_value==null && _value.value !=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals(_value.value))) {
         state.CHANGE = true;
         _value.value = new_localTypeDecls_String_value;
       }

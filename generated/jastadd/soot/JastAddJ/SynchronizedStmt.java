@@ -84,10 +84,10 @@ public class SynchronizedStmt extends Stmt implements Cloneable, FinallyHost {
   @SuppressWarnings({"unchecked", "cast"})
   public SynchronizedStmt copy() {
     try {
-      SynchronizedStmt node = (SynchronizedStmt) clone();
+      SynchronizedStmt node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -102,10 +102,10 @@ public class SynchronizedStmt extends Stmt implements Cloneable, FinallyHost {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public SynchronizedStmt fullCopy() {
-    SynchronizedStmt tree = (SynchronizedStmt) copy();
+    SynchronizedStmt tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

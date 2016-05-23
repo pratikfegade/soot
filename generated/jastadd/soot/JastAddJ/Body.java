@@ -65,7 +65,7 @@ public class Body extends java.lang.Object {
             "Cannot create a temporary local for null literal");
       Local local = newTemp(v.getType());
       if(v instanceof soot.jimple.ParameterRef) {
-        add(newIdentityStmt(local, (soot.jimple.ParameterRef)v, null));
+        add(newIdentityStmt(local, v, null));
       }
       else {
         add(newAssignStmt(local, v, null));
@@ -91,10 +91,10 @@ public class Body extends java.lang.Object {
     public void setLine(ASTNode node)
     {
       if(node.getStart() != 0 && node.getEnd() != 0) { 
-        int line = node.getLine(node.getStart());
-        int column = node.getColumn(node.getStart());
-        int endLine = node.getLine(node.getEnd());
-        int endColumn = node.getColumn(node.getEnd());
+        int line = Symbol.getLine(node.getStart());
+        int column = Symbol.getColumn(node.getStart());
+        int endLine = Symbol.getLine(node.getEnd());
+        int endColumn = Symbol.getColumn(node.getEnd());
         String s = node.sourceFile();
         s = s != null ? s.substring(s.lastIndexOf(java.io.File.separatorChar)+1) : "Unknown";
         lineTag = new soot.tagkit.SourceLnNamePosTag(s, line, endLine, column, endColumn);
@@ -124,9 +124,9 @@ public class Body extends java.lang.Object {
         if(!(idstmt.getRightOp() instanceof CaughtExceptionRef)) {
           soot.Unit s = chain.getFirst();
           while(s instanceof IdentityStmt)
-            s = chain.getSuccOf((soot.jimple.Stmt)s);
+            s = chain.getSuccOf(s);
           if(s != null) {
-            chain.insertBefore(stmt, (soot.jimple.Stmt)s);
+            chain.insertBefore(stmt, s);
             return this;
           }
         }
@@ -595,10 +595,10 @@ public class Body extends java.lang.Object {
       if(node == null || tagMap.containsKey(value))
         return;
       if(node.getStart() != 0 && node.getEnd() != 0) { 
-        int line = node.getLine(node.getStart());
-        int column = node.getColumn(node.getStart());
-        int endLine = node.getLine(node.getEnd());
-        int endColumn = node.getColumn(node.getEnd());
+        int line = Symbol.getLine(node.getStart());
+        int column = Symbol.getColumn(node.getStart());
+        int endLine = Symbol.getLine(node.getEnd());
+        int endColumn = Symbol.getColumn(node.getEnd());
         String s = node.sourceFile();
         s = s != null ? s.substring(s.lastIndexOf(java.io.File.separatorChar)+1) : "Unknown";
         tagMap.put(value, new soot.tagkit.SourceLnNamePosTag(s, line, endLine, column, endColumn));

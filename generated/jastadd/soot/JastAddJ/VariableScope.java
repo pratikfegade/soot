@@ -24,5 +24,5 @@ import soot.coffi.CoffiMethodSource;
 public interface VariableScope {
 
      
-    public SimpleSet lookupVariable(String name);
+    SimpleSet lookupVariable(String name);
 }

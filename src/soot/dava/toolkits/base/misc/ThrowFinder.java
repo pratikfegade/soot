@@ -214,7 +214,7 @@ public class ThrowFinder
 		    			 * 
 		    			 */
 		    			PatchingChain list = m.retrieveActiveBody().getUnits();
-		    			Unit pred = (Unit)list.getPredOf(u);
+		    			Unit pred = list.getPredOf(u);
 		    			if(! (pred instanceof JExitMonitorStmt)){
 		    				exceptionSet.add( c);
 			    			changed = true;

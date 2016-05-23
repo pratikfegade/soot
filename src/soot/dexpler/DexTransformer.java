@@ -77,12 +77,12 @@ public abstract class DexTransformer extends BodyTransformer {
 			for (Unit u : collectDefinitions(local, localDefs, body)) {
 				if (u instanceof AssignStmt) {
 					Value r = ((AssignStmt) u).getRightOp();
-					if (r instanceof Local && !seenLocals.contains((Local) r))
+					if (r instanceof Local && !seenLocals.contains(r))
 						newLocals.push((Local) r);
 				}
 				defs.add(u);
 				//
-				List<UnitValueBoxPair> usesOf = (List<UnitValueBoxPair>) localUses
+				List<UnitValueBoxPair> usesOf = localUses
 						.getUsesOf(u);
 				for (UnitValueBoxPair pair : usesOf) {
 					Unit unit = pair.getUnit();
@@ -90,7 +90,7 @@ public abstract class DexTransformer extends BodyTransformer {
 						Value right = ((AssignStmt) unit).getRightOp();
 						Value left = ((AssignStmt) unit).getLeftOp();
 						if (right == local && left instanceof Local
-								&& !seenLocals.contains((Local) left))
+								&& !seenLocals.contains(left))
 							newLocals.push((Local) left);
 					}
 				}

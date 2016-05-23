@@ -74,7 +74,7 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 							} else {
 								LinkedHashSet<Pair<Value, Set<DefinitionStmt>>> res = new LinkedHashSet<Pair<Value, Set<DefinitionStmt>>>();
 								 res.add(new Pair<Value, Set<DefinitionStmt>>(assignment.getLeftOp(),
-													Collections.<DefinitionStmt> singleton(assignment)));
+													Collections.singleton(assignment)));
 								return res;
 							}
 						}

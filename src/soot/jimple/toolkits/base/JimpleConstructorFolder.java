@@ -42,8 +42,7 @@ public class JimpleConstructorFolder extends BodyTransformer
 {
     static boolean isNew(Stmt s) {
         if(!(s instanceof AssignStmt)) return false;
-        if(!(rhs(s) instanceof NewExpr)) return false;
-        return true;
+        return rhs(s) instanceof NewExpr;
     }
     static boolean isConstructor(Stmt s) {
         if(!(s instanceof InvokeStmt)) return false;
@@ -51,9 +50,7 @@ public class JimpleConstructorFolder extends BodyTransformer
         InvokeExpr expr = is.getInvokeExpr();
         if(!(expr instanceof SpecialInvokeExpr)) return false;
         SpecialInvokeExpr sie = (SpecialInvokeExpr) expr;
-        if(!sie.getMethodRef().name().equals(SootMethod.constructorName))
-                return false;
-        return true;
+        return sie.getMethodRef().name().equals(SootMethod.constructorName);
     }
     static Local base(Stmt s) {
         InvokeStmt is = (InvokeStmt) s;
@@ -68,8 +65,7 @@ public class JimpleConstructorFolder extends BodyTransformer
     static boolean isCopy(Stmt s) {
         if(!(s instanceof AssignStmt)) return false;
         if(!(rhs(s) instanceof Local)) return false;
-        if(!(lhs(s) instanceof Local)) return false;
-        return true;
+        return lhs(s) instanceof Local;
     }
     static Value rhs(Stmt s) {
         AssignStmt as = (AssignStmt) s;
@@ -139,8 +135,7 @@ public class JimpleConstructorFolder extends BodyTransformer
             if(!stmtToVar.equals(o.stmtToVar)) return false;
             if(alloc == null && o.alloc != null) return false;
             if(alloc != null && o.alloc == null) return false;
-            if(alloc != null && !alloc.equals(o.alloc)) return false;
-            return true;
+            return !(alloc != null && !alloc.equals(o.alloc));
         }
         public Stmt alloc() { return alloc; }
         public void setAlloc(Stmt newAlloc) { alloc = newAlloc; }

@@ -44,9 +44,9 @@ import soot.toolkits.astmetrics.ClassData;
 public class G extends Singletons 
 {
     
-    public static interface GlobalObjectGetter {
-    	public G getG();
-    	public void reset();
+    public interface GlobalObjectGetter {
+    	G getG();
+    	void reset();
     }
     
     public static G v() { return objectGetter.getG(); }
@@ -80,7 +80,7 @@ public class G extends Singletons
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e1 = new Utf8_Enumeration();
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e2 = new Utf8_Enumeration();
     public int SETNodeLabel_uniqueId = 0;
-    public HashMap<SETNode, SETBasicBlock> SETBasicBlock_binding = new HashMap<SETNode, SETBasicBlock>();
+    public HashMap<SETNode, SETBasicBlock> SETBasicBlock_binding = new HashMap<>();
     public boolean ASTAnalysis_modified;
     public NativeHelper NativeHelper_helper = null;
     public P2SetFactory newSetFactory;
@@ -89,19 +89,19 @@ public class G extends Singletons
     public int SparkNativeHelper_tempVar = 0;
     public int PaddleNativeHelper_tempVar = 0;
     public boolean PointsToSetInternal_warnedAlready = false;
-    public HashMap<SootMethod, MethodPAG> MethodPAG_methodToPag = new HashMap<SootMethod, MethodPAG>();
+    public HashMap<SootMethod, MethodPAG> MethodPAG_methodToPag = new HashMap<>();
     public Set MethodRWSet_allGlobals = new HashSet();
     public Set MethodRWSet_allFields = new HashSet();
     public int GeneralConstObject_counter = 0;
     public UnionFactory Union_factory = null;
     public HashMap<Object, Array2ndDimensionSymbol> Array2ndDimensionSymbol_pool = new HashMap<Object, Array2ndDimensionSymbol>();
     public Map AbstractUnit_allMapToUnnamed = Collections.unmodifiableMap(new AbstractUnitAllMapTo("<unnamed>"));
-    public List<Timer> Timer_outstandingTimers = new ArrayList<Timer>();
+    public List<Timer> Timer_outstandingTimers = new ArrayList<>();
     public boolean Timer_isGarbageCollecting;
     public Timer Timer_forcedGarbageCollectionTimer = new Timer("gc");
     public int Timer_count;
-    public final Map<Scene, ClassHierarchy> ClassHierarchy_classHierarchyMap = new HashMap<Scene, ClassHierarchy>();
-    public final Map<MethodContext, MethodContext> MethodContext_map = new HashMap<MethodContext, MethodContext>();
+    public final Map<Scene, ClassHierarchy> ClassHierarchy_classHierarchyMap = new HashMap<>();
+    public final Map<MethodContext, MethodContext> MethodContext_map = new HashMap<>();
 
     public ShimpleFactory shimpleFactory = new DefaultShimpleFactory();
 
@@ -139,10 +139,10 @@ public class G extends Singletons
      * of DavSuperHandler
      */
     public boolean SootMethodAddedByDava;
-    public ArrayList<SootClass> SootClassNeedsDavaSuperHandlerClass = new ArrayList<SootClass>();
-    public ArrayList<SootMethod> SootMethodsAdded = new ArrayList<SootMethod>();
+    public ArrayList<SootClass> SootClassNeedsDavaSuperHandlerClass = new ArrayList<>();
+    public ArrayList<SootMethod> SootMethodsAdded = new ArrayList<>();
     
     //ASTMetrics Data
-    public ArrayList<ClassData> ASTMetricsData = new ArrayList<ClassData>();
+    public ArrayList<ClassData> ASTMetricsData = new ArrayList<>();
 }
 

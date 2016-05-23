@@ -35,11 +35,11 @@ import soot.util.*;
 public interface Local extends Value, Numberable, Immediate
 {
     /** Returns the name of the current Local variable. */
-    public String getName();
+    String getName();
 
     /** Sets the name of the current variable. */
-    public void setName(String name);
+    void setName(String name);
 
     /** Sets the type of the current variable. */
-    public void setType(Type t);
+    void setType(Type t);
 }

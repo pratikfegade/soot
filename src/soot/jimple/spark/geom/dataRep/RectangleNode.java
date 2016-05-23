@@ -55,13 +55,11 @@ public class RectangleNode extends SegmentNode {
 	
 	public boolean equals( RectangleNode other )
 	{
-		if ( I1 == other.I1 &&
+		return I1 == other.I1 &&
 				I2 == other.I2 &&
 				L == other.L &&
-				L_prime == other.L_prime )
-			return true;
-		
-		return false;
+				L_prime == other.L_prime;
+
 	}
 	
 	@Override
@@ -102,11 +100,9 @@ public class RectangleNode extends SegmentNode {
 			
 			if ( p.I1 + p.L <= rect_q.I1 )
 				return false;
-			
-			if ( p.I1 >= rect_q.I1 + rect_q.L )
-				return false;
-			
-			return true;
+
+			return p.I1 < rect_q.I1 + rect_q.L;
+
 		}
 		
 		return false;

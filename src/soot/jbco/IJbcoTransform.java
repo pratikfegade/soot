@@ -29,10 +29,10 @@ import soot.G;
  */
 public interface IJbcoTransform {
 
-  public PrintStream out = soot.G.v().out;
-  public boolean output = G.v().soot_options_Options().verbose() || soot.jbco.Main.jbcoVerbose;
-  public boolean debug = soot.jbco.Main.jbcoDebug;
-  public void outputSummary();
-  public String[] getDependancies();
-  public String getName();
+  PrintStream out = soot.G.v().out;
+  boolean output = G.v().soot_options_Options().verbose() || soot.jbco.Main.jbcoVerbose;
+  boolean debug = soot.jbco.Main.jbcoDebug;
+  void outputSummary();
+  String[] getDependancies();
+  String getName();
 }

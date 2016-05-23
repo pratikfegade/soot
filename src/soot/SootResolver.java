@@ -26,31 +26,21 @@
 
 package soot;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import soot.JastAddJ.BytecodeParser;
-import soot.JastAddJ.CompilationUnit;
-import soot.JastAddJ.JastAddJavaParser;
-import soot.JastAddJ.JavaParser;
-import soot.JastAddJ.Program;
+import soot.JastAddJ.*;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /** Loads symbols for SootClasses from either class files or jimple files. */
 public class SootResolver {
 	/** Maps each resolved class to a list of all references in it. */
-	private final Map<SootClass, Collection<Type>> classToTypesSignature = new HashMap<SootClass, Collection<Type>>();
+	private final Map<SootClass, Collection<Type>> classToTypesSignature = new HashMap<>();
 
 	/** Maps each resolved class to a list of all references in it. */
-	private final Map<SootClass, Collection<Type>> classToTypesHierarchy = new HashMap<SootClass, Collection<Type>>();
+	private final Map<SootClass, Collection<Type>> classToTypesHierarchy = new HashMap<>();
 
 	/** SootClasses waiting to be resolved. */
 	@SuppressWarnings("unchecked")
@@ -59,9 +49,9 @@ public class SootResolver {
 	private Program program;
 
 	public SootResolver(Singletons.Global g) {
-		worklist[SootClass.HIERARCHY] = new ArrayDeque<SootClass>();
-		worklist[SootClass.SIGNATURES] = new ArrayDeque<SootClass>();
-		worklist[SootClass.BODIES] = new ArrayDeque<SootClass>();
+		worklist[SootClass.HIERARCHY] = new ArrayDeque<>();
+		worklist[SootClass.SIGNATURES] = new ArrayDeque<>();
+		worklist[SootClass.BODIES] = new ArrayDeque<>();
 
 		program = new Program();
 		program.state().reset();

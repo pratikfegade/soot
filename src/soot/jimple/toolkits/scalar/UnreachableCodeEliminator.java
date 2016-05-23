@@ -126,7 +126,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 	// 3799th level.
 	private <T> Set<T> reachable(T first, DirectedGraph<T> g) {
 		if ( first == null || g == null ) {
-			return Collections.<T>emptySet();
+			return Collections.emptySet();
 		}
 		Set<T> visited = new HashSet<T>(g.size());
 		Deque<T> q = new ArrayDeque<T>();

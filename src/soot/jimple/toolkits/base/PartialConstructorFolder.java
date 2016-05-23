@@ -113,7 +113,7 @@ public class PartialConstructorFolder extends BodyTransformer
             
 
             // check if new is in the types list - only process these
-            if (!types.contains(((NewExpr)rhs).getType())) continue;
+            if (!types.contains(rhs.getType())) continue;
             
             List<UnitValueBoxPair> lu = localUses.getUsesOf(s);
             Iterator<UnitValueBoxPair> luIter = lu.iterator();

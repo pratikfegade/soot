@@ -58,10 +58,10 @@ public class StaticInitializer extends BodyDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public StaticInitializer copy() {
     try {
-      StaticInitializer node = (StaticInitializer) clone();
+      StaticInitializer node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -76,10 +76,10 @@ public class StaticInitializer extends BodyDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public StaticInitializer fullCopy() {
-    StaticInitializer tree = (StaticInitializer) copy();
+    StaticInitializer tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

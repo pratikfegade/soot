@@ -315,8 +315,7 @@ public class Aggregator extends BodyTransformer
       if( !(u instanceof DefinitionStmt) ) return false;
       DefinitionStmt defstmt = (DefinitionStmt) u;
       if( !( defstmt.getRightOp() instanceof Local ) ) return false;
-      if( !( defstmt.getLeftOp() instanceof Local ) ) return false;
-      return true;
+      return defstmt.getLeftOp() instanceof Local;
   }
         
 }

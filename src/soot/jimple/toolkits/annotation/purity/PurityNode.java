@@ -37,11 +37,11 @@ package soot.jimple.toolkits.annotation.purity;
 public interface PurityNode { 
 
     /** Is it an inside node ? */
-    public boolean isInside();
+    boolean isInside();
 
     /** Is it a load node ? */
-    public boolean isLoad();
+    boolean isLoad();
 
     /** Is it a parameter or this node ? */
-    public boolean isParam();
+    boolean isParam();
 } 

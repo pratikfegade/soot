@@ -230,7 +230,7 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -357,9 +357,7 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
       return true;
     // Dragons
     // TODO: Check if both are interfaces with compatible methods
-    if(isArrayDecl() && type.isArrayDecl() && elementType().instanceOf(type.elementType()))
-      return true;
-    return false;
+    return isArrayDecl() && type.isArrayDecl() && elementType().instanceOf(type.elementType());
   }
   /**
    * @attribute syn
@@ -397,10 +395,8 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
     if(fullName().equals("java.lang.Class"))
       return true;
     // include generic versions of Class
-    if(erasure().fullName().equals("java.lang.Class"))
-      return true;
-    return false;
-  }
+      return erasure().fullName().equals("java.lang.Class");
+    }
     finally {
     }
   }

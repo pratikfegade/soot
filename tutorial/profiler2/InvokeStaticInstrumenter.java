@@ -72,7 +72,7 @@ public class InvokeStaticInstrumenter extends BodyTransformer{
       }
 
       // take out the invoke expression
-      InvokeExpr expr = (InvokeExpr)stmt.getInvokeExpr();
+      InvokeExpr expr = stmt.getInvokeExpr();
       
       // now skip non-static invocations
       if (! (expr instanceof StaticInvokeExpr)) {

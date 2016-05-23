@@ -66,7 +66,7 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
 	 */
 	public Object contains(String className, String localOrField){
 		for(int i = 0; i < this.numElements; i++) {
-			CPTuple current = (CPTuple)elements[i];
+			CPTuple current = elements[i];
 			if(! (current.getSootClassName().equals(className)))
 				continue;
 			
@@ -100,7 +100,7 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
 		//System.out.println("addIfnotPresent invoked");
 		//going through all the elements in the set
 		for(int i = 0; i < this.numElements; i++) {
-			CPTuple current = (CPTuple)elements[i];
+			CPTuple current = elements[i];
 			if(! (current.getSootClassName().equals(newTuple.getSootClassName())) ){
 				//different classNAmes
 				continue;
@@ -163,7 +163,7 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
 		//System.out.println("addIfnotPresent invoked");
 		//going through all the elements in the set
 		for(int i = 0; i < this.numElements; i++) {
-			CPTuple current = (CPTuple)elements[i];
+			CPTuple current = elements[i];
 			if(! (current.getSootClassName().equals(newTuple.getSootClassName())) ){
 				//different classNAmes
 				continue;
@@ -257,7 +257,7 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
 		 */
 		
 		for(int i = 0; i < this.numElements; i++) {
-			CPTuple thisTuple = (CPTuple)this.elements[i];
+			CPTuple thisTuple = this.elements[i];
 			String className = thisTuple.getSootClassName();
 			CPVariable thisVar = thisTuple.getVariable();
 			
@@ -267,7 +267,7 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
 			 */
 			CPTuple otherTuple = null;
 			for(int j=0;j<other.numElements;j++){
-				otherTuple = (CPTuple)other.elements[j];
+				otherTuple = other.elements[j];
 					
 				/*
 				 * wont use the CPTuple equal method since that ignores tops
@@ -359,13 +359,13 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
 		 */
 
 		for(int i=0;i<other.numElements;i++){
-			CPTuple otherTuple = (CPTuple)other.elements[i];
+			CPTuple otherTuple = other.elements[i];
 			String otherClassName = otherTuple.getSootClassName();
 			CPVariable otherVar = otherTuple.getVariable();
 			//System.out.print("\t Other:"+otherVar.toString());
 			boolean inBoth=false;
 			for(int j=0;j<this.numElements;j++){
-				CPTuple thisTuple = (CPTuple)this.elements[j];
+				CPTuple thisTuple = this.elements[j];
 				String thisClassName = thisTuple.getSootClassName();
 				CPVariable thisVar = thisTuple.getVariable();
 				
@@ -424,7 +424,7 @@ public class CPFlowSet extends DavaFlowSet<CPTuple> {
     	StringBuffer b = new StringBuffer();
     	b.append("Printing CPFlowSet: ");
     	for(int i=0;i<this.numElements;i++){
-    		b.append("\n"+((CPTuple)elements[i]).toString());
+    		b.append("\n"+ elements[i].toString());
     	}
     	b.append("\n");
     	return b.toString();

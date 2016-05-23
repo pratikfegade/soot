@@ -52,10 +52,10 @@ public class IfFinder implements FactFinder
 		
 		AugmentedStmt 
 		    succIf   = asg.get_AugStmt( ifs.getTarget()),
-		    succElse = (AugmentedStmt) as.bsuccs.get(0);
+		    succElse = as.bsuccs.get(0);
 
 		if (succIf == succElse)
-		    succElse = (AugmentedStmt) as.bsuccs.get(1);
+		    succElse = as.bsuccs.get(1);
 
 
 		asg.calculate_Reachability( succIf, succElse, as);

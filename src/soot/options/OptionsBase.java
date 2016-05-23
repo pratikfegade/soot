@@ -72,7 +72,7 @@ abstract class OptionsBase {
         for (Pack p : PackManager.v().allPacks()) {
             b.append( padOpt( p.getPhaseName(), p.getDeclaredOptions() ) );
             for( Iterator<Transform> phIt = p.iterator(); phIt.hasNext(); ) {
-                final HasPhaseOptions ph = (HasPhaseOptions) phIt.next();
+                final HasPhaseOptions ph = phIt.next();
                 b.append( padVal( ph.getPhaseName(), ph.getDeclaredOptions() ) );
             }
         }

@@ -83,10 +83,7 @@ public class InitializationDeclarationShortcut extends DepthFirstAdapter {
 			//if this is the augmentedStmt of interest set possible to true if not already seen
 			if(s.equals(ofInterest.get_Stmt())){
 				//it is the stmt of interest
-				if(seenBefore==0)
-					possible=true;
-				else
-					possible=false;
+				possible = seenBefore == 0;
 			}
 			else{
 				//its a definition of the local of interest but not by the stmt of interest

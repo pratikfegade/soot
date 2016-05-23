@@ -73,7 +73,7 @@ public class ThrowManager
                 if (!(prosNew instanceof AssignStmt))
                     continue;
 
-                InvokeExpr ie = ((InvokeStmt)prosInvoke).getInvokeExpr();
+                InvokeExpr ie = prosInvoke.getInvokeExpr();
                 if (!(ie instanceof SpecialInvokeExpr))
                     continue;
 
@@ -115,7 +115,7 @@ public class ThrowManager
             Iterator<Local> localIt = locals.iterator();
             while (localIt.hasNext())
             {
-                Local l = (Local)localIt.next();
+                Local l = localIt.next();
                 if (l.getName().equals("__throwee"+i))
                     canAddI = false;
             }

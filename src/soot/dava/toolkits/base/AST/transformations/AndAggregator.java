@@ -100,7 +100,7 @@ public class AndAggregator extends DepthFirstAdapter{
 		    ASTCondition newCond = new ASTAndCondition(outerCond,innerCond);
 
 		    //Get the body of the inner Node that will be the overall body
-		    List<Object> newBodyList = ((ASTIfNode)bodyNode).get_SubBodies();
+		    List<Object> newBodyList = bodyNode.get_SubBodies();
 
 		    //retireve the actual body List
 		    if(newBodyList.size()==1){//should always be one since this is body of IF

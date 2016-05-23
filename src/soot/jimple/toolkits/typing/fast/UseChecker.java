@@ -230,7 +230,7 @@ public class UseChecker extends AbstractStmtSwitch
 				at = (ArrayType)this.tg.get(base);
 			else
 				at = this.tg.get(base).makeArrayType();
-			tlhs = ((ArrayType)at).getElementType();
+			tlhs = at.getElementType();
 
 			this.handleArrayRef(aref, stmt);
 
@@ -291,7 +291,7 @@ public class UseChecker extends AbstractStmtSwitch
 					}
 				}
 			}
-			Type trhs = ((ArrayType)at).getElementType();
+			Type trhs = at.getElementType();
 
 			this.handleArrayRef(aref, stmt);
 

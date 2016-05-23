@@ -135,7 +135,7 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
 	                workingSet.copy(dest);
 			  
 			  
-			if(DEBUG) System.out.println("destFlow contains size:"+ ((UnreachableCodeFlowSet)destFlow).size());
+			if(DEBUG) System.out.println("destFlow contains size:"+ destFlow.size());
 		}
 
 	}//end UnreachableCodeFlowSet
@@ -144,7 +144,7 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
     public UnreachableCodeFinder(Object analyze){
     	super();
     	//the input to the process method is newInitialFlow
-    	DavaFlowSet temp = (DavaFlowSet)process(analyze,newInitialFlow());
+    	DavaFlowSet temp = process(analyze,newInitialFlow());
     }
 
 	
@@ -262,11 +262,11 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
      */
 	@Override
     public DavaFlowSet handleBreak(String label, DavaFlowSet output, ASTNode node){
-    	if(DEBUG)	System.out.println("Handling break. Output contains"+ ((UnreachableCodeFlowSet)output).size());
+    	if(DEBUG)	System.out.println("Handling break. Output contains"+ output.size());
     	if( !(output instanceof UnreachableCodeFlowSet) )
     	    throw new RuntimeException("handleBreak is only implemented for UnreachableCodeFlowSet type");
 
-    	DavaFlowSet out = (DavaFlowSet)output;
+    	DavaFlowSet out = output;
 
     	//get the explicit list with this label from the breakList
     	List explicitSet = out.getBreakSet(label);

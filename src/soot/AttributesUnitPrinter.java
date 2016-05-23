@@ -72,9 +72,8 @@ public class AttributesUnitPrinter {
                 if (hasTag(usesAndDefsIt.next())) return true;
             }
         }
-		if (h.getTags().isEmpty()) return false;
-		return true;
-	}
+        return !h.getTags().isEmpty();
+    }
 	
 	private boolean hasColorTag(Host h) {
 		for ( Tag t : h.getTags() ) {

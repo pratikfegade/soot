@@ -8,7 +8,7 @@ import soot.jimple.internal.AbstractBinopExpr;
 /**
  * Provides an interface for querying the expressions that are very busy
  * before and after a unit in a method.
- * @author Árni Einarsson
+ * @author ï¿½rni Einarsson
  */
 public interface VeryBusyExpressions {    
     /**
@@ -17,7 +17,7 @@ public interface VeryBusyExpressions {
      *   @param s the Unit that defines this query.
      *   @return a list of expressions that are busy before the specified unit in the method.
      */
-    public List<AbstractBinopExpr> getBusyExpressionsBefore(Unit s);
+    List<AbstractBinopExpr> getBusyExpressionsBefore(Unit s);
 
     /**
      *   Returns the list of expressions that are very busy after the specified
@@ -25,5 +25,5 @@ public interface VeryBusyExpressions {
      *   @param s the Unit that defines this query.
      *   @return a list of expressions that are very busy after the specified unit in the method.
      */
-    public List<AbstractBinopExpr> getBusyExpressionsAfter(Unit s);
+    List<AbstractBinopExpr> getBusyExpressionsAfter(Unit s);
 }

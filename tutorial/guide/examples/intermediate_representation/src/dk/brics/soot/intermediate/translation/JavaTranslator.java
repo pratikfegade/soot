@@ -99,7 +99,7 @@ public class JavaTranslator {
 					Variable v = makeVariable(pt);
 					vars.add(v);
 				}			
-				Variable[] var_array = (Variable[])vars.toArray(new Variable[0]);
+				Variable[] var_array = vars.toArray(new Variable[0]);
 				Method m = new Method(sm.getName(), var_array);
 				methods.add(m);
 				methodsignaturToMethod.put(sm.getSignature(), m);

@@ -56,10 +56,10 @@ public class MethodDeclSubstituted extends MethodDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public MethodDeclSubstituted copy() {
     try {
-      MethodDeclSubstituted node = (MethodDeclSubstituted) clone();
+      MethodDeclSubstituted node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -74,10 +74,10 @@ public class MethodDeclSubstituted extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public MethodDeclSubstituted fullCopy() {
-    MethodDeclSubstituted tree = (MethodDeclSubstituted) copy();
+    MethodDeclSubstituted tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -293,7 +293,7 @@ public class MethodDeclSubstituted extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -414,7 +414,7 @@ public class MethodDeclSubstituted extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -523,7 +523,7 @@ public class MethodDeclSubstituted extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Block getBlock() {
-    return (Block)getBlockOpt().getChild(0);
+    return getBlockOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Block child.

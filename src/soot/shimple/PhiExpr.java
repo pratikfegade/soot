@@ -62,171 +62,171 @@ public interface PhiExpr extends ShimpleExpr
      *
      * @see soot.toolkits.scalar.ValueUnitPair
      **/
-    public List<ValueUnitPair> getArgs();
+    List<ValueUnitPair> getArgs();
 
     /**
      * Returns a list of the values used by this PhiExpr.
      **/
-    public List<Value> getValues();
+    List<Value> getValues();
 
     /**
      * Returns a list of the control flow predecessor Units being
      * tracked by this PhiExpr
      **/
-    public List<Unit> getPreds();
+    List<Unit> getPreds();
 
     /**
      * Returns the number of arguments in this PhiExpr.
      **/
-    public int getArgCount();
+    int getArgCount();
 
     /**
      * Returns the argument pair for the given index.  Null if
      * out-of-bounds.
      **/
-    public ValueUnitPair getArgBox(int index);
+    ValueUnitPair getArgBox(int index);
 
     /**
      * Returns the value for the given index into the PhiExpr.  Null
      * if out-of-bounds.
      **/
-    public Value getValue(int index);
+    Value getValue(int index);
 
     /**
      * Returns the control flow predecessor Unit for the given index
      * into the PhiExpr.  Null if out-of-bounds.
      **/
-    public Unit getPred(int index);
+    Unit getPred(int index);
 
     /**
      * Returns the index of the argument associated with the given
      * control flow predecessor Unit.  Returns -1 if not found.
      **/
-    public int getArgIndex(Unit predTailUnit);
+    int getArgIndex(Unit predTailUnit);
 
     /**
      * Returns the argument pair corresponding to the given CFG
      * predecessor.  Returns null if not found.
      **/
-    public ValueUnitPair getArgBox(Unit predTailUnit);
+    ValueUnitPair getArgBox(Unit predTailUnit);
     
     /**
      * Get the PhiExpr argument corresponding to the given control
      * flow predecessor, returns null if not available.
      **/
-    public Value getValue(Unit predTailUnit);
+    Value getValue(Unit predTailUnit);
     
     /**
      * Returns the index of the argument associated with the given
      * control flow predecessor.  Returns -1 if not found.
      **/
-    public int getArgIndex(Block pred);
+    int getArgIndex(Block pred);
 
     /**
      * Returns the argument pair corresponding to the given CFG
      * predecessor.  Returns null if not found.
      **/
-    public ValueUnitPair getArgBox(Block pred);
+    ValueUnitPair getArgBox(Block pred);
     
     /**
      * Get the PhiExpr argument corresponding to the given control flow
      * predecessor, returns null if not available.
      **/
-    public Value getValue(Block pred);
+    Value getValue(Block pred);
 
     /**
      * Modify the PhiExpr argument at the given index with the given
      * information.  Returns false on failure.
      **/
-    public boolean setArg(int index, Value arg, Unit predTailUnit);
+    boolean setArg(int index, Value arg, Unit predTailUnit);
 
     /**
      * Modify the PhiExpr argument at the given index with the given
      * information.  Returns false on failure.
      **/
-    public boolean setArg(int index, Value arg, Block pred);
+    boolean setArg(int index, Value arg, Block pred);
 
     /**
      * Set the value at the given index into the PhiExpr.  Returns
      * false on failure.
      **/
-    public boolean setValue(int index, Value arg);
+    boolean setValue(int index, Value arg);
 
     /**
      * Locate the argument associated with the given CFG predecessor unit
      * and set the value.  Returns false on failure.
      **/
-    public boolean setValue(Unit predTailUnit, Value arg);
+    boolean setValue(Unit predTailUnit, Value arg);
 
     /**
      * Locate the argument associated with the given CFG predecessor
      * and set the value.  Returns false on failure.
      **/
-    public boolean setValue(Block pred, Value arg);
+    boolean setValue(Block pred, Value arg);
     
     /**
      * Update the CFG predecessor associated with the PhiExpr
      * argument at the given index.  Returns false on failure.
      **/
-    public boolean setPred(int index, Unit predTailUnit);
+    boolean setPred(int index, Unit predTailUnit);
 
     /**
      * Update the CFG predecessor associated with the PhiExpr
      * argument at the given index.  Returns false on failure.
      **/
-    public boolean setPred(int index, Block pred);
+    boolean setPred(int index, Block pred);
 
     /**
      * Remove the argument at the given index.  Returns false on
      * failure.
      **/
-    public boolean removeArg(int index);
+    boolean removeArg(int index);
 
     /**
      * Remove the argument corresponding to the given CFG predecessor.
      * Returns false on failure.
      **/
-    public boolean removeArg(Unit predTailUnit);
+    boolean removeArg(Unit predTailUnit);
 
     /**
      * Remove the argument corresponding to the given CFG predecessor.
      * Returns false on failure.
      **/
-    public boolean removeArg(Block pred);
+    boolean removeArg(Block pred);
 
     /**
      * Remove the given argument.  Returns false on failure.
      **/
-    public boolean removeArg(ValueUnitPair arg);
+    boolean removeArg(ValueUnitPair arg);
 
     /**
      * Add the given argument associated with the given CFG
      * predecessor.  Returns false on failure.
      **/
-    public boolean addArg(Value arg, Block pred);
+    boolean addArg(Value arg, Block pred);
 
     /**
      * Add the given argument associated with the given CFG
      * predecessor.  Returns false on failure.
      **/
-    public boolean addArg(Value arg, Unit predTailUnit);
+    boolean addArg(Value arg, Unit predTailUnit);
         
     /**
      * Set the block number of the Phi node.
      **/
-    public void setBlockId(int blockId);
+    void setBlockId(int blockId);
      
     /**
      * Returns the id number of the block from which the Phi node
      * originated from.
      **/
-    public int getBlockId();
+    int getBlockId();
 
     /**
      * The type of the PhiExpr is usually the same as the type of its
      * arguments.
      **/
-    public Type getType();
+    Type getType();
 
-    public void apply(Switch sw);
+    void apply(Switch sw);
 }

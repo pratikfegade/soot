@@ -58,10 +58,10 @@ public class WildcardType extends AbstractWildcardType implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public WildcardType copy() {
     try {
-      WildcardType node = (WildcardType) clone();
+      WildcardType node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -76,10 +76,10 @@ public class WildcardType extends AbstractWildcardType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public WildcardType fullCopy() {
-    WildcardType tree = (WildcardType) copy();
+    WildcardType tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -248,7 +248,7 @@ public class WildcardType extends AbstractWildcardType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.

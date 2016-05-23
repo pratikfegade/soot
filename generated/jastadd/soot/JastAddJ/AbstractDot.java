@@ -62,10 +62,10 @@ public class AbstractDot extends Access implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public AbstractDot copy() {
     try {
-      AbstractDot node = (AbstractDot) clone();
+      AbstractDot node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -80,10 +80,10 @@ public class AbstractDot extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public AbstractDot fullCopy() {
-    AbstractDot tree = (AbstractDot) copy();
+    AbstractDot tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -514,7 +514,7 @@ public class AbstractDot extends Access implements Cloneable {
    */
   public Access rightSide() {
     ASTNode$State state = state();
-    try {  return getRight/*NoTransform*/() instanceof AbstractDot ? (Access)((AbstractDot)getRight/*NoTransform*/()).getLeft() : (Access)getRight();  }
+    try {  return getRight/*NoTransform*/() instanceof AbstractDot ? (Access)((AbstractDot)getRight/*NoTransform*/()).getLeft() : getRight();  }
     finally {
     }
   }

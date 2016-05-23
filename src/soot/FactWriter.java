@@ -699,7 +699,7 @@ public class FactWriter
                 _db.asEntity(rep),
                 _db.asIntColumn(String.valueOf(stmtIndex)),
                 _db.asEntity(_rep.local(inMethod, l)),
-                _db.asEntity(METHOD_SIGNATURE, _rep.method(inMethod)));;
+                _db.asEntity(METHOD_SIGNATURE, _rep.method(inMethod)));
 
         for(int i = 0, end = stmt.getTargetCount(); i < end; i++)
         {

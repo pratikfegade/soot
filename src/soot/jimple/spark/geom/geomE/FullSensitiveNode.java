@@ -714,12 +714,9 @@ public class FullSensitiveNode extends IVarAbstraction
 			gm = new GeometricManager();
 			flowto.put( (FullSensitiveNode)qv, gm);
 		}
-		
-		if (gm.addNewFigure( code, pres ) != null) {
-			return true;
-		}
-		
-		return false;
+
+		return gm.addNewFigure(code, pres) != null;
+
 	}
 	
 	private void do_pts_interval_merge()

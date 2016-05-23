@@ -80,10 +80,10 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
   @SuppressWarnings({"unchecked", "cast"})
   public FieldDeclaration copy() {
     try {
-      FieldDeclaration node = (FieldDeclaration) clone();
+      FieldDeclaration node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -98,10 +98,10 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
    */
   @SuppressWarnings({"unchecked", "cast"})
   public FieldDeclaration fullCopy() {
-    FieldDeclaration tree = (FieldDeclaration) copy();
+    FieldDeclaration tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -347,7 +347,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
    */
   public BodyDecl substitutedBodyDecl(Parameterization parTypeDecl) {
     FieldDeclaration f = new FieldDeclarationSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getTypeAccess().type().substituteReturnType(parTypeDecl),
       getID(),
       new Opt(),
@@ -715,7 +715,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getInit() {
-    return (Expr)getInitOpt().getChild(0);
+    return getInitOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Init child.
@@ -788,9 +788,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
     else if(isProtected()) {
       if(hostPackage().equals(type.hostPackage()))
         return true;
-      if(type.withinBodyThatSubclasses(hostType()) != null)
-        return true;
-      return false;
+      return type.withinBodyThatSubclasses(hostType()) != null;
     }
     else if(isPrivate())
       return hostType().topLevelType() == type.topLevelType();

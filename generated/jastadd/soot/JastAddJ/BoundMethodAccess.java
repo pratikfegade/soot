@@ -57,10 +57,10 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public BoundMethodAccess copy() {
     try {
-      BoundMethodAccess node = (BoundMethodAccess) clone();
+      BoundMethodAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -75,10 +75,10 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BoundMethodAccess fullCopy() {
-    BoundMethodAccess tree = (BoundMethodAccess) copy();
+    BoundMethodAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -230,7 +230,7 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getArg(int i) {
-    return (Expr)getArgList().getChild(i);
+    return getArgList().getChild(i);
   }
   /**
    * Append an element to the Arg list.

@@ -33,7 +33,7 @@ import soot.*;
 
 public interface ThrowStmt extends Stmt
 {
-    public ValueBox getOpBox();
-    public Value getOp();
-    public void setOp(Value op);
+    ValueBox getOpBox();
+    Value getOp();
+    void setOp(Value op);
 }

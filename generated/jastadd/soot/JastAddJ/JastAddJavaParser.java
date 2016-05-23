@@ -730,10 +730,10 @@ class Events extends Parser.Events {
       errors.add(new Problem(null, e.getMessage(), e.line, e.column, Problem.Severity.ERROR, Problem.Kind.LEXICAL));
     }
     public void syntaxError(Symbol token) {
-      int line = token.getLine(token.getStart());
-      int column = token.getColumn(token.getStart());
-      int endLine = token.getLine(token.getEnd());
-      int endColumn = token.getColumn(token.getEnd());
+      int line = Symbol.getLine(token.getStart());
+      int column = Symbol.getColumn(token.getStart());
+      int endLine = Symbol.getLine(token.getEnd());
+      int endColumn = Symbol.getColumn(token.getEnd());
       String value = token.value != null ? token.value.toString() : Terminals.NAMES[token.getId()];
       errors.add(new Problem(null, "unexpected token \"" + value + "\"", line, column, endLine, endColumn, Problem.Severity.ERROR, Problem.Kind.SYNTACTIC));
     }
@@ -1036,7 +1036,7 @@ class Events extends Parser.Events {
 					final IdUse n = (IdUse) _symbol_n.value;
 					final Symbol DOT = _symbols[offset + 2];
 					final Symbol i = _symbols[offset + 3];
-					 return new IdUse(n.getID() + "." + ((String)i.value));
+					 return new IdUse(n.getID() + "." + i.value);
 			}
 			case 41: // import_declaration = single_type_import_declaration.s
 			{

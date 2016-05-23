@@ -21,13 +21,12 @@ public class CallGraphExample
 {	
 	public static void main(String[] args) {
 	   List<String> argsList = new ArrayList<String>(Arrays.asList(args));
-	   argsList.addAll(Arrays.asList(new String[]{
-			   "-w",
+	   argsList.addAll(Arrays.asList("-w",
 			   "-main-class",
 			   "testers.CallGraphs",//main-class
 			   "testers.CallGraphs",//argument classes
-			   "testers.A"			//
-	   }));
+			   "testers.A"            //
+	   ));
 	
 
 	   PackManager.v().getPack("wjtp").add(new Transform("wjtp.myTrans", new SceneTransformer() {

@@ -881,7 +881,7 @@ public class PurityGraph
 	while (it.hasNext()) {
 	    Value arg = (Value)it.next();
 	    if (arg instanceof Local && 
-		((Local)arg).getType() instanceof RefLikeType) {
+		arg.getType() instanceof RefLikeType) {
 		mu.putAll(cacheNode(new PurityParamNode(nb)),locals.get(arg));
 	    }
 	    nb++;

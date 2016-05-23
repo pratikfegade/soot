@@ -57,9 +57,9 @@ public class TryContentsFinder extends ASTAnalysis
 	Value op = (s).getOp();
 	
 	if (op instanceof Local) 
-	    add_ThrownType( ((Local) op).getType());
+	    add_ThrownType( op.getType());
 	else if (op instanceof FieldRef) 
-	    add_ThrownType( ((FieldRef) op).getType());
+	    add_ThrownType( op.getType());
     }
 
     private void add_ThrownType( Type t)

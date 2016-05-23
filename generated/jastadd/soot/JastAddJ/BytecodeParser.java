@@ -23,7 +23,7 @@ import soot.coffi.CoffiMethodSource;
  */
 public class BytecodeParser extends java.lang.Object implements Flags, BytecodeReader {
 
-    public CompilationUnit read(InputStream is, String fullName, Program p) throws FileNotFoundException, IOException {
+    public CompilationUnit read(InputStream is, String fullName, Program p) throws IOException {
       return new BytecodeParser(is, fullName).parse(null, null, p);
     }
 
@@ -296,7 +296,7 @@ public class BytecodeParser extends java.lang.Object implements Flags, BytecodeR
 
 
 	  public CompilationUnit parse(TypeDecl outerTypeDecl, String outerClassName, Program classPath, boolean isInner) 
-        throws FileNotFoundException, IOException {
+        throws IOException {
           isInnerClass = isInner;
           return parse(outerTypeDecl, outerClassName, classPath);
     }
@@ -304,7 +304,7 @@ public class BytecodeParser extends java.lang.Object implements Flags, BytecodeR
 
 
     public CompilationUnit parse(TypeDecl outerTypeDecl, String outerClassName, Program program) 
-      throws FileNotFoundException, IOException {
+      throws IOException {
         //InputStream file = ClassLoader.getSystemResourceAsStream(name);
 
         if(is == null) {

@@ -2,8 +2,8 @@ package dk.brics.soot.intermediate.representation;
 
 public class Variable {
 
-	public enum Type {OTHER, FOO};
-	
+	public enum Type {OTHER, FOO}
+
 	public Type type;
 	
 	public Variable(Type type) {

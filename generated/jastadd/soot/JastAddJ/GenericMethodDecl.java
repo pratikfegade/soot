@@ -59,10 +59,10 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public GenericMethodDecl copy() {
     try {
-      GenericMethodDecl node = (GenericMethodDecl) clone();
+      GenericMethodDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -77,10 +77,10 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public GenericMethodDecl fullCopy() {
-    GenericMethodDecl tree = (GenericMethodDecl) copy();
+    GenericMethodDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -110,7 +110,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
         list.add(((TypeDecl)iter.next()).createBoundAccess());
     }
     methodDecl.setTypeArgumentList(list);
-    methodDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    methodDecl.setModifiers(getModifiers().fullCopy());
     methodDecl.setTypeAccess(getTypeAccess().type().substituteReturnType(methodDecl));
     methodDecl.setID(getID());
     methodDecl.setParameterList(getParameterList().substitute(methodDecl));
@@ -176,7 +176,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
   public BodyDecl substitutedBodyDecl(Parameterization parTypeDecl) {
     //System.out.println("Begin substituting generic " + signature() + " in " + hostType().typeName() + " with " + parTypeDecl.typeSignature());
     GenericMethodDecl m = new GenericMethodDecl(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getTypeAccess().type().substituteReturnType(parTypeDecl),
       getID(),
       getParameterList().substitute(parTypeDecl),
@@ -397,7 +397,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -518,7 +518,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -627,7 +627,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Block getBlock() {
-    return (Block)getBlockOpt().getChild(0);
+    return getBlockOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Block child.
@@ -701,7 +701,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeVariable getTypeParameter(int i) {
-    return (TypeVariable)getTypeParameterList().getChild(i);
+    return getTypeParameterList().getChild(i);
   }
   /**
    * Append an element to the TypeParameter list.

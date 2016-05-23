@@ -28,17 +28,17 @@ import soot.util.*;
  */
 
 public interface SootMethodRef {
-    public SootClass declaringClass();
-    public String name();
-    public List<Type> parameterTypes();
-    public Type returnType();
-    public boolean isStatic();
+    SootClass declaringClass();
+    String name();
+    List<Type> parameterTypes();
+    Type returnType();
+    boolean isStatic();
 
-    public NumberedString getSubSignature();
+    NumberedString getSubSignature();
 
-    public String getSignature();
+    String getSignature();
 
-    public Type parameterType(int i);
+    Type parameterType(int i);
 
-    public SootMethod resolve();
+    SootMethod resolve();
 }

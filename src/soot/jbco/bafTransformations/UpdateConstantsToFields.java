@@ -61,7 +61,7 @@ public class UpdateConstantsToFields extends BodyTransformer  implements IJbcoTr
     PatchingChain<Unit> units = b.getUnits();
     Iterator<Unit> iter = units.snapshotIterator();
     while (iter.hasNext()) {
-      Unit u = (Unit)iter.next();
+      Unit u = iter.next();
       if (u instanceof PushInst) {
         SootField f = CollectConstants.constantsToFields.get(((PushInst)u).getConstant());
         if (f!=null && Rand.getInt(10) <= weight) {

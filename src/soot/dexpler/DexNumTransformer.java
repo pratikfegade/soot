@@ -133,7 +133,7 @@ public class DexNumTransformer extends DexTransformer {
 					public void caseAssignStmt(AssignStmt stmt) {
 						Value r = stmt.getRightOp();
 						if (r instanceof BinopExpr && !(r instanceof CmpExpr)) {
-							usedAsFloatingPoint = examineBinopExpr((Unit) stmt);
+							usedAsFloatingPoint = examineBinopExpr(stmt);
 							doBreak = true;
 						} else if (r instanceof FieldRef) {
 							usedAsFloatingPoint = isFloatingPointLike(((FieldRef) r)
@@ -171,7 +171,7 @@ public class DexNumTransformer extends DexTransformer {
 									.getCastType());
 							doBreak = true;
 						} else if (r instanceof InvokeExpr) {
-							usedAsFloatingPoint = isFloatingPointLike(((InvokeExpr) r)
+							usedAsFloatingPoint = isFloatingPointLike(r
 									.getType());
 							doBreak = true;
 						} else if (r instanceof LengthExpr) {
@@ -248,7 +248,7 @@ public class DexNumTransformer extends DexTransformer {
 								doBreak = true;
 								return;
 							} else if (r instanceof BinopExpr) {
-								usedAsFloatingPoint = examineBinopExpr((Unit) stmt);
+								usedAsFloatingPoint = examineBinopExpr(stmt);
 								doBreak = true;
 								return;
 							} else if (r instanceof CastExpr) {
@@ -302,10 +302,7 @@ public class DexNumTransformer extends DexTransformer {
 	}
 
 	protected boolean examineBinopExpr(Unit u) {
-		if (u.hasTag("FloatOpTag") || u.hasTag("DoubleOpTag")) {
-			return true;
-		}
-		return false;
+		return u.hasTag("FloatOpTag") || u.hasTag("DoubleOpTag");
 	}
 
 	private boolean isFloatingPointLike(Type t) {
@@ -350,12 +347,12 @@ public class DexNumTransformer extends DexTransformer {
 			Value v = s.getRightOp();
 			if ((v instanceof IntConstant)) {
 				int vVal = ((IntConstant) v).value;
-				s.setRightOp(FloatConstant.v(Float.intBitsToFloat((int) vVal)));
+				s.setRightOp(FloatConstant.v(Float.intBitsToFloat(vVal)));
 				Debug.printDbg("[floatingpoint] replacing with float in ", u);
 			} else if (v instanceof LongConstant) {
 				long vVal = ((LongConstant) v).value;
 				s.setRightOp(DoubleConstant.v(Double
-						.longBitsToDouble((long) vVal)));
+						.longBitsToDouble(vVal)));
 				Debug.printDbg("[floatingpoint] replacing with double in ", u);
 			}
 		}

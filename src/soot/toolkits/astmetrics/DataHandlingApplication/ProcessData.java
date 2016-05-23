@@ -291,8 +291,8 @@ public class ProcessData {
 
 						NodeList textFNList = name.getChildNodes();
 						//System.out.println("MetricName: " +    ((Node)textFNList.item(0)).getNodeValue().trim());
-						if(!metricList.contains(((Node)textFNList.item(0)).getNodeValue().trim()))
-							metricList.add(((Node)textFNList.item(0)).getNodeValue().trim());
+						if(!metricList.contains(textFNList.item(0).getNodeValue().trim()))
+							metricList.add(textFNList.item(0).getNodeValue().trim());
 
 					}//end of if clause
 				}//end of for loop with s var
@@ -937,7 +937,7 @@ public class ProcessData {
 				Element name = (Element)metricName.item(0);
 
 				NodeList textFNList = name.getChildNodes();
-				String tempName = ((Node)textFNList.item(0)).getNodeValue().trim();
+				String tempName = textFNList.item(0).getNodeValue().trim();
 					
 				Object tempObj  = aggregated.get(tempName);
 				if( tempObj == null){
@@ -951,7 +951,7 @@ public class ProcessData {
 				Element name1 = (Element)value.item(0);
 				
 				NodeList textFNList1 = name1.getChildNodes();
-				String valToPrint = ((Node)textFNList1.item(0)).getNodeValue().trim();
+				String valToPrint = textFNList1.item(0).getNodeValue().trim();
 
 				boolean notInt = false;
 				try{
@@ -1058,7 +1058,7 @@ public class ProcessData {
 				Element classNameElement = (Element)classNameNodeList.item(0);
 
 				NodeList classNameTextFNList = classNameElement.getChildNodes();
-				String className = ((Node)classNameTextFNList.item(0)).getNodeValue().trim();
+				String className = classNameTextFNList.item(0).getNodeValue().trim();
 				
 				//writerOut.println("");
 		
@@ -1096,7 +1096,7 @@ public class ProcessData {
 						Element name = (Element)metricName.item(0);
 
 						NodeList textFNList = name.getChildNodes();
-						String tempName = ((Node)textFNList.item(0)).getNodeValue().trim();
+						String tempName = textFNList.item(0).getNodeValue().trim();
 					
 						/*
 						 * If the name of this metric is not the next column name in the columns
@@ -1115,7 +1115,7 @@ public class ProcessData {
 						Element name1 = (Element)value.item(0);
 
 						NodeList textFNList1 = name1.getChildNodes();
-						String valToPrint = ((Node)textFNList1.item(0)).getNodeValue().trim();
+						String valToPrint = textFNList1.item(0).getNodeValue().trim();
 						System.out.print(" " + valToPrint);
 						//writerOut.print("&"+valToPrint);
 						data += "&"+valToPrint;

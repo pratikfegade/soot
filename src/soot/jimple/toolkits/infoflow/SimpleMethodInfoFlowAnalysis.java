@@ -123,10 +123,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 				Unit u = unitIt.next();
 				flowThrough(fs, u, fs);
 			}
-			if(fs.size() > sizebefore)
-				flowSetChanged = true;
-			else
-				flowSetChanged = false;
+			flowSetChanged = fs.size() > sizebefore;
 		}
 	}
 

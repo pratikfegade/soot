@@ -24,5 +24,5 @@ import soot.coffi.CoffiMethodSource;
 public interface BytecodeReader {
 
      
-    CompilationUnit read(InputStream is, String fullName, Program p) throws FileNotFoundException, IOException;
+    CompilationUnit read(InputStream is, String fullName, Program p) throws IOException;
 }

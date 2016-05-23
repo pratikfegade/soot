@@ -38,10 +38,10 @@ class NullnessAnalysis extends ForwardBranchedFlowAnalysis
     {
         FlowSet dest;
         FlowSet src  = (FlowSet) srcValue;
-        Unit    s    = (Unit)    unit;
+        Unit    s    = unit;
 
         // Create working set.
-        dest = (FlowSet)src.clone();
+        dest = src.clone();
 
         // Take out kill set.
         Iterator boxIt = s.getDefBoxes().iterator();

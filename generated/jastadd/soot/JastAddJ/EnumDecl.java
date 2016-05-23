@@ -66,10 +66,10 @@ public class EnumDecl extends ClassDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public EnumDecl copy() {
     try {
-      EnumDecl node = (EnumDecl) clone();
+      EnumDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -84,7 +84,7 @@ public class EnumDecl extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public EnumDecl fullCopy() {
-    EnumDecl tree = (EnumDecl) copy();
+    EnumDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -92,7 +92,7 @@ public class EnumDecl extends ClassDecl implements Cloneable {
             tree.children[i] = new Opt();
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -519,7 +519,7 @@ public class EnumDecl extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getImplements(int i) {
-    return (Access)getImplementsList().getChild(i);
+    return getImplementsList().getChild(i);
   }
   /**
    * Append an element to the Implements list.
@@ -640,7 +640,7 @@ public class EnumDecl extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -992,14 +992,14 @@ public class EnumDecl extends ClassDecl implements Cloneable {
     Collection<MethodDecl> methods = new LinkedList<MethodDecl>();
     for (Iterator iter = interfacesMethodsIterator(); iter.hasNext(); ) {
       MethodDecl method = (MethodDecl)iter.next();
-      SimpleSet set = (SimpleSet)localMethodsSignature(method.signature());
+      SimpleSet set = localMethodsSignature(method.signature());
       if (set.size() == 1) {
         MethodDecl n = (MethodDecl)set.iterator().next();
         if (!n.isAbstract()) 
     continue;
       }
       boolean implemented = false;
-      set = (SimpleSet)ancestorMethods(method.signature());
+      set = ancestorMethods(method.signature());
       for (Iterator i2 = set.iterator(); i2.hasNext(); ) {
         MethodDecl n = (MethodDecl)i2.next();
         if (!n.isAbstract()) {

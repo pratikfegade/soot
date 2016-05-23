@@ -108,8 +108,8 @@ public abstract class Body extends AbstractHost implements Serializable
 			};
 		}
 		return validators;
-	};
-	
+	}
+
     /** Creates a Body associated to the given method.  Used by subclasses during initialization.
      *  Creation of a Body is triggered by e.g. Jimple.v().newBody(options).
      */

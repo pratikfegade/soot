@@ -60,13 +60,11 @@ public class SegmentNode implements Comparable<SegmentNode> {
 	{
 		if ( other instanceof RectangleNode )
 			return false;
-		
-		if ( I1 == other.I1 &&
+
+		return I1 == other.I1 &&
 				I2 == other.I2 &&
-				L == other.L )
-			return true;
-		
-		return false;
+				L == other.L;
+
 	}
 
 	@Override

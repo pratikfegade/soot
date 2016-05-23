@@ -53,10 +53,10 @@ public class GenericConstructorDecl extends ConstructorDecl implements Cloneable
   @SuppressWarnings({"unchecked", "cast"})
   public GenericConstructorDecl copy() {
     try {
-      GenericConstructorDecl node = (GenericConstructorDecl) clone();
+      GenericConstructorDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -71,10 +71,10 @@ public class GenericConstructorDecl extends ConstructorDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public GenericConstructorDecl fullCopy() {
-    GenericConstructorDecl tree = (GenericConstructorDecl) copy();
+    GenericConstructorDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -307,7 +307,7 @@ public class GenericConstructorDecl extends ConstructorDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -428,7 +428,7 @@ public class GenericConstructorDecl extends ConstructorDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -537,7 +537,7 @@ public class GenericConstructorDecl extends ConstructorDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Stmt getConstructorInvocation() {
-    return (Stmt)getConstructorInvocationOpt().getChild(0);
+    return getConstructorInvocationOpt().getChild(0);
   }
   /**
    * Replaces the (optional) ConstructorInvocation child.
@@ -642,7 +642,7 @@ public class GenericConstructorDecl extends ConstructorDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeVariable getTypeParameter(int i) {
-    return (TypeVariable)getTypeParameterList().getChild(i);
+    return getTypeParameterList().getChild(i);
   }
   /**
    * Append an element to the TypeParameter list.

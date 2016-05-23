@@ -950,7 +950,7 @@ public class SynchronizedBlockFinder implements FactFinder
 	}
 
 	while (as.get_Stmt() instanceof GotoStmt) {
-	    as = (AugmentedStmt) as.bsuccs.get(0);
+	    as = as.bsuccs.get(0);
 	    //if ((as.bsuccs.size() != 1) || ((as != entryPoint) && (as.cpreds.size() != 1))) {
 	    //return false;
 	   // }
@@ -992,7 +992,7 @@ public class SynchronizedBlockFinder implements FactFinder
 	
 	//if not a caught exception of type throwable we have a problem
 	if (!  (  (asnFrom instanceof CaughtExceptionRef) && 
-		  (((RefType) ((CaughtExceptionRef) asnFrom).getType()).getSootClass().getName().equals( THROWABLE)) ) ){
+		  (((RefType) asnFrom.getType()).getSootClass().getName().equals( THROWABLE)) ) ){
 	    //System.out.println("here4");
 	    return false;
 	}
@@ -1015,7 +1015,7 @@ public class SynchronizedBlockFinder implements FactFinder
 
 
 	//sucessor of definition stmt
-	as = (AugmentedStmt) as.bsuccs.get(0);
+	as = as.bsuccs.get(0);
 	s = as.get_Stmt();
 
 
@@ -1029,7 +1029,7 @@ public class SynchronizedBlockFinder implements FactFinder
 	    throwlocal = ((DefinitionStmt)s).getLeftOp();
 
 	    //the sucessor of this stmt MIGHT be the exitmonitor stmt
-	    as = (AugmentedStmt) as.bsuccs.get(0);
+	    as = as.bsuccs.get(0);
 	    s = as.get_Stmt();
 	}
 
@@ -1071,7 +1071,7 @@ public class SynchronizedBlockFinder implements FactFinder
 
 	
 	//next stmt should be a throw stmt
-	as = (AugmentedStmt) as.bsuccs.get(0);
+	as = as.bsuccs.get(0);
 	if ((as.bsuccs.size() != 0) || (as.cpreds.size() != 1) || (verify_ESuccs( as, esuccs) == false)){
 	    //System.out.println("here7");
 	    return false;
@@ -1081,13 +1081,9 @@ public class SynchronizedBlockFinder implements FactFinder
 
 	s = as.get_Stmt();
 
-	if ( !  (  (s instanceof ThrowStmt) && (((ThrowStmt) s).getOp() == throwlocal)  ) ){
- 	    //System.out.println("here8"+s+" Throw local is:"+throwlocal);
-	    return false;
-	} 
-	
-	return true;
-    }
+		return (s instanceof ThrowStmt) && (((ThrowStmt) s).getOp() == throwlocal);
+
+	}
 
 
 

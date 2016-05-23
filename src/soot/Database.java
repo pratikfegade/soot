@@ -6,10 +6,10 @@ import java.io.Flushable;
 
 public interface Database extends Closeable, Flushable
 {
-    public void add(PredicateFile predFile, Column arg, Column... args);
-    public Column addEntity(PredicateFile predFile, String key);
-    public Column asColumn(String arg);
-    public Column asIntColumn(String arg);
-    public Column asEntity(String arg);
-    public Column asEntity(PredicateFile predFile, String arg);
+    void add(PredicateFile predFile, Column arg, Column... args);
+    Column addEntity(PredicateFile predFile, String key);
+    Column asColumn(String arg);
+    Column asIntColumn(String arg);
+    Column asEntity(String arg);
+    Column asEntity(PredicateFile predFile, String arg);
 }

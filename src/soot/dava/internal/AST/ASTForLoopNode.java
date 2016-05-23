@@ -145,7 +145,7 @@ public class ASTForLoopNode extends ASTControlFlowNode
 
 	Iterator<Object> it = init.iterator();
 	while(it.hasNext()){
-	    b.append( ((Unit) ((AugmentedStmt) it.next()).get_Stmt()).toString());
+	    b.append( ((AugmentedStmt) it.next()).get_Stmt().toString());
 	    if(it.hasNext()){
 		b.append(" , ");
 	    }
@@ -159,7 +159,7 @@ public class ASTForLoopNode extends ASTControlFlowNode
 
 	it = update.iterator();
 	while(it.hasNext()){
-	    b.append( ((Unit) ((AugmentedStmt) it.next()).get_Stmt()).toString());
+	    b.append( ((AugmentedStmt) it.next()).get_Stmt().toString());
 	    if(it.hasNext()){
 		b.append(" , ");
 	    }

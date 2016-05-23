@@ -126,7 +126,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
         this.localsAndFieldRefs = new HashSet<Value>(); 
         
         //add all locals
-        for (Local l : (Collection<Local>) g.getBody().getLocals()) {
+        for (Local l : g.getBody().getLocals()) {
             if (l.getType() instanceof RefLikeType)
                 this.localsAndFieldRefs.add(l);
         }
@@ -315,7 +315,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
     protected HashMap<Value,Object> entryInitialFlow()
     {
     	HashMap<Value,Object> m = new HashMap<Value,Object>();
-        for (Value l : (Collection<Value>) localsAndFieldRefs) {
+        for (Value l : localsAndFieldRefs) {
             m.put(l, UNKNOWN);
         }
         return m;
@@ -325,7 +325,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
     protected HashMap<Value,Object> newInitialFlow()
     {
     	HashMap<Value,Object> m = new HashMap<Value,Object>();
-        for (Value l : (Collection<Value>) localsAndFieldRefs) {
+        for (Value l : localsAndFieldRefs) {
             m.put(l, NOTHING);
         }
         return m;

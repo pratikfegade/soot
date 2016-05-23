@@ -76,10 +76,10 @@ public class InterfaceDeclSubstituted extends InterfaceDecl implements Cloneable
   @SuppressWarnings({"unchecked", "cast"})
   public InterfaceDeclSubstituted copy() {
     try {
-      InterfaceDeclSubstituted node = (InterfaceDeclSubstituted) clone();
+      InterfaceDeclSubstituted node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -94,7 +94,7 @@ public class InterfaceDeclSubstituted extends InterfaceDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public InterfaceDeclSubstituted fullCopy() {
-    InterfaceDeclSubstituted tree = (InterfaceDeclSubstituted) copy();
+    InterfaceDeclSubstituted tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
           switch (i) {
@@ -102,7 +102,7 @@ public class InterfaceDeclSubstituted extends InterfaceDecl implements Cloneable
             tree.children[i] = new List();
             continue;
           }
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -274,7 +274,7 @@ public class InterfaceDeclSubstituted extends InterfaceDecl implements Cloneable
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperInterfaceId(int i) {
-    return (Access)getSuperInterfaceIdList().getChild(i);
+    return getSuperInterfaceIdList().getChild(i);
   }
   /**
    * Append an element to the SuperInterfaceId list.
@@ -837,7 +837,7 @@ public class InterfaceDeclSubstituted extends InterfaceDecl implements Cloneable
         _value.visited = new Integer(state.CIRCLE_INDEX);
         state.CHANGE = false;
         new_localTypeDecls_String_value = localTypeDecls_compute(name);
-        if ((new_localTypeDecls_String_value==null && (SimpleSet)_value.value!=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals((SimpleSet)_value.value))) {
+        if ((new_localTypeDecls_String_value==null && _value.value !=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals(_value.value))) {
           state.CHANGE = true;
           _value.value = new_localTypeDecls_String_value;
         }
@@ -861,7 +861,7 @@ public class InterfaceDeclSubstituted extends InterfaceDecl implements Cloneable
       if (state.RESET_CYCLE) {
         localTypeDecls_String_values.remove(_parameters);
       }
-      else if ((new_localTypeDecls_String_value==null && (SimpleSet)_value.value!=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals((SimpleSet)_value.value))) {
+      else if ((new_localTypeDecls_String_value==null && _value.value !=null) || (new_localTypeDecls_String_value!=null && !new_localTypeDecls_String_value.equals(_value.value))) {
         state.CHANGE = true;
         _value.value = new_localTypeDecls_String_value;
       }

@@ -72,10 +72,10 @@ public class ClassInstanceExpr extends Access implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ClassInstanceExpr copy() {
     try {
-      ClassInstanceExpr node = (ClassInstanceExpr) clone();
+      ClassInstanceExpr node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -90,10 +90,10 @@ public class ClassInstanceExpr extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ClassInstanceExpr fullCopy() {
-    ClassInstanceExpr tree = (ClassInstanceExpr) copy();
+    ClassInstanceExpr tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -600,7 +600,7 @@ public class ClassInstanceExpr extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Expr getArg(int i) {
-    return (Expr)getArgList().getChild(i);
+    return getArgList().getChild(i);
   }
   /**
    * Append an element to the Arg list.
@@ -709,7 +709,7 @@ public class ClassInstanceExpr extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeDecl getTypeDecl() {
-    return (TypeDecl)getTypeDeclOpt().getChild(0);
+    return getTypeDeclOpt().getChild(0);
   }
   /**
    * Replaces the (optional) TypeDecl child.

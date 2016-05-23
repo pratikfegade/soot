@@ -379,7 +379,7 @@ public class PackManager {
         }
 
 		setupJAR();
-        for( String path: (Collection<String>)Options.v().process_dir()) {
+        for( String path: Options.v().process_dir()) {
             // hack1: resolve to signatures only
             for (String cl : SourceLocator.v().getClassesUnder(path)) {
                 SootClass clazz = Scene.v().forceResolve(cl, SootClass.SIGNATURES);
@@ -711,7 +711,7 @@ public class PackManager {
     	ArrayList<String> decompiledClasses = new ArrayList<String>();
         Iterator<SootClass> classIt = appClasses.iterator();
         while (classIt.hasNext()) {
-            SootClass s = (SootClass) classIt.next();
+            SootClass s = classIt.next();
 
             OutputStream streamOut = null;
             PrintWriter writerOut = null;
@@ -938,7 +938,7 @@ public class PackManager {
             	ArrayList<SootMethod> sootMethodsAdded = G.v().SootMethodsAdded;
             	Iterator<SootMethod> it = sootMethodsAdded.iterator();
             	while(it.hasNext()){
-            		c.addMethod((SootMethod)it.next());
+            		c.addMethod(it.next());
             	}
             	G.v().SootMethodsAdded = new ArrayList<SootMethod>();
             	G.v().SootMethodAddedByDava=false;
@@ -1081,7 +1081,7 @@ public class PackManager {
         if (!Options.v().xml_attributes()) return;
         if (Options.v().output_format() != Options.output_format_jimple) return;
         while( classes.hasNext() ) {
-            SootClass c = (SootClass) classes.next();
+            SootClass c = classes.next();
             processXMLForClass(c);
         }
     }
@@ -1119,13 +1119,13 @@ public class PackManager {
     private void retrieveAllBodies() {
         Iterator<SootClass> clIt = reachableClasses();
         while( clIt.hasNext() ) {
-            SootClass cl = (SootClass) clIt.next();
+            SootClass cl = clIt.next();
             //note: the following is a snapshot iterator;
             //this is necessary because it can happen that phantom methods
             //are added during resolution
             Iterator<SootMethod> methodIt = cl.getMethods().iterator();
             while (methodIt.hasNext()) {
-                SootMethod m = (SootMethod) methodIt.next();
+                SootMethod m = methodIt.next();
                 if(DEBUG && cl.isApplicationClass()){
                 	if(m.getExceptions().size()!=0)
                 		System.out.println("PackManager printing out from within retrieveAllBodies exceptions for method "+m.toString()+" " + m.getExceptions().toString());

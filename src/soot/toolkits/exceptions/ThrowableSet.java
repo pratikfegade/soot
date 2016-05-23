@@ -1092,11 +1092,8 @@ public final class ThrowableSet {
 				return false;
 			}
 			Pair tsp = (Pair) o;
-			if (this.caught.equals(tsp.caught)
-					&& this.uncaught.equals(tsp.uncaught)) {
-				return true;
-			}
-			return false;
+			return this.caught.equals(tsp.caught)
+					&& this.uncaught.equals(tsp.uncaught);
 		}
 
 		@Override

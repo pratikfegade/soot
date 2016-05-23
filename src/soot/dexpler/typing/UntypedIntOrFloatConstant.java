@@ -29,11 +29,11 @@ public class UntypedIntOrFloatConstant extends UntypedConstant {
     /** Returns a hash code for this DoubleConstant object. */
     public int hashCode()
     {
-        return (int)(value^(value>>>32));
+        return value^(value>>>32);
     }
     
     public FloatConstant toFloatConstant() {
-        return  FloatConstant.v(Float.intBitsToFloat((int) value));
+        return  FloatConstant.v(Float.intBitsToFloat(value));
     }
     
     public IntConstant toIntConstant() {

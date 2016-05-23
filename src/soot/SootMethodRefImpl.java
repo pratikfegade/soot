@@ -87,7 +87,7 @@ class SootMethodRefImpl implements SootMethodRef {
     }
 
     public Type parameterType(int i) {
-        return (Type) parameterTypes.get(i);
+        return parameterTypes.get(i);
     }
 
     public class ClassResolutionFailedException extends ResolutionFailedException {

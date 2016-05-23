@@ -100,11 +100,11 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 	Iterator<Unit> unitIt = unitChain.iterator();
 	Unit currentUnit, nextUnit;
                 
-	nextUnit = unitIt.hasNext() ? (Unit) unitIt.next(): null;
+	nextUnit = unitIt.hasNext() ? unitIt.next() : null;
                 
 	while(nextUnit != null) {
 	    currentUnit = nextUnit;
-	    nextUnit = unitIt.hasNext() ? (Unit) unitIt.next(): null;
+	    nextUnit = unitIt.hasNext() ? unitIt.next() : null;
                     
 	    List<Unit> successors = new ArrayList<Unit>();
                     
@@ -169,7 +169,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 	// Add the first Unit, even if it is the target of
 	// a branch.
 	if (!unitChain.isEmpty()) {
-		Unit entryPoint = (Unit) unitChain.getFirst();
+		Unit entryPoint = unitChain.getFirst();
 		if (! headList.contains(entryPoint)) {
 		    headList.add(entryPoint);
 		}
@@ -351,7 +351,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
               continue;
             }
 
-          Unit betweenUnit = (Unit)(succs.get(p));
+          Unit betweenUnit = succs.get(p);
 
           // we win!
           if (betweenUnit == to)

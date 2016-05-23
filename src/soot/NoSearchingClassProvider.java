@@ -198,8 +198,8 @@ public class NoSearchingClassProvider implements ClassProvider {
      *
      * Similar to FoundFile in SourceLocator, which is not accessible.
      */
-    public static interface Resource {
-        public InputStream open() throws IOException;
+    public interface Resource {
+        InputStream open() throws IOException;
     }
 
     /**

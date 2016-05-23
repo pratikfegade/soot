@@ -64,10 +64,10 @@ public class WildcardsCompilationUnit extends CompilationUnit implements Cloneab
   @SuppressWarnings({"unchecked", "cast"})
   public WildcardsCompilationUnit copy() {
     try {
-      WildcardsCompilationUnit node = (WildcardsCompilationUnit) clone();
+      WildcardsCompilationUnit node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -82,10 +82,10 @@ public class WildcardsCompilationUnit extends CompilationUnit implements Cloneab
    */
   @SuppressWarnings({"unchecked", "cast"})
   public WildcardsCompilationUnit fullCopy() {
-    WildcardsCompilationUnit tree = (WildcardsCompilationUnit) copy();
+    WildcardsCompilationUnit tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -245,7 +245,7 @@ public class WildcardsCompilationUnit extends CompilationUnit implements Cloneab
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ImportDecl getImportDecl(int i) {
-    return (ImportDecl)getImportDeclList().getChild(i);
+    return getImportDeclList().getChild(i);
   }
   /**
    * Append an element to the ImportDecl list.
@@ -366,7 +366,7 @@ public class WildcardsCompilationUnit extends CompilationUnit implements Cloneab
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TypeDecl getTypeDecl(int i) {
-    return (TypeDecl)getTypeDeclList().getChild(i);
+    return getTypeDeclList().getChild(i);
   }
   /**
    * Append an element to the TypeDecl list.

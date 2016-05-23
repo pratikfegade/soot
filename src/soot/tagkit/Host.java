@@ -42,37 +42,37 @@ import java.util.*;
 public interface Host
 {
     /** Gets a list of tags associated with the current object. */
-    public List<Tag> getTags();
+    List<Tag> getTags();
     
     /** Returns the tag with the given name. */
-    public Tag getTag(String aName);
+    Tag getTag(String aName);
 
   /** Adds a tag. */
-    public void addTag(Tag t);
+  void addTag(Tag t);
 
     /** Removes the first tag with the given name. */
-    public void removeTag(String name);
+    void removeTag(String name);
    
     /** Returns true if this host has a tag with the given name. */
-    public boolean hasTag(String aName);
+    boolean hasTag(String aName);
 
     /** Removes all the tags from this host. */
-    public void removeAllTags();
+    void removeAllTags();
 
     /** Adds all the tags from h to this host. */
-    public void addAllTagsOf( Host h );
+    void addAllTagsOf(Host h);
     
     /**
      * Returns the Java source line number if available.
      * Returns -1 if not.
      */
-    public int getJavaSourceStartLineNumber();
+    int getJavaSourceStartLineNumber();
     
     /**
      * Returns the Java source line column if available.
      * Returns -1 if not.
      */
-    public int getJavaSourceStartColumnNumber();    
+    int getJavaSourceStartColumnNumber();
 }
 
 

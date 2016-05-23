@@ -64,10 +64,10 @@ public class AndLogicalExpr extends LogicalExpr implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public AndLogicalExpr copy() {
     try {
-      AndLogicalExpr node = (AndLogicalExpr) clone();
+      AndLogicalExpr node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -82,10 +82,10 @@ public class AndLogicalExpr extends LogicalExpr implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public AndLogicalExpr fullCopy() {
-    AndLogicalExpr tree = (AndLogicalExpr) copy();
+    AndLogicalExpr tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

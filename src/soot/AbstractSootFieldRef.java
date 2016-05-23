@@ -120,7 +120,7 @@ class AbstractSootFieldRef implements SootFieldRef {
             }
             else {
             	// Since this class is not phantom, we look at its interfaces
-                LinkedList<SootClass> queue = new LinkedList<SootClass>();
+                LinkedList<SootClass> queue = new LinkedList<>();
                 queue.addAll( cl.getInterfaces() );
                 while( !queue.isEmpty() ) {
                     SootClass iface = queue.removeFirst();

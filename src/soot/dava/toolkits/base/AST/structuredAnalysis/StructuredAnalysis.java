@@ -210,7 +210,7 @@ public abstract class StructuredAnalysis {
 			return temp;
 		} else if (body instanceof Stmt) {
 			beforeSets.put(body, input);
-			DavaFlowSet result = processAbruptStatements((Stmt) body, (DavaFlowSet) input);
+			DavaFlowSet result = processAbruptStatements((Stmt) body, input);
 			afterSets.put(body, result);
 			return result;
 		} else if (body instanceof AugmentedStmt) {
@@ -218,7 +218,7 @@ public abstract class StructuredAnalysis {
 			Stmt s = as.get_Stmt();
 
 			beforeSets.put(s, input);
-			DavaFlowSet result = processAbruptStatements(s, (DavaFlowSet) input);
+			DavaFlowSet result = processAbruptStatements(s, input);
 			afterSets.put(s, result);
 			return result;
 
@@ -394,7 +394,6 @@ public abstract class StructuredAnalysis {
 			output = process(s, output);
 			if (DEBUG_STATEMENTS) {
 				System.out.println("After Processing statement " + s + output.toString());
-				;
 			}
 		}
 		return output;
@@ -433,7 +432,6 @@ public abstract class StructuredAnalysis {
 
 		if (DEBUG_IF) {
 			System.out.println("Exiting if node" + temp.toString());
-			;
 		}
 		return temp;
 	}
@@ -957,16 +955,7 @@ public abstract class StructuredAnalysis {
 	}
 
 	public boolean isDifferent(DavaFlowSet oldObj, DavaFlowSet newObj) {
-		if (oldObj.equals(newObj) && oldObj.internalDataMatchesTo(newObj)) {
-			// set matches and breaks and continues also match
-			// System.out.println("NOT DIFFERENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			return false;
-		} else {
-			// System.out.println(oldObj);
-			// System.out.println(newObj);
-			// System.out.println("DIFFERENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			return true;
-		}
+		return !(oldObj.equals(newObj) && oldObj.internalDataMatchesTo(newObj));
 	}
 
 	/*

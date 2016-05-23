@@ -225,7 +225,7 @@ public class SwitchFinder implements FactFinder
 	LinkedList<AugmentedStmt> worklist = new LinkedList<AugmentedStmt>();
 
 	subBody.add( branchS);
-	branchS = (AugmentedStmt) branchS.bsuccs.get(0);
+	branchS = branchS.bsuccs.get(0);
 	
 	if (branchS.get_Dominators().contains( switchAS)) {
 	    worklist.addLast( branchS);
@@ -251,7 +251,7 @@ public class SwitchFinder implements FactFinder
 
     private void build_Bindings( AugmentedStmt swAs, Object index, AugmentedStmt target)
     {
-	AugmentedStmt tSucc = (AugmentedStmt) target.bsuccs.get(0);
+	AugmentedStmt tSucc = target.bsuccs.get(0);
 
 	if (targetSet.add( tSucc))
 	    targetList.addLast( tSucc);

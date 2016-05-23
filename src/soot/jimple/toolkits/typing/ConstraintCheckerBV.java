@@ -277,7 +277,7 @@ private static class RuntimeTypeException extends RuntimeException
     if(l instanceof ArrayRef)
       {
 	ArrayRef ref = (ArrayRef) l;
-	TypeNode base = hierarchy.typeNode(((Local) ref.getBase()).getType());
+	TypeNode base = hierarchy.typeNode(ref.getBase().getType());
 
 	if(!base.isArray())
 	  {
@@ -290,7 +290,7 @@ private static class RuntimeTypeException extends RuntimeException
 	
 	if(index instanceof Local)
 	  {
-	    if(!hierarchy.typeNode(((Local) index).getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
+	    if(!hierarchy.typeNode(index.getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
 	      {
 		error("Type Error(17)");
 	      }
@@ -300,7 +300,7 @@ private static class RuntimeTypeException extends RuntimeException
       {
 	try
 	  {
-	    left = hierarchy.typeNode(((Local) l).getType());
+	    left = hierarchy.typeNode(l.getType());
 	  }
 	catch(InternalTypingException e)
 	  {
@@ -312,7 +312,7 @@ private static class RuntimeTypeException extends RuntimeException
       {
 	InstanceFieldRef ref = (InstanceFieldRef) l;
 	
-	TypeNode base = hierarchy.typeNode(((Local) ref.getBase()).getType());
+	TypeNode base = hierarchy.typeNode(ref.getBase().getType());
 	
 	if(!base.hasAncestorOrSelf(hierarchy.typeNode(ref.getField().getDeclaringClass().getType())))
 	  {
@@ -343,7 +343,7 @@ private static class RuntimeTypeException extends RuntimeException
     if(r instanceof ArrayRef)
       {
 	ArrayRef ref = (ArrayRef) r;
-	TypeNode base = hierarchy.typeNode(((Local) ref.getBase()).getType());
+	TypeNode base = hierarchy.typeNode(ref.getBase().getType());
 
 	if(!base.isArray())
 	  {
@@ -380,7 +380,7 @@ private static class RuntimeTypeException extends RuntimeException
 	
 	if(index instanceof Local)
 	{
-	  if(!hierarchy.typeNode(((Local) index).getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
+	  if(!hierarchy.typeNode(index.getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
 	    {
 	      error("Type Error(21)");
 	    }
@@ -450,7 +450,7 @@ private static class RuntimeTypeException extends RuntimeException
 	//******** LEFT ********
 	if(lv instanceof Local)
 	  {
-	    lop = hierarchy.typeNode(((Local) lv).getType());
+	    lop = hierarchy.typeNode(lv.getType());
 	  }
 	else if(lv instanceof DoubleConstant)
 	  {
@@ -488,7 +488,7 @@ private static class RuntimeTypeException extends RuntimeException
 	//******** RIGHT ********
 	if(rv instanceof Local)
 	  {
-	    rop = hierarchy.typeNode(((Local) rv).getType());
+	    rop = hierarchy.typeNode(rv.getType());
 	  }
 	else if(rv instanceof DoubleConstant)
 	  {
@@ -583,7 +583,7 @@ private static class RuntimeTypeException extends RuntimeException
 	TypeNode cast = hierarchy.typeNode(ce.getCastType());
 	if(ce.getOp() instanceof Local)
 	{
-	  TypeNode op = hierarchy.typeNode(((Local) ce.getOp()).getType());
+	  TypeNode op = hierarchy.typeNode(ce.getOp().getType());
 
 	  try
 	    {
@@ -663,7 +663,7 @@ private static class RuntimeTypeException extends RuntimeException
 	Value size = nae.getSize();
 	if(size instanceof Local)
 	  {
-	    TypeNode var = hierarchy.typeNode(((Local) size).getType());
+	    TypeNode var = hierarchy.typeNode(size.getType());
 
 	    if(!var.hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
 	      {
@@ -694,7 +694,7 @@ private static class RuntimeTypeException extends RuntimeException
 	    Value size = nmae.getSize(i);
 	    if(size instanceof Local)
 	      {
-		TypeNode var = hierarchy.typeNode(((Local) size).getType());
+		TypeNode var = hierarchy.typeNode(size.getType());
 
 		if(!var.hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
 		  {
@@ -714,7 +714,7 @@ private static class RuntimeTypeException extends RuntimeException
 
 	if(le.getOp() instanceof Local)
 	  {
-	    if(!hierarchy.typeNode(((Local) le.getOp()).getType()).isArray())
+	    if(!hierarchy.typeNode(le.getOp().getType()).isArray())
 	      {
 		error("Type Error(39)");
 	      }
@@ -727,7 +727,7 @@ private static class RuntimeTypeException extends RuntimeException
 
 	if(ne.getOp() instanceof Local)
 	  {
-	    right = hierarchy.typeNode(((Local) ne.getOp()).getType());
+	    right = hierarchy.typeNode(ne.getOp().getType());
 	  }
 	else if(ne.getOp() instanceof DoubleConstant)
 	  {
@@ -757,7 +757,7 @@ private static class RuntimeTypeException extends RuntimeException
       }
     else if(r instanceof Local)
       {
-	if(!left.hasDescendantOrSelf(hierarchy.typeNode(((Local) r).getType())))
+	if(!left.hasDescendantOrSelf(hierarchy.typeNode(r.getType())))
 	  {
 	    if(fix)
 	      {
@@ -773,7 +773,7 @@ private static class RuntimeTypeException extends RuntimeException
       {
 	InstanceFieldRef ref = (InstanceFieldRef) r;
 
-	TypeNode baseType = hierarchy.typeNode(((Local) ref.getBase()).getType());
+	TypeNode baseType = hierarchy.typeNode(ref.getBase().getType());
 	if(!baseType.hasAncestorOrSelf(hierarchy.typeNode(ref.getField().getDeclaringClass().getType())))
 	  {
 	    if(fix)
@@ -808,7 +808,7 @@ private static class RuntimeTypeException extends RuntimeException
 
   public void caseIdentityStmt(IdentityStmt stmt)
   {
-    TypeNode left = hierarchy.typeNode(((Local) stmt.getLeftOp()).getType());
+    TypeNode left = hierarchy.typeNode(stmt.getLeftOp().getType());
 
     Value r = stmt.getRightOp();
 
@@ -846,7 +846,7 @@ private static class RuntimeTypeException extends RuntimeException
   {
     if(stmt.getOp() instanceof Local)
       {
-	TypeNode op = hierarchy.typeNode(((Local) stmt.getOp()).getType());
+	TypeNode op = hierarchy.typeNode(stmt.getOp().getType());
 	
 	if(!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.v("java.lang.Object"))))
 	  {
@@ -859,7 +859,7 @@ private static class RuntimeTypeException extends RuntimeException
   {
     if(stmt.getOp() instanceof Local)
       {
-	TypeNode op = hierarchy.typeNode(((Local) stmt.getOp()).getType());
+	TypeNode op = hierarchy.typeNode(stmt.getOp().getType());
 	
 	if(!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.v("java.lang.Object"))))
 	  {
@@ -886,7 +886,7 @@ private static class RuntimeTypeException extends RuntimeException
     //******** LEFT ********
     if(lv instanceof Local)
       {
-	lop = hierarchy.typeNode(((Local) lv).getType());
+	lop = hierarchy.typeNode(lv.getType());
       }
     else if(lv instanceof DoubleConstant)
       {
@@ -924,7 +924,7 @@ private static class RuntimeTypeException extends RuntimeException
     //******** RIGHT ********
     if(rv instanceof Local)
       {
-	rop = hierarchy.typeNode(((Local) rv).getType());
+	rop = hierarchy.typeNode(rv.getType());
       }
     else if(rv instanceof DoubleConstant)
       {
@@ -975,7 +975,7 @@ private static class RuntimeTypeException extends RuntimeException
 
     if(key instanceof Local)
       {
-	if(!hierarchy.typeNode(((Local) key).getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
+	if(!hierarchy.typeNode(key.getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
 	  {
 	    error("Type Error(50)");
 	  }
@@ -990,7 +990,7 @@ private static class RuntimeTypeException extends RuntimeException
   {
     if(stmt.getOp() instanceof Local)
       {
-	if(!hierarchy.typeNode(((Local) stmt.getOp()).getType()).
+	if(!hierarchy.typeNode(stmt.getOp().getType()).
 	   hasAncestorOrSelf(hierarchy.typeNode(stmtBody.getMethod().getReturnType())))
 	  {
 	    if(fix)
@@ -1015,7 +1015,7 @@ private static class RuntimeTypeException extends RuntimeException
 
     if(key instanceof Local)
       {
-	if(!hierarchy.typeNode(((Local) key).getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
+	if(!hierarchy.typeNode(key.getType()).hasAncestorOrSelf(hierarchy.typeNode(IntType.v())))
 	  {
 	    error("Type Error(52)");
 	  }
@@ -1026,7 +1026,7 @@ private static class RuntimeTypeException extends RuntimeException
   {
     if(stmt.getOp() instanceof Local)
       {
-	TypeNode op = hierarchy.typeNode(((Local) stmt.getOp()).getType());
+	TypeNode op = hierarchy.typeNode(stmt.getOp().getType());
 	    
 	if(!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.v("java.lang.Throwable"))))
 	  {

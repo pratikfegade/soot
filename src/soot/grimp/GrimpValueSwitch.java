@@ -31,7 +31,7 @@ import soot.jimple.*;
 
 public interface GrimpValueSwitch extends JimpleValueSwitch
 {
-    public abstract void caseNewInvokeExpr(NewInvokeExpr e);
+    void caseNewInvokeExpr(NewInvokeExpr e);
 
 }
 

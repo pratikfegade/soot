@@ -532,7 +532,7 @@ public class LockAllocator extends SceneTransformer
 					else
 					{// Found exactly one lock
 						// Use it!
-						tn.lockObject = (Value) tn.lockset.get(0);
+						tn.lockObject = tn.lockset.get(0);
 						
 						// If it's the best lock we've found in the group yet, use it for display
 						if(tn.group.lockObject == null || tn.lockObject instanceof Ref)

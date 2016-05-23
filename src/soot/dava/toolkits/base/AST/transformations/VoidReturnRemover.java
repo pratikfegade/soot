@@ -49,7 +49,7 @@ public class VoidReturnRemover{
     	if(!method.hasActiveBody())
     		return;
     	
-        Chain units = ((DavaBody) method.getActiveBody()).getUnits();
+        Chain units = method.getActiveBody().getUnits();
 
         if (units.size() != 1) 
         	return;

@@ -52,10 +52,10 @@ public class AmbiguousAccess extends Access implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public AmbiguousAccess copy() {
     try {
-      AmbiguousAccess node = (AmbiguousAccess) clone();
+      AmbiguousAccess node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -70,10 +70,10 @@ public class AmbiguousAccess extends Access implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public AmbiguousAccess fullCopy() {
-    AmbiguousAccess tree = (AmbiguousAccess) copy();
+    AmbiguousAccess tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

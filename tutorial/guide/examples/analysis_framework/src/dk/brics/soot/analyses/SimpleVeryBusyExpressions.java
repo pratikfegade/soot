@@ -25,11 +25,11 @@ public class SimpleVeryBusyExpressions implements VeryBusyExpressions
 
 		for (Unit s : graph) {
 
-			FlowSet set = (FlowSet) analysis.getFlowBefore(s);
+			FlowSet set = analysis.getFlowBefore(s);
 			unitToExpressionsBefore.put(s,
 					Collections.unmodifiableList(set.toList()));
 
-			set = (FlowSet) analysis.getFlowAfter(s);
+			set = analysis.getFlowAfter(s);
 			unitToExpressionsAfter.put(s,
 					Collections.unmodifiableList(set.toList()));
 		}
@@ -48,7 +48,7 @@ public class SimpleVeryBusyExpressions implements VeryBusyExpressions
 /**
  * Performs a naiive version of a very-busy expressions analysis.
  * 
- * @author Árni Einarsson
+ * @author ï¿½rni Einarsson
  */
 class SimpleVeryBusyAnalysis extends BackwardFlowAnalysis<Unit, FlowSet>
 {

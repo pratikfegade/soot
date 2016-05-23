@@ -163,7 +163,7 @@ public class PegChain extends HashChain{
 			Value value =((MonitorStmt)unit).getOp();
 			if (value instanceof Local)
 			{
-				Type type = ((Local)value).getType();
+				Type type = value.getType();
 				
 				if (type instanceof RefType)
 				{
@@ -215,7 +215,7 @@ public class PegChain extends HashChain{
 				if (value instanceof Local)
 				{
 					//	Type type = ((Local)value).getType();
-					type = ((Local)value).getType();
+					type = value.getType();
 					
 					if (type instanceof RefType)
 					{
@@ -269,8 +269,8 @@ public class PegChain extends HashChain{
 			
 			if (name.equals("wait") &&
 					(paras.size() == 0 || 
-							(paras.size() == 1 && (Type)paras.get(0) instanceof LongType )||
-							(paras.size() == 2 && (Type)paras.get(0) instanceof LongType &&(Type)paras.get(1) instanceof IntType))){
+							(paras.size() == 1 && paras.get(0) instanceof LongType )||
+							(paras.size() == 2 && paras.get(0) instanceof LongType && paras.get(1) instanceof IntType))){
 				
 				/*special modeling for wait() method call which
 				 *transforms wait() node to 3 node.
@@ -661,7 +661,7 @@ public class PegChain extends HashChain{
 					if (obj instanceof JIdentityStmt){
 						Value thisRef = ((JIdentityStmt)obj).getLeftOp();
 						if (thisRef instanceof Local){
-							Type type = ((Local)thisRef).getType();
+							Type type = thisRef.getType();
 							if (type instanceof RefType){
 								objName = makeObjName(thisRef, type, (Unit)obj);
 								synchObj.put(targetMethod, objName);

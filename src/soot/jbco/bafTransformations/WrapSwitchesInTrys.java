@@ -62,7 +62,7 @@ public class WrapSwitchesInTrys extends BodyTransformer implements IJbcoTransfor
     PatchingChain<Unit> units = b.getUnits();
     Iterator<Unit> it = units.snapshotIterator();
     while (it.hasNext()) {
-      Unit u = (Unit)it.next();
+      Unit u = it.next();
       if (u instanceof TableSwitchInst) {
         TableSwitchInst twi = (TableSwitchInst)u;
         
@@ -70,7 +70,7 @@ public class WrapSwitchesInTrys extends BodyTransformer implements IJbcoTransfor
 	        if (handler==null) {
 	          Iterator<Unit> uit = units.snapshotIterator();
 	          while (uit.hasNext()) {
-	            Unit uthrow = (Unit)uit.next();
+	            Unit uthrow = uit.next();
 	            if (uthrow instanceof ThrowInst &&
 	                !BodyBuilder.isExceptionCaughtAt(units,uthrow,traps.iterator())) {
 	              handler = uthrow;
@@ -85,7 +85,7 @@ public class WrapSwitchesInTrys extends BodyTransformer implements IJbcoTransfor
 	        }
         
 	        int size = 4;
-	        Unit succ = (Unit)units.getSuccOf(twi);
+	        Unit succ = units.getSuccOf(twi);
 	        while (!BodyBuilder.isExceptionCaughtAt(units,succ,traps.iterator()) && size-->0) {
 	          Object o = units.getSuccOf(succ);
 	          if (o != null) succ = (Unit)o;

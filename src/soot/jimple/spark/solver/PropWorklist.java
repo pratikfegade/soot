@@ -122,8 +122,8 @@ public final class PropWorklist extends Propagator {
             ofcg.build();
 
             while(addedEdges.hasNext()) {
-                Node addedSrc = (Node) addedEdges.next();
-                Node addedTgt = (Node) addedEdges.next();
+                Node addedSrc = addedEdges.next();
+                Node addedTgt = addedEdges.next();
                 ret = true;
                 if( addedSrc instanceof VarNode ) {
                     if( addedTgt instanceof VarNode ) {

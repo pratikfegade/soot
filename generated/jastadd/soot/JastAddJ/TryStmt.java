@@ -120,10 +120,10 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
   @SuppressWarnings({"unchecked", "cast"})
   public TryStmt copy() {
     try {
-      TryStmt node = (TryStmt) clone();
+      TryStmt node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -138,10 +138,10 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public TryStmt fullCopy() {
-    TryStmt tree = (TryStmt) copy();
+    TryStmt tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -477,7 +477,7 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public CatchClause getCatchClause(int i) {
-    return (CatchClause)getCatchClauseList().getChild(i);
+    return getCatchClauseList().getChild(i);
   }
   /**
    * Append an element to the CatchClause list.
@@ -586,7 +586,7 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Block getFinally() {
-    return (Block)getFinallyOpt().getChild(0);
+    return getFinallyOpt().getChild(0);
   }
   /**
    * Replaces the (optional) Finally child.
@@ -1403,10 +1403,8 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
     {
     if(!getBlock().isDUafter(v))
       return false;
-    if(!getBlock().isDUeverywhere(v))
-      return false;
-    return true;
-  }
+      return getBlock().isDUeverywhere(v);
+    }
   }
     else if(caller == getBlockNoTransform()) {
       return isDUbefore(v);
@@ -1465,10 +1463,8 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
         return false;
     if(catchableException(exceptionType))
       return true;
-    if(exceptionType.mayCatch(typeError()) || exceptionType.mayCatch(typeRuntimeException()))
-      return true;
-    return false;
-  }
+      return exceptionType.mayCatch(typeError()) || exceptionType.mayCatch(typeRuntimeException());
+    }
   }
     else {      return getParent().Define_boolean_reachableCatchClause(this, caller, exceptionType);
     }

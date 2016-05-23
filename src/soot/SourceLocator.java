@@ -50,8 +50,8 @@ public class SourceLocator
     protected Set<ClassLoader> additionalClassLoaders = new HashSet<ClassLoader>();
 	protected Set<String> classesToLoad;
 	
-	private enum ClassSourceType { jar, zip, apk, dex, directory, unknown };
-    
+	private enum ClassSourceType { jar, zip, apk, dex, directory, unknown }
+
     /** Given a class name, uses the soot-class-path to return a ClassSource for the given class. */
 	public ClassSource getClassSource(String className) 
     {

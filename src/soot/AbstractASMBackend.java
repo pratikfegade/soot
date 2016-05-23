@@ -608,8 +608,8 @@ public abstract class AbstractASMBackend {
 			enclosingMethodSig = emTag.getEnclosingMethodSig();
 		}
 		if (!sc.hasOuterClass() && sc.hasTag("OuterClassTag")) {
-			outerClassName = slashify(((OuterClassTag) sc
-					.getTag("OuterClassTag")).getName());
+			outerClassName = slashify(sc
+					.getTag("OuterClassTag").getName());
 		}
 		cv.visitOuterClass(outerClassName, enclosingMethod, enclosingMethodSig);
 	}

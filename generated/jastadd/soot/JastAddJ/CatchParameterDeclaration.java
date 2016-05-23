@@ -61,10 +61,10 @@ public class CatchParameterDeclaration extends ASTNode<ASTNode> implements Clone
   @SuppressWarnings({"unchecked", "cast"})
   public CatchParameterDeclaration copy() {
     try {
-      CatchParameterDeclaration node = (CatchParameterDeclaration) clone();
+      CatchParameterDeclaration node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -79,10 +79,10 @@ public class CatchParameterDeclaration extends ASTNode<ASTNode> implements Clone
    */
   @SuppressWarnings({"unchecked", "cast"})
   public CatchParameterDeclaration fullCopy() {
-    CatchParameterDeclaration tree = (CatchParameterDeclaration) copy();
+    CatchParameterDeclaration tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -339,7 +339,7 @@ public class CatchParameterDeclaration extends ASTNode<ASTNode> implements Clone
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getTypeAccess(int i) {
-    return (Access)getTypeAccessList().getChild(i);
+    return getTypeAccessList().getChild(i);
   }
   /**
    * Append an element to the TypeAccess list.

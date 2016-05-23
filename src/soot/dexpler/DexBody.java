@@ -419,8 +419,7 @@ public class DexBody  {
         jBody.getLocals().add (storeResultLocal);
         
         // process bytecode instructions
-        final boolean isOdex = dexFile instanceof DexBackedDexFile ?
-        		((DexBackedDexFile) dexFile).isOdexFile() : false;
+        final boolean isOdex = dexFile instanceof DexBackedDexFile && ((DexBackedDexFile) dexFile).isOdexFile();
         
         int prevLineNumber = -1;
         for(DexlibAbstractInstruction instruction : instructions) {

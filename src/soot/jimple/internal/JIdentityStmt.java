@@ -87,9 +87,9 @@ public class JIdentityStmt extends AbstractDefinitionStmt
         Value newRhs;
         
         if(currentRhs instanceof ThisRef)
-            newRhs = Baf.v().newThisRef((RefType)((ThisRef) currentRhs).getType());
+            newRhs = Baf.v().newThisRef((RefType) currentRhs.getType());
         else if(currentRhs instanceof ParameterRef)
-            newRhs = Baf.v().newParameterRef(((ParameterRef)currentRhs).getType(), ((ParameterRef) currentRhs).getIndex());
+            newRhs = Baf.v().newParameterRef(currentRhs.getType(), ((ParameterRef) currentRhs).getIndex());
         else if(currentRhs instanceof CaughtExceptionRef)
             { 
 		Unit u = Baf.v().newStoreInst(RefType.v(), 

@@ -36,19 +36,19 @@ public class AugHierarchy implements IHierarchy
 	public static Collection<Type> lcas_(Type a, Type b)
 	{
 		if ( TypeResolver.typesEqual(a, b) )
-			return Collections.<Type>singletonList(a);
+			return Collections.singletonList(a);
 		else if ( a instanceof BottomType )
-			return Collections.<Type>singletonList(b);
+			return Collections.singletonList(b);
 		else if ( b instanceof BottomType )
-			return Collections.<Type>singletonList(a);
+			return Collections.singletonList(a);
 		else if ( a instanceof IntegerType && b instanceof IntegerType )
 		{
 			if ( a instanceof Integer1Type )
-				return Collections.<Type>singletonList(b);
+				return Collections.singletonList(b);
 			else if ( b instanceof Integer1Type )
-				return Collections.<Type>singletonList(a);
+				return Collections.singletonList(a);
 			else if ( a instanceof BooleanType || b instanceof BooleanType )
-				return Collections.<Type>emptyList();
+				return Collections.emptyList();
 			else if ( (a instanceof ByteType && b instanceof Integer32767Type)
 				|| (b instanceof ByteType && a instanceof Integer32767Type) )
 				return Collections.<Type>singletonList(ShortType.v());
@@ -57,11 +57,11 @@ public class AugHierarchy implements IHierarchy
 				&& (a instanceof ShortType || a instanceof ByteType)) )
 				return Collections.<Type>singletonList(IntType.v());
 			else if ( ancestor_(a, b) )
-				return Collections.<Type>singletonList(a);
-			else return Collections.<Type>singletonList(b);
+				return Collections.singletonList(a);
+			else return Collections.singletonList(b);
 		}
 		else if ( a instanceof IntegerType || b instanceof IntegerType )
-			return Collections.<Type>emptyList();
+			return Collections.emptyList();
 		else return BytecodeHierarchy.lcas_(a, b);
 	}
 	
@@ -76,63 +76,49 @@ public class AugHierarchy implements IHierarchy
 			return true;
 		else if ( ancestor instanceof Integer1Type )
 		{
-			if ( child instanceof BottomType )
-				return true;
-			else return false;
+			return child instanceof BottomType;
 		}
 		else if ( ancestor instanceof BooleanType )
 		{
-			if ( child instanceof BottomType
-				|| child instanceof Integer1Type )
-				return true;
-			else return false;
+			return child instanceof BottomType
+					|| child instanceof Integer1Type;
 		}
 		else if ( ancestor instanceof Integer127Type )
 		{
-			if ( child instanceof BottomType
-				|| child instanceof Integer1Type )
-				return true;
-			else return false;
+			return child instanceof BottomType
+					|| child instanceof Integer1Type;
 		}
 		else if ( ancestor instanceof ByteType
 			|| ancestor instanceof Integer32767Type )
 		{
-			if ( child instanceof BottomType
-				|| child instanceof Integer1Type
-				|| child instanceof Integer127Type )
-				return true;
-			else return false;
+			return child instanceof BottomType
+					|| child instanceof Integer1Type
+					|| child instanceof Integer127Type;
 		}
 		else if ( ancestor instanceof CharType )
 		{
-			if ( child instanceof BottomType
-				|| child instanceof Integer1Type
-				|| child instanceof Integer127Type
-				|| child instanceof Integer32767Type )
-				return true;
-			else return false;
+			return child instanceof BottomType
+					|| child instanceof Integer1Type
+					|| child instanceof Integer127Type
+					|| child instanceof Integer32767Type;
 		}
 		else if ( ancestor instanceof ShortType )
 		{
-			if ( child instanceof BottomType
-				|| child instanceof Integer1Type
-				|| child instanceof Integer127Type
-				|| child instanceof Integer32767Type
-				|| child instanceof ByteType )
-				return true;
-			else return false;
+			return child instanceof BottomType
+					|| child instanceof Integer1Type
+					|| child instanceof Integer127Type
+					|| child instanceof Integer32767Type
+					|| child instanceof ByteType;
 		}
 		else if ( ancestor instanceof IntType )
 		{
-			if ( child instanceof BottomType
-				|| child instanceof Integer1Type
-				|| child instanceof Integer127Type
-				|| child instanceof Integer32767Type
-				|| child instanceof ByteType
-				|| child instanceof CharType
-				|| child instanceof ShortType )
-				return true;
-			else return false;
+			return child instanceof BottomType
+					|| child instanceof Integer1Type
+					|| child instanceof Integer127Type
+					|| child instanceof Integer32767Type
+					|| child instanceof ByteType
+					|| child instanceof CharType
+					|| child instanceof ShortType;
 		}
 		else if ( child instanceof IntegerType )
 			return false;

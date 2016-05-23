@@ -63,7 +63,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         // actual CFG predecessors for out was found due to the
         // insertion of branching statement in.
         processPhiNode(in);
-        Shimple.redirectPointers((Unit) out, (Unit) in);
+        Shimple.redirectPointers(out, in);
         super.insertBefore(in, out);
         super.remove(out);
     }
@@ -75,7 +75,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         processPhiNode(toInsert);
         super.insertAfter(toInsert, point);
 
-        Unit unit = (Unit) point;
+        Unit unit = point;
 
         // update any pointers from Phi nodes only if the unit
         // being inserted is in the same basic block as point, or if
@@ -92,14 +92,14 @@ public class SPatchingChain extends PatchingChain<Unit>
                 if(body != null)
                     trappedUnits = TrapManager.getTrappedUnitsOf(body);
                 if(!trappedUnits.contains(unit)){
-                    Shimple.redirectPointers(unit, (Unit) toInsert);
+                    Shimple.redirectPointers(unit, toInsert);
                     break patchpointers;
                 }
             }
             
             /* handle each UnitBox individually */
 
-            UnitBox[] boxes = (UnitBox[]) unit.getBoxesPointingToThis().toArray(new UnitBox[0]);
+            UnitBox[] boxes = unit.getBoxesPointingToThis().toArray(new UnitBox[0]);
 
             for (UnitBox ub : boxes) {
 
@@ -144,7 +144,7 @@ public class SPatchingChain extends PatchingChain<Unit>
                 }
                     
                 if(needsPatching){
-                    box.setUnit((Unit)toInsert);
+                    box.setUnit(toInsert);
                     box.setUnitChanged(false);
                 }
             }
@@ -188,7 +188,7 @@ public class SPatchingChain extends PatchingChain<Unit>
     public boolean remove(Unit obj)
     {
         if(contains(obj)){
-            Shimple.redirectToPreds(body, (Unit)obj);
+            Shimple.redirectToPreds(body, obj);
         }
         
         return super.remove(obj);
@@ -213,7 +213,7 @@ public class SPatchingChain extends PatchingChain<Unit>
     
     protected void processPhiNode(Unit o)
     {
-        Unit phiNode = (Unit) o;
+        Unit phiNode = o;
         PhiExpr phi = Shimple.getPhiExpr(phiNode);
 
         // not a Phi node
@@ -353,7 +353,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         
         public void remove()
         {
-            Unit victim = (Unit) lastObject;
+            Unit victim = lastObject;
             
             if(!state)
                 throw new IllegalStateException("remove called before first next() call");
@@ -363,8 +363,8 @@ public class SPatchingChain extends PatchingChain<Unit>
             // super.remove();
             Unit successor;
 
-            if((successor = (Unit)getSuccOf(victim)) == null)
-                successor = (Unit)getPredOf(victim);
+            if((successor = getSuccOf(victim)) == null)
+                successor = getPredOf(victim);
 
             innerIterator.remove();
             victim.redirectJumpsToThisTo(successor);

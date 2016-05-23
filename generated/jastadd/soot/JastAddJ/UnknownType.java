@@ -56,10 +56,10 @@ public class UnknownType extends ClassDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public UnknownType copy() {
     try {
-      UnknownType node = (UnknownType) clone();
+      UnknownType node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -74,10 +74,10 @@ public class UnknownType extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public UnknownType fullCopy() {
-    UnknownType tree = (UnknownType) copy();
+    UnknownType tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -240,7 +240,7 @@ public class UnknownType extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperClassAccess() {
-    return (Access)getSuperClassAccessOpt().getChild(0);
+    return getSuperClassAccessOpt().getChild(0);
   }
   /**
    * Replaces the (optional) SuperClassAccess child.
@@ -314,7 +314,7 @@ public class UnknownType extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getImplements(int i) {
-    return (Access)getImplementsList().getChild(i);
+    return getImplementsList().getChild(i);
   }
   /**
    * Append an element to the Implements list.
@@ -435,7 +435,7 @@ public class UnknownType extends ClassDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.

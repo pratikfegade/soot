@@ -33,7 +33,7 @@ import soot.*;
 
 public interface RetStmt extends Stmt
 {
-    public Value getStmtAddress();
-    public ValueBox getStmtAddressBox();
-    public void setStmtAddress(Value stmtAddress);
+    Value getStmtAddress();
+    ValueBox getStmtAddressBox();
+    void setStmtAddress(Value stmtAddress);
 }

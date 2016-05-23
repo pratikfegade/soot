@@ -70,24 +70,24 @@ public final class MethodPAG {
         }
         QueueReader<Node> reader = internalReader.clone();
         while(reader.hasNext()) {
-            Node src = (Node) reader.next();
+            Node src = reader.next();
             src = parameterize( src, varNodeParameter );
-            Node dst = (Node) reader.next();
+            Node dst = reader.next();
             dst = parameterize( dst, varNodeParameter );
             pag.addEdge( src, dst );
         }
         reader = inReader.clone();
         while(reader.hasNext()) {
-            Node src = (Node) reader.next();
-            Node dst = (Node) reader.next();
+            Node src = reader.next();
+            Node dst = reader.next();
             dst = parameterize( dst, varNodeParameter );
             pag.addEdge( src, dst );
         }
         reader = outReader.clone();
         while(reader.hasNext()) {
-            Node src = (Node) reader.next();
+            Node src = reader.next();
             src = parameterize( src, varNodeParameter );
-            Node dst = (Node) reader.next();
+            Node dst = reader.next();
             pag.addEdge( src, dst );
         }
     }

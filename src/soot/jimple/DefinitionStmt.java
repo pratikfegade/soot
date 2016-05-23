@@ -33,10 +33,10 @@ import soot.*;
 
 public interface DefinitionStmt extends Stmt
 {
-    public Value getLeftOp();
-    public Value getRightOp();
-    public ValueBox getLeftOpBox();
-    public ValueBox getRightOpBox();
+    Value getLeftOp();
+    Value getRightOp();
+    ValueBox getLeftOpBox();
+    ValueBox getRightOpBox();
 }
 
 

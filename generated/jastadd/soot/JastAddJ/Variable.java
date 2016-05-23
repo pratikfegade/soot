@@ -24,83 +24,83 @@ import soot.coffi.CoffiMethodSource;
 public interface Variable {
 
 		 
-		public String name();
+		String name();
 
 		 
-		public TypeDecl type();
+		TypeDecl type();
 
 		 
-		public Collection<TypeDecl> throwTypes();
+		Collection<TypeDecl> throwTypes();
 
 		 
-		public boolean isParameter();
+		boolean isParameter();
 
 		// 4.5.3
 		 
 		// 4.5.3
-		public boolean isClassVariable();
+		boolean isClassVariable();
 
 		 
-		public boolean isInstanceVariable();
+		boolean isInstanceVariable();
 
 		 
-		public boolean isMethodParameter();
+		boolean isMethodParameter();
 
 		 
-		public boolean isConstructorParameter();
+		boolean isConstructorParameter();
 
 		 
-		public boolean isExceptionHandlerParameter();
+		boolean isExceptionHandlerParameter();
 
 		 
-		public boolean isLocalVariable();
+		boolean isLocalVariable();
 
 		// 4.5.4
 		 
 		// 4.5.4
-		public boolean isFinal();
+		boolean isFinal();
 
 		 
-		public boolean isVolatile();
-
-
-		 
-
-		public boolean isBlank();
-
-		 
-		public boolean isStatic();
-
-		 
-		public boolean isSynthetic();
+		boolean isVolatile();
 
 
 		 
 
-		public TypeDecl hostType();
+		boolean isBlank();
+
+		 
+		boolean isStatic();
+
+		 
+		boolean isSynthetic();
 
 
 		 
 
-		public Expr getInit();
-
-		 
-		public boolean hasInit();
+		TypeDecl hostType();
 
 
 		 
 
-		public Constant constant();
+		Expr getInit();
+
+		 
+		boolean hasInit();
 
 
 		 
 
-		public Modifiers getModifiers();
+		Constant constant();
+
+
+		 
+
+		Modifiers getModifiers();
   /**
    * @attribute syn
    * @aspect SourceDeclarations
    * @declaredat /Users/eric/Documents/workspaces/clara-soot/JastAddJ/Java1.5Frontend/Generics.jrag:1519
    */
   @SuppressWarnings({"unchecked", "cast"})
-  public Variable sourceVariableDecl();
+  Variable sourceVariableDecl();
 }

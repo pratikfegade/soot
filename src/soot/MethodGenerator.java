@@ -55,10 +55,8 @@ public class MethodGenerator implements Runnable {
             if(phantomBased(m.getParameterType(i)))
                 return true;
 
-        if (phantomBased(m.getReturnType()))
-            return true;
+        return phantomBased(m.getReturnType());
 
-        return false;
     }
 
     public void generate(SootMethod m, Session session)
@@ -180,7 +178,7 @@ public class MethodGenerator implements Runnable {
                 }
                 else if(stmt instanceof InvokeStmt)
                 {
-                    _writer.writeInvoke(m, stmt, ((InvokeStmt) stmt).getInvokeExpr(), session);
+                    _writer.writeInvoke(m, stmt, stmt.getInvokeExpr(), session);
                 }
                 else if(stmt instanceof ReturnStmt)
                 {

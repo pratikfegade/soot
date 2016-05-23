@@ -72,10 +72,10 @@ public class ThrowStmt extends Stmt implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ThrowStmt copy() {
     try {
-      ThrowStmt node = (ThrowStmt) clone();
+      ThrowStmt node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -90,10 +90,10 @@ public class ThrowStmt extends Stmt implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ThrowStmt fullCopy() {
-    ThrowStmt tree = (ThrowStmt) copy();
+    ThrowStmt tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);

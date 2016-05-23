@@ -94,10 +94,10 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ConstructorDecl copy() {
     try {
-      ConstructorDecl node = (ConstructorDecl) clone();
+      ConstructorDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -112,10 +112,10 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ConstructorDecl fullCopy() {
-    ConstructorDecl tree = (ConstructorDecl) copy();
+    ConstructorDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -288,7 +288,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   public BodyDecl substitutedBodyDecl(Parameterization parTypeDecl) {
     ConstructorDecl c = new ConstructorDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       getParameterList().substitute(parTypeDecl),
       getExceptionList().substitute(parTypeDecl),
@@ -733,7 +733,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ParameterDeclaration getParameter(int i) {
-    return (ParameterDeclaration)getParameterList().getChild(i);
+    return getParameterList().getChild(i);
   }
   /**
    * Append an element to the Parameter list.
@@ -854,7 +854,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getException(int i) {
-    return (Access)getExceptionList().getChild(i);
+    return getExceptionList().getChild(i);
   }
   /**
    * Append an element to the Exception list.
@@ -963,7 +963,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Stmt getConstructorInvocation() {
-    return (Stmt)getConstructorInvocationOpt().getChild(0);
+    return getConstructorInvocationOpt().getChild(0);
   }
   /**
    * Replaces the (optional) ConstructorInvocation child.
@@ -1408,7 +1408,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
   private SimpleSet parameterDeclaration_compute(String name) {
     for(int i = 0; i < getNumParameter(); i++)
       if(getParameter(i).name().equals(name))
-        return (ParameterDeclaration)getParameter(i);
+        return getParameter(i);
     return SimpleSet.emptySet;
   }
   /**
@@ -1682,10 +1682,8 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
     try {
     if(isVariableArity() && !(argList.getNumChild() >= arity()-1))
       return false;
-    if(!isVariableArity() && !(arity() == argList.getNumChild()))
-      return false;
-    return true;
-  }
+      return !(!isVariableArity() && !(arity() == argList.getNumChild()));
+    }
     finally {
     }
   }
@@ -1707,7 +1705,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   public boolean isVariableArity() {
     ASTNode$State state = state();
-    try {  return getNumParameter() == 0 ? false : getParameter(getNumParameter()-1).isVariableArity();  }
+    try {  return getNumParameter() != 0 && getParameter(getNumParameter() - 1).isVariableArity();  }
     finally {
     }
   }
@@ -2190,7 +2188,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
    */
   public boolean Define_boolean_reachable(ASTNode caller, ASTNode child) {
     if(caller == getBlockNoTransform()) {
-      return !hasConstructorInvocation() ? true : getConstructorInvocation().canCompleteNormally();
+      return !hasConstructorInvocation() || getConstructorInvocation().canCompleteNormally();
     }
     else if(caller == getConstructorInvocationOptNoTransform()) {
       return true;

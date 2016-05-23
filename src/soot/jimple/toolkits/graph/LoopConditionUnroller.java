@@ -197,7 +197,7 @@ public class LoopConditionUnroller extends BodyTransformer {
 		Unit last = newGoto; // the last inserted unit.
 		boolean first = true;
 		Unit copiedHead = null;
-		for (Unit currentUnit = block.getHead(); currentUnit != newGoto; currentUnit = (Unit) unitChain
+		for (Unit currentUnit = block.getHead(); currentUnit != newGoto; currentUnit = unitChain
 				.getSuccOf(currentUnit)) {
 			last = insertCloneAfter(unitChain, last, currentUnit);
 			if (first) {

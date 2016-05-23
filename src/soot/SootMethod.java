@@ -708,7 +708,7 @@ public class SootMethod
         Iterator<Type> typeIt = this.getParameterTypes().iterator();
         int count = 0;
         while (typeIt.hasNext()) {
-            Type t = (Type) typeIt.next();
+            Type t = typeIt.next();
 			String tempString = t.toString();
             
             /*
@@ -816,7 +816,7 @@ public class SootMethod
         Iterator<Type> typeIt = this.getParameterTypes().iterator();
         //int count = 0;
         while (typeIt.hasNext()) {
-            Type t = (Type) typeIt.next();
+            Type t = typeIt.next();
 
             buffer.append(t);
 

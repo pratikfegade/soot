@@ -60,10 +60,10 @@ public class VoidType extends TypeDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public VoidType copy() {
     try {
-      VoidType node = (VoidType) clone();
+      VoidType node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -78,10 +78,10 @@ public class VoidType extends TypeDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public VoidType fullCopy() {
-    VoidType tree = (VoidType) copy();
+    VoidType tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -258,7 +258,7 @@ public class VoidType extends TypeDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.

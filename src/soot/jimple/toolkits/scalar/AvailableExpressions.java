@@ -34,14 +34,14 @@ import soot.util.*;
 public interface AvailableExpressions
 {
     /** Returns a List containing the UnitValueBox pairs corresponding to expressions available before u. */
-    public List getAvailablePairsBefore(Unit u);
+    List getAvailablePairsBefore(Unit u);
 
     /** Returns a List containing the UnitValueBox pairs corresponding to expressions available after u. */
-    public List getAvailablePairsAfter(Unit u);
+    List getAvailablePairsAfter(Unit u);
 
     /** Returns a Chain containing the EquivalentValue objects corresponding to expressions available before u. */
-    public Chain getAvailableEquivsBefore(Unit u);
+    Chain getAvailableEquivsBefore(Unit u);
 
     /** Returns a Chain containing the EquivalentValue objects corresponding to expressions available after u. */
-    public Chain getAvailableEquivsAfter(Unit u);
+    Chain getAvailableEquivsAfter(Unit u);
 }

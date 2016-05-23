@@ -23,6 +23,6 @@ import soot.*;
 
 public interface GlobalValueNumberer
 {
-    public int getGlobalValueNumber(Local local);
-    public boolean areEqual(Local local1, Local local2);
+    int getGlobalValueNumber(Local local);
+    boolean areEqual(Local local1, Local local2);
 }

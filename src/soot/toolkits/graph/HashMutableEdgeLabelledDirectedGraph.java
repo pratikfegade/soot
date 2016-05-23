@@ -320,27 +320,21 @@ public class HashMutableEdgeLabelledDirectedGraph<N,L> implements MutableEdgeLab
     public boolean containsEdge(N from, N to, L label)
     {
 		DGEdge<N> edge = new DGEdge<N>(from, to);
-		if(edgeToLabels.get(edge) != null && edgeToLabels.get(edge).contains(label))
-			return true;
-		return false;
-    }
+		return edgeToLabels.get(edge) != null && edgeToLabels.get(edge).contains(label);
+	}
 
 	@Override
     public boolean containsAnyEdge(N from, N to)
     {
 		DGEdge<N> edge = new DGEdge<N>(from, to);
-		if(edgeToLabels.get(edge) != null && edgeToLabels.get(edge).isEmpty())
-			return false;
-		return true;
-    }
+		return !(edgeToLabels.get(edge) != null && edgeToLabels.get(edge).isEmpty());
+	}
 
 	@Override
     public boolean containsAnyEdge(L label)
     {
-		if(labelToEdges.get(label) != null && labelToEdges.get(label).isEmpty())
-			return false;
-		return true;
-    }
+		return !(labelToEdges.get(label) != null && labelToEdges.get(label).isEmpty());
+	}
 
 	@Override
     public boolean containsNode(N node)

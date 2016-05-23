@@ -101,10 +101,10 @@ public class ClassDecl extends ReferenceType implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public ClassDecl copy() {
     try {
-      ClassDecl node = (ClassDecl) clone();
+      ClassDecl node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -119,10 +119,10 @@ public class ClassDecl extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public ClassDecl fullCopy() {
-    ClassDecl tree = (ClassDecl) copy();
+    ClassDecl tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -176,7 +176,7 @@ public class ClassDecl extends ReferenceType implements Cloneable {
       public boolean hasNext() {
         if((inner == null || !inner.hasNext()) && outer.hasNext())
           inner = ((SimpleSet)outer.next()).iterator();
-        return inner == null ? false : inner.hasNext();
+        return inner != null && inner.hasNext();
       }
       public Object next() {
         return inner.next();
@@ -392,7 +392,7 @@ public class ClassDecl extends ReferenceType implements Cloneable {
    */
   public ClassDecl substitutedClassDecl(Parameterization parTypeDecl) {
     ClassDecl c = new ClassDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       hasSuperClassAccess() ? new Opt(getSuperClassAccess().type().substitute(parTypeDecl)) : new Opt(),
       getImplementsList().substitute(parTypeDecl),
@@ -582,7 +582,7 @@ public class ClassDecl extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperClassAccess() {
-    return (Access)getSuperClassAccessOpt().getChild(0);
+    return getSuperClassAccessOpt().getChild(0);
   }
   /**
    * Replaces the (optional) SuperClassAccess child.
@@ -656,7 +656,7 @@ public class ClassDecl extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getImplements(int i) {
-    return (Access)getImplementsList().getChild(i);
+    return getImplementsList().getChild(i);
   }
   /**
    * Append an element to the Implements list.
@@ -777,7 +777,7 @@ public class ClassDecl extends ReferenceType implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.
@@ -1351,14 +1351,14 @@ public class ClassDecl extends ReferenceType implements Cloneable {
     for(Iterator iter = interfacesMethodsIterator(); iter.hasNext(); ) {
       MethodDecl m = (MethodDecl)iter.next();
       boolean implemented = false;
-      SimpleSet set = (SimpleSet)localMethodsSignature(m.signature());
+      SimpleSet set = localMethodsSignature(m.signature());
       if(set.size() == 1) {
         MethodDecl n = (MethodDecl)set.iterator().next();
         if(!n.isAbstract())
           implemented = true;
       }
       if(!implemented) {
-        set = (SimpleSet)ancestorMethods(m.signature());
+        set = ancestorMethods(m.signature());
         for(Iterator i2 = set.iterator(); i2.hasNext(); ) {
           MethodDecl n = (MethodDecl)i2.next();
           if(!n.isAbstract()) {
@@ -1375,7 +1375,7 @@ public class ClassDecl extends ReferenceType implements Cloneable {
     if(hasSuperclass()) {
       for(Iterator iter = superclass().unimplementedMethods().iterator(); iter.hasNext(); ) {
         MethodDecl m = (MethodDecl)iter.next();
-        SimpleSet set = (SimpleSet)localMethodsSignature(m.signature());
+        SimpleSet set = localMethodsSignature(m.signature());
         if(set.size() == 1) {
           MethodDecl n = (MethodDecl)set.iterator().next();
           if(n.isAbstract() || !n.overrides(m))

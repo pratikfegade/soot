@@ -76,7 +76,7 @@ public class ASTStatementSequenceNode extends ASTNode
 
 	Iterator<Object> it = statementSequence.iterator();
 	while (it.hasNext()) {
-	    b.append( ((Unit) ((AugmentedStmt) it.next()).get_Stmt()).toString());
+	    b.append( ((AugmentedStmt) it.next()).get_Stmt().toString());
 	    b.append( ";");
 	    b.append( NEWLINE);
 	}

@@ -46,9 +46,9 @@ public class CFGOptionMatcher {
 	public String name() {
 	    return name;
 	}
-    };
+    }
 
-    private CFGOption[] options;
+	private CFGOption[] options;
 
     /**
      * Creates a CFGOptionMatcher.

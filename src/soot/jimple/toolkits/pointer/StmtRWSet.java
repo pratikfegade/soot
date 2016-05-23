@@ -127,7 +127,6 @@ public class StmtRWSet extends RWSet {
 	if( callsNative != o.callsNative ) return false;
 	if( !field.equals( o.field ) ) return false;
 	if( base instanceof FullObjectSet && o.base instanceof FullObjectSet ) return true;
-	if( base != o.base ) return false;
-	return true;
-    }
+		return base == o.base;
+	}
 }

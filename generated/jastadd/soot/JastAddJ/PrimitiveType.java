@@ -58,10 +58,10 @@ public class PrimitiveType extends TypeDecl implements Cloneable {
   @SuppressWarnings({"unchecked", "cast"})
   public PrimitiveType copy() {
     try {
-      PrimitiveType node = (PrimitiveType) clone();
+      PrimitiveType node = clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -76,10 +76,10 @@ public class PrimitiveType extends TypeDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public PrimitiveType fullCopy() {
-    PrimitiveType tree = (PrimitiveType) copy();
+    PrimitiveType tree = copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -255,7 +255,7 @@ public class PrimitiveType extends TypeDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public Access getSuperClassAccess() {
-    return (Access)getSuperClassAccessOpt().getChild(0);
+    return getSuperClassAccessOpt().getChild(0);
   }
   /**
    * Replaces the (optional) SuperClassAccess child.
@@ -329,7 +329,7 @@ public class PrimitiveType extends TypeDecl implements Cloneable {
    */
   @SuppressWarnings({"unchecked", "cast"})
   public BodyDecl getBodyDecl(int i) {
-    return (BodyDecl)getBodyDeclList().getChild(i);
+    return getBodyDeclList().getChild(i);
   }
   /**
    * Append an element to the BodyDecl list.

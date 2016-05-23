@@ -355,11 +355,11 @@ public class Constraints extends java.lang.Object {
       // to the constraint V << U
       else if(F.isArrayDecl()) {
         //System.out.println("convertibleTo array decl");
-        TypeDecl U = ((ArrayDecl)F).componentType();
+        TypeDecl U = F.componentType();
         if(!U.involvesTypeParameters())
           return;
         if(A.isArrayDecl()) {
-          TypeDecl V = ((ArrayDecl)A).componentType();
+          TypeDecl V = A.componentType();
           if(V.isReferenceType())
             convertibleTo(V, U);
         }
@@ -367,8 +367,8 @@ public class Constraints extends java.lang.Object {
           TypeVariable t = (TypeVariable)A;
           for(int i = 0; i < t.getNumTypeBound(); i++) {
             TypeDecl typeBound = t.getTypeBound(i).type();
-            if(typeBound.isArrayDecl() && ((ArrayDecl)typeBound).componentType().isReferenceType()) {
-              TypeDecl V = ((ArrayDecl)typeBound).componentType();
+            if(typeBound.isArrayDecl() && typeBound.componentType().isReferenceType()) {
+              TypeDecl V = typeBound.componentType();
               convertibleTo(V, U);
             }
           }
@@ -437,17 +437,17 @@ public class Constraints extends java.lang.Object {
           addSubtypeConstraint(F, A);
       }
       else if(F.isArrayDecl()) {
-        TypeDecl U = ((ArrayDecl)F).componentType();
+        TypeDecl U = F.componentType();
         if(A.isArrayDecl()) {
-          TypeDecl V = ((ArrayDecl)A).componentType();
+          TypeDecl V = A.componentType();
           convertibleFrom(V, U);
         }
         else if(A.isTypeVariable()) {
           TypeVariable t = (TypeVariable)A;
           for(int i = 0; i < t.getNumTypeBound(); i++) {
             TypeDecl typeBound = t.getTypeBound(i).type();
-            if(typeBound.isArrayDecl() && ((ArrayDecl)typeBound).componentType().isReferenceType()) {
-              TypeDecl V = ((ArrayDecl)typeBound).componentType();
+            if(typeBound.isArrayDecl() && typeBound.componentType().isReferenceType()) {
+              TypeDecl V = typeBound.componentType();
               convertibleFrom(V, U);
             }
           }
@@ -563,17 +563,17 @@ public class Constraints extends java.lang.Object {
           addEqualConstraint(F, A);
       }
       else if(F.isArrayDecl()) {
-        TypeDecl U = ((ArrayDecl)F).componentType();
+        TypeDecl U = F.componentType();
         if(A.isArrayDecl()) {
-          TypeDecl V = ((ArrayDecl)A).componentType();
+          TypeDecl V = A.componentType();
           constraintEqual(V, U);
         }
         else if(A.isTypeVariable()) {
           TypeVariable t = (TypeVariable)A;
           for(int i = 0; i < t.getNumTypeBound(); i++) {
             TypeDecl typeBound = t.getTypeBound(i).type();
-            if(typeBound.isArrayDecl() && ((ArrayDecl)typeBound).componentType().isReferenceType()) {
-              TypeDecl V = ((ArrayDecl)typeBound).componentType();
+            if(typeBound.isArrayDecl() && typeBound.componentType().isReferenceType()) {
+              TypeDecl V = typeBound.componentType();
               constraintEqual(V, U);
             }
           }

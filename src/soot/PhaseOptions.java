@@ -99,7 +99,7 @@ public class PhaseOptions {
     public static String getString(Map<String, String> options, String name)
     {
         return options.containsKey(name) ?
-            (String)options.get(name) : "";
+                options.get(name) : "";
     }
 
 
@@ -132,7 +132,7 @@ public class PhaseOptions {
     private Map<String, String> mapForPhase( HasPhaseOptions phase ) {
         Map<String, String> optionMap = phaseToOptionMap.get( phase );
         if( optionMap == null ) {
-            phaseToOptionMap.put( phase, optionMap = new HashMap<String, String>() );
+            phaseToOptionMap.put( phase, optionMap = new HashMap<>() );
         }
         return optionMap;
     }
@@ -160,7 +160,7 @@ public class PhaseOptions {
             if( !(p instanceof RadioScenePack) ) continue;
             if( p.get(phaseName) == null ) continue;
             for( Iterator<Transform> tIt = p.iterator(); tIt.hasNext(); ) {
-                final Transform t = (Transform) tIt.next();
+                final Transform t = tIt.next();
                 setPhaseOption( t.getPhaseName(), "enabled:false" );
             }
         }

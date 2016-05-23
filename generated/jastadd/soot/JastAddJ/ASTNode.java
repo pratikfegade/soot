@@ -53,7 +53,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
       ASTNode node = (ASTNode) clone();
       node.parent = null;
       if(children != null)
-        node.children = (ASTNode[]) children.clone();
+        node.children = children.clone();
       return node;
     } catch (CloneNotSupportedException e) {
       throw new Error("Error: clone not supported for " +
@@ -71,7 +71,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
     ASTNode tree = (ASTNode) copy();
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-        ASTNode child = (ASTNode) children[i];
+        ASTNode child = children[i];
         if(child != null) {
           child = child.fullCopy();
           tree.setChild(child, i);
@@ -1028,7 +1028,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
    */
   public void removeChild(int i) {
     if(children != null) {
-      ASTNode child = (ASTNode)children[i];
+      ASTNode child = children[i];
       if(child != null) {
         child.parent = null;
         child.childIndex = -1;
@@ -1039,7 +1039,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
         numChildren--;
         for(int j = i; j < numChildren; ++j) {
           if(children[j] != null) {
-            child = (ASTNode) children[j];
+            child = children[j];
             child.childIndex = j;
           }
         }
@@ -1054,10 +1054,10 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
    * 
    */
   public ASTNode getParent() {
-    if(parent != null && ((ASTNode)parent).is$Final() != is$Final()) {
+    if(parent != null && parent.is$Final() != is$Final()) {
       state().boundariesCrossed++;
     }
-    return (ASTNode)parent;
+    return parent;
   }
   /**
    * @apilevel low-level
@@ -1254,7 +1254,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
       }
       @SuppressWarnings("unchecked") public T next() {
         if(hasNext())
-          return (T)getChild(counter++);
+          return getChild(counter++);
         else
           return null;
       }
