@@ -28,8 +28,6 @@ package soot.baf.internal;
 
 import java.util.List;
 
-import org.objectweb.asm.Opcodes;
-
 import soot.*;
 import soot.baf.*;
 import soot.jimple.Jimple;

@@ -30,8 +30,6 @@ import soot.jimple.StringConstant;
 
 import java.io.*;
 
-import javax.naming.OperationNotSupportedException;
-
 /** A constant pool entry of type CONSTANT_Utf8; note this is <b>not</b>
  * multithread safe.  It is, however, immutable.
  * @see cp_info

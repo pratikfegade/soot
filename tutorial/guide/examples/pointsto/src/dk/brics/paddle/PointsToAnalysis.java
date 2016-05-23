@@ -16,7 +16,6 @@ import soot.Value;
 import soot.ValueBox;
 import soot.jimple.JimpleBody;
 import soot.jimple.Stmt;
-import soot.jimple.paddle.PaddleTransformer;
 import soot.jimple.spark.SparkTransformer;
 import soot.options.PaddleOptions;
 import soot.tagkit.LineNumberTag;

@@ -35,7 +35,6 @@ import soot.jimple.*;
 import java.util.*;
 import soot.util.*;
 import soot.jimple.toolkits.pointer.PASideEffectTester;
-import soot.options.LCMOptions;
 
 /**
  * Performs a partial redundancy elimination (= code motion). This is done, by

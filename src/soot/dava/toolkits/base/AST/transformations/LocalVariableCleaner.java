@@ -32,7 +32,6 @@ import soot.*;
 import java.util.*;
 
 import soot.jimple.*;
-import soot.util.Chain;
 //import soot.dava.internal.javaRep.*;
 import soot.dava.DavaBody;
 import soot.dava.DecompilationException;

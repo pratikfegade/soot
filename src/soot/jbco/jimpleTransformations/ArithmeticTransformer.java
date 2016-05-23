@@ -24,7 +24,6 @@ import java.util.*;
 import soot.*;
 import soot.jbco.*;
 import soot.jimple.*;
-import soot.BodyTransformer;
 import soot.jbco.util.*;
 
 

@@ -21,7 +21,6 @@ import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 import soot.toolkits.graph.CompleteUnitGraph;
 import dk.brics.soot.intermediate.representation.Method;
-import dk.brics.soot.intermediate.representation.Statement;
 import dk.brics.soot.intermediate.representation.Variable;
 
 @SuppressWarnings("unchecked") 

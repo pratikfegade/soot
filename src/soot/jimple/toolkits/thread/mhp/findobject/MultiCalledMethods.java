@@ -5,7 +5,7 @@ import soot.SootMethod;
 import soot.toolkits.graph.CompleteUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.FlowSet;
-import soot.util.*;
+
 import java.util.*;
 
 import soot.jimple.toolkits.callgraph.CallGraph;

@@ -1,9 +1,9 @@
 package olhotak.liveness;
 
 import soot.*;
-import soot.util.*;
+
 import java.util.*;
-import soot.jimple.*;
+
 import soot.toolkits.graph.*;
 import soot.toolkits.scalar.*;
 

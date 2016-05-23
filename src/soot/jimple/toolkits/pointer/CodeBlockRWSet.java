@@ -2,9 +2,6 @@ package soot.jimple.toolkits.pointer;
 
 import java.util.*;
 
-import soot.PointsToSet;
-import soot.SootField;
-
 import soot.*;
 import soot.jimple.spark.pag.*;
 import soot.jimple.spark.sets.*;

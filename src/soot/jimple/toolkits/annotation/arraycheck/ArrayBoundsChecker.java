@@ -32,7 +32,6 @@ import soot.util.*;
 import soot.tagkit.*;
 import soot.jimple.toolkits.annotation.tags.*;
 import java.util.*;
-import soot.options.ABCOptions;
 
 public class ArrayBoundsChecker extends BodyTransformer
 {

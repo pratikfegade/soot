@@ -1,7 +1,3 @@
-import soot.*;
-import java.util.*;
-import soot.baf.*;
-
 import soot.tagkit.*;
 import soot.jimple.toolkits.annotation.tags.NullCheckTag;
 

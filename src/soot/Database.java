@@ -1,6 +1,5 @@
 package soot;
 
-import java.io.IOException;
 import java.io.Closeable;
 import java.io.Flushable;
 

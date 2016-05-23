@@ -13,8 +13,6 @@ import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.ValueBox;
-import soot.jimple.toolkits.callgraph.CallGraph;
-import soot.util.dot.DotGraph;
 
 /** A <code>Foonalysis</code> object encapsulates a foonalysis performed
  *  on a collection of classes.

@@ -20,7 +20,6 @@ package soot.jimple.spark.geom.dataRep;
 
 import java.util.Set;
 
-import soot.jimple.spark.geom.geomPA.Constants;
 import soot.jimple.spark.geom.geomPA.IVarAbstraction;
 import soot.jimple.spark.pag.SparkField;
 import soot.jimple.toolkits.callgraph.Edge;

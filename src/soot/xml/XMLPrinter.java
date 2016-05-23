@@ -37,7 +37,6 @@ import soot.Body;
 import soot.G;
 import soot.LabeledUnitPrinter;
 import soot.Local;
-import soot.Main;
 import soot.Modifier;
 import soot.NormalUnitPrinter;
 import soot.Scene;

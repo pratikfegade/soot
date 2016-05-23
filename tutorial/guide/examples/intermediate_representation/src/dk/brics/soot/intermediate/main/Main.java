@@ -2,8 +2,6 @@ package dk.brics.soot.intermediate.main;
 
 import java.io.IOException;
 
-import dk.brics.soot.intermediate.foonalasys.*;
-
 public class Main { 
 	
 	public static void main(String[] args) throws IOException {

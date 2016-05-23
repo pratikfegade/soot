@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class ShimpleExample {
 
   public boolean as_long_as_it_takes = true;

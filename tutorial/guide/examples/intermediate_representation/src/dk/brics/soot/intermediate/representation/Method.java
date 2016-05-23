@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import soot.SootMethod;
-
 public class Method {
 
 	private String name = "";

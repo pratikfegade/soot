@@ -2,7 +2,6 @@ import soot.*;
 import soot.jimple.*;
 import soot.toolkits.scalar.*;
 import soot.toolkits.graph.*;
-import soot.util.*;
 
 import java.util.*;
 

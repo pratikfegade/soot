@@ -18,8 +18,6 @@
  */
 package soot.jimple.spark.geom.dataRep;
 
-import soot.jimple.spark.pag.Node;
-
 /**
  * The basic representation for an interval on the integer domain.
  * A simple interval is a half-open structure [L, R).

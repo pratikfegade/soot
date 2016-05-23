@@ -11,7 +11,6 @@ import java.util.Set;
 
 import soot.SootMethod;
 import soot.Unit;
-import soot.Value;
 import soot.jimple.InstanceInvokeExpr;
 import soot.jimple.InvokeExpr;
 import soot.jimple.StaticInvokeExpr;

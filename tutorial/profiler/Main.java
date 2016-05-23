@@ -30,7 +30,7 @@ package ashes.examples.countgotos;
 import soot.*;
 import soot.jimple.*;
 import soot.util.*;
-import java.io.*;
+
 import java.util.*;
 
 /** 

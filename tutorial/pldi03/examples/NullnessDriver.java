@@ -1,7 +1,5 @@
 import soot.Body;
-import soot.Main;
 import soot.Pack;
-import soot.PackManager;
 import soot.Transform;
 import soot.Unit;
 

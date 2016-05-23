@@ -23,7 +23,6 @@ import dk.brics.soot.intermediate.representation.Nop;
 import dk.brics.soot.intermediate.representation.Return;
 import dk.brics.soot.intermediate.representation.Statement;
 import dk.brics.soot.intermediate.representation.Variable;
-import dk.brics.soot.intermediate.representation.Variable.Type;
 
 public class StmtTranslator extends AbstractStmtSwitch {
 	
