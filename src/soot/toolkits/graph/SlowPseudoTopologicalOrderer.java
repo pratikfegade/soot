@@ -39,18 +39,11 @@ import java.util.*;
  */
 public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
 
-    public SlowPseudoTopologicalOrderer(Singletons.Global g) {
+    public SlowPseudoTopologicalOrderer() {
     }
 
     public static SlowPseudoTopologicalOrderer v() {
         return G.v().soot_toolkits_graph_SlowPseudoTopologicalOrderer();
-    }
-
-    public SlowPseudoTopologicalOrderer() {
-    }
-
-    public SlowPseudoTopologicalOrderer(boolean isReversed) {
-        mIsReversed = isReversed;
     }
 
     private Map<N, Integer> stmtToColor;

@@ -34,7 +34,8 @@ public class Dava {
     private Writer iOut = null;
     private IterableSet currentPackageContext = null;
     private String currentPackage;
-    public Dava(Singletons.Global g) {
+    public Dava(String currentPackage) {
+        this.currentPackage = currentPackage;
     }
 
     public static Dava v() {
@@ -45,16 +46,8 @@ public class Dava {
         return currentPackage;
     }
 
-    public void set_CurrentPackage(String cp) {
-        currentPackage = cp;
-    }
-
     public IterableSet get_CurrentPackageContext() {
         return currentPackageContext;
-    }
-
-    public void set_CurrentPackageContext(IterableSet cpc) {
-        currentPackageContext = cpc;
     }
 
     public DavaBody newBody(SootMethod m) {
