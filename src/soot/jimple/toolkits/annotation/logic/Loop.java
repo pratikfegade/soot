@@ -94,7 +94,7 @@ public class Loop {
      */
     public Collection<Stmt> getLoopExits() {
         if(loopExists==null) {
-            loopExists = new HashSet<Stmt>();
+            loopExists = new HashSet<>();
             for (Stmt s : loopStatements) {
                 for (Unit succ : g.getSuccsOf(s)) {
                     if(!loopStatements.contains(succ)) {
@@ -113,7 +113,7 @@ public class Loop {
     public Collection<Stmt> targetsOfLoopExit(Stmt loopExit) {
         assert getLoopExits().contains(loopExit);
         List<Unit> succs = g.getSuccsOf(loopExit);
-        Collection<Stmt> res = new HashSet<Stmt>();
+        Collection<Stmt> res = new HashSet<>();
         for (Unit u : succs) {
             Stmt s = (Stmt)u;
             res.add(s);            

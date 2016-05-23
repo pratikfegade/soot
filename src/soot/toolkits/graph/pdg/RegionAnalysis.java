@@ -64,7 +64,7 @@ public class RegionAnalysis{
     protected UnitGraph m_reverseCFG;
     protected BlockGraph m_blockCFG;
     protected BlockGraph m_reverseBlockCFG;
-    protected Hashtable<Integer, Region> m_regions = new Hashtable<Integer, Region>();
+    protected Hashtable<Integer, Region> m_regions = new Hashtable<>();
     protected List<Region> m_regionsList = null;
     private int m_regCount = 0;
     private MHGDominatorTree<Block> m_dom;
@@ -109,12 +109,12 @@ public class RegionAnalysis{
 
 
 
-        this.m_dom = new MHGDominatorTree<Block>(new MHGDominatorsFinder<Block>(this.m_blockCFG));
+        this.m_dom = new MHGDominatorTree<>(new MHGDominatorsFinder<>(this.m_blockCFG));
 
 
         try{
 
-            this.m_pdom = new MHGDominatorTree<Block>(new MHGPostDominatorsFinder<Block>(m_blockCFG));
+            this.m_pdom = new MHGDominatorTree<>(new MHGPostDominatorsFinder<>(m_blockCFG));
 
             if(Options.v().verbose())
                 G.v().out.println("[RegionAnalysis] PostDominator tree: ");
@@ -257,7 +257,7 @@ public class RegionAnalysis{
     public List<Region> getRegions()
     {
         if(this.m_regionsList == null)
-            this.m_regionsList = new ArrayList<Region>(this.m_regions.values());
+            this.m_regionsList = new ArrayList<>(this.m_regions.values());
 
         return this.m_regionsList;
 
@@ -265,7 +265,7 @@ public class RegionAnalysis{
 
     public Hashtable<Unit, Region> getUnit2RegionMap()
     {
-        Hashtable<Unit, Region> unit2region = new Hashtable<Unit, Region>();
+        Hashtable<Unit, Region> unit2region = new Hashtable<>();
         List<Region> regions = this.getRegions();
 
         for(Iterator<Region> itr = regions.iterator(); itr.hasNext();)
@@ -287,7 +287,7 @@ public class RegionAnalysis{
     {
         if(this.m_block2region == null)
         {
-            this.m_block2region = new Hashtable<Block, Region>();
+            this.m_block2region = new Hashtable<>();
 
             List<Region> regions = this.getRegions();
 

@@ -54,11 +54,11 @@ public class ValueGraph
         if(!(cfg.getBody() instanceof ShimpleBody))
             throw new RuntimeException("ValueGraph requires SSA form");
 
-        localToNode = new HashMap<Value, Node>();
-        nodeToLocal = new HashMap<Node, Value>();
-        nodeList = new ArrayList<Node>();
+        localToNode = new HashMap<>();
+        nodeToLocal = new HashMap<>();
+        nodeList = new ArrayList<>();
         currentNodeNumber = 0;
-        Orderer<Block> pto = new PseudoTopologicalOrderer<Block>();
+        Orderer<Block> pto = new PseudoTopologicalOrderer<>();
         List<Block> blocks = pto.newList(cfg,false);
 
         for(Iterator<Block> blocksIt = blocks.iterator(); blocksIt.hasNext();){
@@ -158,7 +158,7 @@ public class ValueGraph
                 Node nop1 = fetchNode(binop.getOp1());
                 Node nop2 = fetchNode(binop.getOp2());
 
-                List<Node> children = new ArrayList<Node>();
+                List<Node> children = new ArrayList<>();
                 children.add(nop1);
                 children.add(nop2);
 
@@ -375,7 +375,7 @@ public class ValueGraph
                 Value op2 = new TypeValueWrapper(v.getCheckType());
                 Node nop2 = fetchNode(op2);
 
-                List<Node> children = new ArrayList<Node>();
+                List<Node> children = new ArrayList<>();
                 children.add(nop1);
                 children.add(nop2);
 
@@ -410,7 +410,7 @@ public class ValueGraph
 
             public void casePhiExpr(PhiExpr v)
             {
-                List<Node> children = new ArrayList<Node>();
+                List<Node> children = new ArrayList<>();
                 Iterator<Value> argsIt = v.getValues().iterator();
 
                 while(argsIt.hasNext()){

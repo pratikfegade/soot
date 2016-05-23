@@ -86,12 +86,12 @@ public final class OnFlyCallGraphBuilder
 		
 	    protected CGOptions options = new CGOptions( PhaseOptions.v().getPhaseOptions("cg") );
 	    
-	    protected HashSet<SootMethod> warnedAlready = new HashSet<SootMethod>();
+	    protected HashSet<SootMethod> warnedAlready = new HashSet<>();
 
 		public void classForName(SootMethod source, Stmt s) {
 	        List<Local> stringConstants = methodToStringConstants.get(source);
 	        if( stringConstants == null )
-	            methodToStringConstants.put(source, stringConstants = new ArrayList<Local>());
+	            methodToStringConstants.put(source, stringConstants = new ArrayList<>());
 			InvokeExpr ie = s.getInvokeExpr();
 	        Value className = ie.getArg(0);
 	        if( className instanceof StringConstant ) {
@@ -112,7 +112,7 @@ public final class OnFlyCallGraphBuilder
 	                VirtualCallSite site = new VirtualCallSite( s, source, null, null, Kind.CLINIT );
 	                List<VirtualCallSite> sites = stringConstToSites.get(constant);
 	                if (sites == null) {
-	                    stringConstToSites.put(constant, sites = new ArrayList<VirtualCallSite>());
+	                    stringConstToSites.put(constant, sites = new ArrayList<>());
 	                    stringConstants.add(constant);
 	                }
 	                sites.add(site);
@@ -206,7 +206,7 @@ public final class OnFlyCallGraphBuilder
 		private boolean registeredTransformation = false;
 		
 		private TraceBasedReflectionModel() {
-			guards = new HashSet<Guard>();
+			guards = new HashSet<>();
 			
 			String logFile = options.reflection_log();
 			if(logFile==null) {
@@ -365,14 +365,14 @@ public final class OnFlyCallGraphBuilder
 	
     /** context-insensitive stuff */
     private final CallGraph cicg = new CallGraph();
-    private final HashSet<SootMethod> analyzedMethods = new HashSet<SootMethod>();
+    private final HashSet<SootMethod> analyzedMethods = new HashSet<>();
 
-    private final LargeNumberedMap<Local, List<VirtualCallSite>> receiverToSites = new LargeNumberedMap<Local, List<VirtualCallSite>>( Scene.v().getLocalNumberer() ); // Local -> List(VirtualCallSite)
-    private final LargeNumberedMap<SootMethod, List<Local>> methodToReceivers = new LargeNumberedMap<SootMethod, List<Local>>( Scene.v().getMethodNumberer() ); // SootMethod -> List(Local)
+    private final LargeNumberedMap<Local, List<VirtualCallSite>> receiverToSites = new LargeNumberedMap<>(Scene.v().getLocalNumberer()); // Local -> List(VirtualCallSite)
+    private final LargeNumberedMap<SootMethod, List<Local>> methodToReceivers = new LargeNumberedMap<>(Scene.v().getMethodNumberer()); // SootMethod -> List(Local)
     public LargeNumberedMap<SootMethod, List<Local>> methodToReceivers() { return methodToReceivers; }
 
-    private final SmallNumberedMap<List<VirtualCallSite>> stringConstToSites = new SmallNumberedMap<List<VirtualCallSite>>( Scene.v().getLocalNumberer() ); // Local -> List(VirtualCallSite)
-    private final LargeNumberedMap<SootMethod, List<Local>> methodToStringConstants = new LargeNumberedMap<SootMethod, List<Local>>( Scene.v().getMethodNumberer() ); // SootMethod -> List(Local)
+    private final SmallNumberedMap<List<VirtualCallSite>> stringConstToSites = new SmallNumberedMap<>(Scene.v().getLocalNumberer()); // Local -> List(VirtualCallSite)
+    private final LargeNumberedMap<SootMethod, List<Local>> methodToStringConstants = new LargeNumberedMap<>(Scene.v().getMethodNumberer()); // SootMethod -> List(Local)
     public LargeNumberedMap<SootMethod, List<Local>> methodToStringConstants() { return methodToStringConstants; }
 
     private CGOptions options;
@@ -385,7 +385,7 @@ public final class OnFlyCallGraphBuilder
 
     private ContextManager cm;
 
-    private final ChunkedQueue<SootMethod> targetsQueue = new ChunkedQueue<SootMethod>();
+    private final ChunkedQueue<SootMethod> targetsQueue = new ChunkedQueue<>();
     private final QueueReader<SootMethod> targets = targetsQueue.reader();
 
 
@@ -514,10 +514,10 @@ public final class OnFlyCallGraphBuilder
             InstanceInvokeExpr iie, NumberedString subSig, Kind kind ) {
         List<VirtualCallSite> sites = receiverToSites.get(receiver);
         if (sites == null) {
-            receiverToSites.put(receiver, sites = new ArrayList<VirtualCallSite>());
+            receiverToSites.put(receiver, sites = new ArrayList<>());
             List<Local> receivers = methodToReceivers.get(m);
             if( receivers == null )
-                methodToReceivers.put(m, receivers = new ArrayList<Local>());
+                methodToReceivers.put(m, receivers = new ArrayList<>());
             receivers.add(receiver);
         }
         sites.add(new VirtualCallSite(s, m, iie, subSig, kind));

@@ -37,7 +37,7 @@ public class Debugger {
     
     System.out.println(b.getMethod().getName()+"\n");
     int i = 0;
-    Map<Unit,Integer> index = new HashMap<Unit,Integer>();
+    Map<Unit,Integer> index = new HashMap<>();
     Iterator<Unit> it = b.getUnits().iterator();
     while (it.hasNext())
       index.put(it.next(),new Integer(i++));
@@ -54,7 +54,7 @@ public class Debugger {
   
   public static void printUnits(Body b, String msg) {
     int i = 0;
-    Map<Unit,Integer> numbers = new HashMap<Unit,Integer>();
+    Map<Unit,Integer> numbers = new HashMap<>();
     PatchingChain<Unit> u = b.getUnits();
     Iterator<Unit> it = u.snapshotIterator();
     while (it.hasNext())
@@ -102,7 +102,7 @@ public class Debugger {
   
   public static void printUnits(PatchingChain<Unit> u, String msg) {
   int i = 0;
-  HashMap<Unit,Integer> numbers = new HashMap<Unit,Integer>();
+  HashMap<Unit,Integer> numbers = new HashMap<>();
   Iterator<Unit> it = u.snapshotIterator();
   while (it.hasNext())
     numbers.put(it.next(),new Integer(i++));

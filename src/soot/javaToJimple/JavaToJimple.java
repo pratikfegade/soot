@@ -34,7 +34,7 @@ public class JavaToJimple {
      */
 	public polyglot.frontend.ExtensionInfo initExtInfo(String fileName, List<String> sourceLocations){
 		
-        Set<String> source = new HashSet<String>();
+        Set<String> source = new HashSet<>();
         ExtensionInfo extInfo = new soot.javaToJimple.jj.ExtensionInfo() {
             public List passes(Job job) {
                 List passes = super.passes(job);
@@ -51,7 +51,7 @@ public class JavaToJimple {
         polyglot.main.Options options = extInfo.getOptions();
 
         options.assertions = true;
-        options.source_path = new LinkedList<File>();
+        options.source_path = new LinkedList<>();
         Iterator<String> it = sourceLocations.iterator();
         while (it.hasNext()){
             Object next = it.next();

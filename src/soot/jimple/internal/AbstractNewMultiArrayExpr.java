@@ -130,7 +130,7 @@ public abstract class AbstractNewMultiArrayExpr implements NewMultiArrayExpr, Co
 
     public List<Value> getSizes()
     {
-        List<Value> toReturn = new ArrayList<Value>();
+        List<Value> toReturn = new ArrayList<>();
 
         for (ValueBox element : sizeBoxes)
 			toReturn.add(element.getValue());
@@ -146,7 +146,7 @@ public abstract class AbstractNewMultiArrayExpr implements NewMultiArrayExpr, Co
     @Override
     public final List<ValueBox> getUseBoxes()
     {
-        List<ValueBox> list = new ArrayList<ValueBox>();
+        List<ValueBox> list = new ArrayList<>();
         Collections.addAll(list, sizeBoxes);
         
         for (ValueBox element : sizeBoxes) {

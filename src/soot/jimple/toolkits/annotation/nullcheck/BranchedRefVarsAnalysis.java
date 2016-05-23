@@ -145,7 +145,7 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
 
     // fast conversion from Value -> EquivalentValue
     //  because used in  methods
-    private final  HashMap<Value, EquivalentValue> valueToEquivValue = new HashMap<Value, EquivalentValue>(2293, 0.7f);
+    private final  HashMap<Value, EquivalentValue> valueToEquivValue = new HashMap<>(2293, 0.7f);
 
     public  EquivalentValue getEquivalentValue(Value v)
     {
@@ -160,10 +160,10 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
     
     // constant (r, v) pairs
     //  because used in  methods
-    private final  HashMap<EquivalentValue, RefIntPair> kRefBotttomPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
-    private final  HashMap<EquivalentValue, RefIntPair> kRefNonNullPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
-    private final  HashMap<EquivalentValue, RefIntPair> kRefNullPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
-    private final  HashMap<EquivalentValue, RefIntPair> kRefTopPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
+    private final  HashMap<EquivalentValue, RefIntPair> kRefBotttomPairs = new HashMap<>(2293, 0.7f);
+    private final  HashMap<EquivalentValue, RefIntPair> kRefNonNullPairs = new HashMap<>(2293, 0.7f);
+    private final  HashMap<EquivalentValue, RefIntPair> kRefNullPairs = new HashMap<>(2293, 0.7f);
+    private final  HashMap<EquivalentValue, RefIntPair> kRefTopPairs = new HashMap<>(2293, 0.7f);
 
     // make that (r, v) pairs are constants
     // i.e. the same r and v values always generate the same (r, v) object    
@@ -411,11 +411,11 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
     // those lists contains fields that can/need to be analyzed
     private void initRefTypeLists()
     {
-        refTypeLocals = new ArrayList<EquivalentValue>();
-        refTypeInstFields = new ArrayList<EquivalentValue>();
-        refTypeInstFieldBases = new ArrayList<EquivalentValue>();
-        refTypeStaticFields = new ArrayList<EquivalentValue>();
-        refTypeValues = new ArrayList<EquivalentValue>();
+        refTypeLocals = new ArrayList<>();
+        refTypeInstFields = new ArrayList<>();
+        refTypeInstFieldBases = new ArrayList<>();
+        refTypeStaticFields = new ArrayList<>();
+        refTypeValues = new ArrayList<>();
 
         // build list of locals
         Iterator it = ((UnitGraph)graph).getBody().getLocals().iterator();
@@ -534,14 +534,14 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
         int cap = graph.size() * 2 + 1;
         float load = 0.7f;
         
-        unitToGenerateSet = new HashMap<Unit, FlowSet>(cap, load);
-        unitToPreserveSet = new HashMap<Unit, FlowSet>(cap, load);
+        unitToGenerateSet = new HashMap<>(cap, load);
+        unitToPreserveSet = new HashMap<>(cap, load);
         
-        unitToAnalyzedChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToArrayRefChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToInstanceFieldRefChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToInstanceInvokeExprChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToLengthExprChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
+        unitToAnalyzedChecksSet = new HashMap<>(cap, load);
+        unitToArrayRefChecksSet = new HashMap<>(cap, load);
+        unitToInstanceFieldRefChecksSet = new HashMap<>(cap, load);
+        unitToInstanceInvokeExprChecksSet = new HashMap<>(cap, load);
+        unitToLengthExprChecksSet = new HashMap<>(cap, load);
         
         
         Iterator unitIt = graph.iterator();
@@ -553,11 +553,11 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
             FlowSet genSet = emptySet.clone();
             FlowSet preSet = fullSet.clone();
             
-            HashSet<Value> analyzedChecksSet = new HashSet<Value>(5,  load);
-            HashSet<Value> arrayRefChecksSet = new HashSet<Value>(5,  load);
-            HashSet<Value> instanceFieldRefChecksSet = new HashSet<Value>(5,  load);
-            HashSet<Value> instanceInvokeExprChecksSet = new HashSet<Value>(5,  load);
-            HashSet<Value> lengthExprChecksSet = new HashSet<Value>(5,  load);
+            HashSet<Value> analyzedChecksSet = new HashSet<>(5, load);
+            HashSet<Value> arrayRefChecksSet = new HashSet<>(5, load);
+            HashSet<Value> instanceFieldRefChecksSet = new HashSet<>(5, load);
+            HashSet<Value> instanceInvokeExprChecksSet = new HashSet<>(5, load);
+            HashSet<Value> lengthExprChecksSet = new HashSet<>(5, load);
             
             
             // *** KILL PHASE ***

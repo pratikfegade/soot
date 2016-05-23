@@ -174,7 +174,7 @@ public class OrAggregatorThree {
 	}
 	
 	//create a new SubBody
-	List<Object> newSubBody = new ArrayList<Object>();
+	List<Object> newSubBody = new ArrayList<>();
 	
 	//this is an iterator of ASTNodes
 	Iterator<Object> it = oldSubBody.iterator();

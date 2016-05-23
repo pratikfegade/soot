@@ -238,7 +238,7 @@ abstract public class PriorityQueue<E> extends AbstractQueue<E> {
 	 * @return
 	 */
 	public static <E> PriorityQueue<E> noneOf(List<? extends E> universe) {
-		Map<E, Integer> ordinalMap = new HashMap<E, Integer>(
+		Map<E, Integer> ordinalMap = new HashMap<>(
 				2 * universe.size() / 3);
 		int i = 0;
 		for (E e : universe) {
@@ -287,9 +287,9 @@ abstract public class PriorityQueue<E> extends AbstractQueue<E> {
 	
 	private static <E> PriorityQueue<E> newPriorityQueue(List<? extends E> universe, Map<E, Integer> ordinalMap) {
 		if (universe.size() <= SmallPriorityQueue.MAX_CAPACITY)
-			return new SmallPriorityQueue<E>(universe, ordinalMap);
+			return new SmallPriorityQueue<>(universe, ordinalMap);
 		if (universe.size() <= MediumPriorityQueue.MAX_CAPACITY)
-			return new MediumPriorityQueue<E>(universe, ordinalMap);
-		return new LargePriorityQueue<E>(universe, ordinalMap);
+			return new MediumPriorityQueue<>(universe, ordinalMap);
+		return new LargePriorityQueue<>(universe, ordinalMap);
 	} 
 }

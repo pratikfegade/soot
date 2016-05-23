@@ -34,7 +34,7 @@ public class ClassData {
 	
 	public ClassData(String name){
 		className=name;
-		metricData = new ArrayList<MetricData>();
+		metricData = new ArrayList<>();
 	}
 
 	public String getClassName(){

@@ -40,7 +40,7 @@ import java.util.NoSuchElementException;
  */
 final class BBQ {
 
-   private final ArrayList<BasicBlock> q = new ArrayList<BasicBlock>();
+   private final ArrayList<BasicBlock> q = new ArrayList<>();
 
    /** Adds a block to the end of the queue, but only if its <i>inq</i> flag is false.
     * @param b the Basic Block in question.

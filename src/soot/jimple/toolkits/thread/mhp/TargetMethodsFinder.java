@@ -12,7 +12,7 @@ import java.util.*;
 public class TargetMethodsFinder{
 	
 	public List<SootMethod> find(Unit unit, CallGraph cg, boolean canBeNullList, boolean canBeNative){
-		List<SootMethod> target = new ArrayList<SootMethod>(); 
+		List<SootMethod> target = new ArrayList<>();
 		Iterator<Edge> it = cg.edgesOutOf(unit);
 		while (it.hasNext()){
 			Edge edge = it.next();

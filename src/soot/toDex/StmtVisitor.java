@@ -83,7 +83,7 @@ public class StmtVisitor implements StmtSwitch {
 	private static final Map<Opcode, Opcode> oppositeIfs;
 	
 	static {
-		oppositeIfs = new HashMap<Opcode, Opcode>();
+		oppositeIfs = new HashMap<>();
 		
 		oppositeIfs.put(Opcode.IF_EQ, Opcode.IF_NE);
 		oppositeIfs.put(Opcode.IF_NE, Opcode.IF_EQ);
@@ -117,12 +117,12 @@ public class StmtVisitor implements StmtSwitch {
 	private List<SwitchPayload> switchPayloads;
 	
     // maps used to map Jimple statements to dalvik instructions
-    private Map<Insn, Stmt> insnStmtMap = new HashMap<Insn, Stmt>();
-    private Map<Instruction, LocalRegisterAssignmentInformation> instructionRegisterMap = new IdentityHashMap<Instruction, LocalRegisterAssignmentInformation>();
-    private Map<Instruction, Insn> instructionInsnMap = new IdentityHashMap<Instruction, Insn>();
-    private Map<Insn, LocalRegisterAssignmentInformation> insnRegisterMap = new IdentityHashMap<Insn, LocalRegisterAssignmentInformation>();
-    private Map<Instruction, SwitchPayload> instructionPayloadMap = new IdentityHashMap<Instruction, SwitchPayload>();
-	private List<LocalRegisterAssignmentInformation> parameterInstructionsList = new ArrayList<LocalRegisterAssignmentInformation>();
+    private Map<Insn, Stmt> insnStmtMap = new HashMap<>();
+    private Map<Instruction, LocalRegisterAssignmentInformation> instructionRegisterMap = new IdentityHashMap<>();
+    private Map<Instruction, Insn> instructionInsnMap = new IdentityHashMap<>();
+    private Map<Insn, LocalRegisterAssignmentInformation> insnRegisterMap = new IdentityHashMap<>();
+    private Map<Instruction, SwitchPayload> instructionPayloadMap = new IdentityHashMap<>();
+	private List<LocalRegisterAssignmentInformation> parameterInstructionsList = new ArrayList<>();
     
     public StmtVisitor(SootMethod belongingMethod, DexBuilder belongingFile) {
 		this.belongingMethod = belongingMethod;
@@ -130,8 +130,8 @@ public class StmtVisitor implements StmtSwitch {
 		constantV = new ConstantVisitor(belongingFile, this);
 		regAlloc = new RegisterAllocator();
 		exprV = new ExprVisitor(this, constantV, regAlloc, belongingFile);
-		insns = new ArrayList<Insn>();
-		switchPayloads = new ArrayList<SwitchPayload>();
+		insns = new ArrayList<>();
+		switchPayloads = new ArrayList<>();
     }
 	
 	protected void setLastReturnTypeDescriptor(String typeDescriptor) {
@@ -273,7 +273,7 @@ public class StmtVisitor implements StmtSwitch {
 	}
 
 	public List<BuilderInstruction> getRealInsns(LabelAssigner labelAssigner) {
-		List<BuilderInstruction> finalInsns = new ArrayList<BuilderInstruction>();
+		List<BuilderInstruction> finalInsns = new ArrayList<>();
 		for (Insn i : insns) {
 			if (i instanceof AddressInsn) {
 				continue; // skip non-insns

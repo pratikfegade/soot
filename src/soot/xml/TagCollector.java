@@ -31,8 +31,8 @@ public class TagCollector {
     private final ArrayList<Key> keys;
     
     public TagCollector(){
-        attributes = new ArrayList<Attribute>();
-        keys = new ArrayList<Key>();
+        attributes = new ArrayList<>();
+        keys = new ArrayList<>();
     }
 
 	public boolean isEmpty() {

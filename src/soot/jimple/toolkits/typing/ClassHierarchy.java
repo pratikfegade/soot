@@ -49,10 +49,10 @@ public class ClassHierarchy
   //public final TypeNode ERROR;
 
   /** All type node instances **/
-  private final List<TypeNode> typeNodeList = new ArrayList<TypeNode>();
+  private final List<TypeNode> typeNodeList = new ArrayList<>();
   
   /** Map: Type -> TypeNode **/
-  private final HashMap<Type, TypeNode> typeNodeMap = new HashMap<Type, TypeNode>();
+  private final HashMap<Type, TypeNode> typeNodeMap = new HashMap<>();
   
   /** Used to transform boolean, byte, short and char to int **/
   private final ToInt transform = new ToInt();

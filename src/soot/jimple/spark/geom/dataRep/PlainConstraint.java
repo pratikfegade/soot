@@ -41,7 +41,7 @@ public class PlainConstraint implements Numberable{
 	/** The type of this constraint, e.g. allocation, assignment or complex */
 	public int type;
 	/** The two pointers involved in this constraint */
-	public Pair<IVarAbstraction, IVarAbstraction> expr = new Pair<IVarAbstraction, IVarAbstraction>();
+	public Pair<IVarAbstraction, IVarAbstraction> expr = new Pair<>();
 	/** Used in complex constraint. If this constraint is a store p.f = q, we say otherSide = q */
 	public IVarAbstraction otherSide = null;
 	/** Indicate the mapping relation between the two pointers, 1-1, 1-many, ... */

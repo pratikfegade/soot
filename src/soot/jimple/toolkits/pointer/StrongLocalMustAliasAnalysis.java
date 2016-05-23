@@ -54,11 +54,11 @@ public class StrongLocalMustAliasAnalysis extends LocalMustAliasAnalysis {
     
     public StrongLocalMustAliasAnalysis(UnitGraph g) {
         super(g);
-        invalidInstanceKeys = new HashSet<Integer>();
+        invalidInstanceKeys = new HashSet<>();
         /*
          * Find all SCCs, then invalidate all instance keys for variable defined within an SCC.
          */
-        StronglyConnectedComponentsFast<Unit> sccAnalysis = new StronglyConnectedComponentsFast<Unit>(g);
+        StronglyConnectedComponentsFast<Unit> sccAnalysis = new StronglyConnectedComponentsFast<>(g);
         for (List<Unit> scc : sccAnalysis.getTrueComponents()) {
 			for (Unit unit : scc) {
 				for (ValueBox vb : unit.getDefBoxes()) {

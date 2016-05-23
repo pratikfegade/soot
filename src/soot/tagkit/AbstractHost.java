@@ -99,7 +99,7 @@ public class AbstractHost implements Host
     public void addTag(Tag t)
     {
         if (mTagList == null) 
-            mTagList = new ArrayList<Tag>(1);
+            mTagList = new ArrayList<>(1);
         mTagList.add(t);
     }
 
@@ -115,7 +115,7 @@ public class AbstractHost implements Host
     		return;    	
     	
         if (mTagList == null) {
-            mTagList = new ArrayList<Tag>(tags.size());
+            mTagList = new ArrayList<>(tags.size());
         } 
         
         mTagList.addAll(tags);

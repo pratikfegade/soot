@@ -216,8 +216,8 @@ public class SiteInliner
         Stmt exitPoint = (Stmt)containerUnits.getSuccOf(toInline);
 
         // First, clone all of the inlinee's units & locals.
-        HashMap<Local, Local> oldLocalsToNew = new HashMap<Local, Local>();
-        HashMap<Stmt, Stmt> oldUnitsToNew = new HashMap<Stmt, Stmt>();
+        HashMap<Local, Local> oldLocalsToNew = new HashMap<>();
+        HashMap<Stmt, Stmt> oldUnitsToNew = new HashMap<>();
         {
             Stmt cursor = toInline;
             for( Iterator<Unit> currIt = inlineeUnits.iterator(); currIt.hasNext(); ) {
@@ -305,7 +305,7 @@ public class SiteInliner
             Iterator<Unit> it = containerUnits.iterator
                 (containerUnits.getSuccOf(toInline), 
                  containerUnits.getPredOf(exitPoint));
-            ArrayList<Unit> cuCopy = new ArrayList<Unit>();
+            ArrayList<Unit> cuCopy = new ArrayList<>();
 
             while (it.hasNext())
             {
@@ -359,7 +359,7 @@ public class SiteInliner
             }
         }
 
-        List<Unit> newStmts = new ArrayList<Unit>();
+        List<Unit> newStmts = new ArrayList<>();
         for(Iterator<Unit> i = containerUnits.iterator(containerUnits.getSuccOf(toInline), containerUnits.getPredOf(exitPoint)); i.hasNext();) {
         	newStmts.add(i.next());
         }

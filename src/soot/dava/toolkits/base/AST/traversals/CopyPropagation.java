@@ -275,7 +275,7 @@ public class CopyPropagation extends DepthFirstAdapter {
 		}
 		ASTStatementSequenceNode parentNode = (ASTStatementSequenceNode) parent;
 
-		ArrayList<Object> newSequence = new ArrayList<Object>();
+		ArrayList<Object> newSequence = new ArrayList<>();
 
 		Iterator<Object> it = parentNode.getStatements().iterator();
 		while (it.hasNext()) {

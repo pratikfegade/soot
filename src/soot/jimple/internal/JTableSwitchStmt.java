@@ -196,7 +196,7 @@ public class JTableSwitchStmt extends AbstractSwitchStmt
   
     public void convertToBaf(JimpleToBafContext context, List<Unit> out)
     {
-        List<PlaceholderInst> targetPlaceholders = new ArrayList<PlaceholderInst>();
+        List<PlaceholderInst> targetPlaceholders = new ArrayList<>();
 
         ((ConvertToBaf)getKey()).convertToBaf(context, out);
 

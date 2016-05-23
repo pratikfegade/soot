@@ -147,7 +147,7 @@ public class CFGViewer extends BodyTransformer {
 	 * @return an array of arguments to pass on to Soot.Main.main().
 	 */
 	private String[] parse_options(String[] args) {
-		List<String> sootArgs = new ArrayList<String>(args.length);
+		List<String> sootArgs = new ArrayList<>(args.length);
 
 		for (int i = 0, n = args.length; i < n; i++) {
 			if (args[i].equals("--alt-classpath") || args[i].equals("--alt-class-path")) {
@@ -197,7 +197,7 @@ public class CFGViewer extends BodyTransformer {
 					sootArgs.add(clsname);
 					String methname = args[i].substring(smpos + 1);
 					if (methodsToPrint == null) {
-						methodsToPrint = new HashMap<String, String>();
+						methodsToPrint = new HashMap<>();
 					}
 					methodsToPrint.put(methname, clsname);
 				}

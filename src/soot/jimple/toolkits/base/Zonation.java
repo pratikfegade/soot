@@ -43,7 +43,7 @@ public class Zonation
     public Zonation(StmtBody body)
     {
         Chain<Unit> units = body.getUnits();
-        Map<Unit, List<Trap>> unitToTrapBoundaries = new HashMap<Unit, List<Trap>>();
+        Map<Unit, List<Trap>> unitToTrapBoundaries = new HashMap<>();
                     
         // Build trap boundaries
         for (Trap t : body.getTraps()) {
@@ -53,12 +53,12 @@ public class Zonation
         
         // Traverse units, assigning each to a zone
         {
-            Map<List<Trap>, Zone> trapListToZone = new HashMap<List<Trap>, Zone>(10, 0.7f);
-            List<Trap> currentTraps = new ArrayList<Trap>();
+            Map<List<Trap>, Zone> trapListToZone = new HashMap<>(10, 0.7f);
+            List<Trap> currentTraps = new ArrayList<>();
             Zone currentZone;
             
             zoneCount = 0;
-            unitToZone = new HashMap<Unit, Zone>(units.size() * 2 + 1, 0.7f);
+            unitToZone = new HashMap<>(units.size() * 2 + 1, 0.7f);
             
             // Initialize first empty zone
                 currentZone = new Zone("0");
@@ -100,7 +100,7 @@ public class Zonation
     private void addTrapBoundary(Unit unit, Trap t, Map<Unit, List<Trap>> unitToTrapBoundaries) {
         List<Trap> boundary = unitToTrapBoundaries.get(unit);
         if (boundary == null) {
-        	boundary = new ArrayList<Trap>();
+        	boundary = new ArrayList<>();
         	unitToTrapBoundaries.put(unit, boundary);
         }
         boundary.add(t);

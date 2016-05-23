@@ -43,7 +43,7 @@ import soot.dava.toolkits.base.AST.analysis.*;
 
 
 public class AllDefinitionsFinder extends DepthFirstAdapter{
-    ArrayList<DefinitionStmt> allDefs = new ArrayList<DefinitionStmt>();
+    ArrayList<DefinitionStmt> allDefs = new ArrayList<>();
 
     public AllDefinitionsFinder(){
 

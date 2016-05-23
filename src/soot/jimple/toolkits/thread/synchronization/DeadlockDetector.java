@@ -71,7 +71,7 @@ public class DeadlockDetector {
 				// Get list of tn1's target methods
 				if(tn1.transitiveTargets == null)
 				{
-					tn1.transitiveTargets = new HashSet<MethodOrMethodContext>();
+					tn1.transitiveTargets = new HashSet<>();
 					for(Unit tn1Invoke : tn1.invokes)
 					{
 						Iterator<MethodOrMethodContext> targetIt = tt.iterator(tn1Invoke);
@@ -193,7 +193,7 @@ public class DeadlockDetector {
 				// Get list of tn1's target methods
 				if(tn1.transitiveTargets == null)
 				{
-		    		tn1.transitiveTargets = new HashSet<MethodOrMethodContext>();
+		    		tn1.transitiveTargets = new HashSet<>();
 		    		for(Unit tn1Invoke : tn1.invokes)
 		    		{
 		    			Iterator<MethodOrMethodContext> targetIt = tt.iterator(tn1Invoke);

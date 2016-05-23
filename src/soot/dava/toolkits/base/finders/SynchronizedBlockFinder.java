@@ -303,7 +303,7 @@ public class SynchronizedBlockFinder implements FactFinder
 		    LinkedList<Value> locals = null;
 
 		    if ((locals = as2locals.get( as)) == null) {
-			locals = new LinkedList<Value>();
+			locals = new LinkedList<>();
 			as2locals.put( as, locals);
 		    }
 		    
@@ -416,7 +416,7 @@ public class SynchronizedBlockFinder implements FactFinder
      * and the level is greater or equal to that of the enter stmt
      */
     private Map<AugmentedStmt, IterableSet> build_SynchSets(){
-	HashMap<AugmentedStmt, IterableSet> as2synchSet = new HashMap<AugmentedStmt, IterableSet>();
+	HashMap<AugmentedStmt, IterableSet> as2synchSet = new HashMap<>();
 
 	Iterator mesit = monitorEnterSet.iterator();
 	monitorEnterLoop:
@@ -513,8 +513,8 @@ public class SynchronizedBlockFinder implements FactFinder
 	}
 
 
-	LinkedList<AugmentedStmt> viAugStmts = new LinkedList<AugmentedStmt>();
-	HashMap<AugmentedStmt, LinkedList<Value>> incrAs2locals = new HashMap<AugmentedStmt, LinkedList<Value>>();
+	LinkedList<AugmentedStmt> viAugStmts = new LinkedList<>();
+	HashMap<AugmentedStmt, LinkedList<Value>> incrAs2locals = new HashMap<>();
 	
 	// setup the variable increasing monitor levels
 	find_VariableIncreasing( asg, local2level_template, viAugStmts, incrAs2locals);	
@@ -839,7 +839,7 @@ public class SynchronizedBlockFinder implements FactFinder
 	boolean unChanged=false;
 	while(!unChanged){
 	    unChanged=true;
-	    List<AugmentedStmt> toRemove = new ArrayList<AugmentedStmt>();
+	    List<AugmentedStmt> toRemove = new ArrayList<>();
 	    synchIt = synchBody.iterator();
 	    while(synchIt.hasNext()){
 		AugmentedStmt synchAs = (AugmentedStmt)synchIt.next();

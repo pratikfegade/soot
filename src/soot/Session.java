@@ -8,7 +8,7 @@ import soot.Unit;
 public class Session
 {
   /** keeps the current count of temporary vars of a certain kind, identified by base name. */
-  private Map<String, Integer> _tempVarMap = new HashMap<String, Integer>();
+  private Map<String, Integer> _tempVarMap = new HashMap<>();
 
   public int nextNumber(String s)
   {
@@ -27,7 +27,7 @@ public class Session
   /** keeps the unique index of an instruction in the method. This cannot be computed up front,
       because temporary variables (and assignments to them from constants) will be inserted
       while the Jimple code is being processed. */
-  private Map<Unit, Integer> _units = new HashMap<Unit, Integer>();
+  private Map<Unit, Integer> _units = new HashMap<>();
   private int index = 0;
 
   public int calcUnitNumber(Unit u)

@@ -89,10 +89,10 @@ public class DexReturnValuePropagator extends BodyTransformer {
 	 */
     private boolean isRedefined(Local l, Unit unitUse, AssignStmt unitDef,
     		UnitGraph graph) {
-    	List<Unit> workList = new ArrayList<Unit>();
+    	List<Unit> workList = new ArrayList<>();
     	workList.add(unitUse);
     	
-    	Set<Unit> doneSet = new HashSet<Unit>();
+    	Set<Unit> doneSet = new HashSet<>();
     	
 		// Check for redefinitions of the local between definition and use
     	while (!workList.isEmpty()) {

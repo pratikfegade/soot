@@ -32,14 +32,14 @@ public class Typing
 	
 	public Typing(Collection<Local> vs)
 	{
-		this.map = new HashMap<Local, Type>();
+		this.map = new HashMap<>();
 		for ( Local v : vs )
 			this.map.put(v, BottomType.v());
 	}
 	
 	public Typing(Typing tg)
 	{
-		this.map = new HashMap<Local, Type>(tg.map);
+		this.map = new HashMap<>(tg.map);
 	}
 	
 	public Type get(Local v) { return this.map.get(v); }

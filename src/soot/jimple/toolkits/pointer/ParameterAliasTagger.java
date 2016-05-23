@@ -33,7 +33,7 @@ public class ParameterAliasTagger extends BodyTransformer {
             Body b, String phaseName, Map options)
     {
         PointsToAnalysis pa = Scene.v().getPointsToAnalysis();
-        Set<IdentityStmt> parms = new HashSet<IdentityStmt>();
+        Set<IdentityStmt> parms = new HashSet<>();
 
         for( Iterator sIt = b.getUnits().iterator(); sIt.hasNext(); ) {
 
@@ -57,7 +57,7 @@ public class ParameterAliasTagger extends BodyTransformer {
         parm.getRightOpBox().addTag( new ColorTag(colour, "Parameter Alias") );
         parms.remove( parm );
         PointsToSet ps = pa.reachingObjects( (Local) parm.getLeftOp() );
-        for( Iterator<IdentityStmt> parm2It = (new LinkedList<IdentityStmt>(parms)).iterator(); parm2It.hasNext(); ) {
+        for(Iterator<IdentityStmt> parm2It = (new LinkedList<>(parms)).iterator(); parm2It.hasNext(); ) {
             final IdentityStmt parm2 = parm2It.next();
             if( ps.hasNonEmptyIntersection(
                         pa.reachingObjects( (Local) parm2.getLeftOp() ) ) ) {

@@ -29,7 +29,7 @@ public class FieldTagger extends BodyTransformer
     public FieldTagger( Singletons.Global g ) {}
     public static FieldTagger v() { return G.v().soot_jimple_spark_fieldrw_FieldTagger(); }
 
-    private final HashSet<SootMethod> processedMethods = new HashSet<SootMethod>();
+    private final HashSet<SootMethod> processedMethods = new HashSet<>();
     private final HashMultiMap methodToWrite = new HashMultiMap();
     private final HashMultiMap methodToRead = new HashMultiMap();
 

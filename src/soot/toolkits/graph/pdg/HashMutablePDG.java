@@ -86,7 +86,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 	protected SootClass m_class = null;
 	protected UnitGraph m_cfg = null;
 	protected BlockGraph m_blockCFG = null;
-	protected Hashtable<Object, PDGNode> m_obj2pdgNode = new Hashtable<Object, PDGNode>();
+	protected Hashtable<Object, PDGNode> m_obj2pdgNode = new Hashtable<>();
 	protected List<Region> m_weakRegions = null;
 	protected List<Region> m_strongRegions = null;
 	protected PDGNode m_startNode = null;
@@ -146,7 +146,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 		DominatorTree<Block> pdom = this.m_regionAnalysis.getPostDominatorTree();
 		DominatorTree<Block> dom = this.m_regionAnalysis.getDominatorTree();
 				
-		List<Region> regions2process = new LinkedList<Region>();
+		List<Region> regions2process = new LinkedList<>();
 		Region topLevelRegion = this.m_regionAnalysis.getTopLevelRegion();
 		m_strongRegionStartID = m_weakRegions.size();
 		
@@ -157,7 +157,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 		this.m_startNode = pdgnode;
 		topLevelRegion.setParent(null);
 		
-        Set<Region> processedRegions = new HashSet<Region>();
+        Set<Region> processedRegions = new HashSet<>();
 		regions2process.add(topLevelRegion);
 		
 		//while there's a (weak) region to process
@@ -175,7 +175,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 			 * depend on them.
 			 */
 			List<Block> blocks = r.getBlocks();
-			Hashtable<Region, List<Block>> toBeRemoved = new Hashtable<Region, List<Block>>();
+			Hashtable<Region, List<Block>> toBeRemoved = new Hashtable<>();
 			PDGNode prevPDGNodeInRegion = null;
 			PDGNode curNodeInRegion = null;
 			for(Iterator<Block> itr = blocks.iterator(); itr.hasNext();)
@@ -210,7 +210,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 				List<Block> bs = this.m_blockCFG.getSuccsOf(a);
 				for(Iterator<Block> bItr = bs.iterator(); bItr.hasNext();)
 				{
-					List<Block> dependents = new ArrayList<Block>();
+					List<Block> dependents = new ArrayList<>();
 					
 					Block b = bItr.next();
 					
@@ -259,7 +259,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 						curNodeInRegion = pdgNodeOfA;
 					}		
 					
-					List<Block> copyOfDependents = new ArrayList<Block>();
+					List<Block> copyOfDependents = new ArrayList<>();
 					copyOfDependents.addAll(dependents);
 					
 					//First, add the dependency for B and its corresponding region.
@@ -417,7 +417,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 									blocks2BRemoved = toBeRemoved.get(predPDGofdepB);
 								else
 								{
-									blocks2BRemoved = new ArrayList<Block>();
+									blocks2BRemoved = new ArrayList<>();
 									toBeRemoved.put(rdepB, blocks2BRemoved);
 								}
 								blocks2BRemoved.add(depB);
@@ -566,7 +566,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 	
 	private List<Region> cloneRegions(List<Region> weak)
 	{
-		List<Region> strong = new ArrayList<Region>();
+		List<Region> strong = new ArrayList<>();
 		Iterator<Region> itr = weak.iterator();
 		while(itr.hasNext())
 		{
@@ -621,10 +621,10 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 
 	public static List<IRegion> getPreorderRegionList(IRegion r)
 	{
-		List<IRegion> list = new ArrayList<IRegion>();
+		List<IRegion> list = new ArrayList<>();
 
 		
-		Queue<IRegion> toProcess = new LinkedList<IRegion>();
+		Queue<IRegion> toProcess = new LinkedList<>();
 		toProcess.add(r);
 		while(!toProcess.isEmpty())
 		{
@@ -640,7 +640,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 	
 	public static List<IRegion> getPostorderRegionList(IRegion r)
 	{
-		List<IRegion> list = new ArrayList<IRegion>();			
+		List<IRegion> list = new ArrayList<>();
 		postorder(r, list);
 		
 		return list;
@@ -681,11 +681,11 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 		
 	}
 	
-	private static Hashtable<PDGNode, PDGRegion> node2Region = new Hashtable<PDGNode, PDGRegion>();
+	private static Hashtable<PDGNode, PDGRegion> node2Region = new Hashtable<>();
 	//compute the pdg region list with in post order 
 	private static List<PDGRegion> computePDGRegions(PDGNode root)
 	{
-		List<PDGRegion> regions = new ArrayList<PDGRegion>();
+		List<PDGRegion> regions = new ArrayList<>();
 				
 		node2Region.clear();
 		pdgpostorder(root, regions);
@@ -772,7 +772,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 	 */
 	public List<PDGNode> getDependents(PDGNode node)
 	{
-	       List<PDGNode> toReturn = new ArrayList<PDGNode>();
+	       List<PDGNode> toReturn = new ArrayList<>();
 	       for(PDGNode succ : this.getSuccsOf(node)) {
 	    	   if(this.dependentOn(succ, node)) {
 	    		   toReturn.add(succ);
@@ -834,7 +834,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
         if (!containsAnyEdge(from, to))
             return;
             
-        List<String> labels = new ArrayList<String>(this.getLabelsForEdges(from, to));        
+        List<String> labels = new ArrayList<>(this.getLabelsForEdges(from, to));
         for(String label : labels) {        
 	        this.removeEdge(from, to, label);
 	    }
@@ -850,8 +850,8 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 		s += "\n*********CFG******** \n" + RegionAnalysis.CFGtoString(this.m_blockCFG, true);
 		s += "\n*********PDG******** \n";
 		
-		List<PDGNode> processed = new ArrayList<PDGNode>();
-		Queue<PDGNode> nodes = new LinkedList<PDGNode>();
+		List<PDGNode> processed = new ArrayList<>();
+		Queue<PDGNode> nodes = new LinkedList<>();
 		nodes.offer(this.m_startNode);
 		
 		while(nodes.peek() != null)

@@ -69,8 +69,8 @@ public class BuildIntermediateAppClasses extends SceneTransformer  implements IJ
     // iterate through application classes, build intermediate classes
     Iterator<SootClass> it = scene.getApplicationClasses().snapshotIterator();
     while (it.hasNext()) {
-      Vector<SootMethod> initMethodsToRewrite = new Vector<SootMethod>();
-      Hashtable<String, SootMethod> methodsToAdd = new Hashtable<String, SootMethod>();
+      Vector<SootMethod> initMethodsToRewrite = new Vector<>();
+      Hashtable<String, SootMethod> methodsToAdd = new Hashtable<>();
       SootClass c = it.next();
       SootClass cOrigSuperclass = c.getSuperclass();
       

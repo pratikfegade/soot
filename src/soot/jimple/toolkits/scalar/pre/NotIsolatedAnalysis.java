@@ -62,8 +62,8 @@ public class NotIsolatedAnalysis extends BackwardFlowAnalysis<Unit, FlowSet<Equi
 	public NotIsolatedAnalysis(DirectedGraph<Unit> dg,
 			LatestComputation latest,
 			Map<Unit, EquivalentValue> equivRhsMap) {
-		this(dg, latest, equivRhsMap, new ArrayPackedSet<EquivalentValue>(
-				new CollectionFlowUniverse<EquivalentValue>(equivRhsMap.values())));
+		this(dg, latest, equivRhsMap, new ArrayPackedSet<>(
+				new CollectionFlowUniverse<>(equivRhsMap.values())));
 	}
 
 	/**

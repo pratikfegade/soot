@@ -64,17 +64,17 @@ public class DexMethod {
      * @return the SootMethod of this method
      */
     public static SootMethod makeSootMethod(DexFile dexFile, Method method, SootClass declaringClass) {
-        Set<Type> types = new HashSet<Type>();
+        Set<Type> types = new HashSet<>();
 
         int accessFlags = method.getAccessFlags();
-        List<Type> parameterTypes = new ArrayList<Type>();
+        List<Type> parameterTypes = new ArrayList<>();
 
         // get the name of the method
         String name = method.getName();
         Debug.printDbg("processing method '", method.getDefiningClass() ,": ", method.getReturnType(), " ", method.getName(), " p: ", method.getParameters(), "'");
 
         // the following snippet retrieves all exceptions that this method throws by analyzing its annotations
-        List<SootClass> thrownExceptions = new ArrayList<SootClass>();
+        List<SootClass> thrownExceptions = new ArrayList<>();
         for (Annotation a : method.getAnnotations()) {
             Type atype = DexType.toSoot(a.getType());
             String atypes = atype.toString();

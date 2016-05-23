@@ -55,8 +55,8 @@ public class LatestComputation {
 	 */
 	public LatestComputation(UnitGraph unitGraph, DelayabilityAnalysis delayed,
 			Map<Unit, EquivalentValue> equivRhsMap) {
-		this(unitGraph, delayed, equivRhsMap, new ArrayPackedSet<EquivalentValue>(
-				new CollectionFlowUniverse<EquivalentValue>(equivRhsMap.values())));
+		this(unitGraph, delayed, equivRhsMap, new ArrayPackedSet<>(
+				new CollectionFlowUniverse<>(equivRhsMap.values())));
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class LatestComputation {
 	 */
 	public LatestComputation(UnitGraph unitGraph, DelayabilityAnalysis delayed,
 			Map<Unit, EquivalentValue> equivRhsMap, BoundedFlowSet<EquivalentValue> set) {
-		unitToLatest = new HashMap<Unit, FlowSet<EquivalentValue>>(unitGraph.size() + 1, 0.7f);
+		unitToLatest = new HashMap<>(unitGraph.size() + 1, 0.7f);
 
 		for (Unit currentUnit : unitGraph) {
 			/* create a new Earliest-list for each unit */

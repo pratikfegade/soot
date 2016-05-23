@@ -51,7 +51,7 @@ public class PegCallGraphToDot {
 	
 	
 	public static boolean isBrief      = false;
-	private static final Map<Object, String> listNodeName = new HashMap<Object, String>();
+	private static final Map<Object, String> listNodeName = new HashMap<>();
 	
 	/* in one page or several pages of 8.5x11 */
 	public static boolean onepage      = true;

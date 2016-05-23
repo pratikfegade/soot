@@ -21,7 +21,7 @@ public class SynchronizedRegion
 		this.prepStmt = null;
 		this.entermonitor = null;
 		this.beginning = null;
-		this.earlyEnds = new ArrayList<Pair<Stmt, Stmt>>();
+		this.earlyEnds = new ArrayList<>();
 		this.exceptionalEnd = null;
 		this.end = null;
 		this.last = null;
@@ -33,7 +33,7 @@ public class SynchronizedRegion
 		this.prepStmt = sr.prepStmt;
 		this.entermonitor = sr.entermonitor;
 		this.beginning = sr.beginning;
-		this.earlyEnds = new ArrayList<Pair<Stmt, Stmt>>();
+		this.earlyEnds = new ArrayList<>();
 		this.earlyEnds.addAll(sr.earlyEnds);
 		this.exceptionalEnd = null;
 		this.end = sr.end;

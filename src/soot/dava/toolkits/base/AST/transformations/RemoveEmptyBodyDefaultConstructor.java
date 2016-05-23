@@ -34,7 +34,7 @@ public class RemoveEmptyBodyDefaultConstructor{
 		debug("\n\nRemoveEmptyBodyDefaultConstructor----"+s.getName());
 		List methods = s.getMethods();
 		Iterator it = methods.iterator();
-		List<SootMethod> constructors = new ArrayList<SootMethod>();
+		List<SootMethod> constructors = new ArrayList<>();
 		
 		while(it.hasNext()){
 			SootMethod method = (SootMethod)it.next();

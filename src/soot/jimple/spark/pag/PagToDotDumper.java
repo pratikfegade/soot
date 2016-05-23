@@ -49,8 +49,8 @@ public class PagToDotDumper {
 
 	public PagToDotDumper(PAG pag) {
 		this.pag = pag;
-		this.vmatches = new HashMap<Node, Node[]>();
-		this.invVmatches = new HashMap<Node, Node[]>();
+		this.vmatches = new HashMap<>();
+		this.invVmatches = new HashMap<>();
 	}
 	
 	/**

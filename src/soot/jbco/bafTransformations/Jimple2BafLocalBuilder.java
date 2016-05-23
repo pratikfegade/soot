@@ -63,7 +63,7 @@ public class Jimple2BafLocalBuilder extends BodyTransformer implements IJbcoTran
     }
       
     Collection<Local> bLocals = b.getLocals();
-    HashMap<Local, Local> bafToJLocals = new HashMap<Local, Local>();
+    HashMap<Local, Local> bafToJLocals = new HashMap<>();
     Iterator<Local> jlocIt = soot.jbco.Main.methods2JLocals.get(b.getMethod()).iterator();
     while (jlocIt.hasNext()) {
       Local jl = jlocIt.next();

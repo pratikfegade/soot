@@ -42,7 +42,7 @@ class StronglyConnectedComponentsBV
   
   TypeResolverBV resolver;
   
-  LinkedList<LinkedList<TypeVariableBV>> forest = new LinkedList<LinkedList<TypeVariableBV>>();
+  LinkedList<LinkedList<TypeVariableBV>> forest = new LinkedList<>();
   LinkedList<TypeVariableBV> current_tree;
   
   private static final boolean DEBUG = false;
@@ -52,8 +52,8 @@ class StronglyConnectedComponentsBV
     this.resolver = resolver;
     variables = typeVariableList;
     
-    black = new TreeSet<TypeVariableBV>();
-    finished = new LinkedList<TypeVariableBV>();
+    black = new TreeSet<>();
+    finished = new LinkedList<>();
     
     for(BitSetIterator i = variables.iterator(); i.hasNext(); )
       {
@@ -66,12 +66,12 @@ class StronglyConnectedComponentsBV
 	  }
       }
     
-    black = new TreeSet<TypeVariableBV>();
+    black = new TreeSet<>();
     
     for (TypeVariableBV var : finished) {
 	if(!black.contains(var))
 	  {
-	    current_tree = new LinkedList<TypeVariableBV>();
+	    current_tree = new LinkedList<>();
 	    forest.add(current_tree);
 	    black.add(var);
 	    dfsgt_visit(var);

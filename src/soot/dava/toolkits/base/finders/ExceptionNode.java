@@ -48,7 +48,7 @@ public class ExceptionNode {
 		this.exception = exception;
 		this.handlerAugmentedStmt = handlerAugmentedStmt;
 
-		body = new IterableSet<AugmentedStmt>(tryBody);
+		body = new IterableSet<>(tryBody);
 
 		dirty = true;
 		exitList = null;
@@ -117,7 +117,7 @@ public class ExceptionNode {
 			return null;
 
 		if (dirty) {
-			exitList = new LinkedList<AugmentedStmt>();
+			exitList = new LinkedList<>();
 			dirty = false;
 
 			for (AugmentedStmt as : catchBody) {
@@ -134,10 +134,10 @@ public class ExceptionNode {
 
 	public void splitOff_ExceptionNode(IterableSet<AugmentedStmt> newTryBody,
 			AugmentedStmtGraph asg, IterableSet<ExceptionNode> enlist) {
-		IterableSet<AugmentedStmt> oldTryBody = new IterableSet<AugmentedStmt>();
+		IterableSet<AugmentedStmt> oldTryBody = new IterableSet<>();
 		oldTryBody.addAll(tryBody);
 
-		IterableSet<AugmentedStmt> oldBody = new IterableSet<AugmentedStmt>();
+		IterableSet<AugmentedStmt> oldBody = new IterableSet<>();
 		oldBody.addAll(body);
 
 		for (AugmentedStmt as : newTryBody) {
@@ -183,7 +183,7 @@ public class ExceptionNode {
 
 			if (catchBody.isSupersetOf(en.get_Body())) {
 
-				IterableSet<AugmentedStmt> clonedTryBody = new IterableSet<AugmentedStmt>();
+				IterableSet<AugmentedStmt> clonedTryBody = new IterableSet<>();
 
 				for (AugmentedStmt au : en.get_TryBody())
 					clonedTryBody.add(asg.get_CloneOf(au));
@@ -215,10 +215,10 @@ public class ExceptionNode {
 
 	public void add_CatchBody(IterableSet<AugmentedStmt> newCatchBody, SootClass except) {
 		if (catchList == null) {
-			catchList = new LinkedList<IterableSet<AugmentedStmt>>();
+			catchList = new LinkedList<>();
 			catchList.addLast(catchBody);
 
-			catch2except = new HashMap<IterableSet<AugmentedStmt>, SootClass>();
+			catch2except = new HashMap<>();
 			catch2except.put(catchBody, exception);
 		}
 
@@ -231,7 +231,7 @@ public class ExceptionNode {
 		List<IterableSet<AugmentedStmt>> l = catchList;
 
 		if (l == null) {
-			l = new LinkedList<IterableSet<AugmentedStmt>>();
+			l = new LinkedList<>();
 			l.add(catchBody);
 		}
 
@@ -242,7 +242,7 @@ public class ExceptionNode {
 		Map<IterableSet<AugmentedStmt>, SootClass> m = catch2except;
 
 		if (m == null) {
-			m = new HashMap<IterableSet<AugmentedStmt>, SootClass>();
+			m = new HashMap<>();
 			m.put(catchBody, exception);
 		}
 

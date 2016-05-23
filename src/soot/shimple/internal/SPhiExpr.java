@@ -36,8 +36,8 @@ import soot.toolkits.graph.*;
  **/
 public class SPhiExpr implements PhiExpr
 {
-    protected List<ValueUnitPair> argPairs = new ArrayList<ValueUnitPair>();
-    protected Map<Unit, ValueUnitPair> predToPair = new HashMap<Unit, ValueUnitPair>();  // cache
+    protected List<ValueUnitPair> argPairs = new ArrayList<>();
+    protected Map<Unit, ValueUnitPair> predToPair = new HashMap<>();  // cache
     protected Type type;
     
     /**
@@ -90,7 +90,7 @@ public class SPhiExpr implements PhiExpr
 
     public List<Value> getValues()
     {
-        List<Value> args = new ArrayList<Value>();
+        List<Value> args = new ArrayList<>();
         for (ValueUnitPair vup : argPairs) {
             Value arg = vup.getValue();
             args.add(arg);
@@ -101,7 +101,7 @@ public class SPhiExpr implements PhiExpr
 
     public List<Unit> getPreds()
     {
-        List<Unit> preds = new ArrayList<Unit>();
+        List<Unit> preds = new ArrayList<>();
         for (ValueUnitPair up : argPairs) {
             Unit arg = up.getUnit();
             preds.add(arg);
@@ -340,7 +340,7 @@ public class SPhiExpr implements PhiExpr
     protected void updateCache()
     {
         int needed = argPairs.size();
-        predToPair = new HashMap<Unit, ValueUnitPair>(needed << 1, 1.0F); //Always attempt to allocate the next power of 2 sized map
+        predToPair = new HashMap<>(needed << 1, 1.0F); //Always attempt to allocate the next power of 2 sized map
         for (ValueUnitPair vup : argPairs) {
             predToPair.put(vup.getUnit(), vup);
         }
@@ -379,10 +379,10 @@ public class SPhiExpr implements PhiExpr
     @Override
     public List<UnitBox> getUnitBoxes()
     {
-    	Set<UnitBox> boxes = new HashSet<UnitBox>(argPairs.size());
+    	Set<UnitBox> boxes = new HashSet<>(argPairs.size());
     	for (ValueUnitPair up : argPairs)
     		boxes.add(up);
-        return new ArrayList<UnitBox>(boxes);
+        return new ArrayList<>(boxes);
     }
 
     public void clearUnitBoxes()
@@ -394,14 +394,14 @@ public class SPhiExpr implements PhiExpr
     
     public List<ValueBox> getUseBoxes()
     {
-        Set<ValueBox> set = new HashSet<ValueBox>();
+        Set<ValueBox> set = new HashSet<>();
 
         for (ValueUnitPair argPair : argPairs) {
             set.addAll(argPair.getValue().getUseBoxes());
             set.add(argPair);
         }
 
-        return new ArrayList<ValueBox>(set);
+        return new ArrayList<>(set);
     }
 
     public Type getType()

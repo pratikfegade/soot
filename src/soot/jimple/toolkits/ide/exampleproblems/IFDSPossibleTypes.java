@@ -78,8 +78,8 @@ public class IFDSPossibleTypes extends DefaultJimpleIFDSTabulationProblem<Pair<V
 						return new FlowFunction<Pair<Value,Type>>() {
 							public Set<Pair<Value, Type>> computeTargets(Pair<Value, Type> source) {
 								if(source==zeroValue()) {
-									Set<Pair<Value, Type>> res = new LinkedHashSet<Pair<Value,Type>>();
-									res.add(new Pair<Value,Type>(left,right.getType()));
+									Set<Pair<Value, Type>> res = new LinkedHashSet<>();
+									res.add(new Pair<>(left, right.getType()));
 									res.add(zeroValue());
 									return res;
 								} else if(source.getO1() instanceof Local && source.getO1().equivTo(left)) {
@@ -99,7 +99,7 @@ public class IFDSPossibleTypes extends DefaultJimpleIFDSTabulationProblem<Pair<V
 									return Collections.emptySet();
 								} else if(maybeSameLocation(value,right)) {
 									return new LinkedHashSet<Pair<Value,Type>>() {{
-										add(new Pair<Value,Type>(left,source.getO2())); 
+										add(new Pair<>(left, source.getO2()));
 										add(source); 
 									}};
 								} else {
@@ -145,7 +145,7 @@ public class IFDSPossibleTypes extends DefaultJimpleIFDSTabulationProblem<Pair<V
 				Stmt stmt = (Stmt) src;
 				InvokeExpr ie = stmt.getInvokeExpr();
 				final List<Value> callArgs = ie.getArgs();
-				final List<Local> paramLocals = new ArrayList<Local>();
+				final List<Local> paramLocals = new ArrayList<>();
 				for(int i=0;i<dest.getParameterCount();i++) {
 					paramLocals.add(dest.getActiveBody().getParameterLocal(i));
 				}				

@@ -147,7 +147,7 @@ public class MethodNodeFactory extends AbstractShimpleValueSwitch {
 
     final public Node caseThis() {
 	VarNode ret = pag.makeLocalVarNode(
-		    new Pair<SootMethod, String>( method, PointsToAnalysis.THIS_NODE ),
+            new Pair<>(method, PointsToAnalysis.THIS_NODE),
 		    method.getDeclaringClass().getType(), method );
         ret.setInterProcTarget();
         return ret;
@@ -155,7 +155,7 @@ public class MethodNodeFactory extends AbstractShimpleValueSwitch {
 
     final public Node caseParm( int index ) {
         VarNode ret = pag.makeLocalVarNode(
-                    new Pair<SootMethod, Integer>( method, new Integer( index ) ),
+                new Pair<>(method, new Integer(index)),
                     method.getParameterType( index ), method );
         ret.setInterProcTarget();
         return ret;

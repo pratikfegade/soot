@@ -59,15 +59,15 @@ public class CompactSequentNodes{
 		
 	}   
 	private List<List<Object>> computeSequentNodes(Chain chain, PegGraph pg){
-		Set<Object> gray = new HashSet<Object>();
-		List<List<Object>> sequentNodes = new ArrayList<List<Object>>();
+		Set<Object> gray = new HashSet<>();
+		List<List<Object>> sequentNodes = new ArrayList<>();
 		
 		Set canNotBeCompacted = pg.getCanNotBeCompacted();
 		TopologicalSorter ts = new TopologicalSorter(chain, pg);
 		ListIterator<Object>  it = ts.sorter().listIterator();
 		while (it.hasNext()){
 			Object node = it.next();
-			List<Object> list = new ArrayList<Object>();
+			List<Object> list = new ArrayList<>();
 			if (!gray.contains(node)){
 				visitNode(pg, node, list, canNotBeCompacted, gray);
 				if (list.size()>1){	
@@ -122,8 +122,8 @@ public class CompactSequentNodes{
 		FlowSet allNodes = peg.getAllNodes();
 		HashMap unitToSuccs = peg.getUnitToSuccs();
 		HashMap unitToPreds = peg.getUnitToPreds();
-		List<Object> newPreds = new ArrayList<Object>();
-		List<Object> newSuccs = new ArrayList<Object>();
+		List<Object> newPreds = new ArrayList<>();
+		List<Object> newSuccs = new ArrayList<>();
 		
 		while (it.hasNext()){
 			Object s = it.next();

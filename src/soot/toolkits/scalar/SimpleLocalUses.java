@@ -90,7 +90,7 @@ public class SimpleLocalUses implements LocalUses
             G.v().out.println("[" + body.getMethod().getName() +
                 "]     Constructing SimpleLocalUses...");
         
-        unitToUses = new HashMap<Unit, List<UnitValueBoxPair>>(body.getUnits().size() * 2 + 1, 0.7f);
+        unitToUses = new HashMap<>(body.getUnits().size() * 2 + 1, 0.7f);
     
         // Initialize this map to empty sets
 
@@ -118,7 +118,7 @@ public class SimpleLocalUses implements LocalUses
 	                    for (Unit def : defs) {
 	                    	List<UnitValueBoxPair> lst = unitToUses.get(def);
 	                    	if (lst == null) {
-	                    		unitToUses.put(def, lst = new ArrayList<UnitValueBoxPair>());
+	                    		unitToUses.put(def, lst = new ArrayList<>());
 	                    	}                    	
 	                    	lst.add(newPair);
 	                    }
@@ -160,7 +160,7 @@ public class SimpleLocalUses implements LocalUses
      * @return The list of variables used in this body
      */
     public Set<Local> getUsedVariables() {
-    	Set<Local> res = new HashSet<Local>();
+    	Set<Local> res = new HashSet<>();
     	for (List<UnitValueBoxPair> vals : unitToUses.values())
     		for (UnitValueBoxPair val : vals)
     			res.add((Local) val.valueBox.getValue());
@@ -172,7 +172,7 @@ public class SimpleLocalUses implements LocalUses
      * @return The list of variables declared, but not used in this body
      */
     public Set<Local> getUnusedVariables() {
-    	Set<Local> res = new HashSet<Local>(body.getLocals());
+    	Set<Local> res = new HashSet<>(body.getLocals());
     	res.retainAll(getUsedVariables());
     	return res;
     }

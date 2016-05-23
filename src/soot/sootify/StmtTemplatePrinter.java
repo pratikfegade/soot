@@ -32,7 +32,7 @@ class StmtTemplatePrinter implements StmtSwitch {
 	
 	private final ValueTemplatePrinter vtp; //text for expression
 	
-	private List<Unit> jumpTargets = new ArrayList<Unit>();
+	private List<Unit> jumpTargets = new ArrayList<>();
 
 	public StmtTemplatePrinter(TemplatePrinter templatePrinter, PatchingChain<Unit> units) {
 		this.p = templatePrinter;
@@ -44,7 +44,7 @@ class StmtTemplatePrinter implements StmtSwitch {
 			}
 		}
 		
-		final List<Unit> unitsList = new ArrayList<Unit>(units);
+		final List<Unit> unitsList = new ArrayList<>(units);
 		Collections.sort(jumpTargets,new Comparator<Unit>() {
 			public int compare(Unit o1, Unit o2) {
 				return unitsList.indexOf(o1)-unitsList.indexOf(o2);

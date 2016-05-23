@@ -62,7 +62,7 @@ public class LocalsToBitField extends BodyTransformer  implements IJbcoTransform
     PatchingChain<Unit> u = b.getUnits();
 
     Unit first = null;
-    List<Value> params = new ArrayList<Value>();
+    List<Value> params = new ArrayList<>();
     Iterator<Unit> uit = u.iterator();
     while (uit.hasNext()) {
       Unit unit = uit.next();
@@ -79,7 +79,7 @@ public class LocalsToBitField extends BodyTransformer  implements IJbcoTransform
     }
     
     //  build mapping of baf locals to jimple locals
-    Map<Local, Local> bafToJLocals = new HashMap<Local, Local>();
+    Map<Local, Local> bafToJLocals = new HashMap<>();
     Iterator<Local> jlocIt = soot.jbco.Main.methods2JLocals.get(b.getMethod()).iterator();
     while (jlocIt.hasNext()) {
       Local jl = jlocIt.next();
@@ -93,11 +93,11 @@ public class LocalsToBitField extends BodyTransformer  implements IJbcoTransform
       }
     }
     
-    List<Local> booleans = new ArrayList<Local>();
-    List<Local> bytes = new ArrayList<Local>();
-    List<Local> chars = new ArrayList<Local>();
-    List<Local> ints = new ArrayList<Local>();
-    Map<Local, Integer> sizes = new HashMap<Local, Integer>();
+    List<Local> booleans = new ArrayList<>();
+    List<Local> bytes = new ArrayList<>();
+    List<Local> chars = new ArrayList<>();
+    List<Local> ints = new ArrayList<>();
+    Map<Local, Integer> sizes = new HashMap<>();
     Iterator<Local> blocs = bLocals.iterator();
     while (blocs.hasNext()) {
       Local bl = blocs.next();
@@ -130,12 +130,12 @@ public class LocalsToBitField extends BodyTransformer  implements IJbcoTransform
     }
     
     int count = 0;
-    Map<Local,Local> bafToNewLocs = new HashMap<Local,Local>();
+    Map<Local,Local> bafToNewLocs = new HashMap<>();
     int total = booleans.size() + bytes.size()*8 + chars.size()*16 + ints.size()*32;
-    Map<Local,Map<Local,Integer>> newLocs = new HashMap<Local,Map<Local,Integer>>();
+    Map<Local,Map<Local,Integer>> newLocs = new HashMap<>();
     while (total >= 32 && booleans.size() + bytes.size() + chars.size() + ints.size() > 2) {
       Local nloc = Baf.v().newLocal("newDumby"+count++, LongType.v()); //soot.jbco.util.Rand.getInt(2) > 0 ? DoubleType.v() : LongType.v());
-      Map<Local, Integer> nlocMap = new HashMap<Local, Integer>();
+      Map<Local, Integer> nlocMap = new HashMap<>();
       
       boolean done = false;
       int index = 0;

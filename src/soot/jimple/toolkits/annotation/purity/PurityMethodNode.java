@@ -40,7 +40,7 @@ public class PurityMethodNode implements PurityNode
     private SootMethod id;
 
     /** gives a unique id, for pretty-printing purposes */
-    private static final Map<SootMethod, Integer> nMap = new HashMap<SootMethod, Integer>();
+    private static final Map<SootMethod, Integer> nMap = new HashMap<>();
     private static int n = 0;
 
     PurityMethodNode(SootMethod id)

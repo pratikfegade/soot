@@ -57,14 +57,14 @@ public class StartJoinAnalysis extends ForwardFlowAnalysis
 	{
 		super(g);
 		
-		startStatements = new HashSet<Stmt>();
-		joinStatements = new HashSet<Stmt>();
+		startStatements = new HashSet<>();
+		joinStatements = new HashSet<>();
 		
 		hierarchy = Scene.v().getActiveHierarchy();
 
-		startToRunMethods = new HashMap<Stmt, List<SootMethod>>();
-		startToAllocNodes = new HashMap<Stmt, List<AllocNode>>();
-		startToJoin = new HashMap<Stmt, Stmt>();
+		startToRunMethods = new HashMap<>();
+		startToAllocNodes = new HashMap<>();
+		startToJoin = new HashMap<>();
 		
 		// Get lists of start and join statements		
 		doFlowInsensitiveSingleIterationAnalysis();
@@ -85,8 +85,8 @@ public class StartJoinAnalysis extends ForwardFlowAnalysis
 			{
 				Stmt start = startIt.next();
 				
-				List<SootMethod> runMethodsList = new ArrayList<SootMethod>(); // will be a list of possible run methods called by this start stmt
-				List<AllocNode> allocNodesList = new ArrayList<AllocNode>(); // will be a list of possible allocation nodes for the thread object that's getting started
+				List<SootMethod> runMethodsList = new ArrayList<>(); // will be a list of possible run methods called by this start stmt
+				List<AllocNode> allocNodesList = new ArrayList<>(); // will be a list of possible allocation nodes for the thread object that's getting started
 				
 				// Get possible thread objects (may alias)
 				Value startObject = ((InstanceInvokeExpr) (start).getInvokeExpr()).getBase();
@@ -180,8 +180,8 @@ public class StartJoinAnalysis extends ForwardFlowAnalysis
 	
 	private List<AllocNode> getMayAliasList(PointsToSetInternal pts)
 	{
-		List<AllocNode> list = new ArrayList<AllocNode>();
-		final HashSet<AllocNode> ret = new HashSet<AllocNode>();
+		List<AllocNode> list = new ArrayList<>();
+		final HashSet<AllocNode> ret = new HashSet<>();
 		pts.forall( new P2SetVisitor() {
 			public void visit( Node n ) {
 				

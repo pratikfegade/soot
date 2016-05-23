@@ -23,9 +23,9 @@ import java.util.*;
 
 public class CallData {
 
-    private final HashMap<Object, CallData> map = new HashMap<Object, CallData>();
-    private final ArrayList<CallData> children = new ArrayList<CallData>();
-    private final ArrayList<CallData> outputs = new ArrayList<CallData>();
+    private final HashMap<Object, CallData> map = new HashMap<>();
+    private final ArrayList<CallData> children = new ArrayList<>();
+    private final ArrayList<CallData> outputs = new ArrayList<>();
     private String data;
 
     public String toString(){

@@ -93,8 +93,8 @@ public class AllVariableUses extends DepthFirstAdapter{
     
 
     public void init(){
-    	localsToUses = new HashMap<Local, List>();
-    	fieldsToUses = new HashMap<SootField, List>();
+    	localsToUses = new HashMap<>();
+    	fieldsToUses = new HashMap<>();
     }
 
 
@@ -118,8 +118,8 @@ public class AllVariableUses extends DepthFirstAdapter{
     */
     public void inASTSwitchNode(ASTSwitchNode node){
 	Value val = node.get_Key();
-	List<Value> localUses = new ArrayList<Value>();
-	List<Value> fieldUses = new ArrayList<Value>();
+	List<Value> localUses = new ArrayList<>();
+	List<Value> fieldUses = new ArrayList<>();
 
 	if(val instanceof Local){
 	    localUses.add(val);
@@ -376,7 +376,7 @@ public class AllVariableUses extends DepthFirstAdapter{
      * @return a list containing all Locals and FieldRefs used in this condition
      */
     public List<Value> getUseList(ASTCondition cond){
-	ArrayList<Value> useList = new ArrayList<Value>();
+	ArrayList<Value> useList = new ArrayList<>();
 	if(cond instanceof ASTAggregatedCondition){
 	    useList.addAll(getUseList(((ASTAggregatedCondition)cond).getLeftOp()));
 	    useList.addAll(getUseList(((ASTAggregatedCondition)cond).getRightOp()));
@@ -384,7 +384,7 @@ public class AllVariableUses extends DepthFirstAdapter{
 	}
 	else if(cond instanceof ASTUnaryCondition){
 	    //get uses from unary condition
-	    List<Value> uses = new ArrayList<Value>();
+	    List<Value> uses = new ArrayList<>();
 
 	    Value val = ((ASTUnaryCondition)cond).getValue();
 	    if(val instanceof Local || val instanceof FieldRef){
@@ -422,7 +422,7 @@ public class AllVariableUses extends DepthFirstAdapter{
     	Object temp = localsToUses.get(local);
     	List<Object> uses;
     	if(temp == null)
-    		uses = new ArrayList<Object>();
+    		uses = new ArrayList<>();
     	else
     		uses = (ArrayList<Object>)temp;
 
@@ -443,7 +443,7 @@ public class AllVariableUses extends DepthFirstAdapter{
 	Object temp = fieldsToUses.get(field);
 	List<Object> uses;
 	if(temp == null)
-	    uses = new ArrayList<Object>();
+	    uses = new ArrayList<>();
 	else
 	    uses = (ArrayList<Object>)temp;
 
@@ -464,7 +464,7 @@ public class AllVariableUses extends DepthFirstAdapter{
      * only those are returned which are locals or FieldRefs
      */
     private List<Value> getUsesFromBoxes(List useBoxes){
-    	ArrayList<Value> toReturn = new ArrayList<Value>();
+    	ArrayList<Value> toReturn = new ArrayList<>();
     	Iterator it = useBoxes.iterator();
     	while(it.hasNext()){
     	    Value val =((ValueBox)it.next()).getValue();

@@ -60,16 +60,16 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
     // TODO: introduce if-jsr opaque jumps that never happen?
 
     boolean fallsthrough = false;
-    HashMap<Trap,Unit> trapsToHandler = new HashMap<Trap,Unit>();
+    HashMap<Trap,Unit> trapsToHandler = new HashMap<>();
     for (Trap t : b.getTraps()) {
       trapsToHandler.put(t, t.getHandlerUnit());
     }
 
-    List<Unit> targets = new ArrayList<Unit>();
-    List<Unit> seenUts = new ArrayList<Unit>();
-    HashMap<Unit,List<Unit>> switches = new HashMap<Unit,List<Unit>>();
-    HashMap<Unit,Unit> switchDefs = new HashMap<Unit,Unit>();
-    HashMap<TargetArgInst,Unit> ignoreJumps = new HashMap<TargetArgInst,Unit>();
+    List<Unit> targets = new ArrayList<>();
+    List<Unit> seenUts = new ArrayList<>();
+    HashMap<Unit,List<Unit>> switches = new HashMap<>();
+    HashMap<Unit,Unit> switchDefs = new HashMap<>();
+    HashMap<TargetArgInst,Unit> ignoreJumps = new HashMap<>();
     PatchingChain<Unit> u = b.getUnits();
     Iterator<Unit> it = u.snapshotIterator();
     while (it.hasNext()) {
@@ -88,11 +88,11 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
 
       if (unit instanceof TableSwitchInst) {
         TableSwitchInst ts = (TableSwitchInst) unit;
-        switches.put(unit, new ArrayList<Unit>(ts.getTargets()));
+        switches.put(unit, new ArrayList<>(ts.getTargets()));
         switchDefs.put(unit, ts.getDefaultTarget());
       } else if (unit instanceof LookupSwitchInst) {
         LookupSwitchInst ls = (LookupSwitchInst) unit;
-        switches.put(unit, new ArrayList<Unit>(ls.getTargets()));
+        switches.put(unit, new ArrayList<>(ls.getTargets()));
         switchDefs.put(unit, ls.getDefaultTarget());
       }
 
@@ -100,9 +100,9 @@ public class AddJSRs extends BodyTransformer implements IJbcoTransform {
     }
 
     it = u.snapshotIterator();
-    ArrayList<Unit> processedLabels = new ArrayList<Unit>();
-    HashMap<Unit, JSRInst> builtJsrs = new HashMap<Unit, JSRInst>();
-    HashMap<Unit,Unit> popsBuilt = new HashMap<Unit,Unit>();
+    ArrayList<Unit> processedLabels = new ArrayList<>();
+    HashMap<Unit, JSRInst> builtJsrs = new HashMap<>();
+    HashMap<Unit,Unit> popsBuilt = new HashMap<>();
     Unit prev = null;
     while (it.hasNext()) {
       Unit unit = it.next();

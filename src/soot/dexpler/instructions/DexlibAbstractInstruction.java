@@ -369,7 +369,7 @@ public abstract class DexlibAbstractInstruction {
        * @return a list of register indices
        */
       protected List<Integer> getUsedRegistersNums(RegisterRangeInstruction instruction) {
-          List<Integer> regs = new ArrayList<Integer>();
+          List<Integer> regs = new ArrayList<>();
           int start = instruction.getStartRegister();
           for (int i = start; i < start + instruction.getRegisterCount(); i++)
               regs.add(i);
@@ -391,7 +391,7 @@ public abstract class DexlibAbstractInstruction {
               instruction.getRegisterF(),
               instruction.getRegisterG(),
           };
-          List<Integer> l = new ArrayList<Integer>();
+          List<Integer> l = new ArrayList<>();
           for (int i = 0; i < instruction.getRegisterCount(); i++)
               l.add(regs[i]);
           return l;

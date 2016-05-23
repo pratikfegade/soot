@@ -140,7 +140,7 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
 
     @Override
     public Set<Type> introducedTypes() {
-        Set<Type> types = new HashSet<Type>();
+        Set<Type> types = new HashSet<>();
         // Aput instructions don't have references
         if (!(instruction instanceof ReferenceInstruction))
             return types;

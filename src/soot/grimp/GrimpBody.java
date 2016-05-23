@@ -76,8 +76,8 @@ public class GrimpBody extends StmtBody
 
         Iterator<Unit> it = jBody.getUnits().iterator();
 
-        final HashMap<Stmt, Stmt> oldToNew = new HashMap<Stmt, Stmt>(getUnits().size() * 2 + 1, 0.7f);
-        List<Unit> updates = new LinkedList<Unit>();
+        final HashMap<Stmt, Stmt> oldToNew = new HashMap<>(getUnits().size() * 2 + 1, 0.7f);
+        List<Unit> updates = new LinkedList<>();
 
         /* we should Grimpify the Stmt's here... */
         while (it.hasNext())
@@ -218,7 +218,7 @@ public class GrimpBody extends StmtBody
                     newStmt.setDefaultTarget
                         ((oldToNew.get(newStmt.getDefaultTarget())));
                     int tc = newStmt.getHighIndex() - newStmt.getLowIndex()+1;
-                    LinkedList<Unit> newTargList = new LinkedList<Unit>();
+                    LinkedList<Unit> newTargList = new LinkedList<>();
                     for (int i = 0; i < tc; i++)
                         newTargList.add(oldToNew.get
                                         (newStmt.getTarget(i)));

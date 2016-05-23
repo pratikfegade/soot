@@ -70,7 +70,7 @@ public class FastColorer {
 		UnitInterferenceGraph intGraph = new UnitInterferenceGraph(unitBody,
 				localToGroup, liveLocals, unitGraph);
 
-		Map<Local, String> localToOriginalName = new HashMap<Local, String>();
+		Map<Local, String> localToOriginalName = new HashMap<>();
 
 		// Map each local variable to its original name
 		{
@@ -88,7 +88,7 @@ public class FastColorer {
 			}
 		}
 
-		Map<StringGroupPair, List<Integer>> originalNameAndGroupToColors = new HashMap<StringGroupPair, List<Integer>>();
+		Map<StringGroupPair, List<Integer>> originalNameAndGroupToColors = new HashMap<>();
 		// maps an original name to the colors being used for it
 
 		// Assign a color for each local.
@@ -135,7 +135,7 @@ public class FastColorer {
 							.get(new StringGroupPair(originalName, group));
 
 					if (originalNameColors == null) {
-						originalNameColors = new ArrayList<Integer>();
+						originalNameColors = new ArrayList<>();
 						originalNameAndGroupToColors.put(new StringGroupPair(
 								originalName, group), originalNameColors);
 					}
@@ -194,7 +194,7 @@ public class FastColorer {
 			// Sort the locals first to maximize the locals per color. We first
 			// assign those locals that have many conflicts and then assign the
 			// easier ones to those color groups.
-			List<Local> sortedLocals = new ArrayList<Local>(intGraph.getLocals());
+			List<Local> sortedLocals = new ArrayList<>(intGraph.getLocals());
 			Collections.sort(sortedLocals, new Comparator<Local>() {
 
 				@Override
@@ -266,12 +266,12 @@ public class FastColorer {
 
 		public UnitInterferenceGraph(Body body, Map<Local, Object> localToGroup,
 				LiveLocals liveLocals, ExceptionalUnitGraph unitGraph) {
-			locals = new ArrayList<Local>();
+			locals = new ArrayList<>();
 			locals.addAll(body.getLocals());
 
 			// Initialize localToLocals
 			{
-				localToLocals = new HashMap<Local, Set<Local>>(
+				localToLocals = new HashMap<>(
 						body.getLocalCount() * 2 + 1, 0.7f);
 			}
 
@@ -298,7 +298,7 @@ public class FastColorer {
 						//		catch -> print(a)
 						// If an exception is thrown, at the second assignment, the
 						// assignment will not actually happen and "a" will be unchanged.
-						Set<Local> liveLocalsAtUnit = new HashSet<Local>();
+						Set<Local> liveLocalsAtUnit = new HashSet<>();
 						for (Unit succ : unitGraph.getUnexceptionalSuccsOf(unit)) {
 							List<Local> beforeSucc = liveLocals.getLiveLocalsBefore(succ);
 							liveLocalsAtUnit.addAll(beforeSucc);
@@ -323,7 +323,7 @@ public class FastColorer {
 			// l1 -> l2
 			Set<Local> locals = localToLocals.get(l1);
 			if (locals == null) {
-				locals = new ArraySet<Local>();
+				locals = new ArraySet<>();
 				localToLocals.put(l1, locals);
 			}
 			locals.add(l2);
@@ -331,7 +331,7 @@ public class FastColorer {
 			// l2 -> l1
 			locals = localToLocals.get(l2);
 			if (locals == null) {
-				locals = new ArraySet<Local>();
+				locals = new ArraySet<>();
 				localToLocals.put(l2, locals);
 			}
 			locals.add(l1);

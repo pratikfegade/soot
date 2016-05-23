@@ -117,7 +117,7 @@ public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
     @Override
     public final List<ValueBox> getUseBoxes()
     {
-        List<ValueBox> useBoxes = new ArrayList<ValueBox>();
+        List<ValueBox> useBoxes = new ArrayList<>();
 
         useBoxes.addAll(sizeBox.getValue().getUseBoxes());
         useBoxes.add(sizeBox);

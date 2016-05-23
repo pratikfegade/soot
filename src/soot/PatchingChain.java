@@ -92,7 +92,7 @@ public class PatchingChain<E extends Unit> extends AbstractCollection<E> impleme
     /** Inserts <code>toInsert</code> in the Chain before <code>point</code>. */
     public void insertBefore(List<E> toInsert, E point)
     {
-        LinkedList<E> backwardList = new LinkedList<E>();
+        LinkedList<E> backwardList = new LinkedList<>();
         // Insert toInsert backwards into the list
         {
             Iterator<E> it = toInsert.iterator();
@@ -115,7 +115,7 @@ public class PatchingChain<E extends Unit> extends AbstractCollection<E> impleme
     /** Inserts <code>toInsert</code> in the Chain before <code>point</code>. */
     public void insertBefore(Chain<E> toInsert, E point)
     {
-        LinkedList<E> backwardList = new LinkedList<E>();
+        LinkedList<E> backwardList = new LinkedList<>();
         // Insert toInsert backwards into the list
         {
             Iterator<E> it = toInsert.iterator();
@@ -269,7 +269,7 @@ public class PatchingChain<E extends Unit> extends AbstractCollection<E> impleme
      * iterated over! */
     public Iterator<E> snapshotIterator() 
     {
-        List<E> l = new LinkedList<E>(this); 
+        List<E> l = new LinkedList<>(this);
         return l.iterator();
     }
    

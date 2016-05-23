@@ -91,7 +91,7 @@ public class ShimpleBodyBuilder
     {
         cfg = sf.getBlockGraph();
         dt = sf.getDominatorTree();
-        origLocals = new ArrayList<Local>(body.getLocals());
+        origLocals = new ArrayList<>(body.getLocals());
     }
 
     public void transform()
@@ -183,14 +183,14 @@ public class ShimpleBodyBuilder
     public void renameLocals()
     {
         update();
-        newLocals = new HashMap<String, Local>();
-        newLocalsToOldLocal = new HashMap<Local, Local>();
+        newLocals = new HashMap<>();
+        newLocalsToOldLocal = new HashMap<>();
 
         assignmentCounters = new int[origLocals.size()];
         namingStacks = new Stack[origLocals.size()];
 
         for(int i = 0; i < namingStacks.length; i++)
-            namingStacks[i] = new Stack<Integer>();
+            namingStacks[i] = new Stack<>();
 
         List<Block> heads = cfg.getHeads();
 
@@ -210,7 +210,7 @@ public class ShimpleBodyBuilder
     public void renameLocalsSearch(Block block)
     {
         // accumulated in Step 1 to be re-processed in Step 4
-        List<Local> lhsLocals = new ArrayList<Local>();
+        List<Local> lhsLocals = new ArrayList<>();
         
         // Step 1 of 4 -- Rename block's uses (ordinary) and defs
         {
@@ -218,7 +218,7 @@ public class ShimpleBodyBuilder
         	for (Unit unit : block) {
                 // Step 1/2 of 1
                 {
-                    List<ValueBox> useBoxes = new ArrayList<ValueBox>();
+                    List<ValueBox> useBoxes = new ArrayList<>();
 
                     if(!Shimple.isPhiNode(unit))
                         useBoxes.addAll(unit.getUseBoxes());
@@ -410,7 +410,7 @@ public class ShimpleBodyBuilder
             return;
         }
 
-        Set<String> localNames = new HashSet<String>();
+        Set<String> localNames = new HashSet<>();
         Iterator<Local> localsIt = body.getLocals().iterator();
 
         while(localsIt.hasNext()){

@@ -106,7 +106,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 	    currentUnit = nextUnit;
 	    nextUnit = unitIt.hasNext() ? unitIt.next() : null;
                     
-	    List<Unit> successors = new ArrayList<Unit>();
+	    List<Unit> successors = new ArrayList<>();
                     
 	    if( currentUnit.fallsThrough() ) {
 		// Add the next unit as the successor
@@ -152,8 +152,8 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
      * criteria for classifying a node as a head or tail.</p>
      */
     protected void buildHeadsAndTails() {
-	List<Unit> tailList = new ArrayList<Unit>();
-	List<Unit> headList = new ArrayList<Unit>();
+	List<Unit> tailList = new ArrayList<>();
+	List<Unit> headList = new ArrayList<>();
 
 	for (Unit s : unitChain ) {
 	    List<Unit> succs = unitToSuccs.get(s);
@@ -215,7 +215,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
     protected Map<Unit,List<Unit>> combineMapValues
     	(Map<Unit,List<Unit>> mapA, Map<Unit,List<Unit>> mapB) {
 	// The duplicate screen 
-	Map<Unit,List<Unit>> result = new HashMap<Unit,List<Unit>>(mapA.size() * 2 + 1, 0.7f);
+	Map<Unit,List<Unit>> result = new HashMap<>(mapA.size() * 2 + 1, 0.7f);
 	for (Unit unit : unitChain) {
 	    List<Unit> listA = mapA.get(unit);
 	    if (listA == null) {
@@ -230,7 +230,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 	    if (resultSize == 0) {
 		result.put(unit, Collections.<Unit>emptyList());
 	    } else {
-		List<Unit> resultList = new ArrayList<Unit>(resultSize);
+		List<Unit> resultList = new ArrayList<>(resultSize);
 		List<Unit> list = null;
 		// As a minor optimization of the duplicate screening, 
 		// copy the longer list first.
@@ -277,7 +277,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 			   Unit head, Unit tail) {
 	List<Unit> headsSuccs = unitToSuccs.get(head);
 	if (headsSuccs == null) {
-	    headsSuccs = new ArrayList<Unit>(3); // We expect this list to
+	    headsSuccs = new ArrayList<>(3); // We expect this list to
 					   // remain short.
 	    unitToSuccs.put(head, headsSuccs);
 	}
@@ -285,7 +285,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 	    headsSuccs.add(tail);
 	    List<Unit> tailsPreds = unitToPreds.get(tail);
 	    if (tailsPreds == null) {
-		tailsPreds = new ArrayList<Unit>();
+		tailsPreds = new ArrayList<>();
 		unitToPreds.put(tail, tailsPreds);
 	    }
 	    tailsPreds.add(head);
@@ -325,8 +325,8 @@ public abstract class UnitGraph implements DirectedGraph<Unit>
 
       // pathStack := list of succs lists
       // pathStackIndex := last visited index in pathStack
-      LinkedList<Unit> pathStack = new LinkedList<Unit>();
-      LinkedList<Integer> pathStackIndex = new LinkedList<Integer>();
+      LinkedList<Unit> pathStack = new LinkedList<>();
+      LinkedList<Integer> pathStackIndex = new LinkedList<>();
 
       pathStack.add(from);
       pathStackIndex.add(new Integer(0));

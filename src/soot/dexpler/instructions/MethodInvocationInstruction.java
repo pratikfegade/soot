@@ -116,7 +116,7 @@ public abstract class MethodInvocationInstruction extends DexlibAbstractInstruct
     }
 
     public Set<Type> introducedTypes() {
-        Set<Type> types = new HashSet<Type>();
+        Set<Type> types = new HashSet<>();
         MethodReference method = (MethodReference) (((ReferenceInstruction) instruction).getReference());
 
         types.add(DexType.toSoot(method.getDefiningClass()));
@@ -236,7 +236,7 @@ public abstract class MethodInvocationInstruction extends DexlibAbstractInstruct
         String methodName = mItem.getName();
 
         Type returnType = DexType.toSoot(mItem.getReturnType());
-        List<Type> parameterTypes = new ArrayList<Type>();
+        List<Type> parameterTypes = new ArrayList<>();
         List<? extends CharSequence> paramTypes = mItem.getParameterTypes();
         if (paramTypes != null)
             for (CharSequence type : paramTypes)
@@ -277,7 +277,7 @@ public abstract class MethodInvocationInstruction extends DexlibAbstractInstruct
         MethodReference item = getTargetMethodReference();
         List<? extends CharSequence> paramTypes = item.getParameterTypes();
 
-        List<Local> parameters = new ArrayList<Local>();
+        List<Local> parameters = new ArrayList<>();
         List<Integer> regs = getUsedRegistersNums();
 
         Debug.printDbg(" [methodIdItem]: ", item);

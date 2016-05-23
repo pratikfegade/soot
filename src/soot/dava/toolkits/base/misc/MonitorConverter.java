@@ -76,9 +76,9 @@ public class MonitorConverter
 	    arg.add( ms.getOp());
 
 	    if (ms instanceof EnterMonitorStmt)
-		mas.set_Stmt( new GInvokeStmt( new DVirtualInvokeExpr( new DStaticInvokeExpr( v.makeRef(), new ArrayList()), enter.makeRef(), arg, new HashSet<Object>())));
+		mas.set_Stmt( new GInvokeStmt( new DVirtualInvokeExpr( new DStaticInvokeExpr( v.makeRef(), new ArrayList()), enter.makeRef(), arg, new HashSet<>())));
 	    else
-		mas.set_Stmt( new GInvokeStmt( new DVirtualInvokeExpr( new DStaticInvokeExpr( v.makeRef(), new ArrayList()), exit.makeRef(), arg, new HashSet<Object>())));
+		mas.set_Stmt( new GInvokeStmt( new DVirtualInvokeExpr( new DStaticInvokeExpr( v.makeRef(), new ArrayList()), exit.makeRef(), arg, new HashSet<>())));
 	}
     }
 }

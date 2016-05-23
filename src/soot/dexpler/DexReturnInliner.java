@@ -100,7 +100,7 @@ public class DexReturnInliner extends DexTransformer {
 						// We only copy this return if it is used more than
 						// once, otherwise we will end up with unused copies
 						if (duplicateIfTargets == null)
-							duplicateIfTargets = new HashSet<Unit>();
+							duplicateIfTargets = new HashSet<>();
 						if (!duplicateIfTargets.add(t)) {
 							Unit newTarget = (Unit) t.clone();
 							body.getUnits().addLast(newTarget);
@@ -127,7 +127,7 @@ public class DexReturnInliner extends DexTransformer {
 					&& isInstanceofReturn(u)
 					&& !isInstanceofFlowChange(lastUnit)) {
 				if (fallThroughReturns == null)
-					fallThroughReturns = new HashSet<Unit>();
+					fallThroughReturns = new HashSet<>();
 				fallThroughReturns.add(u);
 			}
 			lastUnit = u;

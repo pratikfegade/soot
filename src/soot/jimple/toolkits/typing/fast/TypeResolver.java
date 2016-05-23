@@ -84,8 +84,8 @@ public class TypeResolver
 	{
 		this.jb = jb;
 
-		this.assignments = new ArrayList<DefinitionStmt>();
-		this.depends = new HashMap<Local, BitSet>();
+		this.assignments = new ArrayList<>();
+		this.depends = new HashMap<>();
 		for ( Local v : this.jb.getLocals() )
 			this.addLocal(v);
 		this.initAssignments();
@@ -438,12 +438,12 @@ public class TypeResolver
 	{
 		final int numAssignments = this.assignments.size();
 		
-		LinkedList<Typing> sigma = new LinkedList<Typing>(),
-			r = new LinkedList<Typing>();
+		LinkedList<Typing> sigma = new LinkedList<>(),
+			r = new LinkedList<>();
 		if (numAssignments == 0)
 			return sigma;
 		
-		HashMap<Typing, BitSet> worklists = new HashMap<Typing, BitSet>();
+		HashMap<Typing, BitSet> worklists = new HashMap<>();
 		
 		sigma.add(tg);
 		BitSet wl = new BitSet(numAssignments - 1);
@@ -477,7 +477,7 @@ public class TypeResolver
 				
 				Type told = tg.get(v);
 				
-				Collection<Type> eval = new ArrayList<Type>(ef.eval(tg, rhs, stmt));
+				Collection<Type> eval = new ArrayList<>(ef.eval(tg, rhs, stmt));
 				
 				boolean isFirstType = true;
 				for ( Type t_ : eval )

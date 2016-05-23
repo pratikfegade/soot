@@ -77,7 +77,7 @@ public class LocalRefVarsAnalysisWrapper
     // optionally discard (ref, kTop) pairs.
     private final List<RefIntPair> buildList(FlowSet set)
     {
-	List<RefIntPair> lst = new ArrayList<RefIntPair>();
+	List<RefIntPair> lst = new ArrayList<>();
 	Iterator<EquivalentValue> it = analysis.refTypeValues.iterator();
 	while (it.hasNext()) {
 	     EquivalentValue r = it.next();
@@ -95,11 +95,11 @@ public class LocalRefVarsAnalysisWrapper
     {
         analysis = new BranchedRefVarsAnalysis(graph);
         
-	unitToVarsBefore = new HashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
-	unitToVarsAfterFall = new HashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
-	unitToListsOfVarsAfterBranches = new HashMap<Unit, List<List<RefIntPair>>>(graph.size() * 2 + 1, 0.7f);
-	unitToVarsNeedCheck = new HashMap<Unit, List<Object>>(graph.size() * 2 + 1, 0.7f);
-	unitToVarsDontNeedCheck = new HashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsBefore = new HashMap<>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsAfterFall = new HashMap<>(graph.size() * 2 + 1, 0.7f);
+	unitToListsOfVarsAfterBranches = new HashMap<>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsNeedCheck = new HashMap<>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsDontNeedCheck = new HashMap<>(graph.size() * 2 + 1, 0.7f);
 	
 	Iterator unitIt = graph.iterator();
 	
@@ -114,7 +114,7 @@ public class LocalRefVarsAnalysisWrapper
 	    // we get a list of flow sets for branches, iterate over them
 	    {
 		List branchesFlowsets = analysis.getBranchFlowAfter(s);
-		List<List<RefIntPair>> lst = new ArrayList<List<RefIntPair>>(branchesFlowsets.size());
+		List<List<RefIntPair>> lst = new ArrayList<>(branchesFlowsets.size());
 		
 		Iterator it = branchesFlowsets.iterator();
 		while (it.hasNext()) {
@@ -130,8 +130,8 @@ public class LocalRefVarsAnalysisWrapper
 	    
 	    if (computeChecks) {
 
-		ArrayList<RefIntPair> dontNeedCheckVars = new ArrayList<RefIntPair>();
-		ArrayList<Object> needCheckVars = new ArrayList<Object>();
+		ArrayList<RefIntPair> dontNeedCheckVars = new ArrayList<>();
+		ArrayList<Object> needCheckVars = new ArrayList<>();
 		
 		HashSet allChecksSet = new HashSet(5, 0.7f);
 		allChecksSet.addAll(analysis.unitToArrayRefChecksSet.get(s));

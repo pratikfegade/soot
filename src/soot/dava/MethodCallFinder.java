@@ -150,10 +150,10 @@ public class MethodCallFinder extends DepthFirstAdapter{
 			GThrowStmt throwStmt = new GThrowStmt(newInvokeExpr);
 						
 			AugmentedStmt augStmt = new AugmentedStmt(throwStmt);
-			List<Object> sequence = new ArrayList<Object>();
+			List<Object> sequence = new ArrayList<>();
 			sequence.add(augStmt);
 			ASTStatementSequenceNode seqNode = new ASTStatementSequenceNode(sequence);
-			List<Object> subBody = new ArrayList<Object>();
+			List<Object> subBody = new ArrayList<>();
 			subBody.add(seqNode);
 
 			toInlineASTMethod.replaceBody(subBody);
@@ -175,7 +175,7 @@ public class MethodCallFinder extends DepthFirstAdapter{
 
     public List<Object> createNewSubBody(List<Object> orignalBody, List<ASTStatementSequenceNode> partNewBody,Object stmtSeqNode){
 
-	List<Object> newBody = new ArrayList<Object>();
+	List<Object> newBody = new ArrayList<>();
 
 	Iterator<Object> it = orignalBody.iterator();
 	while(it.hasNext()){
@@ -410,7 +410,7 @@ public class MethodCallFinder extends DepthFirstAdapter{
 
 
 	//copying the stmts till above the inoke stmt into one stmt sequence node
-	List<Object> newInitialNode = new ArrayList<Object>();
+	List<Object> newInitialNode = new ArrayList<>();
 	Iterator<Object> it = orignal.getStatements().iterator();
 	while(it.hasNext()){
 	    AugmentedStmt as = (AugmentedStmt)it.next();
@@ -425,12 +425,12 @@ public class MethodCallFinder extends DepthFirstAdapter{
 	}
 	
 	//copy remaining stmts into the AFTER stmt sequence node
-	List<Object> newSecondNode = new ArrayList<Object>();
+	List<Object> newSecondNode = new ArrayList<>();
 	while(it.hasNext()){
 	    newSecondNode.add(it.next());
 	}
 	
-	List<ASTStatementSequenceNode> toReturn = new ArrayList<ASTStatementSequenceNode>();
+	List<ASTStatementSequenceNode> toReturn = new ArrayList<>();
 
 	if(newInitialNode.size()!=0)
 	    toReturn.add(new ASTStatementSequenceNode(newInitialNode));

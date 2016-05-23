@@ -424,7 +424,7 @@ public class DexIfTransformer extends AbstractNullTransformer {
 	 *            the body to analyze
 	 */
 	private Set<IfStmt> getNullIfCandidates(Body body) {
-		Set<IfStmt> candidates = new HashSet<IfStmt>();
+		Set<IfStmt> candidates = new HashSet<>();
 		Iterator<Unit> i = body.getUnits().iterator();
 		while (i.hasNext()) {
 			Unit u = i.next();

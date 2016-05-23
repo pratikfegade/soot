@@ -81,7 +81,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 			return;
 		}
 
-		cancelFinalModifier = new ArrayList<SootField>();
+		cancelFinalModifier = new ArrayList<>();
 		analyzeMethod(node, interesting);
 
 		Iterator<SootField> it = cancelFinalModifier.iterator();
@@ -103,7 +103,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 	public ArrayList<SootField> findFinalFields() {
 
 		// first thing is to get a list of all final fields in the class
-		ArrayList<SootField> interestingFinalFields = new ArrayList<SootField>();
+		ArrayList<SootField> interestingFinalFields = new ArrayList<>();
 
 		Iterator fieldIt = sootClass.getFields().iterator();
 		while (fieldIt.hasNext()) {
@@ -238,7 +238,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 			}
 		}
 		if (!done) {
-			List<Object> newBody = new ArrayList<Object>();
+			List<Object> newBody = new ArrayList<>();
 			newBody.add(defaultStmt);
 
 			ASTStatementSequenceNode newNode = new ASTStatementSequenceNode(
@@ -263,7 +263,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 				ref = new DStaticFieldRef(tempFieldRef, true);
 			else
 				ref = new DInstanceFieldRef(new JimpleLocal("this", fieldType),
-						tempFieldRef, new HashSet<Object>());
+						tempFieldRef, new HashSet<>());
 
 		} else if (field instanceof Local) {
 			ref = (Local) field;
@@ -433,7 +433,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 					body.remove(1);
 				} else {
 					//System.out.println("had to add new node");
-					List<Object> tempList = new ArrayList<Object>();
+					List<Object> tempList = new ArrayList<>();
 					tempList.add(initialization);
 					nodeSecond = new ASTStatementSequenceNode(tempList);
 				}
@@ -457,7 +457,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 					ref = new DStaticFieldRef(tempFieldRef, true);
 				else {
 					ref = new DInstanceFieldRef(new JimpleLocal("this", field
-							.getType()), tempFieldRef, new HashSet<Object>());
+							.getType()), tempFieldRef, new HashSet<>());
 					// throw new RuntimeException("STOPPED");
 				}
 
@@ -527,7 +527,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 								//add the assign stmt here
 							 
 								List<Object> stmtsLast = (someNode).getStatements();
-								List<Object> newStmts = new ArrayList<Object>();
+								List<Object> newStmts = new ArrayList<>();
 								newStmts.add(assignStmt1);
 								newStmts.addAll(stmtsLast);
 								someNode.setStatements(newStmts);
@@ -542,7 +542,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 							}
 							else{
 								//create a new stmt seq node and add it here
-									List<Object> tempList = new ArrayList<Object>();
+									List<Object> tempList = new ArrayList<>();
 									tempList.add(assignStmt1);
 									ASTStatementSequenceNode lastNode = new ASTStatementSequenceNode(tempList);
 									ancestorSubBody.add(index+1,lastNode);

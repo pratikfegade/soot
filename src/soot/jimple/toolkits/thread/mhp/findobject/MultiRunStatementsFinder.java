@@ -35,7 +35,7 @@ import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 public class MultiRunStatementsFinder extends ForwardFlowAnalysis<Unit,BitSet>
 {
-	Set<Unit> multiRunStatements = new HashSet<Unit>();
+	Set<Unit> multiRunStatements = new HashSet<>();
 	
     protected Map<Object,Integer> nodeToIndex;
     protected int lastIndex = 0;
@@ -45,7 +45,7 @@ public class MultiRunStatementsFinder extends ForwardFlowAnalysis<Unit,BitSet>
 	{
 		super(g);
 		
-		nodeToIndex = new HashMap<Object, Integer>();
+		nodeToIndex = new HashMap<>();
 				
 		//      System.out.println("===entering MultiObjectAllocSites==");	
 		doAnalysis();
@@ -64,7 +64,7 @@ public class MultiRunStatementsFinder extends ForwardFlowAnalysis<Unit,BitSet>
 				
 				InvokeExpr invokeExpr =stmt.getInvokeExpr();
 				
-				List<SootMethod> targetList = new ArrayList<SootMethod>();
+				List<SootMethod> targetList = new ArrayList<>();
 				SootMethod method = invokeExpr.getMethod();
 				if (invokeExpr instanceof StaticInvokeExpr){
 					targetList.add(method);

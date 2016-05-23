@@ -74,10 +74,10 @@ public class ConstantFieldValueFinder {
 	
 	public static String combiner = "_$p$g_";
 
-	HashMap<String, SootField> classNameFieldNameToSootFieldMapping = new HashMap<String, SootField>();
+	HashMap<String, SootField> classNameFieldNameToSootFieldMapping = new HashMap<>();
 	
-	HashMap<String, ArrayList> fieldToValues = new HashMap<String, ArrayList>();
-	HashMap<String, Object> primTypeFieldValueToUse = new HashMap<String, Object>();
+	HashMap<String, ArrayList> fieldToValues = new HashMap<>();
+	HashMap<String, Object> primTypeFieldValueToUse = new HashMap<>();
 	
 	Chain appClasses;
 	

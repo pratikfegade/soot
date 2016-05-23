@@ -53,7 +53,7 @@ public class SmartLocalDefsPool {
 		} else {
 			ExceptionalUnitGraph g = new ExceptionalUnitGraph(b);
 			SmartLocalDefs newSLD = new SmartLocalDefs(g, new SimpleLiveLocals( g ));
-			pool.put(b, new Pair<Long, SmartLocalDefs>(b.getModificationCount(), newSLD));
+			pool.put(b, new Pair<>(b.getModificationCount(), newSLD));
 			return newSLD;
 		}
 	}	

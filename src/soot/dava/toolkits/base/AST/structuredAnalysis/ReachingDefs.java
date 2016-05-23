@@ -189,7 +189,7 @@ public class ReachingDefs extends StructuredAnalysis {
 	}
 
 	public List<DefinitionStmt> getReachingDefs(Local local, Object node) {
-		ArrayList<DefinitionStmt> toReturn = new ArrayList<DefinitionStmt>();
+		ArrayList<DefinitionStmt> toReturn = new ArrayList<>();
 
 		// get the reaching defs of this node
 		DavaFlowSet beforeSet = null;

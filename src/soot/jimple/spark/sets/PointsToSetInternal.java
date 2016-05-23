@@ -89,7 +89,7 @@ public abstract class PointsToSetInternal implements PointsToSet, EqualsSupporti
         } );
     }
     public Set<Type> possibleTypes() {
-        final HashSet<Type> ret = new HashSet<Type>();
+        final HashSet<Type> ret = new HashSet<>();
         forall( new P2SetVisitor() {
             public void visit( Node n ) {
                 Type t = n.getType();
@@ -127,7 +127,7 @@ public abstract class PointsToSetInternal implements PointsToSet, EqualsSupporti
     }
 
     public Set<String> possibleStringConstants() { 
-        final HashSet<String> ret = new HashSet<String>();
+        final HashSet<String> ret = new HashSet<>();
         return this.forall( new P2SetVisitor() {
         public final void visit( Node n ) {
             if( n instanceof StringConstantNode ) {
@@ -138,7 +138,7 @@ public abstract class PointsToSetInternal implements PointsToSet, EqualsSupporti
         }} ) ? null : ret;
     }
     public Set<ClassConstant> possibleClassConstants() { 
-        final HashSet<ClassConstant> ret = new HashSet<ClassConstant>();
+        final HashSet<ClassConstant> ret = new HashSet<>();
         return this.forall( new P2SetVisitor() {
         public final void visit( Node n ) {
             if( n instanceof ClassConstantNode ) {

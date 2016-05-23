@@ -32,18 +32,18 @@ import soot.util.*;
 public final class PropCycle extends Propagator {
     public PropCycle( PAG pag ) {
         this.pag = pag;
-        varNodeToIteration = new LargeNumberedMap<VarNode, Integer>( pag.getVarNodeNumberer() );
+        varNodeToIteration = new LargeNumberedMap<>(pag.getVarNodeNumberer());
     }
 
     /** Actually does the propagation. */
     public final void propagate() {
         ofcg = pag.getOnFlyCallGraph();
         boolean verbose = pag.getOpts().verbose();
-        Collection<VarNode> bases = new HashSet<VarNode>();
+        Collection<VarNode> bases = new HashSet<>();
         for( FieldRefNode frn : pag.getFieldRefNodeNumberer() ) {
             bases.add( frn.getBase() );
         }
-        bases = new ArrayList<VarNode>( bases );
+        bases = new ArrayList<>(bases);
         int iteration = 0;
         boolean changed;
         boolean finalIter = false;
@@ -74,7 +74,7 @@ public final class PropCycle extends Propagator {
             if( !changed && !finalIter ) {
                 finalIter = true;
                 if( verbose ) G.v().out.println( "Doing full graph" );
-                bases = new ArrayList<VarNode>(pag.getVarNodeNumberer().size());
+                bases = new ArrayList<>(pag.getVarNodeNumberer().size());
                 for( VarNode v : pag.getVarNodeNumberer() ) {
                     bases.add( v );
                 }

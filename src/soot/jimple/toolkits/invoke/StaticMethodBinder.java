@@ -71,7 +71,7 @@ public class StaticMethodBinder extends SceneTransformer
 
                 JimpleBody b = (JimpleBody)container.getActiveBody();
                 
-                List<Unit> unitList = new ArrayList<Unit>(); unitList.addAll(b.getUnits());
+                List<Unit> unitList = new ArrayList<>(); unitList.addAll(b.getUnits());
                 Iterator<Unit> unitIt = unitList.iterator();
 
                 while (unitIt.hasNext())

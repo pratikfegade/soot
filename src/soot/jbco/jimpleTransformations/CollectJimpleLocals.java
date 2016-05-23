@@ -48,6 +48,6 @@ public class CollectJimpleLocals extends BodyTransformer implements
 	}
 
 	protected void internalTransform(Body body, String phaseName, Map<String,String> options) {
-		soot.jbco.Main.methods2JLocals.put(body.getMethod(), new ArrayList<Local>(body.getLocals()));
+		soot.jbco.Main.methods2JLocals.put(body.getMethod(), new ArrayList<>(body.getLocals()));
 	}
 }

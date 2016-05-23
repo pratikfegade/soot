@@ -45,7 +45,7 @@ public class GuaranteedDefs
 
         // build map
         {
-            unitToGuaranteedDefs = new HashMap<Unit, List>(graph.size() * 2 + 1, 0.7f);
+            unitToGuaranteedDefs = new HashMap<>(graph.size() * 2 + 1, 0.7f);
             Iterator<Unit> unitIt = graph.iterator();
 
             while(unitIt.hasNext()){
@@ -80,7 +80,7 @@ class GuaranteedDefsAnalysis extends ForwardFlowAnalysis
     {
         super(graph);
         DominatorsFinder df = new MHGDominatorsFinder(graph);
-        unitToGenerateSet = new HashMap<Unit, FlowSet>(graph.size() * 2 + 1, 0.7f);
+        unitToGenerateSet = new HashMap<>(graph.size() * 2 + 1, 0.7f);
 
         // pre-compute generate sets
         for(Iterator unitIt = graph.iterator(); unitIt.hasNext();){

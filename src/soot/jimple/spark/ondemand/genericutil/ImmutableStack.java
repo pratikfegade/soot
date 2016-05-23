@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 public class ImmutableStack<T> {
 
-    private static final ImmutableStack<Object> EMPTY = new ImmutableStack<Object>(
+    private static final ImmutableStack<Object> EMPTY = new ImmutableStack<>(
             new Object[0]);
 
     private static final int MAX_SIZE = Integer.MAX_VALUE;
@@ -73,7 +73,7 @@ public class ImmutableStack<T> {
             tmpEntries[MAX_SIZE - 1] = entry;
 
         }
-        return new ImmutableStack<T>(tmpEntries);
+        return new ImmutableStack<>(tmpEntries);
     }
 
     public T peek() {
@@ -87,7 +87,7 @@ public class ImmutableStack<T> {
         int size = entries.length - 1;
         T[] tmpEntries = (T[]) new Object[size];
         System.arraycopy(entries, 0, tmpEntries, 0, size);
-        return new ImmutableStack<T>(tmpEntries);
+        return new ImmutableStack<>(tmpEntries);
     }
 
     public boolean isEmpty() {
@@ -128,7 +128,7 @@ public class ImmutableStack<T> {
         for (int i = entries.length - 1, j = 0; i >= 0; i--, j++) {
             tmpEntries[j] = entries[i];
         }
-        return new ImmutableStack<T>(tmpEntries);
+        return new ImmutableStack<>(tmpEntries);
     }
 
     @SuppressWarnings("unchecked")
@@ -138,7 +138,7 @@ public class ImmutableStack<T> {
         int size = entries.length - other.entries.length;
         T[] tmpEntries = (T[]) new Object[size];
         System.arraycopy(entries, 0, tmpEntries, 0, size);
-        return new ImmutableStack<T>(tmpEntries);
+        return new ImmutableStack<>(tmpEntries);
     }
 
     @SuppressWarnings("unchecked")
@@ -160,6 +160,6 @@ public class ImmutableStack<T> {
             System.arraycopy(entries, entries.length - numFromThis, tmpEntries, 0, numFromThis);
             System.arraycopy(other.entries, 0, tmpEntries, numFromThis, other.entries.length);            
         }
-        return new ImmutableStack<T>(tmpEntries);
+        return new ImmutableStack<>(tmpEntries);
     }
 }

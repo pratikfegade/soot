@@ -37,7 +37,7 @@ public class InfoFlowAnalysis
 		this.includePrimitiveInfoFlow = includePrimitiveDataFlow;
 		this.includeInnerFields = includeInnerFields;
 		this.printDebug = printDebug;
-		classToClassInfoFlowAnalysis = new HashMap<SootClass, ClassInfoFlowAnalysis>();
+		classToClassInfoFlowAnalysis = new HashMap<>();
 	}
 	
 	public boolean includesPrimitiveInfoFlow()

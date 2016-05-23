@@ -166,8 +166,8 @@ public class PurityGraph
      * Caching: this semm to actually improve both speed and memory 
      * consumption!
      */
-    private static final Map<PurityNode, PurityNode> nodeCache =  new HashMap<PurityNode, PurityNode>();
-    private static final Map<PurityEdge, PurityEdge> edgeCache =  new HashMap<PurityEdge, PurityEdge>();
+    private static final Map<PurityNode, PurityNode> nodeCache = new HashMap<>();
+    private static final Map<PurityEdge, PurityEdge> edgeCache = new HashMap<>();
     private static PurityNode cacheNode(PurityNode p)
     {
 	if (!nodeCache.containsKey(p)) nodeCache.put(p,p);
@@ -397,7 +397,7 @@ public class PurityGraph
 
     protected Set<PurityNode> getEscaping()
     {
-	Set<PurityNode> escaping = new HashSet<PurityNode>();
+	Set<PurityNode> escaping = new HashSet<>();
 	internalPassNodes(ret,escaping,true);
 	internalPassNodes(globEscape,escaping,true);
 	internalPassNode(PurityGlobalNode.node,escaping,true);
@@ -413,8 +413,8 @@ public class PurityGraph
     public boolean isPure()
     {
 	if (!mutated.get(PurityGlobalNode.node).isEmpty()) return false;
-	Set<PurityNode> A = new HashSet<PurityNode>();
-	Set<PurityNode> B = new HashSet<PurityNode>();
+	Set<PurityNode> A = new HashSet<>();
+	Set<PurityNode> B = new HashSet<>();
 	internalPassNodes(paramNodes, A, false);
 	internalPassNodes(globEscape, B, true);
 	internalPassNode(PurityGlobalNode.node,B,true);
@@ -435,8 +435,8 @@ public class PurityGraph
     public boolean isPureConstructor()
     {
 	if (!mutated.get(PurityGlobalNode.node).isEmpty()) return false;
-	Set<PurityNode> A = new HashSet<PurityNode>();
-	Set<PurityNode> B = new HashSet<PurityNode>();
+	Set<PurityNode> A = new HashSet<>();
+	Set<PurityNode> B = new HashSet<>();
 	internalPassNodes(paramNodes, A, false);
 	internalPassNodes(globEscape, B, true);
 	internalPassNode(PurityGlobalNode.node,B,true);
@@ -464,7 +464,7 @@ public class PurityGraph
     {
 	if (!paramNodes.contains(p)) return PARAM_RW;
 
-	Set<PurityNode> S1 = new HashSet<PurityNode>();
+	Set<PurityNode> S1 = new HashSet<>();
 	internalPassNode(p, S1, false);
 	Iterator<PurityNode> it = S1.iterator();
 	while (it.hasNext()) {
@@ -475,7 +475,7 @@ public class PurityGraph
 	    }
 	}
 
-	Set<PurityNode> S2 = new HashSet<PurityNode>();
+	Set<PurityNode> S2 = new HashSet<>();
 	internalPassNodes(ret,S2,true);
 	internalPassNodes(paramNodes,S2,true);
 	it = S2.iterator();
@@ -632,7 +632,7 @@ public class PurityGraph
 	Iterator it = (new LinkedList(nodes)).iterator();
 	while (it.hasNext()) {
 	    PurityNode p = (PurityNode)it.next();
-	    Map<String, PurityNode> fmap = new HashMap<String, PurityNode>();
+	    Map<String, PurityNode> fmap = new HashMap<>();
 	    Iterator itt = (new LinkedList(edges.get(p))).iterator();
 	    while (itt.hasNext()) {
 		PurityEdge e   = (PurityEdge)itt.next();
@@ -652,7 +652,7 @@ public class PurityGraph
 	from escaping nodes (params, ret, globEscape) or load nodes. */
     void simplifyInside()
     {
-	Set<PurityNode> r = new HashSet<PurityNode>();
+	Set<PurityNode> r = new HashSet<>();
 	internalPassNodes(paramNodes,r,true);
 	internalPassNodes(ret,r,true);
 	internalPassNodes(globEscape,r,true);
@@ -731,7 +731,7 @@ public class PurityGraph
      */
     void assignFieldToLocal(Stmt stmt, Local right, String field, Local left)
     {
-	Set<PurityNode> esc = new HashSet<PurityNode>();
+	Set<PurityNode> esc = new HashSet<>();
 	Set<PurityNode> escaping = getEscaping();
 
 	// strong update on local
@@ -1100,7 +1100,7 @@ public class PurityGraph
      */
     void fillDotGraph(String prefix, DotGraph out)
     {
-        Map<PurityNode, String> nodeId = new HashMap<PurityNode, String>();
+        Map<PurityNode, String> nodeId = new HashMap<>();
 	int id = 0;
 
 	// add nodes 

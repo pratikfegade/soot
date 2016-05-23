@@ -109,8 +109,8 @@ public abstract class StructuredAnalysis {
 	HashMap<Object, DavaFlowSet> beforeSets, afterSets;
 
 	public StructuredAnalysis() {
-		beforeSets = new HashMap<Object, DavaFlowSet>();
-		afterSets = new HashMap<Object, DavaFlowSet>();
+		beforeSets = new HashMap<>();
+		afterSets = new HashMap<>();
 		MERGETYPE = UNDEFINED;
 		// invoke user defined function which makes sure that you have the merge
 		// operator set
@@ -627,7 +627,7 @@ public abstract class StructuredAnalysis {
 		DavaFlowSet out = null;
 		DavaFlowSet defaultOut = null;
 
-		List<DavaFlowSet> toMergeBreaks = new ArrayList<DavaFlowSet>();
+		List<DavaFlowSet> toMergeBreaks = new ArrayList<>();
 
 		while (it.hasNext()) {// going through all the cases of the switch
 								// statement
@@ -683,7 +683,7 @@ public abstract class StructuredAnalysis {
 		String label = getLabel(node);
 
 		// have to handleBreaks for all the different cases
-		List<DavaFlowSet> outList = new ArrayList<DavaFlowSet>();
+		List<DavaFlowSet> outList = new ArrayList<>();
 
 		// handling breakLists of each of the toMergeBreaks
 		for (DavaFlowSet mset : toMergeBreaks)
@@ -720,7 +720,7 @@ public abstract class StructuredAnalysis {
 
 		List<Object> catchList = node.get_CatchList();
 		Iterator<Object> it = catchList.iterator();
-		List<DavaFlowSet> catchOutput = new ArrayList<DavaFlowSet>();
+		List<DavaFlowSet> catchOutput = new ArrayList<>();
 
 		while (it.hasNext()) {
 			ASTTryNode.container catchBody = (ASTTryNode.container) it.next();
@@ -749,7 +749,7 @@ public abstract class StructuredAnalysis {
 		 * The correct way to handle this is create a list of handledBreak
 		 * objects (in the outList) And then to merge them
 		 */
-		List<DavaFlowSet> outList = new ArrayList<DavaFlowSet>();
+		List<DavaFlowSet> outList = new ArrayList<>();
 
 		// handle breaks out of tryBodyOutput
 		outList.add(handleBreak(label, tryBodyOutput, node));

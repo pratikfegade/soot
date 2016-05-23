@@ -118,7 +118,7 @@ public class FillArrayDataInstruction extends PseudoInstruction {
   private NumericConstant getArrayElement(Number element, DexBody body, int arrayRegister) {
 
     List<DexlibAbstractInstruction> instructions = body.instructionsBefore(this);
-    Set<Integer> usedRegisters = new HashSet<Integer>();
+    Set<Integer> usedRegisters = new HashSet<>();
     usedRegisters.add(arrayRegister);
 
     Type elementType = null;

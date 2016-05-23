@@ -220,7 +220,7 @@ public class GeomEvaluator {
 		IVarAbstraction pn = ptsProvider.findInternalNode(vn);
 		if ( pn == null ) return;
 		pn = pn.getRepresentative();
-		Set<SootMethod> tgts = new HashSet<SootMethod>();
+		Set<SootMethod> tgts = new HashSet<>();
 		Set<AllocNode> set = pn.get_all_points_to_objects();
 
 		LinkedList<CgEdge> list = ptsProvider.getCallEdgesInto(ptsProvider
@@ -344,8 +344,8 @@ public class GeomEvaluator {
 	 */
 	public void checkAliasAnalysis() 
 	{
-		Set<IVarAbstraction> access_expr = new HashSet<IVarAbstraction>();
-		ArrayList<IVarAbstraction> al = new ArrayList<IVarAbstraction>();
+		Set<IVarAbstraction> access_expr = new HashSet<>();
+		ArrayList<IVarAbstraction> al = new ArrayList<>();
 		Value[] values = new Value[2];
 
 		for (SootMethod sm : ptsProvider.getAllReachableMethods()) {
@@ -529,8 +529,8 @@ public class GeomEvaluator {
 	 */
 	public void estimateHeapDefuseGraph() 
 	{
-		final Map<IVarAbstraction, int[]> defUseCounterForGeom = new HashMap<IVarAbstraction, int[]>();
-		final Map<AllocDotField, int[]> defUseCounterForSpark = new HashMap<AllocDotField, int[]>();
+		final Map<IVarAbstraction, int[]> defUseCounterForGeom = new HashMap<>();
+		final Map<AllocDotField, int[]> defUseCounterForSpark = new HashMap<>();
 
 		Date begin = new Date();
 

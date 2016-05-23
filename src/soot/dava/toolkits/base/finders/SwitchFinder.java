@@ -147,7 +147,7 @@ public class SwitchFinder implements FactFinder
 		targetHeads.addAll( sng.getHeads());
 	    }
 
-	    LinkedList<SwitchNode> switchNodeList = new LinkedList<SwitchNode>();
+	    LinkedList<SwitchNode> switchNodeList = new LinkedList<>();
 
 	    // Now, merge the targetHeads list and the killBodies list, keeping bundles of case fall throughs from the node graph.
 	    {
@@ -222,7 +222,7 @@ public class SwitchFinder implements FactFinder
     private IterableSet find_SubBody( AugmentedStmt switchAS, AugmentedStmt branchS)
     {
 	IterableSet subBody = new IterableSet();
-	LinkedList<AugmentedStmt> worklist = new LinkedList<AugmentedStmt>();
+	LinkedList<AugmentedStmt> worklist = new LinkedList<>();
 
 	subBody.add( branchS);
 	branchS = branchS.bsuccs.get(0);

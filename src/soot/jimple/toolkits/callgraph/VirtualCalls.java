@@ -35,7 +35,7 @@ public final class VirtualCalls
     public static VirtualCalls v() { return G.v().soot_jimple_toolkits_callgraph_VirtualCalls(); }
 
     private final LargeNumberedMap<Type, SmallNumberedMap<SootMethod>> typeToVtbl =
-        new LargeNumberedMap<Type, SmallNumberedMap<SootMethod>>( Scene.v().getTypeNumberer() );
+            new LargeNumberedMap<>(Scene.v().getTypeNumberer());
 
     public SootMethod resolveSpecial( SpecialInvokeExpr iie, NumberedString subSig, SootMethod container ) {
         SootMethod target = iie.getMethod();
@@ -60,7 +60,7 @@ public final class VirtualCalls
         SmallNumberedMap<SootMethod> vtbl = typeToVtbl.get( t );
         if( vtbl == null ) {
             typeToVtbl.put( t, vtbl =
-                    new SmallNumberedMap<SootMethod>( Scene.v().getMethodNumberer() ) );
+                    new SmallNumberedMap<>(Scene.v().getMethodNumberer()) );
         }
         SootMethod ret = vtbl.get( subSig );
         if( ret != null ) return ret;
@@ -79,7 +79,7 @@ public final class VirtualCalls
         return ret;
     }
 
-    private final Map<Type,List<Type>> baseToSubTypes = new HashMap<Type,List<Type>>();
+    private final Map<Type,List<Type>> baseToSubTypes = new HashMap<>();
 
     public void resolve( Type t, Type declaredType, NumberedString subSig, SootMethod container, ChunkedQueue<SootMethod> targets ) {
         resolve(t, declaredType, null, subSig, container, targets);
@@ -111,12 +111,12 @@ public final class VirtualCalls
                 return;
             }
 
-            baseToSubTypes.put(base, subTypes = new ArrayList<Type>() );
+            baseToSubTypes.put(base, subTypes = new ArrayList<>() );
 
             subTypes.add(base);
 
-            LinkedList<SootClass> worklist = new LinkedList<SootClass>();
-            HashSet<SootClass> workset = new HashSet<SootClass>();
+            LinkedList<SootClass> worklist = new LinkedList<>();
+            HashSet<SootClass> workset = new HashSet<>();
             FastHierarchy fh = Scene.v().getOrMakeFastHierarchy();
             SootClass cl = base.getSootClass();
 

@@ -42,9 +42,9 @@ public class LocalUsesChecker extends polyglot.visit.NodeVisitor{
     }
     
     public LocalUsesChecker(){
-        locals = new ArrayList<IdentityKey>();
-        localDecls = new ArrayList<IdentityKey>();
-        news = new ArrayList<Node>();
+        locals = new ArrayList<>();
+        localDecls = new ArrayList<>();
+        news = new ArrayList<>();
     }
 
     public polyglot.ast.Node leave(polyglot.ast.Node old, polyglot.ast.Node n, polyglot.visit.NodeVisitor visitor) {

@@ -32,7 +32,7 @@ public class UnreachableMethodsTagger extends SceneTransformer
     protected void internalTransform(String phaseName, Map options){
 
         // make list of all unreachable methods
-        ArrayList<SootMethod> methodList = new ArrayList<SootMethod>();
+        ArrayList<SootMethod> methodList = new ArrayList<>();
         
         Iterator getClassesIt = Scene.v().getApplicationClasses().iterator();
         while (getClassesIt.hasNext()) {

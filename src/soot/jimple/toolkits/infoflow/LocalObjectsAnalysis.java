@@ -35,8 +35,8 @@ public class LocalObjectsAnalysis
 		this.uf = new UseFinder();
 		this.cg = Scene.v().getCallGraph();
 		
-		classToClassLocalObjectsAnalysis = new HashMap<SootClass, ClassLocalObjectsAnalysis>();
-		mloaCache = new HashMap<SootMethod, SmartMethodLocalObjectsAnalysis>();
+		classToClassLocalObjectsAnalysis = new HashMap<>();
+		mloaCache = new HashMap<>();
 	}
 	
 	public ClassLocalObjectsAnalysis getClassLocalObjectsAnalysis(SootClass sc)
@@ -268,7 +268,7 @@ public class LocalObjectsAnalysis
 		return true;
 	}
 */
-	Map<SootMethod, ReachableMethods> rmCache = new HashMap<SootMethod, ReachableMethods>();
+	Map<SootMethod, ReachableMethods> rmCache = new HashMap<>();
 	
 	public CallChain getNextCallChainBetween(SootMethod start, SootMethod goal, List previouslyFound)
 	{
@@ -282,7 +282,7 @@ public class LocalObjectsAnalysis
 			rm = rmCache.get(start);
 		else
 		{
-			List<MethodOrMethodContext> entryPoints = new ArrayList<MethodOrMethodContext>();
+			List<MethodOrMethodContext> entryPoints = new ArrayList<>();
 			entryPoints.add(start);
 			rm = new ReachableMethods(cg, entryPoints);
 			rm.update();
@@ -541,7 +541,7 @@ public class LocalObjectsAnalysis
 
 		// Get list of reachable methods declared in this class
 		// Also get list of fields declared in this class
-		List<SootMethod> scopeMethods = new ArrayList<SootMethod>();
+		List<SootMethod> scopeMethods = new ArrayList<>();
 		Iterator scopeMethodsIt = sootClass.methodIterator();
 		while(scopeMethodsIt.hasNext())
 		{

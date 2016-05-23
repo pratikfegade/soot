@@ -13,5 +13,5 @@ import soot.jimple.spark.sets.SharedListSet.Pair;
 public class AllSharedListNodes {
     public AllSharedListNodes( Singletons.Global g ) {}
     public static AllSharedListNodes v() { return G.v().soot_jimple_spark_sets_AllSharedListNodes(); }
-	public Map<Pair, ListNode> allNodes = new HashMap<Pair, ListNode>();
+	public Map<Pair, ListNode> allNodes = new HashMap<>();
 }

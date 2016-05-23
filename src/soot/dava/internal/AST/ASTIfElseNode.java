@@ -62,7 +62,7 @@ public class ASTIfElseNode extends ASTControlFlowNode
     public void replace(SETNodeLabel newLabel,ASTCondition newCond,List<Object> newBody,List<Object> bodyTwo){
 	this.ifBody=newBody;
 	this.elseBody=bodyTwo;
-	subBodies= new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(newBody);
 	subBodies.add(bodyTwo);
 	set_Condition(newCond);
@@ -79,7 +79,7 @@ public class ASTIfElseNode extends ASTControlFlowNode
 	this.ifBody=ifBody;
 	this.elseBody=elseBody;
 
-	subBodies= new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(ifBody);
 	subBodies.add(elseBody);
     }
@@ -92,7 +92,7 @@ public class ASTIfElseNode extends ASTControlFlowNode
     public void replaceElseBody(List<Object> elseBody){
 	this.elseBody=elseBody;
 
-	subBodies= new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(ifBody);
 	subBodies.add(elseBody);
     }

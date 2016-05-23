@@ -55,11 +55,11 @@ public class SimpleDominatorsFinder<N> implements DominatorsFinder<N>
         //"]     Finding Dominators...");
 
         this.graph = graph;
-        SimpleDominatorsAnalysis<N> analysis = new SimpleDominatorsAnalysis<N>(graph);
+        SimpleDominatorsAnalysis<N> analysis = new SimpleDominatorsAnalysis<>(graph);
 
         // build node to dominators map
         {
-            nodeToDominators = new HashMap<N, FlowSet<N>>(graph.size() * 2 + 1, 0.7f);
+            nodeToDominators = new HashMap<>(graph.size() * 2 + 1, 0.7f);
             
             for(Iterator<N> nodeIt = graph.iterator(); nodeIt.hasNext();) {
                 N node = nodeIt.next();
@@ -132,14 +132,14 @@ class SimpleDominatorsAnalysis<N> extends ForwardFlowAnalysis<N, FlowSet<N>> {
 
 		// define empty set, with proper universe for complementation
         
-		List<N> nodes = new ArrayList<N>(graph.size());
+		List<N> nodes = new ArrayList<>(graph.size());
 
 		for (N n : graph) {
 			nodes.add(n);
 		}
         
-		FlowUniverse<N> nodeUniverse = new CollectionFlowUniverse<N>(nodes);
-		emptySet = new ArrayPackedSet<N>(nodeUniverse);
+		FlowUniverse<N> nodeUniverse = new CollectionFlowUniverse<>(nodes);
+		emptySet = new ArrayPackedSet<>(nodeUniverse);
 		fullSet = (BoundedFlowSet<N>) emptySet.clone();
 		fullSet.complement();
 

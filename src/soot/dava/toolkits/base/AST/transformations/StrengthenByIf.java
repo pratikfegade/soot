@@ -52,14 +52,14 @@ public class StrengthenByIf{
 			//aggregate the two conditions
 			ASTCondition newCond = new ASTAndCondition(outerCond,innerCond);
 			//make empty body
-			List<Object> newWhileBody = new ArrayList<Object>();
+			List<Object> newWhileBody = new ArrayList<>();
 			//SETNodeLabel newLabel = ((ASTWhileNode)loopNode).get_Label();
 
 			// dont need any label name since the body of the while is empty
 			SETNodeLabel newLabel = new SETNodeLabel();
 
 			//make new ASTWhileNode
-			List<ASTNode> toReturn = new ArrayList<ASTNode>();
+			List<ASTNode> toReturn = new ArrayList<>();
 			toReturn.add(new ASTWhileNode(newLabel,newCond,newWhileBody));
 			return toReturn;
 			
@@ -85,14 +85,14 @@ public class StrengthenByIf{
 			innerCond.flip();
 
 			//make empty body
-			List<Object> newWhileBody = new ArrayList<Object>();
+			List<Object> newWhileBody = new ArrayList<>();
 			//SETNodeLabel newLabel = ((ASTUnconditionalLoopNode)loopNode).get_Label();
 
 			// dont need any label name since the body of the while is empty
 			SETNodeLabel newLabel = new SETNodeLabel();
 			
 			//make new ASTWhileNode
-			List<ASTNode> toReturn = new ArrayList<ASTNode>();
+			List<ASTNode> toReturn = new ArrayList<>();
 			toReturn.add(new ASTWhileNode(newLabel,innerCond,newWhileBody));
 			return toReturn;
 		    }
@@ -127,16 +127,16 @@ public class StrengthenByIf{
 				    innerCond.flip();
 				    
 				    //make empty body
-				    List<Object> newWhileBody = new ArrayList<Object>();
+				    List<Object> newWhileBody = new ArrayList<>();
 				    SETNodeLabel newLabel = ((ASTUnconditionalLoopNode)loopNode).get_Label();
 				    
 				    //make new ASTWhileNode
-				    List<ASTNode> toReturn = new ArrayList<ASTNode>();
+				    List<ASTNode> toReturn = new ArrayList<>();
 				    toReturn.add(new ASTWhileNode(newLabel,innerCond,newWhileBody));
 				    
 				    //  Add the statementSequenceNode AFTER the whileNode except for the laststmt
 				    Iterator<Object> tempIt = statements.iterator();
-				    List<Object> newStmts = new ArrayList<Object>();
+				    List<Object> newStmts = new ArrayList<>();
 				    while(tempIt.hasNext()){
 					Object tempStmt = tempIt.next();
 					if(tempIt.hasNext()){
@@ -157,7 +157,7 @@ public class StrengthenByIf{
 			    innerCond.flip();
 			    
 			    //make empty body
-			    List<Object> newWhileBody = new ArrayList<Object>();
+			    List<Object> newWhileBody = new ArrayList<>();
 			    //SETNodeLabel newLabel = ((ASTUnconditionalLoopNode)loopNode).get_Label();
 			    
 
@@ -165,12 +165,12 @@ public class StrengthenByIf{
 			    SETNodeLabel newLabel = new SETNodeLabel();
 
 			    //make new ASTWhileNode
-			    List<ASTNode> toReturn = new ArrayList<ASTNode>();
+			    List<ASTNode> toReturn = new ArrayList<>();
 			    toReturn.add(new ASTWhileNode(newLabel,innerCond,newWhileBody));
 			    
 			    //  Add the statementSequenceNode AFTER the whileNode except for the laststmt
 			    Iterator<Object> tempIt = statements.iterator();
-			    List<Object> newStmts = new ArrayList<Object>();
+			    List<Object> newStmts = new ArrayList<>();
 			    while(tempIt.hasNext()){
 				newStmts.add(tempIt.next());
 			    }

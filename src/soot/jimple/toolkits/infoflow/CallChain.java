@@ -28,7 +28,7 @@ public class CallChain
 	// reconstructs the whole chain
 	public List<Edge> getEdges()
 	{
-		List<Edge> ret = new LinkedList<Edge>();
+		List<Edge> ret = new LinkedList<>();
 		if(edge != null)
 			ret.add(edge);
 		CallChain current = next;

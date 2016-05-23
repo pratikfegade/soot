@@ -13,10 +13,10 @@ public class StmtSumWeightedByDepth extends ASTMetric {
   int maxDepth;
   int numNodes;
   
-  Stack<ArrayList> labelNodesSoFar = new Stack<ArrayList>();
-  ArrayList<Node> blocksWithAbruptFlow = new ArrayList<Node>();
-  HashMap<Node, Integer> stmtToMetric = new HashMap<Node, Integer>();
-  HashMap<Node, Integer> stmtToMetricDepth = new HashMap<Node, Integer>();
+  Stack<ArrayList> labelNodesSoFar = new Stack<>();
+  ArrayList<Node> blocksWithAbruptFlow = new ArrayList<>();
+  HashMap<Node, Integer> stmtToMetric = new HashMap<>();
+  HashMap<Node, Integer> stmtToMetricDepth = new HashMap<>();
   
   public static boolean tmpAbruptChecker = false; 
   

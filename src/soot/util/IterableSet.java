@@ -97,7 +97,7 @@ public class IterableSet<T> extends HashChain<T> implements Set<T>
     
     public Object clone()
     {
-	IterableSet<T> s = new IterableSet<T>();
+	IterableSet<T> s = new IterableSet<>();
 	s.addAll( this);
 	return s;
     }    
@@ -179,7 +179,7 @@ public class IterableSet<T> extends HashChain<T> implements Set<T>
 	if (other == null)
 	    throw new IllegalArgumentException( "Cannot set intersect an IterableSet with \"null\".");
 
-	IterableSet<T> c = new IterableSet<T>();
+	IterableSet<T> c = new IterableSet<>();
 
 	if (other.size() < size()) {
 	    for (T t : other)
@@ -199,7 +199,7 @@ public class IterableSet<T> extends HashChain<T> implements Set<T>
 	if (other == null)
 	    throw new IllegalArgumentException( "Cannot set union an IterableSet with \"null\".");
 
-	IterableSet<T> c = new IterableSet<T>();
+	IterableSet<T> c = new IterableSet<>();
 
 	c.addAll( this);
 	c.addAll( other);

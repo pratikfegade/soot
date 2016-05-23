@@ -29,7 +29,7 @@ public class DArrayInitExpr implements Value {
 	 * return useBoxes of each value plus the valuebox itself
 	 */
 	public List<ValueBox> getUseBoxes() {
-        List<ValueBox> list = new ArrayList<ValueBox>();
+        List<ValueBox> list = new ArrayList<>();
 
         for (ValueBox element : elements) {
         	list.addAll(element.getValue().getUseBoxes());

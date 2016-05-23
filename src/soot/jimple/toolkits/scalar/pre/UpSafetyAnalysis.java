@@ -66,8 +66,8 @@ public class UpSafetyAnalysis extends ForwardFlowAnalysis<Unit, FlowSet<Equivale
 	 *            the SideEffectTester that will be used to perform kills.
 	 */
 	public UpSafetyAnalysis(DirectedGraph<Unit> dg, Map<Unit, EquivalentValue> unitToGen, SideEffectTester sideEffect) {
-		this(dg, unitToGen, sideEffect, new ArrayPackedSet<EquivalentValue>(
-				new CollectionFlowUniverse<EquivalentValue>(unitToGen.values())));
+		this(dg, unitToGen, sideEffect, new ArrayPackedSet<>(
+				new CollectionFlowUniverse<>(unitToGen.values())));
 	}
 
 	/**

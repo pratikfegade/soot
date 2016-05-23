@@ -63,16 +63,16 @@ public class EnhancedUnitGraph extends UnitGraph {
 	    super(body);
 	
 	    //try2nop = new Hashtable<GuardedBlock, Unit>();
-	    try2nop = new Hashtable<Unit, Unit>();
-	    handler2header = new Hashtable<Unit, Unit>();
+	    try2nop = new Hashtable<>();
+	    handler2header = new Hashtable<>();
 	    
 	        
 	    //there could be a maximum of traps.size() of nop
 	    //units added to the CFG plus potentially START/STOP nodes.
 		int size = unitChain.size() + body.getTraps().size() + 2;
 
-		unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-		unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
+		unitToSuccs = new HashMap<>(size * 2 + 1, 0.7f);
+		unitToPreds = new HashMap<>(size * 2 + 1, 0.7f);
 		
 		
 		/*
@@ -111,7 +111,7 @@ public class EnhancedUnitGraph extends UnitGraph {
 		if(this.getTails().size() > 1)
 		{
 			Unit stop = new ExitStmt();
-		    List<Unit> predsOfstop = new ArrayList<Unit>();
+		    List<Unit> predsOfstop = new ArrayList<>();
 	
 		    
 			for(Iterator<Unit> tailItr = this.getTails().iterator(); tailItr.hasNext(); )
@@ -154,7 +154,7 @@ public class EnhancedUnitGraph extends UnitGraph {
 				List<Unit> succs = this.unitToSuccs.get(head);
 				for(Iterator<Unit> succsItr = succs.iterator(); succsItr.hasNext(); )
 				{
-					List<Unit> tobeRemoved = new ArrayList<Unit>();
+					List<Unit> tobeRemoved = new ArrayList<>();
 					
 					Unit succ = succsItr.next();
 					List<Unit> predOfSuccs = this.unitToPreds.get(succ);
@@ -183,11 +183,11 @@ public class EnhancedUnitGraph extends UnitGraph {
 	
 	protected void handleExplicitThrowEdges()
 	{
-		MHGDominatorTree<Unit> dom = new MHGDominatorTree<Unit>(new MHGDominatorsFinder<Unit>(this));
-		MHGDominatorTree<Unit> pdom = new MHGDominatorTree<Unit>(new MHGPostDominatorsFinder<Unit>(this));
+		MHGDominatorTree<Unit> dom = new MHGDominatorTree<>(new MHGDominatorsFinder<>(this));
+		MHGDominatorTree<Unit> pdom = new MHGDominatorTree<>(new MHGPostDominatorsFinder<>(this));
 		
 		//this keeps a map from the entry of a try-catch-block to a selected merge point 
-		Hashtable<Unit, Unit> x2mergePoint = new Hashtable<Unit, Unit>();
+		Hashtable<Unit, Unit> x2mergePoint = new Hashtable<>();
 		
 		List<Unit> tails = this.getTails();
 
@@ -437,7 +437,7 @@ public class EnhancedUnitGraph extends UnitGraph {
 		}
 		
 		//Only add a nop once
-		Hashtable<Unit, Boolean> nop2added = new Hashtable<Unit, Boolean>();
+		Hashtable<Unit, Boolean> nop2added = new Hashtable<>();
 
 		// Now actually add the edge
 AddExceptionalEdge:
@@ -480,7 +480,7 @@ AddExceptionalEdge:
 		    if(!nop2added.containsKey(ehnop))
 		    {
 			    List<Unit> predsOfB = getPredsOf(b);
-			    List<Unit> predsOfehnop = new ArrayList<Unit>(predsOfB);
+			    List<Unit> predsOfehnop = new ArrayList<>(predsOfB);
 			    
 			    for(Iterator<Unit> itr = predsOfB.iterator(); itr.hasNext(); )
 			    {

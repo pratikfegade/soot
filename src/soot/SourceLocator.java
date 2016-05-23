@@ -47,7 +47,7 @@ public class SourceLocator
     public SourceLocator( Singletons.Global g ) {}
     public static SourceLocator v() { return G.v().soot_SourceLocator(); }
 
-    protected Set<ClassLoader> additionalClassLoaders = new HashSet<ClassLoader>();
+    protected Set<ClassLoader> additionalClassLoaders = new HashSet<>();
 	protected Set<String> classesToLoad;
 	
 	private enum ClassSourceType { jar, zip, apk, dex, directory, unknown }
@@ -56,7 +56,7 @@ public class SourceLocator
 	public ClassSource getClassSource(String className) 
     {
 		if(classesToLoad==null) {
-			classesToLoad = new HashSet<String>();
+			classesToLoad = new HashSet<>();
 			classesToLoad.addAll(Scene.v().getBasicClasses());
 			for(SootClass c: Scene.v().getApplicationClasses()) {
 				classesToLoad.add(c.getName());
@@ -115,7 +115,7 @@ public class SourceLocator
     }
 
     private void setupClassProviders() {
-        classProviders = new LinkedList<ClassProvider>();
+        classProviders = new LinkedList<>();
         ClassProvider classFileClassProvider = Options.v().coffi() ? new CoffiClassProvider() : new AsmClassProvider();
 		switch( Options.v().src_prec() ) {
             case Options.src_prec_class:
@@ -161,7 +161,7 @@ public class SourceLocator
     private List<String> sourcePath;
     public List<String> sourcePath() {
         if( sourcePath == null ) {
-            sourcePath = new ArrayList<String>();
+            sourcePath = new ArrayList<>();
             for (String dir : classPath) {
             	ClassSourceType cst = getClassSourceType(dir);
                 if( cst != ClassSourceType.apk
@@ -191,7 +191,7 @@ public class SourceLocator
     }
         
     public List<String> getClassesUnder(String aPath) {
-		List<String> classes = new ArrayList<String>();
+		List<String> classes = new ArrayList<>();
 		ClassSourceType cst = getClassSourceType(aPath);
 		
 		// Get the dex file from an apk
@@ -222,7 +222,7 @@ public class SourceLocator
 		}
 		// load Java class files from ZIP and JAR
 		else if (cst == ClassSourceType.jar || cst == ClassSourceType.zip) {
-			List<String> inputExtensions = new ArrayList<String>(3);
+			List<String> inputExtensions = new ArrayList<>(3);
 			inputExtensions.add(".class");
 			inputExtensions.add(".jimple");
 
@@ -348,7 +348,7 @@ public class SourceLocator
 
     /* This is called after sootClassPath has been defined. */
     public Set<String> classesInDynamicPackage(String str) {
-        HashSet<String> set = new HashSet<String>(0);
+        HashSet<String> set = new HashSet<>(0);
         StringTokenizer strtok = new StringTokenizer(
                 Scene.v().getSootClassPath(), String.valueOf(File.pathSeparatorChar));
         while (strtok.hasMoreTokens()) {
@@ -472,7 +472,7 @@ public class SourceLocator
 
     /** Explodes a class path into a list of individual class path entries. */
     public static List<String> explodeClassPath( String classPath ) {
-        List<String> ret = new ArrayList<String>();
+        List<String> ret = new ArrayList<>();
 
         StringTokenizer tokenizer = 
             new StringTokenizer(classPath, File.pathSeparator);

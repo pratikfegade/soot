@@ -36,7 +36,7 @@ public class LineNumberAdder extends SceneTransformer {
         while (it.hasNext()){
             SootClass sc = (SootClass)it.next();
             // make map of first line to each method
-            HashMap<Integer, SootMethod> lineToMeth = new HashMap<Integer, SootMethod>();
+            HashMap<Integer, SootMethod> lineToMeth = new HashMap<>();
             Iterator methIt = sc.getMethods().iterator();
             while (methIt.hasNext()){
                 SootMethod meth = (SootMethod)methIt.next();

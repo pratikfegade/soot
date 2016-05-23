@@ -77,7 +77,7 @@ public class ClassicCompleteBlockGraph extends BlockGraph
         super(unitGraph);
 	// Adjust the heads and tails to match the old CompleteBlockGraph.
 	Unit entryPoint = getBody().getUnits().getFirst();
-	List<Block> newHeads = new ArrayList<Block>(1);
+	List<Block> newHeads = new ArrayList<>(1);
 	for (Block b : getBlocks()) {
 	    if (b.getHead() == entryPoint) {
 		newHeads.add(b);

@@ -268,7 +268,7 @@ public class ClassResolver {
         // add as param for init
         for (SootMethod meth : sootClass.getMethods()) {
             if (meth.getName().equals("<init>")){
-                List<soot.Type> newParams = new ArrayList<soot.Type>();
+                List<soot.Type> newParams = new ArrayList<>();
                 newParams.addAll(meth.getParameterTypes());
                 newParams.add(Util.getSootType(li.type()));
                 meth.setParameterTypes(newParams);
@@ -282,12 +282,12 @@ public class ClassResolver {
         sf.addTag(new soot.tagkit.SyntheticTag());       
     }
     private ArrayList<SootField> addFinalLocals(polyglot.ast.ClassBody cBody, ArrayList<IdentityKey> finalLocalsAvail, polyglot.types.ClassType nodeKeyType, AnonLocalClassInfo info){
-        ArrayList<SootField> finalFields = new ArrayList<SootField>();
+        ArrayList<SootField> finalFields = new ArrayList<>();
         
         LocalUsesChecker luc = new LocalUsesChecker();
         cBody.visit(luc);
         /*Iterator localsNeededIt = luc.getLocals().iterator();*/
-        ArrayList<IdentityKey> localsUsed = new ArrayList<IdentityKey>();
+        ArrayList<IdentityKey> localsUsed = new ArrayList<>();
         /*while (localsNeededIt.hasNext()){
             polyglot.types.LocalInstance li = (polyglot.types.LocalInstance)((polyglot.util.IdentityKey)localsNeededIt.next()).object();
             //if (luc.getLocalDecls().contains(new polyglot.util.IdentityKey(li))){
@@ -899,7 +899,7 @@ public class ClassResolver {
                 }
                 else {
                     if (staticFieldInits == null) {
-                        staticFieldInits = new ArrayList<FieldDecl>();
+                        staticFieldInits = new ArrayList<>();
                     }
                     staticFieldInits.add(field);
                 }
@@ -908,7 +908,7 @@ public class ClassResolver {
         else {
             if (field.init() != null) {
                 if (fieldInits == null) {
-                    fieldInits = new ArrayList<FieldDecl>();
+                    fieldInits = new ArrayList<>();
                 }
                 fieldInits.add(field);
             }
@@ -950,7 +950,7 @@ public class ClassResolver {
      * creates soot exceptions from polyglot throws
      */
     private ArrayList<SootClass> createExceptions(polyglot.ast.ProcedureDecl procedure) {
-        ArrayList<SootClass> exceptions = new ArrayList<SootClass>();
+        ArrayList<SootClass> exceptions = new ArrayList<>();
         Iterator throwsIt = procedure.throwTypes().iterator();
         while (throwsIt.hasNext()){
             polyglot.types.Type throwType = ((polyglot.ast.TypeNode)throwsIt.next()).type();
@@ -975,13 +975,13 @@ public class ClassResolver {
     private void createInitializer(polyglot.ast.Initializer initializer) {
         if (initializer.flags().isStatic()) {
             if (staticInitializerBlocks == null) {
-                staticInitializerBlocks = new ArrayList<Block>();
+                staticInitializerBlocks = new ArrayList<>();
             }
             staticInitializerBlocks.add(initializer.body());
         }
         else {
             if (initializerBlocks == null) {
-                initializerBlocks = new ArrayList<Block>();
+                initializerBlocks = new ArrayList<>();
             }
             initializerBlocks.add(initializer.body());
         }

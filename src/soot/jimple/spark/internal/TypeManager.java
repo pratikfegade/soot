@@ -58,9 +58,9 @@ import soot.util.queue.QueueReader;
  * reversed-topological-order.
  */
 public final class TypeManager {
-    private Map<SootClass, List<AllocNode>> class2allocs = 
-        new HashMap<SootClass, List<AllocNode>>(1024);
-    private List<AllocNode> anySubtypeAllocs = new LinkedList<AllocNode>();
+    private Map<SootClass, List<AllocNode>> class2allocs =
+            new HashMap<>(1024);
+    private List<AllocNode> anySubtypeAllocs = new LinkedList<>();
 
     public TypeManager( PAG pag ) {
         this.pag = pag;
@@ -114,7 +114,7 @@ public final class TypeManager {
     }
     final public void makeTypeMask() {
         RefType.v( "java.lang.Class" );
-        typeMask = new LargeNumberedMap<Type, BitVector>( Scene.v().getTypeNumberer() );
+        typeMask = new LargeNumberedMap<>(Scene.v().getTypeNumberer());
         if( fh == null ) return;
 
         int numTypes = Scene.v().getTypeNumberer().size();
@@ -185,7 +185,7 @@ public final class TypeManager {
                 SootClass cl = t.getSootClass();
                 List<AllocNode> list ;
                 if ((list = class2allocs.get(cl)) == null) {
-                    list = new LinkedList<AllocNode>();
+                    list = new LinkedList<>();
                     class2allocs.put(cl, list);
                 }
                 list.add(alloc);

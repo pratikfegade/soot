@@ -67,9 +67,9 @@ public class DotGraph implements Renderable{
   public DotGraph(String graphname) {
     this.graphname   = graphname;
     this.isSubGraph = false;
-    this.nodes      = new HashMap<String, DotGraphNode>(100);
-    this.drawElements = new LinkedList<Renderable>();
-    this.attributes   = new LinkedList<DotGraphAttribute>();
+    this.nodes      = new HashMap<>(100);
+    this.drawElements = new LinkedList<>();
+    this.attributes   = new LinkedList<>();
   }
   
   /**

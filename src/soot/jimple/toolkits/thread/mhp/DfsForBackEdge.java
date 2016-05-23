@@ -20,9 +20,9 @@ import java.util.*;
 
 public class DfsForBackEdge{
 	
-	private final Map<Object, Object> backEdges = new HashMap<Object, Object>();    
-	private final Set<Object> gray = new HashSet<Object>();
-	private final Set<Object> black = new HashSet<Object>();
+	private final Map<Object, Object> backEdges = new HashMap<>();
+	private final Set<Object> gray = new HashSet<>();
+	private final Set<Object> black = new HashSet<>();
 	private final DominatorsFinder domFinder;
 	
 	DfsForBackEdge(Chain chain, DirectedGraph peg){

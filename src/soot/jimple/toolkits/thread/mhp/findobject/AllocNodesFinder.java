@@ -31,9 +31,9 @@ public class AllocNodesFinder{
 	public  AllocNodesFinder(PegCallGraph pcg, CallGraph cg, PAG pag){
 		//System.out.println("===inside AllocNodesFinder===");
 		this.pag = pag;
-		allocNodes = new HashSet<AllocNode>();
-		multiRunAllocNodes = new HashSet<AllocNode>();
-		multiCalledMethods = new HashSet<SootMethod>();
+		allocNodes = new HashSet<>();
+		multiRunAllocNodes = new HashSet<>();
+		multiCalledMethods = new HashSet<>();
 		MultiCalledMethods mcm = new MultiCalledMethods(pcg, multiCalledMethods);
 		
 		find(mcm.getMultiCalledMethods(), pcg, cg);

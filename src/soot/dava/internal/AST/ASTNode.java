@@ -35,7 +35,7 @@ public abstract class ASTNode extends AbstractUnit
 
     public ASTNode()
     {
-	subBodies = new ArrayList<Object>();
+	subBodies = new ArrayList<>();
     }
 
     public abstract void toString( UnitPrinter up );

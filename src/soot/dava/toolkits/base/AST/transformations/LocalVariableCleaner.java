@@ -90,7 +90,7 @@ public class LocalVariableCleaner extends DepthFirstAdapter {
 		//get all local variables declared in this method
 		Iterator decIt = node.getDeclaredLocals().iterator();
 
-		ArrayList<Local> removeList = new ArrayList<Local>();
+		ArrayList<Local> removeList = new ArrayList<>();
 		while (decIt.hasNext()) {
 			//going through each local declared
 
@@ -186,7 +186,7 @@ public class LocalVariableCleaner extends DepthFirstAdapter {
 	 * This method looks up all defs and returns those of this local
 	 */
 	public List<DefinitionStmt> getDefs(Local var) {
-		List<DefinitionStmt> toReturn = new ArrayList<DefinitionStmt>();
+		List<DefinitionStmt> toReturn = new ArrayList<>();
 
 		HashMap<Object, List> dU = useDefs.getDUHashMap();
 		Iterator<Object> it = dU.keySet().iterator();
@@ -218,7 +218,7 @@ public class LocalVariableCleaner extends DepthFirstAdapter {
 		}
 		ASTStatementSequenceNode parentNode = (ASTStatementSequenceNode) parent;
 
-		ArrayList<Object> newSequence = new ArrayList<Object>();
+		ArrayList<Object> newSequence = new ArrayList<>();
 		List<Object> stmts = parentNode.getStatements();
 		int size = stmts.size();
 		Iterator<Object> it = stmts.iterator();

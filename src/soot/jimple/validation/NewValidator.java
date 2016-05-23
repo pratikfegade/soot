@@ -75,7 +75,7 @@ public enum NewValidator implements BodyValidator {
 						}
 
 						// We search for a JSpecialInvokeExpr on the local.
-						LinkedHashSet<Local> locals = new LinkedHashSet<Local>();
+						LinkedHashSet<Local> locals = new LinkedHashSet<>();
 						locals.add((Local) assign.getLeftOp());
 					
 						checkForInitializerOnPath(g, assign, assign, locals, new HashSet<Unit>(), exception);

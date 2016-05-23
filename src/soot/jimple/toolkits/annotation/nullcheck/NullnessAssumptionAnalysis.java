@@ -241,7 +241,8 @@ public class NullnessAssumptionAnalysis  extends BackwardFlowAnalysis
 	protected Object entryInitialFlow() {
 		return new AnalysisInfo();
 	}
-	/**
+
+	/**
 	 * {@inheritDoc}
 	 */
 	protected void merge(Object in1, Object in2, Object out) {
@@ -257,7 +258,7 @@ public class NullnessAssumptionAnalysis  extends BackwardFlowAnalysis
 		
 		for (Iterator keyIter = values.iterator(); keyIter.hasNext();) {
 			Value v = (Value) keyIter.next();
-			Set<Object> leftAndRight = new HashSet<Object>();
+			Set<Object> leftAndRight = new HashSet<>();
 			leftAndRight.add(left.get(v));
 			leftAndRight.add(right.get(v));			
 

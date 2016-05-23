@@ -107,7 +107,7 @@ public class ArithmeticTransformer extends BodyTransformer implements
               if (shft_rem[0] != null
                   && ((Integer) shft_rem[0]).intValue() < max
                   && Rand.getInt(10) <= weight) {
-                List<Unit> unitsBuilt = new ArrayList<Unit>();
+                List<Unit> unitsBuilt = new ArrayList<>();
                 int rand = Rand.getInt(16);
                 int shift = ((Integer) shft_rem[0]).intValue();
                 boolean neg = ((Boolean) shft_rem[2]).booleanValue();
@@ -240,7 +240,7 @@ public class ArithmeticTransformer extends BodyTransformer implements
                 if (shft_rem[0] != null
                     && ((Integer) shft_rem[0]).intValue() < max
                     && Rand.getInt(10) <= weight) {
-                  List<Unit> unitsBuilt = new ArrayList<Unit>();
+                  List<Unit> unitsBuilt = new ArrayList<>();
                   int rand = Rand.getInt(16);
                   int shift = ((Integer) shft_rem[0]).intValue();
                   boolean neg = ((Boolean) shft_rem[2]).booleanValue();

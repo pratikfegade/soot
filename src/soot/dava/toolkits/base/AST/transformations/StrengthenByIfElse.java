@@ -119,7 +119,7 @@ public class StrengthenByIfElse{
 			    if(newWhileNode == null){
 				return null;
 			    }
-			    List<ASTNode> toReturn = new ArrayList<ASTNode>();
+			    List<ASTNode> toReturn = new ArrayList<>();
 			    toReturn.add(newWhileNode);
 
 			    			    
@@ -128,7 +128,7 @@ public class StrengthenByIfElse{
 				//size 1 means that the only stmt is a break stmt
 
 				Iterator<Object> tempIt = statements.iterator();
-				List<Object> newStmts = new ArrayList<Object>();
+				List<Object> newStmts = new ArrayList<>();
 				while(tempIt.hasNext()){
 				    Object tempStmt = tempIt.next();
 				    if(tempIt.hasNext()){
@@ -160,12 +160,12 @@ public class StrengthenByIfElse{
 		if(newWhileNode == null){
 		    return null;
 		}
-		List<ASTNode> toReturn = new ArrayList<ASTNode>();
+		List<ASTNode> toReturn = new ArrayList<>();
 		toReturn.add(newWhileNode);
 
 		//  Add the statementSequenceNode AFTER the whileNode
 		Iterator<Object> tempIt = statements.iterator();
-		List<Object> newStmts = new ArrayList<Object>();
+		List<Object> newStmts = new ArrayList<>();
 		while(tempIt.hasNext()){
 		    Object tempStmt = tempIt.next();
 		    newStmts.add(tempStmt);

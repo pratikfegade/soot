@@ -67,7 +67,7 @@ public class ShimpleLocalDefs implements LocalDefs
         {
             Chain<Unit> unitsChain = sb.getUnits();
             Iterator<Unit> unitsIt = unitsChain.iterator();
-            localToDefs = new HashMap<Value, List<Unit>>(unitsChain.size() * 2 + 1, 0.7f);
+            localToDefs = new HashMap<>(unitsChain.size() * 2 + 1, 0.7f);
         
             while(unitsIt.hasNext()){
                 Unit unit = unitsIt.next();

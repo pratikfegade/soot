@@ -114,7 +114,7 @@ public class NativeMethodDriver {
                        new SunMiscUnsafeNative(helper));
     }
 
-  private final HashMap<String,NativeMethodClass> cnameToSim = new HashMap<String,NativeMethodClass>(100);
+  private final HashMap<String,NativeMethodClass> cnameToSim = new HashMap<>(100);
   private final boolean DEBUG = false;
 
   /**

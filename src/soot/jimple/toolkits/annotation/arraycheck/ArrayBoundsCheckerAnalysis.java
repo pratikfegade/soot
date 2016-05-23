@@ -97,7 +97,7 @@ class ArrayBoundsCheckerAnalysis
             if (rectarray)
             {
                 this.multiarraylocals = ailanalysis.getMultiArrayLocals();
-                this.rectarrayset = new HashSet<Local>();
+                this.rectarrayset = new HashSet<>();
 
                 RectangularArrayFinder pgbuilder = RectangularArrayFinder.v();
 
@@ -126,9 +126,9 @@ class ArrayBoundsCheckerAnalysis
 
         this.graph = new ArrayRefBlockGraph(body);
 
-        blockToBeforeFlow = new HashMap<Block, WeightedDirectedSparseGraph>(graph.size()*2+1, 0.7f);
+        blockToBeforeFlow = new HashMap<>(graph.size() * 2 + 1, 0.7f);
         
-        edgeMap = new HashMap<FlowGraphEdge, WeightedDirectedSparseGraph>(graph.size()*2+1, 0.7f);
+        edgeMap = new HashMap<>(graph.size() * 2 + 1, 0.7f);
         
         edgeSet = buildEdgeSet(graph);
         
@@ -142,7 +142,7 @@ class ArrayBoundsCheckerAnalysis
 
     private void convertToUnitEntry()
     {
-        unitToBeforeFlow = new HashMap<Unit, WeightedDirectedSparseGraph>();
+        unitToBeforeFlow = new HashMap<>();
         Iterator<Block> blockIt = blockToBeforeFlow.keySet().iterator();
         while (blockIt.hasNext())
         {
@@ -156,7 +156,7 @@ class ArrayBoundsCheckerAnalysis
      */
     public Set<FlowGraphEdge> buildEdgeSet(DirectedGraph<Block> dg)
     {
-        HashSet<FlowGraphEdge> edges = new HashSet<FlowGraphEdge>();
+        HashSet<FlowGraphEdge> edges = new HashSet<>();
 
         Iterator<Block> blockIt = dg.iterator();
         while (blockIt.hasNext())
@@ -284,7 +284,7 @@ class ArrayBoundsCheckerAnalysis
 
         /* If any output flow set has unknow value, it will be put in this set
          */
-        HashSet<Block> unvisitedNodes = new HashSet<Block>(graph.size()*2+1, 0.7f);
+        HashSet<Block> unvisitedNodes = new HashSet<>(graph.size() * 2 + 1, 0.7f);
 
         /* adjust livelocals set */
         {
@@ -299,7 +299,7 @@ class ArrayBoundsCheckerAnalysis
 
         /* Set initial values and nodes to visit. */
         {
-            stableRoundOfUnits = new HashMap<Block, Integer>();
+            stableRoundOfUnits = new HashMap<>();
             
             Iterator it = graph.iterator();
 
@@ -473,7 +473,7 @@ class ArrayBoundsCheckerAnalysis
      */
     private List<Object> flowThrough(Object inValue, Object unit)
     {        
-        ArrayList<Object> changedSuccs = new ArrayList<Object>();
+        ArrayList<Object> changedSuccs = new ArrayList<>();
       
         WeightedDirectedSparseGraph ingraph = 
             (WeightedDirectedSparseGraph)inValue;

@@ -57,7 +57,7 @@ public class AnnotationInstanceCreator {
 		try {
 			// load the class of the annotation to be created
 			final Class<?> clazz = Classes.loadClass(tag.getType().replace('/', '.'));
-			final Map<String, Object> map = new HashMap<String, Object>();
+			final Map<String, Object> map = new HashMap<>();
 
 			// for every element generate the result
 			for (AnnotationElem elem : tag.getElems()) {

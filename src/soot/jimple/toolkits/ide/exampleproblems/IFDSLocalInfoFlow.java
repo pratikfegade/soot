@@ -67,7 +67,7 @@ public class IFDSLocalInfoFlow extends DefaultJimpleIFDSTabulationProblem<Local,
 					Local leftLocal = (Local) is.getLeftOp();
 					Value right = is.getRightOp();
 					if (right instanceof ParameterRef) {
-						return new Gen<Local>(leftLocal,zeroValue());
+						return new Gen<>(leftLocal, zeroValue());
 					}
 				}
 				
@@ -78,9 +78,9 @@ public class IFDSLocalInfoFlow extends DefaultJimpleIFDSTabulationProblem<Local,
 						final Local leftLocal = (Local) assignStmt.getLeftOp();
 						if(right instanceof Local) {
 							final Local rightLocal = (Local) right;
-							return new Transfer<Local>(leftLocal, rightLocal);
+							return new Transfer<>(leftLocal, rightLocal);
 						} else {
-							return new Kill<Local>(leftLocal);
+							return new Kill<>(leftLocal);
 						}
 					}
 				}
@@ -92,7 +92,7 @@ public class IFDSLocalInfoFlow extends DefaultJimpleIFDSTabulationProblem<Local,
 				Stmt s = (Stmt) src;
 				InvokeExpr ie = s.getInvokeExpr();
 				final List<Value> callArgs = ie.getArgs();
-				final List<Local> paramLocals = new ArrayList<Local>();
+				final List<Local> paramLocals = new ArrayList<>();
 				for(int i=0;i<dest.getParameterCount();i++) {
 					paramLocals.add(dest.getActiveBody().getParameterLocal(i));
 				}
@@ -102,7 +102,7 @@ public class IFDSLocalInfoFlow extends DefaultJimpleIFDSTabulationProblem<Local,
 						if(dest.getName().equals(SootMethod.staticInitializerName) && dest.getParameterCount()==0)
 							return Collections.emptySet();
 						
-						Set<Local> taintsInCaller = new HashSet<Local>();
+						Set<Local> taintsInCaller = new HashSet<>();
 						for(int i=0;i<callArgs.size();i++) {
 							if(callArgs.get(i).equivTo(source)) {
 								taintsInCaller.add(paramLocals.get(i));

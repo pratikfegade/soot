@@ -61,7 +61,7 @@ public class ASTMethodNode extends ASTNode {
 	 * 
 	 * Any local in the dontPrintLocals list is not printed in the top declarations
 	 */
-	private List<Local> dontPrintLocals = new ArrayList<Local>();
+	private List<Local> dontPrintLocals = new ArrayList<>();
 	
 	/*
 	 typeToLocals stores the type of the local and a list of all locals with that type
@@ -116,7 +116,7 @@ public class ASTMethodNode extends ASTNode {
 			if (typeToLocals.containsKey(t))
 				localList = typeToLocals.get(t);
 			else {
-				localList = new ArrayList<Local>();
+				localList = new ArrayList<>();
 				typeToLocals.put(t, localList);
 			}
 
@@ -125,7 +125,7 @@ public class ASTMethodNode extends ASTNode {
 
 		//create a StatementSequenceNode with all the declarations
 
-		List<Object> statementSequence = new ArrayList<Object>();
+		List<Object> statementSequence = new ArrayList<>();
 
 		Iterator<Type> typeIt = typeToLocals.keySet().iterator();
 
@@ -149,7 +149,7 @@ public class ASTMethodNode extends ASTNode {
 		declarations = new ASTStatementSequenceNode(statementSequence);
 
 		body.add(0, declarations);
-		subBodies = new ArrayList<Object>();
+		subBodies = new ArrayList<>();
 		subBodies.add(body);
 	}
 
@@ -230,7 +230,7 @@ public class ASTMethodNode extends ASTNode {
 		//the removal of a local might have made some declaration empty
 		//remove such a declaraion
 
-		List<Object> newSequence = new ArrayList<Object>();
+		List<Object> newSequence = new ArrayList<>();
 		it = declarations.getStatements().iterator();
 		while (it.hasNext()) {
 			AugmentedStmt as = (AugmentedStmt) it.next();
@@ -254,7 +254,7 @@ public class ASTMethodNode extends ASTNode {
 	 */
 	public void replaceBody(List<Object> body) {
 		this.body = body;
-		subBodies = new ArrayList<Object>();
+		subBodies = new ArrayList<>();
 		subBodies.add(body);
 	}
 

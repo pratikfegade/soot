@@ -64,9 +64,9 @@ public abstract class DexTransformer extends BodyTransformer {
 	 */
 	protected List<Unit> collectDefinitionsWithAliases(Local l,
 			LocalDefs localDefs, LocalUses localUses, Body body) {
-		Set<Local> seenLocals = new HashSet<Local>();
-		Stack<Local> newLocals = new Stack<Local>();
-		List<Unit> defs = new LinkedList<Unit>();
+		Set<Local> seenLocals = new HashSet<>();
+		Stack<Local> newLocals = new Stack<>();
+		List<Unit> defs = new LinkedList<>();
 		newLocals.push(l);
 
 		while (!newLocals.empty()) {
@@ -112,7 +112,7 @@ public abstract class DexTransformer extends BodyTransformer {
 	 */
 	private List<Unit> collectDefinitions(Local l, LocalDefs localDefs,
 			Body body) {
-		List<Unit> defs = new ArrayList<Unit>();
+		List<Unit> defs = new ArrayList<>();
 		for (Unit u : body.getUnits()) {
 			List<Unit> defsOf = localDefs.getDefsOfAt(l, u);
 			if (defsOf != null)
@@ -158,7 +158,7 @@ public abstract class DexTransformer extends BodyTransformer {
 			Debug.printDbg("dextransformer: ", baseDef);
 			if (alreadyVisitedDefs.contains(baseDef))
 				continue;
-			Set<Unit> newVisitedDefs = new HashSet<Unit>(alreadyVisitedDefs);
+			Set<Unit> newVisitedDefs = new HashSet<>(alreadyVisitedDefs);
 			newVisitedDefs.add(baseDef);
 
 			// baseDef is either an assignment statement or an identity

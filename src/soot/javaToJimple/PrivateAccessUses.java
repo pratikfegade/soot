@@ -36,7 +36,7 @@ public class PrivateAccessUses extends polyglot.visit.NodeVisitor {
     }
     
     public PrivateAccessUses(){
-        list = new ArrayList<IdentityKey>();
+        list = new ArrayList<>();
     }
 
     public polyglot.ast.Node leave(polyglot.ast.Node old, polyglot.ast.Node n, polyglot.visit.NodeVisitor visitor) {

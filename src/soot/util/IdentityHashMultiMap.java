@@ -32,13 +32,13 @@ public class IdentityHashMultiMap<K,V> extends HashMultiMap<K, V> {
 	
 	@Override
     protected Map<K, Set<V>> createMap() {
-    	return new IdentityHashMap<K, Set<V>>();
+    	return new IdentityHashMap<>();
     }
 	
 	@SuppressWarnings("deprecation")
 	@Override
     protected Set<V> newSet() {
-        return new IdentityHashSet<V>();
+        return new IdentityHashSet<>();
     }
 	
 }

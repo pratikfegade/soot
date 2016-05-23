@@ -136,10 +136,10 @@ public class ExceptionalBlockGraph extends BlockGraph implements ExceptionalGrap
 
 	} else {
 	    int initialMapSize = (mBlocks.size() * 2) / 3;
-	    blockToUnexceptionalPreds = new HashMap<Block, List<Block>>(initialMapSize);
-	    blockToUnexceptionalSuccs = new HashMap<Block, List<Block>>(initialMapSize);
-	    blockToExceptionalPreds = new HashMap<Block, List<Block>>(initialMapSize);
-	    blockToExceptionalSuccs = new HashMap<Block, List<Block>>(initialMapSize);
+	    blockToUnexceptionalPreds = new HashMap<>(initialMapSize);
+	    blockToUnexceptionalSuccs = new HashMap<>(initialMapSize);
+	    blockToExceptionalPreds = new HashMap<>(initialMapSize);
+	    blockToExceptionalSuccs = new HashMap<>(initialMapSize);
 
 	    for (Block block : mBlocks) {
 		Unit blockHead = block.getHead();
@@ -199,7 +199,7 @@ public class ExceptionalBlockGraph extends BlockGraph implements ExceptionalGrap
      * does not appear in <code>keyToValue</code>
      */
     private <K,V> List<V> mappedValues(List<K> keys, Map<K,V> keyToValue) {
-	List<V> result = new ArrayList<V>(keys.size());
+	List<V> result = new ArrayList<>(keys.size());
 	for (K key : keys) {
 	    V value = keyToValue.get(key);
 	    if (value == null) {
@@ -212,7 +212,7 @@ public class ExceptionalBlockGraph extends BlockGraph implements ExceptionalGrap
 
     private Map<Block, Collection<ExceptionDest>> buildExceptionDests(ExceptionalUnitGraph unitGraph, 
 				    Map<Unit,Block> unitToBlock) {
-	Map<Block, Collection<ExceptionDest>> result = new HashMap<Block, Collection<ExceptionDest>>(mBlocks.size() * 2 + 1, 0.7f);
+	Map<Block, Collection<ExceptionDest>> result = new HashMap<>(mBlocks.size() * 2 + 1, 0.7f);
 	for (Block block : mBlocks) {
 	    result.put(block, collectDests(block, unitGraph, unitToBlock));
 	}
@@ -263,7 +263,7 @@ public class ExceptionalBlockGraph extends BlockGraph implements ExceptionalGrap
 			    // since ThrowableSet's limitations do not permit us
 			    // to add all the escaping type descriptions together.
 			    if (blocksDests == null) {
-				blocksDests = new ArrayList<ExceptionDest>(10);
+				blocksDests = new ArrayList<>(10);
 			    }
 			    blocksDests.add(new ExceptionDest(null, 
 							      escapingThrowables,
@@ -283,7 +283,7 @@ public class ExceptionalBlockGraph extends BlockGraph implements ExceptionalGrap
 		    }
 		    caughtCount++;
 		    if (trapToThrowables == null) {
-			trapToThrowables = new HashMap<Trap, ThrowableSet>(unitDests.size() * 2);
+			trapToThrowables = new HashMap<>(unitDests.size() * 2);
 		    }
 		    Trap trap = unitDest.getTrap();
 		    ThrowableSet throwables = trapToThrowables.get(trap);
@@ -298,7 +298,7 @@ public class ExceptionalBlockGraph extends BlockGraph implements ExceptionalGrap
 	}
 	
 	if (blocksDests == null) {
-	    blocksDests = new ArrayList<ExceptionDest>(caughtCount + 1);
+	    blocksDests = new ArrayList<>(caughtCount + 1);
 	} else {
 	    blocksDests.ensureCapacity(blocksDests.size() + caughtCount);
 	}

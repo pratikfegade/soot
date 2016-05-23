@@ -68,7 +68,7 @@ public class ValueTemplatePrinter implements JimpleValueSwitch {
 	private final TypeTemplatePrinter ttp;
 	private String varName;
 	
-	private Set<String> varnamesAlreadyUsed = new HashSet<String>();
+	private Set<String> varnamesAlreadyUsed = new HashSet<>();
 
 
 	public ValueTemplatePrinter(TemplatePrinter p) {

@@ -174,7 +174,7 @@ public class Util {
    * @return All the elements satisfying the predicate
    */
   public static <T> Collection<T> findAll(Collection<T> c_, Predicate<T> p_) {
-    Collection<T> result = new LinkedList<T>();
+    Collection<T> result = new LinkedList<>();
 
     for (Iterator<T> iter = c_.iterator(); iter.hasNext();) {
       T obj = iter.next();
@@ -218,7 +218,7 @@ public class Util {
    * it's best to avoid it.
    */
   public static <T, U> List<U> map(List<T> srcList, Mapper<T, U> mapper_) {
-    ArrayList<U> result = new ArrayList<U>();
+    ArrayList<U> result = new ArrayList<>();
     for (Iterator<T> srcIter = srcList.iterator(); srcIter.hasNext();)
       result.add(mapper_.map(srcIter.next()));
     return result;
@@ -233,7 +233,7 @@ public class Util {
    * it's best to avoid it.
    */
   public static <T> List<T> filter(Collection<T> src_, Predicate<T> pred_) {
-    ArrayList<T> result = new ArrayList<T>();
+    ArrayList<T> result = new ArrayList<>();
     for (Iterator<T> srcIter = src_.iterator(); srcIter.hasNext();) {
       T curElem = srcIter.next();
       if (pred_.test(curElem))
@@ -269,7 +269,7 @@ public class Util {
    * it's best to avoid it.
    */
   public static <T, U> Set<U> mapToSet(Collection<T> srcSet, Mapper<T, U> mapper_) {
-    HashSet<U> result = new HashSet<U>();
+    HashSet<U> result = new HashSet<>();
     for (Iterator<T> srcIter = srcSet.iterator(); srcIter.hasNext();)
       result.add(mapper_.map(srcIter.next()));
     return result;
@@ -446,7 +446,7 @@ public class Util {
     if (vals.size() <= n) {
       return vals;
     }
-    HashSet<T> elems = new HashSet<T>();
+    HashSet<T> elems = new HashSet<>();
     Random rand = new Random(seed);
     for (int i = 0; i < n; i++) {
       boolean added = true;
@@ -456,6 +456,6 @@ public class Util {
       } while (!added);
       
     }
-    return new ArrayList<T>(elems);    
+    return new ArrayList<>(elems);
   }
 } // class Util

@@ -59,14 +59,14 @@ public class BDup1_x1Inst extends BDupInst implements Dup1_x1Inst
 
     public List<Type> getOpTypes()
     {
-        List<Type> res =  new ArrayList<Type>();
+        List<Type> res = new ArrayList<>();
         res.add(mOpType);
         return res;
     }
     
     public List<Type> getUnderTypes()
     {
-        List<Type> res =  new ArrayList<Type>();
+        List<Type> res = new ArrayList<>();
         res.add(mUnderType);
         return res;
     }

@@ -54,7 +54,7 @@ public class AttributesUnitPrinter {
 	}
     public void startValueBox( ValueBox u ) {
 		if (startOffsets == null) {
-			startOffsets = new Stack<Integer>();
+			startOffsets = new Stack<>();
 		}
         startOffsets.push(new Integer(output().length() - lastNewline));
     }

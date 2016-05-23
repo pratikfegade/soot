@@ -142,7 +142,7 @@ public class EmptyElseRemover{
 
     public static List<Object> createNewNodeBody(List<Object> oldSubBody,int nodeNumber,ASTIfElseNode ifElseNode){
 	//create a new SubBody
-	List<Object> newSubBody = new ArrayList<Object>();
+	List<Object> newSubBody = new ArrayList<>();
 	
 	//this is an iterator of ASTNodes
 	Iterator<Object> it = oldSubBody.iterator();

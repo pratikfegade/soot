@@ -71,7 +71,7 @@ public class IFDSLiveVariables extends DefaultJimpleIFDSTabulationProblem<Value,
 
 						//gen uses out of zero value
 						if(source.equals(zeroValue())) {
-							Set<Value> liveVars = new HashSet<Value>();
+							Set<Value> liveVars = new HashSet<>();
 							
 							for(ValueBox useBox: s.getUseBoxes()) {							
 								Value value = useBox.getValue();
@@ -95,7 +95,7 @@ public class IFDSLiveVariables extends DefaultJimpleIFDSTabulationProblem<Value,
 						if(!s.getDefBoxes().isEmpty()) {
 							Value callerSideReturnValue = s.getDefBoxes().get(0).getValue();
 							if(callerSideReturnValue.equivTo(source)) {
-								Set<Value> calleeSideReturnValues = new HashSet<Value>();
+								Set<Value> calleeSideReturnValues = new HashSet<>();
 								for(Unit calleeUnit: interproceduralCFG().getStartPointsOf(destinationMethod)) {
 									if(calleeUnit instanceof ReturnStmt) {
 										ReturnStmt returnStmt = (ReturnStmt) calleeUnit;
@@ -117,13 +117,13 @@ public class IFDSLiveVariables extends DefaultJimpleIFDSTabulationProblem<Value,
 				Stmt s = (Stmt) callSite;
 				InvokeExpr ie = s.getInvokeExpr();
 				final List<Value> callArgs = ie.getArgs();
-				final List<Local> paramLocals = new ArrayList<Local>();
+				final List<Local> paramLocals = new ArrayList<>();
 				for(int i=0;i<calleeMethod.getParameterCount();i++) {
 					paramLocals.add(calleeMethod.getActiveBody().getParameterLocal(i));
 				}
 				return new FlowFunction<Value>() {
 					public Set<Value> computeTargets(Value source) {
-						Set<Value> liveParamsAtCallee = new HashSet<Value>();
+						Set<Value> liveParamsAtCallee = new HashSet<>();
 						for(int i=0;i<paramLocals.size();i++) {
 							if(paramLocals.get(i).equivTo(source)) {
 								liveParamsAtCallee.add(callArgs.get(i));
@@ -152,7 +152,7 @@ public class IFDSLiveVariables extends DefaultJimpleIFDSTabulationProblem<Value,
 
 						//gen uses out of zero value
 						if(source.equals(zeroValue())) {
-							Set<Value> liveVars = new HashSet<Value>();
+							Set<Value> liveVars = new HashSet<>();
 							
 							//only "gen" those values that are not parameter values;
 							//the latter are taken care of by the return-flow function

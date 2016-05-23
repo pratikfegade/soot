@@ -207,7 +207,7 @@ public class PegCallGraph implements DirectedGraph{
 		for(Iterator iter=maps.iterator(); iter.hasNext();){
 			Map.Entry entry = (Map.Entry)iter.next();
 			List list = (List)entry.getValue();
-			List<Object> newList = new ArrayList<Object>();
+			List<Object> newList = new ArrayList<>();
 			Iterator it = list.iterator();
 			while (it.hasNext()){
 				Object obj = it.next();

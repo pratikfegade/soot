@@ -84,8 +84,8 @@ public class PiNodeManager
     {
         update();
         boolean change = false;
-        MultiMap<Local, Block> localsToUsePoints = new SHashMultiMap<Local, Block>();
-        varToBlocks = new HashMultiMap<Local, Block>();    
+        MultiMap<Local, Block> localsToUsePoints = new SHashMultiMap<>();
+        varToBlocks = new HashMultiMap<>();
         
         // compute localsToUsePoints and varToBlocks
         for (Block block : cfg) {
@@ -108,7 +108,7 @@ public class PiNodeManager
         int[] hasAlreadyFlags = new int[cfg.size()];
         
         int iterCount = 0;
-        Stack<Block> workList = new Stack<Block>();
+        Stack<Block> workList = new Stack<>();
 
         /* Main Cytron algorithm. */
         
@@ -226,8 +226,8 @@ public class PiNodeManager
 
     public void piHandleSwitchStmt(Local local, Unit u)
     {
-        List<UnitBox> targetBoxes = new ArrayList<UnitBox>();
-        List<Object> targetKeys = new ArrayList<Object>();
+        List<UnitBox> targetBoxes = new ArrayList<>();
+        List<Object> targetKeys = new ArrayList<>();
 
         if(u instanceof LookupSwitchStmt){
             LookupSwitchStmt lss = (LookupSwitchStmt) u;
@@ -296,8 +296,8 @@ public class PiNodeManager
     public void eliminatePiNodes(boolean smart)
     {
         if(smart){
-            Map<Local, Value> newToOld = new HashMap<Local, Value>();
-            List<ValueBox> boxes = new ArrayList<ValueBox>();
+            Map<Local, Value> newToOld = new HashMap<>();
+            List<ValueBox> boxes = new ArrayList<>();
             
             for(Iterator<Unit> unitsIt = body.getUnits().iterator(); unitsIt.hasNext();){
                 Unit u = unitsIt.next();
@@ -336,7 +336,7 @@ public class PiNodeManager
     {
         Iterator<Unit> unitsIt = block.iterator();
         
-        List<ValueBox> useBoxesList = new ArrayList<ValueBox>();
+        List<ValueBox> useBoxesList = new ArrayList<>();
     
         while(unitsIt.hasNext())
             useBoxesList.addAll(unitsIt.next().getUseBoxes());

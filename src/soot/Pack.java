@@ -53,7 +53,7 @@ public abstract class Pack implements HasPhaseOptions, Iterable<Transform> {
         this.name = name;
     }
 
-    Chain<Transform> opts = new HashChain<Transform>();
+    Chain<Transform> opts = new HashChain<>();
 
     public Iterator<Transform> iterator() {
         return opts.iterator();

@@ -84,7 +84,7 @@ public class BusyCodeMotion extends BodyTransformer {
 	 */
 	protected void internalTransform(Body b, String phaseName, Map<String, String> opts) {
 		BCMOptions options = new BCMOptions(opts);
-		HashMap<EquivalentValue, Local> expToHelper = new HashMap<EquivalentValue, Local>();
+		HashMap<EquivalentValue, Local> expToHelper = new HashMap<>();
 		Chain<Unit> unitChain = b.getUnits();
 
 		if (Options.v().verbose())

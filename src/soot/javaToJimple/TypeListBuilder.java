@@ -32,7 +32,7 @@ public class TypeListBuilder extends polyglot.visit.NodeVisitor {
     }
 
     public TypeListBuilder(){
-        list = new HashSet<Type>();
+        list = new HashSet<>();
     }
 
     public polyglot.ast.Node leave(polyglot.ast.Node old, polyglot.ast.Node n, polyglot.visit.NodeVisitor visitor) {

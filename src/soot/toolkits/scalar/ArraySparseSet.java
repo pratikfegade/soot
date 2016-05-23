@@ -59,11 +59,11 @@ public class ArraySparseSet<T> extends AbstractFlowSet<T> {
 	}
 
 	public ArraySparseSet<T> clone() {
-		return new ArraySparseSet<T>(this);
+		return new ArraySparseSet<>(this);
 	}
 
 	public FlowSet<T> emptySet() {
-		return new ArraySparseSet<T>();
+		return new ArraySparseSet<>();
 	}
 
 	public void clear() {
@@ -159,7 +159,7 @@ public class ArraySparseSet<T> extends AbstractFlowSet<T> {
 			ArraySparseSet<T> workingSet;
 
 			if (dest == other || dest == this)
-				workingSet = new ArraySparseSet<T>();
+				workingSet = new ArraySparseSet<>();
 			else {
 				workingSet = dest;
 				workingSet.clear();
@@ -183,7 +183,7 @@ public class ArraySparseSet<T> extends AbstractFlowSet<T> {
 			ArraySparseSet<T> workingSet;
 
 			if (dest == other || dest == this)
-				workingSet = new ArraySparseSet<T>();
+				workingSet = new ArraySparseSet<>();
 			else {
 				workingSet = dest;
 				workingSet.clear();

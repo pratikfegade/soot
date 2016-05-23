@@ -74,11 +74,11 @@ public class SmartLocalDefs implements LocalDefs {
 		}
 
 		if (a.size() < b.size()) {
-			List<T> c = new ArrayList<T>(a);
+			List<T> c = new ArrayList<>(a);
 			c.retainAll(b);
 			return c;
 		} else {
-			List<T> c = new ArrayList<T>(b);
+			List<T> c = new ArrayList<>(b);
 			c.retainAll(a);
 			return c;
 		}
@@ -105,8 +105,8 @@ public class SmartLocalDefs implements LocalDefs {
 			local.setNumber(n++);
 		}
 
-		localToDefs = new HashMap<Local, Set<Unit>>();
-		liveLocalsAfter = new HashMap<Unit, BitSet>();
+		localToDefs = new HashMap<>();
+		liveLocalsAfter = new HashMap<>();
 		for (Unit u : graph) {
 			// translate locals to bits
 			BitSet set = new BitSet(n);
@@ -132,7 +132,7 @@ public class SmartLocalDefs implements LocalDefs {
 
 		analysis = new LocalDefsAnalysis(graph);
 
-		answer = new HashMap<Cons<Unit, Local>, List<Unit>>();
+		answer = new HashMap<>();
 		for (Unit u : graph) {
 			Set<Unit> s1 = analysis.getFlowBefore(u);
 			if (s1 == null || s1.isEmpty())
@@ -151,7 +151,7 @@ public class SmartLocalDefs implements LocalDefs {
 					if (lst.isEmpty())
 						continue;
 					
-					Cons<Unit, Local> key = new Cons<Unit, Local>(u, l);
+					Cons<Unit, Local> key = new Cons<>(u, l);
 					if ( !answer.containsKey(key) ) {			
 						answer.put(key, lst);
 					}
@@ -196,7 +196,7 @@ public class SmartLocalDefs implements LocalDefs {
 	private void addDefOf(Local l, Unit u) {
 		Set<Unit> s = localToDefs.get(l);
 		if (s == null)
-			localToDefs.put(l, s = new HashSet<Unit>());
+			localToDefs.put(l, s = new HashSet<>());
 		s.add(u);
 	}
 
@@ -268,17 +268,17 @@ public class SmartLocalDefs implements LocalDefs {
 
 		@Override
 		protected Set<Unit> newInitialFlow() {
-			return new HashSet<Unit>();
+			return new HashSet<>();
 		}
 
 		@Override
 		protected Set<Unit> entryInitialFlow() {
-			return new HashSet<Unit>();
+			return new HashSet<>();
 		}
 	}
 
 	public List<Unit> getDefsOfAt(Local l, Unit s) {
-		List<Unit> lst = answer.get(new Cons<Unit, Local>(s, l));
+		List<Unit> lst = answer.get(new Cons<>(s, l));
 		if (lst == null)
 			return Collections.emptyList();
 		return lst;

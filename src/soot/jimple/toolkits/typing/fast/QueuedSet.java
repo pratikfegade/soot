@@ -32,8 +32,8 @@ public class QueuedSet<E>
 	
 	public QueuedSet()
 	{
-		this.hs = new HashSet<E>();
-		this.ll = new LinkedList<E>();
+		this.hs = new HashSet<>();
+		this.ll = new LinkedList<>();
 	}
 	
 	public QueuedSet(List<E> os)

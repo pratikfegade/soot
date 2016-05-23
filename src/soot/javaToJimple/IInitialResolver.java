@@ -34,8 +34,8 @@ public interface IInitialResolver {
 	class Dependencies {
 		public final Set<Type> typesToHierarchy, typesToSignature;
 		public Dependencies() {
-			typesToHierarchy = new HashSet<Type>();
-			typesToSignature = new HashSet<Type>();
+			typesToHierarchy = new HashSet<>();
+			typesToSignature = new HashSet<>();
 		}
 	}
 

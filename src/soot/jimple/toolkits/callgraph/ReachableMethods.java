@@ -31,8 +31,8 @@ public class ReachableMethods
 { 
     private CallGraph cg;
     private Iterator<Edge> edgeSource;
-    private final ChunkedQueue<MethodOrMethodContext> reachables = new ChunkedQueue<MethodOrMethodContext>();
-    private final Set<MethodOrMethodContext> set = new HashSet<MethodOrMethodContext>();
+    private final ChunkedQueue<MethodOrMethodContext> reachables = new ChunkedQueue<>();
+    private final Set<MethodOrMethodContext> set = new HashSet<>();
     private QueueReader<MethodOrMethodContext> unprocessedMethods;
     private final QueueReader<MethodOrMethodContext> allReachables = reachables.reader();
     private Filter filter;

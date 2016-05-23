@@ -56,7 +56,7 @@ public class ConstantPropagatorAndFolder extends BodyTransformer
         LocalDefs localDefs = LocalDefs.Factory.newLocalDefs(g);
 
         // Perform a constant/local propagation pass.
-        Orderer<Unit> orderer = new PseudoTopologicalOrderer<Unit>();
+        Orderer<Unit> orderer = new PseudoTopologicalOrderer<>();
         
         if (b.getMethod().getSignature().equals("<java.util.concurrent.ConcurrentSkipListMap: int compare(java.lang.Object,java.lang.Object)>"))
         	System.out.println("x");

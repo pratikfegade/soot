@@ -22,12 +22,12 @@ import soot.toolkits.graph.UnitGraph;
 public abstract class TrapTransformer extends BodyTransformer {
 
 	public Set<Unit> getUnitsWithMonitor(UnitGraph ug) {
-		Set<Unit> unitsWithMonitor = new HashSet<Unit>();
+		Set<Unit> unitsWithMonitor = new HashSet<>();
 		
 		for (Unit head : ug.getHeads()) {
-			List<Unit> workList = new ArrayList<Unit>();
+			List<Unit> workList = new ArrayList<>();
 			workList.add(head);
-			Set<Unit> doneSet = new HashSet<Unit>();
+			Set<Unit> doneSet = new HashSet<>();
 			
 			while (!workList.isEmpty()) {
 				Unit curUnit = workList.remove(0);

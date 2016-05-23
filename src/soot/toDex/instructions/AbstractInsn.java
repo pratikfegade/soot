@@ -25,7 +25,7 @@ public abstract class AbstractInsn implements Insn {
 			throw new IllegalArgumentException("opcode must not be null");
 		}
 		this.opc = opc;
-		regs = new ArrayList<Register>();
+		regs = new ArrayList<>();
 	}
 	
 	public Opcode getOpcode() {

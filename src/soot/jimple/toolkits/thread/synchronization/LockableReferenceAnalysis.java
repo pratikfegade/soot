@@ -32,7 +32,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 	Map<Ref, EquivalentValue> refToBase;
 	Map<Ref, EquivalentValue> refToIndex;
 	
-	static Set<SootMethod> analyzing = new HashSet<SootMethod>();
+	static Set<SootMethod> analyzing = new HashSet<>();
 	
 	public LockableReferenceAnalysis(UnitGraph g)
 	{
@@ -45,8 +45,8 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 		begin = null;
 		lostObjects = false;
 
-		refToBase = new HashMap<Ref, EquivalentValue>();
-		refToIndex = new HashMap<Ref, EquivalentValue>();
+		refToBase = new HashMap<>();
+		refToIndex = new HashMap<>();
 
 		// analysis is done on-demand, not now
 	}
@@ -80,7 +80,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 		}
 
 		// STOP
-		List<EquivalentValue> lockset = new ArrayList<EquivalentValue>();
+		List<EquivalentValue> lockset = new ArrayList<>();
 		LocksetFlowInfo resultsInfo = null;
 		Map<soot.EquivalentValue,java.lang.Integer> results = null;
 		if(begin == null)
@@ -100,7 +100,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 			
 		// Reverse the results so it maps value->keys instead of key->value
 		// Then we can pick just one object (key) per group (value)
-		Map<Integer, List<EquivalentValue>> reversed = new HashMap<Integer, List<EquivalentValue>>();
+		Map<Integer, List<EquivalentValue>> reversed = new HashMap<>();
 		for (Map.Entry<EquivalentValue, Integer> e : results.entrySet()) {
 			EquivalentValue key = e.getKey();
 			Integer value = e.getValue();
@@ -108,7 +108,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 			List<EquivalentValue> keys;
 			if(!reversed.containsKey(value))
 			{
-				keys = new ArrayList<EquivalentValue>();
+				keys = new ArrayList<>();
 				reversed.put(value, keys);
 			}
 			else
@@ -441,7 +441,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 		{
 			// Prepare the RW set for the statement
 			CodeBlockRWSet stmtRW = null;
-			Set<Value> allUses = new HashSet<Value>();
+			Set<Value> allUses = new HashSet<>();
 			RWSet stmtRead = tasea.readSet(method, stmt, tn, allUses);
 			if(stmtRead != null)
 				stmtRW = (CodeBlockRWSet) stmtRead;
@@ -457,7 +457,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 			// If the stmtRW intersects the contributingRW
 			if( stmtRW != null && stmtRW.hasNonEmptyIntersection(contributingRWSet) )
 			{
-				List<Value> uses = new ArrayList<Value>();
+				List<Value> uses = new ArrayList<>();
 				Iterator<Value> allUsesIt = allUses.iterator();
 				while(allUsesIt.hasNext())
 				{
@@ -843,10 +843,10 @@ class LocksetFlowInfo
 	
 	public LocksetFlowInfo()
 	{
-		groups = new HashMap<EquivalentValue, Integer>();
+		groups = new HashMap<>();
 		
-		refToBaseGroup = new HashMap<Ref, Integer>();
-		refToIndexGroup = new HashMap<Ref, Integer>();
+		refToBaseGroup = new HashMap<>();
+		refToIndexGroup = new HashMap<>();
 	}
 	
 	public Object clone()

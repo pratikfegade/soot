@@ -35,13 +35,13 @@ public class InnerTypesIncrementalHeuristic implements FieldCheckHeuristic {
 
     private final TypeManager manager;
 
-    private final Set<RefType> typesToCheck = new HashSet<RefType>();
+    private final Set<RefType> typesToCheck = new HashSet<>();
 
     private String newTypeOnQuery = null;
 
-    private final Set<RefType> bothEndsTypes = new HashSet<RefType>();
+    private final Set<RefType> bothEndsTypes = new HashSet<>();
 
-    private final Set<RefType> notBothEndsTypes = new HashSet<RefType>();
+    private final Set<RefType> notBothEndsTypes = new HashSet<>();
 
     private int numPasses = 0;
 

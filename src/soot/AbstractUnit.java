@@ -88,7 +88,7 @@ public abstract class AbstractUnit extends AbstractHost implements Unit
 
     @Override
     public void addBoxPointingToThis( UnitBox b ) {
-        if( boxesPointingToThis == null ) boxesPointingToThis = new ArrayList<UnitBox>();
+        if( boxesPointingToThis == null ) boxesPointingToThis = new ArrayList<>();
         boxesPointingToThis.add( b );
     }
 
@@ -117,7 +117,7 @@ public abstract class AbstractUnit extends AbstractHost implements Unit
                 return useBoxes;
             }
             else {
-                List<ValueBox> valueBoxes = new ArrayList<ValueBox>();
+                List<ValueBox> valueBoxes = new ArrayList<>();
                 valueBoxes.addAll(defBoxes);
                 valueBoxes.addAll(useBoxes);
                 return valueBoxes;

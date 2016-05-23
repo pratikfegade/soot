@@ -160,14 +160,14 @@ public class CFG {
     if (soot.jbco.Main.metrics) complexity();
     }
 
-    public static HashMap<SootMethod, int[]> methodsToVEM = new HashMap<SootMethod, int[]>();
+    public static HashMap<SootMethod, int[]> methodsToVEM = new HashMap<>();
     private void complexity() 
     {
       // ignore all non-app classes
       if (!method.jmethod.getDeclaringClass().isApplicationClass()) return;
       
       BasicBlock b = this.cfg;
-      HashMap<BasicBlock, Integer> block2exc = new HashMap<BasicBlock, Integer>();
+      HashMap<BasicBlock, Integer> block2exc = new HashMap<>();
       int tmp, nodes = 0, edges = 0, highest = 0;
       
       while (b != null) {
@@ -208,8 +208,8 @@ public class CFG {
 	Code_attribute ca = method.locate_code_attribute();
 
 	{
-	    h2bb = new Hashtable<Instruction, BasicBlock>(100,25);
-	    t2bb = new Hashtable<Instruction, BasicBlock>(100,25);
+	    h2bb = new Hashtable<>(100, 25);
+	    t2bb = new Hashtable<>(100, 25);
 
 	    Instruction insn = this.sentinel.next;
 	    BasicBlock blast = null;
@@ -247,7 +247,7 @@ public class CFG {
 		{
 		    // see how many targets it can reach.  Note that this is a
 		    // subset of the exception_table.
-		    HashSet<Instruction> ethandlers = new HashSet<Instruction>();
+		    HashSet<Instruction> ethandlers = new HashSet<>();
 
 		    // not quite a subset---could also be that control 
 		    // exits this method, so start icount at 1
@@ -350,10 +350,10 @@ public class CFG {
     }
 
     /* We only handle simple cases. */
-    Map<Instruction, Instruction> jsr2astore = new HashMap<Instruction, Instruction>();
-    Map<Instruction, Instruction> astore2ret = new HashMap<Instruction, Instruction>();
+    Map<Instruction, Instruction> jsr2astore = new HashMap<>();
+    Map<Instruction, Instruction> astore2ret = new HashMap<>();
     
-    LinkedList<Instruction> jsrorder = new LinkedList<Instruction>();
+    LinkedList<Instruction> jsrorder = new LinkedList<>();
 
     /* Eliminate subroutines ( JSR/RET instructions ) by inlining the 
        routine bodies. */
@@ -367,9 +367,9 @@ public class CFG {
 	}
 	this.lastInstruction = insn;
 
-	HashMap<Instruction, Instruction> todoBlocks = new HashMap<Instruction, Instruction>();
+	HashMap<Instruction, Instruction> todoBlocks = new HashMap<>();
 	todoBlocks.put(this.sentinel.next, this.lastInstruction);
-	LinkedList<Instruction> todoList = new LinkedList<Instruction>();
+	LinkedList<Instruction> todoList = new LinkedList<>();
 	todoList.add(this.sentinel.next);
 
 	while (!todoList.isEmpty()) {
@@ -411,7 +411,7 @@ public class CFG {
     // the caller cleans jsr2astore, astore2ret
     private boolean findOutmostJsrs(Instruction start, Instruction end) {
 	// use to put innerJsrs.
-	HashSet<Instruction> innerJsrs = new HashSet<Instruction>();
+	HashSet<Instruction> innerJsrs = new HashSet<>();
 	boolean unusual = false;
 
 	Instruction insn = start;
@@ -504,7 +504,7 @@ public class CFG {
 			       +"ret"+ret.label);
 	}
 	*/
-	HashMap<Instruction, Instruction> newblocks = new HashMap<Instruction, Instruction>();
+	HashMap<Instruction, Instruction> newblocks = new HashMap<>();
 
 	while (!jsrorder.isEmpty())
 	{
@@ -558,7 +558,7 @@ public class CFG {
 	int curlabel = this.lastInstruction.label;
 
 	// mapping from original instructions to new instructions.
-	HashMap<Instruction, Instruction> insnmap = new HashMap<Instruction, Instruction>(); 
+	HashMap<Instruction, Instruction> insnmap = new HashMap<>();
 	Instruction insn = astore.next;
 	
 	while (insn != ret && insn != null)
@@ -666,7 +666,7 @@ public class CFG {
 	{
 	    Code_attribute ca = method.locate_code_attribute();
 
-	    LinkedList<exception_table_entry> newentries = new LinkedList<exception_table_entry>();
+	    LinkedList<exception_table_entry> newentries = new LinkedList<>();
 
 	    int orig_start_of_subr = astore.next.originalIndex; // inclusive
 	    int orig_end_of_subr = ret.originalIndex; // again, inclusive
@@ -738,7 +738,7 @@ public class CFG {
     }
 
     /* if a jsr/astore/ret is replaced by some other instruction, it will be put on this table. */
-    private final Hashtable<Instruction, Instruction_Goto> replacedInsns = new Hashtable<Instruction, Instruction_Goto>();
+    private final Hashtable<Instruction, Instruction_Goto> replacedInsns = new Hashtable<>();
     /* bootstrap methods table */
     private BootstrapMethods_attribute bootstrap_methods_attribute;
     /* do not forget set the target labelled as TRUE.*/
@@ -898,8 +898,8 @@ public class CFG {
 
         this.listBody = listBody;
         this.units = units;
-        instructionToFirstStmt = new HashMap<Instruction, Stmt>();
-        instructionToLastStmt = new HashMap<Instruction, Stmt>();
+        instructionToFirstStmt = new HashMap<>();
+        instructionToLastStmt = new HashMap<>();
 
         jmethod = listBody.getMethod();
         cm = Scene.v();
@@ -907,7 +907,7 @@ public class CFG {
         //TypeArray.setClassManager(cm);
         //TypeStack.setClassManager(cm);
 
-        Set<Local> initialLocals = new ArraySet<Local>();
+        Set<Local> initialLocals = new ArraySet<>();
 
         List<Type> parameterTypes = jmethod.getParameterTypes();
 
@@ -1011,9 +1011,9 @@ public class CFG {
     void jimplify(cp_info constant_pool[],int this_class)
     {
         Code_attribute codeAttribute = method.locate_code_attribute();
-        Set<Instruction> handlerInstructions = new ArraySet<Instruction>();
+        Set<Instruction> handlerInstructions = new ArraySet<>();
 
-        Map<Instruction, SootClass> handlerInstructionToException = new HashMap<Instruction, SootClass>();
+        Map<Instruction, SootClass> handlerInstructionToException = new HashMap<>();
         Map<Instruction, TypeStack> instructionToTypeStack;
         Map<Instruction, TypeStack> instructionToPostTypeStack;
 
@@ -1078,11 +1078,11 @@ public class CFG {
             }
         }
 
-        Set<Instruction> reachableInstructions = new HashSet<Instruction>();
+        Set<Instruction> reachableInstructions = new HashSet<>();
         
         // Mark all the reachable instructions
         {
-            LinkedList<Instruction> instructionsToVisit = new LinkedList<Instruction>();
+            LinkedList<Instruction> instructionsToVisit = new LinkedList<>();
             
             reachableInstructions.add(firstInstruction);
             instructionsToVisit.addLast(firstInstruction);
@@ -1127,11 +1127,11 @@ public class CFG {
         
         // Perform the flow analysis, and build up instructionToTypeStack and instructionToLocalArray
         {
-            instructionToTypeStack = new HashMap<Instruction, TypeStack>();
-            instructionToPostTypeStack = new HashMap<Instruction, TypeStack>();
+            instructionToTypeStack = new HashMap<>();
+            instructionToPostTypeStack = new HashMap<>();
 
-            Set<Instruction> visitedInstructions = new HashSet<Instruction>();
-            List<Instruction> changedInstructions = new ArrayList<Instruction>();
+            Set<Instruction> visitedInstructions = new HashSet<>();
+            List<Instruction> changedInstructions = new ArrayList<>();
 
             TypeStack initialTypeStack;
 
@@ -1232,13 +1232,13 @@ public class CFG {
             while(b != null)
             {
                 Instruction ins = b.head;
-                b.statements = new ArrayList<Stmt>();
+                b.statements = new ArrayList<>();
 
                 List<Stmt> blockStatements = b.statements;
 
 		for (;;)
 		{
-                    List<Stmt> statementsForIns = new ArrayList<Stmt>();
+                    List<Stmt> statementsForIns = new ArrayList<>();
 
                     if(reachableInstructions.contains(ins))
                         generateJimple(ins, instructionToTypeStack.get(ins),
@@ -1297,7 +1297,7 @@ public class CFG {
 
         // Insert beginCatch/endCatch statements for exception handling
         {
-            Map<Stmt, Stmt> targetToHandler = new HashMap<Stmt, Stmt>();
+            Map<Stmt, Stmt> targetToHandler = new HashMap<>();
             
 	    for(int i = 0; i < codeAttribute.exception_table_length; i++)
 	    {
@@ -1414,8 +1414,8 @@ public class CFG {
 	/* convert line number table to tags attached to statements */
 	if (Options.v().keep_line_number())
 	{
-	    HashMap<Stmt, Tag> stmtstags = new HashMap<Stmt, Tag>();
-	    LinkedList<Stmt> startstmts = new LinkedList<Stmt>();
+	    HashMap<Stmt, Tag> stmtstags = new HashMap<>();
+	    LinkedList<Stmt> startstmts = new LinkedList<>();
 
 	    attribute_info[] attrs = codeAttribute.attributes;
 	    for (attribute_info element : attrs) {
@@ -1440,7 +1440,7 @@ public class CFG {
 
 	    /* if the predecessor of a statement is a caughtexcetionref,
              * give it the tag of its successor */
-            for( Iterator<Stmt> stmtIt = new ArrayList<Stmt>(stmtstags.keySet()).iterator(); stmtIt.hasNext(); ) {
+            for(Iterator<Stmt> stmtIt = new ArrayList<>(stmtstags.keySet()).iterator(); stmtIt.hasNext(); ) {
                 final Stmt stmt = stmtIt.next();
                 Stmt pred = stmt;
                 Tag tag = stmtstags.get(stmt);
@@ -3254,7 +3254,7 @@ public class CFG {
          case ByteCode.MULTIANEWARRAY:
          {
                int bdims = (((Instruction_Multianewarray)ins).dims);
-               List<Value> dims = new ArrayList<Value>();
+               List<Value> dims = new ArrayList<>();
 
                for (int j=0; j < bdims; j++)
                   dims.add(Util.v().getLocalForStackOp(listBody, typeStack,
@@ -4123,7 +4123,7 @@ public class CFG {
 
          case ByteCode.LOOKUPSWITCH:
          {
-            List<IntConstant> matches = new ArrayList<IntConstant>();
+            List<IntConstant> matches = new ArrayList<>();
             int npairs = ((Instruction_Lookupswitch)ins).npairs;
 
             for (int j = 0; j < npairs; j++)
@@ -4279,7 +4279,7 @@ public class CFG {
             args = cp_info.countParams(constant_pool,iv_info.name_and_type_index);
              
 			SootMethodRef bootstrapMethodRef;
-			List<Value> bootstrapArgs = new LinkedList<Value>();
+			List<Value> bootstrapArgs = new LinkedList<>();
 			{
 				short[] bootstrapMethodTable = bootstrap_methods_attribute.method_handles;
 				short methodSigIndex = bootstrapMethodTable[iv_info.bootstrap_method_index];
@@ -4316,7 +4316,7 @@ public class CFG {
         	 {
         		 Type[] types = Util.v().jimpleTypesOfFieldOrMethodDescriptor(methodDescriptor);
 
-        		 parameterTypes = new ArrayList<Type>();
+        		 parameterTypes = new ArrayList<>();
 
         		 for(int k = 0; k < types.length - 1; k++)
         		 {
@@ -4627,7 +4627,7 @@ public class CFG {
 		{
 		    Type[] types = Util.v().jimpleTypesOfFieldOrMethodDescriptor(methodDescriptor);
 
-		    parameterTypes = new ArrayList<Type> ();
+		    parameterTypes = new ArrayList<>();
 
 		    for(int k = 0; k < types.length - 1; k++)
 		    {

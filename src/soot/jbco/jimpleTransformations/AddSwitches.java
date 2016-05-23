@@ -78,7 +78,7 @@ public class AddSwitches extends BodyTransformer implements IJbcoTransform {
     
     New2InitFlowAnalysis fa = new New2InitFlowAnalysis(new BriefUnitGraph(b));
 
-    Vector<Unit> zeroheight = new Vector<Unit>();
+    Vector<Unit> zeroheight = new Vector<>();
     PatchingChain<Unit> units = b.getUnits();
 
     Unit first = null;
@@ -122,7 +122,7 @@ public class AddSwitches extends BodyTransformer implements IJbcoTransform {
     }
     
     Collection<Local> locals = b.getLocals();
-    List<Unit> targs = new ArrayList<Unit>();
+    List<Unit> targs = new ArrayList<>();
     targs.addAll(zeroheight);
 
     SootField ops[] = FieldRenamer.getRandomOpaques();

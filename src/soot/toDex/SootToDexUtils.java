@@ -36,7 +36,7 @@ public class SootToDexUtils {
 	private static final Map<Class<? extends Type>, String> sootToDexTypeDescriptor;
 	
 	static {
-		sootToDexTypeDescriptor = new HashMap<Class<? extends Type>, String>();
+		sootToDexTypeDescriptor = new HashMap<>();
 		sootToDexTypeDescriptor.put(BooleanType.class, "Z");
 		sootToDexTypeDescriptor.put(ByteType.class, "B");
 		sootToDexTypeDescriptor.put(CharType.class, "C");
@@ -211,7 +211,7 @@ public class SootToDexUtils {
      * @return
      */
     public static List<String> splitSignature(String sig) {
-        List<String> split = new ArrayList<String>();
+        List<String> split = new ArrayList<>();
         int len = sig.length();
         int i = 0;
         int j = 0;

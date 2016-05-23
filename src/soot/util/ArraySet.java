@@ -132,7 +132,7 @@ public class ArraySet<E> extends AbstractSet<E>
 
     final public Iterator<E> iterator()
     {
-        return new ArrayIterator<E>();
+        return new ArrayIterator<>();
     }
 
     private class ArrayIterator<V> implements Iterator<V>

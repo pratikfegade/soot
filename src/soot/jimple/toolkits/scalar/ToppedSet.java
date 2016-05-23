@@ -50,7 +50,7 @@ public class ToppedSet<T> extends AbstractFlowSet<T>
 
     public ToppedSet<T> clone()
     {
-        ToppedSet<T> newSet = new ToppedSet<T>(underlyingSet.clone());
+        ToppedSet<T> newSet = new ToppedSet<>(underlyingSet.clone());
         newSet.setTop(isTop());
         return newSet;
     }
@@ -68,7 +68,7 @@ public class ToppedSet<T> extends AbstractFlowSet<T>
 
     public FlowSet<T> emptySet()
     {
-        return new ToppedSet<T>(underlyingSet.emptySet());
+        return new ToppedSet<>(underlyingSet.emptySet());
     }
 
     public void clear()

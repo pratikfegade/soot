@@ -35,9 +35,9 @@ import soot.toolkits.scalar.Pair;
 public class ValidMatches {
 
 	// edges are in same direction as PAG, in the direction of value flow
-	private final MultiMap<VarNode, VarNode> vMatchEdges = new HashSetMultiMap<VarNode, VarNode>();
+	private final MultiMap<VarNode, VarNode> vMatchEdges = new HashSetMultiMap<>();
 	
-	private final MultiMap<VarNode, VarNode> vMatchBarEdges = new HashSetMultiMap<VarNode, VarNode>();
+	private final MultiMap<VarNode, VarNode> vMatchBarEdges = new HashSetMultiMap<>();
 	
 	public ValidMatches(PAG pag, FieldToEdgesMap fieldToStores) {
 		for (Iterator iter = pag.loadSources().iterator(); iter.hasNext();) {

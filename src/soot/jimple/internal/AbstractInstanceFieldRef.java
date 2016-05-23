@@ -96,7 +96,7 @@ public abstract class AbstractInstanceFieldRef implements InstanceFieldRef, Conv
     @Override
     public final List<ValueBox> getUseBoxes()
     {
-        List<ValueBox> useBoxes = new ArrayList<ValueBox>();
+        List<ValueBox> useBoxes = new ArrayList<>();
 
         useBoxes.addAll(baseBox.getValue().getUseBoxes());
         useBoxes.add(baseBox);

@@ -124,7 +124,7 @@ public class BodyExtractorWalker extends Walker
     {
         Type type;
         String name;
-        List<Type> parameterList = new ArrayList<Type>();
+        List<Type> parameterList = new ArrayList<>();
         List throwsClause = null;
         JimpleBody methodBody = null;
 

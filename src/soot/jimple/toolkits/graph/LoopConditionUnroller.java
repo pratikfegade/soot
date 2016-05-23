@@ -74,8 +74,8 @@ public class LoopConditionUnroller extends BodyTransformer {
 			G.v().out.println("[" + body.getMethod().getName()
 					+ "]     Unrolling Loop Conditions...");
 
-		visitingSuccs = new HashSet<Block>();
-		visitedBlocks = new HashSet<Block>();
+		visitingSuccs = new HashSet<>();
+		visitedBlocks = new HashSet<>();
 		this.body = body;
 		this.maxSize = PhaseOptions.getInt(options, "maxSize");
 
@@ -150,12 +150,12 @@ public class LoopConditionUnroller extends BodyTransformer {
 		/* if we already did the "calculation" return the cached result. */
 		if (unitsToTraps != null)
 			return unitsToTraps;
-		unitsToTraps = new HashMap<Unit, List<Trap>>();
+		unitsToTraps = new HashMap<>();
 		for (Trap trap : body.getTraps()) {
 			Unit beginUnit = trap.getBeginUnit();
 			List<Trap> unitTraps = unitsToTraps.get(beginUnit);
 			if (unitTraps == null) {
-				unitTraps = new ArrayList<Trap>();
+				unitTraps = new ArrayList<>();
 				unitsToTraps.put(beginUnit, unitTraps);
 			}
 			unitTraps.add(trap);
@@ -163,7 +163,7 @@ public class LoopConditionUnroller extends BodyTransformer {
 			if (endUnit != beginUnit) {
 				unitTraps = unitsToTraps.get(endUnit);
 				if (unitTraps == null) {
-					unitTraps = new ArrayList<Trap>();
+					unitTraps = new ArrayList<>();
 					unitsToTraps.put(endUnit, unitTraps);
 				}
 				unitTraps.add(trap);
@@ -187,8 +187,8 @@ public class LoopConditionUnroller extends BodyTransformer {
 	 */
 	private Unit copyBlock(Block block) {
 		Map<Unit, List<Trap>> traps = getTraps();
-		Set<Trap> openedTraps = new HashSet<Trap>();
-		Map<Trap, Trap> copiedTraps = new HashMap<Trap, Trap>();
+		Set<Trap> openedTraps = new HashSet<>();
+		Map<Trap, Trap> copiedTraps = new HashMap<>();
 		Chain<Unit> unitChain = body.getUnits();
 
 		Unit tail = block.getTail();

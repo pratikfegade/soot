@@ -56,13 +56,13 @@ public class FastAvailableExpressionsAnalysis extends
         //LocalDefs ld = new SmartLocalDefs(g, new SimpleLiveLocals(g));
 
 		// maps an rhs to its containing stmt. object equality in rhs.
-		rhsToContainingStmt = new HashMap<Value, Unit>();
+		rhsToContainingStmt = new HashMap<>();
 
-		emptySet = new ToppedSet<Value>(new ArraySparseSet<Value>());
+		emptySet = new ToppedSet<>(new ArraySparseSet<Value>());
 
 		// Create generate sets
 		{
-			unitToGenerateSet = new HashMap<Unit, FlowSet<Value>>(
+			unitToGenerateSet = new HashMap<>(
 					g.size() * 2 + 1, 0.7f);
 
 			for (Unit s : g) {
@@ -120,7 +120,7 @@ public class FastAvailableExpressionsAnalysis extends
 			throw new RuntimeException("trying to kill on topped set!");
 		}
 		
-		List<Value> l = new LinkedList<Value>(out.toList());
+		List<Value> l = new LinkedList<>(out.toList());
 
 		// iterate over things (avail) in out set.
 		for (Value avail : l) {

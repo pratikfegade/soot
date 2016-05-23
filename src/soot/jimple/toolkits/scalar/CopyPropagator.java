@@ -110,7 +110,7 @@ public class CopyPropagator extends BodyTransformer {
 
 		Chain<Unit> units = stmtBody.getUnits();
 
-		Map<Local, Integer> localToDefCount = new HashMap<Local, Integer>();
+		Map<Local, Integer> localToDefCount = new HashMap<>();
 
 		// Count number of definitions for each local.
 		for (Unit u : units) {

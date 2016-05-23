@@ -132,7 +132,7 @@ public class DexAnnotation {
 									AnnotationAnnotationElem aae = (AnnotationAnnotationElem) ae;
 									AnnotationTag at = aae.getValue();
 									// extract default elements
-									Map<String, AnnotationElem> defaults = new HashMap<String, AnnotationElem>();
+									Map<String, AnnotationElem> defaults = new HashMap<>();
 									for (AnnotationElem aelem: at.getElems()) {
 										defaults.put(aelem.getName(), aelem);
 									}
@@ -278,7 +278,7 @@ public class DexAnnotation {
 		            }
 		}
 
-        ArrayList<String> parameterNames = new ArrayList<String>();
+        ArrayList<String> parameterNames = new ArrayList<>();
         boolean addParameterNames = false;
         for (MethodParameter p : method.getParameters()) {
 			String name = p.getName();
@@ -330,7 +330,7 @@ public class DexAnnotation {
                         else if (t instanceof SignatureTag) {
                         	SignatureTag sig = (SignatureTag) t;
                         	
-                            ArrayList<AnnotationElem> sigElements = new ArrayList<AnnotationElem>();
+                            ArrayList<AnnotationElem> sigElements = new ArrayList<>();
                             for (String s : SootToDexUtils.splitSignature(sig.getSignature()))
                             	sigElements.add(new AnnotationStringElem(s, 's', "value"));
                             
@@ -360,8 +360,8 @@ public class DexAnnotation {
 
     
     class MyAnnotations {
-        List<AnnotationTag> annotationList = new ArrayList<AnnotationTag>();
-        List<Integer> visibilityList = new ArrayList<Integer>();
+        List<AnnotationTag> annotationList = new ArrayList<>();
+        List<Integer> visibilityList = new ArrayList<>();
         public void add(AnnotationTag a, int visibility) { 
             annotationList.add(a); 
             visibilityList.add(new Integer(visibility));
@@ -379,7 +379,7 @@ public class DexAnnotation {
         if (annotations == null || annotations.size() == 0)
             return null;
         
-        List<Tag> tags = new ArrayList<Tag>();
+        List<Tag> tags = new ArrayList<>();
         VisibilityAnnotationTag[] vatg = new VisibilityAnnotationTag[3]; // RUNTIME_VISIBLE, RUNTIME_INVISIBLE, SOURCE_VISIBLE, see soot.tagkit.AnnotationConstants
         
         for (Annotation a: annotations) {
@@ -559,7 +559,7 @@ public class DexAnnotation {
     }
     
     private ArrayList<AnnotationElem> getElements(Set<? extends AnnotationElement> set) {
-        ArrayList<AnnotationElem> aelemList = new ArrayList<AnnotationElem>();
+        ArrayList<AnnotationElem> aelemList = new ArrayList<>();
         for (AnnotationElement ae: set) {
             
             //Debug.printDbg("element: ", ae.getName() ," ", ae.getValue() ," type: ", ae.getClass());
@@ -574,7 +574,7 @@ public class DexAnnotation {
     }
 
     private ArrayList<AnnotationElem> handleAnnotationElement(AnnotationElement ae, List<? extends EncodedValue> evList) {
-        ArrayList<AnnotationElem> aelemList = new ArrayList<AnnotationElem>();
+        ArrayList<AnnotationElem> aelemList = new ArrayList<>();
 
         for (EncodedValue ev: evList) {
             int type = ev.getValueType();
@@ -691,7 +691,7 @@ public class DexAnnotation {
                 AnnotationEncodedValue v = (AnnotationEncodedValue)ev;
                 AnnotationTag t = new AnnotationTag(DexType.toSootAT(v.getType()).toString());
                 for (AnnotationElement newElem : v.getElements()) {
-                    List<EncodedValue> l = new ArrayList<EncodedValue>();
+                    List<EncodedValue> l = new ArrayList<>();
                     l.add(newElem.getValue());
                     List<AnnotationElem> aList = handleAnnotationElement(newElem, l);
                     if (aList != null)

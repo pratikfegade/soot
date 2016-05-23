@@ -88,8 +88,8 @@ public class IdentifiersMetric extends ASTMetric {
   private void initializeDictionary() {
     String line;
     BufferedReader br = null;
-    dictionary = new ArrayList<String>();
-    names = new HashMap<String, Double>();
+    dictionary = new ArrayList<>();
+    names = new HashMap<>();
     
     InputStream is = ClassLoader.getSystemResourceAsStream("mydict.txt");
     if (is != null)
@@ -195,7 +195,7 @@ public class IdentifiersMetric extends ASTMetric {
     if (names.containsKey(name))
       return names.get(name).doubleValue();
     
-    ArrayList<String> strings = new ArrayList<String>();
+    ArrayList<String> strings = new ArrayList<>();
     
     // throw out non-alpha characters
     String tmp = "";
@@ -212,7 +212,7 @@ public class IdentifiersMetric extends ASTMetric {
     if (tmp.length()>0)
       strings.add(tmp);
     
-    ArrayList<String> tokens = new ArrayList<String>();
+    ArrayList<String> tokens = new ArrayList<>();
     for (int i = 0; i < strings.size(); i++)
     {
       tmp = strings.get(i);

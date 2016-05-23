@@ -117,7 +117,7 @@ public class CodeAttribute extends JasminAttribute
   /** Returns a list of unit boxes that have tags attached. */
     public List<UnitBox> getUnitBoxes()
     {
-	List<UnitBox> unitBoxes = new ArrayList<UnitBox>(mUnits.size());
+	List<UnitBox> unitBoxes = new ArrayList<>(mUnits.size());
 	
 	Iterator<Unit> it = mUnits.iterator();
 	
@@ -134,7 +134,7 @@ public class CodeAttribute extends JasminAttribute
 	if (Options.v().verbose())
 	    G.v().out.println("[] JasminAttribute decode...");
 
-	List<byte[]> attributeHunks = new LinkedList<byte[]>();
+	List<byte[]> attributeHunks = new LinkedList<>();
 	int attributeSize = 0;
 
 	StringTokenizer st = new StringTokenizer(attr, "%");

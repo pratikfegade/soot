@@ -70,8 +70,8 @@ public class PhiNodeManager
     {
 		update();
 		boolean change = false;
-		varToBlocks = new HashMultiMap<Local, Block>();
-		Map<Local, List<Block>> localsToDefPoints = new HashMap<Local, List<Block>>();
+		varToBlocks = new HashMultiMap<>();
+		Map<Local, List<Block>> localsToDefPoints = new HashMap<>();
 
 		// compute localsToDefPoints and varToBlocks
 		for (Block block : cfg) {
@@ -85,7 +85,7 @@ public class PhiNodeManager
 						if (localsToDefPoints.containsKey(local)) {
 							def_points = localsToDefPoints.get(local);
 						} else {
-							def_points = new ArrayList<Block>();
+							def_points = new ArrayList<>();
 							localsToDefPoints.put(local, def_points);
 						}
 						def_points.add(block);
@@ -101,9 +101,9 @@ public class PhiNodeManager
         
         int[] workFlags = new int[cfg.size()];
         int iterCount = 0;
-        Stack<Block> workList = new Stack<Block>();
+        Stack<Block> workList = new Stack<>();
 
-        Map<Integer, Integer> has_already = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> has_already = new HashMap<>();
         for(Iterator<Block> blocksIt = cfg.iterator(); blocksIt.hasNext(); ){
           Block block = blocksIt.next();
           has_already.put(block.getIndexInMethod(), 0);
@@ -192,7 +192,7 @@ public class PhiNodeManager
      **/
     public void trimExceptionalPhiNodes()
     {
-        Set<Unit> handlerUnits = new HashSet<Unit>();
+        Set<Unit> handlerUnits = new HashSet<>();
         Iterator<Trap> trapsIt = body.getTraps().iterator();
 
         while(trapsIt.hasNext()) {
@@ -225,7 +225,7 @@ public class PhiNodeManager
            the same value may be associated with many UnitBoxes. We
            build the MultiMap valueToPairs for convenience.  */
 
-        MultiMap<Value, ValueUnitPair> valueToPairs = new HashMultiMap<Value, ValueUnitPair>();
+        MultiMap<Value, ValueUnitPair> valueToPairs = new HashMultiMap<>();
         for (ValueUnitPair argPair : phiExpr.getArgs()) {
             Value value = argPair.getValue();
             valueToPairs.put(value, argPair);
@@ -244,8 +244,8 @@ public class PhiNodeManager
             // termination, the challengers list never does.  This could
             // be optimised.
             Set<ValueUnitPair> pairsSet = valueToPairs.get(value);
-            List<ValueUnitPair> champs = new LinkedList<ValueUnitPair>(pairsSet);
-            List<ValueUnitPair> challengers = new LinkedList<ValueUnitPair>(pairsSet);
+            List<ValueUnitPair> champs = new LinkedList<>(pairsSet);
+            List<ValueUnitPair> challengers = new LinkedList<>(pairsSet);
             
             // champ is the currently assumed dominator
             ValueUnitPair champ = champs.remove(0);
@@ -386,7 +386,7 @@ public class PhiNodeManager
         boolean addedNewLocals = false;
         
         // List of Phi nodes to be deleted.
-        List<Unit> phiNodes = new ArrayList<Unit>();
+        List<Unit> phiNodes = new ArrayList<>();
 
         // This stores the assignment statements equivalent to each
         // (and every) Phi.  We use lists instead of a Map of
@@ -394,12 +394,12 @@ public class PhiNodeManager
         // of the assignment statements, i.e. if a block has more than
         // one Phi expression, we prefer that the equivalent
         // assignments be placed in the same order as the Phi expressions.
-        List<AssignStmt> equivStmts = new ArrayList<AssignStmt>();
+        List<AssignStmt> equivStmts = new ArrayList<>();
 
         // Similarly, to preserve order, instead of directly storing
         // the pred, we store the pred box so that we follow the
         // pointers when SPatchingChain moves them.
-        List<ValueUnitPair> predBoxes = new ArrayList<ValueUnitPair>();
+        List<ValueUnitPair> predBoxes = new ArrayList<>();
         
         Chain<Unit> units = body.getUnits();
         for (Unit unit : units) {
@@ -484,7 +484,7 @@ public class PhiNodeManager
      **/
     public Map<Unit, Block> getUnitToBlockMap(BlockGraph blocks)
     {
-        Map<Unit, Block> unitToBlock = new HashMap<Unit, Block>();
+        Map<Unit, Block> unitToBlock = new HashMap<>();
 
         Iterator<Block> blocksIt = blocks.iterator();
         while(blocksIt.hasNext()){

@@ -35,7 +35,7 @@ public class CollectionFlowUniverse<E> implements FlowUniverse<E> {
   Set<E> elements;
 
   public CollectionFlowUniverse(Collection<? extends E> elements) {
-    this.elements = new HashSet<E>(elements);
+    this.elements = new HashSet<>(elements);
   }
 
   public int size() {

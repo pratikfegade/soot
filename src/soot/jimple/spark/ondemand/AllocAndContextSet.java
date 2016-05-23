@@ -77,7 +77,7 @@ public final class AllocAndContextSet extends ArraySet<AllocAndContext> implemen
   }
 
   public Set<ClassConstant> possibleClassConstants() {
-	  Set<ClassConstant> res = new HashSet<ClassConstant>();
+	  Set<ClassConstant> res = new HashSet<>();
 	  for (AllocAndContext allocAndContext : this) {
           AllocNode n = allocAndContext.alloc;
           if( n instanceof ClassConstantNode ) {
@@ -90,7 +90,7 @@ public final class AllocAndContextSet extends ArraySet<AllocAndContext> implemen
   }
 
   public Set<String> possibleStringConstants() {
-	  Set<String> res = new HashSet<String>();
+	  Set<String> res = new HashSet<>();
 	  for (AllocAndContext allocAndContext : this) {
           AllocNode n = allocAndContext.alloc;
           if( n instanceof StringConstantNode ) {
@@ -103,7 +103,7 @@ public final class AllocAndContextSet extends ArraySet<AllocAndContext> implemen
   }
 
   public Set<Type> possibleTypes() {
-	  Set res = new HashSet<Type>();
+	  Set res = new HashSet<>();
       for (AllocAndContext allocAndContext : this) {
     	  res.add(allocAndContext.alloc.getType());
       }

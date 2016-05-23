@@ -38,7 +38,7 @@ public class SCCCollapser {
         }
 
         new TopoSorter( pag, ignoreTypes ).sort();
-        TreeSet<VarNode> s = new TreeSet<VarNode>();
+        TreeSet<VarNode> s = new TreeSet<>();
         for( final VarNode v : pag.getVarNodeNumberer() ) {
             s.add(v);
         }
@@ -62,7 +62,7 @@ public class SCCCollapser {
 
     protected int numCollapsed = 0;
     protected PAG pag;
-    protected HashSet<VarNode> visited = new HashSet<VarNode>();
+    protected HashSet<VarNode> visited = new HashSet<>();
     protected boolean ignoreTypes;
     protected TypeManager typeManager;
 

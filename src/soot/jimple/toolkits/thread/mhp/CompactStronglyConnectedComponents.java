@@ -91,8 +91,8 @@ public class CompactStronglyConnectedComponents{
 		FlowSet allNodes = peg.getAllNodes();
 		HashMap unitToSuccs = peg.getUnitToSuccs();
 		HashMap unitToPreds = peg.getUnitToPreds();
-		List<Object> newPreds = new ArrayList<Object>();
-		List<Object> newSuccs = new ArrayList<Object>();
+		List<Object> newPreds = new ArrayList<>();
+		List<Object> newSuccs = new ArrayList<>();
 		
 		while (it.hasNext()){
 			JPegStmt s = (JPegStmt)it.next();

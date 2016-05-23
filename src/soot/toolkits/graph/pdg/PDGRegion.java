@@ -58,7 +58,7 @@ public class PDGRegion implements IRegion, Iterable<PDGNode>{
 	//relation between regions.
 	private IRegion m_parent = null;
 	//The following keeps the child regions
-	private List<IRegion> m_children = new ArrayList<IRegion>();
+	private List<IRegion> m_children = new ArrayList<>();
 	
 	
 	public PDGRegion(int id, SootMethod m, SootClass c, UnitGraph ug, PDGNode node)
@@ -230,8 +230,8 @@ public class PDGRegion implements IRegion, Iterable<PDGNode>{
 	{
 		if(this.m_units == null)
 		{
-			this.m_units = new LinkedList<Unit>();
-			this.m_unit2pdgnode = new LinkedHashMap<Unit, PDGNode>();
+			this.m_units = new LinkedList<>();
+			this.m_unit2pdgnode = new LinkedHashMap<>();
 
 			for(Iterator<PDGNode> itr = this.iterator(); itr.hasNext();)
 			{
@@ -321,7 +321,7 @@ public class PDGRegion implements IRegion, Iterable<PDGNode>{
 	//FIXME: return the real list of blocks
 	public List<Block> getBlocks()
 	{
-		return new ArrayList<Block>();
+		return new ArrayList<>();
 	}
 	
 	

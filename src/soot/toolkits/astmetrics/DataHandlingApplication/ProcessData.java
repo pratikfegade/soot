@@ -57,7 +57,7 @@ public class ProcessData {
 	private static String metricListFileName=null;
 	
 	
-	private static final ArrayList<String> xmlFileList = new ArrayList<String>();
+	private static final ArrayList<String> xmlFileList = new ArrayList<>();
 
 	
 	private static int aggregationMechanism =-1;
@@ -266,7 +266,7 @@ public class ProcessData {
 	
 	
 	private static void writeMetricLists(PrintWriter out){
-		ArrayList<String> metricList = new ArrayList<String>();
+		ArrayList<String> metricList = new ArrayList<>();
 		
 		Iterator<String> it = xmlFileList.iterator();
 		while(it.hasNext()){
@@ -320,7 +320,7 @@ public class ProcessData {
 	@SuppressWarnings("fallthrough")	
 	private static void generateMetricsTables(){
 		
-		Vector<String> columns = new Vector<String>(); 
+		Vector<String> columns = new Vector<>();
 		
 		/*
 		 * create the columns which are the metriclist
@@ -349,7 +349,7 @@ public class ProcessData {
 		
 		
 		
-		Vector<String> allMetrics = new Vector<String>();
+		Vector<String> allMetrics = new Vector<>();
 		
 		try{
 			FileReader file = new FileReader("myList");
@@ -399,7 +399,7 @@ public class ProcessData {
 			 * fft-enabled.xml fft-disabled.xml should be in one table where as
 			 * matrix-enabled.xml matrix-disabled.xml should be in another table
 			 */			
-			Map<String, List<String>> benchMarkToFiles = new HashMap<String, List<String>>();
+			Map<String, List<String>> benchMarkToFiles = new HashMap<>();
 			Iterator<String> it = xmlFileList.iterator();
 			while(it.hasNext()){
 				String fileName = it.next();
@@ -411,7 +411,7 @@ public class ProcessData {
 				List<String> temp = benchMarkToFiles.get(benchmark);
 				List<String> tempList = null;
 				if(temp == null){
-					tempList = new ArrayList<String>();
+					tempList = new ArrayList<>();
 				}
 				else{
 					tempList = temp;
@@ -491,7 +491,7 @@ public class ProcessData {
 
 					}
 
-					files = new ArrayList<String>();
+					files = new ArrayList<>();
 					files.add(newFileOrder[0]);
 					files.add(newFileOrder[1]);
 					files.add(newFileOrder[2]);
@@ -528,7 +528,7 @@ public class ProcessData {
 							throw new RuntimeException("property xml not correct");
 					}
 
-					files = new ArrayList<String>();
+					files = new ArrayList<>();
 					files.add(newFileOrder[0]);
 					files.add(newFileOrder[1]);
 					files.add(newFileOrder[2]);
@@ -562,7 +562,7 @@ public class ProcessData {
 						}
 			
 						
-						HashMap<String, Number> aggregatedValues = new HashMap<String, Number>();
+						HashMap<String, Number> aggregatedValues = new HashMap<>();
 				
 						
 						//TODO Should compute all metrics always
@@ -1038,8 +1038,8 @@ public class ProcessData {
     	 * In order to print all class info alphabetically
     	 * we will create a map of className to data to be displayed
     	 */
-    	ArrayList<String> classNames = new ArrayList<String>();
-    	HashMap<String, String> classData = new HashMap<String, String>();
+    	ArrayList<String> classNames = new ArrayList<>();
+    	HashMap<String, String> classData = new HashMap<>();
 		
     	//each row is a class the name is obtained from the tag Class
 		NodeList classes = doc.getElementsByTagName("Class");

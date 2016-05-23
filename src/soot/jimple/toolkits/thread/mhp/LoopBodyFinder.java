@@ -16,8 +16,8 @@ import java.util.*;
 
 public class LoopBodyFinder{
 	
-	private final Stack<Object> stack = new Stack<Object>();   
-	private final Set<Set<Object>> loops = new HashSet<Set<Object>>();
+	private final Stack<Object> stack = new Stack<>();
+	private final Set<Set<Object>> loops = new HashSet<>();
 	LoopBodyFinder(Map<Object, Object> backEdges, DirectedGraph g){
 		findLoopBody(backEdges, g);
 	}
@@ -37,7 +37,7 @@ public class LoopBodyFinder{
 	
 	
 	private Set<Object> finder(Object tail, Object head, DirectedGraph g){
-		Set<Object> loop = new HashSet<Object>();
+		Set<Object> loop = new HashSet<>();
 		stack.empty();
 		loop.add(head);
 		insert(tail, loop);

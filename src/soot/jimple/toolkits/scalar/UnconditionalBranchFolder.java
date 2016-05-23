@@ -65,7 +65,7 @@ public class UnconditionalBranchFolder extends BodyTransformer
         }
 
         Chain<Unit> units = body.getUnits();
-        stmtMap = new HashMap<Stmt, Stmt>();
+        stmtMap = new HashMap<>();
 
         // find goto and if-goto statements
         Iterator<Unit> stmtIt = units.iterator();

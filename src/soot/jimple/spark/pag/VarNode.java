@@ -111,7 +111,7 @@ public abstract class VarNode extends ValNode implements Comparable {
     }
     /** Registers a frn as having this node as its base. */
     void addField( FieldRefNode frn, SparkField field ) {
-	if( fields == null ) fields = new HashMap<SparkField, FieldRefNode>();
+	if( fields == null ) fields = new HashMap<>();
 	fields.put( field, frn );
     }
 

@@ -47,7 +47,7 @@ public class JNewMultiArrayExpr extends AbstractNewMultiArrayExpr
 
     public Object clone() 
     {
-        List<Value> clonedSizes =  new ArrayList<Value>(getSizeCount());
+        List<Value> clonedSizes = new ArrayList<>(getSizeCount());
 
         for(int i = 0; i <  getSizeCount(); i++) {
             clonedSizes.add(i,  Jimple.cloneIfNecessary(getSize(i)));

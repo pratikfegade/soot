@@ -35,7 +35,7 @@ public class RegisterAllocator {
 	private int paramRegCount;
 	
 	public RegisterAllocator() {
-		localToLastRegNum = new HashMap<String, Integer>();
+		localToLastRegNum = new HashMap<>();
 	}
 	
 	//
@@ -74,13 +74,13 @@ public class RegisterAllocator {
 	// - array reference in assignment (ex: a[1] = 2)
 	// - multi-dimension array initialization (ex: a = new int[1][2][3])
 	//
-	List<Register> classConstantReg = new ArrayList<Register>();
-	List<Register> nullConstantReg = new ArrayList<Register>();
-	List<Register> floatConstantReg = new ArrayList<Register>();
-	List<Register> intConstantReg = new ArrayList<Register>();
-	List<Register> longConstantReg = new ArrayList<Register>();
-	List<Register> doubleConstantReg = new ArrayList<Register>();
-	List<Register> stringConstantReg = new ArrayList<Register>();
+	List<Register> classConstantReg = new ArrayList<>();
+	List<Register> nullConstantReg = new ArrayList<>();
+	List<Register> floatConstantReg = new ArrayList<>();
+	List<Register> intConstantReg = new ArrayList<>();
+	List<Register> longConstantReg = new ArrayList<>();
+	List<Register> doubleConstantReg = new ArrayList<>();
+	List<Register> stringConstantReg = new ArrayList<>();
 	AtomicInteger classI = new AtomicInteger(0);
 	AtomicInteger nullI = new AtomicInteger(0);
 	AtomicInteger floatI = new AtomicInteger(0);

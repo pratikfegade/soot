@@ -71,7 +71,7 @@ public final class CallGraphBuilder
         pa = soot.jimple.toolkits.pointer.DumbPointerAnalysis.v();
         cg = new CallGraph();
         Scene.v().setCallGraph(cg);
-        List<MethodOrMethodContext> entryPoints = new ArrayList<MethodOrMethodContext>();
+        List<MethodOrMethodContext> entryPoints = new ArrayList<>();
         entryPoints.addAll( EntryPoints.v().methodsOfApplicationClasses() );
         entryPoints.addAll( EntryPoints.v().implicit() );
         reachables = new ReachableMethods( cg, entryPoints );

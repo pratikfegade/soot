@@ -44,15 +44,15 @@ public class HashMutableDirectedGraph<N> implements MutableDirectedGraph<N> {
     protected Set<N> tails;
     
     private static <T> List<T> getCopy(Collection<? extends T> c) {
-        return Collections.unmodifiableList(new ArrayList<T>(c));    	
+        return Collections.unmodifiableList(new ArrayList<>(c));
     }
     
     public HashMutableDirectedGraph()
     {
-        nodeToPreds = new HashMap<N,Set<N>>();
-        nodeToSuccs = new HashMap<N,Set<N>>();
-        heads = new HashSet<N>();
-        tails = new HashSet<N>();
+        nodeToPreds = new HashMap<>();
+        nodeToSuccs = new HashMap<>();
+        heads = new HashSet<>();
+        tails = new HashSet<>();
     }
 
     /** Removes all nodes and edges. */
@@ -64,7 +64,7 @@ public class HashMutableDirectedGraph<N> implements MutableDirectedGraph<N> {
     }
 
     public Object clone() {
-        HashMutableDirectedGraph<N> g = new HashMutableDirectedGraph<N>();
+        HashMutableDirectedGraph<N> g = new HashMutableDirectedGraph<>();
         g.nodeToPreds.putAll(nodeToPreds);
         g.nodeToSuccs.putAll(nodeToSuccs);
         g.heads.addAll(heads);
@@ -234,12 +234,12 @@ public class HashMutableDirectedGraph<N> implements MutableDirectedGraph<N> {
     @Override
     public void removeNode(N node)
     {
-    	for (N n : new ArrayList<N>(nodeToSuccs.get(node))) {
+    	for (N n : new ArrayList<>(nodeToSuccs.get(node))) {
     		removeEdge(node, n);
     	}
     	nodeToSuccs.remove(node);
     	
-    	for (N n : new ArrayList<N>(nodeToPreds.get(node))) {
+    	for (N n : new ArrayList<>(nodeToPreds.get(node))) {
     		removeEdge(n, node);
     	}
     	nodeToPreds.remove(node);

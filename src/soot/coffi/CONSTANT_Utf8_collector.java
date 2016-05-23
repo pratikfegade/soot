@@ -41,7 +41,7 @@ public class CONSTANT_Utf8_collector
     {
         if (hash == null) 
         {
-            hash = new HashMap<String, CONSTANT_Utf8_info>();
+            hash = new HashMap<>();
         }
 
         String Utf8_str_key = _Utf8_info.convert();

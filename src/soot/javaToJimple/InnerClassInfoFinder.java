@@ -52,9 +52,9 @@ public class InnerClassInfoFinder extends polyglot.visit.NodeVisitor {
 
     public InnerClassInfoFinder(){
         //declFound = null;
-        localClassDeclList = new ArrayList<Node>();
-        anonBodyList = new ArrayList<Node>();
-        memberList = new ArrayList<Node>();
+        localClassDeclList = new ArrayList<>();
+        anonBodyList = new ArrayList<>();
+        memberList = new ArrayList<>();
         //declaredInstList = new ArrayList();
         //usedInstList = new ArrayList();
     }

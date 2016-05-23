@@ -121,7 +121,7 @@ public class ClassicCompleteUnitGraph extends TrapUnitGraph
 	    // possibility, we should iterate here until we reach a fixed
 	    // point; but the old UnitGraph that we are attempting to
 	    // duplicate did not do that, so we won't either.
-	    List<Unit> origPredsOfTrapped = new ArrayList<Unit>(getPredsOf(firstTrapped));
+	    List<Unit> origPredsOfTrapped = new ArrayList<>(getPredsOf(firstTrapped));
 	    for (Iterator<Unit> unitIt = origPredsOfTrapped.iterator(); 
 		 unitIt.hasNext(); ) {
 		Unit pred = unitIt.next();

@@ -199,7 +199,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 		Body body = clinit.retrieveActiveBody();
 		PatchingChain<Unit> units = body.getUnits();
 		LocalGenerator localGen = new LocalGenerator(body);
-		Chain<Unit> newUnits = new HashChain<Unit>();
+		Chain<Unit> newUnits = new HashChain<>();
 		SootClass setClass = Scene.v().getSootClass("java.util.Set");
 		SootMethodRef addMethodRef = setClass.getMethodByName("add").makeRef();
 		for(SootMethod m: RTI.methodsContainingReflectiveCalls()) {
@@ -306,7 +306,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 		
 		Stmt jumpTarget = Jimple.v().newNopStmt();
 		
-		Chain<Unit> newUnits = new HashChain<Unit>();
+		Chain<Unit> newUnits = new HashChain<>();
 		
 		//alreadyCheckedLocal = m.alreadyChecked
 		InstanceFieldRef fieldRef = Jimple.v().newInstanceFieldRef(body.getParameterLocal(m.getParameterCount()-1), Scene.v().makeFieldRef(c, ALREADY_CHECKED_FIELDNAME, BooleanType.v(), false));
@@ -340,7 +340,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 		
 		//for all units
 		while(iter.hasNext()) {
-			Chain<Unit> newUnits = new HashChain<Unit>();
+			Chain<Unit> newUnits = new HashChain<>();
 			Stmt s = (Stmt) iter.next();
 			
 			//if we have an invoke expression, test to see if it is a reflective invoke expression
@@ -405,7 +405,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 
 					SootMethod newMethod = createNewMethod(callKind, target, fieldSetGetType);
 					
-					List<Value> args = new LinkedList<Value>();
+					List<Value> args = new LinkedList<>();
 					switch(callKind) {
 					case ClassForName:
 					case ClassNewInstance:
@@ -465,7 +465,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 
 	@SuppressWarnings("unchecked")
 	private SootMethod createNewMethod(Kind callKind, String target, Type fieldSetGetType) {
-		List<Type> parameterTypes = new LinkedList<Type>();
+		List<Type> parameterTypes = new LinkedList<>();
 		Type returnType=null;
 		switch(callKind) {
 		case ClassForName:

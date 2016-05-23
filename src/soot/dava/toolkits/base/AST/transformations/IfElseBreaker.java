@@ -175,7 +175,7 @@ public class IfElseBreaker{
 	if(newIfNode == null)
 	    return null;
 
-	List<Object> newSubBody = new ArrayList<Object>();
+	List<Object> newSubBody = new ArrayList<>();
 
 	if(oldSubBody.size()<= nodeNumber){
 	    //something is wrong since the oldSubBody has lesser nodes than nodeNumber

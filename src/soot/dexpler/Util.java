@@ -229,7 +229,7 @@ public class Util {
 
         LocalGenerator lg = new LocalGenerator(jBody);
         // identity statements
-        List<Unit> idStmts = new ArrayList<Unit>();
+        List<Unit> idStmts = new ArrayList<>();
         for (Unit u : jBody.getUnits()) {
             if (u instanceof IdentityStmt) {
                 IdentityStmt i = (IdentityStmt) u;
@@ -287,7 +287,7 @@ public class Util {
 		LocalCreation lc = new LocalCreation(b.getLocals());
 		Local l = lc.newLocal(RefType.v(exceptionType));
 		
-		List<Unit> newUnits = new ArrayList<Unit>();
+		List<Unit> newUnits = new ArrayList<>();
 		Unit u1 = Jimple.v().newAssignStmt(l, Jimple.v().newNewExpr(RefType.v(exceptionType)));
 		Unit u2 = Jimple.v().newInvokeStmt(
 				Jimple.v().newSpecialInvokeExpr(
@@ -307,7 +307,7 @@ public class Util {
 	}
 
     public static List<String> splitParameters(String parameters) {
-        List<String> pList = new ArrayList<String>();
+        List<String> pList = new ArrayList<>();
         
         int idx = 0;
         boolean object = false;

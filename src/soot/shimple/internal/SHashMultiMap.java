@@ -40,6 +40,6 @@ public class SHashMultiMap<K,V> extends HashMultiMap<K,V>
 
     protected Set<V> newSet()
     {
-	return new LinkedHashSet<V>(4);
+	return new LinkedHashSet<>(4);
     }
 }

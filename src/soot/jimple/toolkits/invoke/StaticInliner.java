@@ -57,7 +57,7 @@ public class StaticInliner extends SceneTransformer
         CallGraph cg = Scene.v().getCallGraph();
         Hierarchy hierarchy = Scene.v().getActiveHierarchy();
 
-        ArrayList<List<Host>> sitesToInline = new ArrayList<List<Host>>();
+        ArrayList<List<Host>> sitesToInline = new ArrayList<>();
 
         computeAverageMethodSizeAndSaveOriginalSizes();
         // Visit each potential site in reverse pseudo topological order.
@@ -80,7 +80,7 @@ public class StaticInliner extends SceneTransformer
     
                 JimpleBody b = (JimpleBody)container.retrieveActiveBody();
                     
-                List<Unit> unitList = new ArrayList<Unit>(); unitList.addAll(b.getUnits());
+                List<Unit> unitList = new ArrayList<>(); unitList.addAll(b.getUnits());
                 Iterator<Unit> unitIt = unitList.iterator();
     
                 while (unitIt.hasNext())
@@ -101,7 +101,7 @@ public class StaticInliner extends SceneTransformer
                     if(!InlinerSafetyManager.ensureInlinability(target, s, container, modifierOptions))
                         continue;
                         
-                    List<Host> l = new ArrayList<Host>();
+                    List<Host> l = new ArrayList<>();
                     l.add(target); l.add(s); l.add(container);
                     
                     sitesToInline.add(l);
@@ -148,7 +148,7 @@ public class StaticInliner extends SceneTransformer
         }
     }
 
-    private final HashMap<SootMethod, Integer> methodToOriginalSize = new HashMap<SootMethod, Integer>();
+    private final HashMap<SootMethod, Integer> methodToOriginalSize = new HashMap<>();
     private void computeAverageMethodSizeAndSaveOriginalSizes()
     {
         long sum = 0, count = 0;

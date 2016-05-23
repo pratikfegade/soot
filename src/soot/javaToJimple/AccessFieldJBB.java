@@ -111,7 +111,7 @@ public class AccessFieldJBB extends AbstractJimpleBodyBuilder{
         }
         
         soot.SootMethodRef methToCall = base().getSootMethodRef(call);
-        List<soot.Value> params = new ArrayList<soot.Value>();
+        List<soot.Value> params = new ArrayList<>();
         /*if (!field.flags().isStatic()){
             //params.add(base().getThis(Util.getSootType(field.target().type())));
             params.add((soot.Local)ext().getBaseLocal(field.target()));

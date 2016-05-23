@@ -57,8 +57,8 @@ public class TryCatchCombiner extends BodyTransformer implements IJbcoTransform 
     
     int trapCount = 0;
     PatchingChain<Unit> units = b.getUnits();
-    ArrayList<Unit> headList = new ArrayList<Unit>();
-    ArrayList<Trap> trapList = new ArrayList<Trap>();
+    ArrayList<Unit> headList = new ArrayList<>();
+    ArrayList<Trap> trapList = new ArrayList<>();
     Iterator<Trap> traps = b.getTraps().iterator();
 
     // build list of heads and corresponding traps
@@ -154,7 +154,7 @@ public class TryCatchCombiner extends BodyTransformer implements IJbcoTransform 
       units.add(pushZero);
       units.add(storZero);
       
-      Stack<Local> varsToLoad = new Stack<Local>();
+      Stack<Local> varsToLoad = new Stack<>();
       s = stackHeightsBefore.get(begUnit);
       if (s.size() > 0) {
         for (int i = 0; i < s.size(); i++) {

@@ -304,7 +304,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 					}
 					
 					// For each early end, reuse or insert exitmonitor stmt
-					List<Pair<Stmt, Stmt>> newEarlyEnds = new ArrayList<Pair<Stmt, Stmt>>();
+					List<Pair<Stmt, Stmt>> newEarlyEnds = new ArrayList<>();
 					for (Pair<Stmt, Stmt> end : csr.earlyEnds) {
 						Stmt earlyEnd = end.getO1();
 						Stmt exitmonitor = end.getO2();
@@ -320,7 +320,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 							units.insertBefore(newExitmonitor, exitmonitor);
 							// redirectTraps(b, exitmonitor, newExitmonitor); // EXPERIMENTAL
 							units.remove(exitmonitor);
-							newEarlyEnds.add(new Pair<Stmt, Stmt>(earlyEnd, newExitmonitor));
+							newEarlyEnds.add(new Pair<>(earlyEnd, newExitmonitor));
 						}
 						else
 						{
@@ -330,7 +330,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 								units.insertBefore(tmp, earlyEnd);
 							}
 							units.insertBefore(newExitmonitor, earlyEnd);
-							newEarlyEnds.add(new Pair<Stmt, Stmt>(earlyEnd, newExitmonitor));
+							newEarlyEnds.add(new Pair<>(earlyEnd, newExitmonitor));
 						}
 					}
 					csr.earlyEnds = newEarlyEnds;
@@ -351,7 +351,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 							units.insertBefore(newExitmonitor, exitmonitor);
 							// redirectTraps(b, exitmonitor, newExitmonitor); // EXPERIMENTAL
 							units.remove(exitmonitor);
-							csr.end = new Pair<Stmt, Stmt>(csr.end.getO1(), newExitmonitor);
+							csr.end = new Pair<>(csr.end.getO1(), newExitmonitor);
 						}
 						else
 						{
@@ -363,7 +363,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 							units.insertBefore(newExitmonitor, csr.after); // steal jumps to end, send them to monitorexit
 							Stmt newGotoStmt = Jimple.v().newGotoStmt(csr.after);
 							units.insertBeforeNoRedirect(newGotoStmt, csr.after);
-							csr.end = new Pair<Stmt, Stmt>(newGotoStmt, newExitmonitor);
+							csr.end = new Pair<>(newGotoStmt, newExitmonitor);
 							csr.last = newGotoStmt;
 						}
 					}
@@ -382,7 +382,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 						units.insertBefore(newExitmonitor, exitmonitor);
 							
 						units.remove(exitmonitor);
-						csr.exceptionalEnd = new Pair<Stmt, Stmt>(csr.exceptionalEnd.getO1(), newExitmonitor);
+						csr.exceptionalEnd = new Pair<>(csr.exceptionalEnd.getO1(), newExitmonitor);
 					}
 					else
 					{
@@ -422,7 +422,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 						SootClass throwableClass = Scene.v().loadClassAndSupport("java.lang.Throwable");
 						b.getTraps().addFirst(Jimple.v().newTrap(throwableClass, newExitmonitor, newThrow, newCatch));
 						b.getTraps().addFirst(Jimple.v().newTrap(throwableClass, csr.beginning, lastEnd, newCatch));
-						csr.exceptionalEnd = new Pair<Stmt, Stmt>(newThrow, newExitmonitor);
+						csr.exceptionalEnd = new Pair<>(newThrow, newExitmonitor);
 					}
 				}
 				lockNum++;
@@ -510,7 +510,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 	}
 	
 	static int lockNumber = 0;
-	static Map<EquivalentValue, StaticFieldRef> lockEqValToLock = new HashMap<EquivalentValue, StaticFieldRef>();
+	static Map<EquivalentValue, StaticFieldRef> lockEqValToLock = new HashMap<>();
 	static public Value getLockFor(EquivalentValue lockEqVal)
 	{
 		Value lock = lockEqVal.getValue();

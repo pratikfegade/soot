@@ -33,7 +33,7 @@ public class UnreachableFieldsTagger extends SceneTransformer
     protected void internalTransform(String phaseName, Map options){
 
         // make list of all fields
-        ArrayList<SootField> fieldList = new ArrayList<SootField>();
+        ArrayList<SootField> fieldList = new ArrayList<>();
         
         Iterator getClassesIt = Scene.v().getApplicationClasses().iterator();
         while (getClassesIt.hasNext()) {

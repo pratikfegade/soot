@@ -31,8 +31,8 @@ import java.util.*;
 /** Interface to aggregate tags of units. */
 
 public abstract class TagAggregator extends BodyTransformer {
-    protected LinkedList<Tag> tags = new LinkedList<Tag>();
-    protected LinkedList<Unit> units = new LinkedList<Unit>();
+    protected LinkedList<Tag> tags = new LinkedList<>();
+    protected LinkedList<Unit> units = new LinkedList<>();
 
     /** Decide whether this tag should be aggregated by this aggregator. */
     public abstract boolean wantTag( Tag t );
@@ -60,8 +60,8 @@ public abstract class TagAggregator extends BodyTransformer {
         }        
 
 	if(units.size() > 0) {
-            b.addTag( new CodeAttribute(aggregatedName(), 
-                 new LinkedList<Unit>(units), new LinkedList<Tag>(tags)) );
+            b.addTag( new CodeAttribute(aggregatedName(),
+                    new LinkedList<>(units), new LinkedList<>(tags)) );
         }
         fini();
     }

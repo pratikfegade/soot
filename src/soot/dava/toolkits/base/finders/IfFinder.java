@@ -106,7 +106,7 @@ public class IfFinder implements FactFinder
 	if (targetBranch.get_Reachers().contains( otherBranch))
 	    return body;
 
-	LinkedList<AugmentedStmt> worklist = new LinkedList<AugmentedStmt>();
+	LinkedList<AugmentedStmt> worklist = new LinkedList<>();
 	worklist.addLast( targetBranch);
 
 	while (worklist.isEmpty() == false) {

@@ -84,7 +84,7 @@ public class JimpleBasedInterproceduralCFG extends AbstractJimpleBasedICFG {
 						SootMethod m = edge.getTgt().method();
 						if(m.hasActiveBody()) {
 							if (res == null)
-								res = new ArrayList<SootMethod>();
+								res = new ArrayList<>();
 							res.add(m);
 						}
 						else if(IDESolver.DEBUG) 
@@ -105,7 +105,7 @@ public class JimpleBasedInterproceduralCFG extends AbstractJimpleBasedICFG {
 			IDESolver.DEFAULT_CACHE_BUILDER.build( new CacheLoader<SootMethod,Collection<Unit>>() {
 				@Override
 				public Collection<Unit> load(SootMethod m) throws Exception {
-					ArrayList<Unit> res = new ArrayList<Unit>();
+					ArrayList<Unit> res = new ArrayList<>();
 					//only retain callers that are explicit call sites or Thread.start()
 					Iterator<Edge> edgeIter = new EdgeFilter().wrap(cg.edgesInto(m));					
 					while(edgeIter.hasNext()) {

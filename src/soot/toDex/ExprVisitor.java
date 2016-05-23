@@ -206,7 +206,7 @@ public class ExprVisitor implements ExprSwitch {
 	
 	private List<Register> getInvokeArgumentRegs(InvokeExpr ie) {
 		constantV.setOrigStmt(origStmt);
-		List<Register> argumentRegs = new ArrayList<Register>();
+		List<Register> argumentRegs = new ArrayList<>();
 		for (Value arg : ie.getArgs()) {
 			Register currentReg = regAlloc.asImmediate(arg, constantV);
 			argumentRegs.add(currentReg);
@@ -684,7 +684,7 @@ public class ExprVisitor implements ExprSwitch {
 		BuilderReference arrayTypeItem = DexPrinter.toTypeReference
 				(arrayType, stmtV.getBelongingFile());
 		// get the dimension size registers
-		List<Register> dimensionSizeRegs = new ArrayList<Register>();
+		List<Register> dimensionSizeRegs = new ArrayList<>();
 		for (int i = 0; i < dimensions; i++) {
 			Value currentDimensionSize = nmae.getSize(i);
 			Register currentReg = regAlloc.asImmediate(currentDimensionSize, constantV);

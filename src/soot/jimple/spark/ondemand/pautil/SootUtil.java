@@ -93,7 +93,7 @@ public class SootUtil {
         VarNode target = (VarNode) targets[i];
         if (target instanceof GlobalVarNode)
           continue;
-        ret.put(field, new Pair<FieldRefNode, LocalVarNode>(frNode, (LocalVarNode) target));
+        ret.put(field, new Pair<>(frNode, (LocalVarNode) target));
       }
     }
     return ret;
@@ -224,7 +224,7 @@ public class SootUtil {
       Node[] targets = pag.storeInvLookup(frNode);
       for (int i = 0; i < targets.length; i++) {
         VarNode target = (VarNode) targets[i];
-        storesOnField.put(field, new Pair<VarNode, VarNode>(target, source));
+        storesOnField.put(field, new Pair<>(target, source));
       }
     }
     return storesOnField;
@@ -240,7 +240,7 @@ public class SootUtil {
       Node[] targets = pag.loadLookup(frNode);
       for (int i = 0; i < targets.length; i++) {
         VarNode target = (VarNode) targets[i];
-        loadsOnField.put(field, new Pair<VarNode, VarNode>(target, source));
+        loadsOnField.put(field, new Pair<>(target, source));
       }
     }
     return loadsOnField;
@@ -398,7 +398,7 @@ public class SootUtil {
     ChunkedQueue chunkedQueue = new ChunkedQueue();
     Iterator iter = chunkedQueue.reader();
     VirtualCalls.v().resolve(type, receiverType, invokedMethod.getNumberedSubSignature(), null, chunkedQueue);
-    Set<SootMethod> ret = new ArraySet<SootMethod>();
+    Set<SootMethod> ret = new ArraySet<>();
     for (; iter.hasNext();) {
       SootMethod target = (SootMethod) iter.next();
       ret.add(target);

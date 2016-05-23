@@ -52,7 +52,7 @@ public class DexClassProvider implements ClassProvider {
 	public ClassSource find(String className) {
 		Map<String, File> index = SourceLocator.v().dexClassIndex();
 		if (index == null) {
-			index = new HashMap<String, File>();
+			index = new HashMap<>();
 			buildDexIndex(index, SourceLocator.v().classPath());
 			SourceLocator.v().setDexClassIndex(index);
 		}
@@ -116,7 +116,7 @@ public class DexClassProvider implements ClassProvider {
 	 * @return set of class names
 	 */
 	public static Set<String> classesOfDex(File file) throws IOException {
-		Set<String> classes = new HashSet<String>();
+		Set<String> classes = new HashSet<>();
 		// TODO (SA): Go for API 1 because DexlibWrapper does so, but needs more attention
 		DexBackedDexFile d = DexFileFactory.loadDexFile(file, 1, false);
 		for (ClassDef c : d.getClasses()) {

@@ -197,18 +197,18 @@ public class SPatchingChain extends PatchingChain<Unit>
     /**
      * Map from UnitBox to the Phi node owning it.
      **/
-    protected Map<UnitBox, Unit> boxToPhiNode = new HashMap<UnitBox, Unit>();
+    protected Map<UnitBox, Unit> boxToPhiNode = new HashMap<>();
     /**
      * Set of the values of boxToPhiNode. Used to allow O(1) contains() on the values.
      **/
-    protected Set<Unit> phiNodeSet = new HashSet<Unit>();
+    protected Set<Unit> phiNodeSet = new HashSet<>();
 
     /**
      * Flag that indicates whether control flow falls through from the
      * box to the Phi node.  null indicates we probably need a call to
      * computeInternal().
      **/
-    protected Map<SUnitBox, Boolean> boxToNeedsPatching = new HashMap<SUnitBox, Boolean>();
+    protected Map<SUnitBox, Boolean> boxToNeedsPatching = new HashMap<>();
 
     
     protected void processPhiNode(Unit o)
@@ -232,10 +232,10 @@ public class SPatchingChain extends PatchingChain<Unit>
 
     protected void reprocessPhiNodes()
     {
-        Set<Unit> phiNodes = new HashSet<Unit>(boxToPhiNode.values());
-        boxToPhiNode = new HashMap<UnitBox, Unit>();
-        phiNodeSet = new HashSet<Unit>();
-        boxToNeedsPatching = new HashMap<SUnitBox, Boolean>();
+        Set<Unit> phiNodes = new HashSet<>(boxToPhiNode.values());
+        boxToPhiNode = new HashMap<>();
+        phiNodeSet = new HashSet<>();
+        boxToNeedsPatching = new HashMap<>();
 
         Iterator<Unit> phiNodesIt = phiNodes.iterator();
         while(phiNodesIt.hasNext())
@@ -260,7 +260,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         // we track the fallthrough control flow from boxes to the
         // corresponding Phi statements.  trackedPhi provides a
         // mapping from the Phi being tracked to its relevant boxes.
-        MultiMap<Unit, UnitBox> trackedPhiToBoxes = new HashMultiMap<Unit, UnitBox>();
+        MultiMap<Unit, UnitBox> trackedPhiToBoxes = new HashMultiMap<>();
 
         // consider:
         //
@@ -270,7 +270,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         // Here control flow both fallsthrough and branches to label1.
         // If such an if statement is encountered, we do not want to
         // move any UnitBox pointers beyond the if statement.
-        Set<UnitBox> trackedBranchTargets = new HashSet<UnitBox>();
+        Set<UnitBox> trackedBranchTargets = new HashSet<>();
         for (Unit u : this) {
             // update trackedPhiToBoxes
             List<UnitBox> boxesToTrack = u.getBoxesPointingToThis();
@@ -298,7 +298,7 @@ public class SPatchingChain extends PatchingChain<Unit>
                     box.setUnitChanged(false);
                 }
 
-                trackedPhiToBoxes = new HashMultiMap<Unit, UnitBox>();
+                trackedPhiToBoxes = new HashMultiMap<>();
                 continue;
             }
 

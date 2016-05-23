@@ -52,7 +52,7 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 		Iterator<Object> it = stmts.iterator();
 		
 		boolean success=false;
-		ArrayList<AugmentedStmt> toRemove = new ArrayList<AugmentedStmt>();
+		ArrayList<AugmentedStmt> toRemove = new ArrayList<>();
 		while(it.hasNext()){
 			success = false;
 			AugmentedStmt as = (AugmentedStmt)it.next();
@@ -160,7 +160,7 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 		if(success){
 			//means we did a transformation remove the stmts
 			it = node.getStatements().iterator();
-			List<Object> newStmtList = new ArrayList<Object>();
+			List<Object> newStmtList = new ArrayList<>();
 			while(it.hasNext()){
 				AugmentedStmt as = (AugmentedStmt)it.next();
 				if(toRemove.contains(as)){
@@ -233,7 +233,7 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 		List<Object> stmts = node.getStatements();
 		Iterator<Object> it = stmts.iterator();
 		boolean success=false;
-		ArrayList<AugmentedStmt> toRemove = new ArrayList<AugmentedStmt>();
+		ArrayList<AugmentedStmt> toRemove = new ArrayList<>();
 		while(it.hasNext()){
 			success = false;
 			AugmentedStmt as = (AugmentedStmt)it.next();
@@ -352,7 +352,7 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 		if(success){
 			//means we did a transformation remove the stmts
 			it = node.getStatements().iterator();
-			List<Object> newStmtList = new ArrayList<Object>();
+			List<Object> newStmtList = new ArrayList<>();
 			while(it.hasNext()){
 				AugmentedStmt as = (AugmentedStmt)it.next();
 				if(toRemove.contains(as)){

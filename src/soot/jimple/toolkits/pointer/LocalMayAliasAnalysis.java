@@ -65,7 +65,7 @@ public class LocalMayAliasAnalysis extends ForwardFlowAnalysis<Unit, Set<Set<Val
 				if(leftSet==null) throw new RuntimeException("internal error");
 				//remove left from this set
 				target.remove(leftSet);
-				HashSet<Value> setWithoutLeft = new HashSet<Value>(leftSet);
+				HashSet<Value> setWithoutLeft = new HashSet<>(leftSet);
 				setWithoutLeft.remove(left);
 				target.add(setWithoutLeft);
 				//add left on its own				
@@ -89,7 +89,7 @@ public class LocalMayAliasAnalysis extends ForwardFlowAnalysis<Unit, Set<Set<Val
 				//replace the sets by their union
 				target.remove(leftSet);
 				target.remove(rightSet);
-				HashSet<Value> union = new HashSet<Value>(leftSet);
+				HashSet<Value> union = new HashSet<>(leftSet);
 				union.addAll(rightSet);
 				target.add(union);
 			}
@@ -105,7 +105,7 @@ public class LocalMayAliasAnalysis extends ForwardFlowAnalysis<Unit, Set<Set<Val
 	@Override
 	protected Set<Set<Value>> entryInitialFlow() {
 		//initially all values only alias themselves
-		Set<Set<Value>> res = new HashSet<Set<Value>>();
+		Set<Set<Value>> res = new HashSet<>();
 		for(ValueBox vb: body.getUseAndDefBoxes()) {
 			res.add(Collections.singleton(vb.getValue()));
 		}
@@ -122,7 +122,7 @@ public class LocalMayAliasAnalysis extends ForwardFlowAnalysis<Unit, Set<Set<Val
 
 	@Override
 	protected Set<Set<Value>> newInitialFlow() {
-		return new HashSet<Set<Value>>();
+		return new HashSet<>();
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class LocalMayAliasAnalysis extends ForwardFlowAnalysis<Unit, Set<Set<Val
 	 * Returns all values that may-alias with v before u. 
 	 */
 	public Set<Value> mayAliases(Value v, Unit u) {
-		Set<Value> res = new HashSet<Value>();
+		Set<Value> res = new HashSet<>();
 		Set<Set<Value>> flow = getFlowBefore(u);
 		for (Set<Value> set : flow) {
 			if(set.contains(v))
@@ -154,7 +154,7 @@ public class LocalMayAliasAnalysis extends ForwardFlowAnalysis<Unit, Set<Set<Val
 	 * Returns all values that may-alias with v at the end of the procedure. 
 	 */
 	public Set<Value> mayAliasesAtExit(Value v) {
-		Set<Value> res = new HashSet<Value>();
+		Set<Value> res = new HashSet<>();
 		for(Unit u: graph.getTails()) {
 			Set<Set<Value>> flow = getFlowAfter(u);
 			for (Set<Value> set : flow) {

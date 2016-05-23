@@ -58,7 +58,7 @@ public class ShimpleLocalUses implements LocalUses
             throw new RuntimeException("ShimpleBody is not in proper SSA form as required by ShimpleLocalUses.  You may need to rebuild it or use SimpleLocalUses instead.");
 
         // initialise the map
-        localToUses = new HashMap<Local, ArrayList>();
+        localToUses = new HashMap<>();
         Iterator localsIt = sb.getLocals().iterator();
         while(localsIt.hasNext()){
             Local local = (Local) localsIt.next();

@@ -73,8 +73,8 @@ public class ThrowFinder
     {
 	G.v().out.print( "Verifying exception handling.. ");
 
-	registeredMethods = new HashSet<SootMethod>();
-	protectionSet = new HashMap<Stmt, HashSet<SootClass>>();
+	registeredMethods = new HashSet<>();
+	protectionSet = new HashMap<>();
 
         CallGraph cg;
         if( Scene.v().hasCallGraph() ) {
@@ -107,10 +107,10 @@ public class ThrowFinder
 
 	// Build the subClass and superClass mappings.
 	HashMap<SootClass, IterableSet> 
-	    subClassSet = new HashMap<SootClass, IterableSet>(),
-	    superClassSet = new HashMap<SootClass, IterableSet>();
+	    subClassSet = new HashMap<>(),
+	    superClassSet = new HashMap<>();
 
-	HashSet<SootClass> applicationClasses = new HashSet<SootClass>();
+	HashSet<SootClass> applicationClasses = new HashSet<>();
 	applicationClasses.addAll( Scene.v().getApplicationClasses());
 
 	classIt = Scene.v().getApplicationClasses().iterator();
@@ -156,7 +156,7 @@ public class ThrowFinder
 	}
 	
 	// Build the subMethod and superMethod mappings.
-	HashMap<SootMethod, IterableSet> agreementMethodSet = new HashMap<SootMethod, IterableSet>();
+	HashMap<SootMethod, IterableSet> agreementMethodSet = new HashMap<>();
 
 	// Get exceptions from throw statements and add them to the exceptions that the method throws.
 	Iterator worklistIt = worklist.iterator();
@@ -339,7 +339,7 @@ public class ThrowFinder
     {
 	IterableSet worklist = (IterableSet) classMapping.get( startingMethod.getDeclaringClass()).clone();
 
-	HashSet<SootClass> touchSet = new HashSet<SootClass>();
+	HashSet<SootClass> touchSet = new HashSet<>();
 	touchSet.addAll( worklist);
 
 	String signature = startingMethod.getSubSignature();
@@ -402,7 +402,7 @@ public class ThrowFinder
 
 		HashSet<SootClass> handled = null;
 		if ((handled = protectionSet.get( s)) == null) {
-		    handled = new HashSet<SootClass>();
+		    handled = new HashSet<>();
 		    protectionSet.put( s, handled);
 		}
 		

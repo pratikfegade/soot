@@ -64,14 +64,14 @@ public class JavaAttribute {
     
     public void addTag(Tag t){
         if (tags == null){
-            tags = new ArrayList<Tag>();
+            tags = new ArrayList<>();
         }
         tags.add(t);
     }
 
     public void addVbAttr(PosColorAttribute vbAttr){
         if (vbAttrs == null) {
-            vbAttrs = new ArrayList<PosColorAttribute>();
+            vbAttrs = new ArrayList<>();
         }
         vbAttrs.add(vbAttr);
     }

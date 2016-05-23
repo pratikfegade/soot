@@ -585,7 +585,7 @@ public class JBCOViewer extends javax.swing.JFrame {
                   max = null;
                 }
                 
-                Vector<String> tmp = new Vector<String>();
+                Vector<String> tmp = new Vector<>();
                 String args = TextFieldJVMArgs.getText();
                 StringTokenizer st = new StringTokenizer(args,",");
                 while (st.hasMoreTokens())

@@ -481,7 +481,7 @@ public class StackTypeHeightCalculator {
       throw new java.lang.RuntimeException("Expecting Baf Body");
     //System.out.println("\n"+b.getMethod().getName());
     
-    Map<Unit,Stack<Type>> results = new HashMap<Unit,Stack<Type>>();
+    Map<Unit,Stack<Type>> results = new HashMap<>();
     bug = new BriefUnitGraph(b);
     List<Unit> heads = bug.getHeads();
     for (int i = 0; i < heads.size(); i++)
@@ -495,8 +495,8 @@ public class StackTypeHeightCalculator {
         continue;
       }
         
-      List<Unit> worklist = new ArrayList<Unit>();
-      stack = new Stack<Type>();
+      List<Unit> worklist = new ArrayList<>();
+      stack = new Stack<>();
       if (handlerExc!=null)
         stack.push(handlerExc);
       results.put(h,stack);
@@ -603,7 +603,7 @@ public class StackTypeHeightCalculator {
     
     int count = 0;
     sw.shouldThrow = false;
-    Map<Unit,Integer> indexes = new HashMap<Unit,Integer>();
+    Map<Unit,Integer> indexes = new HashMap<>();
     Iterator<Unit> it = units.snapshotIterator();
     while (it.hasNext())
       indexes.put(it.next(),new Integer(count++));

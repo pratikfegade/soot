@@ -45,13 +45,13 @@ public class ZArrayNumberer<E extends Numberable>
     {
     	// With default initialize size
     	numberToObj = new Numberable[1023];
-    	objContainer = new HashMap<E, E>(1023);
+    	objContainer = new HashMap<>(1023);
     }
     
     public ZArrayNumberer( int initSize )
     {
     	numberToObj = new Numberable[initSize];
-    	objContainer = new HashMap<E, E>(initSize);
+    	objContainer = new HashMap<>(initSize);
     }
     
     public void add( E o ) 

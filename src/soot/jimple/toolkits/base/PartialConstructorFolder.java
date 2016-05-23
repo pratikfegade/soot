@@ -64,7 +64,7 @@ public class PartialConstructorFolder extends BodyTransformer
                 "] Folding Jimple constructors...");
 
         Chain<Unit> units = body.getUnits();
-        List<Unit> stmtList = new ArrayList<Unit>();
+        List<Unit> stmtList = new ArrayList<>();
         stmtList.addAll(units);
 
         Iterator<Unit> it = stmtList.iterator();

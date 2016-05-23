@@ -38,8 +38,8 @@ public class AugmentedStmt {
 	public AugmentedStmt(Stmt s) {
 		this.s = s;
 
-		dominators = new IterableSet<AugmentedStmt>();
-		reachers = new IterableSet<AugmentedStmt>();
+		dominators = new IterableSet<>();
+		reachers = new IterableSet<>();
 
 		reset_PredsSuccs();
 	}
@@ -161,10 +161,10 @@ public class AugmentedStmt {
 	}
 
 	public void reset_PredsSuccs() {
-		bpreds = new LinkedList<AugmentedStmt>();
-		bsuccs = new LinkedList<AugmentedStmt>();
-		cpreds = new LinkedList<AugmentedStmt>();
-		csuccs = new LinkedList<AugmentedStmt>();
+		bpreds = new LinkedList<>();
+		bsuccs = new LinkedList<>();
+		cpreds = new LinkedList<>();
+		csuccs = new LinkedList<>();
 	}
 
 	public Object clone() {

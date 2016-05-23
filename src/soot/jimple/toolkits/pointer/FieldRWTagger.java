@@ -39,7 +39,7 @@ public class FieldRWTagger extends BodyTransformer
     private CallGraph cg;
 
     protected class UniqueRWSets {
-	protected ArrayList<RWSet> l = new ArrayList<RWSet>();
+	protected ArrayList<RWSet> l = new ArrayList<>();
 	RWSet getUnique( RWSet s ) {
 	    if( s == null ) return s;
 	    for (RWSet ret : l) {
@@ -94,8 +94,8 @@ public class FieldRWTagger extends BodyTransformer
 	SideEffectAnalysis sea = new SideEffectAnalysis( 
                 DumbPointerAnalysis.v(), Scene.v().getCallGraph() );
         sea.findNTRWSets( body.getMethod() );
-	HashMap<Object, RWSet> stmtToReadSet = new HashMap<Object, RWSet>();
-	HashMap<Object, RWSet> stmtToWriteSet = new HashMap<Object, RWSet>();
+	HashMap<Object, RWSet> stmtToReadSet = new HashMap<>();
+	HashMap<Object, RWSet> stmtToWriteSet = new HashMap<>();
 	UniqueRWSets sets = new UniqueRWSets();
 	optionDontTag = PhaseOptions.getBoolean( options, "dont-tag" );
 	boolean justDoTotallyConservativeThing = 

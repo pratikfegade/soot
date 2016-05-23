@@ -67,15 +67,15 @@ public class ASTUsesAndDefs extends DepthFirstAdapter{
     ReachingDefs reaching;  //using structural analysis information 
 
     public ASTUsesAndDefs(ASTNode AST){
-	uD = new HashMap<Object, List<DefinitionStmt>>();
-	dU = new HashMap<Object, List>();
+	uD = new HashMap<>();
+	dU = new HashMap<>();
 	reaching = new ReachingDefs(AST);
     }
 
     public ASTUsesAndDefs(boolean verbose,ASTNode AST){
 	super(verbose);
-	uD = new HashMap<Object, List<DefinitionStmt>>();
-	dU = new HashMap<Object, List>();
+	uD = new HashMap<>();
+	dU = new HashMap<>();
 	reaching = new ReachingDefs(AST);
     }
 
@@ -88,7 +88,7 @@ public class ASTUsesAndDefs extends DepthFirstAdapter{
      * only those are returned which are locals
      */
     private List<Value> getUsesFromBoxes(List useBoxes){
-	ArrayList<Value> toReturn = new ArrayList<Value>();
+	ArrayList<Value> toReturn = new ArrayList<>();
 	Iterator it = useBoxes.iterator();
 	while(it.hasNext()){
 	    Value val =((ValueBox)it.next()).getValue();
@@ -170,7 +170,7 @@ public class ASTUsesAndDefs extends DepthFirstAdapter{
 	    Object useObj = dU.get(defStmt);
 	    List<Object> uses=null;
 	    if(useObj==null)
-		uses = new ArrayList<Object>();
+		uses = new ArrayList<>();
 	    else
 		uses = (List<Object>)useObj;
 	    
@@ -197,7 +197,7 @@ public class ASTUsesAndDefs extends DepthFirstAdapter{
      * to find the locals used in the condition
      */
     public List<Value> getUseList(ASTCondition cond){
-	ArrayList<Value> useList = new ArrayList<Value>();
+	ArrayList<Value> useList = new ArrayList<>();
 	if(cond instanceof ASTAggregatedCondition){
 	    useList.addAll(getUseList(((ASTAggregatedCondition)cond).getLeftOp()));
 	    useList.addAll(getUseList(((ASTAggregatedCondition)cond).getRightOp()));
@@ -205,7 +205,7 @@ public class ASTUsesAndDefs extends DepthFirstAdapter{
 	}
 	else if(cond instanceof ASTUnaryCondition){
 	    //get uses from unary condition
-	    List<Value> uses = new ArrayList<Value>();
+	    List<Value> uses = new ArrayList<>();
 
 	    Value val = ((ASTUnaryCondition)cond).getValue();
 	    if(val instanceof Local){
@@ -291,7 +291,7 @@ public class ASTUsesAndDefs extends DepthFirstAdapter{
     */
     public void inASTSwitchNode(ASTSwitchNode node){
 	Value val = node.get_Key();
-	List<Value> uses = new ArrayList<Value>();
+	List<Value> uses = new ArrayList<>();
 	if(val instanceof Local){
 	    uses.add(val);
 	}

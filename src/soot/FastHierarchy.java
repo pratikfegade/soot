@@ -219,10 +219,10 @@ public class FastHierarchy
             } else {
                 SootClass base = ((AnySubType)child).getBase().getSootClass();
                 SootClass parentClass = ((RefType) parent).getSootClass();
-                LinkedList<SootClass> worklist = new LinkedList<SootClass>();
+                LinkedList<SootClass> worklist = new LinkedList<>();
                 if( base.isInterface() ) worklist.addAll(getAllImplementersOfInterface(base));
                 else worklist.add(base);
-                Set<SootClass> workset = new HashSet<SootClass>();
+                Set<SootClass> workset = new HashSet<>();
                 while(!worklist.isEmpty()) {
                     SootClass cl = worklist.removeFirst();
                     if( !workset.add(cl) ) continue;
@@ -295,12 +295,12 @@ public class FastHierarchy
 
     public Collection<SootMethod> resolveConcreteDispatchWithoutFailing(Collection<Type> concreteTypes, SootMethod m, RefType declaredTypeOfBase ) {
 
-        Set<SootMethod> ret = new HashSet<SootMethod>();
+        Set<SootMethod> ret = new HashSet<>();
         SootClass declaringClass = declaredTypeOfBase.getSootClass();
         declaringClass.checkLevel(SootClass.HIERARCHY);
         for( final Type t : concreteTypes ) {
             if( t instanceof AnySubType ) {
-                HashSet<SootClass> s = new HashSet<SootClass>();
+                HashSet<SootClass> s = new HashSet<>();
                 s.add( declaringClass );
                 while( !s.isEmpty() ) {
                     SootClass c = s.iterator().next();
@@ -351,12 +351,12 @@ public class FastHierarchy
 
     public Collection<SootMethod> resolveConcreteDispatch(Collection<Type> concreteTypes, SootMethod m, RefType declaredTypeOfBase ) {
 
-        Set<SootMethod> ret = new HashSet<SootMethod>();
+        Set<SootMethod> ret = new HashSet<>();
         SootClass declaringClass = declaredTypeOfBase.getSootClass();
         declaringClass.checkLevel(SootClass.HIERARCHY);
         for( final Type t : concreteTypes ) {
             if( t instanceof AnySubType ) {
-                HashSet<SootClass> s = new HashSet<SootClass>();
+                HashSet<SootClass> s = new HashSet<>();
                 s.add( declaringClass );
                 while( !s.isEmpty() ) {
                     SootClass c = s.iterator().next();
@@ -418,9 +418,9 @@ public class FastHierarchy
     public Set<SootMethod> resolveAbstractDispatch(SootClass abstractType, SootMethod m )
     {
         String methodSig = m.getSubSignature();
-        HashSet<SootClass> resolved = new HashSet<SootClass>();
-        HashSet<SootMethod> ret = new HashSet<SootMethod>();
-        LinkedList<SootClass> worklist = new LinkedList<SootClass>();
+        HashSet<SootClass> resolved = new HashSet<>();
+        HashSet<SootMethod> ret = new HashSet<>();
+        LinkedList<SootClass> worklist = new LinkedList<>();
         worklist.add( abstractType );
         while( !worklist.isEmpty() ) {
             SootClass concreteType = worklist.removeFirst();

@@ -28,8 +28,8 @@ public class ClassInfoFlowAnalysis
 	{
 		 this.sootClass = sootClass;
 		 this.dfa = dfa;
-		 methodToInfoFlowAnalysis = new HashMap<SootMethod, SmartMethodInfoFlowAnalysis>();
-		 methodToInfoFlowSummary = new HashMap<SootMethod, HashMutableDirectedGraph<EquivalentValue>>();
+		 methodToInfoFlowAnalysis = new HashMap<>();
+		 methodToInfoFlowSummary = new HashMap<>();
 		 
 //		 doSimpleConservativeDataFlowAnalysis();
 	}
@@ -173,7 +173,7 @@ public class ClassInfoFlowAnalysis
 			
 		Body b = sm.retrieveActiveBody();
 		UnitGraph g = new ExceptionalUnitGraph(b);
-		HashSet<EquivalentValue> fieldsStaticsParamsAccessed = new HashSet<EquivalentValue>();		
+		HashSet<EquivalentValue> fieldsStaticsParamsAccessed = new HashSet<>();
 
 		// Get list of fields, globals, and parameters that are accessed
 		for (Unit u : g)
@@ -215,7 +215,7 @@ public class ClassInfoFlowAnalysis
 		}
 		
 		// Each accessed field, global, and parameter becomes a node in the graph
-		HashMutableDirectedGraph<EquivalentValue> dataFlowGraph = new MemoryEfficientGraph<EquivalentValue>();
+		HashMutableDirectedGraph<EquivalentValue> dataFlowGraph = new MemoryEfficientGraph<>();
 		Iterator<EquivalentValue> accessedIt1 = fieldsStaticsParamsAccessed.iterator();
 		while(accessedIt1.hasNext())
 		{
@@ -310,7 +310,7 @@ public class ClassInfoFlowAnalysis
 	/** Does not require the method to have a body */
 	public HashMutableDirectedGraph<EquivalentValue> triviallyConservativeInfoFlowAnalysis(SootMethod sm)
 	{
-		HashSet<EquivalentValue> fieldsStaticsParamsAccessed = new HashSet<EquivalentValue>();
+		HashSet<EquivalentValue> fieldsStaticsParamsAccessed = new HashSet<>();
 		
 		// Add all of the nodes necessary to ensure that this is a complete data flow graph
 		// Add every parameter of this method
@@ -353,7 +353,7 @@ public class ClassInfoFlowAnalysis
 		// Don't add any static fields outside of the class... unsafe???
 
 		// Each field, global, and parameter becomes a node in the graph
-		HashMutableDirectedGraph<EquivalentValue> dataFlowGraph = new MemoryEfficientGraph<EquivalentValue>();
+		HashMutableDirectedGraph<EquivalentValue> dataFlowGraph = new MemoryEfficientGraph<>();
 		Iterator<EquivalentValue> accessedIt1 = fieldsStaticsParamsAccessed.iterator();
 		while(accessedIt1.hasNext())
 		{

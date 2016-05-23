@@ -36,7 +36,7 @@ public class InteractionHandler {
     }
     public void addToStopUnitList(Object elem){
         if (stopUnitList == null){
-            stopUnitList = new ArrayList<Object>();
+            stopUnitList = new ArrayList<>();
         }
         stopUnitList.add(elem);
     }

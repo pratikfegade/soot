@@ -72,7 +72,7 @@ public class BDup2_x2Inst extends BDupInst implements Dup2_x2Inst
 
     public List<Type> getOpTypes()
     {
-        List<Type> res =  new ArrayList<Type>();
+        List<Type> res = new ArrayList<>();
         res.add(mOp1Type);
         
         // 07-20-2006 Michael Batchelder
@@ -84,7 +84,7 @@ public class BDup2_x2Inst extends BDupInst implements Dup2_x2Inst
     
     public List<Type> getUnderTypes()
     {
-        List<Type> res =  new ArrayList<Type>();
+        List<Type> res = new ArrayList<>();
         res.add(mUnder1Type);
         
         // 07-20-2006 Michael Batchelder

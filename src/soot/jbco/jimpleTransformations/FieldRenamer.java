@@ -52,11 +52,11 @@ public class FieldRenamer extends SceneTransformer implements IJbcoTransform {
 		{'_'}
 	  };
   
-  public static Vector<String>  namesToNotRename = new Vector<String>();
-  public static Hashtable<String, String> oldToNewFieldNames = new Hashtable<String, String>();
-  public static Hashtable<SootClass, SootField> opaquePreds1ByClass = new Hashtable<SootClass, SootField>();
-  public static Hashtable<SootClass, SootField> opaquePreds2ByClass = new Hashtable<SootClass, SootField>();
-  public static ArrayList<SootField> sootFieldsRenamed = new ArrayList<SootField>();
+  public static Vector<String>  namesToNotRename = new Vector<>();
+  public static Hashtable<String, String> oldToNewFieldNames = new Hashtable<>();
+  public static Hashtable<SootClass, SootField> opaquePreds1ByClass = new Hashtable<>();
+  public static Hashtable<SootClass, SootField> opaquePreds2ByClass = new Hashtable<>();
+  public static ArrayList<SootField> sootFieldsRenamed = new ArrayList<>();
   public static SootField opaquePairs[][] = null;
   public static int	  handedOutPairs[] = null;
   public static int	  handedOutRunPairs[] = null;
@@ -319,7 +319,7 @@ public class FieldRenamer extends SceneTransformer implements IJbcoTransform {
     }
     
     int lowValue = 99999;
-    ArrayList<Integer> available = new ArrayList<Integer>();
+    ArrayList<Integer> available = new ArrayList<>();
     for (int element : handedOutPairs)
 		if (lowValue>element) lowValue = element;
     for (int i = 0; i < handedOutPairs.length; i++)
@@ -338,7 +338,7 @@ public class FieldRenamer extends SceneTransformer implements IJbcoTransform {
     }
     
     int lowValue = 99999;
-    ArrayList<Integer> available = new ArrayList<Integer>();
+    ArrayList<Integer> available = new ArrayList<>();
     for (int element : handedOutRunPairs)
 		if (lowValue>element) lowValue = element;
     if (lowValue>2) return -1;

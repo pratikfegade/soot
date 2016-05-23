@@ -109,7 +109,7 @@ public class EBBCollapser {
             Type nType = n.getType();
             Node[] succs = pag.loadLookup( n );
             Node firstSucc = null;
-            HashMap<Type, VarNode> typeToSucc = new HashMap<Type, VarNode>();
+            HashMap<Type, VarNode> typeToSucc = new HashMap<>();
             for (Node element : succs) {
                 VarNode succ = (VarNode) element;
                 Type sType = succ.getType();

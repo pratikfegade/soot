@@ -57,7 +57,7 @@ public class LabeledBlockFinder implements FactFinder
 	    IterableSet body = sbit.next();
 	    IterableSet children = SETParent.get_Body2ChildChain().get( body);
 
-	    HashSet<SETBasicBlock> touchSet  = new HashSet<SETBasicBlock>();
+	    HashSet<SETBasicBlock> touchSet  = new HashSet<>();
 	    IterableSet childOrdering = new IterableSet();
 	    LinkedList worklist = new LinkedList();
 	    List<SETBasicBlock> SETBasicBlocks = null;
@@ -216,7 +216,7 @@ public class LabeledBlockFinder implements FactFinder
 	 */
 
 	// first create the basic blocks
-	LinkedList<SETBasicBlock> basicBlockList = new LinkedList<SETBasicBlock>();
+	LinkedList<SETBasicBlock> basicBlockList = new LinkedList<>();
 
 	Iterator cit = children.iterator();
 	while (cit.hasNext()) {

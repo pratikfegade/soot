@@ -29,8 +29,8 @@ public class DavaMonitor
 
     private DavaMonitor() 
     {
-	ref = new HashMap<Object, Lock>( 1, 0.7f);
-	lockTable = new HashMap<Object, Lock>( 1, 0.7f);
+	ref = new HashMap<>(1, 0.7f);
+	lockTable = new HashMap<>(1, 0.7f);
     }
 
     public static DavaMonitor v() { return instance; }

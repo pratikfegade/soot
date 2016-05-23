@@ -59,7 +59,7 @@ public class JimpleIFDSSolver<D, I extends InterproceduralCFG<Unit, SootMethod>>
 	public void dumpResults() {
 		try {
 			PrintWriter out = new PrintWriter(new FileOutputStream("ideSolverDump" + System.currentTimeMillis() + ".csv"));
-			List<SortableCSVString> res = new ArrayList<SortableCSVString>();
+			List<SortableCSVString> res = new ArrayList<>();
 			for (Cell<Unit, D, ?> entry : val.cellSet()) {
 				SootMethod methodOf = icfg.getMethodOf(entry.getRowKey());
 				PatchingChain<Unit> units = methodOf.getActiveBody().getUnits();

@@ -75,8 +75,8 @@ public class OfflineProcessor
 	{
 		int2var = pta.pointers;
 		int size = int2var.size();
-		varGraph = new ArrayList<off_graph_edge>(size);
-		queue = new LinkedList<Integer>();
+		varGraph = new ArrayList<>(size);
+		queue = new LinkedList<>();
 		pre = new int[size];
 		low = new int[size];
 		count = new int[size];
@@ -122,7 +122,7 @@ public class OfflineProcessor
 		}
 		
 		// We always refine the callsites that have multiple call targets
-		Set<Node> multiBaseptrs = new HashSet<Node>();
+		Set<Node> multiBaseptrs = new HashSet<>();
 
 		for (Stmt callsite : geomPTA.multiCallsites) {
 			InstanceInvokeExpr iie = 

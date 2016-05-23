@@ -65,9 +65,9 @@ public class MHGDominatorsFinder<N> implements DominatorsFinder<N>
     protected void doAnalysis()
     {
         heads = graph.getHeads();
-        nodeToFlowSet = new HashMap<N, BitSet>();
-        nodeToIndex = new HashMap<N, Integer>();
-        indexToNode = new HashMap<Integer,N>();
+        nodeToFlowSet = new HashMap<>();
+        nodeToIndex = new HashMap<>();
+        indexToNode = new HashMap<>();
     
         //build full set
         fullSet = new BitSet(graph.size());
@@ -134,7 +134,7 @@ public class MHGDominatorsFinder<N> implements DominatorsFinder<N>
     public List<N> getDominators(N node)
     {
         //reconstruct list of dominators from bitset
-        List<N> result = new ArrayList<N>();
+        List<N> result = new ArrayList<>();
         BitSet bitSet = nodeToFlowSet.get(node);
         for(int i=0;i<bitSet.length();i++) {
             if(bitSet.get(i)) {

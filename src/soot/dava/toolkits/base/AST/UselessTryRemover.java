@@ -41,7 +41,7 @@ public class UselessTryRemover extends ASTAnalysis
 	    
 	    List<Object> 
 		subBody = null,
-		toRemove = new ArrayList<Object>();
+		toRemove = new ArrayList<>();
 
 	    if (n instanceof ASTTryNode)
 		subBody = (List<Object>) ((ASTTryNode.container) sbit.next()).o;

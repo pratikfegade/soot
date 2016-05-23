@@ -54,8 +54,8 @@ public class CollectConstants extends SceneTransformer implements IJbcoTransform
     return name;
   }
   
-  public static HashMap<Constant, SootField> constantsToFields = new HashMap<Constant, SootField>();
-  public static HashMap<Type,List<Constant>> typesToValues = new HashMap<Type,List<Constant>>();
+  public static HashMap<Constant, SootField> constantsToFields = new HashMap<>();
+  public static HashMap<Type,List<Constant>> typesToValues = new HashMap<>();
 
   public static SootField field = null;  
   
@@ -82,7 +82,7 @@ public class CollectConstants extends SceneTransformer implements IJbcoTransform
             Type t = c.getType();
             List<Constant> values = typesToValues.get(t);
             if (values == null) {
-              values = new ArrayList<Constant>();
+              values = new ArrayList<>();
               typesToValues.put(t, values);
             }
             

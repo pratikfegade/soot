@@ -53,19 +53,19 @@ public class ASTTryNode extends ASTLabeledNode
 	this.tryBody = tryBody;
 	tryBodyContainer = new container( tryBody);
 
-	this.catchList = new ArrayList<Object>();
+	this.catchList = new ArrayList<>();
 	Iterator<Object> cit = catchList.iterator();
 	while (cit.hasNext())
 	    this.catchList.add( new container( cit.next()));
 	
-	this.exceptionMap = new HashMap<Object, Object>();
+	this.exceptionMap = new HashMap<>();
 	cit = this.catchList.iterator();
 	while (cit.hasNext()) {
 	    container c = (container) cit.next();
 	    this.exceptionMap.put( c, exceptionMap.get( c.o));
 	}
 
-	this.paramMap = new HashMap<Object, Object>();
+	this.paramMap = new HashMap<>();
 	cit = this.catchList.iterator();
 	while (cit.hasNext()) {
 	    container c = (container) cit.next();
@@ -88,7 +88,7 @@ public class ASTTryNode extends ASTLabeledNode
 	tryBodyContainer = new container( tryBody);
 	
 	List<Object> oldSubBodies=subBodies;
-	subBodies=new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 
 	subBodies.add( tryBodyContainer);
 
@@ -159,7 +159,7 @@ public class ASTTryNode extends ASTLabeledNode
 
     public Set<Object> get_ExceptionSet()
     {
-	HashSet<Object> s = new HashSet<Object>();
+	HashSet<Object> s = new HashSet<>();
 
 	Iterator<Object> it = catchList.iterator();
 	while (it.hasNext())
@@ -170,7 +170,7 @@ public class ASTTryNode extends ASTLabeledNode
 
     public Object clone()
     {
-	ArrayList<Object> newCatchList = new ArrayList<Object>();
+	ArrayList<Object> newCatchList = new ArrayList<>();
 	Iterator<Object> it = catchList.iterator();
 	while (it.hasNext())
 	    newCatchList.add( ((container) it.next()).o);

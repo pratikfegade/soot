@@ -131,7 +131,7 @@ public class ExceptionChecker extends BodyTransformer{
         List<SootClass> result=null;
         SootClass obj=Scene.v().getSootClass("java.lang.Object");
         sm = obj.getMethodUnsafe(sig);
-        if(sm != null) result=new Vector<SootClass>(sm.getExceptions());
+        if(sm != null) result= new Vector<>(sm.getExceptions());
         for (SootClass suprintr : intrface.getInterfaces() ) {
             List<SootClass> other=getExceptionSpec(suprintr,sig);
             if(other!=null)

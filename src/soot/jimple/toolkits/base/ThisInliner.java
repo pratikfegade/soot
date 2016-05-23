@@ -60,7 +60,7 @@ public class ThisInliner extends BodyTransformer{
                 specInvokeExpr.getMethod().retrieveActiveBody();
             }
 
-            HashMap<Local, Local> oldLocalsToNew = new HashMap<Local, Local>();
+            HashMap<Local, Local> oldLocalsToNew = new HashMap<>();
             
             for (Local l : specInvokeExpr.getMethod().getActiveBody().getLocals()) {
                 Local newLocal = (Local)l.clone();
@@ -71,7 +71,7 @@ public class ThisInliner extends BodyTransformer{
             //find identity stmt of original method
             IdentityStmt origIdStmt = findIdentityStmt(b);
            
-            HashMap<Stmt, Stmt> oldStmtsToNew = new HashMap<Stmt, Stmt>();
+            HashMap<Stmt, Stmt> oldStmtsToNew = new HashMap<>();
             
             //System.out.println("locals: "+b.getLocals());
             Chain<Unit> containerUnits = b.getUnits();

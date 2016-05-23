@@ -128,7 +128,7 @@ public class CP extends StructuredAnalysis {
 	 * locals added with 0 other fields IGNORED
 	 */
 	public void createInitialInput() {
-		initialInput = new ArrayList<CPTuple>();
+		initialInput = new ArrayList<>();
 
 		// adding constant fields
 		initialInput.addAll(constantFieldTuples);
@@ -137,7 +137,7 @@ public class CP extends StructuredAnalysis {
 		// analyze.getDavaBody().getMethod().getDeclaringClass().getName();
 
 		// adding formals
-		formals = new ArrayList<CPTuple>();
+		formals = new ArrayList<>();
 		// System.out.println("Adding following formals: with TOP");
 		Collection col = methodNode.getDavaBody().get_ParamMap().values();
 		Iterator it = col.iterator();
@@ -163,7 +163,7 @@ public class CP extends StructuredAnalysis {
 		// adding locals
 		List decLocals = methodNode.getDeclaredLocals();
 		it = decLocals.iterator();
-		locals = new ArrayList<CPTuple>();
+		locals = new ArrayList<>();
 		// System.out.println("Adding following locals with default values:");
 		while (it.hasNext()) {
 			Object temp = it.next();
@@ -222,7 +222,7 @@ public class CP extends StructuredAnalysis {
 	 */
 	private void createConstantFieldsList(HashMap<String, Object> constantFields,
 			HashMap<String, SootField> classNameFieldNameToSootFieldMapping) {
-		constantFieldTuples = new ArrayList<CPTuple>();
+		constantFieldTuples = new ArrayList<>();
 
 		Iterator<String> it = constantFields.keySet().iterator();
 		// System.out.println("Adding constant fields to initial set: ");
@@ -289,7 +289,7 @@ public class CP extends StructuredAnalysis {
 
 		// formals and locals should be both initialized to top since we dont
 		// know what has happened so far in the body
-		ArrayList<CPTuple> localsAndFormals = new ArrayList<CPTuple>();
+		ArrayList<CPTuple> localsAndFormals = new ArrayList<>();
 		localsAndFormals.addAll(formals);
 		localsAndFormals.addAll(locals);
 

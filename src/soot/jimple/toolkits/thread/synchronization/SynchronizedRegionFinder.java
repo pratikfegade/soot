@@ -18,7 +18,7 @@ import soot.toolkits.graph.*;
  */
 public class SynchronizedRegionFinder extends ForwardFlowAnalysis<Unit, FlowSet<SynchronizedRegionFlowPair>>
 {
-    FlowSet<SynchronizedRegionFlowPair> emptySet = new ArraySparseSet<SynchronizedRegionFlowPair>();
+    FlowSet<SynchronizedRegionFlowPair> emptySet = new ArraySparseSet<>();
 
     Map unitToGenerateSet;
 
@@ -66,7 +66,7 @@ public class SynchronizedRegionFinder extends ForwardFlowAnalysis<Unit, FlowSet<
     	tasea = new CriticalSectionAwareSideEffectAnalysis(Scene.v().getPointsToAnalysis(), 
     				Scene.v().getCallGraph(), null, tlo);
     	    				
-    	prepUnits = new ArrayList<Object>();
+    	prepUnits = new ArrayList<>();
     	
 		methodTn = null;
 		if(method.isSynchronized())

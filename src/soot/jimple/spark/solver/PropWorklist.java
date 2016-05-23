@@ -29,7 +29,7 @@ import java.util.*;
  */
 
 public final class PropWorklist extends Propagator {
-    protected final Set<VarNode> varNodeWorkList = new TreeSet<VarNode>();
+    protected final Set<VarNode> varNodeWorkList = new TreeSet<>();
 
     public PropWorklist( PAG pag ) { this.pag = pag; }
     /** Actually does the propagation. */
@@ -68,7 +68,7 @@ public final class PropWorklist extends Propagator {
                     } );
                 }
             }
-            HashSet<Object[]> edgesToPropagate = new HashSet<Object[]>();
+            HashSet<Object[]> edgesToPropagate = new HashSet<>();
 	    for (Object object : pag.loadSources()) {
                 handleFieldRefNode( (FieldRefNode) object, edgesToPropagate );
 	    }
@@ -170,8 +170,8 @@ public final class PropWorklist extends Propagator {
 	    } ) | ret;
         }
 
-        final HashSet<Node[]> storesToPropagate = new HashSet<Node[]>();
-        final HashSet<Node[]> loadsToPropagate = new HashSet<Node[]>();
+        final HashSet<Node[]> storesToPropagate = new HashSet<>();
+        final HashSet<Node[]> loadsToPropagate = new HashSet<>();
 	for( final FieldRefNode fr : src.getAllFieldRefs()) {
 	    final SparkField field = fr.getField();
 	    final Node[] storeSources = pag.storeInvLookup( fr );

@@ -152,7 +152,7 @@ public interface AllocationSiteHandler {
 
     public NumberedString methodStr;
 
-    public Set<SootMethod> possibleMethods = new HashSet<SootMethod>();
+    public Set<SootMethod> possibleMethods = new HashSet<>();
 
     /**
      * @param pag

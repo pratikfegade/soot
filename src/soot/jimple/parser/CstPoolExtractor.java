@@ -53,7 +53,7 @@ class CstPoolExtractor
     public Set<String> getCstPool()
     {
         if(mRefTypes == null) {            
-            mRefTypes = new HashSet<String>();
+            mRefTypes = new HashSet<>();
             CstPoolExtractorWalker  walker = new CstPoolExtractorWalker();         
             mParseTree.apply(walker);          
             mParseTree = null; // allow garbage collection

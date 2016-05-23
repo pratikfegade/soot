@@ -21,8 +21,8 @@ package soot.util;
 import java.util.*;
 
 public class MapNumberer<T> implements Numberer<T> {
-    Map<T, Integer> map = new HashMap<T, Integer>();
-    ArrayList<T> al = new ArrayList<T>();
+    Map<T, Integer> map = new HashMap<>();
+    ArrayList<T> al = new ArrayList<>();
     int nextIndex = 1;
     public void add( T o ) {
         if( !map.containsKey(o) ) {

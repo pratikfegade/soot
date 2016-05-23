@@ -102,7 +102,7 @@ public class DexRefsChecker extends DexTransformer {
      * @param body the body to analyze
      */
     private Set<Unit> getRefCandidates(Body body) {
-        Set<Unit> candidates = new HashSet<Unit>();
+        Set<Unit> candidates = new HashSet<>();
         Iterator<Unit> i = body.getUnits().iterator();
         while (i.hasNext()) {
             Unit u = i.next();

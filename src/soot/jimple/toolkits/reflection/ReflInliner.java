@@ -49,7 +49,7 @@ public class ReflInliner {
 		Scene.v().addBasicClass(DefaultHandler.class.getName(),SootClass.BODIES);
 		Scene.v().addBasicClass(OpaquePredicate.class.getName(),SootClass.BODIES);
 		Scene.v().addBasicClass(ReflectiveCalls.class.getName(),SootClass.BODIES);
-		ArrayList<String> argList = new ArrayList<String>(Arrays.asList(args));
+		ArrayList<String> argList = new ArrayList<>(Arrays.asList(args));
 		argList.add("-w");
 		argList.add("-p");
 		argList.add("cg");

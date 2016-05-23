@@ -324,8 +324,8 @@ public class PackManager {
         return G.v().soot_PackManager();
     }
 
-    private final Map<String, Pack> packNameToPack = new HashMap<String, Pack>();
-    private final List<Pack> packList = new LinkedList<Pack>();
+    private final Map<String, Pack> packNameToPack = new HashMap<>();
+    private final List<Pack> packList = new LinkedList<>();
 
     private void addPack( Pack p ) {
         if( packNameToPack.containsKey( p.getPhaseName() ) )
@@ -708,7 +708,7 @@ public class PackManager {
           * Generate decompiled code
           */
     	String pathForBuild=null;
-    	ArrayList<String> decompiledClasses = new ArrayList<String>();
+    	ArrayList<String> decompiledClasses = new ArrayList<>();
         Iterator<SootClass> classIt = appClasses.iterator();
         while (classIt.hasNext()) {
             SootClass s = classIt.next();
@@ -851,7 +851,7 @@ public class PackManager {
         //such adding of methods happens in rare occasions: for instance when
         //resolving a method reference to a non-existing method, then this
         //method is created as a phantom method when phantom-refs are enabled
-        LinkedList<SootMethod> methodsCopy = new LinkedList<SootMethod>(c.getMethods());
+        LinkedList<SootMethod> methodsCopy = new LinkedList<>(c.getMethods());
         for (SootMethod m : methodsCopy) {
             if(DEBUG){
             	if(m.getExceptions().size()!=0)
@@ -940,7 +940,7 @@ public class PackManager {
             	while(it.hasNext()){
             		c.addMethod(it.next());
             	}
-            	G.v().SootMethodsAdded = new ArrayList<SootMethod>();
+            	G.v().SootMethodsAdded = new ArrayList<>();
             	G.v().SootMethodAddedByDava=false;
             }
 

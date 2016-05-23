@@ -108,12 +108,12 @@ public class LocalSplitter extends BodyTransformer
         if(Options.v().time())
             Timers.v().splitPhase2Timer.start();
         
-		Set<Unit> visited = new HashSet<Unit>();
+		Set<Unit> visited = new HashSet<>();
         
 		// Collect the set of locals that we need to split
-		NumberedSet<Local> localsToSplit = new NumberedSet<Local>(Scene.v().getLocalNumberer());
+		NumberedSet<Local> localsToSplit = new NumberedSet<>(Scene.v().getLocalNumberer());
 		{
-			NumberedSet<Local> localsVisited = new NumberedSet<Local>(Scene.v().getLocalNumberer());
+			NumberedSet<Local> localsVisited = new NumberedSet<>(Scene.v().getLocalNumberer());
 	        for (Unit s : body.getUnits()) {
 	            if (s.getDefBoxes().isEmpty())
 	                continue;
@@ -153,7 +153,7 @@ public class LocalSplitter extends BodyTransformer
             newLocal.setName(newLocal.getName()+'#'+ ++w); // renaming should not be done here
     		body.getLocals().add(newLocal);
             
-    		Deque<Unit> queue = new ArrayDeque<Unit>();
+    		Deque<Unit> queue = new ArrayDeque<>();
     		queue.addFirst(s);
     		do {
     			final Unit head = queue.removeFirst();

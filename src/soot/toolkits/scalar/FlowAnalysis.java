@@ -126,12 +126,12 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 		<D, F> List<Entry<D, F>> newUniverse (DirectedGraph<D> g, GraphView gv, F entryFlow, boolean isForward) {
 			final int n = g.size();
 
-			Deque<Entry<D, F>> s = new ArrayDeque<Entry<D, F>>(n);
-			List<Entry<D, F>> universe = new ArrayList<Entry<D, F>>(n);
-			Map<D, Entry<D, F>> visited = new HashMap<D, Entry<D, F>>(((n+1) * 4) / 3);
+			Deque<Entry<D, F>> s = new ArrayDeque<>(n);
+			List<Entry<D, F>> universe = new ArrayList<>(n);
+			Map<D, Entry<D, F>> visited = new HashMap<>(((n + 1) * 4) / 3);
 
 			// out of universe node
-			Entry<D, F> superEntry = new Entry<D, F>(null, null);
+			Entry<D, F> superEntry = new Entry<>(null, null);
 
 			List<D> entries = null;
 			List<D> actualEntries = gv.getEntries(g);
@@ -152,14 +152,14 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 					// case of backward analysis on 
 					// a method which potentially has 
 					// an infinite loop and no return statement
-					entries = new ArrayList<D>();
+					entries = new ArrayList<>();
 
 					// a single head is expected
 					assert g.getHeads().size() == 1;
 					D head = g.getHeads().get(0);
 
-					Set<D> visitedNodes = new HashSet<D>();
-					List<D> workList = new ArrayList<D>();
+					Set<D> visitedNodes = new HashSet<>();
+					List<D> workList = new ArrayList<>();
 					D current = null;
 
 					// collect all 'goto' statements to catch the 'goto'
@@ -262,7 +262,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			// putIfAbsent would be the ideal strategy
 			
 			// add and restore if required
-			Entry<D, F> newEntry = new Entry<D, F>(d, v);
+			Entry<D, F> newEntry = new Entry<>(d, v);
 			Entry<D, F> oldEntry = visited.put(d, newEntry);
 			
 			// no restore required
@@ -347,7 +347,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			if (savedFlow == null)
 				savedFlow = a.newInitialFlow();
 			a.copy(a.unitToBeforeFlow.get(s), savedFlow);
-			i.handleBeforeAnalysisEvent(new FlowInfo<A, N>(savedFlow, s, true));
+			i.handleBeforeAnalysisEvent(new FlowInfo<>(savedFlow, s, true));
 		}
 
 		<A, N> void afterEvent(InteractionHandler i, FlowAnalysis<N, A> a, N s) {
@@ -355,7 +355,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			if (savedFlow == null)
 				savedFlow = a.newInitialFlow();
 			a.copy(a.unitToAfterFlow.get(s), savedFlow);
-			i.handleAfterAnalysisEvent(new FlowInfo<A, N>(savedFlow, s, false));
+			i.handleAfterAnalysisEvent(new FlowInfo<>(savedFlow, s, false));
 		}
 
 		InteractionHandler stop(Object s) {
@@ -409,7 +409,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 	public FlowAnalysis(DirectedGraph<N> graph) {
 		super(graph);
 
-		unitToAfterFlow = new IdentityHashMap<N, A>(graph.size() * 2 + 1);
+		unitToAfterFlow = new IdentityHashMap<>(graph.size() * 2 + 1);
 	}
 
 	/**

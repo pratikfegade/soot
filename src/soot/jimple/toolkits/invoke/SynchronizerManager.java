@@ -36,7 +36,7 @@ public class SynchronizerManager
     public SynchronizerManager( Singletons.Global g ) {}
     public static SynchronizerManager v() { return G.v().soot_jimple_toolkits_invoke_SynchronizerManager(); }
     /** Maps classes to class$ fields.  Don't trust default. */
-    public HashMap<SootClass, SootField> classToClassField = new HashMap<SootClass, SootField>();
+    public HashMap<SootClass, SootField> classToClassField = new HashMap<>();
 
     /** Adds code to fetch the static Class object to the given JimpleBody
      * before the target Stmt.
@@ -361,7 +361,7 @@ public class SynchronizerManager
             Stmt newGoto = Jimple.v().newGotoStmt((Stmt)units.getSuccOf(exitMon));
             units.insertAfter(newGoto, exitMon);
 
-            List<Unit> l = new ArrayList<Unit>();
+            List<Unit> l = new ArrayList<>();
             Local eRef = Jimple.v().newLocal("__exception", RefType.v("java.lang.Throwable"));
             b.getLocals().add(eRef);
             Stmt handlerStmt = Jimple.v().newIdentityStmt(eRef, Jimple.v().newCaughtExceptionRef());

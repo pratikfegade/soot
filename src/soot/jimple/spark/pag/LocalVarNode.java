@@ -47,7 +47,7 @@ public class LocalVarNode extends VarNode {
     }
     /** Registers a cvn as having this node as its base. */
     void addContext( ContextVarNode cvn, Object context ) {
-	if( cvns == null ) cvns = new HashMap<Object, ContextVarNode>();
+	if( cvns == null ) cvns = new HashMap<>();
 	cvns.put( context, cvn );
     }
 

@@ -8,12 +8,12 @@ import java.util.Set;
 
 public class ReflectiveCalls {
 	
-	private final static Set<String> classForName = new HashSet<String>();
-	private final static Set<String> classNewInstance = new HashSet<String>();
-	private final static Set<String> constructorNewInstance = new HashSet<String>();
-	private final static Set<String> methodInvoke = new HashSet<String>();
-	private final static Set<String> fieldSet = new HashSet<String>();
-	private final static Set<String> fieldGet = new HashSet<String>();
+	private final static Set<String> classForName = new HashSet<>();
+	private final static Set<String> classNewInstance = new HashSet<>();
+	private final static Set<String> constructorNewInstance = new HashSet<>();
+	private final static Set<String> methodInvoke = new HashSet<>();
+	private final static Set<String> fieldSet = new HashSet<>();
+	private final static Set<String> fieldGet = new HashSet<>();
 	
 	static {
 		//soot will add initialization code here

@@ -69,7 +69,7 @@ public class LazyCodeMotion extends BodyTransformer {
 	 */
 	protected void internalTransform(Body b, String phaseName, Map<String, String> opts) {
 		LCMOptions options = new LCMOptions(opts);
-		HashMap<EquivalentValue, Local> expToHelper = new HashMap<EquivalentValue, Local>();
+		HashMap<EquivalentValue, Local> expToHelper = new HashMap<>();
 		Chain<Unit> unitChain = b.getUnits();
 
 		if (Options.v().verbose())
@@ -102,8 +102,8 @@ public class LazyCodeMotion extends BodyTransformer {
 			}
 		};
 
-		FlowUniverse<EquivalentValue> universe = new CollectionFlowUniverse<EquivalentValue>(unitToEquivRhs.values());
-		BoundedFlowSet<EquivalentValue> set = new ArrayPackedSet<EquivalentValue>(universe);
+		FlowUniverse<EquivalentValue> universe = new CollectionFlowUniverse<>(unitToEquivRhs.values());
+		BoundedFlowSet<EquivalentValue> set = new ArrayPackedSet<>(universe);
 
 		/* if a more precise sideeffect-tester comes out, please change it here! */
 		SideEffectTester sideEffect;

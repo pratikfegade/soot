@@ -43,7 +43,7 @@ public class PhaseOptions {
     public PhaseOptions( Singletons.Global g ) { }
     public static PhaseOptions v() { return G.v().soot_PhaseOptions(); }
 
-    private final Map<HasPhaseOptions, Map<String, String>> phaseToOptionMap = new HashMap<HasPhaseOptions, Map<String, String>>();
+    private final Map<HasPhaseOptions, Map<String, String>> phaseToOptionMap = new HashMap<>();
 
     public Map<String, String> getPhaseOptions(String phaseName) {
         return getPhaseOptions(getPM().getPhase(phaseName));
@@ -51,8 +51,8 @@ public class PhaseOptions {
 
     public Map<String, String> getPhaseOptions(HasPhaseOptions phase) {
         Map<String, String> ret = phaseToOptionMap.get(phase);
-        if( ret == null ) ret = new HashMap<String, String>();
-        else ret = new HashMap<String, String>( ret );
+        if( ret == null ) ret = new HashMap<>();
+        else ret = new HashMap<>(ret);
         StringTokenizer st = new StringTokenizer( phase.getDefaultOptions() );
         while( st.hasMoreTokens() ) {
             String opt = st.nextToken();

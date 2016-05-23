@@ -51,9 +51,9 @@ public class PASideEffectTester implements SideEffectTester
 
     /** Call this when starting to analyze a new method to setup the cache. */
     public void newMethod( SootMethod m ) {
-	unitToRead = new HashMap<Unit, RWSet>();
-	unitToWrite = new HashMap<Unit, RWSet>();
-	localToReachingObjects = new HashMap<Local, PointsToSet>();
+	unitToRead = new HashMap<>();
+	unitToWrite = new HashMap<>();
+	localToReachingObjects = new HashMap<>();
 	currentMethod = m;
 	sea.findNTRWSets( currentMethod );
     }

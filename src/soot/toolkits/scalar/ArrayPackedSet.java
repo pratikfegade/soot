@@ -43,7 +43,7 @@ public class ArrayPackedSet<T> extends AbstractBoundedFlowSet<T> {
 	BitSet bits;
 
 	public ArrayPackedSet(FlowUniverse<T> universe) {
-		this(new ObjectIntMapper<T>(universe));
+		this(new ObjectIntMapper<>(universe));
 	}
 
 	ArrayPackedSet(ObjectIntMapper<T> map) {
@@ -57,12 +57,12 @@ public class ArrayPackedSet<T> extends AbstractBoundedFlowSet<T> {
 
 	@Override
 	public ArrayPackedSet<T> clone() {
-		return new ArrayPackedSet<T>(map, (BitSet) bits.clone());
+		return new ArrayPackedSet<>(map, (BitSet) bits.clone());
 	}
 
 	@Override
 	public FlowSet<T> emptySet() {
-		return new ArrayPackedSet<T>(map);
+		return new ArrayPackedSet<>(map);
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class ArrayPackedSet<T> extends AbstractBoundedFlowSet<T> {
 			return singletonList(map.getObject((base - 1) + bits.length()));
 
 		default:
-			List<T> elements = new ArrayList<T>(len);
+			List<T> elements = new ArrayList<>(len);
 
 			int i = bits.nextSetBit(0);
 			do {

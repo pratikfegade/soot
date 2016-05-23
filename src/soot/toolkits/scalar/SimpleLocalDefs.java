@@ -52,7 +52,7 @@ public class SimpleLocalDefs implements LocalDefs {
 			assert locals.length == unitList.length;
 
 			final int N = locals.length;
-			result = new HashMap<Local, List<Unit>>((N*3)/2+7);
+			result = new HashMap<>((N * 3) / 2 + 7);
 			
 			for (int i = 0; i < N; i++) {
 				if (unitList[i].isEmpty())
@@ -104,7 +104,7 @@ public class SimpleLocalDefs implements LocalDefs {
 		    	if (i == toIndex - 1) 
 		    		return singletonList(universe[i]);
 		    	
-		        List<Unit> elements = new ArrayList<Unit>(toIndex-i);
+		        List<Unit> elements = new ArrayList<>(toIndex - i);
 		                		
 				for (;;) {
 					int endOfRun = Math.min(toIndex, bits.nextClearBit(i+1));
@@ -131,11 +131,11 @@ public class SimpleLocalDefs implements LocalDefs {
 
 			final int N = locals.length;
 
-			this.locals = new HashMap<Local, Integer>((N*3)/2+7);
+			this.locals = new HashMap<>((N * 3) / 2 + 7);
 			this.unitList = unitList;
 
 			universe = new Unit[units];
-			indexOfUnit = new HashMap<Unit, Integer>(units);
+			indexOfUnit = new HashMap<>(units);
 
 			localRange = new int[N + 1];
 			for (int j = 0, i = 0; i < N; localRange[++i] = j) {
@@ -345,7 +345,7 @@ public class SimpleLocalDefs implements LocalDefs {
 					case 1:
 						if (!omitSSA)
 							units++;
-						unitList[lno] = new ArrayList<Unit>(unitList[lno]);
+						unitList[lno] = new ArrayList<>(unitList[lno]);
 						doFlowAnalsis = true;
 						// fallthrough
 					default:

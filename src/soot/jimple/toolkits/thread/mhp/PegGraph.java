@@ -158,10 +158,10 @@ public class PegGraph implements DirectedGraph
 		}
 		
 		body = unitBody;
-		synch = new HashSet<List>();
-		exceHandlers = new HashSet<Unit>();
+		synch = new HashSet<>();
+		exceHandlers = new HashSet<>();
 		needInlining = true;
-		monitorObjs = new HashSet<Object>();
+		monitorObjs = new HashSet<>();
 		startToBeginNodes = new HashMap();
 		unitChain = body.getUnits();
 		int size = unitChain.size();
@@ -172,19 +172,19 @@ public class PegGraph implements DirectedGraph
 		unitToPegMap = new HashMap(size*2+1,0.7f);
 		startToThread = new HashMap(size*2+1,0.7f);
 		startToAllocNodes = new HashMap(size*2+1,0.7f);
-		waitingNodes = new HashMap<String, FlowSet>(size*2+1,0.7f);
-		joinStmtToThread = new HashMap<JPegStmt, Chain>();
+		waitingNodes = new HashMap<>(size * 2 + 1, 0.7f);
+		joinStmtToThread = new HashMap<>();
 		threadNo = new HashMap();
 		threadNameToStart = new HashMap();
-		this.allocNodeToObj = new HashMap<AllocNode, String>(size*2+1,0.7f);
-		allocNodeToThread = new HashMap<AllocNode, PegChain>(size*2+1,0.7f);
-		notifyAll = new HashMap<String, Set<JPegStmt>>(size*2+1,0.7f);
+		this.allocNodeToObj = new HashMap<>(size * 2 + 1, 0.7f);
+		allocNodeToThread = new HashMap<>(size * 2 + 1, 0.7f);
+		notifyAll = new HashMap<>(size * 2 + 1, 0.7f);
 		
 		methodsNeedingInlining = new HashSet();
 		allNodes = new ArraySparseSet();
 		canNotBeCompacted = new HashSet();
 		threadAllocSites =  new HashSet();
-		specialJoin = new HashSet<JPegStmt>();
+		specialJoin = new HashSet<>();
 		//       if(Main.isVerbose)
 		//   System.out.println("     Constructing PegGraph...");
 		
@@ -428,7 +428,7 @@ public class PegGraph implements DirectedGraph
 				nextNode = pegIt.hasNext() ? (JPegStmt) pegIt.next(): null;
 				
 				if (currentNode.getName().equals("begin")){
-					List<JPegStmt> successors = new ArrayList<JPegStmt>();
+					List<JPegStmt> successors = new ArrayList<>();
 					successors.add(nextNode);
 					unitToSuccs.put(currentNode, successors);
 					
@@ -447,7 +447,7 @@ public class PegGraph implements DirectedGraph
 						currentNode = pegIt.hasNext() ? (JPegStmt) pegIt.next(): null;
 						continue;
 					}
-					List<JPegStmt> successors = new ArrayList<JPegStmt>();
+					List<JPegStmt> successors = new ArrayList<>();
 					Unit unit = currentNode.getUnit();
 					
 					

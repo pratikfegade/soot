@@ -53,11 +53,11 @@ public class LibraryMethodWrappersBuilder extends SceneTransformer  implements I
     out.println("Method Calls Replaced: "+methodcalls);
   }
   
-  private static final Map<SootClass, Map<SootMethod,SootMethodRef>> libClassesToMethods = new HashMap<SootClass, Map<SootMethod,SootMethodRef>>();
+  private static final Map<SootClass, Map<SootMethod,SootMethodRef>> libClassesToMethods = new HashMap<>();
 
   private static final Scene scene = G.v().soot_Scene();
 
-  public static ArrayList<SootMethod> builtByMe = new ArrayList<SootMethod>();
+  public static ArrayList<SootMethod> builtByMe = new ArrayList<>();
 
   protected void internalTransform(String phaseName, Map<String,String> options) {
     if (output)
@@ -194,7 +194,7 @@ public class LibraryMethodWrappersBuilder extends SceneTransformer  implements I
       SootMethodRef smr) {
 	  Map<SootMethod, SootMethodRef> methods = libClassesToMethods.get(libClass);
       if (methods == null) {
-          libClassesToMethods.put(libClass, methods = new HashMap<SootMethod,SootMethodRef>());
+          libClassesToMethods.put(libClass, methods = new HashMap<>());
       }
       methods.put(sm, smr);  
   }
@@ -207,7 +207,7 @@ public class LibraryMethodWrappersBuilder extends SceneTransformer  implements I
     SootMethod randMethod;
     String newName;
 
-    Vector<SootClass> availClasses = new Vector<SootClass>();
+    Vector<SootClass> availClasses = new Vector<>();
     Iterator<SootClass> aIt = scene.getApplicationClasses().iterator();
     while (aIt.hasNext()) {
       SootClass c = aIt.next();
@@ -233,7 +233,7 @@ public class LibraryMethodWrappersBuilder extends SceneTransformer  implements I
     } while (newName.endsWith("init>"));
 
     List<Type> smParamTypes = sm.getParameterTypes();
-    List<Type> tmp = new ArrayList<Type>();
+    List<Type> tmp = new ArrayList<>();
     if (!sm.isStatic()) {
       for (int i = 0; i < smParamTypes.size(); i++)
         tmp.add(smParamTypes.get(i));

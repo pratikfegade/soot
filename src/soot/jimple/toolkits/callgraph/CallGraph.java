@@ -39,12 +39,12 @@ import soot.util.queue.QueueReader;
  */
 public class CallGraph implements Iterable<Edge>
 { 
-    protected Set<Edge> edges = new HashSet<Edge>();
-    protected ChunkedQueue<Edge> stream = new ChunkedQueue<Edge>();
+    protected Set<Edge> edges = new HashSet<>();
+    protected ChunkedQueue<Edge> stream = new ChunkedQueue<>();
     protected QueueReader<Edge> reader = stream.reader();
-    protected Map<MethodOrMethodContext,Edge> srcMethodToEdge = new HashMap<MethodOrMethodContext, Edge>();
-    protected Map<Unit, Edge> srcUnitToEdge = new HashMap<Unit, Edge>();
-    protected Map<MethodOrMethodContext, Edge> tgtToEdge = new HashMap<MethodOrMethodContext, Edge>();
+    protected Map<MethodOrMethodContext,Edge> srcMethodToEdge = new HashMap<>();
+    protected Map<Unit, Edge> srcUnitToEdge = new HashMap<>();
+    protected Map<MethodOrMethodContext, Edge> tgtToEdge = new HashMap<>();
     protected Edge dummy = new Edge( null, null, null, Kind.INVALID );
 
     /** Used to add an edge to the call graph. Returns true iff the edge was

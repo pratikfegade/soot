@@ -189,33 +189,33 @@ public class GeomPointsTo extends PAG
 	private void prepareContainers()
 	{
 		// All kinds of variables
-		consG = new HashMap<Node, IVarAbstraction>(39341);
+		consG = new HashMap<>(39341);
 		
 		// Only the pointer variables
-		pointers = new ZArrayNumberer<IVarAbstraction>(25771);
+		pointers = new ZArrayNumberer<>(25771);
 		
 		// Only the heap variables
-		allocations = new ZArrayNumberer<IVarAbstraction>();
+		allocations = new ZArrayNumberer<>();
 		
 		// The constraints extracted from code
-		constraints = new ZArrayNumberer<PlainConstraint>(25771);
+		constraints = new ZArrayNumberer<>(25771);
 		
 		// The statements that fork a new thread
-		thread_run_callsites = new HashSet<Stmt>(251);
+		thread_run_callsites = new HashSet<>(251);
 		
 		// The virtual callsites that have multiple call targets
-		multiCallsites = new HashSet<Stmt>(251);
+		multiCallsites = new HashSet<>(251);
 		
 		// The fake virtual call edges created by SPARK
 //		obsoletedEdges = new Vector<CgEdge>(4021);
 		
 		// A linkedlist used for traversing the call graph
-		queue_cg = new LinkedList<Integer>();
+		queue_cg = new LinkedList<>();
 		
 		// Containers for functions and call graph edges
-		func2int = new HashMap<SootMethod, Integer>(5011);
-		int2func = new HashMap<Integer, SootMethod>(5011);
-		edgeMapping = new HashMap<Edge, CgEdge>(19763);
+		func2int = new HashMap<>(5011);
+		int2func = new HashMap<>(5011);
+		edgeMapping = new HashMap<>(19763);
 		
 		consG.clear();
 		constraints.clear();
@@ -293,7 +293,7 @@ public class GeomPointsTo extends PAG
 			try {
 				FileReader fr = new  FileReader( method_verify_file );
 				java.util.Scanner fin = new java.util.Scanner(fr);
-				validMethods = new HashMap<String, Boolean>();
+				validMethods = new HashMap<>();
 				
 				while ( fin.hasNextLine() ) {
 					validMethods.put( fin.nextLine(), Boolean.FALSE );
@@ -463,7 +463,7 @@ public class GeomPointsTo extends PAG
 		}
 
 		// The assign constraints, p -> q
-		Pair<Node, Node> intercall = new Pair<Node, Node>();
+		Pair<Node, Node> intercall = new Pair<>();
 		for (Object object : simpleSources()) {
 			IVarAbstraction p = makeInternalNode( (VarNode) object );
 			Node[] succs = simpleLookup( (VarNode)object );
@@ -895,9 +895,9 @@ public class GeomPointsTo extends PAG
 		int all_virtual_edges = 0, n_obsoleted = 0;
 		
 		CallGraph cg = Scene.v().getCallGraph();
-		ChunkedQueue<SootMethod> targetsQueue = new ChunkedQueue<SootMethod>();
+		ChunkedQueue<SootMethod> targetsQueue = new ChunkedQueue<>();
 		QueueReader<SootMethod> targets = targetsQueue.reader();
-		Set<SootMethod> resolvedMethods = new HashSet<SootMethod>();
+		Set<SootMethod> resolvedMethods = new HashSet<>();
 //		obsoletedEdges.clear();
 		
 		// We first update the virtual callsites
@@ -1062,7 +1062,7 @@ public class GeomPointsTo extends PAG
 	 */
 	private void buildRevCallGraph()
 	{
-		rev_call_graph = new HashMap<Integer, LinkedList<CgEdge>>();
+		rev_call_graph = new HashMap<>();
 		
 		for (int i = 0; i < n_func; ++i) {
 			CgEdge p = call_graph[i];
@@ -1070,7 +1070,7 @@ public class GeomPointsTo extends PAG
 			while (p != null) {
 				LinkedList<CgEdge> list = rev_call_graph.get(p.t);
 				if (list == null) {
-					list = new LinkedList<CgEdge>();
+					list = new LinkedList<>();
 					rev_call_graph.put(p.t, list);
 				}
 
@@ -1100,7 +1100,7 @@ public class GeomPointsTo extends PAG
 		}
 		
  		// Clean the unreachable pointers
- 		final Vector<AllocNode> removeSet = new Vector<AllocNode>();
+ 		final Vector<AllocNode> removeSet = new Vector<>();
  		
 		for ( Iterator<IVarAbstraction> it = pointers.iterator(); it.hasNext(); ) {
 			IVarAbstraction pn = it.next();
@@ -1438,7 +1438,7 @@ public class GeomPointsTo extends PAG
 	 */
 	public void keepOnly( Set<IVarAbstraction> usefulPointers )
 	{
-		Set<IVarAbstraction> reps = new HashSet<IVarAbstraction>();
+		Set<IVarAbstraction> reps = new HashSet<>();
 		
 		for ( IVarAbstraction pn : usefulPointers ) {
 			reps.add( pn.getRepresentative() );

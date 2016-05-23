@@ -43,7 +43,7 @@ public class UnreachableCodeEliminator extends DepthFirstAdapter {
 	}
 
 	public void inASTStatementSequenceNode(ASTStatementSequenceNode node){
-		List<Object> toRemove = new ArrayList<Object>();
+		List<Object> toRemove = new ArrayList<>();
 		List<Object> stmts = node.getStatements();
 		Iterator<Object> it = stmts.iterator();
 		while(it.hasNext()){
@@ -70,7 +70,7 @@ public class UnreachableCodeEliminator extends DepthFirstAdapter {
   	}
 
     	//from the Node get the subBodes
-    	List<ASTNode> toReturn = new ArrayList<ASTNode>();
+    	List<ASTNode> toReturn = new ArrayList<>();
 		Iterator<Object> sbit = node.get_SubBodies().iterator();
 		while (sbit.hasNext()) {
 			Object subBody = sbit.next();
@@ -114,7 +114,7 @@ public class UnreachableCodeEliminator extends DepthFirstAdapter {
 		Iterator<Object> it = tryBody.iterator();
 
 		//go over the ASTNodes in this tryBody and apply
-		List<Object> toReturn = new ArrayList<Object>();
+		List<Object> toReturn = new ArrayList<>();
 		while (it.hasNext()){
 	    	ASTNode temp = (ASTNode) it.next();
 	    	if(!codeFinder.isConstructReachable(temp)){
@@ -162,7 +162,7 @@ public class UnreachableCodeEliminator extends DepthFirstAdapter {
 
 			//apply on catchBody
 			List<Object> body = (List<Object>) catchBody.o;
-			toReturn = new ArrayList<Object>();
+			toReturn = new ArrayList<>();
 			itBody = body.iterator();
 			while (itBody.hasNext()) {
 		    	ASTNode temp = (ASTNode) itBody.next();
@@ -204,7 +204,7 @@ public class UnreachableCodeEliminator extends DepthFirstAdapter {
     	    
     	    //this body is a list of ASTNodes 
 
-    	    List<ASTNode> toReturn = new ArrayList<ASTNode>();
+    	    List<ASTNode> toReturn = new ArrayList<>();
     	    Iterator itBody = body.iterator();
     	    //go over the ASTNodes and apply
     	    while (itBody.hasNext()){

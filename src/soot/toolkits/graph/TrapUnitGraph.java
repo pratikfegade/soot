@@ -89,8 +89,8 @@ public class TrapUnitGraph extends UnitGraph
         if(Options.v().time())
             Timers.v().graphTimer.start();
 
-	unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
+	unitToSuccs = new HashMap<>(size * 2 + 1, 0.7f);
+	unitToPreds = new HashMap<>(size * 2 + 1, 0.7f);
 	buildUnexceptionalEdges(unitToSuccs, unitToPreds);
 	buildExceptionalEdges(unitToSuccs, unitToPreds);
 	makeMappedListsUnmodifiable(unitToSuccs);

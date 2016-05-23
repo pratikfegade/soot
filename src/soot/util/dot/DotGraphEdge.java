@@ -96,7 +96,7 @@ public class DotGraphEdge implements Renderable {
    */
   public void setAttribute(DotGraphAttribute attr) {
     if (this.attributes == null) {
-      this.attributes = new LinkedList<DotGraphAttribute>();
+      this.attributes = new LinkedList<>();
     }
     
     this.attributes.add(attr);    

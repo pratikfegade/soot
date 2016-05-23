@@ -33,7 +33,7 @@ public class HashSetMultiMap<K, V> extends AbstractMultiMap<K, V> {
 
 	@Override
 	protected Set<V> createSet() {
-		return new HashSet<V>();
+		return new HashSet<>();
 	}
 
 

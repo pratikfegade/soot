@@ -135,7 +135,7 @@ public class DexBody  {
     private final DexFile dexFile;
 
     // detect array/instructions overlapping obfuscation
-    private ArrayList<PseudoInstruction> pseudoInstructionData = new ArrayList<PseudoInstruction>();
+    private ArrayList<PseudoInstruction> pseudoInstructionData = new ArrayList<>();
 
     PseudoInstruction isAddressInData (int a) {
       for (PseudoInstruction pi: pseudoInstructionData) {
@@ -162,7 +162,7 @@ public class DexBody  {
 
         List<? extends CharSequence> paramTypes = method.getParameterTypes();
         if (paramTypes != null) {
-            parameterTypes = new ArrayList<Type>();
+            parameterTypes = new ArrayList<>();
             for (CharSequence type : paramTypes)
                 parameterTypes.add(DexType.toSoot(type.toString()));
         } else {
@@ -175,8 +175,8 @@ public class DexBody  {
         if (!isStatic)
             numParameterRegisters--;
 
-        instructions = new ArrayList<DexlibAbstractInstruction>();
-        instructionAtAddress = new HashMap<Integer, DexlibAbstractInstruction>();
+        instructions = new ArrayList<>();
+        instructionAtAddress = new HashMap<>();
 
         registerLocals = new Local[numRegisters];
 
@@ -216,7 +216,7 @@ public class DexBody  {
      * Return the types that are used in this body.
      */
     public Set<Type> usedTypes() {
-        Set<Type> types = new HashSet<Type>();
+        Set<Type> types = new HashSet<>();
         for (DexlibAbstractInstruction i : instructions)
             types.addAll(i.introducedTypes());
 
@@ -345,8 +345,8 @@ public class DexBody  {
     public Body jimplify(Body b, SootMethod m) {
         jBody = (JimpleBody)b;
         localGenerator = new LocalGenerator(jBody);
-        deferredInstructions = new ArrayList<DeferableInstruction>();
-        instructionsToRetype = new HashSet<RetypeableInstruction>();
+        deferredInstructions = new ArrayList<>();
+        instructionsToRetype = new HashSet<>();
 
         if (IDalvikTyper.ENABLE_DVKTYPER) {
             Debug.printDbg(IDalvikTyper.DEBUG, "clear dalvik typer");
@@ -356,7 +356,7 @@ public class DexBody  {
         Debug.printDbg("\n[jimplify] start for: ", methodSignature);
 
         // process method parameters and generate Jimple locals from Dalvik registers
-        List<Local> paramLocals = new LinkedList<Local>();
+        List<Local> paramLocals = new LinkedList<>();
         if (!isStatic) {
             int thisRegister = numRegisters - numParameterRegisters - 1;
 
@@ -591,8 +591,8 @@ public class DexBody  {
             // For null_type locals: replace their use by NullConstant()
             List<ValueBox> uses = jBody.getUseBoxes();
             //List<ValueBox> defs = jBody.getDefBoxes();
-            List<ValueBox> toNullConstantify = new ArrayList<ValueBox>();
-            List<Local> toRemove = new ArrayList<Local>();
+            List<ValueBox> toNullConstantify = new ArrayList<>();
+            List<Local> toRemove = new ArrayList<>();
             for (Local l: jBody.getLocals()) {
                 
                 if (l.getType() instanceof NullType) {
@@ -777,7 +777,7 @@ public class DexBody  {
         if (i == -1)
             throw new IllegalArgumentException("Instruction " + instruction + " not part of this body.");
 
-        List<DexlibAbstractInstruction> l = new ArrayList<DexlibAbstractInstruction>();
+        List<DexlibAbstractInstruction> l = new ArrayList<>();
         l.addAll(instructions.subList(0 , i));
         Collections.reverse(l);
         return l;

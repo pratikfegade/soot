@@ -27,8 +27,8 @@ import java.util.*;
 public class SideEffectAnalysis {
     PointsToAnalysis pa;
     CallGraph cg;
-    Map<SootMethod, MethodRWSet> methodToNTReadSet = new HashMap<SootMethod, MethodRWSet>();
-    Map<SootMethod, MethodRWSet> methodToNTWriteSet = new HashMap<SootMethod, MethodRWSet>();
+    Map<SootMethod, MethodRWSet> methodToNTReadSet = new HashMap<>();
+    Map<SootMethod, MethodRWSet> methodToNTWriteSet = new HashMap<>();
     int rwsetcount = 0;
     TransitiveTargets tt;
     

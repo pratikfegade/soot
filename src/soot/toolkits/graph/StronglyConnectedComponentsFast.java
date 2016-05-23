@@ -40,8 +40,8 @@ import java.util.Stack;
  */
 
 public class StronglyConnectedComponentsFast<N> {
-	protected final List<List<N>> componentList = new ArrayList<List<N>>();
-	protected final List<List<N>> trueComponentList = new ArrayList<List<N>>();
+	protected final List<List<N>> componentList = new ArrayList<>();
+	protected final List<List<N>> trueComponentList = new ArrayList<>();
 
 	protected int index = 0;
 
@@ -59,11 +59,11 @@ public class StronglyConnectedComponentsFast<N> {
 	 */
 	public StronglyConnectedComponentsFast(DirectedGraph<N> g) {
 		this.g = g;
-		s = new Stack<N>();
+		s = new Stack<>();
 		List<N> heads = g.getHeads();
 
-		indexForNode = new HashMap<N, Integer>();
-		lowlinkForNode = new HashMap<N, Integer>();
+		indexForNode = new HashMap<>();
+		lowlinkForNode = new HashMap<>();
 
 		for (N head : heads) {
 			if (!indexForNode.containsKey(head)) {
@@ -103,7 +103,7 @@ public class StronglyConnectedComponentsFast<N> {
 			}
 		}
 		if (lowLinkForNodeV == indexForNode.get(v).intValue()) {
-			List<N> scc = new ArrayList<N>();
+			List<N> scc = new ArrayList<>();
 			N v2;
 			do {
 				v2 = s.pop();
@@ -121,8 +121,8 @@ public class StronglyConnectedComponentsFast<N> {
 	}
 	
 	protected void iterate(N x) {
-		List<N> workList = new ArrayList<N>();
-		List<N> backtrackList = new ArrayList<N>();
+		List<N> workList = new ArrayList<>();
+		List<N> backtrackList = new ArrayList<>();
 		workList.add(x);
 		while (!workList.isEmpty()) {
 			N v = workList.remove(0);
@@ -166,7 +166,7 @@ public class StronglyConnectedComponentsFast<N> {
 				
 				int lowLinkForNodeV = lowlinkForNode.get(v);
 				if (lowLinkForNodeV == indexForNode.get(v).intValue()) {
-					List<N> scc = new ArrayList<N>();
+					List<N> scc = new ArrayList<>();
 					N v2;
 					do {
 						v2 = s.pop();

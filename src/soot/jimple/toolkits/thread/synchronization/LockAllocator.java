@@ -152,8 +152,8 @@ public class LockAllocator extends SceneTransformer
     	// For all methods, run the intraprocedural analysis (TransactionAnalysis)
 		Date start = new Date();
     	G.v().out.println("[wjtp.tn] *** Find and Name Transactions *** " + start);
-    	Map<SootMethod, FlowSet> methodToFlowSet = new HashMap<SootMethod, FlowSet>();
-    	Map<SootMethod, ExceptionalUnitGraph> methodToExcUnitGraph = new HashMap<SootMethod, ExceptionalUnitGraph>();
+    	Map<SootMethod, FlowSet> methodToFlowSet = new HashMap<>();
+    	Map<SootMethod, ExceptionalUnitGraph> methodToExcUnitGraph = new HashMap<>();
     	Iterator<SootClass> runAnalysisClassesIt = Scene.v().getApplicationClasses().iterator();
     	while (runAnalysisClassesIt.hasNext()) 
     	{
@@ -181,7 +181,7 @@ public class LockAllocator extends SceneTransformer
     	}    	
     	
     	// Create a composite list of all transactions
-    	criticalSections = new Vector<CriticalSection>();
+    	criticalSections = new Vector<>();
     	for(FlowSet fs : methodToFlowSet.values())
     	{
     		List fList = fs.toList();
@@ -320,8 +320,8 @@ public class LockAllocator extends SceneTransformer
 			setFlagsForDynamicAllocations(ig);
 
 			// Data structures for determining lock numbers
-			lockPTSets = new ArrayList<PointsToSetInternal>();
-			lockToLockNum = new HashMap<Value, Integer>();
+			lockPTSets = new ArrayList<>();
+			lockToLockNum = new HashMap<>();
 
 			findLockableReferences(criticalSections, pta, tasea, lockToLockNum,lockPTSets);
 
@@ -431,7 +431,7 @@ public class LockAllocator extends SceneTransformer
 						EquivalentValue newStaticLockEqVal = new EquivalentValue(newStaticLock);
 						for(CriticalSection groupTn : tn.group)
 						{
-							groupTn.lockset = new ArrayList<EquivalentValue>();
+							groupTn.lockset = new ArrayList<>();
 							groupTn.lockset.add(newStaticLockEqVal);
 						}
 
@@ -686,7 +686,7 @@ public class LockAllocator extends SceneTransformer
        	// Sort transactions into bins... one for each method name
        	
        	// Get list of method names
-    	List<String> methodNamesTemp = new ArrayList<String>();
+    	List<String> methodNamesTemp = new ArrayList<>();
     	Iterator<CriticalSection> tnIt5 = AllTransactions.iterator();
     	while (tnIt5.hasNext()) 
     	{
@@ -744,9 +744,9 @@ public class LockAllocator extends SceneTransformer
 	{
 		final String[] colors = {"black", "blue", "blueviolet", "chartreuse", "crimson", "darkgoldenrod1", "darkseagreen", "darkslategray", "deeppink",
 			"deepskyblue1", "firebrick1", "forestgreen", "gold", "gray80", "navy", "pink", "red", "sienna", "turquoise1", "yellow"};
-		Map<Integer, String> lockColors = new HashMap<Integer, String>();
+		Map<Integer, String> lockColors = new HashMap<>();
 		int colorNum = 0;
-		HashSet<CriticalSection> visited = new HashSet<CriticalSection>();
+		HashSet<CriticalSection> visited = new HashSet<>();
 		
 		G.v().out.println("[transaction-graph]" + (optionUseLocksets ? "" : " strict") + " graph transactions {"); // "\n[transaction-graph] start=1;");
 

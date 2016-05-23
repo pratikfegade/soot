@@ -107,8 +107,8 @@ class BasicBlock {
             tail = tail.next;
          }
       }
-      succ = new Vector<BasicBlock>(2,10);
-      pred = new Vector<BasicBlock>(2,3);
+      succ = new Vector<>(2, 10);
+      pred = new Vector<>(2, 3);
    }
 
     public BasicBlock(Instruction headinsn, Instruction tailinsn)
@@ -116,8 +116,8 @@ class BasicBlock {
 	id = G.v().coffi_BasicBlock_ids++;
 	head = headinsn;
 	tail = tailinsn;
-	succ = new Vector<BasicBlock>(2,10);
-	pred = new Vector<BasicBlock>(2,3);
+	succ = new Vector<>(2, 10);
+	pred = new Vector<>(2, 3);
     }
 
    /** Computes a hash code for this block from the label of the

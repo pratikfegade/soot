@@ -49,7 +49,7 @@ public class PeepholeOptimizer extends BodyTransformer
     private InputStream peepholeListingStream = null;
     private final String packageName = "soot.baf.toolkits.base";
 
-    private final Map<String, Class<?>> peepholeMap = new HashMap<String, Class<?>>();
+    private final Map<String, Class<?>> peepholeMap = new HashMap<>();
 
     /** The method that drives the optimizations. */
     /* This is the public interface to PeepholeOptimizer */
@@ -65,7 +65,7 @@ public class PeepholeOptimizer extends BodyTransformer
         reader = new BufferedReader(new InputStreamReader(peepholeListingStream));        
 
         String line = null;
-        List<String> peepholes = new LinkedList<String>();
+        List<String> peepholes = new LinkedList<>();
         try {
             line = reader.readLine();
             while(line != null) {

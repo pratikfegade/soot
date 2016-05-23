@@ -38,7 +38,7 @@ public class DominatorNode<N>
     protected DominatorNode(N gode)
     {
         this.gode = gode;
-        children = new ArrayList<DominatorNode<N>>();
+        children = new ArrayList<>();
     }
 
     /**

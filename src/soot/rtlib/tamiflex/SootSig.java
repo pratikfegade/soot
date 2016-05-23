@@ -9,8 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SootSig {
 	
-	private static Map<Constructor<?>,String> constrCache = new ConcurrentHashMap<Constructor<?>, String>(); //TODO should be a map with soft keys, actually	
-	private static Map<Method,String> methodCache = new ConcurrentHashMap<Method, String>(); //TODO should be a map with soft keys, actually	
+	private static Map<Constructor<?>,String> constrCache = new ConcurrentHashMap<>(); //TODO should be a map with soft keys, actually
+	private static Map<Method,String> methodCache = new ConcurrentHashMap<>(); //TODO should be a map with soft keys, actually
 	
 	public static String sootSignature(Constructor<?> c) {
 		String res = constrCache.get(c);

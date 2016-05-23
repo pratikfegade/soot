@@ -129,7 +129,7 @@ public class AccessManager
     	if (after!=null && !units.contains(after))
     		throw new RuntimeException();
     	
-        ArrayList<Unit> unitList = new ArrayList<Unit>(); unitList.addAll(units);
+        ArrayList<Unit> unitList = new ArrayList<>(); unitList.addAll(units);
         
     	boolean bInside=before==null;
     	for (Unit unit : unitList) {
@@ -221,7 +221,7 @@ public class AccessManager
     
 	private static void createGetAccessor(SootMethod container, AssignStmt as, FieldRef ref) {
     	java.util.List parameterTypes=new LinkedList();
-    	java.util.List<SootClass> thrownExceptions=new LinkedList<SootClass>();
+    	java.util.List<SootClass> thrownExceptions= new LinkedList<>();
     	
     	
     	Body accessorBody = Jimple.v().newBody();
@@ -275,7 +275,7 @@ public class AccessManager
 
 	private static void createSetAccessor(SootMethod container, AssignStmt as, FieldRef ref) {
     	java.util.List parameterTypes=new LinkedList();
-    	java.util.List<SootClass> thrownExceptions=new LinkedList<SootClass>();
+    	java.util.List<SootClass> thrownExceptions= new LinkedList<>();
     	
     	Body accessorBody = Jimple.v().newBody();
     	soot.util.Chain accStmts=accessorBody.getUnits();
@@ -339,7 +339,7 @@ public class AccessManager
 
 	private static void createInvokeAccessor(SootMethod container, Stmt stmt) {    	
     	java.util.List parameterTypes=new LinkedList();
-    	java.util.List<SootClass> thrownExceptions=new LinkedList<SootClass>();
+    	java.util.List<SootClass> thrownExceptions= new LinkedList<>();
     	Type returnType;
     	
     	Body accessorBody = Jimple.v().newBody();

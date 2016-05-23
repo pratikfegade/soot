@@ -56,7 +56,7 @@ public class DominatorAnalysis extends ForwardFlowAnalysis<Unit,FlowSet<Unit>> {
     }
 
     private void initAllNodes(){
-        allNodes = new ArraySparseSet<Unit>();
+        allNodes = new ArraySparseSet<>();
         for (Unit u : g){
             allNodes.add(u);
         } 
@@ -131,7 +131,7 @@ public class DominatorAnalysis extends ForwardFlowAnalysis<Unit,FlowSet<Unit>> {
     protected FlowSet<Unit> entryInitialFlow()
     {
 
-        FlowSet<Unit> fs = new ArraySparseSet<Unit>();
+        FlowSet<Unit> fs = new ArraySparseSet<>();
         List<Unit> heads = g.getHeads();
         if (heads.size() != 1) {
             throw new RuntimeException("Expect one start node only.");

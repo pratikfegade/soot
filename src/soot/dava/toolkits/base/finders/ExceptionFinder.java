@@ -45,7 +45,7 @@ public class ExceptionFinder implements FactFinder {
 			if (body.get_SynchronizedBlockFacts().contains(en))
 				continue;
 
-			IterableSet<AugmentedStmt> fullBody = new IterableSet<AugmentedStmt>();
+			IterableSet<AugmentedStmt> fullBody = new IterableSet<>();
 
 			for (IterableSet<AugmentedStmt> is : en.get_CatchList())
 				fullBody.addAll(is);
@@ -60,7 +60,7 @@ public class ExceptionFinder implements FactFinder {
 	public void preprocess(DavaBody body, AugmentedStmtGraph asg) {
 		Dava.v().log("ExceptionFinder::preprocess()");
 
-		IterableSet<ExceptionNode> enlist = new IterableSet<ExceptionNode>();
+		IterableSet<ExceptionNode> enlist = new IterableSet<>();
 
 		// Find the first approximation for all the try catch bodies.
 		{
@@ -69,7 +69,7 @@ public class ExceptionFinder implements FactFinder {
 
 				// get the body of the try block as a raw read of the area of
 				// protection
-				IterableSet<AugmentedStmt> tryBody = new IterableSet<AugmentedStmt>();
+				IterableSet<AugmentedStmt> tryBody = new IterableSet<>();
 
 				Iterator<Unit> btit = body.getUnits().iterator(trap.getBeginUnit());
 				for (Unit u = btit.next(); u != endUnit; u = btit
@@ -159,7 +159,7 @@ public class ExceptionFinder implements FactFinder {
 				for (ExceptionNode en : enlist) {
 					// Get the try block entry points
 					IterableSet<AugmentedStmt> tryBody = en.get_TryBody();
-					LinkedList<AugmentedStmt> heads = new LinkedList<AugmentedStmt>();
+					LinkedList<AugmentedStmt> heads = new LinkedList<>();
 					for (AugmentedStmt as : tryBody) {
 						if (as.cpreds.isEmpty()) {
 							heads.add(as);
@@ -173,14 +173,14 @@ public class ExceptionFinder implements FactFinder {
 							}
 					}
 
-					HashSet<AugmentedStmt> touchSet = new HashSet<AugmentedStmt>();
+					HashSet<AugmentedStmt> touchSet = new HashSet<>();
 					touchSet.addAll(heads);
 
 					// Break up the try block for all the so-far detectable
 					// parts.
 					AugmentedStmt head = heads.removeFirst();
-					IterableSet<AugmentedStmt> subTryBlock = new IterableSet<AugmentedStmt>();
-					LinkedList<AugmentedStmt> worklist = new LinkedList<AugmentedStmt>();
+					IterableSet<AugmentedStmt> subTryBlock = new IterableSet<>();
+					LinkedList<AugmentedStmt> worklist = new LinkedList<>();
 
 					worklist.add(head);
 
@@ -214,10 +214,10 @@ public class ExceptionFinder implements FactFinder {
 
 		// Aggregate the try blocks.
 		{
-			LinkedList<ExceptionNode> reps = new LinkedList<ExceptionNode>();
+			LinkedList<ExceptionNode> reps = new LinkedList<>();
 			HashMap<Serializable, LinkedList<IterableSet<AugmentedStmt>>> hCode2bucket =
-					new HashMap<Serializable, LinkedList<IterableSet<AugmentedStmt>>>();
-			HashMap<Serializable, ExceptionNode> tryBody2exceptionNode = new HashMap<Serializable, ExceptionNode>();
+					new HashMap<>();
+			HashMap<Serializable, ExceptionNode> tryBody2exceptionNode = new HashMap<>();
 
 			for (ExceptionNode en : enlist) {
 				int hashCode = 0;
@@ -229,7 +229,7 @@ public class ExceptionFinder implements FactFinder {
 
 				LinkedList<IterableSet<AugmentedStmt>> bucket = hCode2bucket.get(I);
 				if (bucket == null) {
-					bucket = new LinkedList<IterableSet<AugmentedStmt>>();
+					bucket = new LinkedList<>();
 					hCode2bucket.put(I, bucket);
 				}
 
@@ -261,8 +261,8 @@ public class ExceptionFinder implements FactFinder {
 	}
 
 	public IterableSet<AugmentedStmt> get_CatchBody(AugmentedStmt handlerAugmentedStmt) {
-		IterableSet<AugmentedStmt> catchBody = new IterableSet<AugmentedStmt>();
-		LinkedList<AugmentedStmt> catchQueue = new LinkedList<AugmentedStmt>();
+		IterableSet<AugmentedStmt> catchBody = new IterableSet<>();
+		LinkedList<AugmentedStmt> catchQueue = new LinkedList<>();
 
 		catchBody.add(handlerAugmentedStmt);
 		catchQueue.addAll(handlerAugmentedStmt.csuccs);

@@ -35,7 +35,7 @@ public class UnreachableMethodTransformer extends BodyTransformer
         JimpleBody body = (JimpleBody) method.getActiveBody();
 
         PatchingChain units = body.getUnits();
-        List<Unit> list = new Vector<Unit>();
+        List<Unit> list = new Vector<>();
 
         Local tmpRef = Jimple.v().newLocal( "tmpRef", RefType.v( "java.io.PrintStream" ) );
         body.getLocals().add(tmpRef);

@@ -121,7 +121,7 @@ public class NullnessAnalysis  extends ForwardBranchedFlowAnalysis<NullnessAnaly
 	protected final static int NON_NULL = 2;
 	protected final static int TOP = 3;
 	
-	protected final HashMap<Value,Integer> valueToIndex = new HashMap<Value,Integer>();
+	protected final HashMap<Value,Integer> valueToIndex = new HashMap<>();
 	protected int used = 0;
 
 	/**

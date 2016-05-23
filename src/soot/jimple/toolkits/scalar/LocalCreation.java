@@ -57,7 +57,7 @@ public class LocalCreation {
    *
    */
   public LocalCreation(Collection<Local> locals, String prefix) {
-    this.locals = new HashSet<String>(locals.size());
+    this.locals = new HashSet<>(locals.size());
     localChain = locals;
     Iterator<Local> it = locals.iterator();
     while (it.hasNext()) {

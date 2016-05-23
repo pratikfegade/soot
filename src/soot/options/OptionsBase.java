@@ -79,7 +79,7 @@ abstract class OptionsBase {
         return b.toString();
     }
 
-    private final LinkedList<String> options = new LinkedList<String>();
+    private final LinkedList<String> options = new LinkedList<>();
     protected void pushOptions( String s ) {
         options.addFirst( s );
     }
@@ -87,7 +87,7 @@ abstract class OptionsBase {
     protected boolean hasMoreOptions() { return !options.isEmpty(); }
     protected String nextOption() { return options.removeFirst(); }
 
-    protected LinkedList<String> classes = new LinkedList<String>();
+    protected LinkedList<String> classes = new LinkedList<>();
     public LinkedList<String> classes() { return classes; }
 
     public boolean setPhaseOption( String phase, String option ) {

@@ -31,10 +31,10 @@ public class BiMap {
 
     public void put(Object key, Object val){
         if (keyVal == null){
-            keyVal = new HashMap<Object, Object>();
+            keyVal = new HashMap<>();
         }
         if (valKey == null){
-            valKey = new HashMap<Object, Object>();
+            valKey = new HashMap<>();
         }
 
         keyVal.put(key, val);

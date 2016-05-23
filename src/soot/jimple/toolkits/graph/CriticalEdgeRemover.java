@@ -133,7 +133,7 @@ public class CriticalEdgeRemover extends BodyTransformer {
   private void removeCriticalEdges(Body b) {
     Chain<Unit> unitChain = b.getUnits();
     int size = unitChain.size();
-    Map<Unit, List<Unit>> predecessors = new HashMap<Unit, List<Unit>>(2 * size + 1, 0.7f);
+    Map<Unit, List<Unit>> predecessors = new HashMap<>(2 * size + 1, 0.7f);
 
     /* First get the predecessors of each node (although direct predecessors are
      * predecessors too, we'll not include them in the lists) */
@@ -147,7 +147,7 @@ public class CriticalEdgeRemover extends BodyTransformer {
           Unit target = succsIt.next().getUnit();
           List<Unit> predList = predecessors.get(target);
           if (predList == null) {
-            predList = new ArrayList<Unit>();
+            predList = new ArrayList<>();
             predList.add(currentUnit);
             predecessors.put(target, predList);
           } else

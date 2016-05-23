@@ -92,9 +92,9 @@ public class PtInsNode extends IVarAbstraction
 	@Override
 	public void reconstruct() 
 	{
-		flowto = new HashMap<PtInsNode, PtInsIntervalManager>();
-		pt_objs = new HashMap<AllocNode, PtInsIntervalManager>();
-		new_pts = new HashMap<AllocNode, PtInsIntervalManager>();
+		flowto = new HashMap<>();
+		pt_objs = new HashMap<>();
+		new_pts = new HashMap<>();
 		complex_cons = null;
 		lrf_value = 0;
 	}
@@ -155,7 +155,7 @@ public class PtInsNode extends IVarAbstraction
 			pim.flush();
 		}
 		
-		new_pts = new HashMap<AllocNode, PtInsIntervalManager>();
+		new_pts = new HashMap<>();
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class PtInsNode extends IVarAbstraction
 	public void put_complex_constraint(PlainConstraint cons) 
 	{
 		if ( complex_cons == null )
-			complex_cons = new Vector<PlainConstraint>();
+			complex_cons = new Vector<>();
 		complex_cons.add( cons );
 	}
 
@@ -616,7 +616,7 @@ public class PtInsNode extends IVarAbstraction
 	public void injectPts() 
 	{
 		final GeomPointsTo geomPTA = (GeomPointsTo)Scene.v().getPointsToAnalysis();
-		pt_objs = new HashMap<AllocNode, PtInsIntervalManager>();
+		pt_objs = new HashMap<>();
 		
 		me.getP2Set().forall( new P2SetVisitor() {
 			@Override

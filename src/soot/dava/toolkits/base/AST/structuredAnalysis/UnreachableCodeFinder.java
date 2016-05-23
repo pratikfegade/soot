@@ -462,7 +462,7 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
     	DavaFlowSet initialIn = cloneFlowSet(input);
     	DavaFlowSet out = null;
     	DavaFlowSet defaultOut = null;
-    	List<DavaFlowSet> toMergeBreaks = new ArrayList<DavaFlowSet>();
+    	List<DavaFlowSet> toMergeBreaks = new ArrayList<>();
     	
     	Iterator<Object> it = indexList.iterator();
     	while (it.hasNext()) {//going through all the cases of the switch statement
@@ -496,7 +496,7 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
     	//handle break
     	String label = getLabel(node);
     	//have to handleBreaks for all the different cases
-    	List<DavaFlowSet> outList = new ArrayList<DavaFlowSet>();
+    	List<DavaFlowSet> outList = new ArrayList<>();
     	//handling breakLists of each of the toMergeBreaks
     	for (DavaFlowSet tmb : toMergeBreaks)
     		outList.add(handleBreak(label, tmb, node));
@@ -526,7 +526,7 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
 
        	List<Object> catchList = node.get_CatchList();
        	Iterator<Object> it = catchList.iterator();
-       	List<DavaFlowSet> catchOutput = new ArrayList<DavaFlowSet>();
+       	List<DavaFlowSet> catchOutput = new ArrayList<>();
 
        	while (it.hasNext()) {
        		ASTTryNode.container catchBody = (ASTTryNode.container)it.next();
@@ -545,7 +545,7 @@ public class UnreachableCodeFinder extends StructuredAnalysis {
 
 
 
-       	List<DavaFlowSet> outList = new ArrayList<DavaFlowSet>();	
+       	List<DavaFlowSet> outList = new ArrayList<>();
        	//handle breaks out of tryBodyOutput
        	outList.add(handleBreak(label,tryBodyOutput,node));
 	

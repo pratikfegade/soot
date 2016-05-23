@@ -32,7 +32,7 @@ class Lock
     {
 	level = 0;
 	owner = null;
-	q = new LinkedList<Thread>();
+	q = new LinkedList<>();
     }
 
     public Thread nextThread()

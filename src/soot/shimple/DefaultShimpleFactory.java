@@ -88,7 +88,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
             return rbg;
         
         BlockGraph bg = getBlockGraph();
-        rbg = new HashReversibleGraph<Block>(bg);
+        rbg = new HashReversibleGraph<>(bg);
         rbg.reverse();
         return rbg;
     }
@@ -98,7 +98,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(rdFinder != null)
             return rdFinder;
 
-        rdFinder = new SimpleDominatorsFinder<Block>(getReverseBlockGraph());
+        rdFinder = new SimpleDominatorsFinder<>(getReverseBlockGraph());
         return rdFinder;
     }
 
@@ -107,7 +107,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(rdTree != null)
             return rdTree;
 
-        rdTree = new DominatorTree<Block>(getReverseDominatorsFinder());
+        rdTree = new DominatorTree<>(getReverseDominatorsFinder());
         return rdTree;
     }
 
@@ -116,7 +116,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(rdFrontier != null)
             return rdFrontier;
 
-        rdFrontier = new CytronDominanceFrontier<Block>(getReverseDominatorTree());
+        rdFrontier = new CytronDominanceFrontier<>(getReverseDominatorTree());
         return rdFrontier;
     }
     
@@ -146,7 +146,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(dFinder != null)
             return dFinder;
 
-        dFinder = new SimpleDominatorsFinder<Block>(getBlockGraph());
+        dFinder = new SimpleDominatorsFinder<>(getBlockGraph());
         return dFinder;
     }
 
@@ -155,7 +155,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(dTree != null)
             return dTree;
 
-        dTree = new DominatorTree<Block>(getDominatorsFinder());
+        dTree = new DominatorTree<>(getDominatorsFinder());
         return dTree;
     }
     
@@ -164,7 +164,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(dFrontier != null)
             return dFrontier;
 
-        dFrontier = new CytronDominanceFrontier<Block>(getDominatorTree());
+        dFrontier = new CytronDominanceFrontier<>(getDominatorTree());
         return dFrontier;
     }
 

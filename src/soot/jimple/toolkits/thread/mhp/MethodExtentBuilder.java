@@ -23,7 +23,7 @@ public class MethodExtentBuilder {
 	
 	
 	//private List inlineSites = new ArrayList(); 
-	private final Set<Object> methodsNeedingInlining = new HashSet<Object>();	  
+	private final Set<Object> methodsNeedingInlining = new HashSet<>();
 	
 	public MethodExtentBuilder(Body unitBody, PegCallGraph pcg, CallGraph cg){
 		//testCallGraph(cg);
@@ -118,7 +118,7 @@ public class MethodExtentBuilder {
 		 * use DFS to find out if it's parents need inlining.
 		 * If so, add it to methodsNeedingInlining
 		 */
-		Set<Object> gray = new HashSet<Object>();
+		Set<Object> gray = new HashSet<>();
 		Iterator it = cg.iterator();
 		
 		while (it.hasNext()){

@@ -23,7 +23,7 @@ public class DominatorsFinder{
 	private final DirectedGraph peg;
 	
 	DominatorsFinder(Chain chain, DirectedGraph pegGraph){
-		unitToDominators = new HashMap<Object, FlowSet>(); 
+		unitToDominators = new HashMap<>();
 		peg = pegGraph;
 		find(chain);
 		//testUnitToDominators();

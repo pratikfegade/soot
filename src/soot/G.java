@@ -94,7 +94,7 @@ public class G extends Singletons
     public Set MethodRWSet_allFields = new HashSet();
     public int GeneralConstObject_counter = 0;
     public UnionFactory Union_factory = null;
-    public HashMap<Object, Array2ndDimensionSymbol> Array2ndDimensionSymbol_pool = new HashMap<Object, Array2ndDimensionSymbol>();
+    public HashMap<Object, Array2ndDimensionSymbol> Array2ndDimensionSymbol_pool = new HashMap<>();
     public Map AbstractUnit_allMapToUnnamed = Collections.unmodifiableMap(new AbstractUnitAllMapTo("<unnamed>"));
     public List<Timer> Timer_outstandingTimers = new ArrayList<>();
     public boolean Timer_isGarbageCollecting;

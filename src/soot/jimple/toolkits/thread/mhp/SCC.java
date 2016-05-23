@@ -26,9 +26,9 @@ public class SCC{
 	//    public SCC(Chain chain, DirectedGraph g){
 	public SCC(Iterator it, DirectedGraph g){
 		
-		gray = new HashSet<Object>();
-		finishedOrder = new LinkedList<Object>();
-		sccList	= new ArrayList<List<Object>>();
+		gray = new HashSet<>();
+		finishedOrder = new LinkedList<>();
+		sccList	= new ArrayList<>();
 		
 		// Visit each node
 		{
@@ -44,7 +44,7 @@ public class SCC{
 		}
 		
 		//Re-color all nodes white
-		gray = new HashSet<Object>();
+		gray = new HashSet<>();
 		
 		//visit nodes via tranpose edges according decreasing order of finish time of nodes
 		
@@ -55,7 +55,7 @@ public class SCC{
 				Object s =revNodeIt.next();
 				if (!gray.contains(s)){
 					
-					List<Object> scc = new ArrayList<Object>();
+					List<Object> scc = new ArrayList<>();
 					
 					visitRevNode(g, s, scc);
 					sccList.add(scc);

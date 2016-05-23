@@ -33,7 +33,7 @@ public class SparseSwitchPayload extends SwitchPayload {
 
 	@Override
 	protected BuilderInstruction getRealInsn0(LabelAssigner assigner) {
-		List<SwitchLabelElement> elements = new ArrayList<SwitchLabelElement>();
+		List<SwitchLabelElement> elements = new ArrayList<>();
 		for (int i = 0; i < keys.length; i++)
 			elements.add(new SwitchLabelElement(keys[i],
 					assigner.getOrCreateLabel((Stmt) targets.get(i))));

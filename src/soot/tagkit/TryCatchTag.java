@@ -26,7 +26,7 @@ public class TryCatchTag implements soot.tagkit.Tag {
 	
 	public static final String NAME = "TryCatchTag"; 
 	
-	protected Map<soot.Unit,soot.Unit> handlerUnitToFallThroughUnit = new HashMap<soot.Unit, soot.Unit>();
+	protected Map<soot.Unit,soot.Unit> handlerUnitToFallThroughUnit = new HashMap<>();
 	
 	public void register(soot.Unit handler, soot.Unit fallThrough) {
 		handlerUnitToFallThroughUnit.put(handler, fallThrough);

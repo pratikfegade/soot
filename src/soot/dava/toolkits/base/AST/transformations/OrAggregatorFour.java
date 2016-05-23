@@ -205,7 +205,7 @@ public class OrAggregatorFour extends DepthFirstAdapter{
 
     private List<Object> createWhileBody(List subBody,List labeledBlocksSubBody,int nodeNumber){
 	//create BodyA, Nodes from 0 to nodeNumber
-	List<Object> bodyA = new ArrayList<Object>();
+	List<Object> bodyA = new ArrayList<>();
 	
 	//this is an iterator of ASTNodes
 	Iterator it = subBody.iterator();
@@ -240,7 +240,7 @@ public class OrAggregatorFour extends DepthFirstAdapter{
 	
 	//create BodyB
 	it.next();//this skips the LabeledBlockNode
-	List<Object> bodyB = new ArrayList<Object>();
+	List<Object> bodyB = new ArrayList<>();
 	while(it.hasNext()){
 	    bodyB.add(it.next());
 	}
@@ -260,7 +260,7 @@ public class OrAggregatorFour extends DepthFirstAdapter{
        All nodes are ASTIFNodes
     */  
     private List<ASTCondition> getConditions(Iterator it){
-	List<ASTCondition> toReturn = new ArrayList<ASTCondition>();
+	List<ASTCondition> toReturn = new ArrayList<>();
 	while(it.hasNext()){
 	    //safe cast since we know these are all ASTIfNodes
 	    ASTIfNode node = (ASTIfNode)it.next();

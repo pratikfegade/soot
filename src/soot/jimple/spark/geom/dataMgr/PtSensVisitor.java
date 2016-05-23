@@ -50,10 +50,10 @@ public abstract class PtSensVisitor<VarType extends ContextVar>
 	protected GeomPointsTo ptsProvider = (GeomPointsTo)Scene.v().getPointsToAnalysis();
 	
 	// The list view
-	public List<VarType> outList = new ArrayList<VarType>();
+	public List<VarType> outList = new ArrayList<>();
 	
 	// The table view (cannot be accessed directly outside)
-	protected Map<Node, List<VarType>> tableView = new HashMap<Node, List<VarType>>();
+	protected Map<Node, List<VarType>> tableView = new HashMap<>();
 	
 	/**
 	 * Called before each round of collection.

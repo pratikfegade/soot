@@ -66,7 +66,7 @@ public class BlockGraphConverter
             	block.setIndexInMethod(block.getIndexInMethod() + 1);
             }
             
-		    List<Block> newBlocks = new ArrayList<Block>();
+		    List<Block> newBlocks = new ArrayList<>();
 		    newBlocks.add(head);
 		    newBlocks.addAll(blocks);
 		    graph.mBlocks = newBlocks;
@@ -118,8 +118,8 @@ public class BlockGraphConverter
         List<Block> heads = graph.getHeads();
         List<Block> tails = graph.getTails();
 
-        graph.mHeads = new ArrayList<Block>(tails);
-        graph.mTails = new ArrayList<Block>(heads);
+        graph.mHeads = new ArrayList<>(tails);
+        graph.mTails = new ArrayList<>(heads);
     }
 
     public static void main(String[] args)
@@ -155,13 +155,13 @@ class DummyBlock extends Block
     void makeHeadBlock(List<Block> oldHeads)
     {
         setPreds(new ArrayList<Block>());
-        setSuccs(new ArrayList<Block>(oldHeads));
+        setSuccs(new ArrayList<>(oldHeads));
 
         Iterator<Block> headsIt = oldHeads.iterator();
         while(headsIt.hasNext()){
             Block oldHead = headsIt.next();
 
-            List<Block> newPreds = new ArrayList<Block>();
+            List<Block> newPreds = new ArrayList<>();
             newPreds.add(this);
 
             List<Block> oldPreds = oldHead.getPreds();
@@ -175,13 +175,13 @@ class DummyBlock extends Block
     void makeTailBlock(List<Block> oldTails)
     {
         setSuccs(new ArrayList<Block>());
-        setPreds(new ArrayList<Block>(oldTails));
+        setPreds(new ArrayList<>(oldTails));
 
         Iterator<Block> tailsIt = oldTails.iterator();
         while(tailsIt.hasNext()){
             Block oldTail = tailsIt.next();
 
-            List<Block> newSuccs = new ArrayList<Block>();
+            List<Block> newSuccs = new ArrayList<>();
             newSuccs.add(this);
 
             List<Block> oldSuccs = oldTail.getSuccs();

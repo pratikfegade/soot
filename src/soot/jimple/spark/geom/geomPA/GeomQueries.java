@@ -132,7 +132,7 @@ public class GeomQueries
 		top_rank = new int[n_func];
 		Arrays.fill(top_rank, 0);
 
-		topQ = new LinkedList<Integer>();
+		topQ = new LinkedList<>();
 		topQ.add(Constants.SUPER_MAIN);
 
 		while (!topQ.isEmpty()) {

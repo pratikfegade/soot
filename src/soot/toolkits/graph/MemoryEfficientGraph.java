@@ -41,7 +41,7 @@ import java.util.*;
 public class MemoryEfficientGraph<N> extends HashMutableDirectedGraph<N>
 {
 
-    HashMap<N, N> self = new HashMap<N, N>();
+    HashMap<N, N> self = new HashMap<>();
 
     public void addNode(N o) {
         super.addNode(o);

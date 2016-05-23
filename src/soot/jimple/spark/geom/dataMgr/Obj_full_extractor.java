@@ -33,7 +33,7 @@ import soot.jimple.spark.pag.Node;
 public class Obj_full_extractor 
 	extends PtSensVisitor<IntervalContextVar>
 {
-	private List<IntervalContextVar> backupList = new ArrayList<IntervalContextVar>();
+	private List<IntervalContextVar> backupList = new ArrayList<>();
 	private IntervalContextVar tmp_icv = new IntervalContextVar();
 	
 	@Override
@@ -45,7 +45,7 @@ public class Obj_full_extractor
 		
 		if ( resList == null ) {
 			// The first time this object is inserted
-			resList = new ArrayList<IntervalContextVar>();
+			resList = new ArrayList<>();
 		}
 		else {
 			// We search the list and merge the context sensitive objects

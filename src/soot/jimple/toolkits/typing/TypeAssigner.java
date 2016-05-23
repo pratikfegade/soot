@@ -132,7 +132,7 @@ public class TypeAssigner extends BodyTransformer {
 	 * @param b
 	 */
 	private void replaceNullType(Body b) {
-		List<Local> localsToRemove = new ArrayList<Local>();
+		List<Local> localsToRemove = new ArrayList<>();
 		boolean hasNullType = false;
 
 		// check if any local has null_type
@@ -155,7 +155,7 @@ public class TypeAssigner extends BodyTransformer {
 		}
 		ConstantPropagatorAndFolder.v().transform(b);
 
-		List<Unit> unitToReplaceByException = new ArrayList<Unit>();
+		List<Unit> unitToReplaceByException = new ArrayList<>();
 		for (Unit u: b.getUnits()) {
 			for (ValueBox vb : u.getUseBoxes()) {
 				if( vb.getValue() instanceof Local && vb.getValue().getType() instanceof NullType) {

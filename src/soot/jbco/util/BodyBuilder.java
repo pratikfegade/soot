@@ -60,7 +60,7 @@ public class BodyBuilder {
 
   public static boolean bodiesHaveBeenBuilt = false;
   public static boolean namesHaveBeenRetrieved = false;
-  public static List<String> nameList = new ArrayList<String>();
+  public static List<String> nameList = new ArrayList<>();
   public static void retrieveAllBodies() 
   {
     if (bodiesHaveBeenBuilt) return;
@@ -110,7 +110,7 @@ public class BodyBuilder {
   
   public static List<Local> buildParameterLocals(PatchingChain<Unit> units, Collection<Local> locals, List<Type> paramTypes)
   {
-    List<Local> args = new ArrayList<Local>();
+    List<Local> args = new ArrayList<>();
     for (int k = 0; k < paramTypes.size(); k++) {
       Type type = paramTypes.get(k);
       Local loc = Jimple.v().newLocal("l" + k, type);

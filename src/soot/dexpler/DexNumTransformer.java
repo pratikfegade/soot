@@ -317,7 +317,7 @@ public class DexNumTransformer extends DexTransformer {
 	 *            the body to analyze
 	 */
 	private Set<Local> getNumCandidates(Body body) {
-		Set<Local> candidates = new HashSet<Local>();
+		Set<Local> candidates = new HashSet<>();
 		for (Unit u : body.getUnits()) {
 			if (u instanceof AssignStmt) {
 				AssignStmt a = (AssignStmt) u;

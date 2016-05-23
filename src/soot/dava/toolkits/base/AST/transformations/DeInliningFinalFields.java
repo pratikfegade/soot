@@ -100,7 +100,7 @@ public class DeInliningFinalFields extends DepthFirstAdapter{
 	//System.out.println("Deiniling  method: "+sootMethod.getName());
 	sootClass = sootMethod.getDeclaringClass();
 
-	finalFields = new HashMap<Comparable, SootField>();
+	finalFields = new HashMap<>();
 
 	ArrayList fieldChain = new ArrayList();
 

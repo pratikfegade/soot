@@ -61,7 +61,7 @@ public class CommonPrecedingEqualValueAnalysis extends BackwardFlowAnalysis
 		in.copy(out);
 
 		// get list of definitions at this unit
-		List<EquivalentValue> newDefs = new ArrayList<EquivalentValue>();
+		List<EquivalentValue> newDefs = new ArrayList<>();
 		Iterator newDefBoxesIt = stmt.getDefBoxes().iterator();
 		while( newDefBoxesIt.hasNext() )
 		{

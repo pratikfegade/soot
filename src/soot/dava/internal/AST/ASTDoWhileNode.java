@@ -57,7 +57,7 @@ public class ASTDoWhileNode extends ASTControlFlowNode
     */
     public void replaceBody(List<Object> body){
 	this.body=body;
-	subBodies=new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(body);
     }
 

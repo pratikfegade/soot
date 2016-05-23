@@ -41,7 +41,7 @@ public class CoffiClassSource extends ClassSource
     public Dependencies resolve( SootClass sc ) {
         if(Options.v().verbose())
             G.v().out.println("resolving [from .class]: " + className );
-        List<Type> references = new ArrayList<Type>();
+        List<Type> references = new ArrayList<>();
         soot.coffi.Util.v().resolveFromClassFile(sc, classFile, fileName, references);
 
         try {

@@ -55,7 +55,7 @@ public class MemoryEfficientRasUnion extends Union {
 		boolean result;
 		
 		if (subsets == null)
-			subsets = new HashSet<PointsToSet>();
+			subsets = new HashSet<>();
 		if (s instanceof MemoryEfficientRasUnion) {
 			MemoryEfficientRasUnion meru = (MemoryEfficientRasUnion) s;
 			if (meru.subsets == null || subsets.containsAll(meru.subsets)) {

@@ -144,13 +144,13 @@ public class PAGDumper {
     protected PAG pag;
     protected String output_dir;
     protected int fieldNum = 0;
-    protected HashMap<SparkField, Integer> fieldMap = new HashMap<SparkField, Integer>();
+    protected HashMap<SparkField, Integer> fieldMap = new HashMap<>();
     protected ObjectNumberer root = new ObjectNumberer( null, 0 );
 
     protected void dumpTypes( PrintWriter file ) throws IOException {
-        HashSet<Type> declaredTypes = new HashSet<Type>();
-        HashSet<Type> actualTypes = new HashSet<Type>();
-        HashSet<SparkField> allFields = new HashSet<SparkField>();
+        HashSet<Type> declaredTypes = new HashSet<>();
+        HashSet<Type> actualTypes = new HashSet<>();
+        HashSet<SparkField> allFields = new HashSet<>();
         for( Iterator nIt = pag.getVarNodeNumberer().iterator(); nIt.hasNext(); ) {
             final Node n = (Node) nIt.next();
             Type t = n.getType();
@@ -176,7 +176,7 @@ public class PAGDumper {
             Type t = n.getType();
             if( t != null ) actualTypes.add( t );
         }
-        HashMap<Type, Integer> typeToInt = new HashMap<Type, Integer>();
+        HashMap<Type, Integer> typeToInt = new HashMap<>();
         int nextint = 1;
         for (Type type : declaredTypes) {
             typeToInt.put( type, new Integer( nextint++ ) );
@@ -270,7 +270,7 @@ public class PAGDumper {
         }
 
         ObjectNumberer findOrAdd( Object child ) {
-            if( children == null ) children = new HashMap<Object, ObjectNumberer>();
+            if( children == null ) children = new HashMap<>();
             ObjectNumberer ret = children.get( child );
             if( ret == null ) {
                 ret = new ObjectNumberer( child, nextChildNum++ );

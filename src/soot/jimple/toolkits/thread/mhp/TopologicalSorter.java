@@ -20,8 +20,8 @@ public class TopologicalSorter
 {
 	Chain chain;
 	PegGraph pg;
-	LinkedList<Object> sorter = new LinkedList<Object>();
-	List<Object> visited = new ArrayList<Object>();
+	LinkedList<Object> sorter = new LinkedList<>();
+	List<Object> visited = new ArrayList<>();
 	public TopologicalSorter(Chain chain, PegGraph pg){
 		this.chain = chain;
 		this.pg = pg;

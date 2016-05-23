@@ -131,7 +131,7 @@ public class Hierarchy
             	if( c.resolvingLevel() < SootClass.HIERARCHY ) continue;
             	if (c.isInterface()) {
             		List<SootClass> imp = interfaceToDirImplementers.get(c);
-            		Set<SootClass> s = new ArraySet<SootClass>();            		
+            		Set<SootClass> s = new ArraySet<>();
             		for (SootClass c0 : imp) {
             			if( c.resolvingLevel() < SootClass.HIERARCHY ) continue;
             			s.addAll(getSubclassesOfIncluding(c0));
@@ -328,7 +328,7 @@ public class Hierarchy
 
         checkState();
 
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
         l.addAll(classToDirSubclasses.get(c));
         l.add(c);
 
@@ -362,7 +362,7 @@ public class Hierarchy
 
         checkState();
 
-        List<SootClass> l = new ArrayList<SootClass>();
+        List<SootClass> l = new ArrayList<>();
         l.addAll(interfaceToDirSubinterfaces.get(c));
         l.add(c);
 
@@ -390,12 +390,12 @@ public class Hierarchy
 
         checkState();
         
-        ArraySet<SootClass> set = new ArraySet<SootClass>();
+        ArraySet<SootClass> set = new ArraySet<>();
         for (SootClass c : getSubinterfacesOfIncluding(i)) {
         	set.addAll(getDirectImplementersOf(c));
         }
 
-        ArrayList<SootClass> l = new ArrayList<SootClass>();
+        ArrayList<SootClass> l = new ArrayList<>();
         l.addAll(set);
 
         return Collections.unmodifiableList(l);
@@ -578,7 +578,7 @@ public class Hierarchy
         m.getDeclaringClass().checkLevel(SootClass.HIERARCHY);
         checkState();
 
-        Set<SootMethod> s = new ArraySet<SootMethod>();
+        Set<SootMethod> s = new ArraySet<>();
         for (Type cls : classes) {
             if (cls instanceof RefType)
                 s.add(resolveConcreteDispatch(((RefType)cls).getSootClass(), m));
@@ -588,7 +588,7 @@ public class Hierarchy
             else throw new RuntimeException("Unable to resolve concrete dispatch of type "+ cls);
         }
 
-        return Collections.unmodifiableList(new ArrayList<SootMethod>(s));
+        return Collections.unmodifiableList(new ArrayList<>(s));
     }
 
     // what can get called for c & all its subclasses
@@ -600,11 +600,11 @@ public class Hierarchy
         m.getDeclaringClass().checkLevel(SootClass.HIERARCHY);
         checkState();
 
-        Set<SootMethod> s = new ArraySet<SootMethod>();
+        Set<SootMethod> s = new ArraySet<>();
         Collection<SootClass> classesIt;
         
         if (c.isInterface()) {
-            Set<SootClass> classes = new HashSet<SootClass>();
+            Set<SootClass> classes = new HashSet<>();
             for (SootClass sootClass : getImplementersOf(c)) {
             	classes.addAll(getSubclassesOfIncluding(sootClass));
             }
@@ -619,7 +619,7 @@ public class Hierarchy
             }
         }
 
-        return Collections.unmodifiableList(new ArrayList<SootMethod>(s));
+        return Collections.unmodifiableList(new ArrayList<>(s));
     }
 
     // what can get called if you have a set of possible receiver types
@@ -627,12 +627,12 @@ public class Hierarchy
     public List<SootMethod> resolveAbstractDispatch(List<SootClass> classes, SootMethod m)
     {
         m.getDeclaringClass().checkLevel(SootClass.HIERARCHY);
-        Set<SootMethod> s = new ArraySet<SootMethod>();
+        Set<SootMethod> s = new ArraySet<>();
         for (SootClass sootClass : classes ) {
             s.addAll(resolveAbstractDispatch(sootClass, m));
         }
         
-        return Collections.unmodifiableList(new ArrayList<SootMethod>(s));
+        return Collections.unmodifiableList(new ArrayList<>(s));
     }
 
     /** Returns the target for the given SpecialInvokeExpr. */

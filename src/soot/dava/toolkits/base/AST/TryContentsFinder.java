@@ -31,7 +31,7 @@ public class TryContentsFinder extends ASTAnalysis
     public static TryContentsFinder v() { return G.v().soot_dava_toolkits_base_AST_TryContentsFinder(); }
 
     private IterableSet curExceptionSet = new IterableSet();
-    private final HashMap<Object, IterableSet> node2ExceptionSet = new HashMap<Object, IterableSet>();
+    private final HashMap<Object, IterableSet> node2ExceptionSet = new HashMap<>();
     
     public int getAnalysisDepth()
     {
@@ -84,7 +84,7 @@ public class TryContentsFinder extends ASTAnalysis
 
 	    ASTTryNode tryNode = (ASTTryNode) n;
 	    
-	    ArrayList<Object> toRemove = new ArrayList<Object>();
+	    ArrayList<Object> toRemove = new ArrayList<>();
 	    IterableSet tryExceptionSet = node2ExceptionSet.get( tryNode.get_TryBodyContainer());
 	    if (tryExceptionSet == null) {
 		tryExceptionSet = new IterableSet();

@@ -45,8 +45,8 @@ public class IterableMap implements Map
 
     public IterableMap( int initialCapacity, float loadFactor)
     {
-	content_map = new HashMap<Object, Object>( initialCapacity, loadFactor);
-	back_map    = new HashMap<Object, Object>( initialCapacity, loadFactor);
+	content_map = new HashMap<>(initialCapacity, loadFactor);
+	back_map    = new HashMap<>(initialCapacity, loadFactor);
 	key_chain   = new HashChain();
 	value_chain = new HashChain();
     }

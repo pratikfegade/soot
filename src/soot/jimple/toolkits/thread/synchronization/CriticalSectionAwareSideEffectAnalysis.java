@@ -92,8 +92,8 @@ class WholeObject
 public class CriticalSectionAwareSideEffectAnalysis {
 	PointsToAnalysis pa;
 	CallGraph cg;
-	Map<SootMethod, CodeBlockRWSet> methodToNTReadSet = new HashMap<SootMethod, CodeBlockRWSet>();
-	Map<SootMethod, CodeBlockRWSet> methodToNTWriteSet = new HashMap<SootMethod, CodeBlockRWSet>();
+	Map<SootMethod, CodeBlockRWSet> methodToNTReadSet = new HashMap<>();
+	Map<SootMethod, CodeBlockRWSet> methodToNTWriteSet = new HashMap<>();
 	int rwsetcount = 0;
 	CriticalSectionVisibleEdgesPred tve;
 	TransitiveTargets tt;
@@ -270,7 +270,7 @@ public class CriticalSectionAwareSideEffectAnalysis {
 		return null;
 	}
 	
-	private HashMap<Stmt, RWSet> RCache = new HashMap<Stmt, RWSet>();
+	private HashMap<Stmt, RWSet> RCache = new HashMap<>();
 	public RWSet approximatedReadSet( SootMethod method, Stmt stmt, Value specialRead, boolean allFields)
 	{// used for stmts with method calls where the effect of the method call should be approximated by 0 or 1 reads (plus reads of all args)
 		CodeBlockRWSet ret = new CodeBlockRWSet();
@@ -525,7 +525,7 @@ public class CriticalSectionAwareSideEffectAnalysis {
 		return null;
 	}
 	
-	private HashMap<Stmt, RWSet> WCache = new HashMap<Stmt, RWSet>();
+	private HashMap<Stmt, RWSet> WCache = new HashMap<>();
 	public RWSet approximatedWriteSet( SootMethod method, Stmt stmt, Value v, boolean allFields )
 	{// used for stmts with method calls where the effect of the method call should be approximated by 0 or 1 writes
 		CodeBlockRWSet ret = new CodeBlockRWSet();

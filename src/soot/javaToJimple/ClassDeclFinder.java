@@ -33,7 +33,7 @@ public class ClassDeclFinder extends polyglot.visit.NodeVisitor {
     
 
     public ClassDeclFinder(){
-        declsFound = new ArrayList<ClassDecl>();
+        declsFound = new ArrayList<>();
     }
 
     public polyglot.visit.NodeVisitor enter(polyglot.ast.Node parent, polyglot.ast.Node n) {

@@ -60,8 +60,8 @@ public class ClosestAbruptTargetFinder extends DepthFirstAdapter{
 
 
 
-    HashMap<DAbruptStmt, ASTNode> closestNode = new HashMap<DAbruptStmt, ASTNode>();//a mapping of each abrupt statement to the node they are targeting
-    ArrayList<ASTLabeledNode> nodeStack = new ArrayList<ASTLabeledNode>(); //the last element will always be the "currentNode" meaning the closest target to a abrupt stmt
+    HashMap<DAbruptStmt, ASTNode> closestNode = new HashMap<>();//a mapping of each abrupt statement to the node they are targeting
+    ArrayList<ASTLabeledNode> nodeStack = new ArrayList<>(); //the last element will always be the "currentNode" meaning the closest target to a abrupt stmt
 
     /**
      * To be invoked by other analyses. Given an abrupt stmt as input this method

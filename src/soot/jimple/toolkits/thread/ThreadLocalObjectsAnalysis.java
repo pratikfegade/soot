@@ -53,7 +53,7 @@ public class ThreadLocalObjectsAnalysis extends LocalObjectsAnalysis implements 
 	protected ClassLocalObjectsAnalysis newClassLocalObjectsAnalysis(LocalObjectsAnalysis loa, InfoFlowAnalysis dfa, UseFinder uf, SootClass sc)
 	{
 		// find the right run methods to use for threads of type sc
-		List<SootMethod> runMethods = new ArrayList<SootMethod>();
+		List<SootMethod> runMethods = new ArrayList<>();
 		Iterator<AbstractRuntimeThread> threadsIt = threads.iterator();
 		while(threadsIt.hasNext())
 		{

@@ -38,8 +38,8 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
     {
         this.cfg = cfg;
         vg = new ValueGraph(cfg);
-        partitions = new HashSet<Partition>(); // not deterministic
-        nodeToPartition = new HashMap<Node, Partition>();
+        partitions = new HashSet<>(); // not deterministic
+        nodeToPartition = new HashMap<>();
         currentPartitionNumber = 0;
         
         initPartition();
@@ -77,7 +77,7 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
     
     protected void initPartition()
     {
-        Map<String, Partition> labelToPartition = new HashMap<String, Partition>();
+        Map<String, Partition> labelToPartition = new HashMap<>();
         
         Iterator<Node> topNodesIt = vg.getTopNodes().iterator();
         while(topNodesIt.hasNext()){
@@ -100,7 +100,7 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
     
     protected void iterPartition()
     {
-        newPartitions = new ArrayList<Partition>();
+        newPartitions = new ArrayList<>();
 
         Iterator<Partition> partitionsIt = partitions.iterator();
         while(partitionsIt.hasNext()){

@@ -111,7 +111,7 @@ public final class ThrowableSet {
 		/**
 		 * This map stores all referenced <code>ThrowableSet</code>s.
 		 */
-		private final Map<ThrowableSet,Reference<ThrowableSet>> registry = new WeakHashMap<ThrowableSet,Reference<ThrowableSet>>();
+		private final Map<ThrowableSet,Reference<ThrowableSet>> registry = new WeakHashMap<>();
 
 		/**
 		 * <code>ThrowableSet</code> containing no exception classes.
@@ -214,11 +214,11 @@ public final class ThrowableSet {
 
 			EMPTY = registerSetIfNew(null, null);
 
-			Set<RefLikeType> allThrowablesSet = new HashSet<RefLikeType>();
+			Set<RefLikeType> allThrowablesSet = new HashSet<>();
 			allThrowablesSet.add(AnySubType.v(Scene.v().getRefType("java.lang.Throwable")));
 			ALL_THROWABLES = registerSetIfNew(allThrowablesSet, null);
 
-			Set<RefLikeType> vmErrorSet = new HashSet<RefLikeType>();
+			Set<RefLikeType> vmErrorSet = new HashSet<>();
 			vmErrorSet.add(Scene.v().getRefType("java.lang.InternalError"));
 			vmErrorSet.add(Scene.v().getRefType("java.lang.OutOfMemoryError"));
 			vmErrorSet.add(Scene.v().getRefType("java.lang.StackOverflowError"));
@@ -231,7 +231,7 @@ public final class ThrowableSet {
 
 			VM_ERRORS = registerSetIfNew(vmErrorSet, null);
 
-			Set<RefLikeType> resolveClassErrorSet = new HashSet<RefLikeType>();
+			Set<RefLikeType> resolveClassErrorSet = new HashSet<>();
 			resolveClassErrorSet.add(Scene.v().getRefType("java.lang.ClassCircularityError"));
 			// We add AnySubType(ClassFormatError) so that we can
 			// avoid adding its subclass,
@@ -248,11 +248,11 @@ public final class ThrowableSet {
 			resolveClassErrorSet.add(Scene.v().getRefType("java.lang.VerifyError"));
 			RESOLVE_CLASS_ERRORS = registerSetIfNew(resolveClassErrorSet, null);
 
-			Set<RefLikeType> resolveFieldErrorSet = new HashSet<RefLikeType>(resolveClassErrorSet);
+			Set<RefLikeType> resolveFieldErrorSet = new HashSet<>(resolveClassErrorSet);
 			resolveFieldErrorSet.add(Scene.v().getRefType("java.lang.NoSuchFieldError"));
 			RESOLVE_FIELD_ERRORS = registerSetIfNew(resolveFieldErrorSet, null);
 
-			Set<RefLikeType> resolveMethodErrorSet = new HashSet<RefLikeType>(resolveClassErrorSet);
+			Set<RefLikeType> resolveMethodErrorSet = new HashSet<>(resolveClassErrorSet);
 			resolveMethodErrorSet.add(Scene.v().getRefType("java.lang.AbstractMethodError"));
 			resolveMethodErrorSet.add(Scene.v().getRefType("java.lang.NoSuchMethodError"));
 			resolveMethodErrorSet.add(Scene.v().getRefType("java.lang.UnsatisfiedLinkError"));
@@ -263,7 +263,7 @@ public final class ThrowableSet {
 			// RuntimeException---it would be replaced by an
 			// ExceptionInInitializerError):
 			//
-			Set<RefLikeType> initializationErrorSet = new HashSet<RefLikeType>();
+			Set<RefLikeType> initializationErrorSet = new HashSet<>();
 			initializationErrorSet.add(AnySubType.v(Scene.v().getRefType("java.lang.Error")));
 			INITIALIZATION_ERRORS = registerSetIfNew(initializationErrorSet, null);
 		}
@@ -311,7 +311,7 @@ public final class ThrowableSet {
 				if (null != old)
 					return old;
 			}
-			registry.put(result, new WeakReference<ThrowableSet>(result));
+			registry.put(result, new WeakReference<>(result));
 			return result;
 		}
 
@@ -397,7 +397,7 @@ public final class ThrowableSet {
 
 	private ThrowableSet getMemoizedAdds(Object key) {
 		if (memoizedAdds == null) {
-			memoizedAdds = new HashMap<Object, ThrowableSet>();
+			memoizedAdds = new HashMap<>();
 		}
 		return memoizedAdds.get(key);
 	}
@@ -536,7 +536,7 @@ public final class ThrowableSet {
 									+ " is neither a RefType nor an AnySubType.");
 				}
 			}
-		Set<RefLikeType> resultSet = new HashSet<RefLikeType>(this.exceptionsIncluded);
+		Set<RefLikeType> resultSet = new HashSet<>(this.exceptionsIncluded);
 		resultSet.add(e);
 		result = Manager.v().registerSetIfNew(resultSet, this.exceptionsExcluded);
 		memoizedAdds.put(e, result);
@@ -641,7 +641,7 @@ public final class ThrowableSet {
 
 		int changes = 0;
 		boolean addNewException = true;
-		Set<RefLikeType> resultSet = new HashSet<RefLikeType>();
+		Set<RefLikeType> resultSet = new HashSet<>();
 
 		for (RefLikeType incumbent : this.exceptionsIncluded) {
 			if (incumbent instanceof RefType) {
@@ -747,7 +747,7 @@ public final class ThrowableSet {
 	 *         the exceptions in this set.
 	 */
 	private ThrowableSet add(Set<RefLikeType> addedExceptions) {
-		Set<RefLikeType> resultSet = new HashSet<RefLikeType>(this.exceptionsIncluded);
+		Set<RefLikeType> resultSet = new HashSet<>(this.exceptionsIncluded);
 		int changes = 0;
 		FastHierarchy hierarchy = Scene.v().getOrMakeFastHierarchy();
 
@@ -1121,7 +1121,7 @@ public final class ThrowableSet {
 	 */
 	private <T> Set<T> addExceptionToSet(T e, Set<T> set) {
 		if (set == null) {
-			set = new HashSet<T>();
+			set = new HashSet<>();
 		}
 		set.add(e);
 		return set;

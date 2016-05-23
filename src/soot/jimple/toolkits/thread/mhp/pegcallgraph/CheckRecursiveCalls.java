@@ -30,7 +30,7 @@ public class CheckRecursiveCalls{
 		check(newSccList, methodNeedExtent);
 	}
 	private List<List> updateScc(List<List<Object>> sccList, PegCallGraph pcg){
-		List<List> newList = new ArrayList<List>();    
+		List<List> newList = new ArrayList<>();
 		Iterator<List<Object>> listIt = sccList.iterator();
 		while (listIt.hasNext()){
 			List s = listIt.next();

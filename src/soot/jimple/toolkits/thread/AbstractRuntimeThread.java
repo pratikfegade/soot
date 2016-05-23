@@ -42,8 +42,8 @@ public class AbstractRuntimeThread
 	{
 		startStmt = null;
 		startStmtMethod = null;
-		methods = new ArrayList<Object>();
-		runMethods = new ArrayList<Object>();
+		methods = new ArrayList<>();
+		runMethods = new ArrayList<>();
 
 		// What kind of parallelism - this is set unsafely, so analysis MUST set it correctly
 		runsMany = false;

@@ -80,13 +80,13 @@ public class BafBody extends Body
             }
         }
     
-        Map<Stmt, Unit> stmtToFirstInstruction = new HashMap<Stmt, Unit>();
+        Map<Stmt, Unit> stmtToFirstInstruction = new HashMap<>();
             
         // Convert all jimple instructions
         {
             for (Unit u : jimpleBody.getUnits()) {
             	Stmt s = (Stmt) u;
-                List<Unit> conversionList = new ArrayList<Unit>();
+                List<Unit> conversionList = new ArrayList<>();
 
                 context.setCurrentUnit(s);
                 ((ConvertToBaf) s).convertToBaf(context, conversionList);

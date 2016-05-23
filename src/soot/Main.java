@@ -15,8 +15,8 @@ public class Main {
 
 
     private static Mode _mode = null;
-    private static List<String> _inputs = new ArrayList<String>();
-    private static List<String> _libraries = new ArrayList<String>();
+    private static List<String> _inputs = new ArrayList<>();
+    private static List<String> _libraries = new ArrayList<>();
     private static String _outputDir = null;
     private static String _main = null;
     private static boolean _ssa = false;

@@ -44,8 +44,8 @@ public class SmartMethodInfoFlowAnalysis
 		this.refOnly = !dfa.includesPrimitiveInfoFlow();
 		this.includeInnerFields = dfa.includesInnerFields();
 		
-		this.abbreviatedInfoFlowGraph = new MemoryEfficientGraph<EquivalentValue>();
-		this.infoFlowSummary = new MemoryEfficientGraph<EquivalentValue>();
+		this.abbreviatedInfoFlowGraph = new MemoryEfficientGraph<>();
+		this.infoFlowSummary = new MemoryEfficientGraph<>();
 		
 		this.returnRef = new ParameterRef(g.getBody().getMethod().getReturnType(), -1); // it's a dummy parameter ref
 		
@@ -176,7 +176,7 @@ public class SmartMethodInfoFlowAnalysis
 	{
 		visitedSources.add(node);
 		
-		List<EquivalentValue> ret = new LinkedList<EquivalentValue>();
+		List<EquivalentValue> ret = new LinkedList<>();
 		if(!abbreviatedInfoFlowGraph.containsNode(node))
 			return ret;
 
@@ -215,7 +215,7 @@ public class SmartMethodInfoFlowAnalysis
 	public List<EquivalentValue> sinksOf(EquivalentValue node) { return sinksOf(node, new HashSet<EquivalentValue>(), new HashSet<EquivalentValue>()); }
 	private List<EquivalentValue> sinksOf(EquivalentValue node, Set<EquivalentValue> visitedSources, Set<EquivalentValue> visitedSinks)
 	{
-		List<EquivalentValue> ret = new LinkedList<EquivalentValue>();
+		List<EquivalentValue> ret = new LinkedList<>();
 
 //		if(visitedSinks.contains(node))
 //			return ret;

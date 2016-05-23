@@ -66,8 +66,8 @@ public class DownSafetyAnalysis extends BackwardFlowAnalysis<Unit, FlowSet<Equiv
 	 *            the SideEffectTester that performs kills.
 	 */
 	public DownSafetyAnalysis(DirectedGraph<Unit> dg, Map<Unit, EquivalentValue> unitToGen, SideEffectTester sideEffect) {
-		this(dg, unitToGen, sideEffect, new ArrayPackedSet<EquivalentValue>(
-				new CollectionFlowUniverse<EquivalentValue>(unitToGen.values())));
+		this(dg, unitToGen, sideEffect, new ArrayPackedSet<>(
+				new CollectionFlowUniverse<>(unitToGen.values())));
 	}
 
 	/**

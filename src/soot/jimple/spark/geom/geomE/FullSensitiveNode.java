@@ -94,9 +94,9 @@ public class FullSensitiveNode extends IVarAbstraction
 	@Override
 	public void reconstruct() 
 	{
-		flowto = new HashMap<FullSensitiveNode, GeometricManager>();
-		pt_objs = new HashMap<AllocNode, GeometricManager>();
-		new_pts = new HashMap<AllocNode, GeometricManager>();
+		flowto = new HashMap<>();
+		pt_objs = new HashMap<>();
+		new_pts = new HashMap<>();
 		complex_cons = null;
 		lrf_value = 0;
 	}
@@ -169,7 +169,7 @@ public class FullSensitiveNode extends IVarAbstraction
 				gm.flush();
 			}
 		}
-		new_pts = new HashMap<AllocNode, GeometricManager>();
+		new_pts = new HashMap<>();
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class FullSensitiveNode extends IVarAbstraction
 	public void put_complex_constraint(PlainConstraint cons) 
 	{
 		if ( complex_cons == null )
-			complex_cons = new Vector<PlainConstraint>();
+			complex_cons = new Vector<>();
 		complex_cons.add( cons );
 	}
 
@@ -548,7 +548,7 @@ public class FullSensitiveNode extends IVarAbstraction
 	public void injectPts()
 	{
 		final GeomPointsTo geomPTA = (GeomPointsTo)Scene.v().getPointsToAnalysis();
-		pt_objs = new HashMap<AllocNode, GeometricManager>();
+		pt_objs = new HashMap<>();
 		
 		me.getP2Set().forall( new P2SetVisitor() {
 			@Override

@@ -24,7 +24,7 @@ class CriticalSectionGroup implements Iterable<CriticalSection>
 	public CriticalSectionGroup(int groupNum)
 	{
 		this.groupNum = groupNum;
-		this.criticalSections = new ArrayList<CriticalSection>();
+		this.criticalSections = new ArrayList<>();
 		this.rwSet = new CodeBlockRWSet();
 		
 		this.isDynamicLock = false;

@@ -101,7 +101,7 @@ public class InnerClassAttribute implements Tag
 		}
 		
 		if (list == null)
-			list = new ArrayList<InnerClassTag>();
+			list = new ArrayList<>();
 		list.add(newt);
 	}
 }

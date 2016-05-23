@@ -260,8 +260,8 @@ public class Shimple
 
         /* Ok, continuing... */
             
-        Set<Unit> preds = new HashSet<Unit>();
-        Set<PhiExpr> phis  = new HashSet<PhiExpr>();
+        Set<Unit> preds = new HashSet<>();
+        Set<PhiExpr> phis  = new HashSet<>();
         
         // find fall-through pred
         if(!remove.equals(units.getFirst())){

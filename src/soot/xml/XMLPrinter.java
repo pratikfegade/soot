@@ -135,12 +135,12 @@ public class XMLPrinter {
         long labelID = 0;
 
         // lists
-        Vector<String> useList = new Vector<String>();
-        Vector<Vector<Long>> useDataList = new Vector<Vector<Long>>();
-        Vector<String> defList = new Vector<String>();
-        Vector<Vector<Long>> defDataList = new Vector<Vector<Long>>();
-        Vector<Vector<String>> paramData = new Vector<Vector<String>>();
-        Vector<XMLLabel> xmlLabelsList = new Vector<XMLLabel>();
+        Vector<String> useList = new Vector<>();
+        Vector<Vector<Long>> useDataList = new Vector<>();
+        Vector<String> defList = new Vector<>();
+        Vector<Vector<Long>> defDataList = new Vector<>();
+        Vector<Vector<String>> paramData = new Vector<>();
+        Vector<XMLLabel> xmlLabelsList = new Vector<>();
         long maxStmtCount = 0;
 
         /*
@@ -290,7 +290,7 @@ public class XMLPrinter {
                     if (useDataList.size() > useIndex) {
                         tempVector = useDataList.elementAt(useIndex);
                         if (tempVector == null) {
-                            tempVector = new Vector<Long>();
+                            tempVector = new Vector<>();
                         }
                         tempVector.addElement(new Long(statementCount));
                         useDataList.setElementAt(tempVector, useIndex);
@@ -323,7 +323,7 @@ public class XMLPrinter {
                     if (defDataList.size() > defIndex) {
                         tempVector = defDataList.elementAt(defIndex);
                         if (tempVector == null) {
-                            tempVector = new Vector<Long>();
+                            tempVector = new Vector<>();
                         }
                         tempVector.addElement(new Long(statementCount));
                         defDataList.setElementAt(tempVector, defIndex);
@@ -424,7 +424,7 @@ public class XMLPrinter {
             for (int i = 0;
                 i < body.getMethod().getParameterTypes().size();
                 i++) {
-                Vector<String> tempVec = new Vector<String>();
+                Vector<String> tempVec = new Vector<>();
                 paramData.addElement(tempVec);
             }
 
@@ -514,9 +514,9 @@ public class XMLPrinter {
         // print out locals
         Collection<Local> locals = body.getLocals();
         Iterator<Local> localsIterator = locals.iterator();
-        Vector<String> localTypes = new Vector<String>();
-        Vector<Vector<XMLNode>> typedLocals = new Vector<Vector<XMLNode>>();
-        Vector<Integer> typeCounts = new Vector<Integer>();
+        Vector<String> localTypes = new Vector<>();
+        Vector<Vector<XMLNode>> typedLocals = new Vector<>();
+        Vector<Integer> typeCounts = new Vector<>();
         int j = 0;
         int currentType = 0;
 

@@ -51,8 +51,8 @@ public abstract class SETNode
 
 	parent = null;
 	label = new SETNodeLabel();
-	subBodies = new LinkedList<IterableSet>();
-	body2childChain = new HashMap<IterableSet, IterableSet>();
+	subBodies = new LinkedList<>();
+	body2childChain = new HashMap<>();
 	predecessors = new IterableSet();
 	successors = new IterableSet();
     }
@@ -136,7 +136,7 @@ public abstract class SETNode
 
     public List<Object> emit_ASTBody( IterableSet children)
     {
-	LinkedList<Object> l = new LinkedList<Object>();
+	LinkedList<Object> l = new LinkedList<>();
 
 	Iterator cit = children.iterator();
 	while (cit.hasNext()) {
@@ -223,7 +223,7 @@ public abstract class SETNode
 
 	    IterableSet body = sbit.next();
 	    IterableSet children = body2childChain.get( body);
-	    HashSet<AugmentedStmt> childUnion = new HashSet<AugmentedStmt>();
+	    HashSet<AugmentedStmt> childUnion = new HashSet<>();
 
 	    Iterator cit = children.iterator();
 	    while (cit.hasNext()) {

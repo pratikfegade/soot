@@ -175,7 +175,7 @@ public class DavaPrinter {
 
 
             Iterator<String> pit = importList.iterator();
-            List<String> toImport = new ArrayList<String>();
+            List<String> toImport = new ArrayList<>();
             while (pit.hasNext()){
             	/*
             	 * dont import any file which has currentPackage.className

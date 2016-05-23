@@ -35,10 +35,10 @@ import java.io.*;
  **/
 public class TypeResolver {
 	/** All type variable instances **/
-	private final List<TypeVariable> typeVariableList = new ArrayList<TypeVariable>();
+	private final List<TypeVariable> typeVariableList = new ArrayList<>();
 
 	/** Hashtable: [TypeNode or Local] -> TypeVariable **/
-	private final Map<Object, TypeVariable> typeVariableMap = new HashMap<Object, TypeVariable>();
+	private final Map<Object, TypeVariable> typeVariableMap = new HashMap<>();
 
 	private final JimpleBody stmtBody;
 
@@ -221,7 +221,7 @@ public class TypeResolver {
 
 	private void merge_connected_components() throws TypeException {
 		compute_solved();
-		List<TypeVariable> list = new LinkedList<TypeVariable>();
+		List<TypeVariable> list = new LinkedList<>();
 		list.addAll(solved);
 		list.addAll(unsolved);
 
@@ -237,7 +237,7 @@ public class TypeResolver {
 
 			for (TypeVariable var : unsolved) {
 
-				List<TypeVariable> children_to_remove = new LinkedList<TypeVariable>();
+				List<TypeVariable> children_to_remove = new LinkedList<>();
 				TypeNode lca = null;
 
 				var.fixChildren();
@@ -288,7 +288,7 @@ public class TypeResolver {
 
 			if (!modified) {
 				for (TypeVariable var : unsolved) {
-					List<TypeVariable> parents_to_remove = new LinkedList<TypeVariable>();
+					List<TypeVariable> parents_to_remove = new LinkedList<>();
 					TypeNode gcd = null;
 
 					var.fixParents();
@@ -506,7 +506,7 @@ public class TypeResolver {
 	}
 
 	private void compute_approximate_types() throws TypeException {
-		TreeSet<TypeVariable> workList = new TreeSet<TypeVariable>();
+		TreeSet<TypeVariable> workList = new TreeSet<>();
 
 		for (TypeVariable var : typeVariableList) {
 
@@ -517,7 +517,7 @@ public class TypeResolver {
 
 		TypeVariable.computeApprox(workList);
 
-		workList = new TreeSet<TypeVariable>();
+		workList = new TreeSet<>();
 
 		for (TypeVariable var : typeVariableList) {
 
@@ -537,8 +537,8 @@ public class TypeResolver {
 	}
 
 	private void compute_solved() {
-		Set<TypeVariable> unsolved_set = new TreeSet<TypeVariable>();
-		Set<TypeVariable> solved_set = new TreeSet<TypeVariable>();
+		Set<TypeVariable> unsolved_set = new TreeSet<>();
+		Set<TypeVariable> solved_set = new TreeSet<>();
 
 		for (TypeVariable var : typeVariableList) {
 
@@ -549,13 +549,13 @@ public class TypeResolver {
 			}
 		}
 
-		solved = new LinkedList<TypeVariable>(solved_set);
-		unsolved = new LinkedList<TypeVariable>(unsolved_set);
+		solved = new LinkedList<>(solved_set);
+		unsolved = new LinkedList<>(unsolved_set);
 	}
 
 	private void refresh_solved() throws TypeException {
-		Set<TypeVariable> unsolved_set = new TreeSet<TypeVariable>();
-		Set<TypeVariable> solved_set = new TreeSet<TypeVariable>(solved);
+		Set<TypeVariable> unsolved_set = new TreeSet<>();
+		Set<TypeVariable> solved_set = new TreeSet<>(solved);
 
 		for (TypeVariable var : unsolved) {
 
@@ -566,7 +566,7 @@ public class TypeResolver {
 			}
 		}
 
-		solved = new LinkedList<TypeVariable>(solved_set);
-		unsolved = new LinkedList<TypeVariable>(unsolved_set);
+		solved = new LinkedList<>(solved_set);
+		unsolved = new LinkedList<>(unsolved_set);
 	}
 }

@@ -150,7 +150,7 @@ class SootClassBuilder extends ClassVisitor {
 			thrownExceptions = Collections.emptyList();
 		} else {
 			int len = exceptions.length;
-			thrownExceptions = new ArrayList<SootClass>(len);
+			thrownExceptions = new ArrayList<>(len);
 			for (int i = 0; i != len; i++) {
 				String ex = AsmUtil.toQualifiedName(exceptions[i]);
 				addDep(RefType.v(ex));

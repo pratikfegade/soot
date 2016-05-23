@@ -52,7 +52,7 @@ public class CriticalSectionInterferenceGraph {
 	public void calculateGroups()
 	{
 		nextGroup = 1;
-		groups = new ArrayList<CriticalSectionGroup>();
+		groups = new ArrayList<>();
 		groups.add(new CriticalSectionGroup(0)); // dummy group
 		
 		if(optionOneGlobalLock) // use one group for all transactions

@@ -45,17 +45,17 @@ public class AltClassLoader extends ClassLoader {
 
   private String[] locations;	// Locations in the alternate
 				// classpath.
-  private final Map<String, Class<?>> alreadyFound = new HashMap<String, Class<?>>(); // Maps from already loaded
+  private final Map<String, Class<?>> alreadyFound = new HashMap<>(); // Maps from already loaded
 					    // classnames to their
 					    // Class objects.
 
-  private final Map<String, String> nameToMangledName = new HashMap<String, String>();// Maps from the names
+  private final Map<String, String> nameToMangledName = new HashMap<>();// Maps from the names
 						// of classes to be
 						// loaded from the alternate
 						// classpath to mangled
 						// names to use for them.
 
-  private final Map<String, String> mangledNameToName = new HashMap<String, String>();// Maps from the mangled names
+  private final Map<String, String> mangledNameToName = new HashMap<>();// Maps from the mangled names
 						// of classes back to their
 						// original names.
 
@@ -88,7 +88,7 @@ public class AltClassLoader extends ClassLoader {
    *
    */
   public void setAltClassPath(String altClassPath) {
-    List<String> locationList = new LinkedList<String>();
+    List<String> locationList = new LinkedList<>();
     for (StringTokenizer tokens = 
 	   new StringTokenizer(altClassPath, File.pathSeparator, false);
 	 tokens.hasMoreTokens() ; ) {

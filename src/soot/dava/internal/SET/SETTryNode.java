@@ -48,7 +48,7 @@ public class SETTryNode extends SETNode
 
 	add_SubBody( en.get_TryBody());
 
-	cb2clone = new HashMap<IterableSet, IterableSet>();
+	cb2clone = new HashMap<>();
 
 	Iterator it = en.get_CatchList().iterator();
 	while (it.hasNext()) {
@@ -108,10 +108,10 @@ public class SETTryNode extends SETNode
 
     public ASTNode emit_AST()
     {
-	LinkedList<Object> catchList = new LinkedList<Object>();
+	LinkedList<Object> catchList = new LinkedList<>();
 	HashMap<Object, Object> 
-	    exceptionMap = new HashMap<Object, Object>(),
-	    paramMap     = new HashMap<Object, Object>();
+	    exceptionMap = new HashMap<>(),
+	    paramMap     = new HashMap<>();
 
 	Iterator it = en.get_CatchList().iterator();
 	while (it.hasNext()) {

@@ -49,7 +49,7 @@ class SootMethodRefImpl implements SootMethodRef {
             boolean isStatic) {
         this.declaringClass = declaringClass;
         this.name = name;
-        List<Type> l = new ArrayList<Type>();
+        List<Type> l = new ArrayList<>();
         l.addAll(parameterTypes);
         this.parameterTypes = Collections.unmodifiableList(l);
         this.returnType = returnType;
@@ -139,7 +139,7 @@ class SootMethodRefImpl implements SootMethodRef {
         }
         cl = declaringClass;
         while(true) {
-            LinkedList<SootClass> queue = new LinkedList<SootClass>();
+            LinkedList<SootClass> queue = new LinkedList<>();
             queue.addAll( cl.getInterfaces() );
             while( !queue.isEmpty() ) {
                 SootClass iface = queue.removeFirst();

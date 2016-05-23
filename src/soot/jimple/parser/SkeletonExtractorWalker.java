@@ -227,7 +227,7 @@ public class SkeletonExtractorWalker extends Walker
 	List l = (List) mProductions.removeLast();
 
         Iterator it = l.iterator();
-        List<SootClass> exceptionClasses = new ArrayList<SootClass>(l.size());
+        List<SootClass> exceptionClasses = new ArrayList<>(l.size());
       
         while(it.hasNext()) {                   
             String className = (String) it.next();

@@ -130,11 +130,11 @@ public class JasminClass extends AbstractJasminClass
 
         int stackLimitIndex = -1;
         
-        subroutineToReturnAddressSlot = new HashMap<Unit, Integer>(10, 0.7f);
+        subroutineToReturnAddressSlot = new HashMap<>(10, 0.7f);
 
         // Determine the unitToLabel map
         {
-            unitToLabel = new HashMap<Unit, String>(instList.size() * 2 + 1, 0.7f);
+            unitToLabel = new HashMap<>(instList.size() * 2 + 1, 0.7f);
             labelCount = 0;
 
             for (UnitBox uBox : body.getUnitBoxes(true))
@@ -155,7 +155,7 @@ public class JasminClass extends AbstractJasminClass
         // Emit the exceptions, recording the Units at the beginning
 	// of handlers so that later on we can recognize blocks that 
 	// begin with an exception on the stack.
-	Set<Unit> handlerUnits = new ArraySet<Unit>(body.getTraps().size());
+	Set<Unit> handlerUnits = new ArraySet<>(body.getTraps().size());
         {
         	for (Trap trap : body.getTraps()) {
 		handlerUnits.add(trap.getHandlerUnit());
@@ -172,9 +172,9 @@ public class JasminClass extends AbstractJasminClass
             int localCount = 0;
             int[] paramSlots = new int[method.getParameterCount()];
             int thisSlot = 0;
-            Set<Local> assignedLocals = new HashSet<Local>();
+            Set<Local> assignedLocals = new HashSet<>();
             
-            localToSlot = new HashMap<Local, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
+            localToSlot = new HashMap<>(body.getLocalCount() * 2 + 1, 0.7f);
 
             //assignColorsToLocals(body);
             
@@ -287,11 +287,11 @@ public class JasminClass extends AbstractJasminClass
                                 initialHeight = new Integer(0);
                             }                                                
                             if (blockToStackHeight == null){
-                                blockToStackHeight = new HashMap<Block, Integer>();
+                                blockToStackHeight = new HashMap<>();
                             }
                             blockToStackHeight.put(entryBlock, initialHeight);
                             if (blockToLogicalStackHeight == null){
-                                blockToLogicalStackHeight = new HashMap<Block, Integer>();
+                                blockToLogicalStackHeight = new HashMap<>();
                             }
                             blockToLogicalStackHeight.put(entryBlock, initialHeight); 
                         }                

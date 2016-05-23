@@ -115,7 +115,7 @@ public class PackageNamer
     		this.parent = parent;
     		this.isClass = isClass;
 
-    		children = new ArrayList<NameHolder>();
+    		children = new ArrayList<>();
     	}
 
     	public NameHolder get_Parent() {
@@ -348,9 +348,9 @@ public class PackageNamer
     }
 
     private boolean fixed = false;
-    private final ArrayList<NameHolder> appRoots = new ArrayList<NameHolder>();
-    private final ArrayList<NameHolder> otherRoots = new ArrayList<NameHolder>();
-    private final HashSet<String> keywords = new HashSet<String>();
+    private final ArrayList<NameHolder> appRoots = new ArrayList<>();
+    private final ArrayList<NameHolder> otherRoots = new ArrayList<>();
+    private final HashSet<String> keywords = new HashSet<>();
     private char fileSep;
     private String classPath, pathSep;
     

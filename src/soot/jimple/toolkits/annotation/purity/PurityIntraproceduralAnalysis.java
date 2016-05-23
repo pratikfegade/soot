@@ -335,7 +335,7 @@ public class PurityIntraproceduralAnalysis extends ForwardFlowAnalysis
 	dot.setGraphLabel(name);
 	dot.setGraphAttribute("compound","true");
 	dot.setGraphAttribute("rankdir","LR");
-	Map<Unit, Integer> node = new HashMap<Unit, Integer>();
+	Map<Unit, Integer> node = new HashMap<>();
 	int id = 0;
 	Iterator it = graph.iterator();
 	while (it.hasNext()) {

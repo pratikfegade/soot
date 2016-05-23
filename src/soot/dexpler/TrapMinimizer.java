@@ -60,10 +60,10 @@ public class TrapMinimizer extends TrapTransformer {
 				Options.v().omit_excepting_unit_edges());
 		Set<Unit> unitsWithMonitor = getUnitsWithMonitor(eug);
 
-		Map<Trap, List<Trap>> replaceTrapBy = new HashMap<Trap, List<Trap>>(b.getTraps().size());
+		Map<Trap, List<Trap>> replaceTrapBy = new HashMap<>(b.getTraps().size());
 		boolean updateTrap = false;
 		for (Trap tr : b.getTraps()) {
-			List<Trap> newTraps = new ArrayList<Trap>(); // will contain the new traps
+			List<Trap> newTraps = new ArrayList<>(); // will contain the new traps
 			Unit firstTrapStmt = tr.getBeginUnit(); // points to the first unit in the trap
 			boolean goesToHandler = false; // true if there is an edge from the unit to the handler of the current trap
 			updateTrap = false;

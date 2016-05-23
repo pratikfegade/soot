@@ -26,7 +26,7 @@ import java.util.Set;
 
 abstract class AbstractMultiMap<K, V> implements MultiMap<K, V> {
 
-	protected final Map<K, Set<V>> map = new HashMap<K, Set<V>>();
+	protected final Map<K, Set<V>> map = new HashMap<>();
 	
 	protected final boolean create;
 	

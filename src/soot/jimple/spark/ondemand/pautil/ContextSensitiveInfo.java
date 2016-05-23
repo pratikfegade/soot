@@ -58,34 +58,34 @@ public class ContextSensitiveInfo {
      * assignment edges, but properly handling multiple calls to a method
      * VarNode -> ArraySet[AssignEdge]
      */
-    private final ArraySetMultiMap<VarNode, AssignEdge> contextSensitiveAssignEdges = new ArraySetMultiMap<VarNode, AssignEdge>();
+    private final ArraySetMultiMap<VarNode, AssignEdge> contextSensitiveAssignEdges = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<VarNode, AssignEdge> contextSensitiveAssignBarEdges = new ArraySetMultiMap<VarNode, AssignEdge>();
+    private final ArraySetMultiMap<VarNode, AssignEdge> contextSensitiveAssignBarEdges = new ArraySetMultiMap<>();
 
     /**
      * nodes in each method
      */
-    private final ArraySetMultiMap<SootMethod, VarNode> methodToNodes = new ArraySetMultiMap<SootMethod, VarNode>();
+    private final ArraySetMultiMap<SootMethod, VarNode> methodToNodes = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<SootMethod, VarNode> methodToOutPorts = new ArraySetMultiMap<SootMethod, VarNode>();
+    private final ArraySetMultiMap<SootMethod, VarNode> methodToOutPorts = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<SootMethod, VarNode> methodToInPorts = new ArraySetMultiMap<SootMethod, VarNode>();
+    private final ArraySetMultiMap<SootMethod, VarNode> methodToInPorts = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<SootMethod, Integer> callSitesInMethod = new ArraySetMultiMap<SootMethod, Integer>();
+    private final ArraySetMultiMap<SootMethod, Integer> callSitesInMethod = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<SootMethod, Integer> callSitesInvokingMethod = new ArraySetMultiMap<SootMethod, Integer>();
+    private final ArraySetMultiMap<SootMethod, Integer> callSitesInvokingMethod = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<Integer, SootMethod> callSiteToTargets = new ArraySetMultiMap<Integer, SootMethod>();
+    private final ArraySetMultiMap<Integer, SootMethod> callSiteToTargets = new ArraySetMultiMap<>();
 
-    private final ArraySetMultiMap<Integer, AssignEdge> callSiteToEdges = new ArraySetMultiMap<Integer, AssignEdge>();
+    private final ArraySetMultiMap<Integer, AssignEdge> callSiteToEdges = new ArraySetMultiMap<>();
 
-    private final Map<Integer, LocalVarNode> virtCallSiteToReceiver = new HashMap<Integer, LocalVarNode>();
+    private final Map<Integer, LocalVarNode> virtCallSiteToReceiver = new HashMap<>();
 
-    private final Map<Integer, SootMethod> callSiteToInvokedMethod = new HashMap<Integer, SootMethod>();
+    private final Map<Integer, SootMethod> callSiteToInvokedMethod = new HashMap<>();
 
-    private final Map<Integer, SootMethod> callSiteToInvokingMethod = new HashMap<Integer, SootMethod>();
+    private final Map<Integer, SootMethod> callSiteToInvokingMethod = new HashMap<>();
 
-    private final ArraySetMultiMap<LocalVarNode, Integer> receiverToVirtCallSites = new ArraySetMultiMap<LocalVarNode, Integer>();
+    private final ArraySetMultiMap<LocalVarNode, Integer> receiverToVirtCallSites = new ArraySetMultiMap<>();
 
     /**
      * 

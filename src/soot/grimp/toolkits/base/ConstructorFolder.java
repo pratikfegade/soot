@@ -69,7 +69,7 @@ public class ConstructorFolder extends BodyTransformer
                 "] Folding constructors...");
 
       Chain units = body.getUnits();
-      List<Unit> stmtList = new ArrayList<Unit>();
+      List<Unit> stmtList = new ArrayList<>();
       stmtList.addAll(units);
 
       Iterator<Unit> it = stmtList.iterator();

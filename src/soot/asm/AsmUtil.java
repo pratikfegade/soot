@@ -188,7 +188,7 @@ class AsmUtil {
 	 * @return list of types.
 	 */
 	public static List<Type> toJimpleDesc(String desc) {
-		ArrayList<Type> types = new ArrayList<Type>(2);
+		ArrayList<Type> types = new ArrayList<>(2);
 		int len = desc.length();
 		int idx = 0;
 		all:

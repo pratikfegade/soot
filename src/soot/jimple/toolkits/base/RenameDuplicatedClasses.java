@@ -71,7 +71,7 @@ public class RenameDuplicatedClasses extends SceneTransformer
 		
 		
 		Chain<SootClass> sootClasses = Scene.v().getClasses();
-		Map<String, String> lowerCaseClassNameToReal = new HashMap<String, String>();
+		Map<String, String> lowerCaseClassNameToReal = new HashMap<>();
 		
 		int count = 0;
 		
@@ -105,7 +105,7 @@ public class RenameDuplicatedClasses extends SceneTransformer
 	
 	public void duplicatedCheck(List<String> classNames)
 	{
-		Set<String> classNameSet = new HashSet<String>();
+		Set<String> classNameSet = new HashSet<>();
 		for (String className : classNames)
 		{
 			if (classNameSet.contains(className.toLowerCase()))

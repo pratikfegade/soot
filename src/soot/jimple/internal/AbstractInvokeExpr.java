@@ -76,7 +76,7 @@ abstract public class AbstractInvokeExpr implements InvokeExpr
 
     public List<Value> getArgs()
     {
-        List<Value> l = new ArrayList<Value>();
+        List<Value> l = new ArrayList<>();
         for (ValueBox element : argBoxes)
 			l.add(element.getValue());
 
@@ -106,7 +106,7 @@ abstract public class AbstractInvokeExpr implements InvokeExpr
     @Override
     public List<ValueBox> getUseBoxes()
     {    	
-        List<ValueBox> list = new ArrayList<ValueBox>();      
+        List<ValueBox> list = new ArrayList<>();
         Collections.addAll(list, argBoxes);
         
         for (ValueBox element : argBoxes) {

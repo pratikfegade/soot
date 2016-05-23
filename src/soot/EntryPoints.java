@@ -62,7 +62,7 @@ public class EntryPoints
     /** Returns only the application entry points, not including entry points
      * invoked implicitly by the VM. */
     public List<SootMethod> application() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         if(Scene.v().hasMainClass()) {
 			addMethod( ret, Scene.v().getMainClass(), sigMain );
 			for (SootMethod clinit : clinitsOf(Scene.v().getMainClass() )) {
@@ -73,7 +73,7 @@ public class EntryPoints
     }
     /** Returns only the entry points invoked implicitly by the VM. */
     public List<SootMethod> implicit() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         addMethod( ret, "<java.lang.System: void initializeSystemClass()>" );
         addMethod( ret, "<java.lang.ThreadGroup: void <init>()>");
         //addMethod( ret, "<java.lang.ThreadGroup: void remove(java.lang.Thread)>");
@@ -94,14 +94,14 @@ public class EntryPoints
     }
     /** Returns all the entry points. */
     public List<SootMethod> all() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         ret.addAll( application() );
         ret.addAll( implicit() );
         return ret;
     }
     /** Returns a list of all static initializers. */
     public List<SootMethod> clinits() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         for( Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
             addMethod( ret, cl, sigClinit );
@@ -110,7 +110,7 @@ public class EntryPoints
     }
     /** Returns a list of all constructors taking no arguments. */
     public List<SootMethod> inits() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         for( Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
             addMethod( ret, cl, sigInit );
@@ -120,7 +120,7 @@ public class EntryPoints
     
     /** Returns a list of all constructors. */
     public List<SootMethod> allInits() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         for( Iterator<SootClass> clIt = Scene.v().getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
             for(SootMethod m: cl.getMethods()) {
@@ -134,7 +134,7 @@ public class EntryPoints
 
     /** Returns a list of all concrete methods of all application classes. */
     public List<SootMethod> methodsOfApplicationClasses() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         for( Iterator<SootClass> clIt = Scene.v().getApplicationClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl =  clIt.next();
             for( Iterator<SootMethod> mIt = cl.getMethods().iterator(); mIt.hasNext(); ) {
@@ -148,7 +148,7 @@ public class EntryPoints
     /** Returns a list of all concrete main(String[]) methods of all
      * application classes. */
     public List<SootMethod> mainsOfApplicationClasses() {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         for( Iterator<SootClass> clIt = Scene.v().getApplicationClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
             SootMethod m = cl.getMethodUnsafe("void main(java.lang.String[])" );
@@ -161,7 +161,7 @@ public class EntryPoints
 
     /** Returns a list of all clinits of class cl and its superclasses. */
     public List<SootMethod> clinitsOf( SootClass cl ) {
-        List<SootMethod> ret = new ArrayList<SootMethod>();
+        List<SootMethod> ret = new ArrayList<>();
         while(true) {
             addMethod( ret, cl, sigClinit );
             if( !cl.hasSuperclass() ) break;

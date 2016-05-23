@@ -259,7 +259,7 @@ public class UselessLabeledBlockRemover extends DepthFirstAdapter{
 
     public static List<Object> createNewSubBody(List<Object> oldSubBody,int nodeNumber,ASTLabeledBlockNode labelBlock){
 	//create a new SubBody
-	List<Object> newSubBody = new ArrayList<Object>();
+	List<Object> newSubBody = new ArrayList<>();
 	
 	//this is an iterator of ASTNodes
 	Iterator<Object> it = oldSubBody.iterator();

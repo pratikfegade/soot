@@ -72,7 +72,7 @@ public class ASTIfNode extends ASTControlFlowNode
     */
     public void replace(SETNodeLabel label,ASTCondition condition, List<Object> body){
 	this.body=body;
-	subBodies= new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(body);
 	set_Condition(condition);
 	set_Label(label);
@@ -85,7 +85,7 @@ public class ASTIfNode extends ASTControlFlowNode
     */
     public void replaceBody(List<Object> body){
 	this.body=body;
-	subBodies=new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(body);
     }
 

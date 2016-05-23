@@ -44,7 +44,7 @@ public abstract class UnitMap<T> implements Map<Unit,T> {
    * @param b a Body
    */
   public UnitMap(Body b) {
-    unitToResult = new HashMap<Unit, T>();
+    unitToResult = new HashMap<>();
     map(b);
   }
 
@@ -68,7 +68,7 @@ public abstract class UnitMap<T> implements Map<Unit,T> {
    * @param initialCapacity the initialCapacity of the internal hashtable.
    */
   public UnitMap(Body b, int initialCapacity) {
-    unitToResult = new HashMap<Unit, T>(initialCapacity);
+    unitToResult = new HashMap<>(initialCapacity);
     map(b);
   }
 
@@ -95,7 +95,7 @@ public abstract class UnitMap<T> implements Map<Unit,T> {
    * @param loadFactor the loadFactor of the internal hashtable.
    */
   public UnitMap(Body b, int initialCapacity, float loadFactor) {
-    unitToResult = new HashMap<Unit, T>(initialCapacity);
+    unitToResult = new HashMap<>(initialCapacity);
     init();
     map(b);
   }

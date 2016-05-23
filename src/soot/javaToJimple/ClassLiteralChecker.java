@@ -31,7 +31,7 @@ public class ClassLiteralChecker extends polyglot.visit.NodeVisitor {
     }
 
     public ClassLiteralChecker(){
-        list = new ArrayList<Node>();
+        list = new ArrayList<>();
     }
 
     public polyglot.ast.Node override(polyglot.ast.Node parent, polyglot.ast.Node n){

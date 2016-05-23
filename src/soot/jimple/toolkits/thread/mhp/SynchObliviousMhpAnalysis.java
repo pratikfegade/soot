@@ -41,7 +41,7 @@ public class SynchObliviousMhpAnalysis implements MhpTester, Runnable
 	
 	public SynchObliviousMhpAnalysis()
 	{
-		threadList = new ArrayList<AbstractRuntimeThread>();
+		threadList = new ArrayList<>();
 		optionPrintDebug = false;
 
 		self = null;
@@ -104,7 +104,7 @@ public class SynchObliviousMhpAnalysis implements MhpTester, Runnable
 		
 		// Build MHP Lists
 //		G.v().out.println("    MHP: Building MHP Lists");
-		List<AbstractRuntimeThread> runAtOnceCandidates = new ArrayList<AbstractRuntimeThread>();
+		List<AbstractRuntimeThread> runAtOnceCandidates = new ArrayList<>();
 		Iterator threadIt = startToRunMethods.entrySet().iterator();
 		int threadNum = 0;
 		while(threadIt.hasNext())
@@ -205,7 +205,7 @@ public class SynchObliviousMhpAnalysis implements MhpTester, Runnable
 				thread.setJoinStmt(startToJoin.get(startStmt));
 				mayBeRunMultipleTimes = false; // well, actually, we don't know yet
 				methodNum = 0;
-				List<SootMethod> containingMethodCalls = new ArrayList<SootMethod>();
+				List<SootMethod> containingMethodCalls = new ArrayList<>();
 				containingMethodCalls.add(startStmtMethod);
 				while(methodNum < containingMethodCalls.size()) // iterate over all methods in threadMethods, even as new methods are being added to it
 				{
@@ -401,7 +401,7 @@ public class SynchObliviousMhpAnalysis implements MhpTester, Runnable
 			}
 		}
 
-		List<AbstractRuntimeThread> threads = new ArrayList<AbstractRuntimeThread>();
+		List<AbstractRuntimeThread> threads = new ArrayList<>();
 		int size = threadList.size();
 		G.v().out.println("[mhp]");
 		for(int i = 0; i < size; i++)
@@ -440,7 +440,7 @@ public class SynchObliviousMhpAnalysis implements MhpTester, Runnable
 		if(threadList == null)
 			return null;
 		
-		List<SootClass> threadClasses = new ArrayList<SootClass>();
+		List<SootClass> threadClasses = new ArrayList<>();
 		int size = threadList.size();
 		for(int i = 0; i < size; i++)
 		{
@@ -478,7 +478,7 @@ public class SynchObliviousMhpAnalysis implements MhpTester, Runnable
 		if(threadList == null)
 			return null;
 
-		List<AbstractRuntimeThread> threads = new ArrayList<AbstractRuntimeThread>();
+		List<AbstractRuntimeThread> threads = new ArrayList<>();
 		int size = threadList.size();
 		for(int i = 0; i < size; i++)
 		{

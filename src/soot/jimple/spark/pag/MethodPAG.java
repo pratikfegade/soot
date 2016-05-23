@@ -65,7 +65,7 @@ public final class MethodPAG {
             if( hasBeenAdded ) return;
             hasBeenAdded = true;
         } else {
-            if( addedContexts == null ) addedContexts = new HashSet<Context>();
+            if( addedContexts == null ) addedContexts = new HashSet<>();
             if( !addedContexts.add( varNodeParameter ) ) return;
         }
         QueueReader<Node> reader = internalReader.clone();
@@ -115,9 +115,9 @@ public final class MethodPAG {
             pag.addEdge(src, dst);
         }        
     }
-    private final ChunkedQueue<Node> internalEdges = new ChunkedQueue<Node>();
-    private final ChunkedQueue<Node> inEdges = new ChunkedQueue<Node>();
-    private final ChunkedQueue<Node> outEdges = new ChunkedQueue<Node>();
+    private final ChunkedQueue<Node> internalEdges = new ChunkedQueue<>();
+    private final ChunkedQueue<Node> inEdges = new ChunkedQueue<>();
+    private final ChunkedQueue<Node> outEdges = new ChunkedQueue<>();
     private final QueueReader<Node> internalReader = internalEdges.reader();
     private final QueueReader<Node> inReader = inEdges.reader();
     private final QueueReader<Node> outReader = outEdges.reader();

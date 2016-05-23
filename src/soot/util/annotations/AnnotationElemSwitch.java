@@ -58,7 +58,7 @@ public class AnnotationElemSwitch extends AbstractAnnotationElemTypeSwitch {
 
 		Object result = aic.create(v.getValue());
 
-		setResult(new AnnotationElemResult<Object>(v.getName(), result));
+		setResult(new AnnotationElemResult<>(v.getName(), result));
 	}
 
 	@Override
@@ -80,13 +80,13 @@ public class AnnotationElemSwitch extends AbstractAnnotationElemTypeSwitch {
 			i++;
 		}
 
-		setResult(new AnnotationElemResult<Object[]>(v.getName(), result));
+		setResult(new AnnotationElemResult<>(v.getName(), result));
 
 	}
 
 	@Override
 	public void caseAnnotationBooleanElem(AnnotationBooleanElem v) {
-		setResult(new AnnotationElemResult<Boolean>(v.getName(), v.getValue()));
+		setResult(new AnnotationElemResult<>(v.getName(), v.getValue()));
 
 	}
 
@@ -103,7 +103,7 @@ public class AnnotationElemSwitch extends AbstractAnnotationElemTypeSwitch {
 
 	@Override
 	public void caseAnnotationDoubleElem(AnnotationDoubleElem v) {
-		setResult(new AnnotationElemResult<Double>(v.getName(), v.getValue()));
+		setResult(new AnnotationElemResult<>(v.getName(), v.getValue()));
 	}
 
 	@Override
@@ -140,22 +140,22 @@ public class AnnotationElemSwitch extends AbstractAnnotationElemTypeSwitch {
 
 	@Override
 	public void caseAnnotationFloatElem(AnnotationFloatElem v) {
-		setResult(new AnnotationElemResult<Float>(v.getName(), v.getValue()));
+		setResult(new AnnotationElemResult<>(v.getName(), v.getValue()));
 	}
 
 	@Override
 	public void caseAnnotationIntElem(AnnotationIntElem v) {
-		setResult(new AnnotationElemResult<Integer>(v.getName(), v.getValue()));
+		setResult(new AnnotationElemResult<>(v.getName(), v.getValue()));
 	}
 
 	@Override
 	public void caseAnnotationLongElem(AnnotationLongElem v) {
-		setResult(new AnnotationElemResult<Long>(v.getName(), v.getValue()));
+		setResult(new AnnotationElemResult<>(v.getName(), v.getValue()));
 	}
 
 	@Override
 	public void caseAnnotationStringElem(AnnotationStringElem v) {
-		setResult(new AnnotationElemResult<String>(v.getName(), v.getValue()));
+		setResult(new AnnotationElemResult<>(v.getName(), v.getValue()));
 	}
 
 	@Override

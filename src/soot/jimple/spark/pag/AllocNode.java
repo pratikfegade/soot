@@ -71,13 +71,13 @@ public class AllocNode extends Node implements Context {
     }
     /** Registers a AllocDotField as having this node as its base. */
     void addField( AllocDotField adf, SparkField field ) {
-	if( fields == null ) fields = new HashMap<SparkField, AllocDotField>();
+	if( fields == null ) fields = new HashMap<>();
         fields.put( field, adf );
     }
 
     public Set<AllocDotField> getFields() {
         if( fields == null ) return Collections.emptySet();
-        return new HashSet<AllocDotField>( fields.values() );
+        return new HashSet<>(fields.values());
     }
 
     /* End of package methods. */

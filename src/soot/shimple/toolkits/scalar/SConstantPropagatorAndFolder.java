@@ -261,15 +261,15 @@ class SCPFAnalysis extends ForwardBranchedFlowAnalysis
     {
         super(graph);
         emptySet = new ArraySparseSet();
-        stmtToReplacement = new HashMap<Stmt, GotoStmt>();
-        deadStmts = new ArrayList<IfStmt>();
+        stmtToReplacement = new HashMap<>();
+        deadStmts = new ArrayList<>();
         
         // initialise localToConstant map -- assume all scalars are
         // constant (Top)
         {
         	Collection<Local> locals = graph.getBody().getLocals();
             Iterator<Local> localsIt = locals.iterator();
-            localToConstant = new HashMap<Local, Constant>(graph.size() * 2 + 1, 0.7f);
+            localToConstant = new HashMap<>(graph.size() * 2 + 1, 0.7f);
 
             while(localsIt.hasNext()){
                 Local local = localsIt.next();

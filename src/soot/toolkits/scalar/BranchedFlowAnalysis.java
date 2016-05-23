@@ -56,8 +56,8 @@ public abstract class BranchedFlowAnalysis<N extends Unit,A> extends AbstractFlo
     {
         super(graph);
 
-        unitToAfterFallFlow = new HashMap<Unit, List<A>>(graph.size() * 2 + 1, 0.7f);
-        unitToAfterBranchFlow = new HashMap<Unit, List<A>>(graph.size() * 2 + 1, 0.7f);
+        unitToAfterFallFlow = new HashMap<>(graph.size() * 2 + 1, 0.7f);
+        unitToAfterBranchFlow = new HashMap<>(graph.size() * 2 + 1, 0.7f);
     }
 
     /** Given the merge of the <code>in</code> sets, 

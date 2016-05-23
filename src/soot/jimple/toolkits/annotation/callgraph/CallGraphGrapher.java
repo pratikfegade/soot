@@ -39,10 +39,10 @@ public class CallGraphGrapher extends SceneTransformer
     private ArrayList<MethInfo> getTgtMethods(SootMethod method, boolean recurse){
         //G.v().out.println("meth for tgts: "+method);
         if (!method.hasActiveBody()){
-            return new ArrayList<MethInfo>();
+            return new ArrayList<>();
         }
         Body b = method.getActiveBody();
-        ArrayList<MethInfo> list = new ArrayList<MethInfo>();
+        ArrayList<MethInfo> list = new ArrayList<>();
         Iterator sIt = b.getUnits().iterator();
         while (sIt.hasNext()){
             Stmt s = (Stmt) sIt.next();
@@ -87,7 +87,7 @@ public class CallGraphGrapher extends SceneTransformer
     
     private ArrayList<MethInfo> getSrcMethods(SootMethod method, boolean recurse){
         //G.v().out.println("meth for srcs: "+method);
-        ArrayList<MethInfo> list = new ArrayList<MethInfo>();
+        ArrayList<MethInfo> list = new ArrayList<>();
         
         for( Iterator momcIt = methodToContexts.get(method).iterator(); momcIt.hasNext(); ) {
             final MethodOrMethodContext momc = (MethodOrMethodContext) momcIt.next();

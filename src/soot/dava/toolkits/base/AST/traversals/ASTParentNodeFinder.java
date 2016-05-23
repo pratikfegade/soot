@@ -57,14 +57,14 @@ public class ASTParentNodeFinder extends DepthFirstAdapter{
     Stack<ASTNode> parentStack;
 
     public ASTParentNodeFinder(){
-	parentOf = new HashMap<Unit, ASTNode>();
-	parentStack = new Stack<ASTNode>();
+	parentOf = new HashMap<>();
+	parentStack = new Stack<>();
     }
 
     public ASTParentNodeFinder(boolean verbose){
 	super(verbose);
-	parentOf = new HashMap<Unit, ASTNode>();
-	parentStack = new Stack<ASTNode>();
+	parentOf = new HashMap<>();
+	parentStack = new Stack<>();
     }
 
     public void inASTMethodNode(ASTMethodNode node){

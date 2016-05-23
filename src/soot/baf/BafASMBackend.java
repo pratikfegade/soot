@@ -67,7 +67,7 @@ import soot.util.Chain;
 public class BafASMBackend extends AbstractASMBackend {
 
 	// Contains one Label for every Unit that is the target of a branch or jump
-	protected final Map<Unit, Label> branchTargetLabels = new HashMap<Unit, Label>();
+	protected final Map<Unit, Label> branchTargetLabels = new HashMap<>();
 	
 	/**
 	 * Returns the ASM Label for a given Unit that is the target of a branch or jump
@@ -79,7 +79,7 @@ public class BafASMBackend extends AbstractASMBackend {
 	}
 
 	// Contains a mapping of local variables to indices in the local variable stack
-	protected final Map<Local, Integer> localToSlot = new HashMap<Local, Integer>();
+	protected final Map<Local, Integer> localToSlot = new HashMap<>();
 
 	/**
 	 * Creates a new BafASMBackend with a given enforced java version
@@ -149,7 +149,7 @@ public class BafASMBackend extends AbstractASMBackend {
 		 */
 		int localCount = 0;
 		int[] paramSlots = new int[method.getParameterCount()];
-		Set<Local> assignedLocals = new HashSet<Local>();
+		Set<Local> assignedLocals = new HashSet<>();
 
 		/*
 		 * For non-static methods the first parameters and zero-slot is the

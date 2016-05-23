@@ -58,7 +58,7 @@ public abstract class BodyTransformer extends Transformer
 
     public final void transform(Body b, String phaseName)
     {
-        HashMap<String, String> dummyOptions = new HashMap<String, String>();
+        HashMap<String, String> dummyOptions = new HashMap<>();
         dummyOptions.put( "enabled", "true" );
 
 //        System.out.println("Trying to acquire lock");

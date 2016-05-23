@@ -58,7 +58,7 @@ public class Aggregator extends BodyTransformer
 
         boolean changed = false;
 
-        Map<ValueBox, Zone> boxToZone = new HashMap<ValueBox, Zone>(body.getUnits().size() * 2 + 1, 0.7f);
+        Map<ValueBox, Zone> boxToZone = new HashMap<>(body.getUnits().size() * 2 + 1, 0.7f);
 
         // Determine the zone of every box
         {
@@ -147,9 +147,9 @@ public class Aggregator extends BodyTransformer
           boolean propagatingInvokeExpr = false;
           boolean propagatingFieldRef = false;
           boolean propagatingArrayRef = false;
-          List<FieldRef> fieldRefList = new ArrayList<FieldRef>();
+          List<FieldRef> fieldRefList = new ArrayList<>();
       
-          List<Value> localsUsed = new ArrayList<Value>();
+          List<Value> localsUsed = new ArrayList<>();
           for (ValueBox vb : s.getUseBoxes()) {
               Value v = vb.getValue();
                 if (v instanceof Local) {

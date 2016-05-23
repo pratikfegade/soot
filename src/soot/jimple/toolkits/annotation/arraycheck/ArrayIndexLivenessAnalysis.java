@@ -66,7 +66,7 @@ import soot.toolkits.scalar.BackwardFlowAnalysis;
 
 class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
 {
-    HashSet<Local> fullSet = new HashSet<Local>();
+    HashSet<Local> fullSet = new HashSet<>();
     ExceptionalUnitGraph eug;
 
     /* for each unit, kill set has variables to be killed.
@@ -120,16 +120,16 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         retrieveAllArrayLocals(eug.getBody(), fullSet);
         
         /* compute gen set, kill set, and condition set */
-        genOfUnit = new HashMap<Stmt, HashSet<Object>>(eug.size()*2+1);
-        absGenOfUnit = new HashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
-        killOfUnit = new HashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
-        conditionOfGen = new HashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
+        genOfUnit = new HashMap<>(eug.size() * 2 + 1);
+        absGenOfUnit = new HashMap<>(eug.size() * 2 + 1);
+        killOfUnit = new HashMap<>(eug.size() * 2 + 1);
+        conditionOfGen = new HashMap<>(eug.size() * 2 + 1);
         
         if (fieldin)
         {
-            localToFieldRef = new HashMap<Object, HashSet<Value>>();
-            fieldToFieldRef = new HashMap<Object, HashSet<Value>>();
-            allFieldRefs = new HashSet<Value>();
+            localToFieldRef = new HashMap<>();
+            fieldToFieldRef = new HashMap<>();
+            allFieldRefs = new HashSet<>();
         }
         
         if (arrayin)
@@ -137,19 +137,19 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
             localToArrayRef = new HashMap();
             allArrayRefs = new HashSet();
             
-            killArrayRelated = new HashMap<DefinitionStmt, Value>();
-            killAllArrayRef = new HashMap<DefinitionStmt, Boolean>();
+            killArrayRelated = new HashMap<>();
+            killAllArrayRef = new HashMap<>();
             
             if (rectarray)
             {
-                multiarraylocals = new HashSet<Local>();
+                multiarraylocals = new HashSet<>();
                 retrieveMultiArrayLocals(eug.getBody(), multiarraylocals);
             }
         }
         
         if (csin)
         {
-            localToExpr = new HashMap<Value, HashSet<Value>>();
+            localToExpr = new HashMap<>();
         }
 
         getAllRelatedMaps(eug.getBody());
@@ -224,7 +224,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                                 HashSet<Value> refs = localToExpr.get(op1);
                                 if (refs == null)
                                 {
-                                    refs = new HashSet<Value>();
+                                    refs = new HashSet<>();
                                     localToExpr.put(op1, refs);
                                 }
                                 refs.add(rhs);
@@ -232,7 +232,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                                 refs = localToExpr.get(op2);
                                 if (refs == null)
                                 {
-                                    refs = new HashSet<Value>();
+                                    refs = new HashSet<>();
                                     localToExpr.put(op2, refs);
                                 }
                                 refs.add(rhs);
@@ -244,7 +244,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                             HashSet<Value> refs = localToExpr.get(op1);
                             if (refs == null)
                             {
-                                refs = new HashSet<Value>();
+                                refs = new HashSet<>();
                                 localToExpr.put(op1, refs);
                             }
                             refs.add(rhs);
@@ -252,7 +252,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                             refs = localToExpr.get(op2);
                             if (refs == null)
                             {
-                                refs = new HashSet<Value>();
+                                refs = new HashSet<>();
                                 localToExpr.put(op2, refs);
                             }
                             refs.add(rhs);
@@ -264,7 +264,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                                 HashSet<Value> refs = localToExpr.get(op2);
                                 if (refs == null)
                                 {
-                                    refs = new HashSet<Value>();
+                                    refs = new HashSet<>();
                                     localToExpr.put(op2, refs);
                                 }
                                 refs.add(rhs);
@@ -274,7 +274,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                                     refs = localToExpr.get(op1);
                                     if (refs == null)
                                     {
-                                        refs = new HashSet<Value>();
+                                        refs = new HashSet<>();
                                         localToExpr.put(op1, refs);
                                     }
                                     refs.add(rhs);
@@ -299,7 +299,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                         HashSet<Value> baseset = localToFieldRef.get(base);
                         if (baseset == null)
                         {
-                            baseset = new HashSet<Value>();
+                            baseset = new HashSet<>();
                             localToFieldRef.put(base, baseset);
                         }
                         
@@ -308,7 +308,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
                         HashSet<Value> fieldset = fieldToFieldRef.get(field);
                         if (fieldset == null)
                         {
-                            fieldset = new HashSet<Value>();
+                            fieldset = new HashSet<>();
                             fieldToFieldRef.put(field, fieldset);
                         }
 
@@ -645,10 +645,10 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         {
             Stmt stmt = (Stmt)u;
 
-            HashSet<Object> genset = new HashSet<Object>();
-            HashSet<Value> absgenset = new HashSet<Value>();
-            HashSet<Value> killset = new HashSet<Value>();
-            HashSet<Value> condset = new HashSet<Value>();
+            HashSet<Object> genset = new HashSet<>();
+            HashSet<Value> absgenset = new HashSet<>();
+            HashSet<Value> killset = new HashSet<>();
+            HashSet<Value> condset = new HashSet<>();
             
             if (stmt instanceof DefinitionStmt)
             {

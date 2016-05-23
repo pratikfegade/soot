@@ -78,7 +78,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 
 	public MustMayInitialize(Object analyze, int MUSTorMAY) {
 		super();
-		mapping = new HashMap<Object, List>();
+		mapping = new HashMap<>();
 		MUSTMAY = MUSTorMAY;
 
 		// System.out.println("MustOrMay value is"+MUSTorMAY);
@@ -181,7 +181,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 
 				if (temp == null) {
 					// first definition
-					defs = new ArrayList<Stmt>();
+					defs = new ArrayList<>();
 				} else {
 					defs = (ArrayList<Stmt>) temp;
 				}
@@ -201,7 +201,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 
 				if (temp == null) {
 					// first definition
-					defs = new ArrayList<Stmt>();
+					defs = new ArrayList<>();
 				} else {
 					defs = (ArrayList<Stmt>) temp;
 				}

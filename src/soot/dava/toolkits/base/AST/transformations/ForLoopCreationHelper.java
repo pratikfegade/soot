@@ -54,7 +54,7 @@ public class ForLoopCreationHelper{
     public ForLoopCreationHelper(ASTStatementSequenceNode stmtSeqNode, ASTWhileNode whileNode){
 	this.stmtSeqNode=stmtSeqNode;
 	this.whileNode=whileNode;
-	varToStmtMap = new HashMap<String, Integer>();
+	varToStmtMap = new HashMap<>();
     }
 
 
@@ -68,7 +68,7 @@ public class ForLoopCreationHelper{
 
     */
     public List<Object> createNewBody(List<Object> oldSubBody, int nodeNumber){
-	List<Object> newSubBody = new ArrayList<Object>();
+	List<Object> newSubBody = new ArrayList<>();
 
 	if(oldSubBody.size()<= nodeNumber){
 	    //something is wrong since the oldSubBody has lesser nodes than nodeNumber
@@ -127,7 +127,7 @@ public class ForLoopCreationHelper{
 	    return null;
 	}
 	
-	List<String> toReturn= new ArrayList<String>();
+	List<String> toReturn= new ArrayList<>();
 
 	List<Object> statements = stmtSeqNode.getStatements();
 	Iterator<Object> stmtIt = statements.iterator();
@@ -143,8 +143,8 @@ public class ForLoopCreationHelper{
 		varToStmtMap.put(left.toString(),new Integer(stmtNum));
 	    }
 	    else{
-		toReturn = new ArrayList<String>();
-		varToStmtMap = new HashMap<String, Integer>();
+		toReturn = new ArrayList<>();
+		varToStmtMap = new HashMap<>();
 	    }
 	    stmtNum++;
 	}//going through all statements
@@ -166,7 +166,7 @@ public class ForLoopCreationHelper{
     }
 
     private List<String> getCond(ASTCondition cond){
-	List<String> toReturn=new ArrayList<String>();
+	List<String> toReturn= new ArrayList<>();
 	
 	if(cond instanceof ASTUnaryCondition){
 	    toReturn.add(cond.toString());
@@ -188,7 +188,7 @@ public class ForLoopCreationHelper{
 
     private List<String> getCommonVars(List<String> defs, List<String> condUses){
 
-	List<String> toReturn = new ArrayList<String>();
+	List<String> toReturn = new ArrayList<>();
 	Iterator<String> defIt = defs.iterator();
 
 	while(defIt.hasNext()){
@@ -301,7 +301,7 @@ public class ForLoopCreationHelper{
 
 
     private List<Object> getUpdate(List<String> defs,List<String> condUses, List<String> commonUses){
-	List<Object> toReturn = new ArrayList<Object>();
+	List<Object> toReturn = new ArrayList<>();
 
 	//most naive approach
 	List<Object> subBodies = whileNode.get_SubBodies();
@@ -418,7 +418,7 @@ public class ForLoopCreationHelper{
 	    }
 	}
 
-	List<Object> stmts = new ArrayList<Object>();
+	List<Object> stmts = new ArrayList<>();
 	
 	
 	List<Object> statements = stmtSeqNode.getStatements();
@@ -438,7 +438,7 @@ public class ForLoopCreationHelper{
 	}
 
 
-	List<Object> init = new ArrayList<Object>();
+	List<Object> init = new ArrayList<>();
 	while(stmtIt.hasNext()){
 	    init.add(stmtIt.next());
 	}

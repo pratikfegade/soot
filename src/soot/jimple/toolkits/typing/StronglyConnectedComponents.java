@@ -35,7 +35,7 @@ class StronglyConnectedComponents
   Set<TypeVariable> black;
   List<TypeVariable> finished;
   
-  List<List<TypeVariable>> forest = new LinkedList<List<TypeVariable>>();
+  List<List<TypeVariable>> forest = new LinkedList<>();
   List<TypeVariable> current_tree;
   
   private static final boolean DEBUG = false;
@@ -49,8 +49,8 @@ class StronglyConnectedComponents
   {
     variables = typeVariableList;
     
-    black = new TreeSet<TypeVariable>();
-    finished = new LinkedList<TypeVariable>();
+    black = new TreeSet<>();
+    finished = new LinkedList<>();
     
     for (TypeVariable var : variables) {
 	if(!black.contains(var))
@@ -60,12 +60,12 @@ class StronglyConnectedComponents
 	  }
       }
     
-    black = new TreeSet<TypeVariable>();
+    black = new TreeSet<>();
     
     for (TypeVariable var : finished) {
 	if(!black.contains(var))
 	  {
-	    current_tree = new LinkedList<TypeVariable>();
+	    current_tree = new LinkedList<>();
 	    forest.add(current_tree);
 	    black.add(var);
 	    dfsgt_visit(var);

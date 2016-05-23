@@ -98,8 +98,8 @@ public abstract class AbstractJasminClass
     protected Map<Local, Integer> localToColor; 
 
 
-    protected Map<Block, Integer> blockToStackHeight = new HashMap<Block, Integer>(); // maps a block to the stack height upon entering it
-    protected Map<Block, Integer> blockToLogicalStackHeight = new HashMap<Block, Integer>(); // maps a block to the logical stack height upon entering it
+    protected Map<Block, Integer> blockToStackHeight = new HashMap<>(); // maps a block to the stack height upon entering it
+    protected Map<Block, Integer> blockToLogicalStackHeight = new HashMap<>(); // maps a block to the logical stack height upon entering it
     
 
     public static String slashify(String s)
@@ -299,7 +299,7 @@ public abstract class AbstractJasminClass
     }
     
     private static Map<Integer, VisibilityAnnotationTag> safeVats =
-    		new HashMap<Integer, VisibilityAnnotationTag>();
+            new HashMap<>();
     
     private VisibilityAnnotationTag getSafeVisibilityAnnotationTag(int kind) {
     	VisibilityAnnotationTag safeVat = safeVats.get(kind);
@@ -438,7 +438,7 @@ public abstract class AbstractJasminClass
         if(Options.v().verbose())
             G.v().out.println("[" + sootClass.getName() + "] Constructing baf.JasminClass...");
 
-        code = new LinkedList<String>();
+        code = new LinkedList<>();
 
         // Emit the header
         {

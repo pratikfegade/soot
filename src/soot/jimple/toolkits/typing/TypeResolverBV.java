@@ -73,11 +73,11 @@ public class TypeResolverBV
   private final ClassHierarchy hierarchy;
 
   /** All type variable instances **/
-  private final List<TypeVariableBV> typeVariableList = new ArrayList<TypeVariableBV>();
+  private final List<TypeVariableBV> typeVariableList = new ArrayList<>();
   private final BitVector invalidIds = new BitVector();
 
   /** Hashtable: [TypeNode or Local] -> TypeVariableBV **/
-  private final Map<Object, TypeVariableBV> typeVariableMap = new HashMap<Object, TypeVariableBV>();
+  private final Map<Object, TypeVariableBV> typeVariableMap = new HashMap<>();
 
   private final JimpleBody stmtBody;
 
@@ -416,7 +416,7 @@ public class TypeResolverBV
 	LinkedList<TypeVariableBV>[] lists = new LinkedList[max + 1];
     for(int i = 0; i <= max; i++)
       {
-	lists[i] = new LinkedList<TypeVariableBV>();
+	lists[i] = new LinkedList<>();
       }
 
     for (TypeVariableBV var : typeVariableList) {
@@ -687,7 +687,7 @@ public class TypeResolverBV
 	for( BitSetIterator varIt = multiple_parents.iterator(); varIt.hasNext(); ) {
 	
 	    final TypeVariableBV var = typeVariableForId(varIt.next());
-	    LinkedList<TypeVariableBV> hp = new LinkedList<TypeVariableBV>(); // hard parents
+	    LinkedList<TypeVariableBV> hp = new LinkedList<>(); // hard parents
 	    
 	    for( BitSetIterator parentIt = var.parents().iterator(); parentIt.hasNext(); ) {
 	    
@@ -878,7 +878,7 @@ public class TypeResolverBV
 
   private void compute_approximate_types() throws TypeException
   {
-    TreeSet<TypeVariableBV> workList = new TreeSet<TypeVariableBV>();
+    TreeSet<TypeVariableBV> workList = new TreeSet<>();
 
     for (TypeVariableBV var : typeVariableList) {
 

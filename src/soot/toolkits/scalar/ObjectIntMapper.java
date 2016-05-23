@@ -38,8 +38,8 @@ public class ObjectIntMapper<E> {
   private Map<E, Integer> objectToInts;
   
   public ObjectIntMapper() {
-    intToObjects = new Vector<E>();
-    objectToInts = new HashMap<E, Integer>();
+    intToObjects = new Vector<>();
+    objectToInts = new HashMap<>();
     counter = 0;
   }
 
@@ -52,8 +52,8 @@ public class ObjectIntMapper<E> {
   }
 
   private ObjectIntMapper(Iterator<E> it, int initSize) {
-    intToObjects = new Vector<E>(initSize);
-    objectToInts = new HashMap<E, Integer>(initSize);
+    intToObjects = new Vector<>(initSize);
+    objectToInts = new HashMap<>(initSize);
     counter = 0;
     while (it.hasNext())
       add(it.next());

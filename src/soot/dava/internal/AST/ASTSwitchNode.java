@@ -66,7 +66,7 @@ public class ASTSwitchNode extends ASTLabeledNode
     public void replaceIndex2BodyList(Map<Object, List<Object>> index2BodyList){
 	this.index2BodyList=index2BodyList;
 
-	subBodies = new ArrayList<Object>();
+	subBodies = new ArrayList<>();
 	Iterator<Object> it = indexList.iterator();
 	while (it.hasNext()) {
 	    List body = index2BodyList.get( it.next());

@@ -49,12 +49,12 @@ public class LabelToNodeMapper extends DepthFirstAdapter {
 	private final HashMap<String, ASTLabeledNode> labelsToNode;
 	
 	public LabelToNodeMapper(){
-		labelsToNode = new HashMap<String, ASTLabeledNode>();
+		labelsToNode = new HashMap<>();
 	}
 	
 	public LabelToNodeMapper(boolean verbose){
 		super(verbose);
-		labelsToNode = new HashMap<String, ASTLabeledNode>();
+		labelsToNode = new HashMap<>();
 	}
 	
 	/*

@@ -252,7 +252,7 @@ public class Util
             {
                 Type[] types = jimpleTypesOfFieldOrMethodDescriptor(methodDescriptor);
     
-                parameterTypes = new ArrayList<Type>();
+                parameterTypes = new ArrayList<>();
                 for(int j = 0; j < types.length - 1; j++){
                     references.add(types[j]);
                     parameterTypes.add(types[j]);
@@ -446,7 +446,7 @@ public class Util
         return types[types.length - 1];
     }
 
-    private final ArrayList<Type> conversionTypes = new ArrayList<Type>();
+    private final ArrayList<Type> conversionTypes = new ArrayList<>();
     
     /*
     private Map cache = new HashMap();
@@ -557,7 +557,7 @@ public class Util
 */
 
 
-    private final Map<String, Type[]> cache = new HashMap<String, Type[]>();
+    private final Map<String, Type[]> cache = new HashMap<>();
     public Type[] jimpleTypesOfFieldOrMethodDescriptor(String descriptor)
     {
         Type[] ret = cache.get(descriptor);
@@ -927,12 +927,12 @@ swtch:
         name = "l" + index; // generate a default name for the local
       }
 
-      if(nameToIndexToLocal == null) nameToIndexToLocal = new HashMap<String, Map<Integer, Local>>();
+      if(nameToIndexToLocal == null) nameToIndexToLocal = new HashMap<>();
       
       Map<Integer,Local> indexToLocal;
       
       if(!nameToIndexToLocal.containsKey(name)) {
-        indexToLocal = new HashMap<Integer, Local>();
+        indexToLocal = new HashMap<>();
         nameToIndexToLocal.put(name, indexToLocal);
       }else indexToLocal = nameToIndexToLocal.get(name);
 
@@ -1069,7 +1069,7 @@ swtch:
     }
     
     private ArrayList<AnnotationElem> createElementTags(int count, ClassFile coffiClass, element_value [] elems){
-        ArrayList<AnnotationElem> list = new ArrayList<AnnotationElem>();
+        ArrayList<AnnotationElem> list = new ArrayList<>();
         for (int j = 0; j < count; j++){
             element_value ev = elems[j];
             char kind = ev.tag;

@@ -31,10 +31,10 @@ public class heuristicTuple{
 
     public heuristicTuple(int bits){
     	heuristics =new BitSet(bits);
-    	this.methodName= new Vector<String>();
-    	this.objectClassName = new Vector<String>();
-    	this.fieldName = new Vector<String>();
-    	this.castStrings = new Vector<String>();
+    	this.methodName= new Vector<>();
+    	this.objectClassName = new Vector<>();
+    	this.fieldName = new Vector<>();
+    	this.castStrings = new Vector<>();
     	bitSetSize=bits;
     }
 

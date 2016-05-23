@@ -50,8 +50,8 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 	protected Body mBody;
 	protected Chain<Unit> mUnits;
 	protected List<Block> mBlocks;
-	protected List<Block> mHeads = new ArrayList<Block>();
-	protected List<Block> mTails = new ArrayList<Block>();
+	protected List<Block> mHeads = new ArrayList<>();
+	protected List<Block> mTails = new ArrayList<>();
 
 	/**
 	 * Create a <code>BlockGraph</code> representing at the basic block level
@@ -121,7 +121,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			throw new RuntimeException(
 					"BlockGraph.computeLeaders() called with a UnitGraph that doesn't match its mBody.");
 		}
-		Set<Unit> leaders = new HashSet<Unit>();
+		Set<Unit> leaders = new HashSet<>();
 
 		// Trap handlers start new basic blocks, no matter how many
 		// predecessors they have.
@@ -180,8 +180,8 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 	 *         the block which contains them.
 	 */
 	protected Map<Unit, Block> buildBlocks(Set<Unit> leaders, UnitGraph unitGraph) {
-		List<Block> blockList = new ArrayList<Block>(leaders.size());
-		Map<Unit, Block> unitToBlock = new HashMap<Unit, Block>(); // Maps head
+		List<Block> blockList = new ArrayList<>(leaders.size());
+		Map<Unit, Block> unitToBlock = new HashMap<>(); // Maps head
 																	// and tail
 																	// units to
 		// their blocks, for building
@@ -239,7 +239,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			Block block = blockIt.next();
 
 			List<Unit> predUnits = unitGraph.getPredsOf(block.getHead());
-			List<Block> predBlocks = new ArrayList<Block>(predUnits.size());
+			List<Block> predBlocks = new ArrayList<>(predUnits.size());
 			for (Iterator<Unit> predIt = predUnits.iterator(); predIt.hasNext();) {
 				Unit predUnit = predIt.next();
 				Block predBlock = unitToBlock.get(predUnit);
@@ -273,7 +273,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			}
 
 			List<Unit> succUnits = unitGraph.getSuccsOf(block.getTail());
-			List<Block> succBlocks = new ArrayList<Block>(succUnits.size());
+			List<Block> succBlocks = new ArrayList<>(succUnits.size());
 			for (Iterator<Unit> succIt = succUnits.iterator(); succIt.hasNext();) {
 				Unit succUnit = succIt.next();
 				Block succBlock = unitToBlock.get(succUnit);

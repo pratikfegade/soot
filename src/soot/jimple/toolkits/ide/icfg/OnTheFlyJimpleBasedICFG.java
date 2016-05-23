@@ -110,7 +110,7 @@ public class OnTheFlyJimpleBasedICFG extends AbstractJimpleBasedICFG {
 			});
 	
 	@SynchronizedBy("explicit lock on data structure")
-	protected Map<SootMethod, Set<Unit>> methodToCallers = new HashMap<SootMethod, Set<Unit>>();
+	protected Map<SootMethod, Set<Unit>> methodToCallers = new HashMap<>();
 	
 	public OnTheFlyJimpleBasedICFG(SootMethod... entryPoints) {
 		this(Arrays.asList(entryPoints));
@@ -168,7 +168,7 @@ public class OnTheFlyJimpleBasedICFG extends AbstractJimpleBasedICFG {
 		synchronized (methodToCallers) {
 			Set<Unit> callers = methodToCallers.get(target);
 			if (callers == null) {
-				callers = new HashSet<Unit>();
+				callers = new HashSet<>();
 				methodToCallers.put(target, callers);
 			}
 			callers.add(callSite);
@@ -202,8 +202,8 @@ public class OnTheFlyJimpleBasedICFG extends AbstractJimpleBasedICFG {
 				
 				SootMethod mainMethod = Scene.v().getMainMethod();
 				OnTheFlyJimpleBasedICFG icfg = new OnTheFlyJimpleBasedICFG(mainMethod);
-				Set<SootMethod> worklist = new LinkedHashSet<SootMethod>();
-				Set<SootMethod> visited = new HashSet<SootMethod>();
+				Set<SootMethod> worklist = new LinkedHashSet<>();
+				Set<SootMethod> visited = new HashSet<>();
 				worklist.add(mainMethod);
 				int monomorphic = 0, polymorphic = 0;
 				while(!worklist.isEmpty()) {

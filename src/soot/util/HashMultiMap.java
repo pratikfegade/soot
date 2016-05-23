@@ -29,7 +29,7 @@ public class HashMultiMap<K,V> extends AbstractMultiMap<K, V> {
     protected final Map<K,Set<V>> m;
 
     protected Map<K, Set<V>> createMap() {
-    	return new HashMap<K,Set<V>>(0);
+    	return new HashMap<>(0);
     }
     
     public HashMultiMap() {
@@ -64,7 +64,7 @@ public class HashMultiMap<K,V> extends AbstractMultiMap<K, V> {
     }
 
     protected Set<V> newSet() {
-        return new HashSet<V>(4);
+        return new HashSet<>(4);
     }
     
     private Set<V> findSet( K key ) {
@@ -128,7 +128,7 @@ public class HashMultiMap<K,V> extends AbstractMultiMap<K, V> {
 
     @Override
     public Set<V> values() {
-        Set<V> ret = new HashSet<V>(m.size());
+        Set<V> ret = new HashSet<>(m.size());
         for (Set<V> s : m.values())
             ret.addAll(s);
         return ret;

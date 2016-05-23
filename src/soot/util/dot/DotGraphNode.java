@@ -68,7 +68,7 @@ public class DotGraphNode implements Renderable{
 
   public void setAttribute(String id, String value) {
     if (this.attributes == null) {
-      this.attributes = new LinkedList<DotGraphAttribute>();
+      this.attributes = new LinkedList<>();
     }
     
     this.setAttribute(new DotGraphAttribute(id, value));    
@@ -76,7 +76,7 @@ public class DotGraphNode implements Renderable{
 
   public void setAttribute(DotGraphAttribute attr) {
     if (this.attributes == null) {
-      this.attributes = new LinkedList<DotGraphAttribute>();
+      this.attributes = new LinkedList<>();
     }
     
     this.attributes.add(attr);    

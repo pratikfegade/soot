@@ -166,7 +166,7 @@ public class ClassHierarchy {
   };
   
   /** Map: Type -> TypeNode **/
-  private final Map<Type,TypeNode> typeNodeMap = new HashMap<Type,TypeNode>();
+  private final Map<Type,TypeNode> typeNodeMap = new HashMap<>();
   
   /** Get the type node for the given type. **/
 	public TypeNode typeNode(Type type) {

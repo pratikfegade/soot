@@ -82,7 +82,7 @@ public class UnusedLocalEliminator extends BodyTransformer {
 		}
 
 		// Remove all locals that are unused.
-		List<Local> keep = new ArrayList<Local>(locals.length);
+		List<Local> keep = new ArrayList<>(locals.length);
 		for ( Local local : locals ) {
 			int lno = local.getNumber();
 			local.setNumber(oldNumbers[lno]);

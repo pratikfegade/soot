@@ -160,7 +160,7 @@ public class AnnotationGenerator {
 	 * @return
 	 */
 	private VisibilityAnnotationTag findOrAdd(Host h, int visibility) {
-		ArrayList<VisibilityAnnotationTag> va_tags = new ArrayList<VisibilityAnnotationTag>();
+		ArrayList<VisibilityAnnotationTag> va_tags = new ArrayList<>();
 		
 		for (Tag t : h.getTags()) {
 			if(t instanceof VisibilityAnnotationTag) {

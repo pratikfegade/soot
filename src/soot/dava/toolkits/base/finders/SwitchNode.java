@@ -83,7 +83,7 @@ public class SwitchNode implements Comparable
 
     public TreeSet<Object> get_IndexSet()
     {
-	return new TreeSet<Object>(indexSet);
+	return new TreeSet<>(indexSet);
     }
 
     public IterableSet get_Body()

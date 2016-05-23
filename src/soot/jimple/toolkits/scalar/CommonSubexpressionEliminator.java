@@ -60,7 +60,7 @@ public class CommonSubexpressionEliminator extends BodyTransformer
 
         // Sigh.  check for name collisions.
         Iterator<Local> localsIt = b.getLocals().iterator();
-        Set<String> localNames = new HashSet<String>(b.getLocals().size());
+        Set<String> localNames = new HashSet<>(b.getLocals().size());
         while (localsIt.hasNext())
         {
             localNames.add((localsIt.next()).getName());

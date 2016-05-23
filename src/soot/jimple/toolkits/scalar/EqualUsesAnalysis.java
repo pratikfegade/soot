@@ -50,7 +50,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 
 	public boolean areEqualUses(Stmt firstStmt, Local firstLocal, Stmt secondStmt, Local secondLocal)
 	{
-		Map<Stmt, Local> stmtToLocal = new HashMap<Stmt, Local>();
+		Map<Stmt, Local> stmtToLocal = new HashMap<>();
 		stmtToLocal.put(firstStmt, firstLocal);
 		stmtToLocal.put(secondStmt, secondLocal);
 		return areEqualUses(stmtToLocal, new ArrayList());
@@ -58,7 +58,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 	
 	public boolean areEqualUses(Stmt firstStmt, Local firstLocal, Stmt secondStmt, Local secondLocal, List boundaryStmts)
 	{
-		Map<Stmt, Local> stmtToLocal = new HashMap<Stmt, Local>();
+		Map<Stmt, Local> stmtToLocal = new HashMap<>();
 		stmtToLocal.put(firstStmt, firstLocal);
 		stmtToLocal.put(secondStmt, secondLocal);
 		return areEqualUses(stmtToLocal, boundaryStmts);
@@ -75,8 +75,8 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 		this.useStmts = stmtToLocal.keySet();
 		this.useLocals = stmtToLocal.values();
 		this.boundaryStmts = boundaryStmts;
-		this.redefStmts = new ArrayList<Stmt>();
-		this.firstUseToAliasSet = new HashMap<Stmt, List>();
+		this.redefStmts = new ArrayList<>();
+		this.firstUseToAliasSet = new HashMap<>();
 
 //		G.v().out.println("Checking for Locals " + useLocals + " in these statements: " + useStmts);
 
@@ -159,7 +159,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 		in.copy(out);
 
 		// get list of definitions at this unit
-		List<Value> newDefs = new ArrayList<Value>();
+		List<Value> newDefs = new ArrayList<>();
 		Iterator<ValueBox> newDefBoxesIt = stmt.getDefBoxes().iterator();
 		while(newDefBoxesIt.hasNext())
 		{

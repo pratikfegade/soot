@@ -105,12 +105,12 @@ public class JDynamicInvokeExpr extends AbstractInvokeExpr  implements DynamicIn
     
     public Object clone() 
     {
-        List<Value> clonedBsmArgs = new ArrayList<Value>(getBootstrapArgCount());
+        List<Value> clonedBsmArgs = new ArrayList<>(getBootstrapArgCount());
         for(int i = 0; i < getBootstrapArgCount(); i++) {
             clonedBsmArgs.add(i, getBootstrapArg(i));
         }
         
-        List<Value> clonedArgs = new ArrayList<Value>(getArgCount());
+        List<Value> clonedArgs = new ArrayList<>(getArgCount());
         for(int i = 0; i < getArgCount(); i++) {
             clonedArgs.add(i, getArg(i));
         }
@@ -235,7 +235,7 @@ public class JDynamicInvokeExpr extends AbstractInvokeExpr  implements DynamicIn
     		((ConvertToBaf)(element.getValue())).convertToBaf(context, out);
     	}
 
-    	List<Value> bsmArgs = new ArrayList<Value>();
+    	List<Value> bsmArgs = new ArrayList<>();
     	for (ValueBox argBox : bsmArgBoxes) {
     		bsmArgs.add(argBox.getValue());
     	}
@@ -251,7 +251,7 @@ public class JDynamicInvokeExpr extends AbstractInvokeExpr  implements DynamicIn
     
     public List<Value> getBootstrapArgs()
     {
-        List<Value> l = new ArrayList<Value>();
+        List<Value> l = new ArrayList<>();
         for (ValueBox element : bsmArgBoxes)
 			l.add(element.getValue());
 

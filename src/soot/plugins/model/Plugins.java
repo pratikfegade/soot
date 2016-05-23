@@ -37,7 +37,7 @@ public class Plugins {
 	/**
 	 * List of all plugin entries.
 	 */
-	private final List<PluginDescription> pluginDescriptions = new LinkedList<PluginDescription>();
+	private final List<PluginDescription> pluginDescriptions = new LinkedList<>();
 	
 	@XmlElementRefs({@XmlElementRef(name="phase-plugin", type=PhasePluginDescription.class)})
     public List<PluginDescription> getPluginDescriptions() {

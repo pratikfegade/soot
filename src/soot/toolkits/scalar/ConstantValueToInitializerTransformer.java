@@ -56,7 +56,7 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
     
 	public void transformClass(SootClass sc) {
 		SootMethod smInit = null;
-		Set<SootField> alreadyInitialized = new HashSet<SootField>();
+		Set<SootField> alreadyInitialized = new HashSet<>();
 				
 		for (SootField sf : sc.getFields()) {
 			// We can only create an initializer for static final fields that

@@ -101,11 +101,11 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 		this.dfa = dfa;
 		this.refOnly = ignoreNonRefTypeFlow;
 		
-		this.infoFlowGraph = new MemoryEfficientGraph<EquivalentValue>();
+		this.infoFlowGraph = new MemoryEfficientGraph<>();
 		this.returnRef = new ParameterRef(g.getBody().getMethod().getReturnType(), -1); // it's a dummy parameter ref
 		
-		this.entrySet = new ArraySparseSet<Pair<EquivalentValue,EquivalentValue>>();
-		this.emptySet = new ArraySparseSet<Pair<EquivalentValue,EquivalentValue>>();
+		this.entrySet = new ArraySparseSet<>();
+		this.emptySet = new ArraySparseSet<>();
 		
 		printMessages = false;
 	}
@@ -176,7 +176,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 	private ArrayList<Value> getDirectSources(Value v,
                                 FlowSet<Pair<EquivalentValue,EquivalentValue>> fs)
 	{
-		ArrayList<Value> ret = new ArrayList<Value>(); // of "interesting sources"
+		ArrayList<Value> ret = new ArrayList<>(); // of "interesting sources"
 		EquivalentValue vEqVal = new CachedEquivalentValue(v);
 		Iterator<Pair<EquivalentValue,EquivalentValue>> fsIt = fs.iterator();
 		while(fsIt.hasNext())
@@ -206,7 +206,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 			EquivalentValue sourceEqVal = new CachedEquivalentValue(source);
 			if(sinkEqVal.equals(sourceEqVal))
 				continue;
-			Pair<EquivalentValue,EquivalentValue> pair = new Pair<EquivalentValue,EquivalentValue>(
+			Pair<EquivalentValue,EquivalentValue> pair = new Pair<>(
 					sinkEqVal, sourceEqVal);
 			if(!fs.contains(pair))
 			{
@@ -249,7 +249,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 				EquivalentValue sinkEqVal = new CachedEquivalentValue(sink);
 				if(sinkEqVal.equals(sourceEqVal))
 					continue;
-				Pair<EquivalentValue,EquivalentValue> pair = new Pair<EquivalentValue,EquivalentValue>(
+				Pair<EquivalentValue,EquivalentValue> pair = new Pair<>(
 						sinkEqVal, sourceEqVal);
 				if(!fs.contains(pair))
 				{
@@ -301,7 +301,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 //			ClassInfoFlowAnalysis.printDataFlowGraph(infoFlowGraph);
 //		}
 		
-		List<Value> returnValueSources = new ArrayList<Value>();
+		List<Value> returnValueSources = new ArrayList<>();
 		
 		Iterator<EquivalentValue> nodeIt = dataFlowGraph.getNodes().iterator();
 		while(nodeIt.hasNext())
@@ -486,7 +486,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 				}
 			}
 			
-			List<Value> sources = new ArrayList<Value>();
+			List<Value> sources = new ArrayList<>();
 			boolean interestingFlow = true;
 			
 			if(rv instanceof Local)
@@ -606,7 +606,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 		EquivalentValue sourceEqVal = new CachedEquivalentValue(source);
 		if(sinkEqVal.equals(sourceEqVal))
 			return;
-		Pair<EquivalentValue,EquivalentValue> pair = new Pair<EquivalentValue,EquivalentValue>(
+		Pair<EquivalentValue,EquivalentValue> pair = new Pair<>(
 				sinkEqVal, sourceEqVal);
 		if(!entrySet.contains(pair))
 		{
@@ -620,7 +620,7 @@ public class SimpleMethodInfoFlowAnalysis extends ForwardFlowAnalysis<Unit, Flow
 		EquivalentValue sourceEqVal = new CachedEquivalentValue(source);
 		if(sinkEqVal.equals(sourceEqVal))
 			return;
-		Pair<EquivalentValue,EquivalentValue> pair = new Pair<EquivalentValue,EquivalentValue>(
+		Pair<EquivalentValue,EquivalentValue> pair = new Pair<>(
 				sinkEqVal, sourceEqVal);
 		if(!emptySet.contains(pair))
 		{

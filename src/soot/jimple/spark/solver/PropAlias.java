@@ -31,14 +31,14 @@ import java.util.*;
  */
 
 public final class PropAlias extends Propagator {
-    protected final Set<VarNode> varNodeWorkList = new TreeSet<VarNode>();
+    protected final Set<VarNode> varNodeWorkList = new TreeSet<>();
     protected Set<VarNode> aliasWorkList;
-    protected Set<FieldRefNode> fieldRefWorkList = new HashSet<FieldRefNode>();
-    protected Set<FieldRefNode> outFieldRefWorkList = new HashSet<FieldRefNode>();
+    protected Set<FieldRefNode> fieldRefWorkList = new HashSet<>();
+    protected Set<FieldRefNode> outFieldRefWorkList = new HashSet<>();
 
     public PropAlias( PAG pag ) {
         this.pag = pag;
-        loadSets = new LargeNumberedMap<FieldRefNode, PointsToSetInternal>( pag.getFieldRefNodeNumberer() );
+        loadSets = new LargeNumberedMap<>(pag.getFieldRefNodeNumberer());
     }
 
     /** Actually does the propagation. */
@@ -63,7 +63,7 @@ public final class PropAlias extends Propagator {
                 G.v().out.println( "Worklist has "+varNodeWorkList.size()+
                         " nodes." );
             }
-            aliasWorkList = new HashSet<VarNode>();
+            aliasWorkList = new HashSet<>();
             while( !varNodeWorkList.isEmpty() ) {
                 VarNode src = varNodeWorkList.iterator().next();
                 varNodeWorkList.remove( src );
@@ -106,7 +106,7 @@ public final class PropAlias extends Propagator {
                 }
                 src.getP2Set().flushNew();
             }
-            fieldRefWorkList = new HashSet<FieldRefNode>();
+            fieldRefWorkList = new HashSet<>();
             for (FieldRefNode src : outFieldRefWorkList) {
                 PointsToSetInternal set = getP2Set( src ).getNewSet();
                 if( set.isEmpty() ) continue;
@@ -119,7 +119,7 @@ public final class PropAlias extends Propagator {
                 }
                 getP2Set( src ).flushNew();
             }
-            outFieldRefWorkList = new HashSet<FieldRefNode>();
+            outFieldRefWorkList = new HashSet<>();
 	} while( !varNodeWorkList.isEmpty() );
     }
 
@@ -231,8 +231,8 @@ public final class PropAlias extends Propagator {
     }
 
     protected PAG pag;
-    protected MultiMap<SparkField, VarNode> fieldToBase = new HashMultiMap<SparkField, VarNode>();
-    protected MultiMap<FieldRefNode, FieldRefNode> aliasEdges = new HashMultiMap<FieldRefNode, FieldRefNode>();
+    protected MultiMap<SparkField, VarNode> fieldToBase = new HashMultiMap<>();
+    protected MultiMap<FieldRefNode, FieldRefNode> aliasEdges = new HashMultiMap<>();
     protected LargeNumberedMap<FieldRefNode, PointsToSetInternal> loadSets;
     protected OnFlyCallGraph ofcg;
 }

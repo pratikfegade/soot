@@ -51,7 +51,7 @@ public final class ChunkedQueue<E>
     }
     /** Create reader which will read objects from the queue. */
     public QueueReader<E> reader() {
-        return new QueueReader<E>( (E[])q, index );
+        return new QueueReader<>((E[]) q, index);
     }
 }
 

@@ -55,11 +55,11 @@ public class DalvikTyper implements IDalvikTyper {
 
     private static DalvikTyper dt = null;
     
-    private Set<Constraint> constraints = new HashSet<Constraint>();
-    private Map<ValueBox, Type> typed = new HashMap<ValueBox, Type>();
-    private Map<Local, Type> localTyped = new HashMap<Local, Type>();
-    private Set<Local> localTemp = new HashSet<Local>();
-    private List<LocalObj> localObjList = new ArrayList<LocalObj>();
+    private Set<Constraint> constraints = new HashSet<>();
+    private Map<ValueBox, Type> typed = new HashMap<>();
+    private Map<Local, Type> localTyped = new HashMap<>();
+    private Set<Local> localTemp = new HashSet<>();
+    private List<LocalObj> localObjList = new ArrayList<>();
     
     private DalvikTyper() {}
     
@@ -120,7 +120,7 @@ public class DalvikTyper implements IDalvikTyper {
 	    List<ValueBox> vbList = b.getUseAndDefBoxes();
 	    
 	    // clear constraints after local splitting and dead code eliminator
-	    List<Constraint> toRemove = new ArrayList<Constraint>();
+	    List<Constraint> toRemove = new ArrayList<>();
 		for (Constraint c: constraints) {    
 		    if (!vbList.contains(c.l)) {
 		        Debug.printDbg(IDalvikTyper.DEBUG, "warning: "+ c.l +" not in locals! removing...");

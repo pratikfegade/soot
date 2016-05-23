@@ -52,8 +52,8 @@ public class SETSwitchNode extends SETDagNode
 
     public ASTNode emit_AST()
     {
-	LinkedList<Object> indexList = new LinkedList<Object>();
-	Map<Object, List<Object>> index2ASTBody = new HashMap<Object, List<Object>>();
+	LinkedList<Object> indexList = new LinkedList<>();
+	Map<Object, List<Object>> index2ASTBody = new HashMap<>();
 	
 	Iterator<SwitchNode> it = switchNodeList.iterator();
 	while (it.hasNext()) {

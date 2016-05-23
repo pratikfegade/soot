@@ -30,7 +30,7 @@ import java.util.*;
  */
 public class SlowCallGraph extends CallGraph
 { 
-    private final Set<Edge> edges = new HashSet<Edge>();
+    private final Set<Edge> edges = new HashSet<>();
     private final MultiMap srcMap = new HashMultiMap();
     private final MultiMap unitMap = new HashMultiMap();
     private final MultiMap tgtMap = new HashMultiMap();

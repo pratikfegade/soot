@@ -79,8 +79,8 @@ public class JimpleConstructorFolder extends BodyTransformer
     static Local lhsLocal(Stmt s) { return (Local) lhs(s); }
     
     private class Fact {
-        private Map<Local, Stmt> varToStmt = new HashMap<Local, Stmt>();
-        private MultiMap<Stmt,Local> stmtToVar = new HashMultiMap<Stmt,Local>();
+        private Map<Local, Stmt> varToStmt = new HashMap<>();
+        private MultiMap<Stmt,Local> stmtToVar = new HashMultiMap<>();
         private Stmt alloc = null;
         public void add(Local l, Stmt s) {
             varToStmt.put(l, s);
@@ -100,12 +100,12 @@ public class JimpleConstructorFolder extends BodyTransformer
             stmtToVar.remove(s);
         }
         public void copyFrom(Fact in) {
-            varToStmt = new HashMap<Local, Stmt>(in.varToStmt);
-            stmtToVar = new HashMultiMap<Stmt,Local>(in.stmtToVar);
+            varToStmt = new HashMap<>(in.varToStmt);
+            stmtToVar = new HashMultiMap<>(in.stmtToVar);
             alloc = in.alloc;
         }
         public void mergeFrom(Fact in1, Fact in2) {
-            varToStmt = new HashMap<Local, Stmt>();
+            varToStmt = new HashMap<>();
 
             for (Map.Entry<Local, Stmt> e : in1.varToStmt.entrySet()) {
             	Local l = e.getKey();
@@ -191,7 +191,7 @@ public class JimpleConstructorFolder extends BodyTransformer
         Analysis analysis = new Analysis(new BriefUnitGraph(body));
 
         Chain<Unit> units = body.getUnits();
-        List<Unit> stmtList = new ArrayList<Unit>();
+        List<Unit> stmtList = new ArrayList<>();
         stmtList.addAll(units);
 
         for (Unit u : stmtList) {

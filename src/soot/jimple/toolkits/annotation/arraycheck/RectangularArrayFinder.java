@@ -46,7 +46,7 @@ public class RectangularArrayFinder extends SceneTransformer
 	new ExtendedHashMutableDirectedGraph();
 
     private final Set falseSet = new HashSet();
-    private final Set<Object> trueSet = new HashSet<Object>();
+    private final Set<Object> trueSet = new HashSet<>();
     private CallGraph cg;
 
     protected void internalTransform(String phaseName, Map<String,String> opts)
@@ -153,7 +153,7 @@ public class RectangularArrayFinder extends SceneTransformer
         /* propagate graph info from TRUE node then. */
 	if (agraph.containsNode(BoolValue.v(true)))
 	{
-	    List<Object> changedNodeList = new ArrayList<Object>();
+	    List<Object> changedNodeList = new ArrayList<>();
 
 	    List startNodes = agraph.getSuccsOf(BoolValue.v(true));
 
@@ -239,7 +239,7 @@ public class RectangularArrayFinder extends SceneTransformer
 
 	Body body = method.getActiveBody();
 
-	Set<Object> tmpNode = new HashSet<Object>();
+	Set<Object> tmpNode = new HashSet<>();
 
 	/* check the return type of method, if it is multi-array. */
 
@@ -255,7 +255,7 @@ public class RectangularArrayFinder extends SceneTransformer
 	    }
 	}      
 
-	Set<Local> arrayLocal = new HashSet<Local>();
+	Set<Local> arrayLocal = new HashSet<>();
 
 	/* Collect the multi-array locals */
 
@@ -565,7 +565,7 @@ public class RectangularArrayFinder extends SceneTransformer
     private void recoverRectArray(SootMethod method)
     {
 	Body body = method.getActiveBody();
-	HashSet<Local> malocal = new HashSet<Local>();
+	HashSet<Local> malocal = new HashSet<>();
 
 	Collection<Local> locals = body.getLocals();
 	Iterator<Local> localsIt = locals.iterator();

@@ -81,7 +81,7 @@ public class InstanceOfInstruction extends DexlibAbstractInstruction {
     public Set<Type> introducedTypes() {
         ReferenceInstruction i = (ReferenceInstruction) instruction;
 
-        Set<Type> types = new HashSet<Type>();
+        Set<Type> types = new HashSet<>();
         types.add(DexType.toSoot((TypeReference) i.getReference()));
         return types;
     }

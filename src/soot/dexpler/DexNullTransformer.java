@@ -363,7 +363,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 			if (usedAsObject) {
 				for (Unit u : defs) {
 					replaceWithNull(u);
-					Set<Value> defLocals = new HashSet<Value>();
+					Set<Value> defLocals = new HashSet<>();
 					for (ValueBox vb : u.getDefBoxes())
 						defLocals.add(vb.getValue());
 					
@@ -484,7 +484,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 				if ((r instanceof IntConstant && ((IntConstant) r).value == 0)
 						|| (r instanceof LongConstant && ((LongConstant) r).value == 0)) {
 					if (candidates == null)
-						candidates = new HashSet<Local>();
+						candidates = new HashSet<>();
 					candidates.add(l);
 					Debug.printDbg("[add null candidate: ", u);
 				}
@@ -493,7 +493,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 						.getCondition();
 				if (isZeroComparison(expr) && expr.getOp1() instanceof Local) {
 					if (candidates == null)
-						candidates = new HashSet<Local>();
+						candidates = new HashSet<>();
 					candidates.add((Local) expr.getOp1());
 					Debug.printDbg("[add null candidate if: ", u);
 				}

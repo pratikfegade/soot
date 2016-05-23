@@ -52,7 +52,7 @@ public class Attribute {
 
     public void addColor(ColorAttribute ca){
         if (colors == null){
-            colors = new ArrayList<ColorAttribute>();
+            colors = new ArrayList<>();
         }
         colors.add(ca);
     }
@@ -138,14 +138,14 @@ public class Attribute {
 
     public void addText(StringAttribute s){
         if (texts == null) {
-            texts = new ArrayList<StringAttribute>();
+            texts = new ArrayList<>();
         }
         texts.add(s);
     }
 
     public void addLink(LinkAttribute la){
         if (links == null) {
-            links = new ArrayList<LinkAttribute>();
+            links = new ArrayList<>();
         }
         links.add(la);
     }

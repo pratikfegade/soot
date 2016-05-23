@@ -71,7 +71,7 @@ public abstract class AbstractASMBackend {
 	// The Java version to be used for generating this class
 	protected int javaVersion;
 	
-	private final Map<SootMethod, BafBody> bafBodyCache = new HashMap<SootMethod, BafBody>();
+	private final Map<SootMethod, BafBody> bafBodyCache = new HashMap<>();
 
 	/**
 	 * Creates a new ASM backend
@@ -296,7 +296,7 @@ public abstract class AbstractASMBackend {
 	 * Emits the bytecode for all methods of the class
 	 */
 	protected void generateMethods() {
-		List<SootMethod> sortedMethods = new ArrayList<SootMethod>(sc.getMethods());
+		List<SootMethod> sortedMethods = new ArrayList<>(sc.getMethods());
 		Collections.sort(sortedMethods, new SootMethodComparator());
 		for (SootMethod sm : sortedMethods) {
 			int access = getModifiers(sm.getModifiers(), sm);
@@ -417,7 +417,7 @@ public abstract class AbstractASMBackend {
 				&& !Options.v().no_output_inner_classes_attribute()) {
 			InnerClassAttribute ica = (InnerClassAttribute) sc
 					.getTag("InnerClassAttribute");
-			List<InnerClassTag> sortedTags = new ArrayList<InnerClassTag>(ica.getSpecs());
+			List<InnerClassTag> sortedTags = new ArrayList<>(ica.getSpecs());
 			Collections.sort(sortedTags, new SootInnerClassComparator());
 			for (InnerClassTag ict : sortedTags) {
 				String name = slashify(ict.getInnerClass());

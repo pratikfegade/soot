@@ -35,7 +35,7 @@ import java.util.*;
 
 public class JimpleToBafContext
 {
-    private Map<Local, Local> jimpleLocalToBafLocal = new HashMap<Local, Local>();
+    private Map<Local, Local> jimpleLocalToBafLocal = new HashMap<>();
     private BafBody bafBody;
     private Unit mCurrentUnit;
 
@@ -45,7 +45,7 @@ public class JimpleToBafContext
      
     public JimpleToBafContext(int localCount)
     {
-       jimpleLocalToBafLocal = new HashMap<Local, Local>(localCount * 2 + 1, 0.7f);
+       jimpleLocalToBafLocal = new HashMap<>(localCount * 2 + 1, 0.7f);
     }
 
 

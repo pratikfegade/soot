@@ -32,10 +32,10 @@ public class MonitorAnalysis extends ForwardFlowAnalysis
 {
 	
 	private PegGraph g;
-	private final HashMap<String, FlowSet> monitor = new HashMap<String, FlowSet>();
-	private final Vector<Object> nodes = new Vector<Object>();    
-	private final Vector<Object> valueBefore = new Vector<Object>();
-	private final Vector<Object> valueAfter = new Vector<Object>();
+	private final HashMap<String, FlowSet> monitor = new HashMap<>();
+	private final Vector<Object> nodes = new Vector<>();
+	private final Vector<Object> valueBefore = new Vector<>();
+	private final Vector<Object> valueAfter = new Vector<>();
 	
 	public MonitorAnalysis(PegGraph g)
 	{
@@ -49,8 +49,8 @@ public class MonitorAnalysis extends ForwardFlowAnalysis
 	
 	protected void doAnalysis()
 	{
-		LinkedList<Object> changedUnits = new LinkedList<Object>();
-		HashSet<Object> changedUnitsSet = new HashSet<Object>();
+		LinkedList<Object> changedUnits = new LinkedList<>();
+		HashSet<Object> changedUnitsSet = new HashSet<>();
 		
 		int numNodes = graph.size();
 		int numComputations = 0;
@@ -437,7 +437,7 @@ public class MonitorAnalysis extends ForwardFlowAnalysis
 	private void createWorkList(LinkedList<Object> changedUnits, HashSet<Object> changedUnitsSet, PegChain chain ){
 		//Depth first scan
 		Iterator it = chain.getHeads().iterator();
-		Set<Object> gray = new HashSet<Object>();
+		Set<Object> gray = new HashSet<>();
 		
 		while (it.hasNext()) {
 			Object head = it.next();

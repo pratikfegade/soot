@@ -57,7 +57,7 @@ public class ClassLocalObjectsAnalysis
 		this.uf = uf;
 		this.sootClass = sootClass;
 		
-		this.methodToMethodLocalObjectsAnalysis = new HashMap<SootMethod, SmartMethodLocalObjectsAnalysis>();
+		this.methodToMethodLocalObjectsAnalysis = new HashMap<>();
 		this.methodToContext = null;
 		 
 		this.allMethods = null;
@@ -118,7 +118,7 @@ public class ClassLocalObjectsAnalysis
 		}
 
 		// Get list of internal methods
-		internalMethods = new ArrayList<SootMethod>();
+		internalMethods = new ArrayList<>();
 		for (SootMethod method : allMethods) {
 			if(!externalMethods.contains(method))
 				internalMethods.add(method);
@@ -140,7 +140,7 @@ public class ClassLocalObjectsAnalysis
 		}
 
 		// Get list of internal fields
-		internalFields = new ArrayList<SootField>();
+		internalFields = new ArrayList<>();
 		for (SootField field : allFields) {
 			if(!externalFields.contains(field))
 				internalFields.add(field);
@@ -154,7 +154,7 @@ public class ClassLocalObjectsAnalysis
 		ReachableMethods rm = Scene.v().getReachableMethods();
 		
 		// Get list of reachable methods declared in this class
-		List<SootMethod> allMethods = new ArrayList<SootMethod>();
+		List<SootMethod> allMethods = new ArrayList<>();
 		Iterator methodsIt = sc.methodIterator();
 		while(methodsIt.hasNext())
 		{
@@ -186,7 +186,7 @@ public class ClassLocalObjectsAnalysis
 	{
 		// Get list of reachable methods declared in this class
 		// Also get list of fields declared in this class
-		List<SootField> allFields = new ArrayList<SootField>();
+		List<SootField> allFields = new ArrayList<>();
 		for (SootField field : sc.getFields())
 		{
 			allFields.add(field);
@@ -219,8 +219,8 @@ public class ClassLocalObjectsAnalysis
 		// This is repeated until no fields move for a complete iteration.
 		
 		// Populate localFields and sharedFields with fields of this class
-		localFields = new ArrayList<SootField>();
-		sharedFields = new ArrayList<SootField>();
+		localFields = new ArrayList<>();
+		sharedFields = new ArrayList<>();
 		Iterator<SootField> fieldsIt = allFields.iterator();
 		while(fieldsIt.hasNext())
 		{
@@ -232,8 +232,8 @@ public class ClassLocalObjectsAnalysis
 		}
 		
 		// Add inner fields to localFields and sharedFields, if present
-		localInnerFields = new ArrayList<SootField>();
-		sharedInnerFields = new ArrayList<SootField>();
+		localInnerFields = new ArrayList<>();
+		sharedInnerFields = new ArrayList<>();
 		Iterator<SootMethod> methodsIt = allMethods.iterator();
 		while(methodsIt.hasNext())
 		{
@@ -494,11 +494,11 @@ public class ClassLocalObjectsAnalysis
 	private void propagate()
 	{
 		// Initialize worklist
-		ArrayList<SootMethod> worklist = new ArrayList<SootMethod>();
+		ArrayList<SootMethod> worklist = new ArrayList<>();
 		worklist.addAll(entryMethods);
 		
 		// Initialize set of contexts
-		methodToContext = new HashMap<SootMethod, CallLocalityContext>(); // TODO: add the ability to share a map with another CLOA to save memory (be careful of context-sensitive call graph)
+		methodToContext = new HashMap<>(); // TODO: add the ability to share a map with another CLOA to save memory (be careful of context-sensitive call graph)
 		for (SootMethod method : worklist) {
 			methodToContext.put(method, getContextFor(method));
 		}
@@ -509,7 +509,7 @@ public class ClassLocalObjectsAnalysis
 			G.v().out.println("CLOA: Starting Propagation at " + start);
 		while(worklist.size() > 0)
 		{
-			ArrayList<SootMethod> newWorklist = new ArrayList<SootMethod>();
+			ArrayList<SootMethod> newWorklist = new ArrayList<>();
 			for (SootMethod containingMethod : worklist) {
 				CallLocalityContext containingContext = methodToContext.get(containingMethod);
 
@@ -517,7 +517,7 @@ public class ClassLocalObjectsAnalysis
 					G.v().out.println("      " + containingMethod.getName() + " " + containingContext.toShortString());
 				
 				// Calculate the context for each invoke stmt in the containingMethod
-				Map<Stmt, CallLocalityContext> invokeToContext = new HashMap<Stmt, CallLocalityContext>();
+				Map<Stmt, CallLocalityContext> invokeToContext = new HashMap<>();
 				for(Iterator edgesIt = Scene.v().getCallGraph().edgesOutOf(containingMethod); edgesIt.hasNext(); )
 				{
 					Edge e = (Edge) edgesIt.next();

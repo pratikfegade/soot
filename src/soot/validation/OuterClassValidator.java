@@ -20,7 +20,7 @@ public enum OuterClassValidator implements ClassValidator {
 
 	@Override
 	public void validate(SootClass sc, List<ValidationException> exceptions) {
-		Set<SootClass> outerClasses = new HashSet<SootClass>();
+		Set<SootClass> outerClasses = new HashSet<>();
 		SootClass curClass = sc;
 		while (curClass != null) {
 			if (!outerClasses.add(curClass)) {

@@ -106,7 +106,7 @@ public class JimpleBody extends StmtBody
      */
     public void validate()
     {
-        final List<ValidationException> exceptionList = new ArrayList<ValidationException>();
+        final List<ValidationException> exceptionList = new ArrayList<>();
         validate(exceptionList);
         if (!exceptionList.isEmpty())
         	throw exceptionList.get(0);

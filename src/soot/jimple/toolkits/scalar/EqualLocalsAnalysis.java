@@ -64,7 +64,7 @@ public class EqualLocalsAnalysis extends ForwardFlowAnalysis
 		in.copy(out);
 
 		// get list of definitions at this unit
-		List<EquivalentValue> newDefs = new ArrayList<EquivalentValue>();
+		List<EquivalentValue> newDefs = new ArrayList<>();
 		Iterator newDefBoxesIt = stmt.getDefBoxes().iterator();
 		while( newDefBoxesIt.hasNext() )
 		{
@@ -75,7 +75,7 @@ public class EqualLocalsAnalysis extends ForwardFlowAnalysis
 		// generate a new list of aliases to it starting here
 		if( newDefs.contains(new EquivalentValue(l)) )
 		{
-			List<Object> existingDefStmts = new ArrayList<Object>();
+			List<Object> existingDefStmts = new ArrayList<>();
 			Iterator outIt = out.iterator();
 			while(outIt.hasNext())
 			{

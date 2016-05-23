@@ -26,7 +26,7 @@ public class heuristicSet {
 	HashMap<Local, heuristicTuple> set;
 
 	public heuristicSet() {
-		set = new HashMap<Local, heuristicTuple>();
+		set = new HashMap<>();
 	}
 
 	private heuristicTuple getTuple(Local var) {

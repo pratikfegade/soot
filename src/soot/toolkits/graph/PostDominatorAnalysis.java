@@ -56,7 +56,7 @@ public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Uni
     }
 
     private void initAllNodes(){
-        allNodes = new ArraySparseSet<Unit>();
+        allNodes = new ArraySparseSet<>();
         Iterator<Unit> it = g.iterator();
         while (it.hasNext()){
             allNodes.add(it.next());
@@ -133,7 +133,7 @@ public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Uni
     protected FlowSet<Unit> entryInitialFlow()
     {
 
-    	FlowSet<Unit> fs = new ArraySparseSet<Unit>();
+    	FlowSet<Unit> fs = new ArraySparseSet<>();
         List<Unit> tails = g.getTails();
 //        if (tails.size() != 1) {
 //            throw new RuntimeException("Expect one end node only.");

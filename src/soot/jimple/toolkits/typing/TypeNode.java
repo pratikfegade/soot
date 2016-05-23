@@ -82,7 +82,7 @@ class TypeNode
       SootClass sClass = type.getSootClass();
       if( sClass == null ) throw new RuntimeException( "Oops, forgot to load "+type );
       if(sClass.isPhantomClass()) throw new RuntimeException("Jimplification requires "+sClass+", but it is a phantom ref.");
-      List<TypeNode> plist = new LinkedList<TypeNode>();
+      List<TypeNode> plist = new LinkedList<>();
       
       if(sClass.hasSuperclass() && 
 	 !sClass.getName().equals("java.lang.Object"))
@@ -142,7 +142,7 @@ class TypeNode
       }
     
     {
-      List<TypeNode> plist = new LinkedList<TypeNode>();
+      List<TypeNode> plist = new LinkedList<>();
       if(type.baseType instanceof RefType)
 	{
 	  RefType baseType = (RefType) type.baseType;

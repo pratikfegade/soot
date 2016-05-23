@@ -62,7 +62,7 @@ final class StackFrame {
 	void in(Operand... oprs) {
 		ArrayList<Operand[]> in = this.in;
 		if (in == null) {
-			in = this.in = new ArrayList<Operand[]>(1);
+			in = this.in = new ArrayList<>(1);
 		} else {
 			in.clear();
 		}

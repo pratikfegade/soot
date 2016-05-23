@@ -63,7 +63,7 @@ public class FixUndefinedLocals extends BodyTransformer implements IJbcoTransfor
     int icount = 0;
     boolean passedIDs = false;
     Map<Local,Local> bafToJLocals = soot.jbco.Main.methods2Baf2JLocals.get(b.getMethod());
-    ArrayList<Value> initialized = new ArrayList<Value>();
+    ArrayList<Value> initialized = new ArrayList<>();
     PatchingChain<Unit> units = b.getUnits();
     GuaranteedDefs gd = new GuaranteedDefs(new soot.toolkits.graph.ExceptionalUnitGraph(b));
     Iterator<Unit> unitIt = units.snapshotIterator();

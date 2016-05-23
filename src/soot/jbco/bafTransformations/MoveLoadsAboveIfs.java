@@ -60,9 +60,9 @@ public class MoveLoadsAboveIfs extends BodyTransformer  implements IJbcoTransfor
     
     BriefUnitGraph bug = new BriefUnitGraph(b);
     
-    List<Unit> candidates = new ArrayList<Unit>();
-    List<Unit> visited = new ArrayList<Unit>();
-    List<Unit>worklist = new ArrayList<Unit>();
+    List<Unit> candidates = new ArrayList<>();
+    List<Unit> visited = new ArrayList<>();
+    List<Unit>worklist = new ArrayList<>();
     worklist.addAll(bug.getHeads());
     
     while(worklist.size()>0) {

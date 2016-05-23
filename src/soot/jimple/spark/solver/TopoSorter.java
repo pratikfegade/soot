@@ -37,7 +37,7 @@ public class TopoSorter {
         this.pag = pag;
         this.ignoreTypes = ignoreTypes;
         //this.visited = new NumberedSet( pag.getVarNodeNumberer() );
-        this.visited = new HashSet<VarNode>();
+        this.visited = new HashSet<>();
     }
     
     /* End of public methods. */

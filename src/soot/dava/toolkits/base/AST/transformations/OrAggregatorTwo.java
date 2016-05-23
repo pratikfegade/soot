@@ -122,7 +122,7 @@ public class OrAggregatorTwo extends DepthFirstAdapter{
 	/*
 	  Always have to follow with a parse to remove unwanted empty ElseBodies
 	*/
-	node.replaceElseBody(new ArrayList<Object>());
+	node.replaceElseBody(new ArrayList<>());
 
 
 	G.v().ASTTransformations_modified = true;

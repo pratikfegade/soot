@@ -40,7 +40,7 @@ public class CallGraphPack extends RadioScenePack
 	            Scene.v().setEntryPoints(EntryPoints.v().application());
 	        }
 	        if( options.all_reachable() ) {
-	            List<SootMethod> entryPoints = new ArrayList<SootMethod>();
+	            List<SootMethod> entryPoints = new ArrayList<>();
 	            entryPoints.addAll( EntryPoints.v().all() );
 	            entryPoints.addAll( EntryPoints.v().methodsOfApplicationClasses() );
 	            Scene.v().setEntryPoints( entryPoints );

@@ -115,7 +115,7 @@ public class Jimple {
 	public final static String FALSE = "false";
 
 	public static List<String> jimpleKeywordList() {
-		List<String> l = new LinkedList<String>();
+		List<String> l = new LinkedList<>();
 		Collections.addAll(l, NEWARRAY, NEWMULTIARRAY, NOP, RET, SPECIALINVOKE,
 				STATICINVOKE, TABLESWITCH, VIRTUALINVOKE, NULL_TYPE, UNKNOWN,
 				CMP, CMPG, CMPL, ENTERMONITOR, EXITMONITOR, INTERFACEINVOKE,

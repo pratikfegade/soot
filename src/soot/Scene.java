@@ -74,7 +74,7 @@ public class Scene  //extends AbstractHost
 {
 	
 	private final int defaultSdkVersion = 15;
-	private final Map<String, Integer> maxAPIs = new HashMap<String, Integer>();
+	private final Map<String, Integer> maxAPIs = new HashMap<>();
 
 	public Scene ( Singletons.Global g )
     {
@@ -105,7 +105,7 @@ public class Scene  //extends AbstractHost
         determineExcludedPackages();
     }
 	private void determineExcludedPackages() {
-		excludedPackages = new LinkedList<String>();
+		excludedPackages = new LinkedList<>();
         if (Options.v().exclude() != null)
             excludedPackages.addAll(Options.v().exclude());
 
@@ -126,22 +126,22 @@ public class Scene  //extends AbstractHost
 	}
     public static Scene  v() { return G.v().soot_Scene (); }
     
-    Chain<SootClass> classes = new HashChain<SootClass>();
-    Chain<SootClass> applicationClasses = new HashChain<SootClass>();
-    Chain<SootClass> libraryClasses = new HashChain<SootClass>();
-    Chain<SootClass> phantomClasses = new HashChain<SootClass>();
+    Chain<SootClass> classes = new HashChain<>();
+    Chain<SootClass> applicationClasses = new HashChain<>();
+    Chain<SootClass> libraryClasses = new HashChain<>();
+    Chain<SootClass> phantomClasses = new HashChain<>();
     
-    private final Map<String,RefType> nameToClass = new HashMap<String,RefType>();
+    private final Map<String,RefType> nameToClass = new HashMap<>();
 
-    ArrayNumberer<Kind> kindNumberer = new ArrayNumberer<Kind>();
-    ArrayNumberer<Type> typeNumberer = new ArrayNumberer<Type>();
-    ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<SootMethod>();
-    Numberer<Unit> unitNumberer = new MapNumberer<Unit>();
+    ArrayNumberer<Kind> kindNumberer = new ArrayNumberer<>();
+    ArrayNumberer<Type> typeNumberer = new ArrayNumberer<>();
+    ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<>();
+    Numberer<Unit> unitNumberer = new MapNumberer<>();
     Numberer<Context> contextNumberer = null;
-    Numberer<SparkField> fieldNumberer = new ArrayNumberer<SparkField>();
-    ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<SootClass>();
+    Numberer<SparkField> fieldNumberer = new ArrayNumberer<>();
+    ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<>();
     StringNumberer subSigNumberer = new StringNumberer();
-    ArrayNumberer<Local> localNumberer = new ArrayNumberer<Local>();
+    ArrayNumberer<Local> localNumberer = new ArrayNumberer<>();
 
     private Hierarchy activeHierarchy;
     private FastHierarchy activeFastHierarchy;
@@ -167,7 +167,7 @@ public class Scene  //extends AbstractHost
         }
     }
     
-    Set<String> reservedNames = new HashSet<String>();
+    Set<String> reservedNames = new HashSet<>();
     
     /**
         Returns a set of tokens which are reserved.  Any field, class, method, or local variable with such a name will be quoted.
@@ -456,10 +456,10 @@ public class Scene  //extends AbstractHost
 			jarPath = forceAndroidJar;
 		}
 		else if (androidJars != null && !androidJars.isEmpty()) {
-			List<String> classPathEntries = new LinkedList<String>(Arrays.asList(
-					Options.v().soot_classpath().split(File.pathSeparator)));
+			List<String> classPathEntries = new LinkedList<>(Arrays.asList(
+                    Options.v().soot_classpath().split(File.pathSeparator)));
 			classPathEntries.addAll(Options.v().process_dir());
-			Set<String> targetApks = new HashSet<String>();
+			Set<String> targetApks = new HashSet<>();
 			for (String entry : classPathEntries) {
 				if(entry.toLowerCase().endsWith(".apk")
 						|| entry.toLowerCase().endsWith(".dex"))	// on Windows, file names are case-insensitive
@@ -1189,9 +1189,9 @@ public class Scene  //extends AbstractHost
     private final Set<String>[] basicclasses=new Set[4];
 
 	private void addSootBasicClasses() {
-		basicclasses[SootClass.HIERARCHY] = new HashSet<String>();
-		basicclasses[SootClass.SIGNATURES] = new HashSet<String>();
-		basicclasses[SootClass.BODIES] = new HashSet<String>();
+		basicclasses[SootClass.HIERARCHY] = new HashSet<>();
+		basicclasses[SootClass.SIGNATURES] = new HashSet<>();
+		basicclasses[SootClass.BODIES] = new HashSet<>();
 
 		addBasicClass("java.lang.Object");
 		addBasicClass("java.lang.Class", SootClass.SIGNATURES);
@@ -1275,7 +1275,7 @@ public class Scene  //extends AbstractHost
     }
     
     public Set<String> getBasicClasses() {
-    	Set<String> all = new HashSet<String>();
+    	Set<String> all = new HashSet<>();
     	for(int i=0;i<basicclasses.length;i++) {
     		Set<String> classes = basicclasses[i];
     		if(classes!=null)
@@ -1288,7 +1288,7 @@ public class Scene  //extends AbstractHost
     	CGOptions options = new CGOptions( PhaseOptions.v().getPhaseOptions("cg") );
     	String log = options.reflection_log();
     	
-    	Set<String> classNames = new HashSet<String>();
+    	Set<String> classNames = new HashSet<>();
     	if(log!=null && log.length()>0) {
 			BufferedReader reader = null;
 			String line="";
@@ -1374,8 +1374,8 @@ public class Scene  //extends AbstractHost
     }
 
     public void loadDynamicClasses() {
-        dynamicClasses = new ArrayList<SootClass>();
-        HashSet<String> dynClasses = new HashSet<String>();
+        dynamicClasses = new ArrayList<>();
+        HashSet<String> dynClasses = new HashSet<>();
         dynClasses.addAll(Options.v().dynamic_class());
 
         for( Iterator<String> pathIt = Options.v().dynamic_dir().iterator(); pathIt.hasNext(); ) {
@@ -1413,9 +1413,9 @@ public class Scene  //extends AbstractHost
      */
     private void prepareClasses() {
         // Remove/add all classes from packageInclusionMask as per -i option
-        Chain<SootClass> processedClasses = new HashChain<SootClass>();
+        Chain<SootClass> processedClasses = new HashChain<>();
         while(true) {
-            Chain<SootClass> unprocessedClasses = new HashChain<SootClass>(getClasses());
+            Chain<SootClass> unprocessedClasses = new HashChain<>(getClasses());
             unprocessedClasses.removeAll(processedClasses);
             if( unprocessedClasses.isEmpty() ) break;
             processedClasses.addAll(unprocessedClasses);
@@ -1504,7 +1504,7 @@ public class Scene  //extends AbstractHost
     /** Returns the list of SootClasses that have been resolved at least to 
      * the level specified. */
     public List<SootClass> getClasses(int desiredLevel) {
-        List<SootClass> ret = new ArrayList<SootClass>();
+        List<SootClass> ret = new ArrayList<>();
         for( Iterator<SootClass> clIt = getClasses().iterator(); clIt.hasNext(); ) {
             final SootClass cl = clIt.next();
             if( cl.resolvingLevel() >= desiredLevel ) ret.add(cl);

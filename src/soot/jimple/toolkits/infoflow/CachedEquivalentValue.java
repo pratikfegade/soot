@@ -32,7 +32,7 @@ public class CachedEquivalentValue extends EquivalentValue {
 
 	protected int code = Integer.MAX_VALUE;
 	
-	protected WeakHashMap<Value, Boolean> isEquivalent = new WeakHashMap<Value, Boolean>();
+	protected WeakHashMap<Value, Boolean> isEquivalent = new WeakHashMap<>();
 	
 	public CachedEquivalentValue(Value e) {
 		super(e);

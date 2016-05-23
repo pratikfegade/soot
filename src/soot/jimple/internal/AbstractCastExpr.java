@@ -106,7 +106,7 @@ abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf
     @Override
     public final List<ValueBox> getUseBoxes()
     {
-        List<ValueBox> list = new ArrayList<ValueBox>();
+        List<ValueBox> list = new ArrayList<>();
 
         list.addAll(opBox.getValue().getUseBoxes());
         list.add(opBox);

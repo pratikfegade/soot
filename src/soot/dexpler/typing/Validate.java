@@ -42,8 +42,8 @@ public class Validate {
 
     public static void validateArrays(Body b) {
         
-        Set<DefinitionStmt> definitions = new HashSet<DefinitionStmt>();
-        Set<Unit> unitWithArrayRef = new HashSet<Unit>();
+        Set<DefinitionStmt> definitions = new HashSet<>();
+        Set<Unit> unitWithArrayRef = new HashSet<>();
 
         
         for (Unit u: b.getUnits()) {
@@ -62,7 +62,7 @@ public class Validate {
         
         final LocalDefs localDefs = LocalDefs.Factory.newLocalDefs(b, true);
         
-        Set<Unit> toReplace = new HashSet<Unit>();
+        Set<Unit> toReplace = new HashSet<>();
         
         for (Unit u: unitWithArrayRef) {
             boolean ok = false;
@@ -78,7 +78,7 @@ public class Validate {
                     List<Unit> defs = localDefs.getDefsOfAt(base, u);
                     
                     // add aliases
-                    Set<Unit> alreadyHandled = new HashSet<Unit>();
+                    Set<Unit> alreadyHandled = new HashSet<>();
                     while (true) {
                         boolean isMore = false;
                         for (Unit d: defs) {
@@ -182,11 +182,11 @@ public class Validate {
             Unit initLocalUnit = Jimple.v().newAssignStmt(ttt, r);
                   
             // call <init> method with a string parameter for message
-            List<String> pTypes = new ArrayList<String>();
+            List<String> pTypes = new ArrayList<>();
             pTypes.add("java.lang.String");
             boolean isStatic = false;
             SootMethodRef mRef = Validate.makeMethodRef("java.lang.Throwable", "<init>", "", pTypes, isStatic);
-            List<Value> parameters = new ArrayList<Value>();
+            List<Value> parameters = new ArrayList<>();
             parameters.add(StringConstant.v("Soot updated this instruction"));
             InvokeExpr ie = Jimple.v().newSpecialInvokeExpr(ttt, mRef, parameters);
             Unit initMethod = Jimple.v().newInvokeStmt(ie);
@@ -215,7 +215,7 @@ public class Validate {
             returnType = VoidType.v();
         else
             returnType = RefType.v(rType);
-        List<Type> parameterTypes = new ArrayList<Type>();
+        List<Type> parameterTypes = new ArrayList<>();
         for (String p: pTypes)
             parameterTypes.add(RefType.v(p));
         return Scene.v().makeMethodRef(sc, mName, parameterTypes, returnType, isStatic);

@@ -73,7 +73,7 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
     public LocalMustNotAliasAnalysis(DirectedGraph<Unit> directedGraph, Body b)
     {
         super(directedGraph);
-        locals = new HashSet<Local>(); locals.addAll(b.getLocals());
+        locals = new HashSet<>(); locals.addAll(b.getLocals());
 
         for (Local l : b.getLocals()) {
             if (l.getType() instanceof RefLikeType)
@@ -112,7 +112,7 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
             Value lhs = ds.getLeftOp();
             Value rhs = ds.getRightOp();
             if (lhs instanceof Local) {
-                HashSet<NewExpr> lv = new HashSet<NewExpr>();
+                HashSet<NewExpr> lv = new HashSet<>();
                 out.put((Local) lhs, lv);
                 if (rhs instanceof NewExpr) {
                     lv.add((NewExpr) rhs);
@@ -130,9 +130,9 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
 
     protected HashMap<Local,Set<NewExpr>> entryInitialFlow()
     {
-    	HashMap<Local,Set<NewExpr>> m = new HashMap<Local,Set<NewExpr>>();
+    	HashMap<Local,Set<NewExpr>> m = new HashMap<>();
         for (Local l : locals) {
-            HashSet<NewExpr> s = new HashSet<NewExpr>();
+            HashSet<NewExpr> s = new HashSet<>();
             s.add(UNKNOWN);
             m.put(l, s);
         }
@@ -141,9 +141,9 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
         
     protected HashMap<Local,Set<NewExpr>> newInitialFlow()
     {
-    	HashMap<Local,Set<NewExpr>> m = new HashMap<Local,Set<NewExpr>>();
+    	HashMap<Local,Set<NewExpr>> m = new HashMap<>();
         for (Local l : locals) {
-        	HashSet<NewExpr> s = new HashSet<NewExpr>(); 
+        	HashSet<NewExpr> s = new HashSet<>();
             m.put(l, s);
         }
         return m;
@@ -178,7 +178,7 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
         if (l1n.contains(UNKNOWN) || l2n.contains(UNKNOWN))
             return false;
 
-        Set<NewExpr> n = new HashSet<NewExpr>(); n.addAll(l1n); n.retainAll(l2n);
+        Set<NewExpr> n = new HashSet<>(); n.addAll(l1n); n.retainAll(l2n);
         return n.isEmpty();
     }
     

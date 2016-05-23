@@ -36,7 +36,7 @@ public class LocalGenerator{
     }
     
     private void initLocalNames() {
-    	localNames = new HashSet<String>();
+    	localNames = new HashSet<>();
         Iterator it = body.getLocals().iterator();
         while (it.hasNext()){
             localNames.add(((soot.Local)it.next()).getName());

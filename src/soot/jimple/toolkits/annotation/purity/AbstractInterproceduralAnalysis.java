@@ -218,7 +218,7 @@ public abstract class AbstractInterproceduralAnalysis {
 	dot.setGraphAttribute("compound","true");
 	//dot.setGraphAttribute("rankdir","LR");
 	int id = 0;
-	Map<SootMethod, Integer> idmap = new HashMap<SootMethod, Integer>();
+	Map<SootMethod, Integer> idmap = new HashMap<>();
 
 	// draw sub-graph cluster
 	Iterator it = dg.iterator();
@@ -340,7 +340,7 @@ public abstract class AbstractInterproceduralAnalysis {
 	    queue.add(o);
 	}
 
-	Map<SootMethod,Integer> nb = new HashMap<SootMethod,Integer>(); // only for debug pretty-printing
+	Map<SootMethod,Integer> nb = new HashMap<>(); // only for debug pretty-printing
 
 	// fixpoint iterations
 	while (!queue.isEmpty()) {

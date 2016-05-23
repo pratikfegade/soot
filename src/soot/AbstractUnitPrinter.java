@@ -97,7 +97,7 @@ public abstract class AbstractUnitPrinter implements UnitPrinter {
     }
 
     protected void initializeQuotableLocals() {
-        quotableLocals = new HashSet<String>();
+        quotableLocals = new HashSet<>();
         quotableLocals.addAll (Jimple.jimpleKeywordList());
     }
 

@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentMap;
  * 
  */
 public class ConcurrentHashMultiMap<K,V> extends AbstractMultiMap<K, V> {
-    Map<K,ConcurrentMap<V, V>> m = new ConcurrentHashMap<K,ConcurrentMap<V, V>>(0);
+    Map<K,ConcurrentMap<V, V>> m = new ConcurrentHashMap<>(0);
 
     public ConcurrentHashMultiMap() {}
     
@@ -58,7 +58,7 @@ public class ConcurrentHashMultiMap<K,V> extends AbstractMultiMap<K, V> {
     }
 
     protected ConcurrentMap<V,V> newSet() {
-        return new ConcurrentHashMap<V, V>();
+        return new ConcurrentHashMap<>();
     }
     
     private ConcurrentMap<V, V> findSet( K key ) {
@@ -143,7 +143,7 @@ public class ConcurrentHashMultiMap<K,V> extends AbstractMultiMap<K, V> {
 
     @Override
     public Set<V> values() {
-        Set<V> ret = new HashSet<V>(m.size());
+        Set<V> ret = new HashSet<>(m.size());
         for (Map<V,V> s : m.values())
             ret.addAll(s.keySet());
         return ret;

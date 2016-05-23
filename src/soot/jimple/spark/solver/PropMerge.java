@@ -29,7 +29,7 @@ import java.util.*;
  */
 
 public final class PropMerge extends Propagator {
-    protected final Set<Node> varNodeWorkList = new TreeSet<Node>();
+    protected final Set<Node> varNodeWorkList = new TreeSet<>();
 
     public PropMerge( PAG pag ) { this.pag = pag; }
     /** Actually does the propagation. */

@@ -47,7 +47,7 @@ abstract class AnnotationElemBuilder extends AnnotationVisitor {
 	
 	AnnotationElemBuilder(int expected) {
 		super(Opcodes.ASM5);
-		this.elems = new ArrayList<AnnotationElem>(expected);
+		this.elems = new ArrayList<>(expected);
 	}
 	
 	AnnotationElemBuilder() {
@@ -78,7 +78,7 @@ abstract class AnnotationElemBuilder extends AnnotationVisitor {
 			Type t = (Type) value;
 			elem = new AnnotationClassElem(t.getDescriptor(), 'c', name);
 		} else if (value.getClass().isArray()){
-			ArrayList<AnnotationElem> annotationArray = new ArrayList<AnnotationElem>();
+			ArrayList<AnnotationElem> annotationArray = new ArrayList<>();
 			if (value instanceof byte[]) {
 				for(Object element:(byte[])value) annotationArray.add(getAnnotationElement(name,element));
 			} else if (value instanceof boolean[]) {

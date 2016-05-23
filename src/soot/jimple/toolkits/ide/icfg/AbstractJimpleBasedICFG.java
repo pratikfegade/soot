@@ -32,7 +32,7 @@ public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<
 	protected final boolean enableExceptions;
 	
 	@DontSynchronize("written by single thread; read afterwards")
-	protected final Map<Unit,Body> unitToOwner = new HashMap<Unit,Body>();
+	protected final Map<Unit,Body> unitToOwner = new HashMap<>();
 	
 	@SynchronizedBy("by use of synchronized LoadingCache class")
 	protected final LoadingCache<Body,DirectedGraph<Unit>> bodyToUnitGraph = IDESolver.DEFAULT_CACHE_BUILDER.build( new CacheLoader<Body,DirectedGraph<Unit>>() {
@@ -58,7 +58,7 @@ public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<
 						for(Unit u: m.getActiveBody().getUnits()) {
 							if(isCallStmt(u)) {
 								if (res == null)
-									res = new LinkedHashSet<Unit>();
+									res = new LinkedHashSet<>();
 								res.add(u);
 							}
 						}
@@ -158,7 +158,7 @@ public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<
 
 	@Override
 	public Set<Unit> allNonCallStartNodes() {
-		Set<Unit> res = new LinkedHashSet<Unit>(unitToOwner.keySet());
+		Set<Unit> res = new LinkedHashSet<>(unitToOwner.keySet());
 		for (Iterator<Unit> iter = res.iterator(); iter.hasNext();) {
 			Unit u = iter.next();
 			if(isStartPoint(u) || isCallStmt(u)) iter.remove();
@@ -168,7 +168,7 @@ public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<
 	
 	@Override
 	public Set<Unit> allNonCallEndNodes() {
-		Set<Unit> res = new LinkedHashSet<Unit>(unitToOwner.keySet());
+		Set<Unit> res = new LinkedHashSet<>(unitToOwner.keySet());
 		for (Iterator<Unit> iter = res.iterator(); iter.hasNext();) {
 			Unit u = iter.next();
 			if(isExitStmt(u) || isCallStmt(u)) iter.remove();

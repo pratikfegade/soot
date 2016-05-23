@@ -172,8 +172,8 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 			SootClass otherClass = cm.getSootClass(((RefType) other).className);
 			SootClass javalangObject = cm.getSootClass("java.lang.Object");
 
-			LinkedList<SootClass> thisHierarchy = new LinkedList<SootClass>();
-			LinkedList<SootClass> otherHierarchy = new LinkedList<SootClass>();
+			LinkedList<SootClass> thisHierarchy = new LinkedList<>();
+			LinkedList<SootClass> otherHierarchy = new LinkedList<>();
 
 			// Build thisHierarchy
 			{

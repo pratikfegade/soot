@@ -91,7 +91,7 @@ public class SimpleLiveLocals implements LiveLocals {
 
 		@Override
 		protected FlowSet<Local> newInitialFlow() {
-			return new ArraySparseSet<Local>();
+			return new ArraySparseSet<>();
 		}
 
 		@Override

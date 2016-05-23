@@ -45,7 +45,7 @@ public class ClassFieldAnalysis
      * SootClass --> FieldInfoTable
      */
  
-    private final Map<SootClass, Hashtable<SootField, IntValueContainer>> classToFieldInfoMap = new HashMap<SootClass, Hashtable<SootField, IntValueContainer>>();	
+    private final Map<SootClass, Hashtable<SootField, IntValueContainer>> classToFieldInfoMap = new HashMap<>();
   
     protected void internalTransform(SootClass c)
     {
@@ -59,13 +59,13 @@ public class ClassFieldAnalysis
 			       +start+" for "
 			       +c.getPackageName()+c.getName());
 	
-	Hashtable<SootField, IntValueContainer> fieldInfoTable = new Hashtable<SootField, IntValueContainer>();
+	Hashtable<SootField, IntValueContainer> fieldInfoTable = new Hashtable<>();
 	classToFieldInfoMap.put(c, fieldInfoTable);
 	
 	/* Who is the candidate for analysis?
 	   Int, Array, field. Also it should be PRIVATE now.
 	*/
-	HashSet<SootField> candidSet = new HashSet<SootField>();
+	HashSet<SootField> candidSet = new HashSet<>();
 
 	int arrayTypeFieldNum = 0;
 
@@ -191,7 +191,7 @@ public class ClassFieldAnalysis
 	   this.f, or other.f are treated as same because we summerize the field as a class's field. 
 	*/
 
-	HashMap<Stmt, SootField> stmtfield = new HashMap<Stmt, SootField>();
+	HashMap<Stmt, SootField> stmtfield = new HashMap<>();
 
 	{
 	    Iterator<Unit> unitIt = body.getUnits().iterator();

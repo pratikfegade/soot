@@ -18,7 +18,7 @@ import java.util.*;
 // -Richard L. Halpert, 2006-11-30
 
 public class LoopFinder{
-	private final Map<Chain, Set<Set<Object>>> chainToLoop = new HashMap<Chain, Set<Set<Object>>>();
+	private final Map<Chain, Set<Set<Object>>> chainToLoop = new HashMap<>();
 	
 	LoopFinder(PegGraph peg){
 		Chain chain = peg.getMainPegChain();

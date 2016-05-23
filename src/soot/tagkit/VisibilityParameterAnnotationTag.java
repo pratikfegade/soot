@@ -74,7 +74,7 @@ public class VisibilityParameterAnnotationTag implements  Tag
 
     public void addVisibilityAnnotation(VisibilityAnnotationTag a){
         if (visibilityAnnotations == null){
-            visibilityAnnotations = new ArrayList<VisibilityAnnotationTag>();
+            visibilityAnnotations = new ArrayList<>();
         }
         visibilityAnnotations.add(a);
     }

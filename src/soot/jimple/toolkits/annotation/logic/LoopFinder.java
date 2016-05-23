@@ -43,7 +43,7 @@ public class LoopFinder extends BodyTransformer {
     private HashMap<Stmt, List<Stmt>> loops;
 
     public Collection<Loop> loops(){
-        Collection<Loop> result = new HashSet<Loop>();
+        Collection<Loop> result = new HashSet<>();
         for (Map.Entry<Stmt,List<Stmt>> entry : loops.entrySet()) {
             result.add(new Loop(entry.getKey(),entry.getValue(),g));
         }
@@ -55,7 +55,7 @@ public class LoopFinder extends BodyTransformer {
         g = new ExceptionalUnitGraph(b);
         MHGDominatorsFinder a = new MHGDominatorsFinder(g);
         
-        loops = new HashMap<Stmt, List<Stmt>>();
+        loops = new HashMap<>();
         
         Iterator<Unit> stmtsIt = b.getUnits().iterator();
         while (stmtsIt.hasNext()){
@@ -64,7 +64,7 @@ public class LoopFinder extends BodyTransformer {
             List<Unit> succs = g.getSuccsOf(s);
             Collection<Unit> dominaters = (Collection<Unit>)a.getDominators(s);
 
-            ArrayList<Stmt> headers = new ArrayList<Stmt>();
+            ArrayList<Stmt> headers = new ArrayList<>();
 
             Iterator<Unit> succsIt = succs.iterator();
             while (succsIt.hasNext()){
@@ -98,8 +98,8 @@ public class LoopFinder extends BodyTransformer {
 
     private List<Stmt> getLoopBodyFor(Stmt header, Stmt node){
     
-        ArrayList<Stmt> loopBody = new ArrayList<Stmt>();
-        Stack<Unit> stack = new Stack<Unit>();
+        ArrayList<Stmt> loopBody = new ArrayList<>();
+        Stack<Unit> stack = new Stack<>();
 
         loopBody.add(header);
         stack.push(node);

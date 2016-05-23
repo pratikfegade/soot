@@ -34,8 +34,8 @@ import java.util.*;
 public class TopologicalOrderer
 {
     CallGraph cg;
-    List<SootMethod> order = new ArrayList<SootMethod>();
-    NumberedSet<SootMethod> visited = new NumberedSet<SootMethod>( Scene.v().getMethodNumberer() );
+    List<SootMethod> order = new ArrayList<>();
+    NumberedSet<SootMethod> visited = new NumberedSet<>(Scene.v().getMethodNumberer());
     
     public TopologicalOrderer( CallGraph cg ) {
         this.cg = cg;

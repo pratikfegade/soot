@@ -69,7 +69,7 @@ public class QueueReader<E> implements java.util.Iterator<E>
     }
 
     public final QueueReader<E> clone() {
-        return new QueueReader<E>( q, index );
+        return new QueueReader<>(q, index);
     }
 }
 

@@ -20,7 +20,7 @@ import soot.jimple.toolkits.callgraph.Targets;
 public class CallGraphExample
 {	
 	public static void main(String[] args) {
-	   List<String> argsList = new ArrayList<String>(Arrays.asList(args));
+	   List<String> argsList = new ArrayList<>(Arrays.asList(args));
 	   argsList.addAll(Arrays.asList("-w",
 			   "-main-class",
 			   "testers.CallGraphs",//main-class

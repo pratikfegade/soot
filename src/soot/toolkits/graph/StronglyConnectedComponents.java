@@ -46,8 +46,8 @@ public class StronglyConnectedComponents
     private static final Object Visited=new Object();
     private static final Object Black=new Object();
     private final LinkedList<Object> finishingOrder;
-    private List<List> componentList = new ArrayList<List>();
-    private final HashMap<Object, List<Object>> nodeToComponent = new HashMap<Object, List<Object>>();
+    private List<List> componentList = new ArrayList<>();
+    private final HashMap<Object, List<Object>> nodeToComponent = new HashMap<>();
     MutableDirectedGraph sccGraph = new HashMutableDirectedGraph();
     private final int[] indexStack;
     private final Object[] nodeStack;
@@ -60,10 +60,10 @@ public class StronglyConnectedComponents
      */
     public StronglyConnectedComponents(DirectedGraph g)
     {
-	nodeToColor = new HashMap<Object, Object>((3*g.size())/2,0.7f);
+	nodeToColor = new HashMap<>((3 * g.size()) / 2, 0.7f);
 	indexStack = new int[g.size()];
 	nodeStack = new Object[g.size()];        
-	finishingOrder = new LinkedList<Object>();
+	finishingOrder = new LinkedList<>();
 	
         // Visit each node
         {
@@ -80,7 +80,7 @@ public class StronglyConnectedComponents
 
 	
         // Re-color all nodes white
-        nodeToColor = new HashMap<Object, Object>((3*g.size()),0.7f);
+        nodeToColor = new HashMap<>((3 * g.size()), 0.7f);
 
         // Visit each node via transpose edges
         {

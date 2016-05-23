@@ -68,9 +68,9 @@ public class ConstantInitializerToTagTransformer extends SceneTransformer {
 		if (smInit == null)
 			return;
 		
-		Set<SootField> nonConstantFields = new HashSet<SootField>();
-		Map<SootField, ConstantValueTag> newTags = new HashMap<SootField, ConstantValueTag>();
-		Set<SootField> removeTagList = new HashSet<SootField>(); // in case of mismatch between code/constant table values, constant tags are removed
+		Set<SootField> nonConstantFields = new HashSet<>();
+		Map<SootField, ConstantValueTag> newTags = new HashMap<>();
+		Set<SootField> removeTagList = new HashSet<>(); // in case of mismatch between code/constant table values, constant tags are removed
 		
 		for (Iterator<Unit> itU = smInit.getActiveBody().getUnits().snapshotIterator();
 				itU.hasNext(); ) {
@@ -152,7 +152,7 @@ public class ConstantInitializerToTagTransformer extends SceneTransformer {
 		// remove constant tags
 		for (SootField sf: removeTagList) {
 			if (removeTagList.contains(sf)) {
-				List<Tag> toRemoveTagList = new ArrayList<Tag>();
+				List<Tag> toRemoveTagList = new ArrayList<>();
 				for (Tag t : sf.getTags()) {
 					if (t instanceof ConstantValueTag) {
 						toRemoveTagList.add(t);

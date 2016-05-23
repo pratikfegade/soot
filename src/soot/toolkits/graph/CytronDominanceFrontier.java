@@ -39,7 +39,7 @@ public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
     public CytronDominanceFrontier(DominatorTree<N> dt)
     {
         this.dt = dt;
-        nodeToFrontier = new HashMap<DominatorNode<N>, List<DominatorNode<N>>>();
+        nodeToFrontier = new HashMap<>();
         for (DominatorNode<N> head : dt.getHeads()) {
             bottomUpDispatch(head);
         }
@@ -61,7 +61,7 @@ public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
         List<DominatorNode<N>> frontier = nodeToFrontier.get(node);
         if(frontier == null)
             throw new RuntimeException("Frontier not defined for node: " + node);
-        return new ArrayList<DominatorNode<N>>(frontier);
+        return new ArrayList<>(frontier);
     }
 
     protected boolean isFrontierKnown(DominatorNode<N> node)
@@ -111,7 +111,7 @@ public class CytronDominanceFrontier<N> implements DominanceFrontier<N>
      **/
     protected void processNode(DominatorNode<N> node)
     {
-        List<DominatorNode<N>> dominanceFrontier = new ArrayList<DominatorNode<N>>();
+        List<DominatorNode<N>> dominanceFrontier = new ArrayList<>();
         
         // local
         {

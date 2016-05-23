@@ -17,10 +17,10 @@ public class CallLocalityContext
 
 	public CallLocalityContext(List<EquivalentValue> nodes)
 	{
-		this.nodes = new ArrayList<EquivalentValue>();
+		this.nodes = new ArrayList<>();
 		this.nodes.addAll(nodes);
 
-		isNodeLocal = new ArrayList<Boolean>(nodes.size());
+		isNodeLocal = new ArrayList<>(nodes.size());
 		for(int i = 0; i < nodes.size(); i++)
 		{
 			isNodeLocal.add(i, Boolean.FALSE);
@@ -193,7 +193,7 @@ public class CallLocalityContext
 	
 	public List<Object> getLocalRefs()
 	{
-		List<Object> ret = new ArrayList<Object>();
+		List<Object> ret = new ArrayList<>();
 		for(int i = 0; i < nodes.size(); i++)
 		{
 			if(isNodeLocal.get(i).booleanValue())
@@ -204,7 +204,7 @@ public class CallLocalityContext
 	
 	public List<Object> getSharedRefs()
 	{
-		List<Object> ret = new ArrayList<Object>();
+		List<Object> ret = new ArrayList<>();
 		for(int i = 0; i < nodes.size(); i++)
 		{
 			if(!isNodeLocal.get(i).booleanValue())

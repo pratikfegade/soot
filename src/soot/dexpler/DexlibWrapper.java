@@ -53,7 +53,7 @@ import soot.javaToJimple.IInitialResolver.Dependencies;
 public class DexlibWrapper {
 
 	static {
-		Set<String> systemAnnotationNamesModifiable = new HashSet<String>();
+		Set<String> systemAnnotationNamesModifiable = new HashSet<>();
 		// names as defined in the ".dex - Dalvik Executable Format" document
 		systemAnnotationNamesModifiable.add("dalvik.annotation.AnnotationDefault");
 		systemAnnotationNamesModifiable.add("dalvik.annotation.EnclosingClass");

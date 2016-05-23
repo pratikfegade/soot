@@ -147,7 +147,7 @@ public class SootMethod
         int modifiers,
         List<SootClass> thrownExceptions) {
         this.name = name;
-        this.parameterTypes = new ArrayList<Type>();
+        this.parameterTypes = new ArrayList<>();
         this.parameterTypes.addAll(parameterTypes);
         this.parameterTypes = Collections.unmodifiableList(this.parameterTypes);
 
@@ -155,7 +155,7 @@ public class SootMethod
         this.modifiers = modifiers;
 
         if (exceptions == null && !thrownExceptions.isEmpty()) {
-            exceptions = new ArrayList<SootClass>();
+            exceptions = new ArrayList<>();
             this.exceptions.addAll(thrownExceptions);
             /*DEBUG=true;
             if(DEBUG)
@@ -298,7 +298,7 @@ public class SootMethod
         boolean wasDeclared = isDeclared;
         SootClass oldDeclaringClass = declaringClass;
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
-        this.parameterTypes = Collections.unmodifiableList(new ArrayList<Type>(l));
+        this.parameterTypes = Collections.unmodifiableList(new ArrayList<>(l));
         subsignature =
             Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
@@ -395,7 +395,7 @@ public class SootMethod
     		System.out.println("Adding exception "+e);
     	
         if (exceptions == null)
-            exceptions = new ArrayList<SootClass>();
+            exceptions = new ArrayList<>();
         else if (exceptions.contains(e))
             throw new RuntimeException(
                 "already throws exception " + e.getName());
@@ -409,7 +409,7 @@ public class SootMethod
     		System.out.println("Removing exception "+e);
 
         if (exceptions == null)
-            exceptions = new ArrayList<SootClass>();
+            exceptions = new ArrayList<>();
 
         if (!exceptions.contains(e))
             throw new RuntimeException(
@@ -425,7 +425,7 @@ public class SootMethod
 
     public void setExceptions(List<SootClass> exceptions) {
     	if (exceptions != null && !exceptions.isEmpty()) {
-	        this.exceptions = new ArrayList<SootClass>(exceptions);
+	        this.exceptions = new ArrayList<>(exceptions);
 	    }
     	else
     		this.exceptions = null;
@@ -437,7 +437,7 @@ public class SootMethod
 
     public List<SootClass> getExceptions() {
         if (exceptions == null)
-            exceptions = new ArrayList<SootClass>();
+            exceptions = new ArrayList<>();
 
         return exceptions;
     }

@@ -222,15 +222,15 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 
 	protected final AllocAndContextCache allocAndContextCache = new AllocAndContextCache();
 
-	protected Stack<Pair<Integer, ImmutableStack<Integer>>> callGraphStack = new Stack<Pair<Integer, ImmutableStack<Integer>>>();
+	protected Stack<Pair<Integer, ImmutableStack<Integer>>> callGraphStack = new Stack<>();
 
 	protected final CallSiteToTargetsMap callSiteToResolvedTargets = new CallSiteToTargetsMap();
 
-	protected HashMap<List<Object>, Set<SootMethod>> callTargetsArgCache = new HashMap<List<Object>, Set<SootMethod>>();
+	protected HashMap<List<Object>, Set<SootMethod>> callTargetsArgCache = new HashMap<>();
 
-	protected final Stack<VarAndContext> contextForAllocsStack = new Stack<VarAndContext>();
+	protected final Stack<VarAndContext> contextForAllocsStack = new Stack<>();
 
-	protected Map<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>> contextsForAllocsCache = new HashMap<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>>();
+	protected Map<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>> contextsForAllocsCache = new HashMap<>();
 
 	protected final ContextSensitiveInfo csInfo;
 
@@ -262,7 +262,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 
 	protected AllocAndContextSet pointsTo = null;
 
-	protected final Set<CallSiteAndContext> queriedCallSites = new HashSet<CallSiteAndContext>();
+	protected final Set<CallSiteAndContext> queriedCallSites = new HashSet<>();
 
 	protected int recursionDepth = -1;
 
@@ -270,7 +270,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 
 	protected OTFMethodSCCManager sccManager;
 
-	protected Map<VarContextAndUp, Map<AllocAndContext, CallingContextSet>> upContextCache = new HashMap<VarContextAndUp, Map<AllocAndContext, CallingContextSet>>();
+	protected Map<VarContextAndUp, Map<AllocAndContext, CallingContextSet>> upContextCache = new HashMap<>();
 
 	protected ValidMatches vMatches;
 	
@@ -292,8 +292,8 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 		this.lazy = lazy;
 		this.maxNodesPerPass = maxTraversal / maxPasses;
 		this.heuristicType = HeuristicType.INCR;
-		this.reachingObjectsCache = new HashMap<Local, PointsToSet>();
-		this.reachingObjectsCacheNoCGRefinement = new HashMap<Local, PointsToSet>();
+		this.reachingObjectsCache = new HashMap<>();
+		this.reachingObjectsCacheNoCGRefinement = new HashMap<>();
         this.useCache = true;
 	}
 
@@ -471,7 +471,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 					.getType(), pag);
 			storedSet.addAll(locs, null);
 			contextsForAllocsCache.put(varAndContext,
-					new Pair<PointsToSetInternal, AllocAndContextSet>(
+					new Pair<>(
 							storedSet, new AllocAndContextSet()));
 			retSet = locs;
 		}
@@ -654,7 +654,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 	 */
 	protected void dumpPathForLoc(VarNode v, final AllocNode badLoc,
 			String filePrefix) {
-		final HashSet<VarNode> visited = new HashSet<VarNode>();
+		final HashSet<VarNode> visited = new HashSet<>();
 		final DotPointerGraph dotGraph = new DotPointerGraph();
 		final class Helper {
 			boolean handle(VarNode curNode) {
@@ -722,7 +722,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 		final boolean backward = !forward;
 		if (exitNode && !callingContext.isEmpty()) {
 			Integer topCallSite = callingContext.peek();
-			realAssigns = new ArrayList<AssignEdge>();
+			realAssigns = new ArrayList<>();
 			for (AssignEdge assignEdge : assigns) {
 				assert (forward && assignEdge.isParamEdge())
 						|| (backward && assignEdge.isReturnEdge()) : assignEdge;
@@ -738,7 +738,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 			// assert realAssigns.size() == 1;
 		} else {
 			if (assigns.size() > 1) {
-				realAssigns = new ArrayList<AssignEdge>();
+				realAssigns = new ArrayList<>();
 				for (AssignEdge assignEdge : assigns) {
 					boolean enteringCall = forward ? assignEdge.isReturnEdge()
 							: assignEdge.isParamEdge();
@@ -802,9 +802,9 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 			debugPrint("finding alloc contexts for " + varAndContext);
 		}
 		try {
-			final Set<VarAndContext> marked = new HashSet<VarAndContext>();
-			final Stack<VarAndContext> worklist = new Stack<VarAndContext>();
-			final Propagator<VarAndContext> p = new Propagator<VarAndContext>(
+			final Set<VarAndContext> marked = new HashSet<>();
+			final Stack<VarAndContext> worklist = new Stack<>();
+			final Propagator<VarAndContext> p = new Propagator<>(
 					marked, worklist);
 			p.prop(varAndContext);
 			IncomingEdgeHandler edgeHandler = new IncomingEdgeHandler() {
@@ -912,7 +912,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 						contextsForAllocsCache
 								.put(
 										varAndContext,
-										new Pair<PointsToSetInternal, AllocAndContextSet>(
+										new Pair<>(
 												storedSet, ret));
 
 					}
@@ -926,7 +926,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 							.getType(), pag);
 					storedSet.addAll(locs, null);
 					contextsForAllocsCache.put(varAndContext,
-							new Pair<PointsToSetInternal, AllocAndContextSet>(
+							new Pair<>(
 									storedSet, ret));
 
 				}
@@ -958,9 +958,9 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 					+ alloc + " " + allocContext);
 		}
 		try {
-			final Set<VarAndContext> marked = new HashSet<VarAndContext>();
-			final Stack<VarAndContext> worklist = new Stack<VarAndContext>();
-			final Propagator<VarAndContext> p = new Propagator<VarAndContext>(
+			final Set<VarAndContext> marked = new HashSet<>();
+			final Stack<VarAndContext> worklist = new Stack<>();
+			final Propagator<VarAndContext> p = new Propagator<>(
 					marked, worklist);
 			p.prop(varContextAndUp);
 			class UpContextEdgeHandler extends IncomingEdgeHandler {
@@ -1125,9 +1125,9 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 		CallingContextSet ret = new CallingContextSet();
 		allocAndContextCache.get(allocAndContext).put(targetVar, ret);
 		try {
-			HashSet<VarAndContext> marked = new HashSet<VarAndContext>();
-			Stack<VarAndContext> worklist = new Stack<VarAndContext>();
-			Propagator<VarAndContext> p = new Propagator<VarAndContext>(marked,
+			HashSet<VarAndContext> marked = new HashSet<>();
+			Stack<VarAndContext> worklist = new Stack<>();
+			Propagator<VarAndContext> p = new Propagator<>(marked,
 					worklist);
 			AllocNode alloc = allocAndContext.alloc;
 			ImmutableStack<Integer> allocContext = allocAndContext.context;
@@ -1268,7 +1268,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 			return callTargetsArgCache.get(args);
 		}
 		Set<Type> types = p2Set.possibleTypes();
-		Set<SootMethod> ret = new HashSet<SootMethod>();
+		Set<SootMethod> ret = new HashSet<>();
 		for (Type type : types) {
 			ret.addAll(getCallTargetsForType(type, methodStr, receiverType,
 					possibleTargets));
@@ -1308,12 +1308,12 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 	}
 
 	protected Set<VarNode> getFlowsToHelper(AllocAndContext allocAndContext) {
-		Set<VarNode> ret = new ArraySet<VarNode>();
+		Set<VarNode> ret = new ArraySet<>();
 
 		try {
-			HashSet<VarAndContext> marked = new HashSet<VarAndContext>();
-			Stack<VarAndContext> worklist = new Stack<VarAndContext>();
-			Propagator<VarAndContext> p = new Propagator<VarAndContext>(marked,
+			HashSet<VarAndContext> marked = new HashSet<>();
+			Stack<VarAndContext> worklist = new Stack<>();
+			Propagator<VarAndContext> p = new Propagator<>(marked,
 					worklist);
 			AllocNode alloc = allocAndContext.alloc;
 			ImmutableStack<Integer> allocContext = allocAndContext.context;
@@ -1463,7 +1463,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 		}
 		Integer callSite = assignEdge.getCallSite();
 		if (context.contains(callSite)) {
-			Set<SootMethod> toBeCollapsed = new ArraySet<SootMethod>();
+			Set<SootMethod> toBeCollapsed = new ArraySet<>();
 			int callSiteInd = 0;
 			for (; callSiteInd < context.size()
 					&& !context.get(callSiteInd).equals(callSite); callSiteInd++)
@@ -1487,9 +1487,9 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 	@SuppressWarnings("unused")
 	protected Set<VarNode> nodesPropagatedThrough(final VarNode source,
 			final PointsToSetInternal allocs) {
-		final Set<VarNode> marked = new HashSet<VarNode>();
-		final Stack<VarNode> worklist = new Stack<VarNode>();
-		Propagator<VarNode> p = new Propagator<VarNode>(marked, worklist);
+		final Set<VarNode> marked = new HashSet<>();
+		final Stack<VarNode> worklist = new Stack<>();
+		Propagator<VarNode> p = new Propagator<>(marked, worklist);
 		p.prop(source);
 		while (!worklist.isEmpty()) {
 			VarNode curNode = worklist.pop();
@@ -1656,7 +1656,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 				if (true) {
 					throw new TerminateEarlyException();
 				}
-				Set<SootMethod> toBeCollapsed = new ArraySet<SootMethod>();
+				Set<SootMethod> toBeCollapsed = new ArraySet<>();
 				int callSiteInd = 0;
 				for (; callSiteInd < context.size()
 						&& !context.get(callSiteInd).equals(callSite); callSiteInd++)
@@ -1778,8 +1778,8 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 			debugPrint("refining call to " + invokedMethod + " on " + receiver
 					+ " " + origContext);
 		}
-		final HashSet<VarAndContext> marked = new HashSet<VarAndContext>();
-		final Stack<VarAndContext> worklist = new Stack<VarAndContext>();
+		final HashSet<VarAndContext> marked = new HashSet<>();
+		final Stack<VarAndContext> worklist = new Stack<>();
 		final class Helper {
 
 			void prop(VarAndContext varAndContext) {
@@ -1945,9 +1945,9 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 		if (DEBUG) {
 			debugPrint("refining " + varAndContext);
 		}
-		final Set<VarAndContext> marked = new HashSet<VarAndContext>();
-		final Stack<VarAndContext> worklist = new Stack<VarAndContext>();
-		final Propagator<VarAndContext> p = new Propagator<VarAndContext>(
+		final Set<VarAndContext> marked = new HashSet<>();
+		final Stack<VarAndContext> worklist = new Stack<>();
+		final Propagator<VarAndContext> p = new Propagator<>(
 				marked, worklist);
 		p.prop(varAndContext);
 		IncomingEdgeHandler edgeHandler = new IncomingEdgeHandler() {

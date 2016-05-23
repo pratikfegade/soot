@@ -316,7 +316,7 @@ public class DexPrinter {
         }
         case '[': {
             AnnotationArrayElem e = (AnnotationArrayElem)elem;
-            Set<EncodedValue> values = new HashSet<EncodedValue>();
+            Set<EncodedValue> values = new HashSet<>();
             for (int i = 0; i < e.getNumValues(); i++){
                 EncodedValue val = buildEncodedValueForAnnotation(e.getValueAt(i));
                 values.add(val);
@@ -326,10 +326,10 @@ public class DexPrinter {
         case '@': {
         	AnnotationAnnotationElem e = (AnnotationAnnotationElem)elem;
         	
-        	Set<String> alreadyWritten = new HashSet<String>();
+        	Set<String> alreadyWritten = new HashSet<>();
             List<AnnotationElement> elements = null;
             if (!e.getValue().getElems().isEmpty()) {
-            	elements = new ArrayList<AnnotationElement>();
+            	elements = new ArrayList<>();
 	            for (AnnotationElem ae : e.getValue().getElems()) {
 	            	if (!alreadyWritten.add(ae.getName()))
 	            		throw new RuntimeException("Duplicate annotation attribute: " + ae.getName());
@@ -378,7 +378,7 @@ public class DexPrinter {
             String parameters = sp2[1].replaceAll("\\)", "");
             List<String> paramTypeList = null;
             if (!parameters.isEmpty()) {
-            	paramTypeList = new ArrayList<String>();
+            	paramTypeList = new ArrayList<>();
 	            if (parameters.length() > 0)
 	                for (String p: parameters.split(",")) {
 	                    paramTypeList.add(p);
@@ -457,14 +457,14 @@ public class DexPrinter {
         
         List<String> interfaces = null;
         if (!c.getInterfaces().isEmpty()) {
-        	interfaces = new ArrayList<String>();
+        	interfaces = new ArrayList<>();
             for (SootClass ifc : c.getInterfaces())
             	interfaces.add(SootToDexUtils.getDexTypeDescriptor(ifc.getType()));
         }
         
         List<BuilderField> fields = null;
         if (!c.getFields().isEmpty()) {
-        	fields = new ArrayList<BuilderField>();
+        	fields = new ArrayList<>();
 	        for (SootField f : c.getFields()) {       	
 	        	// Look for a static initializer
 	            EncodedValue staticInit = null;
@@ -506,7 +506,7 @@ public class DexPrinter {
 	}
     
     private Set<Annotation> buildClassAnnotations(SootClass c) {
-    	Set<String> skipList = new HashSet<String>();
+    	Set<String> skipList = new HashSet<>();
     	Set<Annotation> annotations = buildCommonAnnotations(c, skipList);
     	
        	// Classes can have either EnclosingMethod or EnclosingClass tags. Soot
@@ -562,7 +562,7 @@ public class DexPrinter {
         
 
         //Write default-annotation tags
-		List<AnnotationElem> defaults = new ArrayList<AnnotationElem>();
+		List<AnnotationElem> defaults = new ArrayList<>();
         for (SootMethod method : c.getMethods()) {
         	AnnotationDefaultTag tag = (AnnotationDefaultTag) method.getTag("AnnotationDefaultTag");
         	if (tag != null) {
@@ -592,7 +592,7 @@ public class DexPrinter {
     }
 
     private Set<Annotation> buildFieldAnnotations(SootField f) {
-    	Set<String> skipList = new HashSet<String>();
+    	Set<String> skipList = new HashSet<>();
     	Set<Annotation> annotations = buildCommonAnnotations(f, skipList);
     	
     	for (Tag t : f.getTags()) {
@@ -607,7 +607,7 @@ public class DexPrinter {
     }
 
     private Set<Annotation> buildMethodAnnotations(SootMethod m) {
-    	Set<String> skipList = new HashSet<String>();
+    	Set<String> skipList = new HashSet<>();
     	Set<Annotation> annotations = buildCommonAnnotations(m, skipList);
     	
     	for (Tag t : m.getTags()) {
@@ -619,8 +619,8 @@ public class DexPrinter {
     	}
     	List<SootClass> exceptionList = m.getExceptions();
     	if (exceptionList != null) {
-            Set<ImmutableAnnotationElement> elements = new HashSet<ImmutableAnnotationElement>();
-            List<ImmutableEncodedValue> valueList = new ArrayList<ImmutableEncodedValue>();
+            Set<ImmutableAnnotationElement> elements = new HashSet<>();
+            List<ImmutableEncodedValue> valueList = new ArrayList<>();
     		for (SootClass exceptionClass : exceptionList) {
                 
 	            valueList.add(new ImmutableTypeEncodedValue(DexType.toDalvikICAT(exceptionClass.getName()).replace(".", "/")));
@@ -643,7 +643,7 @@ public class DexPrinter {
 
     private Set<Annotation> buildMethodParameterAnnotations(SootMethod m,
     		final int paramIdx) {
-    	Set<String> skipList = new HashSet<String>();
+    	Set<String> skipList = new HashSet<>();
     	Set<Annotation> annotations = buildCommonAnnotations(m, skipList);
     	
     	for (Tag t : m.getTags()) {
@@ -659,7 +659,7 @@ public class DexPrinter {
     }
     
     private Set<Annotation> buildCommonAnnotations(AbstractHost host, Set<String> skipList) {
-		Set<Annotation> annotations = new HashSet<Annotation>();
+		Set<Annotation> annotations = new HashSet<>();
 		
         // handle deprecated tag
         if (host.hasTag("DeprecatedTag") && !skipList.contains("Ljava/lang/Deprecated;")) {
@@ -678,9 +678,9 @@ public class DexPrinter {
 
             Set<ImmutableAnnotationElement> elements = null;
             if (splitSignature != null && splitSignature.size() > 0) {
-            	elements = new HashSet<ImmutableAnnotationElement>();
+            	elements = new HashSet<>();
             
-	            List<ImmutableEncodedValue> valueList = new ArrayList<ImmutableEncodedValue>();
+	            List<ImmutableEncodedValue> valueList = new ArrayList<>();
 	            for (String s : splitSignature) {
 	            	ImmutableStringEncodedValue val = new ImmutableStringEncodedValue(s);
 	                valueList.add(val);
@@ -709,16 +709,16 @@ public class DexPrinter {
     	if (t.getAnnotations() == null)
     		return Collections.emptyList();
     	
-    	List<ImmutableAnnotation> annotations = new ArrayList<ImmutableAnnotation>();
+    	List<ImmutableAnnotation> annotations = new ArrayList<>();
         for (AnnotationTag at: t.getAnnotations()) {
             String type = at.getType();
             if (!skipList.add(type))
             	continue;
             
-            Set<String> alreadyWritten = new HashSet<String>();
+            Set<String> alreadyWritten = new HashSet<>();
             List<AnnotationElement> elements = null;
             if (!at.getElems().isEmpty()) {
-            	elements = new ArrayList<AnnotationElement>();
+            	elements = new ArrayList<>();
 	            for (AnnotationElem ae : at.getElems()) {
 	            	if (ae.getName() == null || ae.getName().isEmpty())
 	            		throw new RuntimeException("Null or empty annotation name encountered");
@@ -747,7 +747,7 @@ public class DexPrinter {
     		return Collections.emptyList();
 		
         int paramTagIdx = 0;
-    	List<ImmutableAnnotation> annotations = new ArrayList<ImmutableAnnotation>();
+    	List<ImmutableAnnotation> annotations = new ArrayList<>();
         for (VisibilityAnnotationTag vat : t.getVisibilityAnnotations()) {
         	if (paramTagIdx == paramIdx
         			&& vat != null
@@ -757,10 +757,10 @@ public class DexPrinter {
 		            if (!skipList.add(type))
 		            	continue;
 		            
-		            Set<String> alreadyWritten = new HashSet<String>();
+		            Set<String> alreadyWritten = new HashSet<>();
 		            List<AnnotationElement> elements = null;
 		            if (!at.getElems().isEmpty()) {
-		            	elements = new ArrayList<AnnotationElement>();
+		            	elements = new ArrayList<>();
 			            for (AnnotationElem ae : at.getElems()) {
 			            	if (ae.getName() == null || ae.getName().isEmpty())
 			            		throw new RuntimeException("Null or empty annotation name encountered");
@@ -794,7 +794,7 @@ public class DexPrinter {
 	    String parametersS = split1[0].replaceAll("\\(", "");
 	    String returnTypeS = split1[1];
 	    
-	    List<String> typeList = new ArrayList<String>();
+	    List<String> typeList = new ArrayList<>();
         if (!parametersS.equals("")) {
             for (String p : Util.splitParameters(parametersS)) {
                 if (!p.isEmpty())
@@ -850,7 +850,7 @@ public class DexPrinter {
     		// This is an actual inner class. Write the annotation
         	if (skipList.add("Ldalvik/annotation/InnerClass;")) {
 	    		// InnerClass annotation
-	        	List<AnnotationElement> elements = new ArrayList<AnnotationElement>();
+	        	List<AnnotationElement> elements = new ArrayList<>();
 		    	
 		    	ImmutableAnnotationElement flagsElement = new ImmutableAnnotationElement
 		    			("accessFlags", new ImmutableIntEncodedValue(icTag.getAccessFlags()));
@@ -866,7 +866,7 @@ public class DexPrinter {
 			    		("name", nameValue);
 			    elements.add(nameElement);
 		    	
-		    	if (anns == null) anns = new ArrayList<Annotation>();
+		    	if (anns == null) anns = new ArrayList<>();
 		    	anns.add(new ImmutableAnnotation(AnnotationVisibility.SYSTEM,
 		    			"Ldalvik/annotation/InnerClass;",
 		    			elements));
@@ -901,7 +901,7 @@ public class DexPrinter {
 			if (icTag.getOuterClass() != null
 					&& parentClass.getName().equals(outerClass)) {
 				if (memberClasses == null)
-					memberClasses = new HashSet<String>();
+					memberClasses = new HashSet<>();
 				memberClasses.add(SootToDexUtils.getDexClassName(icTag.getInnerClass()));
 			}
     	}
@@ -910,7 +910,7 @@ public class DexPrinter {
     	if (memberClasses != null
     			&& !memberClasses.isEmpty()
     			&& skipList.add("Ldalvik/annotation/MemberClasses;")) {
-        	List<EncodedValue> classes = new ArrayList<EncodedValue>();
+        	List<EncodedValue> classes = new ArrayList<>();
 	    	for (String memberClass : memberClasses) {
 	    		ImmutableTypeEncodedValue classValue = new ImmutableTypeEncodedValue(memberClass);
 	    		classes.add(classValue);
@@ -924,7 +924,7 @@ public class DexPrinter {
     				new ImmutableAnnotation(AnnotationVisibility.SYSTEM,
     						"Ldalvik/annotation/MemberClasses;",
     						Collections.singletonList(element));
-	    	if (anns == null) anns = new ArrayList<Annotation>();
+	    	if (anns == null) anns = new ArrayList<>();
 	    	anns.add(memberAnnotation);
     	}
     	return anns;
@@ -952,7 +952,7 @@ public class DexPrinter {
 			return null;
 		
         String classType = SootToDexUtils.getDexTypeDescriptor(clazz.getType());
-        List<BuilderMethod> methods = new ArrayList<BuilderMethod>();
+        List<BuilderMethod> methods = new ArrayList<>();
         for (SootMethod sm : clazz.getMethods()) {
             if (sm.isPhantom()) {
                 // Do not print method bodies for inherited methods
@@ -968,7 +968,7 @@ public class DexPrinter {
         	int paramIdx = 0;
         	List<MethodParameter> parameters = null;
         	if (sm.getParameterCount() > 0) {
-        		parameters = new ArrayList<MethodParameter>();
+        		parameters = new ArrayList<>();
 	        	for (Type tp : sm.getParameterTypes()) {
 	        		String paramType = SootToDexUtils.getDexTypeDescriptor(tp);
 	        		parameters.add(new ImmutableMethodParameter(paramType,
@@ -1005,7 +1005,7 @@ public class DexPrinter {
 	
     protected static BuilderMethodReference toMethodReference
 			(SootMethodRef m, DexBuilder belongingDexFile) {
-    	List<String> parameters = new ArrayList<String>();
+    	List<String> parameters = new ArrayList<>();
     	for (Type t : m.parameterTypes())
     		parameters.add(SootToDexUtils.getDexTypeDescriptor(t));
     	MethodReference methodRef = new ImmutableMethodReference
@@ -1082,7 +1082,7 @@ public class DexPrinter {
 		
 		fixLongJumps(instructions, labelAssinger, stmtV);
 		
-		Map<Local, Integer> seenRegisters = new HashMap<Local, Integer>();
+		Map<Local, Integer> seenRegisters = new HashMap<>();
 		Map<Instruction, LocalRegisterAssignmentInformation> instructionRegisterMap = stmtV.getInstructionRegisterMap();
 
 		for (LocalRegisterAssignmentInformation assignment : stmtV.getParameterInstructionsList()) {
@@ -1170,7 +1170,7 @@ public class DexPrinter {
 			hasChanged = false;
 			
 			// Build a mapping between labels and offsets
-			Map<Label, Integer> labelToInsOffset = new HashMap<Label, Integer>();
+			Map<Label, Integer> labelToInsOffset = new HashMap<>();
 			for (int i = 0; i < instructions.size(); i++) {
 				BuilderInstruction bi = instructions.get(i);
 	            Stmt origStmt = stmtV.getStmtForInstruction(bi);
@@ -1389,7 +1389,7 @@ public class DexPrinter {
 		//		something different. That's why we run the TrapSplitter before we get here.
 		//		(Steven Arzt, 25.09.2013)
 		Map<CodeRange, List<ExceptionHandler>> codeRangesToTryItem =
-				new HashMap<CodeRange, List<ExceptionHandler>>();
+				new HashMap<>();
 		for (Trap t : traps) {
 			// see if there is old handler info at this code range
 			Stmt beginStmt = (Stmt) t.getBeginUnit();
@@ -1403,7 +1403,7 @@ public class DexPrinter {
 			ImmutableExceptionHandler exceptionHandler = new ImmutableExceptionHandler
 					(exceptionType, labelAssigner.getLabel((Stmt) t.getHandlerUnit()).getCodeAddress());
 			
-			List<ExceptionHandler> newHandlers = new ArrayList<ExceptionHandler>();
+			List<ExceptionHandler> newHandlers = new ArrayList<>();
 			
 			CodeRange range = new CodeRange(startCodeAddress, endCodeAddress);
 			

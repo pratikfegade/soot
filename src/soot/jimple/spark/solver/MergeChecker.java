@@ -138,7 +138,7 @@ public class MergeChecker {
     }
 
     protected PAG pag;
-    protected MultiMap<SparkField, VarNode> fieldToBase = new HashMultiMap<SparkField, VarNode>();
+    protected MultiMap<SparkField, VarNode> fieldToBase = new HashMultiMap<>();
 }
 
 

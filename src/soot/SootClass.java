@@ -69,12 +69,12 @@ public class SootClass extends AbstractHost implements Numberable
 {
     protected String name, shortName, fixedShortName, packageName, fixedPackageName;
     protected int modifiers;
-    protected Chain<SootField> fields = new HashChain<SootField>();
-    protected SmallNumberedMap<SootMethod> subSigToMethods = new SmallNumberedMap<SootMethod>( Scene.v().getSubSigNumberer() );
+    protected Chain<SootField> fields = new HashChain<>();
+    protected SmallNumberedMap<SootMethod> subSigToMethods = new SmallNumberedMap<>(Scene.v().getSubSigNumberer());
     // methodList is just for keeping the methods in a consistent order. It
     // needs to be kept consistent with subSigToMethods.
-    protected List<SootMethod> methodList = new ArrayList<SootMethod>();
-    protected Chain<SootClass> interfaces = new HashChain<SootClass>();
+    protected List<SootMethod> methodList = new ArrayList<>();
+    protected Chain<SootClass> interfaces = new HashChain<>();
 
     protected boolean isInScene;
     protected SootClass superClass;
@@ -448,7 +448,7 @@ public class SootClass extends AbstractHost implements Numberable
 
     public List<SootMethod> getMethods() {
         checkLevel(SIGNATURES);
-        return new ArrayList<SootMethod>(methodList);
+        return new ArrayList<>(methodList);
     }
 
     /**
@@ -1164,7 +1164,7 @@ public class SootClass extends AbstractHost implements Numberable
      * validate the method bodies, only the class structure.
      */
     public void validate() {
-        final List<ValidationException> exceptionList = new ArrayList<ValidationException>();
+        final List<ValidationException> exceptionList = new ArrayList<>();
         validate(exceptionList);
         if (!exceptionList.isEmpty())
         	throw exceptionList.get(0);

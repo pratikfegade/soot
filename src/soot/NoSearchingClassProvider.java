@@ -131,7 +131,7 @@ public class NoSearchingClassProvider implements ClassProvider {
      * Adds an application archive to the class provider.
      */
     public List<String> addArchive(File f) throws IOException {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         ZipFile archive = new ZipFile(f);
         Enumeration<? extends ZipEntry> entries = archive.entries();

@@ -68,7 +68,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 						@Override
 						public Set<Local> computeTargets(Local source) {
 							if (source == zeroValue()) {
-								Set<Local> res = new LinkedHashSet<Local>();
+								Set<Local> res = new LinkedHashSet<>();
 								res.addAll(m.getActiveBody().getLocals());
 								for(int i=0;i<m.getParameterCount();i++) 
 									res.remove(m.getActiveBody().getParameterLocal(i));
@@ -91,7 +91,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 								List<ValueBox> useBoxes = definition.getUseBoxes();
 								for (ValueBox valueBox : useBoxes) {
 									if (valueBox.getValue().equivTo(source)) {
-										LinkedHashSet<Local> res = new LinkedHashSet<Local>();
+										LinkedHashSet<Local> res = new LinkedHashSet<>();
 										res.add(source);
 										res.add(leftOpLocal); 
 										return res;
@@ -117,7 +117,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 				InvokeExpr invokeExpr = stmt.getInvokeExpr();
 				final List<Value> args = invokeExpr.getArgs();
 
-				final List<Local> localArguments = new ArrayList<Local>();
+				final List<Local> localArguments = new ArrayList<>();
 				for (Value value : args)
 					if (value instanceof Local)
 						localArguments.add((Local) value);
@@ -140,7 +140,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 						if (source == zeroValue()) {
 							//gen all locals that are not parameter locals 
 							Collection<Local> locals = destinationMethod.getActiveBody().getLocals();
-							LinkedHashSet<Local> uninitializedLocals = new LinkedHashSet<Local>(locals);
+							LinkedHashSet<Local> uninitializedLocals = new LinkedHashSet<>(locals);
 							for(int i=0;i<destinationMethod.getParameterCount();i++) {								
 								uninitializedLocals.remove(destinationMethod.getActiveBody().getParameterLocal(i));
 							}
@@ -198,7 +198,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 					DefinitionStmt definition = (DefinitionStmt) callSite;
 					if(definition.getLeftOp() instanceof Local) {
 						final Local leftOpLocal = (Local) definition.getLeftOp();				
-						return new Kill<Local>(leftOpLocal);
+						return new Kill<>(leftOpLocal);
 					}
 				}
 				return Identity.v();

@@ -59,10 +59,10 @@ public class BytecodeHierarchy implements IHierarchy
 	end of a different path from root to Object. */
 	private static Collection<AncestryTreeNode> buildAncestryTree(RefType root)
 	{
-		LinkedList<AncestryTreeNode> leafs = new LinkedList<AncestryTreeNode>();
+		LinkedList<AncestryTreeNode> leafs = new LinkedList<>();
 		leafs.add(new AncestryTreeNode(null, root));
 		
-		LinkedList<AncestryTreeNode> r = new LinkedList<AncestryTreeNode>();
+		LinkedList<AncestryTreeNode> r = new LinkedList<>();
 		while ( !leafs.isEmpty() )
 		{
 			AncestryTreeNode node = leafs.remove();
@@ -147,7 +147,7 @@ public class BytecodeHierarchy implements IHierarchy
 			else
 				ts = lcas_(eta, etb);
 			
-			LinkedList<Type> r = new LinkedList<Type>();
+			LinkedList<Type> r = new LinkedList<>();
 			if ( ts.isEmpty() )
 			{
 				// From Java Language Spec 2nd ed., Chapter 10, Arrays
@@ -172,7 +172,7 @@ public class BytecodeHierarchy implements IHierarchy
 			these are the least common supertypes, otherwise the only one is 
 			Object. */
 			
-			LinkedList<Type> r = new LinkedList<Type>();
+			LinkedList<Type> r = new LinkedList<>();
 			/* Do not consider Object to be a subtype of Serializable or Cloneable
 			(it can appear this way if phantom-refs is enabled and rt.jar is not
 			available) otherwise an infinite loop can result. */
@@ -193,7 +193,7 @@ public class BytecodeHierarchy implements IHierarchy
 			Collection<AncestryTreeNode> treea = buildAncestryTree((RefType)a),
 				treeb = buildAncestryTree((RefType)b);
 			
-			LinkedList<Type> r = new LinkedList<Type>();
+			LinkedList<Type> r = new LinkedList<>();
 			for ( AncestryTreeNode nodea : treea )
 				for ( AncestryTreeNode nodeb : treeb )
 				{
@@ -256,7 +256,7 @@ public class BytecodeHierarchy implements IHierarchy
 	
 	private static Deque<RefType> superclassPath(RefType t)
 	{
-		Deque<RefType> r = new LinkedList<RefType>();
+		Deque<RefType> r = new LinkedList<>();
 		r.addFirst(t);
 		
 		SootClass sc = t.getSootClass();

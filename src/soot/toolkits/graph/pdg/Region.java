@@ -58,7 +58,7 @@ public class Region implements IRegion{
 	//The following are needed to create a tree of regions based on the containment (dependency)
 	//relation between regions.
 	private IRegion m_parent = null;
-	private List<IRegion> m_children = new ArrayList<IRegion>();
+	private List<IRegion> m_children = new ArrayList<>();
 	
 	
 	public Region(int id, SootMethod m, SootClass c, UnitGraph ug)
@@ -113,7 +113,7 @@ public class Region implements IRegion{
 	{
 		if(this.m_units == null)
 		{
-			this.m_units = new LinkedList<Unit>();
+			this.m_units = new LinkedList<>();
 			for(Iterator<Block> itr = this.m_blocks.iterator(); itr.hasNext();)
 			{
 				Block b = itr.next();

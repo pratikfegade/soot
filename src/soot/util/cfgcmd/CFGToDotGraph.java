@@ -215,7 +215,7 @@ public class CFGToDotGraph {
     if (coll.size() <= 1) {
       return coll.iterator();
     } else {
-      ArrayList<T> list = new ArrayList<T>(coll);
+      ArrayList<T> list = new ArrayList<>(coll);
       Collections.sort(list, comp);
       return list.iterator();
     }
@@ -289,8 +289,8 @@ public class CFGToDotGraph {
    */
   public <N> DotGraph drawCFG(DirectedGraph<N> graph, Body body) {
     DotGraph canvas = initDotGraph(body);
-    DotNamer<N> namer = new DotNamer<N>((int)(graph.size()/0.7f), 0.7f);
-    NodeComparator<N> comparator = new NodeComparator<N>(namer);
+    DotNamer<N> namer = new DotNamer<>((int) (graph.size() / 0.7f), 0.7f);
+    NodeComparator<N> comparator = new NodeComparator<>(namer);
 
     // To facilitate comparisons between different graphs of the same
     // method, prelabel the nodes in the order they appear

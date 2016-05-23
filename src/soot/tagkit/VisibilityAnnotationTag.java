@@ -87,7 +87,7 @@ public class VisibilityAnnotationTag implements  Tag
 
     public void addAnnotation(AnnotationTag a){
         if (annotations == null){
-            annotations = new ArrayList<AnnotationTag>();
+            annotations = new ArrayList<>();
         }
         annotations.add(a);
     }

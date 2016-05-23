@@ -38,9 +38,9 @@ public class IncrementalTypesHeuristic implements FieldCheckHeuristic {
 
     private static final String[] EXCLUDED_NAMES = new String[] { "ca.mcgill.sable.soot.SootMethod" };
 
-    private Set<RefType> typesToCheck = new HashSet<RefType>();
+    private Set<RefType> typesToCheck = new HashSet<>();
 
-    private Set<RefType> notBothEndsTypes = new HashSet<RefType>();
+    private Set<RefType> notBothEndsTypes = new HashSet<>();
 
     private RefType newTypeOnQuery = null;
 

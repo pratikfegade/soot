@@ -46,7 +46,7 @@ public class InnerClassTagAggregator extends SceneTransformer {
     public void internalTransform(String phaseName, Map<String,String> options){
         Iterator<SootClass> it = Scene.v().getApplicationClasses().iterator();
         while (it.hasNext()){
-            ArrayList<InnerClassTag> list = new ArrayList<InnerClassTag>();
+            ArrayList<InnerClassTag> list = new ArrayList<>();
             SootClass nextSc = it.next();
             for (Tag t : nextSc.getTags()){
                 if (t instanceof InnerClassTag){

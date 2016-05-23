@@ -69,7 +69,7 @@ public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
 
     private List<N> reverseOrder;
 
-    private final HashMap<N, List<N>> succsMap = new HashMap<N, List<N>>();
+    private final HashMap<N, List<N>> succsMap = new HashMap<>();
 
     /**
      * {@inheritDoc}
@@ -86,12 +86,12 @@ public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
      * @return an ordered list of the graph's nodes.
      */
     LinkedList<N> computeOrder(DirectedGraph<N> g) {
-        stmtToColor = new HashMap<N, Integer>();
+        stmtToColor = new HashMap<>();
 
-        order = new LinkedList<N>();
+        order = new LinkedList<>();
         graph = g;
 
-        PseudoTopologicalReverseOrderer<N> orderer = new PseudoTopologicalReverseOrderer<N>();
+        PseudoTopologicalReverseOrderer<N> orderer = new PseudoTopologicalReverseOrderer<>();
 
         reverseOrder = orderer.newList(g);
 
@@ -124,8 +124,8 @@ public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
     // (possibly reversed) list of statements starting at s.
     // Simulates recursion with a stack.
     private void visitNode(N startStmt) {
-        LinkedList<N> stmtStack = new LinkedList<N>();
-        LinkedList<Integer> indexStack = new LinkedList<Integer>();
+        LinkedList<N> stmtStack = new LinkedList<>();
+        LinkedList<Integer> indexStack = new LinkedList<>();
 
         stmtToColor.put(startStmt, GRAY);
 
@@ -156,7 +156,7 @@ public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
             } else {
                 List<N> orderedSuccs = succsMap.get(toVisitNode);
                 if (orderedSuccs == null) {
-                    orderedSuccs = new LinkedList<N>();
+                    orderedSuccs = new LinkedList<>();
                     succsMap.put(toVisitNode, orderedSuccs);
                     /* make ordered succs */
 
@@ -222,9 +222,9 @@ public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
          * @return an ordered list of the graph's nodes.
          */
         LinkedList<N> computeOrder(DirectedGraph<N> g) {
-            stmtToColor = new HashMap<N, Integer>();
+            stmtToColor = new HashMap<>();
 
-            order = new LinkedList<N>();
+            order = new LinkedList<>();
             graph = g;
 
             // Color all nodes white
@@ -254,8 +254,8 @@ public class SlowPseudoTopologicalOrderer<N> implements Orderer<N> {
         }
 
         private void visitNode(N startStmt) {
-            LinkedList<N> stmtStack = new LinkedList<N>();
-            LinkedList<Integer> indexStack = new LinkedList<Integer>();
+            LinkedList<N> stmtStack = new LinkedList<>();
+            LinkedList<Integer> indexStack = new LinkedList<>();
 
             stmtToColor.put(startStmt, GRAY);
 

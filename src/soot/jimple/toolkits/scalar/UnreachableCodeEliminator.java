@@ -128,8 +128,8 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		if ( first == null || g == null ) {
 			return Collections.emptySet();
 		}
-		Set<T> visited = new HashSet<T>(g.size());
-		Deque<T> q = new ArrayDeque<T>();
+		Set<T> visited = new HashSet<>(g.size());
+		Deque<T> q = new ArrayDeque<>();
 		q.addFirst(first);
 		do {
 			T t = q.removeFirst();

@@ -71,7 +71,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 */
 	@Deprecated
 	public static <E> List<E> toList(Chain<E> c) {
-		return new ArrayList<E>(c);
+		return new ArrayList<>(c);
 	}
 
 	/** Constructs an empty HashChain. */
@@ -185,7 +185,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	public static <T> HashChain<T> listToHashChain(List<T> list) {
-		HashChain<T> c = new HashChain<T>();
+		HashChain<T> c = new HashChain<>();
 		Iterator<T> it = list.iterator();
 		while (it.hasNext())
 			c.addLast(it.next());
@@ -227,7 +227,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 			temp = map.get(firstItem);
 			newLink = temp.insertBefore(item);
 		} else {
-			newLink = new Link<E>(item);
+			newLink = new Link<>(item);
 			firstItem = lastItem = item;
 		}
 		map.put(item, newLink);
@@ -247,7 +247,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 			temp = map.get(lastItem);
 			newLink = temp.insertAfter(item);
 		} else {
-			newLink = new Link<E>(item);
+			newLink = new Link<>(item);
 			firstItem = lastItem = item;
 		}
 		map.put(item, newLink);
@@ -310,13 +310,13 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	public Iterator<E> snapshotIterator() {
-		return (new ArrayList<E>(this)).iterator();
+		return (new ArrayList<>(this)).iterator();
 	}
 
 	public Iterator<E> snapshotIterator(E item) {
-		List<E> l = new ArrayList<E>(map.size());
+		List<E> l = new ArrayList<>(map.size());
 
-		Iterator<E> it = new LinkIterator<E>(item);
+		Iterator<E> it = new LinkIterator<>(item);
 		while (it.hasNext())
 			l.add(it.next());
 
@@ -324,11 +324,11 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	public Iterator<E> iterator() {
-		return new LinkIterator<E>(firstItem);
+		return new LinkIterator<>(firstItem);
 	}
 
 	public Iterator<E> iterator(E item) {
-		return new LinkIterator<E>(item);
+		return new LinkIterator<>(item);
 	}
 
 	/**
@@ -353,9 +353,9 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	public Iterator<E> iterator(E head, E tail) {
 		if (head != null && this.getPredOf(head) == tail) {
 			// special case hack, so empty ranges iterate 0 times
-			return new LinkIterator<E>(null, null);
+			return new LinkIterator<>(null, null);
 		}
-		return new LinkIterator<E>(head, tail);
+		return new LinkIterator<>(head, tail);
 	}
 
 	public int size() {
@@ -413,7 +413,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		}
 
 		public Link<X> insertAfter(X item) {
-			Link<X> newLink = new Link<X>(item);
+			Link<X> newLink = new Link<>(item);
 
 			bind(newLink, nextLink);
 			bind(this, newLink);
@@ -421,7 +421,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		}
 
 		public Link<X> insertBefore(X item) {
-			Link<X> newLink = new Link<X>(item);
+			Link<X> newLink = new Link<>(item);
 
 			bind(previousLink, newLink);
 			bind(newLink, this);
@@ -468,7 +468,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 				throw new NoSuchElementException(
 						"HashChain.LinkIterator(obj) with obj that is not in the chain: "
 								+ item.toString());
-			currentLink = new Link<E>(null);
+			currentLink = new Link<>(null);
 			currentLink.setNext(nextLink);
 			state = false;
 			destination = null;

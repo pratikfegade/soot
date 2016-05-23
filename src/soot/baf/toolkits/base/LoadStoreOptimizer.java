@@ -129,7 +129,7 @@ class Instance {
         }
        
         List<Block> blocks = blockGraph.getBlocks();
-        mUnitToBlockMap = new HashMap<Unit, Block>();
+        mUnitToBlockMap = new HashMap<>();
         
         Iterator<Block> blockIt = blocks.iterator();
         while(blockIt.hasNext() ) {
@@ -148,7 +148,7 @@ class Instance {
   
     private  List<Unit>  buildStoreList()
     {
-        List<Unit> storeList = new ArrayList<Unit>();
+        List<Unit> storeList = new ArrayList<>();
         
         for (Unit unit : mUnits) {
             if (unit instanceof StoreInst)
@@ -404,7 +404,7 @@ class Instance {
         Unit storePred =  block.getPredOf(from);
         if(storePred != null) {
             if(((Inst)storePred).getOutCount() == 1){
-                Set<Unit> unitsToMove = new HashSet<Unit>();
+                Set<Unit> unitsToMove = new HashSet<>();
                 unitsToMove.add(storePred);
                 unitsToMove.add(from);
                 int h = ((Inst)storePred).getInCount();
@@ -904,7 +904,7 @@ class Instance {
         while(hasChanged) {
             hasChanged = false;
             
-            List<Unit> tempList = new ArrayList<Unit>();
+            List<Unit> tempList = new ArrayList<>();
             tempList.addAll(mUnits);
             Iterator<Unit> it = tempList.iterator();        
             while(it.hasNext()) {
@@ -1034,7 +1034,7 @@ class Instance {
     void propagateBackwardsIndependentHunk() 
     {
         
-        List<Unit> tempList = new ArrayList<Unit>();
+        List<Unit> tempList = new ArrayList<>();
         tempList.addAll(mUnits);
         Iterator<Unit> it = tempList.iterator();
         

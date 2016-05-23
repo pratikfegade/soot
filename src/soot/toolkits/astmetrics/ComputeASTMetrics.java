@@ -34,7 +34,7 @@ public class ComputeASTMetrics {
 	 * New metrics should be added into the metrics linked list
 	 */
 	public ComputeASTMetrics(Node astNode){
-		metrics = new ArrayList<ASTMetric>();
+		metrics = new ArrayList<>();
 		//add new metrics below this line
 		//REMEMBER ALL METRICS NEED TO implement MetricInterface
 		

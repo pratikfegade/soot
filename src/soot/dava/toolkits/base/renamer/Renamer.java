@@ -52,13 +52,13 @@ public class Renamer {
 		locals = null;
 		methodNode = node;
 		
-		changedOrNot = new HashMap<Local, Boolean>();
+		changedOrNot = new HashMap<>();
 		Iterator<Local> localIt = info.getLocalsIterator();
 		while(localIt.hasNext())
 			changedOrNot.put(localIt.next(),new Boolean(false));
 		
 		
-		forLoopNames = new ArrayList<String>();
+		forLoopNames = new ArrayList<>();
 		forLoopNames.add("i");
 		forLoopNames.add("j");
 		forLoopNames.add("k");

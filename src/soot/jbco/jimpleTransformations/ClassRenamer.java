@@ -50,8 +50,8 @@ public class ClassRenamer extends SceneTransformer  implements IJbcoTransform {
       {'_'}
   };
   
-  public static HashMap<String, String> oldToNewClassNames = new HashMap<String, String>();
-  public static HashMap<String, SootClass> newNameToClass = new HashMap<String, SootClass>();
+  public static HashMap<String, String> oldToNewClassNames = new HashMap<>();
+  public static HashMap<String, SootClass> newNameToClass = new HashMap<>();
   
   protected void internalTransform(String phaseName, Map<String,String> options)
   {

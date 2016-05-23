@@ -123,7 +123,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
 	public LocalMustAliasAnalysis(UnitGraph g, boolean tryTrackFieldAssignments) {
         super(g);
         this.container = g.getBody().getMethod();
-        this.localsAndFieldRefs = new HashSet<Value>(); 
+        this.localsAndFieldRefs = new HashSet<>();
         
         //add all locals
         for (Local l : g.getBody().getLocals()) {
@@ -135,8 +135,8 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
         	this.localsAndFieldRefs.addAll(trackableFields());
         }
 
-       	this.rhsToNumber = new HashMap<Value, Integer>();
-        this.mergePointToValueToNumber = new HashMap<Unit,Map<Value,Integer>>();
+       	this.rhsToNumber = new HashMap<>();
+        this.mergePointToValueToNumber = new HashMap<>();
         
         doAnalysis();
         
@@ -150,7 +150,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
      * in this method but not set by the method or any method transitively called by this method.
      */
     private Set<Value> trackableFields() {
-    	Set<Value> usedFieldRefs = new HashSet<Value>();
+    	Set<Value> usedFieldRefs = new HashSet<>();
         //add all field references that are in use boxes
         for (Unit unit : this.graph) {
 			Stmt s = (Stmt) unit;
@@ -228,7 +228,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
             	//then assign the number to l in the outMap
                 Map<Value, Integer> valueToNumber = mergePointToValueToNumber.get(succUnit);
                 if(valueToNumber==null) {
-                	valueToNumber = new HashMap<Value, Integer>();
+                	valueToNumber = new HashMap<>();
                 	mergePointToValueToNumber.put(succUnit, valueToNumber);
                 }
                 Integer number = valueToNumber.get(l);
@@ -314,7 +314,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
     /** Initial most conservative value: has to be {@link UNKNOWN} (top). */
     protected HashMap<Value,Object> entryInitialFlow()
     {
-    	HashMap<Value,Object> m = new HashMap<Value,Object>();
+    	HashMap<Value,Object> m = new HashMap<>();
         for (Value l : localsAndFieldRefs) {
             m.put(l, UNKNOWN);
         }
@@ -324,7 +324,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
     /** Initial bottom value: objects have no definitions. */
     protected HashMap<Value,Object> newInitialFlow()
     {
-    	HashMap<Value,Object> m = new HashMap<Value,Object>();
+    	HashMap<Value,Object> m = new HashMap<>();
         for (Value l : localsAndFieldRefs) {
             m.put(l, NOTHING);
         }

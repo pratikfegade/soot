@@ -45,8 +45,8 @@ public class PDGNode {
 
 	protected Type m_type;
 	protected Object m_node = null;
-	protected List<PDGNode> m_dependents = new ArrayList<PDGNode>();
-	protected List<PDGNode> m_backDependents = new ArrayList<PDGNode>();
+	protected List<PDGNode> m_dependents = new ArrayList<>();
+	protected List<PDGNode> m_backDependents = new ArrayList<>();
 	//This is used to keep an ordered list of the nodes in a region, based on the control-flow
 	//between them (if any).
 	protected PDGNode m_next = null;

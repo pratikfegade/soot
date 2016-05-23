@@ -16,11 +16,11 @@ public class LabelAssigner {
 	
 	private int lastLabelId = 0;
 
-	private Map<Stmt, Label> stmtToLabel = new HashMap<Stmt, Label>();
-	private Map<Stmt, String> stmtToLabelName = new HashMap<Stmt, String>();
+	private Map<Stmt, Label> stmtToLabel = new HashMap<>();
+	private Map<Stmt, String> stmtToLabelName = new HashMap<>();
 	
-	private Map<SwitchPayload, Label> payloadToLabel = new HashMap<SwitchPayload, Label>();
-	private Map<SwitchPayload, String> payloadToLabelName = new HashMap<SwitchPayload, String>();
+	private Map<SwitchPayload, Label> payloadToLabel = new HashMap<>();
+	private Map<SwitchPayload, String> payloadToLabelName = new HashMap<>();
 	
 	public LabelAssigner(MethodImplementationBuilder builder) {
 		this.builder = builder;

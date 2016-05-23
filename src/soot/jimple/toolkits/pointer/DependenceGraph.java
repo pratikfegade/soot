@@ -24,7 +24,7 @@ import soot.tagkit.*;
 public class DependenceGraph implements Attribute
 {
     private final static String NAME = "DependenceGraph";
-    HashSet<Edge> edges = new HashSet<Edge>();
+    HashSet<Edge> edges = new HashSet<>();
 
     protected class Edge {
 	short from;

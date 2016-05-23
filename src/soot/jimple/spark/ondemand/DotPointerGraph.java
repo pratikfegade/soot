@@ -41,9 +41,9 @@ import soot.jimple.spark.pag.VarNode;
  */
 public class DotPointerGraph {
 
-	private final Set<String> edges = new HashSet<String>();
+	private final Set<String> edges = new HashSet<>();
 
-	private final Set<Node> nodes = new HashSet<Node>();
+	private final Set<Node> nodes = new HashSet<>();
 
 	public void addAssign(VarNode from, VarNode to) {
 		addEdge(to, from, "", "black");

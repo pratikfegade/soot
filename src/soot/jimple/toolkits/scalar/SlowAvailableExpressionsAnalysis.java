@@ -55,19 +55,19 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
         UnitGraph g = (UnitGraph)dg;
 
         /* we need a universe of all of the expressions. */
-        ArrayList<Value> exprs = new ArrayList<Value>();
+        ArrayList<Value> exprs = new ArrayList<>();
 
         // Consider "a + b".  containingExprs maps a and b (object equality) both to "a + b" (equivalence).
         HashMap<EquivalentValue, Chain<EquivalentValue>> containingExprs =
-        		new HashMap<EquivalentValue, Chain<EquivalentValue>>();
+                new HashMap<>();
 
         // maps a Value to its EquivalentValue.
-        valueToEquivValue = new HashMap<Value, EquivalentValue>();
+        valueToEquivValue = new HashMap<>();
 
         // maps an rhs to its containing stmt.  object equality in rhs.
-        rhsToContainingStmt = new HashMap<Value, Stmt>();
+        rhsToContainingStmt = new HashMap<>();
 
-        HashMap<EquivalentValue, Chain<Value>> equivValToSiblingList = new HashMap<EquivalentValue, Chain<Value>>();
+        HashMap<EquivalentValue, Chain<Value>> equivValToSiblingList = new HashMap<>();
 
         // Create the set of all expressions, and a map from values to their containing expressions.
         for (Unit u : g.getBody().getUnits()) {
@@ -86,7 +86,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
 
                 Chain<Value> sibList = null;
                 if (equivValToSiblingList.get(ev) == null)
-                    { sibList = new HashChain<Value>(); equivValToSiblingList.put(ev, sibList); }
+                    { sibList = new HashChain<>(); equivValToSiblingList.put(ev, sibList); }
                 else
                     sibList = equivValToSiblingList.get(ev);
                 
@@ -110,7 +110,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
                         }
 
                         if (equivValToSiblingList.get(eo) == null)
-                            { sibList = new HashChain<Value>(); equivValToSiblingList.put(eo, sibList); }
+                            { sibList = new HashChain<>(); equivValToSiblingList.put(eo, sibList); }
                         else
                             sibList = equivValToSiblingList.get(eo);
                         if (!sibList.contains(o)) sibList.add(o);
@@ -120,7 +120,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
                             l = containingExprs.get(eo);
                         else
                         {
-                            l = new HashChain<EquivalentValue>();
+                            l = new HashChain<>();
                             containingExprs.put(eo, l);
                         }
 
@@ -131,15 +131,15 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
             }
         }
 
-        FlowUniverse<Value> exprUniv = new ArrayFlowUniverse<Value>(exprs.toArray(new Value[exprs.size()]));
-        emptySet = new ArrayPackedSet<Value>(exprUniv);
+        FlowUniverse<Value> exprUniv = new ArrayFlowUniverse<>(exprs.toArray(new Value[exprs.size()]));
+        emptySet = new ArrayPackedSet<>(exprUniv);
 
         // Create preserve sets.
         {
-            unitToPreserveSet = new HashMap<Unit, BoundedFlowSet<Value>>(g.size() * 2 + 1, 0.7f);
+            unitToPreserveSet = new HashMap<>(g.size() * 2 + 1, 0.7f);
 
             for (Unit s : g) {
-                BoundedFlowSet<Value> killSet = new ArrayPackedSet<Value>(exprUniv);
+                BoundedFlowSet<Value> killSet = new ArrayPackedSet<>(exprUniv);
 
                 // We need to do more!  In particular handle invokeExprs, etc.
 
@@ -168,10 +168,10 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
 
         // Create generate sets
         {
-            unitToGenerateSet = new HashMap<Unit, BoundedFlowSet<Value>>(g.size() * 2 + 1, 0.7f);
+            unitToGenerateSet = new HashMap<>(g.size() * 2 + 1, 0.7f);
 
             for (Unit s : g) {
-                BoundedFlowSet<Value> genSet = new ArrayPackedSet<Value>(exprUniv);
+                BoundedFlowSet<Value> genSet = new ArrayPackedSet<>(exprUniv);
                 // In Jimple, expressions only occur as the RHS of an AssignStmt.
                 if (s instanceof AssignStmt)
 

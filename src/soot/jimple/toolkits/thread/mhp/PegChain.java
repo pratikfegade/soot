@@ -52,10 +52,10 @@ public class PegChain extends HashChain{
 	private final List tails= new ArrayList() ;
 	private final FlowSet pegNodes = new ArraySparseSet();
 	
-	private final Map<Unit, JPegStmt> unitToPeg = new HashMap<Unit, JPegStmt>();
+	private final Map<Unit, JPegStmt> unitToPeg = new HashMap<>();
 	private final Map<String, FlowSet> waitingNodes;
 	private final PegGraph pg;
-	private final Set<List<Object>> joinNeedReconsidered = new HashSet<List<Object>>();
+	private final Set<List<Object>> joinNeedReconsidered = new HashSet<>();
 	public Body body; // body from which this peg chain was created
 	// private Map startToThread;
 	
@@ -118,8 +118,8 @@ public class PegChain extends HashChain{
 		while (it.hasNext()){
 			Object head = it.next();
 			//breadth first scan
-			Set<Unit> gray = new HashSet<Unit>();
-			LinkedList<Object> queue = new LinkedList<Object>();
+			Set<Unit> gray = new HashSet<>();
+			LinkedList<Object> queue = new LinkedList<>();
 			queue.add(head);
 			
 			visit((Unit)queue.getFirst(), graph, sm,
@@ -298,8 +298,8 @@ public class PegChain extends HashChain{
 					}
 					pg.getCanNotBeCompacted().add(pegStmt);
 					addAndPut(unit, pegStmt);
-					List<PegChain> runMethodChainList = new ArrayList<PegChain>();
-					List<AllocNode> threadAllocNodesList = new ArrayList<AllocNode>();
+					List<PegChain> runMethodChainList = new ArrayList<>();
+					List<AllocNode> threadAllocNodesList = new ArrayList<>();
 					//add Feb 01
 					if (mayAlias.size() < 1 ){
 						
@@ -392,7 +392,7 @@ public class PegChain extends HashChain{
 								JPegStmt pegStmt = new JoinStmt(value.toString(), threadName,
 										unit, graph, sm);
 								if (!pg.getAllocNodeToThread().containsKey(allocNode)){
-									List<Object> list = new ArrayList<Object>();
+									List<Object> list = new ArrayList<>();
 									list.add(pegStmt);
 									list.add(allocNode);
 									list.add(unit);
@@ -429,7 +429,7 @@ public class PegChain extends HashChain{
 								pg.getNotifyAll().put(objName, notifyAllSet);
 							}
 							else{
-								Set<JPegStmt> notifyAllSet = new HashSet<JPegStmt>();
+								Set<JPegStmt> notifyAllSet = new HashSet<>();
 								notifyAllSet.add(pegStmt);
 								pg.getNotifyAll().put(objName, notifyAllSet);
 							}
@@ -455,7 +455,7 @@ public class PegChain extends HashChain{
 								// System.out.println("isLibraryClass: "+method.getDeclaringClass().isLibraryClass());
 								if (method.isConcrete() && !method.getDeclaringClass().isLibraryClass()){
 									
-									List<SootMethod> targetList = new LinkedList<SootMethod>();
+									List<SootMethod> targetList = new LinkedList<>();
 									SootMethod targetMethod = null;
 									if (invokeExpr instanceof StaticInvokeExpr){
 										targetMethod = method;
@@ -590,7 +590,7 @@ public class PegChain extends HashChain{
 	}
 	private List<AllocNode> findMayAlias(PointsToSetInternal pts, Unit unit){
 		// returns a list of reaching objects' AllocNodes that are contained in the set of known AllocNodes
-		List<AllocNode> list = new ArrayList<AllocNode>();
+		List<AllocNode> list = new ArrayList<>();
 		Iterator<AllocNode> it =  makePtsIterator(pts);
 		while (it.hasNext()){
 			AllocNode obj = it.next();
@@ -714,7 +714,7 @@ public class PegChain extends HashChain{
 		}
 	}    
 	private Iterator<AllocNode> makePtsIterator(PointsToSetInternal pts){
-		final HashSet<AllocNode> ret = new HashSet<AllocNode>();
+		final HashSet<AllocNode> ret = new HashSet<>();
 		pts.forall( new P2SetVisitor() {
 			public void visit( Node n ) {
 				

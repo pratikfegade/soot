@@ -210,15 +210,15 @@ public class DavaBody extends Body {
 	DavaBody(SootMethod m) {
 		super(m);
 
-		pMap = new HashMap<Integer, Value>();
-		consumedConditions = new HashSet<Object>();
-		thisLocals = new HashSet<Object>();
-		synchronizedBlockFacts = new IterableSet<ExceptionNode>();
-		exceptionFacts = new IterableSet<ExceptionNode>();
-		monitorFacts = new IterableSet<AugmentedStmt>();
-		importList = new IterableSet<String>();
+		pMap = new HashMap<>();
+		consumedConditions = new HashSet<>();
+		thisLocals = new HashSet<>();
+		synchronizedBlockFacts = new IterableSet<>();
+		exceptionFacts = new IterableSet<>();
+		monitorFacts = new IterableSet<>();
+		importList = new IterableSet<>();
 		//packagesUsed = new IterableSet();
-		caughtrefs = new LinkedList<CaughtExceptionRef>();
+		caughtrefs = new LinkedList<>();
 
 		controlLocal = null;
 		constructorExpr = null;
@@ -333,7 +333,7 @@ public class DavaBody extends Body {
 				AbruptEdgeFinder.v().find(this, asg, SET);
 			} catch (RetriggerAnalysisException rae) {
 				SET = new SETTopNode(asg.get_ChainView());
-				consumedConditions = new HashSet<Object>();
+				consumedConditions = new HashSet<>();
 				continue;
 			}
 			break;
@@ -676,8 +676,8 @@ public class DavaBody extends Body {
 		 */
 
 		{
-			HashMap<Switchable, Switchable> bindings = new HashMap<Switchable, Switchable>();
-			HashMap<Unit, Unit> reverse_binding = new HashMap<Unit, Unit>();
+			HashMap<Switchable, Switchable> bindings = new HashMap<>();
+			HashMap<Unit, Unit> reverse_binding = new HashMap<>();
 
 			// Clone units in body's statement list 
 			for (Unit original : grimpBody.getUnits()) {
@@ -705,7 +705,7 @@ public class DavaBody extends Body {
 					ts.setDefaultTarget((Unit) bindings.get(original_switch
 							.getDefaultTarget()));
 
-					LinkedList<Unit> new_target_list = new LinkedList<Unit>();
+					LinkedList<Unit> new_target_list = new LinkedList<>();
 
 					int target_count = ts.getHighIndex() - ts.getLowIndex() + 1;
 					for (int i = 0; i < target_count; i++)

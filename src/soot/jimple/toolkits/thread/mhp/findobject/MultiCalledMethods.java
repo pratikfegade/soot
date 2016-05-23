@@ -27,7 +27,7 @@ import soot.jimple.toolkits.thread.mhp.pegcallgraph.PegCallGraph;
 
 public class MultiCalledMethods{
 	
-	Set<SootMethod> multiCalledMethods = new HashSet<SootMethod>();
+	Set<SootMethod> multiCalledMethods = new HashSet<>();
 	
 	MultiCalledMethods(PegCallGraph pcg, Set<SootMethod> mcm){
 		multiCalledMethods = mcm;	
@@ -51,7 +51,7 @@ public class MultiCalledMethods{
 
 	private void propagate(PegCallGraph pcg){
 		Set<SootMethod> visited = new HashSet();
-		List<SootMethod> reachable = new  ArrayList<SootMethod>();
+		List<SootMethod> reachable = new ArrayList<>();
 		reachable.addAll(multiCalledMethods);
 	    while(reachable.size()>=1)
 	    {
@@ -75,8 +75,8 @@ public class MultiCalledMethods{
 		while (it.hasNext()){
 			Object head = it.next();
 			//breadth first scan
-			Set<Object> gray = new HashSet<Object>();
-			LinkedList<Object> queue = new LinkedList<Object>();
+			Set<Object> gray = new HashSet<>();
+			LinkedList<Object> queue = new LinkedList<>();
 			queue.add(head);
 			
 			while (queue.size()>0){
@@ -106,8 +106,8 @@ public class MultiCalledMethods{
 	private void finder2(PegCallGraph pcg){
 		
 		pcg.trim();
-		Set<SootMethod> first = new HashSet<SootMethod>();
-		Set<SootMethod> second = new HashSet<SootMethod>();
+		Set<SootMethod> first = new HashSet<>();
+		Set<SootMethod> second = new HashSet<>();
 		// Visit each node
 		Iterator it = pcg.iterator();
 		while (it.hasNext()){

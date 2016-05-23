@@ -95,7 +95,7 @@ public class EarliestnessComputation {
 	 */
 	public EarliestnessComputation(UnitGraph unitGraph, UpSafetyAnalysis upSafe, DownSafetyAnalysis downSafe,
 			SideEffectTester sideEffect, FlowSet<EquivalentValue> set) {
-		unitToEarliest = new HashMap<Unit, FlowSet<EquivalentValue>>(unitGraph.size() + 1, 0.7f);
+		unitToEarliest = new HashMap<>(unitGraph.size() + 1, 0.7f);
 
 		for (Unit currentUnit : unitGraph) {
 			/* create a new Earliest-list for each unit */

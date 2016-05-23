@@ -51,7 +51,7 @@ public class MethodRenamer extends SceneTransformer implements IJbcoTransform {
 			{ 'l', '1', 'I' }, { '_' } };
 	
 	public static Vector<?> namesToNotRename = new Vector<Object>();
-	public static HashMap<String, String> oldToNewMethodNames = new HashMap<String, String>();
+	public static HashMap<String, String> oldToNewMethodNames = new HashMap<>();
 	private static Hierarchy hierarchy;
 
 	protected void internalTransform(String phaseName,
@@ -68,7 +68,7 @@ public class MethodRenamer extends SceneTransformer implements IJbcoTransform {
 
 		// iterate through application classes, rename methods with junk
 		for (SootClass c : scene.getApplicationClasses()) {
-			Vector<String> fields = new Vector<String>();
+			Vector<String> fields = new Vector<>();
 			Iterator<SootField> fIt = c.getFields().iterator();
 			while (fIt.hasNext()) {
 				fields.add(fIt.next().getName());

@@ -40,7 +40,7 @@ public abstract class SceneTransformer extends Transformer
     }
     public final void transform(String phaseName)
     {
-        HashMap<String, String> dummyOptions = new HashMap<String, String>();
+        HashMap<String, String> dummyOptions = new HashMap<>();
         dummyOptions.put( "enabled", "true" );
         transform(phaseName, dummyOptions);
     }

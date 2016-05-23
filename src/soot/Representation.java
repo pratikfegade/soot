@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class Representation
 {
-  private Map<SootMethod, String> _methodRepr = new HashMap<SootMethod, String>();
-  private Map<SootMethod, String> _methodSigRepr = new HashMap<SootMethod, String>();
-  private Map<Trap, String> _trapRepr = new HashMap<Trap, String>();
+  private Map<SootMethod, String> _methodRepr = new HashMap<>();
+  private Map<SootMethod, String> _methodSigRepr = new HashMap<>();
+  private Map<Trap, String> _trapRepr = new HashMap<>();
 
   public String type(SootClass c)
   {

@@ -46,7 +46,7 @@ public class ASTSynchronizedBlockNode extends ASTLabeledNode
     */
     public void replaceBody(List<Object> body){
 	this.body=body;
-	subBodies=new ArrayList<Object>();
+	subBodies= new ArrayList<>();
 	subBodies.add(body);
     }
 

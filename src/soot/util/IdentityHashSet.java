@@ -40,7 +40,7 @@ public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
      * Creates a new, empty IdentityHashSet. 
      */
     public IdentityHashSet() {
-        delegate = new IdentityHashMap<E, E>();
+        delegate = new IdentityHashMap<>();
     }
 
     /**
@@ -49,7 +49,7 @@ public class IdentityHashSet<E> extends AbstractSet<E> implements Set<E> {
      * @param original The original collection whose elements to inherit
      */
     public IdentityHashSet(Collection<E> original) {
-        delegate = new IdentityHashMap<E, E>();
+        delegate = new IdentityHashMap<>();
         addAll(original);
     }
 

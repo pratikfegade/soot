@@ -82,7 +82,7 @@ public class PAG implements PointsToAnalysis {
     public PAG( final SparkOptions opts ) {
         this.opts = opts;
         if( opts.add_tags() ) {
-            nodeToTag = new HashMap<Node, Tag>();
+            nodeToTag = new HashMap<>();
         }
         if (opts.rta() && opts.on_fly_cg()) {
         	throw new RuntimeException("Incompatible options rta:true and on-fly-cg:true for cg.spark. Use -p cg-"
@@ -325,7 +325,7 @@ public class PAG implements PointsToAnalysis {
                 System.arraycopy( ret, 0, newArray, 0, j );
                 m.put( n1, ret = newArray );
             } else {
-                HashSet<Node> s = new HashSet<Node>( size1+size2 );
+                HashSet<Node> s = new HashSet<>(size1 + size2);
                 for (Object o : os) {
                     if( o == null ) continue;
                     if( o instanceof Set ) {
@@ -380,7 +380,7 @@ public class PAG implements PointsToAnalysis {
                         System.arraycopy( ret, 0, newArray, 0, j );
                         m.put( key, ret = newArray );
                     } else {
-                        s = new HashSet<Node>( ret.length * 2 );
+                        s = new HashSet<>(ret.length * 2);
                         for( int j = 0; j < i; j++ ) s.add( ret[j] );
                         for( int j = i; j < ret.length; j++ ) {
                             rep = ret[j].getReplacement();
@@ -502,7 +502,7 @@ public class PAG implements PointsToAnalysis {
 	return ret;
     }
 
-    ChunkedQueue<AllocNode> newAllocNodes = new ChunkedQueue<AllocNode>();
+    ChunkedQueue<AllocNode> newAllocNodes = new ChunkedQueue<>();
     public QueueReader<AllocNode> allocNodeListener() { return newAllocNodes.reader(); }
 
     /** Finds the GlobalVarNode for the variable value, or returns null. */
@@ -720,7 +720,7 @@ public class PAG implements PointsToAnalysis {
 		}
     }
 
-    protected ChunkedQueue<Node> edgeQueue = new ChunkedQueue<Node>();
+    protected ChunkedQueue<Node> edgeQueue = new ChunkedQueue<>();
     public QueueReader<Node> edgeReader() { return edgeQueue.reader(); }
 
     public int getNumAllocNodes() {
@@ -748,13 +748,13 @@ public class PAG implements PointsToAnalysis {
         return nodeToTag;
     }
 
-    private final ArrayNumberer<AllocNode> allocNodeNumberer = new ArrayNumberer<AllocNode>();
+    private final ArrayNumberer<AllocNode> allocNodeNumberer = new ArrayNumberer<>();
     public ArrayNumberer<AllocNode> getAllocNodeNumberer() { return allocNodeNumberer; }
-    private final ArrayNumberer<VarNode> varNodeNumberer = new ArrayNumberer<VarNode>();
+    private final ArrayNumberer<VarNode> varNodeNumberer = new ArrayNumberer<>();
     public ArrayNumberer<VarNode> getVarNodeNumberer() { return varNodeNumberer; }
-    private final ArrayNumberer<FieldRefNode> fieldRefNodeNumberer = new ArrayNumberer<FieldRefNode>();
+    private final ArrayNumberer<FieldRefNode> fieldRefNodeNumberer = new ArrayNumberer<>();
     public ArrayNumberer<FieldRefNode> getFieldRefNodeNumberer() { return fieldRefNodeNumberer; }
-    private final ArrayNumberer<AllocDotField> allocDotFieldNodeNumberer = new ArrayNumberer<AllocDotField>();
+    private final ArrayNumberer<AllocDotField> allocDotFieldNodeNumberer = new ArrayNumberer<>();
     public ArrayNumberer<AllocDotField> getAllocDotFieldNodeNumberer() { return allocDotFieldNodeNumberer; }
 
 
@@ -764,12 +764,12 @@ public class PAG implements PointsToAnalysis {
     // Must be simple edges
 	public Pair<Node, Node> addInterproceduralAssignment(Node from, Node to, Edge e) 
 	{
-		Pair<Node, Node> val = new Pair<Node, Node>(from, to);
+		Pair<Node, Node> val = new Pair<>(from, to);
 		
 		if ( runGeomPTA ) {
 			Set<Edge> sets = assign2edges.get(val);
 			if ( sets == null ) {
-				sets = new HashSet<Edge>();
+				sets = new HashSet<>();
 				assign2edges.put(val, sets);
 			}
 			sets.add(e);
@@ -978,7 +978,7 @@ public class PAG implements PointsToAnalysis {
         	VarNode newObject = makeGlobalVarNode( cls, RefType.v( "java.lang.Object" ) );
         	SootClass tgtClass = e.getTgt().method().getDeclaringClass();
         	RefType tgtType = tgtClass.getType();                
-        	AllocNode site = makeAllocNode( new Pair<Node, SootClass>(cls, tgtClass), tgtType, null );
+        	AllocNode site = makeAllocNode(new Pair<>(cls, tgtClass), tgtType, null );
         	addEdge( site, newObject );
 
         	//(2)
@@ -1123,15 +1123,15 @@ public class PAG implements PointsToAnalysis {
 
     protected SparkOptions opts;
 
-    protected Map<VarNode, Object> simple = new HashMap<VarNode, Object>();
-    protected Map<FieldRefNode, Object> load = new HashMap<FieldRefNode, Object>();
-    protected Map<VarNode, Object> store = new HashMap<VarNode, Object>();
-    protected Map<AllocNode, Object> alloc = new HashMap<AllocNode, Object>();
+    protected Map<VarNode, Object> simple = new HashMap<>();
+    protected Map<FieldRefNode, Object> load = new HashMap<>();
+    protected Map<VarNode, Object> store = new HashMap<>();
+    protected Map<AllocNode, Object> alloc = new HashMap<>();
 
-    protected Map<VarNode, Object> simpleInv = new HashMap<VarNode, Object>();
-    protected Map<VarNode, Object> loadInv = new HashMap<VarNode, Object>();
-    protected Map<FieldRefNode, Object> storeInv = new HashMap<FieldRefNode, Object>();
-    protected Map<VarNode, Object> allocInv = new HashMap<VarNode, Object>();
+    protected Map<VarNode, Object> simpleInv = new HashMap<>();
+    protected Map<VarNode, Object> loadInv = new HashMap<>();
+    protected Map<FieldRefNode, Object> storeInv = new HashMap<>();
+    protected Map<VarNode, Object> allocInv = new HashMap<>();
 
     protected <K extends Node> boolean addToMap( Map<K, Object> m, K key, Node value ) {
 	Object valueList = m.get( key );
@@ -1140,7 +1140,7 @@ public class PAG implements PointsToAnalysis {
 	    m.put( key, valueList = new HashSet(4) );
 	} else if( !(valueList instanceof Set) ) {
 	    Node[] ar = (Node[]) valueList;
-            HashSet<Node> vl = new HashSet<Node>(ar.length+4);
+            HashSet<Node> vl = new HashSet<>(ar.length + 4);
             m.put( key, vl );
             for (Node element : ar)
 				vl.add( element );
@@ -1150,24 +1150,24 @@ public class PAG implements PointsToAnalysis {
     }
 	
     private boolean runGeomPTA = false;
-    protected Map<Pair, Set<Edge>> assign2edges = new HashMap<Pair, Set<Edge>>();
-    private final Map<Object, LocalVarNode> valToLocalVarNode = new HashMap<Object, LocalVarNode>(1000);
-    private final Map<Object, GlobalVarNode> valToGlobalVarNode = new HashMap<Object, GlobalVarNode>(1000);
-    private final Map<Object, AllocNode> valToAllocNode = new HashMap<Object, AllocNode>(1000);
+    protected Map<Pair, Set<Edge>> assign2edges = new HashMap<>();
+    private final Map<Object, LocalVarNode> valToLocalVarNode = new HashMap<>(1000);
+    private final Map<Object, GlobalVarNode> valToGlobalVarNode = new HashMap<>(1000);
+    private final Map<Object, AllocNode> valToAllocNode = new HashMap<>(1000);
     private OnFlyCallGraph ofcg;
-    private final ArrayList<VarNode> dereferences = new ArrayList<VarNode>();
+    private final ArrayList<VarNode> dereferences = new ArrayList<>();
     protected TypeManager typeManager;
     private final LargeNumberedMap<Local, LocalVarNode> localToNodeMap =
-    		new LargeNumberedMap<Local, LocalVarNode>( Scene.v().getLocalNumberer() );
+            new LargeNumberedMap<>(Scene.v().getLocalNumberer());
     public int maxFinishNumber = 0;
     private Map<Node, Tag> nodeToTag;
     private final GlobalNodeFactory nodeFactory = new GlobalNodeFactory(this);
     public GlobalNodeFactory nodeFactory() { return nodeFactory; }
     public NativeMethodDriver nativeMethodDriver;
 
-    public HashMultiMap<InvokeExpr, Pair<Node, Node>> callAssigns = new HashMultiMap<InvokeExpr, Pair<Node, Node>>();
-    public Map<InvokeExpr, SootMethod> callToMethod = new HashMap<InvokeExpr, SootMethod>(); 
-    public Map<InvokeExpr, Node> virtualCallsToReceivers = new HashMap<InvokeExpr, Node>();
+    public HashMultiMap<InvokeExpr, Pair<Node, Node>> callAssigns = new HashMultiMap<>();
+    public Map<InvokeExpr, SootMethod> callToMethod = new HashMap<>();
+    public Map<InvokeExpr, Node> virtualCallsToReceivers = new HashMap<>();
     
 }
 

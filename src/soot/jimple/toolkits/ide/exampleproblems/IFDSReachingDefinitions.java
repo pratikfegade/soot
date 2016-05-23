@@ -72,9 +72,9 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 								}
 								return Collections.singleton(source);
 							} else {
-								LinkedHashSet<Pair<Value, Set<DefinitionStmt>>> res = new LinkedHashSet<Pair<Value, Set<DefinitionStmt>>>();
-								 res.add(new Pair<Value, Set<DefinitionStmt>>(assignment.getLeftOp(),
-													Collections.singleton(assignment)));
+								LinkedHashSet<Pair<Value, Set<DefinitionStmt>>> res = new LinkedHashSet<>();
+								 res.add(new Pair<>(assignment.getLeftOp(),
+										 Collections.singleton(assignment)));
 								return res;
 							}
 						}
@@ -91,7 +91,7 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 				InvokeExpr invokeExpr = stmt.getInvokeExpr();
 				final List<Value> args = invokeExpr.getArgs();
 
-				final List<Local> localArguments = new ArrayList<Local>(args.size());
+				final List<Local> localArguments = new ArrayList<>(args.size());
 				for (Value value : args) {
 					if (value instanceof Local)
 						localArguments.add((Local) value);
@@ -135,7 +135,7 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 							ReturnStmt returnStmt = (ReturnStmt) exitStmt;
 							if (returnStmt.getOp().equivTo(source.getO1())) {
 								DefinitionStmt definitionStmt = (DefinitionStmt) callSite;
-								Pair<Value, Set<DefinitionStmt>> pair = new Pair<Value, Set<DefinitionStmt>>(
+								Pair<Value, Set<DefinitionStmt>> pair = new Pair<>(
 										definitionStmt.getLeftOp(), source.getO2());
 								return Collections.singleton(pair);
 							}

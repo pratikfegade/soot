@@ -61,7 +61,7 @@ public class TrapManager
     /** Returns the list of traps caught at Unit u in Body b. */
     public static List<Trap> getTrapsAt(Unit unit, Body b)
     {
-        List<Trap> trapsList = new ArrayList<Trap>();
+        List<Trap> trapsList = new ArrayList<>();
         Chain<Unit> units = b.getUnits();
 
         for (Trap t : b.getTraps()) {
@@ -78,7 +78,7 @@ public class TrapManager
     /** Returns a set of units which lie inside the range of any trap. */
     public static Set<Unit> getTrappedUnitsOf(Body b)
     {
-        Set<Unit> trapsSet = new HashSet<Unit>();
+        Set<Unit> trapsSet = new HashSet<>();
         Chain<Unit> units = b.getUnits();
 
         for (Trap t : b.getTraps()) {
@@ -148,7 +148,7 @@ public class TrapManager
      * by the handler. */
     public static List<RefType> getExceptionTypesOf(Unit u, Body body)
     {
-         List<RefType> possibleTypes = new ArrayList<RefType>();
+         List<RefType> possibleTypes = new ArrayList<>();
         
          for (Trap trap : body.getTraps()) {
              if (trap.getHandlerUnit() == u) {

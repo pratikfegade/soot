@@ -45,7 +45,7 @@ public class ArraySetMultiMap<K, V> extends AbstractMultiMap<K, V> {
 
   @Override
   protected Set<V> createSet() {
-    return new ArraySet<V>();
+    return new ArraySet<>();
   }
 
   protected Set<V> emptySet() {
