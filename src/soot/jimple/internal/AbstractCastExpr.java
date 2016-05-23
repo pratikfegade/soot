@@ -26,16 +26,19 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.Type;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.CastExpr;
+import soot.jimple.ExprSwitch;
 import soot.util.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf {
+abstract public class AbstractCastExpr implements CastExpr {
     final ValueBox opBox;
     Type type;
 
@@ -112,26 +115,5 @@ abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf {
 
     public void apply(Switch sw) {
         ((ExprSwitch) sw).caseCastExpr(this);
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-        final Type toType = getCastType();
-        final Type fromType = getOp().getType();
-
-        ((ConvertToBaf) getOp()).convertToBaf(context, out);
-
-        Unit u;
-        if (toType instanceof ArrayType || toType instanceof RefType)
-            u = Baf.v().newInstanceCastInst(toType);
-        else {
-            if (!fromType.equals(toType))
-                u = Baf.v().newPrimitiveCastInst(fromType, toType);
-            else
-                u = Baf.v().newNopInst();
-        }
-
-        out.add(u);
-
-        u.addAllTagsOf(context.getCurrentUnit());
     }
 }

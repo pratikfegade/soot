@@ -22,7 +22,6 @@ package soot.toolkits.exceptions;
 import soot.G;
 import soot.Singletons;
 import soot.Unit;
-import soot.baf.ThrowInst;
 import soot.jimple.ThrowStmt;
 
 /**
@@ -66,23 +65,6 @@ public class PedanticThrowAnalysis extends AbstractThrowAnalysis {
     public ThrowableSet mightThrow(Unit u) {
 	return ThrowableSet.Manager.v().ALL_THROWABLES;
     }
-
-
-    /**
-     * Returns the set of all <code>Throwable</code>s as the set
-     * of types that a <code>throw</code> instruction may throw implicitly, 
-     * that is, the possible types of errors which might arise in
-     * the course of executing the <code>throw</code> instruction, rather
-     * than the type of the <code>throw</code>'s operand.
-     *
-     * @param t the {@link ThrowInst} whose exceptions are to be returned.
-     *
-     * @return the set of all <code>Throwable</code>s.
-     */
-    public ThrowableSet mightThrowImplicitly(ThrowInst t) {
-	return ThrowableSet.Manager.v().ALL_THROWABLES;
-    }
-
 
     /**
      * Returns the set of all <code>Throwable</code>s as the set

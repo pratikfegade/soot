@@ -26,7 +26,6 @@
 
 package soot.jimple.internal;
 
-import soot.Type;
 import soot.Value;
 import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
@@ -46,9 +45,6 @@ public class JLtExpr extends AbstractJimpleIntBinopExpr implements LtExpr {
         ((ExprSwitch) sw).caseLtExpr(this);
     }
 
-    Object makeBafInst(Type opType) {
-        throw new RuntimeException("unsupported conversion: " + this);
-    }
     //    Object makeBafInst(Type opType) { return Baf.v().newLtInst(this.getOp1().getType()); }
 
     public Object clone() {

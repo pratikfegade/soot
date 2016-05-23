@@ -26,15 +26,13 @@
 
 package soot.jimple.internal;
 
-import soot.Unit;
 import soot.UnitPrinter;
 import soot.Value;
 import soot.ValueBox;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.Jimple;
+import soot.jimple.StmtSwitch;
+import soot.jimple.ThrowStmt;
 import soot.util.Switch;
-
-import java.util.List;
 
 public class JThrowStmt extends AbstractOpStmt implements ThrowStmt {
 
@@ -62,14 +60,6 @@ public class JThrowStmt extends AbstractOpStmt implements ThrowStmt {
 
     public void apply(Switch sw) {
         ((StmtSwitch) sw).caseThrowStmt(this);
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-        ((ConvertToBaf) getOp()).convertToBaf(context, out);
-
-        Unit u = Baf.v().newThrowInst();
-        u.addAllTagsOf(this);
-        out.add(u);
     }
 
     public boolean fallsThrough() {

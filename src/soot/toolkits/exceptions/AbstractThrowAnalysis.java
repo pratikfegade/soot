@@ -20,7 +20,6 @@
 package soot.toolkits.exceptions;
 
 import soot.*;
-import soot.baf.ThrowInst;
 import soot.jimple.ThrowStmt;
 
 /**
@@ -28,21 +27,12 @@ import soot.jimple.ThrowStmt;
  * interface which may be common to multiple concrete
  * <code>ThrowAnalysis</code> classes.
  * <code>AbstractThrowAnalysis</code> provides straightforward
- * implementations of {@link mightThrowExplicitly(ThrowInst)} and
- * {@link mightThrowExplicitly(ThrowStmt)}, since concrete
  * implementations of <code>ThrowAnalysis</code> seem likely to differ
  * mainly in their treatment of implicit exceptions.
  */
 public abstract class AbstractThrowAnalysis implements ThrowAnalysis {
 
     abstract public ThrowableSet mightThrow(Unit u);
-
-
-    public ThrowableSet mightThrowExplicitly(ThrowInst t) {
-	// Deducing the type at the top of the Baf stack is beyond me, so...
-	return ThrowableSet.Manager.v().ALL_THROWABLES;
-    }
-
 
     public ThrowableSet mightThrowExplicitly(ThrowStmt t) {
 	Value thrownExpression = t.getOp();
@@ -63,10 +53,6 @@ public abstract class AbstractThrowAnalysis implements ThrowAnalysis {
 	    return result;
 	}
     }
-
-
-    abstract public ThrowableSet mightThrowImplicitly(ThrowInst t);
-	
     
     abstract public ThrowableSet mightThrowImplicitly(ThrowStmt t);
 }

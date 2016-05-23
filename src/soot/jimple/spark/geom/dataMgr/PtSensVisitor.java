@@ -18,13 +18,8 @@
  */
 package soot.jimple.spark.geom.dataMgr;
 
-import soot.PointsToSet;
-import soot.Scene;
 import soot.jimple.spark.geom.dataRep.ContextVar;
-import soot.jimple.spark.geom.geomPA.GeomPointsTo;
 import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.VarNode;
-import soot.jimple.spark.sets.PointsToSetInternal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,9 +41,7 @@ public abstract class PtSensVisitor<VarType extends ContextVar>
 {
 	// Indicates if this visitor is prepared
 	protected boolean readyToUse = false;
-	
-	protected GeomPointsTo ptsProvider = (GeomPointsTo)Scene.v().getPointsToAnalysis();
-	
+
 	// The list view
 	public List<VarType> outList = new ArrayList<>();
 	
@@ -131,39 +124,8 @@ public abstract class PtSensVisitor<VarType extends ContextVar>
 	{
 		return tableView.get(var);
 	}
-	
-	/**
-	 * Transform the result to SPARK style context insensitive points-to set.
-	 * The transformed result is stored in the points-to set of the querying pointer.
-	 * @param vn: the querying pointer
-	 * @return
-	 */
-	public PointsToSet toSparkCompatiableResult(VarNode vn)
-	{
-		if ( !readyToUse) finish();
-		
-		PointsToSetInternal ptset = vn.makeP2Set();
-		
-		for ( VarType cv : outList ) {
-			ptset.add(cv.var);
-		}
-		
-		return ptset;
-	}
-	
-	/**
-	 * Print the objects.
-	 */
-	public void debugPrint() 
-	{
-		if ( !readyToUse ) finish();
-		
-		for ( VarType cv : outList ) {
-			System.out.printf("\t%s\n", cv.toString());
-		}
-	}
-	
-	
+
+
 	/**
 	 * We use visitor pattern to collect contexts.
 	 * Derived classes decide how to deal with the variable with the contexts [L, R).

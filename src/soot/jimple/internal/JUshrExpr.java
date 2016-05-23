@@ -27,7 +27,6 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
 import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
 import soot.jimple.UshrExpr;
@@ -44,10 +43,6 @@ public class JUshrExpr extends AbstractJimpleIntLongBinopExpr implements UshrExp
 
     public void apply(Switch sw) {
         ((ExprSwitch) sw).caseUshrExpr(this);
-    }
-
-    Object makeBafInst(Type opType) {
-        return Baf.v().newUshrInst(this.getOp1().getType());
     }
 
     public Type getType() {

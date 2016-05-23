@@ -26,7 +26,6 @@
 
 package soot.jimple.internal;
 
-import soot.Type;
 import soot.Value;
 import soot.jimple.EqExpr;
 import soot.jimple.ExprSwitch;
@@ -46,7 +45,7 @@ public class JEqExpr extends AbstractJimpleIntBinopExpr implements EqExpr {
         ((ExprSwitch) sw).caseEqExpr(this);
     }
 
-    Object makeBafInst(Type opType) {
+    Object makeBafInst() {
         throw new RuntimeException("unsupported conversion: " + this);
     }
     //return Baf.v().newEqInst(this.getOp1().getType()); }

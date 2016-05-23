@@ -20,7 +20,6 @@
 package soot.shimple;
 
 import soot.Body;
-import soot.shimple.toolkits.graph.GlobalValueNumberer;
 import soot.toolkits.graph.*;
 
 /**

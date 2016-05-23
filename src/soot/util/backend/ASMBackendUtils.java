@@ -4,7 +4,6 @@ package soot.util.backend;
 import org.objectweb.asm.ByteVector;
 import org.objectweb.asm.ClassWriter;
 import soot.*;
-import soot.baf.DoubleWordType;
 import soot.options.Options;
 import soot.tagkit.*;
 

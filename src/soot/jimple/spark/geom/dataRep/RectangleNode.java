@@ -34,11 +34,6 @@ public class RectangleNode extends SegmentNode {
 	
 	public RectangleNode() {}
 
-	public RectangleNode( RectangleNode other )
-	{
-		copyRectangle(other);
-	}
-	
 	public void copyRectangle( RectangleNode other )
 	{
 		I1 = other.I1;

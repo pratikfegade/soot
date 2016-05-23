@@ -26,7 +26,6 @@
 
 package soot.jimple.internal;
 
-import soot.Type;
 import soot.Value;
 import soot.jimple.ExprSwitch;
 import soot.jimple.GeExpr;
@@ -45,11 +44,6 @@ public class JGeExpr extends AbstractJimpleIntBinopExpr implements GeExpr {
     public void apply(Switch sw) {
         ((ExprSwitch) sw).caseGeExpr(this);
     }
-
-    Object makeBafInst(Type opType) {
-        throw new RuntimeException("unsupported conversion: " + this);
-    }
-    //    Object makeBafInst(Type opType) { return Baf.v().newGeInst(this.getOp1().getType()); }
 
     public Object clone() {
         return new JGeExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));

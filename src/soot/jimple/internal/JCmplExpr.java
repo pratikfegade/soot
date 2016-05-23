@@ -26,9 +26,7 @@
 
 package soot.jimple.internal;
 
-import soot.Type;
 import soot.Value;
-import soot.baf.Baf;
 import soot.jimple.CmplExpr;
 import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
@@ -47,9 +45,6 @@ public class JCmplExpr extends AbstractJimpleIntBinopExpr implements CmplExpr {
         ((ExprSwitch) sw).caseCmplExpr(this);
     }
 
-    Object makeBafInst(Type opType) {
-        return Baf.v().newCmplInst(this.getOp1().getType());
-    }
 
     public Object clone() {
         return new JCmplExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));

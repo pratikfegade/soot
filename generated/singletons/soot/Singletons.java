@@ -180,26 +180,6 @@
             }
         
             private
-            soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator;
-            public
-            soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator() {
-            if(
-            instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator == null )
-            instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator = new soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator( g );
-            return instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator;
-            }
-        
-            private
-            soot.baf.Baf instance_soot_baf_Baf;
-            public
-            soot.baf.Baf soot_baf_Baf() {
-            if(
-            instance_soot_baf_Baf == null )
-            instance_soot_baf_Baf = new soot.baf.Baf( g );
-            return instance_soot_baf_Baf;
-            }
-        
-            private
             soot.BooleanType instance_soot_BooleanType;
             public
             soot.BooleanType soot_BooleanType() {
@@ -370,16 +350,6 @@
             }
         
             private
-            soot.baf.DoubleWordType instance_soot_baf_DoubleWordType;
-            public
-            soot.baf.DoubleWordType soot_baf_DoubleWordType() {
-            if(
-            instance_soot_baf_DoubleWordType == null )
-            instance_soot_baf_DoubleWordType = new soot.baf.DoubleWordType( g );
-            return instance_soot_baf_DoubleWordType;
-            }
-        
-            private
             soot.jimple.toolkits.pointer.DumbPointerAnalysis instance_soot_jimple_toolkits_pointer_DumbPointerAnalysis;
             public
             soot.jimple.toolkits.pointer.DumbPointerAnalysis soot_jimple_toolkits_pointer_DumbPointerAnalysis() {
@@ -495,18 +465,8 @@
             soot.jimple.toolkits.annotation.LineNumberAdder soot_jimple_toolkits_annotation_LineNumberAdder() {
             if(
             instance_soot_jimple_toolkits_annotation_LineNumberAdder == null )
-            instance_soot_jimple_toolkits_annotation_LineNumberAdder = new soot.jimple.toolkits.annotation.LineNumberAdder();
+            instance_soot_jimple_toolkits_annotation_LineNumberAdder = new soot.jimple.toolkits.annotation.LineNumberAdder( g );
             return instance_soot_jimple_toolkits_annotation_LineNumberAdder;
-            }
-        
-            private
-            soot.baf.toolkits.base.LoadStoreOptimizer instance_soot_baf_toolkits_base_LoadStoreOptimizer;
-            public
-            soot.baf.toolkits.base.LoadStoreOptimizer soot_baf_toolkits_base_LoadStoreOptimizer() {
-            if(
-            instance_soot_baf_toolkits_base_LoadStoreOptimizer == null )
-            instance_soot_baf_toolkits_base_LoadStoreOptimizer = new soot.baf.toolkits.base.LoadStoreOptimizer( g );
-            return instance_soot_baf_toolkits_base_LoadStoreOptimizer;
             }
         
             private
@@ -607,16 +567,6 @@
             instance_soot_PackManager == null )
             instance_soot_PackManager = new soot.PackManager( g );
             return instance_soot_PackManager;
-            }
-        
-            private
-            soot.baf.toolkits.base.PeepholeOptimizer instance_soot_baf_toolkits_base_PeepholeOptimizer;
-            public
-            soot.baf.toolkits.base.PeepholeOptimizer soot_baf_toolkits_base_PeepholeOptimizer() {
-            if(
-            instance_soot_baf_toolkits_base_PeepholeOptimizer == null )
-            instance_soot_baf_toolkits_base_PeepholeOptimizer = new soot.baf.toolkits.base.PeepholeOptimizer( g );
-            return instance_soot_baf_toolkits_base_PeepholeOptimizer;
             }
         
             private
@@ -837,16 +787,6 @@
             instance_soot_VoidType == null )
             instance_soot_VoidType = new soot.VoidType( g );
             return instance_soot_VoidType;
-            }
-        
-            private
-            soot.baf.WordType instance_soot_baf_WordType;
-            public
-            soot.baf.WordType soot_baf_WordType() {
-            if(
-            instance_soot_baf_WordType == null )
-            instance_soot_baf_WordType = new soot.baf.WordType( g );
-            return instance_soot_baf_WordType;
             }
         
             private
@@ -1157,26 +1097,6 @@
             instance_soot_jimple_spark_sets_AllSharedHybridNodes == null )
             instance_soot_jimple_spark_sets_AllSharedHybridNodes = new soot.jimple.spark.sets.AllSharedHybridNodes( g );
             return instance_soot_jimple_spark_sets_AllSharedHybridNodes;
-            }
-        
-            private
-            soot.jimple.toolkits.thread.synchronization.LockAllocator instance_soot_jimple_toolkits_thread_synchronization_LockAllocator;
-            public
-            soot.jimple.toolkits.thread.synchronization.LockAllocator soot_jimple_toolkits_thread_synchronization_LockAllocator() {
-            if(
-            instance_soot_jimple_toolkits_thread_synchronization_LockAllocator == null )
-            instance_soot_jimple_toolkits_thread_synchronization_LockAllocator = new soot.jimple.toolkits.thread.synchronization.LockAllocator( g );
-            return instance_soot_jimple_toolkits_thread_synchronization_LockAllocator;
-            }
-        
-            private
-            soot.jimple.toolkits.thread.mhp.MhpTransformer instance_soot_jimple_toolkits_thread_mhp_MhpTransformer;
-            public
-            soot.jimple.toolkits.thread.mhp.MhpTransformer soot_jimple_toolkits_thread_mhp_MhpTransformer() {
-            if(
-            instance_soot_jimple_toolkits_thread_mhp_MhpTransformer == null )
-            instance_soot_jimple_toolkits_thread_mhp_MhpTransformer = new soot.jimple.toolkits.thread.mhp.MhpTransformer( g );
-            return instance_soot_jimple_toolkits_thread_mhp_MhpTransformer;
             }
         
             private

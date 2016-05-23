@@ -19,44 +19,21 @@
 
 package soot.jimple.toolkits.annotation.callgraph;
 
-import soot.SootMethod;
-
-import java.util.ArrayList;
-
 public class CallGraphInfo {
 
-    private ArrayList<MethInfo> inputs = new ArrayList<>();
-    private ArrayList<MethInfo> outputs = new ArrayList<>();
-    private SootMethod center;
-
-    public CallGraphInfo(SootMethod sm, ArrayList<MethInfo> outputs, ArrayList<MethInfo> inputs){
-        setCenter(sm);
-        setOutputs(outputs);
-        setInputs(inputs);
+    public CallGraphInfo(){
+        setCenter();
+        setOutputs();
+        setInputs();
     }
     
-    public void setCenter(SootMethod sm){
-        center = sm;
-    } 
-
-    public SootMethod getCenter(){
-        return center;
+    public void setCenter(){
     }
 
-    public ArrayList<MethInfo> getInputs(){
-        return inputs;
+    public void setInputs(){
     }
 
-    public void setInputs(ArrayList<MethInfo> list){
-        inputs = list;
-    }
-
-    public ArrayList<MethInfo> getOutputs(){
-        return outputs;
-    }
-
-    public void setOutputs(ArrayList<MethInfo> list){
-        outputs = list;
+    public void setOutputs(){
     }
 
 

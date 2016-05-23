@@ -22,9 +22,6 @@ package soot.dexpler;
 
 import soot.G;
 import soot.Singletons;
-import soot.baf.EnterMonitorInst;
-import soot.baf.ReturnInst;
-import soot.baf.ReturnVoidInst;
 import soot.jimple.AssignStmt;
 import soot.jimple.ClassConstant;
 import soot.jimple.EnterMonitorStmt;

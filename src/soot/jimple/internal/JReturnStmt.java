@@ -26,15 +26,13 @@
 
 package soot.jimple.internal;
 
-import soot.Unit;
 import soot.UnitPrinter;
 import soot.Value;
 import soot.ValueBox;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.Jimple;
+import soot.jimple.ReturnStmt;
+import soot.jimple.StmtSwitch;
 import soot.util.Switch;
-
-import java.util.List;
 
 public class JReturnStmt extends AbstractOpStmt implements ReturnStmt {
     public JReturnStmt(Value returnValue) {
@@ -62,15 +60,6 @@ public class JReturnStmt extends AbstractOpStmt implements ReturnStmt {
     public void apply(Switch sw) {
         ((StmtSwitch) sw).caseReturnStmt(this);
     }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-        ((ConvertToBaf) (getOp())).convertToBaf(context, out);
-
-        Unit u = Baf.v().newReturnInst(getOp().getType());
-        u.addAllTagsOf(this);
-        out.add(u);
-    }
-
 
     public boolean fallsThrough() {
         return false;

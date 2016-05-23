@@ -26,7 +26,6 @@
 
 package soot.jimple.internal;
 
-import soot.Type;
 import soot.Value;
 import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
@@ -45,11 +44,6 @@ public class JLeExpr extends AbstractJimpleIntBinopExpr implements LeExpr {
     public void apply(Switch sw) {
         ((ExprSwitch) sw).caseLeExpr(this);
     }
-
-    Object makeBafInst(Type opType) {
-        throw new RuntimeException("unsupported conversion: " + this);
-    }
-//    Object makeBafInst(Type opType) { return Baf.v().newLeInst(this.getOp1().getType()); } 
 
     public Object clone() {
         return new JLeExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));

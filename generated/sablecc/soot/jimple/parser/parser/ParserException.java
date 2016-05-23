@@ -2,7 +2,7 @@
 
 package soot.jimple.parser.parser;
 
-import soot.jimple.parser.node.*;
+import soot.jimple.parser.node.Token;
 
 @SuppressWarnings("serial")
 public class ParserException extends Exception

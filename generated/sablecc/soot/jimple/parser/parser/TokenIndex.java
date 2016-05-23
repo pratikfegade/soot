@@ -2,8 +2,8 @@
 
 package soot.jimple.parser.parser;
 
+import soot.jimple.parser.analysis.AnalysisAdapter;
 import soot.jimple.parser.node.*;
-import soot.jimple.parser.analysis.*;
 
 class TokenIndex extends AnalysisAdapter
 {

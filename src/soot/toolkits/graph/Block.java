@@ -29,7 +29,6 @@ package soot.toolkits.graph;
 import soot.Body;
 import soot.SootMethod;
 import soot.Unit;
-import soot.baf.BafBody;
 import soot.util.Chain;
 
 import java.util.Iterator;
@@ -87,7 +86,6 @@ public class Block implements Iterable<Unit>
      *
      *  @return      The block's chain of instructions.
      *  @see         soot.jimple.JimpleBody
-     *  @see         BafBody 
      *  @see         Body
      */
     public Body getBody() 

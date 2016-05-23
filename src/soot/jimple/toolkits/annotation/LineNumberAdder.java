@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class LineNumberAdder extends SceneTransformer {
 
-    public LineNumberAdder() {}
+    public LineNumberAdder(Singletons.Global g) {}
     public static LineNumberAdder v() { return G.v().soot_jimple_toolkits_annotation_LineNumberAdder();}
 
     public void internalTransform(String phaseName, Map opts){

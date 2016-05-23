@@ -26,7 +26,6 @@
 package soot.toolkits.graph;
 
 import soot.*;
-import soot.baf.*;
 import soot.jimple.*;
 import soot.options.Options;
 import soot.toolkits.exceptions.ThrowAnalysis;
@@ -53,7 +52,7 @@ import java.util.Map.Entry;
  * </p>
  * 
  * <p>
- * For every {@link ThrowInst} or {@link ThrowStmt} <code>Unit</code> which may
+ * For every {@link ThrowStmt} <code>Unit</code> which may
  * explicitly throw an exception that would be caught by a {@link Trap} in the
  * <code>Body</code>, there will be an edge from the <code>throw</code>
  * <code>Unit</code> to the <code>Trap</code> handler's first <code>Unit</code>.
@@ -496,11 +495,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 			boolean alwaysAddSelfEdges = ((!omitExceptingUnitEdges) || mightHaveSideEffects(thrower));
 			ThrowableSet predThrowables = null;
 			ThrowableSet selfThrowables = null;
-			if (thrower instanceof ThrowInst) {
-				ThrowInst throwInst = (ThrowInst) thrower;
-				predThrowables = throwAnalysis.mightThrowImplicitly(throwInst);
-				selfThrowables = throwAnalysis.mightThrowExplicitly(throwInst);
-			} else if (thrower instanceof ThrowStmt) {
+			if (thrower instanceof ThrowStmt) {
 				ThrowStmt throwStmt = (ThrowStmt) thrower;
 				predThrowables = throwAnalysis.mightThrowImplicitly(throwStmt);
 				selfThrowables = throwAnalysis.mightThrowExplicitly(throwStmt);
@@ -645,11 +640,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	 * @return whether or not <code>u</code> has the potential for side effects.
 	 */
 	static boolean mightHaveSideEffects(Unit u) {
-		if (u instanceof Inst) {
-			Inst i = (Inst) u;
-			return (i.containsInvokeExpr() || (i instanceof StaticPutInst)
-					|| (i instanceof StaticGetInst) || (i instanceof NewInst));
-		} else if (u instanceof Stmt) {
+		if (u instanceof Stmt) {
 			for (ValueBox vb : u.getUseBoxes()) {
 				Value v = vb.getValue();
 				if ((v instanceof StaticFieldRef) || (v instanceof InvokeExpr)
@@ -734,12 +725,9 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 		List<Unit> tailList = new ArrayList<>();
 		for (Unit u : unitChain) {
 			if (u instanceof soot.jimple.ReturnStmt
-					|| u instanceof soot.jimple.ReturnVoidStmt
-					|| u instanceof soot.baf.ReturnInst
-					|| u instanceof soot.baf.ReturnVoidInst) {
+					|| u instanceof soot.jimple.ReturnVoidStmt) {
 				tailList.add(u);
-			} else if (u instanceof soot.jimple.ThrowStmt
-					|| u instanceof soot.baf.ThrowInst) {
+			} else if (u instanceof soot.jimple.ThrowStmt) {
 				Collection<ExceptionDest> dests = getExceptionDests(u);
 				int escapeMethodCount = 0;
 				for (ExceptionDest dest : dests) {

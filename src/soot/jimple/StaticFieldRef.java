@@ -28,13 +28,12 @@
 package soot.jimple;
 
 import soot.*;
-import soot.baf.Baf;
 import soot.util.Switch;
 
 import java.util.Collections;
 import java.util.List;
 
-public class StaticFieldRef implements FieldRef, ConvertToBaf {
+public class StaticFieldRef implements FieldRef {
 
 
     protected SootFieldRef fieldRef;
@@ -92,9 +91,4 @@ public class StaticFieldRef implements FieldRef, ConvertToBaf {
         return getField().equivHashCode();
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-        Unit u = Baf.v().newStaticGetInst(fieldRef);
-        u.addAllTagsOf(context.getCurrentUnit());
-        out.add(u);
-    }
 }

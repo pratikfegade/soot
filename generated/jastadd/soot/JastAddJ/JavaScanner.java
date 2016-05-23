@@ -2,10 +2,9 @@
 
 package soot.JastAddJ;
 
-import beaver.Symbol;
 import beaver.Scanner;
+import beaver.Symbol;
 import soot.JastAddJ.JastAddJavaParser.Terminals;
-import java.io.*;
 
 
 /**

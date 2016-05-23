@@ -29,7 +29,6 @@ package soot.toolkits.graph;
 import soot.Body;
 import soot.Trap;
 import soot.Unit;
-import soot.baf.Inst;
 import soot.jimple.Stmt;
 
 import java.util.Iterator;

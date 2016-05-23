@@ -2,7 +2,7 @@
 
 package soot.jimple.parser.node;
 
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
 public final class TGoto extends Token

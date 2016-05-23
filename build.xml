@@ -88,7 +88,7 @@
 	</target>
 
     <target name="copypeephole" depends="sablecc,settings">
-        <copy file="src/soot/baf/toolkits/base/peephole.dat" tofile="classes/soot/baf/toolkits/base/peephole.dat"/>
+        <!--<copy file="src/soot/baf/toolkits/base/peephole.dat" tofile="classes/soot/baf/toolkits/base/peephole.dat"/>-->
         <copy file="generated/sablecc/soot/jimple/parser/parser/parser.dat" tofile="classes/soot/jimple/parser/parser/parser.dat"/>
         <copy file="generated/sablecc/soot/jimple/parser/lexer/lexer.dat" tofile="classes/soot/jimple/parser/lexer/lexer.dat"/>
     </target>

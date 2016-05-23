@@ -26,9 +26,7 @@
 
 package soot.jimple.internal;
 
-import soot.Type;
 import soot.Value;
-import soot.baf.Baf;
 import soot.jimple.AddExpr;
 import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
@@ -45,10 +43,6 @@ public class JAddExpr extends AbstractJimpleFloatBinopExpr implements AddExpr {
 
     public void apply(Switch sw) {
         ((ExprSwitch) sw).caseAddExpr(this);
-    }
-
-    Object makeBafInst(Type opType) {
-        return Baf.v().newAddInst(this.getOp1().getType());
     }
 
     public Object clone() {

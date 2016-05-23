@@ -25,7 +25,6 @@
 
 package soot.toolkits.scalar;
 
-import soot.baf.GotoInst;
 import soot.jimple.GotoStmt;
 import soot.options.Options;
 import soot.toolkits.graph.DirectedGraph;

@@ -35,13 +35,7 @@ public class SimpleInterval
 		L = 0;
 		R = 1;
 	}
-	
-	public SimpleInterval( long l, long r )
-	{
-		L = l;
-		R = r;
-	}
-	
+
 	public SimpleInterval( SimpleInterval o )
 	{
 		L = o.L;

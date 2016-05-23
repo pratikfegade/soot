@@ -27,15 +27,16 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.NewArrayExpr;
 import soot.util.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
+public abstract class AbstractNewArrayExpr implements NewArrayExpr
 {
     Type baseType;
     final ValueBox sizeBox;
@@ -138,15 +139,5 @@ public abstract class AbstractNewArrayExpr implements NewArrayExpr, ConvertToBaf
     public void apply(Switch sw)
     {
         ((ExprSwitch) sw).caseNewArrayExpr(this);
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-       ((ConvertToBaf)(getSize())).convertToBaf(context, out);
-       
-
-       Unit u = Baf.v().newNewArrayInst(getBaseType());
-       out.add(u);	
-       u.addAllTagsOf(context.getCurrentUnit());	
     }
 }

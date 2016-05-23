@@ -28,7 +28,6 @@ package soot.tagkit;
 
 
 import soot.Unit;
-import soot.baf.Inst;
 
 /**
  * A tag aggregator that associates a tag with the <b>most important</b>

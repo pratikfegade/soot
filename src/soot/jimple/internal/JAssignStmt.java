@@ -27,7 +27,6 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
 import soot.jimple.*;
 import soot.util.Switch;
 
@@ -164,101 +163,6 @@ public class JAssignStmt extends AbstractDefinitionStmt
 
     public void apply(Switch sw) {
         ((StmtSwitch) sw).caseAssignStmt(this);
-    }
-
-    public void convertToBaf(final JimpleToBafContext context, final List<Unit> out) {
-        final Value lvalue = this.getLeftOp();
-        final Value rvalue = this.getRightOp();
-
-
-        // Handle simple subcase where you can use the efficient iinc bytecode
-        if (lvalue instanceof Local && (rvalue instanceof AddExpr || rvalue instanceof SubExpr)) {
-            Local l = (Local) lvalue;
-            BinopExpr expr = (BinopExpr) rvalue;
-            Value op1 = expr.getOp1();
-            Value op2 = expr.getOp2();
-
-            if (l.getType().equals(IntType.v())) {
-                boolean isValidCase = false;
-                int x = 0;
-
-                if (op1 == l && op2 instanceof IntConstant) {
-                    x = ((IntConstant) op2).value;
-                    isValidCase = true;
-                } else if (expr instanceof AddExpr &&
-                        op2 == l && op1 instanceof IntConstant) {
-                    // Note expr can't be a SubExpr because that would be x = 3 - x
-
-
-                    x = ((IntConstant) op1).value;
-                    isValidCase = true;
-                }
-
-                if (isValidCase && x >= Short.MIN_VALUE && x <= Short.MAX_VALUE) {
-                    Unit u = Baf.v().newIncInst(context.getBafLocalOfJimpleLocal(l),
-                            IntConstant.v((expr instanceof AddExpr) ? x : -x));
-
-                    u.addAllTagsOf(this);
-                    out.add(u);
-
-                    return;
-                }
-            }
-        }
-
-        context.setCurrentUnit(this);
-
-        lvalue.apply(new AbstractJimpleValueSwitch() {
-            public void caseArrayRef(ArrayRef v) {
-                ((ConvertToBaf) (v.getBase())).convertToBaf(context, out);
-                ((ConvertToBaf) (v.getIndex())).convertToBaf(context, out);
-                ((ConvertToBaf) rvalue).convertToBaf(context, out);
-
-                Unit u = Baf.v().newArrayWriteInst(v.getType());
-                u.addAllTagsOf(JAssignStmt.this);
-
-                out.add(u);
-            }
-
-            public void caseInstanceFieldRef(InstanceFieldRef v) {
-                ((ConvertToBaf) (v.getBase())).convertToBaf(context, out);
-                ((ConvertToBaf) rvalue).convertToBaf(context, out);
-
-                Unit u = Baf.v().newFieldPutInst(v.getFieldRef());
-                u.addAllTagsOf(JAssignStmt.this);
-
-                out.add(u);
-            }
-
-            public void caseLocal(final Local v) {
-                ((ConvertToBaf) rvalue).convertToBaf(context, out);
-
-                    /* Add the tags to the statement that COMPUTES the
-                     * value, NOT to the statement that stores it. */
-
-                    /* No: the convertToBaf on the rvalue already adds
-                     * them, so no need to add them here. However, with
-                     * the current semantics, we should add them to every
-                     * statement and let the aggregator sort them out.
-                     */
-
-                Unit u = Baf.v().newStoreInst(v.getType(),
-                        context.getBafLocalOfJimpleLocal(v));
-                u.addAllTagsOf(JAssignStmt.this);
-
-                out.add(u);
-
-            }
-
-            public void caseStaticFieldRef(StaticFieldRef v) {
-                ((ConvertToBaf) rvalue).convertToBaf(context, out);
-
-                Unit u = Baf.v().newStaticPutInst(v.getFieldRef());
-                u.addAllTagsOf(JAssignStmt.this);
-
-                out.add(u);
-            }
-        });
     }
 
     @SuppressWarnings("serial")

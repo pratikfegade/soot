@@ -2,14 +2,19 @@
 
 package soot.jimple.parser.parser;
 
-import soot.jimple.parser.lexer.*;
+import soot.jimple.parser.analysis.Analysis;
+import soot.jimple.parser.analysis.AnalysisAdapter;
+import soot.jimple.parser.lexer.Lexer;
+import soot.jimple.parser.lexer.LexerException;
 import soot.jimple.parser.node.*;
-import soot.jimple.parser.analysis.*;
-import java.util.*;
 
-import java.io.DataInputStream;
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
 public class Parser

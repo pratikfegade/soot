@@ -31,8 +31,9 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.NewMultiArrayExpr;
 import soot.util.Switch;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public abstract class AbstractNewMultiArrayExpr implements NewMultiArrayExpr, ConvertToBaf
+public abstract class AbstractNewMultiArrayExpr implements NewMultiArrayExpr
 {
     ArrayType baseType;
     final protected ValueBox[] sizeBoxes;
@@ -166,17 +167,5 @@ public abstract class AbstractNewMultiArrayExpr implements NewMultiArrayExpr, Co
     public void apply(Switch sw)
     {
         ((ExprSwitch) sw).caseNewMultiArrayExpr(this);
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        List<Value> sizes = getSizes();
-
-        for(int i = 0; i < sizes.size(); i++)
-            ((ConvertToBaf)(sizes.get(i))).convertToBaf(context, out);
-	
-        Unit u = Baf.v().newNewMultiArrayInst(getBaseType(), sizes.size());
-        out.add(u);
-        u.addAllTagsOf(context.getCurrentUnit());
     }
 }

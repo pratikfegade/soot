@@ -28,18 +28,16 @@
 package soot.jimple.internal;
 
 import soot.SootMethodRef;
-import soot.Unit;
 import soot.UnitPrinter;
 import soot.ValueBox;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.VirtualInvokeExpr;
 import soot.util.Switch;
-
-import java.util.List;
 
 @SuppressWarnings("serial")
 public abstract class AbstractVirtualInvokeExpr extends AbstractInstanceInvokeExpr
-  implements VirtualInvokeExpr, ConvertToBaf                                               
+  implements VirtualInvokeExpr
 {
     protected AbstractVirtualInvokeExpr(ValueBox baseBox, SootMethodRef methodRef,
                                 ValueBox[] argBoxes)
@@ -119,16 +117,4 @@ public abstract class AbstractVirtualInvokeExpr extends AbstractInstanceInvokeEx
         up.literal(")");
     }
 
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-       ((ConvertToBaf)(getBase())).convertToBaf(context, out);
-
-       for (ValueBox element : argBoxes) {
-	    ((ConvertToBaf)(element.getValue())).convertToBaf(context, out);
-	}
-
-       Unit u = Baf.v().newVirtualInvokeInst(methodRef);
-       out.add(u);
-       u.addAllTagsOf(context.getCurrentUnit());
-    }
 }

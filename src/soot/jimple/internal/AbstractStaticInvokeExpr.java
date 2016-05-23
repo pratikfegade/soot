@@ -27,24 +27,18 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.SootMethodRef;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.StaticInvokeExpr;
 import soot.util.Switch;
-
-import java.util.List;
 
 
 @SuppressWarnings("serial")
-public abstract class AbstractStaticInvokeExpr extends AbstractInvokeExpr implements StaticInvokeExpr, ConvertToBaf
+public abstract class AbstractStaticInvokeExpr extends AbstractInvokeExpr implements StaticInvokeExpr
 {
-    AbstractStaticInvokeExpr(SootMethodRef methodRef, List<Value> args)
-    {
-        this(methodRef, new ValueBox[args.size()]);
-        
-        for(int i = 0; i < args.size(); i++)
-            this.argBoxes[i] = Jimple.v().newImmediateBox(args.get(i));
-    }
 
     public boolean equivTo(Object o)
     {
@@ -118,16 +112,5 @@ public abstract class AbstractStaticInvokeExpr extends AbstractInvokeExpr implem
     public void apply(Switch sw)
     {
         ((ExprSwitch) sw).caseStaticInvokeExpr(this);
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-       for (ValueBox element : argBoxes) {
-	    ((ConvertToBaf)(element.getValue())).convertToBaf(context, out);
-	}
-       
-       Unit u = Baf.v().newStaticInvokeInst(methodRef);
-       out.add(u);
-       u.addAllTagsOf(context.getCurrentUnit());
     }
 }

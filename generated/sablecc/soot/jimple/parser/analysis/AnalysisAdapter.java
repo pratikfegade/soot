@@ -2,8 +2,9 @@
 
 package soot.jimple.parser.analysis;
 
-import java.util.*;
 import soot.jimple.parser.node.*;
+
+import java.util.Hashtable;
 
 public class AnalysisAdapter implements Analysis
 {

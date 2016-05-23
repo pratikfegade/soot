@@ -27,8 +27,10 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.IfStmt;
+import soot.jimple.Jimple;
+import soot.jimple.Stmt;
+import soot.jimple.StmtSwitch;
 import soot.util.Switch;
 
 import java.util.ArrayList;
@@ -120,156 +122,6 @@ public class JIfStmt extends AbstractStmt implements IfStmt {
     public void apply(Switch sw) {
         ((StmtSwitch) sw).caseIfStmt(this);
     }
-
-    public void convertToBaf(final JimpleToBafContext context, final List<Unit> out) {
-        Value cond = getCondition();
-
-        final Value op1 = ((BinopExpr) cond).getOp1();
-        final Value op2 = ((BinopExpr) cond).getOp2();
-
-        context.setCurrentUnit(this);
-
-        // Handle simple subcase where op1 is null
-        if (op2 instanceof NullConstant || op1 instanceof NullConstant) {
-            if (op2 instanceof NullConstant)
-                ((ConvertToBaf) op1).convertToBaf(context, out);
-            else
-                ((ConvertToBaf) op2).convertToBaf(context, out);
-            Unit u;
-
-            if (cond instanceof EqExpr)
-                u = Baf.v().newIfNullInst
-                        (Baf.v().newPlaceholderInst(getTarget()));
-            else if (cond instanceof NeExpr)
-                u = Baf.v().newIfNonNullInst
-                        (Baf.v().newPlaceholderInst(getTarget()));
-            else
-                throw new RuntimeException("invalid condition");
-
-            u.addAllTagsOf(this);
-            out.add(u);
-            return;
-        }
-
-        // Handle simple subcase where op2 is 0  
-        if (op2 instanceof IntConstant && ((IntConstant) op2).value == 0) {
-            ((ConvertToBaf) op1).convertToBaf(context, out);
-
-            cond.apply(new AbstractJimpleValueSwitch() {
-                private void add(Unit u) {
-                    u.addAllTagsOf(JIfStmt.this);
-                    out.add(u);
-                }
-
-                public void caseEqExpr(EqExpr expr) {
-                    add(Baf.v().newIfEqInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseNeExpr(NeExpr expr) {
-                    add(Baf.v().newIfNeInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseLtExpr(LtExpr expr) {
-                    add(Baf.v().newIfLtInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseLeExpr(LeExpr expr) {
-                    add(Baf.v().newIfLeInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseGtExpr(GtExpr expr) {
-                    add(Baf.v().newIfGtInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseGeExpr(GeExpr expr) {
-                    add(Baf.v().newIfGeInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-            });
-
-            return;
-        }
-
-        // Handle simple subcase where op1 is 0  (flip directions)
-        if (op1 instanceof IntConstant && ((IntConstant) op1).value == 0) {
-            ((ConvertToBaf) op2).convertToBaf(context, out);
-
-            cond.apply(new AbstractJimpleValueSwitch() {
-                private void add(Unit u) {
-                    u.addAllTagsOf(JIfStmt.this);
-                    out.add(u);
-                }
-
-                public void caseEqExpr(EqExpr expr) {
-                    add(Baf.v().newIfEqInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseNeExpr(NeExpr expr) {
-                    add(Baf.v().newIfNeInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseLtExpr(LtExpr expr) {
-                    add(Baf.v().newIfGtInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseLeExpr(LeExpr expr) {
-                    add(Baf.v().newIfGeInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseGtExpr(GtExpr expr) {
-                    add(Baf.v().newIfLtInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-
-                public void caseGeExpr(GeExpr expr) {
-                    add(Baf.v().newIfLeInst(Baf.v().newPlaceholderInst(getTarget())));
-                }
-            });
-
-            return;
-        }
-
-        ((ConvertToBaf) op1).convertToBaf(context, out);
-        ((ConvertToBaf) op2).convertToBaf(context, out);
-
-
-        cond.apply(new AbstractJimpleValueSwitch() {
-            private void add(Unit u) {
-                u.addAllTagsOf(JIfStmt.this);
-                out.add(u);
-            }
-
-            public void caseEqExpr(EqExpr expr) {
-                add(Baf.v().newIfCmpEqInst(op1.getType(),
-                        Baf.v().newPlaceholderInst(getTarget())));
-            }
-
-            public void caseNeExpr(NeExpr expr) {
-                add(Baf.v().newIfCmpNeInst(op1.getType(),
-                        Baf.v().newPlaceholderInst(getTarget())));
-            }
-
-            public void caseLtExpr(LtExpr expr) {
-                add(Baf.v().newIfCmpLtInst(op1.getType(),
-                        Baf.v().newPlaceholderInst(getTarget())));
-            }
-
-            public void caseLeExpr(LeExpr expr) {
-                add(Baf.v().newIfCmpLeInst(op1.getType(),
-                        Baf.v().newPlaceholderInst(getTarget())));
-            }
-
-            public void caseGtExpr(GtExpr expr) {
-                add(Baf.v().newIfCmpGtInst(op1.getType(),
-                        Baf.v().newPlaceholderInst(getTarget())));
-            }
-
-            public void caseGeExpr(GeExpr expr) {
-                add(Baf.v().newIfCmpGeInst(op1.getType(),
-                        Baf.v().newPlaceholderInst(getTarget())));
-            }
-        });
-
-    }
-
 
     public boolean fallsThrough() {
         return true;

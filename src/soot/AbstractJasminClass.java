@@ -29,7 +29,6 @@
 
 package soot;
 
-import soot.baf.DoubleWordType;
 import soot.jimple.DoubleConstant;
 import soot.jimple.FloatConstant;
 import soot.jimple.IdentityStmt;

@@ -26,16 +26,11 @@
 
 package soot.jimple.internal;
 
-import soot.Unit;
 import soot.UnitPrinter;
-import soot.baf.Baf;
 import soot.jimple.Jimple;
-import soot.jimple.JimpleToBafContext;
 import soot.jimple.NopStmt;
 import soot.jimple.StmtSwitch;
 import soot.util.Switch;
-
-import java.util.List;
 
 public class JNopStmt extends AbstractStmt implements NopStmt {
     public JNopStmt() {
@@ -58,13 +53,6 @@ public class JNopStmt extends AbstractStmt implements NopStmt {
     public void apply(Switch sw) {
         ((StmtSwitch) sw).caseNopStmt(this);
     }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-        Unit u = Baf.v().newNopInst();
-        u.addAllTagsOf(this);
-        out.add(u);
-    }
-
 
     public boolean fallsThrough() {
         return true;

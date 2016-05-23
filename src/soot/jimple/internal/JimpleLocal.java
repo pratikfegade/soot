@@ -26,16 +26,13 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
-import soot.jimple.ConvertToBaf;
-import soot.jimple.JimpleToBafContext;
 import soot.jimple.JimpleValueSwitch;
 import soot.util.Switch;
 
 import java.util.Collections;
 import java.util.List;
 
-public class JimpleLocal implements Local, ConvertToBaf {
+public class JimpleLocal implements Local {
     String name;
     Type type;
     private int number = 0;
@@ -120,13 +117,6 @@ public class JimpleLocal implements Local, ConvertToBaf {
 
     public void apply(Switch sw) {
         ((JimpleValueSwitch) sw).caseLocal(this);
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-        Unit u = Baf.v().newLoadInst(getType(),
-                context.getBafLocalOfJimpleLocal(this));
-        u.addAllTagsOf(context.getCurrentUnit());
-        out.add(u);
     }
 
     public final int getNumber() {

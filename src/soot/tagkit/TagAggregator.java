@@ -28,9 +28,7 @@ package soot.tagkit;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.Unit;
-import soot.baf.BafBody;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -58,26 +56,26 @@ public abstract class TagAggregator extends BodyTransformer {
     public abstract String aggregatedName();
 
     protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
-        BafBody body = (BafBody) b;
+//        BafBody body = (BafBody) b;
        
 	/* clear the aggregator first. */
         tags.clear();
         units.clear();
 
 	/* aggregate all tags */
-        for (Iterator<Unit> unitIt = body.getUnits().iterator(); unitIt.hasNext(); ) {
-            final Unit unit = unitIt.next();
-            for (Iterator<Tag> tagIt = unit.getTags().iterator(); tagIt.hasNext(); ) {
-                final Tag tag = tagIt.next();
-                if (wantTag(tag)) considerTag(tag, unit);
-            }
-        }
-
-        if (units.size() > 0) {
-            b.addTag(new CodeAttribute(aggregatedName(),
-                    new LinkedList<>(units), new LinkedList<>(tags)));
-        }
-        fini();
+//        for (Iterator<Unit> unitIt = body.getUnits().iterator(); unitIt.hasNext(); ) {
+//            final Unit unit = unitIt.next();
+//            for (Iterator<Tag> tagIt = unit.getTags().iterator(); tagIt.hasNext(); ) {
+//                final Tag tag = tagIt.next();
+//                if (wantTag(tag)) considerTag(tag, unit);
+//            }
+//        }
+//
+//        if (units.size() > 0) {
+//            b.addTag(new CodeAttribute(aggregatedName(),
+//                    new LinkedList<>(units), new LinkedList<>(tags)));
+//        }
+//        fini();
     }
 
     /**

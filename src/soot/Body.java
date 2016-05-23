@@ -51,9 +51,7 @@ import java.util.*;
  * class. This class provides methods that are common to any IR, such as methods
  * to get the body's units (statements), traps, and locals.
  *
- * @see soot.grimp.GrimpBody
  * @see soot.jimple.JimpleBody
- * @see soot.baf.BafBody
  */
 @SuppressWarnings("serial")
 public abstract class Body extends AbstractHost implements Serializable {
@@ -260,28 +258,6 @@ public abstract class Body extends AbstractHost implements Serializable {
     }
 
     /**
-     * Verifies that each Local of getUseAndDefBoxes() is in this body's locals Chain.
-     */
-    public void validateLocals() {
-        runValidation(LocalsValidator.v());
-    }
-
-
-    /**
-     * Verifies that the begin, end and handler units of each trap are in this body.
-     */
-    public void validateTraps() {
-        runValidation(TrapsValidator.v());
-    }
-
-    /**
-     * Verifies that the UnitBoxes of this Body all point to a Unit contained within this body.
-     */
-    public void validateUnitBoxes() {
-        runValidation(UnitBoxesValidator.v());
-    }
-
-    /**
      * Verifies that each use in this Body has a def.
      */
     public void validateUses() {
@@ -330,31 +306,6 @@ public abstract class Body extends AbstractHost implements Serializable {
         }
 
         throw new RuntimeException("couldn't find parameterref" + i + "! in " + getMethod());
-    }
-
-    /**
-     * Get all the LHS of the identity statements assigning from parameter references.
-     *
-     * @return a list of size as per <code>getMethod().getParameterCount()</code> with all elements ordered as per the parameter index.
-     * @throws RuntimeException if a parameterref is missing
-     */
-    public List<Local> getParameterLocals() {
-        final int numParams = getMethod().getParameterCount();
-        final List<Local> retVal = new ArrayList<>(numParams);
-
-        //Parameters are zero-indexed, so the keeping of the index is safe
-        for (Unit u : getUnits()) {
-            if (u instanceof IdentityStmt) {
-                IdentityStmt is = ((IdentityStmt) u);
-                if (is.getRightOp() instanceof ParameterRef) {
-                    ParameterRef pr = (ParameterRef) is.getRightOp();
-                    retVal.add(pr.getIndex(), (Local) is.getLeftOp());
-                }
-            }
-        }
-        if (retVal.size() != numParams)
-            throw new RuntimeException("couldn't find parameterref! in " + getMethod());
-        return retVal;
     }
 
     /**
@@ -561,10 +512,6 @@ public abstract class Body extends AbstractHost implements Serializable {
             useAndDefBoxList.addAll(item.getDefBoxes());
         }
         return useAndDefBoxList;
-    }
-
-    public void checkInit() {
-        runValidation(CheckInitValidator.v());
     }
 
     /**

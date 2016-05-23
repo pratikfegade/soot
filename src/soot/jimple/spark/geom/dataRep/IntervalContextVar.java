@@ -41,14 +41,7 @@ public class IntervalContextVar extends ContextVar
 		R = r;
 		var = v;
 	}
-	
-	public IntervalContextVar( IntervalContextVar o )
-	{
-		L = o.L;
-		R = o.R;
-		var = o.var;
-	}
-	
+
 	@Override
 	public String toString()
 	{

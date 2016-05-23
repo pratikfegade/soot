@@ -2,8 +2,11 @@
 
 package soot.jimple.parser.node;
 
-import java.util.*;
-import soot.jimple.parser.analysis.*;
+import soot.jimple.parser.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
 public final class ATableswitchStatement extends PStatement
