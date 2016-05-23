@@ -39,13 +39,6 @@ public class DeterministicHashMap<K, V> extends HashMap<K, V> {
     Set<K> keys = new TrustingMonotonicArraySet<>();
 
     /**
-     * Constructs a DeterministicHashMap with the given initial capacity.
-     */
-    public DeterministicHashMap(int initialCapacity) {
-        super(initialCapacity);
-    }
-
-    /**
      * Constructs a DeterministicHashMap with the given initial capacity and load factor.
      */
     public DeterministicHashMap(int initialCapacity, float loadFactor) {
@@ -97,17 +90,6 @@ class TrustingMonotonicArraySet<T> extends AbstractSet<T> {
         maxElements = DEFAULT_SIZE;
         elements = (T[]) new Object[DEFAULT_SIZE];
         numElements = 0;
-    }
-
-    /**
-     * Create a set which contains the given elements.
-     */
-
-    public TrustingMonotonicArraySet(T[] elements) {
-        this();
-
-        for (T element : elements)
-            add(element);
     }
 
     public void clear() {

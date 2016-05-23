@@ -30,10 +30,6 @@ public class PrivateMethodAccMethodSource implements soot.MethodSource {
         this.methodInst = methInst;
     }
 
-    public void setMethodInst(polyglot.types.MethodInstance mi) {
-        methodInst = mi;
-    }
-
     private boolean isCallParamType(soot.Type sootType) {
         Iterator it = methodInst.formalTypes().iterator();
         while (it.hasNext()) {

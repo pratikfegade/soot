@@ -1305,7 +1305,7 @@
             soot.javaToJimple.InitialResolver soot_javaToJimple_InitialResolver() {
             if(
             instance_soot_javaToJimple_InitialResolver == null )
-            instance_soot_javaToJimple_InitialResolver = new soot.javaToJimple.InitialResolver( g );
+            instance_soot_javaToJimple_InitialResolver = new soot.javaToJimple.InitialResolver();
             return instance_soot_javaToJimple_InitialResolver;
             }
         

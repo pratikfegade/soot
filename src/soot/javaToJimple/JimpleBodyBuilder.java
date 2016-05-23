@@ -2220,7 +2220,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         // only has an expr for param for extensibility
         polyglot.ast.Field fLeft = (polyglot.ast.Field) expr;
         soot.SootClass containClass = ((soot.RefType) Util.getSootType(fLeft.target().type())).getSootClass();
-        soot.SootMethod methToUse = addSetAccessMeth(containClass, fLeft, right);
+        soot.SootMethod methToUse = addSetAccessMeth(containClass, fLeft);
         ArrayList params = new ArrayList();
         if (!fLeft.flags().isStatic()) {
             // this is the this ref if needed
@@ -2236,7 +2236,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         return retLocal;
     }
 
-    private soot.SootMethod addSetAccessMeth(soot.SootClass conClass, polyglot.ast.Field field, soot.Value param) {
+    private soot.SootMethod addSetAccessMeth(soot.SootClass conClass, polyglot.ast.Field field) {
         if ((InitialResolver.v().getPrivateFieldSetAccessMap() != null) && (InitialResolver.v().getPrivateFieldSetAccessMap().containsKey(new polyglot.util.IdentityKey(field.fieldInstance())))) {
             return InitialResolver.v().getPrivateFieldSetAccessMap().get(new polyglot.util.IdentityKey(field.fieldInstance()));
         }

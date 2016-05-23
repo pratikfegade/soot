@@ -37,10 +37,6 @@ public class ConcurrentHashMultiMap<K, V> extends AbstractMultiMap<K, V> {
     public ConcurrentHashMultiMap() {
     }
 
-    public ConcurrentHashMultiMap(MultiMap<K, V> m) {
-        putAll(m);
-    }
-
     @Override
     public int numKeys() {
         return m.size();
@@ -49,13 +45,6 @@ public class ConcurrentHashMultiMap<K, V> extends AbstractMultiMap<K, V> {
     @Override
     public boolean containsKey(Object key) {
         return m.containsKey(key);
-    }
-
-    @Override
-    public boolean containsValue(V value) {
-        for (Map<V, V> s : m.values())
-            if (s.containsKey(value)) return true;
-        return false;
     }
 
     protected ConcurrentMap<V, V> newSet() {

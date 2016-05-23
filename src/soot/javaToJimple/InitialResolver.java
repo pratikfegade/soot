@@ -59,7 +59,7 @@ public class InitialResolver implements IInitialResolver {
     private AbstractJBBFactory jbbFactory = new JimpleBodyBuilderFactory();
     private HashMap<SootClass, InnerClassInfo> innerClassInfoMap;
 
-    public InitialResolver(soot.Singletons.Global g) {
+    public InitialResolver() {
     }
 
     public static InitialResolver v() {

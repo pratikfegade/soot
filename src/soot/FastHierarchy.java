@@ -19,7 +19,6 @@
 
 package soot;
 
-import soot.jimple.SpecialInvokeExpr;
 import soot.util.ConcurrentHashMultiMap;
 import soot.util.MultiMap;
 

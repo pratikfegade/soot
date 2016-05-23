@@ -39,14 +39,6 @@ public class NestedClassListBuilder extends polyglot.visit.NodeVisitor {
         return classDeclsList;
     }
 
-    public ArrayList<Node> getAnonClassBodyList() {
-        return anonClassBodyList;
-    }
-
-    public ArrayList<Node> getNestedUsedList() {
-        return nestedUsedList;
-    }
-
     public polyglot.visit.NodeVisitor enter(polyglot.ast.Node parent, polyglot.ast.Node n) {
 
         if (n instanceof polyglot.ast.New) {

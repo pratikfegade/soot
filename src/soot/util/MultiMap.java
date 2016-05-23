@@ -37,8 +37,6 @@ public interface MultiMap<K, V> {
 
     boolean containsKey(K key);
 
-    boolean containsValue(V value);
-
     boolean put(K key, V value);
 
     boolean putAll(K key, Set<V> values);

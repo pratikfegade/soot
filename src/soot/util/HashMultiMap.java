@@ -58,13 +58,6 @@ public class HashMultiMap<K, V> extends AbstractMultiMap<K, V> {
         return m.containsKey(key);
     }
 
-    @Override
-    public boolean containsValue(V value) {
-        for (Set<V> s : m.values())
-            if (s.contains(value)) return true;
-        return false;
-    }
-
     protected Set<V> newSet() {
         return new HashSet<>(4);
     }
