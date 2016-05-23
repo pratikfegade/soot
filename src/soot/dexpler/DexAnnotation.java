@@ -87,7 +87,6 @@ public class DexAnnotation {
     /**
      * Converts Class annotations from Dexlib to Jimple.
      * 
-     * @param h
      * @param classDef
      */
 //    .annotation "Ldalvik/annotation/AnnotationDefault;"

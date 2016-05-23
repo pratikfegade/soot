@@ -253,7 +253,6 @@ public class BitVector
     /**
      * Computes this = this OR ((orset AND andset ) AND (NOT andnotset))
      * Returns true iff this is modified.
-     * @param set a bit set.
      */
     public boolean orAndAndNot(BitVector orset, BitVector andset, BitVector andnotset) {
         boolean ret = false;

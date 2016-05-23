@@ -46,7 +46,6 @@ public class LocalCreation {
    * all actions are done on the given locals-chain. as prefix the
    * <code>DEFAULT-PREFIX</code> will be used.
    *
-   * @param chain the locals-chain of a Jimple-body
    */
   public LocalCreation(Collection<Local> locals) {
     this(locals, DEFAULT_PREFIX);
@@ -56,8 +55,6 @@ public class LocalCreation {
    * whenever <code>newLocal(type)</code> will be called, the given prefix is
    * used.
    *
-   * @param Chain the locals-chain of a Jimple-body
-   * @param String prefix overrides the DEFAULT-PREFIX
    */
   public LocalCreation(Collection<Local> locals, String prefix) {
     this.locals = new HashSet<String>(locals.size());

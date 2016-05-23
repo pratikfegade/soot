@@ -308,8 +308,6 @@ public class ContextSensitiveInfo {
     }
 
     /**
-     * @param assignSource
-     * @param assignTarget
      */
     private void addAssignEdge(AssignEdge assignEdge) {
         contextSensitiveAssignEdges.put(assignEdge.getSrc(), assignEdge);

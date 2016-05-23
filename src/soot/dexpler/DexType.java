@@ -103,7 +103,6 @@ public class DexType {
     /**
      * Return if the given TypeIdItem is wide (i.e. occupies 2 registers).
      *
-     * @param typeReference.getType() the TypeIdItem to analyze
      * @return if type is wide
      */
     public static boolean isWide(TypeReference typeReference) {
@@ -180,7 +179,6 @@ public class DexType {
      * java/lang/Class<java/lang/Enum<*>>
      *
      * @param type
-     * @param pos
      * @return
      */
     public static String toSootICAT(String type) {

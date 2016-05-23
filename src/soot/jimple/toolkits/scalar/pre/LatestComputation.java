@@ -48,8 +48,6 @@ public class LatestComputation {
 	 * <b>very</b> likely that it already exists (as similar maps are used for
 	 * calculating Earliestness, Delayed,...
 	 *
-	 * @param dg
-	 *            a ExceptionalUnitGraph
 	 * @param delayed
 	 *            the delayability-analysis of the same graph.
 	 * @param equivRhsMap
@@ -70,8 +68,6 @@ public class LatestComputation {
 	 * the shared set allows more efficient set-operations, when they the
 	 * computation is merged with other analyses/computations.
 	 *
-	 * @param dg
-	 *            a ExceptionalUnitGraph
 	 * @param delayed
 	 *            the delayability-analysis of the same graph.
 	 * @param equivRhsMap

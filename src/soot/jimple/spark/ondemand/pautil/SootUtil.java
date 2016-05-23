@@ -172,7 +172,6 @@ public class SootUtil {
       "com.sun.rmi.rmid", "com.sun.rsajca", "com.sun.rsasign" };
 
   /**
-   * @param outerType
    * @return
    */
   public static boolean inLibrary(String className) {

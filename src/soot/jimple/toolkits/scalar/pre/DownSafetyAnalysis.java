@@ -83,8 +83,6 @@ public class DownSafetyAnalysis extends BackwardFlowAnalysis<Unit, FlowSet<Equiv
 	 *            the equivalentValue of each unit.
 	 * @param sideEffect
 	 *            the SideEffectTester that performs kills.
-	 * @param BoundedFlowSet
-	 *            the shared set.
 	 */
 	public DownSafetyAnalysis(DirectedGraph<Unit> dg, Map<Unit, EquivalentValue> unitToGen,
 			SideEffectTester sideEffect, BoundedFlowSet<EquivalentValue> set) {

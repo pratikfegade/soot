@@ -69,7 +69,6 @@ final class BBQ {
    }
 
    /** Answers whether a block is in the queue or not.
-    * @param BasicBlock in question.
     * @return <i>true</i> if it is, <i>false</i> if it ain't.
     * @see BasicBlock#inq
     */

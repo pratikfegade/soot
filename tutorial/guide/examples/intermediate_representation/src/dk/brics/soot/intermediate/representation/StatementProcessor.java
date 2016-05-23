@@ -10,7 +10,7 @@ public class StatementProcessor<T> {
 
 	/**
 	 * Processes an {@link FooMethodCall}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(FooMethodCall)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement
@@ -26,7 +26,7 @@ public class StatementProcessor<T> {
 	
 	/**
 	 * Processes an {@link SomeMethodCall}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(SomeMethodCall)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement
@@ -42,7 +42,7 @@ public class StatementProcessor<T> {
 
 	/**
 	 * Processes an {@link FooInit}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(FooInit)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement
@@ -58,7 +58,7 @@ public class StatementProcessor<T> {
 
 	/**
 	 * Processes an {@link FooAssignment}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(FooAssignment)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement
@@ -74,7 +74,7 @@ public class StatementProcessor<T> {
 	
 	/**
 	 * Processes an {@link Return}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(Return)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement
@@ -90,7 +90,7 @@ public class StatementProcessor<T> {
 
 	/**
 	 * Processes an {@link Nop}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(Nop)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement
@@ -106,7 +106,7 @@ public class StatementProcessor<T> {
 	
 	/**
 	 * Processes an {@link MethodHead}.
-	 * This invokes {@link #pre(Statment)}, 
+	 * This invokes ,
 	 * if that returns null then {@link #process(MethodHead)} is invoked, 
 	 * Finally, {@link #post(Statement, Object)} is invoked.
 	 * @param s Statement

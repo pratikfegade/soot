@@ -173,9 +173,6 @@ public class PseudoTopologicalOrderer<N> implements Orderer<N> {
 	/**
 	 * Set the ordering for the orderer.
 	 * 
-	 * @param isReverse
-	 *            specify if we want reverse pseudo-topological ordering, or
-	 *            not.
 	 * @deprecated use {@link #newList(DirectedGraph, boolean))} instead
 	 */
 	@Deprecated

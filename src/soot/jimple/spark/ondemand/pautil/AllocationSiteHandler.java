@@ -157,9 +157,6 @@ public interface AllocationSiteHandler {
     /**
      * @param pag
      * @param receiverType
-     * @param methodName
-     * @param parameterTypes
-     * @param returnType
      */
     public VirtualCallHandler(PAG pag, Type receiverType, NumberedString methodStr) {
       super();

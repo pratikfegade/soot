@@ -148,7 +148,6 @@ public class DexBody  {
     }
 
     /**
-     * @param code the codeitem that is contained in this body
      * @param method the method that is associated with this body
      */
     public DexBody(DexFile dexFile, Method method, RefType declaringClassType) {

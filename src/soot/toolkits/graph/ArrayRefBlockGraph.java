@@ -52,7 +52,6 @@ public class ArrayRefBlockGraph extends BlockGraph
      *   should use the constructor taking the <tt>BriefUnitGraph</tt> as a
      *   parameter, as a minor optimization.</p>
      *
-     *  @param the Body instance from which the graph is built.
      */
     public  ArrayRefBlockGraph(Body body)
     {

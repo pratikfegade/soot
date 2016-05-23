@@ -134,7 +134,6 @@ public class PluginLoader {
 
 	/**
 	 * Each phase has to support the enabled option. We will add it if necessary.
-	 * @param declaredOptions Options declared by the plugin.
 	 * @return option list definitly containing enabled.
 	 */
 	private static String[] appendEnabled(final String [] options) {

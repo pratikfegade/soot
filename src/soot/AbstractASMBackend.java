@@ -456,9 +456,7 @@ public abstract class AbstractASMBackend {
 
     /**
      * Emits the bytecode for all attributes of a method
-     * @param fv The MethodVisitor to emit the bytecode to
-     * @param f The SootMethod the bytecode is to be emitted for
-     */
+	 */
     protected void generateAttributes(MethodVisitor mv, SootMethod m) {
         for (Tag t : m.getTags()) {
             if (t instanceof Attribute) {

@@ -66,7 +66,6 @@ public interface LocalDefs
 		 * 
 		 * @see soot.toolkits.graph.ExceptionalUnitGraph#ExceptionalUnitGraph(Body)
 		 * @param body
-		 * @param expectUndefinedUses if you expect uses of locals that are undefined
 		 * @return a new LocalDefs instance
 		 */
 		public static LocalDefs newLocalDefs(Body body, boolean expectUndefined) {

@@ -79,7 +79,6 @@ public class DexlibWrapper {
      * Construct a DexlibWrapper from a dex file and stores its classes referenced by their name.
      * No further process is done here.
      *
-     * @param inputDexFileName the dex file.
      */
 
     public DexlibWrapper(File inputDexFile) {

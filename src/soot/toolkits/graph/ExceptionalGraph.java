@@ -42,7 +42,6 @@ import soot.toolkits.exceptions.ThrowableSet;
 /**
  *  <p>Defines the interface for navigating a control flow graph which
  *  distinguishes exceptional control flow.</p>
- *  @param N node type
  */
 public interface ExceptionalGraph<N> extends DirectedGraph<N>
 {

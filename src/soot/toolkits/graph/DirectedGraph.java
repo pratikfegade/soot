@@ -32,7 +32,6 @@ import java.util.*;
 
 /**
  *   Defines the notion of a directed graph.
- *   @param N node type
  */
 public interface DirectedGraph<N> extends Iterable<N>
 {

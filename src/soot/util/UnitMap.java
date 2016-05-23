@@ -138,7 +138,6 @@ public abstract class UnitMap<T> implements Map<Unit,T> {
    * maps a unit to an object. This method is called for every unit. If
    * the returned object is <code>null</code> no object will be mapped.<br>
    *
-   * @param the Unit to which <code>o</code> should be mapped.
    * @return an object that is mapped to the unit, or <code>null</code>.
    */
   protected abstract T mapTo(Unit unit);

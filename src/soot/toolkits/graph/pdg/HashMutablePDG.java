@@ -672,8 +672,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 	 * time; it should be noted that, we have not counted the strong regions
 	 * that represent the loop header as a separate region; instead, a PDGRegion
 	 * that represents both the loop header and its body are counted.
-	 * @param The root from which the traversal should begin.
-	 * @return The list of regions obtained thru post-order traversal of the 
+	 * @return The list of regions obtained thru post-order traversal of the
 	 * region hierarchy.
 	 */
 	public static List<PDGRegion> getPostorderPDGRegionList(PDGNode r)

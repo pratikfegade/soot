@@ -36,7 +36,6 @@ package soot.coffi;
  * indicating the list of annotations.
  * @see attribute_info
  * @see method_info#attributes, @see field_info#attributes, 
- * @see coffi_class#attributes
  * @author Jennifer Lhotak
  */
 public class RuntimeInvisibleAnnotations_attribute extends attribute_info {

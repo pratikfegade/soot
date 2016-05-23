@@ -1059,7 +1059,6 @@ class ByteCode {
     * of Instructions.
     * @param inst input list of instructions.
     * @param constant_pool constant pool of the ClassFile object.
-    * @see ByteCode#showCode(Instruction, int, cp_info)
     */
    public static void showCode(Instruction inst,cp_info constant_pool[]) {
       showCode(inst,0,constant_pool);
@@ -1069,7 +1068,6 @@ class ByteCode {
     * @param inst input list of instructions.
     * @param startinst index of the label of the instruction at which to begin.
     * @param constant_pool constant pool of the ClassFile object.
-    * @see ByteCode#showCode(Instruction, cp_info)
     */
    public static void showCode(Instruction inst,int startinst,cp_info constant_pool[]) {
       int i;

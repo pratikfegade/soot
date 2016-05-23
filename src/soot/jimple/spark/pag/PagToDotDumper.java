@@ -102,9 +102,6 @@ public class PagToDotDumper {
 	 * @param frn2
 	 * @param base1
 	 * @param base2
-	 * @param lvn
-	 * @param mName
-	 *            TODO
 	 */
 	@SuppressWarnings("unused")
   private void debug(final FieldRefNode frn1, final FieldRefNode frn2,
@@ -143,8 +140,6 @@ public class PagToDotDumper {
 	}
 
 	/**
-	 * @param lvNode
-	 * @param node
 	 * @return
 	 */
 	private static String translateEdge(Node src, Node dest, String label) {
@@ -160,8 +155,7 @@ public class PagToDotDumper {
     
 	/**
      * Generate a node declaration for a dot file.
-	 * @param node the node
-     * @param p a predicate over nodes, which, if true, will
+	 * @param p a predicate over nodes, which, if true, will
      * cause the node to appear red
 	 * @return the appropriate {@link String} for the dot file
 	 */
@@ -466,10 +460,7 @@ public class PagToDotDumper {
 	/**
 	 * 
 	 * Do a DFS traversal
-	 * 
-	 * @param name
-	 * @param name2
-	 * @param ps2
+	 *
 	 */
 	private void trace(VarNode node, PrintStream ps, HashSet<Node> visitedNodes, int level) {
 		if (level < 1)

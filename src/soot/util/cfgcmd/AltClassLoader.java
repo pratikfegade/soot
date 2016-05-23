@@ -86,9 +86,6 @@ public class AltClassLoader extends ClassLoader {
   /**
    * Sets the list of locations in the alternate classpath.
    *
-   * @param classPath A list of directories and jar files to
-   * search for class files, delimited by 
-   * {@link File#pathSeparator}.
    */
   public void setAltClassPath(String altClassPath) {
     List<String> locationList = new LinkedList<String>();
@@ -108,8 +105,6 @@ public class AltClassLoader extends ClassLoader {
    * should load from the alternate classpath instead of the 
    * regular classpath.
    *
-   * @param classNames[] an array containing the names of classes to
-   * be loaded from the AltClassLoader.
    */
   public void setAltClasses(String[] classNames) {
     nameToMangledName.clear();

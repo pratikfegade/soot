@@ -80,8 +80,7 @@ public class TrapUnitGraph extends UnitGraph
 {
     /**
      *  Constructs the graph from a given Body instance.
-     *  @param the Body instance from which the graph is built.
-     */
+	 */
     public TrapUnitGraph(Body body)
     {
         super(body);

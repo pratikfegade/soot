@@ -76,8 +76,7 @@ public class ClassicCompleteUnitGraph extends TrapUnitGraph
 {
     /**
      *  Constructs the graph from a given Body instance.
-     *  @param the Body instance from which the graph is built.
-     */
+	 */
     public ClassicCompleteUnitGraph(Body body)
     {
 	// The TrapUnitGraph constructor will use our buildExceptionalEdges:

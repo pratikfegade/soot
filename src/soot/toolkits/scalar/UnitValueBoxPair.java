@@ -45,7 +45,6 @@ public class UnitValueBoxPair
 
     /**
      *  Constructs a UnitValueBoxPair form a Unit object and a ValueBox object.
-     *  @param local some Local
      *  @param unit some Unit.
      */
     public UnitValueBoxPair(Unit unit, ValueBox valueBox)

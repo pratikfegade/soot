@@ -1004,8 +1004,6 @@ public class CFG {
      * @param constant_pool constant pool of ClassFile.
      * @param this_class constant pool index of the CONSTANT_Class_info object for
      * this' class.
-     * @param clearStacks if <i>true</i> semantic stacks will be deleted after
-     * the process is complete.
      * @return <i>true</i> if all ok, <i>false</i> if there was an error.
      * @see CFG#jimplify(cp_info[], int)
      * @see Stmt
@@ -2768,7 +2766,6 @@ public class CFG {
 
     /** After the initial jimple construction, a second pass is made to fix up
      * missing Stmt targets for <tt>goto</tt>s, <tt>if</tt>'s etc.
-     * @param c code attribute of this method.
      * @see CFG#jimplify
     */
     void jimpleTargetFixup() 

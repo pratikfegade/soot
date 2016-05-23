@@ -110,11 +110,8 @@ public class PegGraph implements DirectedGraph
 	 *   Body instance. Each node in the graph corresponds to
 	 *   a unit. The edges are derived from the control flow.
 	 *   
-	 *   @param Body               The underlying body of main thread
 	 *   @param addExceptionEdges  If true then the control flow edges associated with
 	 *                             exceptions are added.
-	 *   @param Hierarchy          Using class hierarchy analysis to find the run method of started thread
-	 *   @param PointsToAnalysis   Using point to analysis (SPARK package) to improve the precision of results
 	 */
 	
 	public PegGraph(CallGraph callGraph, Hierarchy hierarchy, PAG pag, Set<Object> methodsNeedingInlining, Set<AllocNode> allocNodes, List inlineSites, Map synchObj, Set<AllocNode> multiRunAllocNodes, Map allocNodeToObj, Body unitBody, 
@@ -137,16 +134,10 @@ public class PegGraph implements DirectedGraph
 	 *   Body instance. Each node in the graph corresponds to
 	 *   a unit. The edges are derived from the control flow.
 	 *   
-	 *   @param body               The underlying body we want to make a
-	 *                             graph for.
-	 *   @param addExceptionEdges  If true then the control flow edges associated with
-	 *                             exceptions are added.
 	 *   @param dontAddEdgeFromStmtBeforeAreaOfProtectionToCatchBlock This was added for Dava.
 	 *                             If true, edges are not added from statement before area of
 	 *                             protection to catch. If false, edges ARE added. For Dava,
 	 *                             it should be true. For flow analyses, it should be false.
-	 *   @param Hierarchy          Using class hierarchy analysis to find the run method of started thread
-	 *   @param PointsToAnalysis   Using point to analysis (SPARK package) to improve the precision of results
 	 */
 	public PegGraph(CallGraph callGraph, Hierarchy hierarchy, PAG pag, Set methodsNeedingInlining, Set allocNodes, List<List> inlineSites, Map<SootMethod, String> synchObj, Set multiRunAllocNodes, Map<AllocNode, String> allocNodeToObj, Body unitBody,String threadName,
 			SootMethod sm,boolean addExceEdge,

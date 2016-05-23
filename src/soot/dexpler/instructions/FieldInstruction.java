@@ -59,7 +59,6 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     /**
      * Return a static SootFieldRef for a dexlib FieldReference.
      *
-     * @param item the dexlib FieldReference.
      */
     protected SootFieldRef getStaticSootFieldRef(FieldReference fref) {
         return getSootFieldRef(fref, true);
@@ -68,7 +67,6 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     /**
      * Return a SootFieldRef for a dexlib FieldReference.
      *
-     * @param item the dexlib FieldReference.
      */
     protected SootFieldRef getSootFieldRef(FieldReference fref) {
         return getSootFieldRef(fref, false);
@@ -77,7 +75,6 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     /**
      * Return a SootFieldRef for a dexlib FieldReference.
      *
-     * @param item the dexlib FieldReference.
      * @param isStatic if the FieldRef should be static
      */
     private SootFieldRef getSootFieldRef(FieldReference fref, boolean isStatic) {

@@ -10,7 +10,6 @@ import soot.SootClass;
 public interface ClassValidator {
 	/**
 	 * Validates the given class and saves all validation errors in the given list.
-	 * @param body the class to check
 	 * @param exceptions the list of exceptions
 	 */
 	void validate(SootClass sc, List<ValidationException> exceptions);

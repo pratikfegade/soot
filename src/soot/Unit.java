@@ -79,7 +79,6 @@ public interface Unit extends Switchable, Host, Serializable, Context
      * have to use this directly.
      * 
      * @see PatchingChain#getNonPatchingChain()
-     * @see soot.shimple.Shimple#redirectToPreds(Chain, Unit)
      * @see soot.shimple.Shimple#redirectPointers(Unit, Unit)
      **/
     void redirectJumpsToThisTo(Unit newLocation);

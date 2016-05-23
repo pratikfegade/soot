@@ -281,8 +281,6 @@ public class PDGRegion implements IRegion, Iterable<PDGNode>{
 	
 	/**
 	 * 
-	 * @param a Statement within the region
-	 * 
 	 * @return The PDGNode that contains that unit, if this unit is in this region.
 	 */
 	public PDGNode unit2PDGNode(Unit u)

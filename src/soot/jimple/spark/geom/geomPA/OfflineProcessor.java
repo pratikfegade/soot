@@ -175,9 +175,7 @@ public class OfflineProcessor
 	
 	/**
 	 * Preprocess the pointers and constraints before running geomPA.
-	 * 
-	 * @param useSpark
-	 * @param multiCallsites
+	 *
 	 */
 	public void runOptimizations()
 	{
@@ -293,7 +291,6 @@ public class OfflineProcessor
 	
 	/**
 	 * All the pointers that we need their points-to information are marked.
-	 * @param virtualBaseSet
 	 */
 	protected void setAllUserCodeVariablesUseful()
 	{

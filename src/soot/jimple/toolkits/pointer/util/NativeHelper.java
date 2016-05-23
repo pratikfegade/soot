@@ -95,7 +95,6 @@ public abstract class NativeHelper {
    * The implementation must ensure that there is only one such
    * representation for each static field. 
    *
-   * @param field, must be a static field
    */
   public ReferenceVariable staticField(String className, String fieldName ){
     return staticFieldImpl(className, fieldName);

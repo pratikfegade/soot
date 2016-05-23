@@ -71,7 +71,7 @@ import soot.util.Switchable;
  * A visitor that builds a list of instructions from the Jimple statements it visits.<br>
  * <br>
  * Use {@link Switchable#apply(soot.util.Switch)} with this visitor to add statements
- * and {@link #getFinalInsns()} to get the final dexlib instructions.<br>
+ * and  to get the final dexlib instructions.<br>
  * <br>
  * These final instructions do have correct offsets, jump targets and register numbers.
  * 
