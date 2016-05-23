@@ -26,7 +26,6 @@
 
 package soot;
 
-import soot.dava.toolkits.base.misc.PackageNamer;
 import soot.options.Options;
 import soot.tagkit.AbstractHost;
 import soot.util.*;
@@ -750,31 +749,6 @@ public class SootClass extends AbstractHost implements Numberable {
         fixedPackageName = null;
     }
 
-    public String getJavaStyleName() {
-        if (PackageNamer.v().has_FixedNames()) {
-            if (fixedShortName == null)
-                fixedShortName = PackageNamer.v().get_FixedClassName(name);
-
-            if (PackageNamer.v().use_ShortName(getJavaPackageName(), fixedShortName) == false)
-                return getJavaPackageName() + "." + fixedShortName;
-
-            return fixedShortName;
-        }
-
-        return shortName;
-    }
-
-    public String getShortJavaStyleName() {
-        if (PackageNamer.v().has_FixedNames()) {
-            if (fixedShortName == null)
-                fixedShortName = PackageNamer.v().get_FixedClassName(name);
-
-            return fixedShortName;
-        }
-
-        return shortName;
-    }
-
     public String getShortName() {
         return shortName;
     }
@@ -788,12 +762,6 @@ public class SootClass extends AbstractHost implements Numberable {
     }
 
     public String getJavaPackageName() {
-        if (PackageNamer.v().has_FixedNames()) {
-            if (fixedPackageName == null)
-                fixedPackageName = PackageNamer.v().get_FixedPackageName(packageName);
-
-            return fixedPackageName;
-        }
 
         return packageName;
     }

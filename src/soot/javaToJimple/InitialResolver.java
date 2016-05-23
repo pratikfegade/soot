@@ -25,6 +25,7 @@ import polyglot.ast.Node;
 import polyglot.types.ConstructorInstance;
 import polyglot.util.IdentityKey;
 import soot.FastHierarchy;
+import soot.Singletons;
 import soot.SootClass;
 import soot.SootMethod;
 
@@ -59,7 +60,7 @@ public class InitialResolver implements IInitialResolver {
     private AbstractJBBFactory jbbFactory = new JimpleBodyBuilderFactory();
     private HashMap<SootClass, InnerClassInfo> innerClassInfoMap;
 
-    public InitialResolver() {
+    public InitialResolver(Singletons.Global g) {
     }
 
     public static InitialResolver v() {

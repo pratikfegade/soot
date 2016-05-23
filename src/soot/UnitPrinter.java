@@ -38,10 +38,6 @@ public interface UnitPrinter {
 
     void endValueBox(ValueBox u);
 
-    void incIndent();
-
-    void decIndent();
-
     void noIndent();
 
     String getIndent();

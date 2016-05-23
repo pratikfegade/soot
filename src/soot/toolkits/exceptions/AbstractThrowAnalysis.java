@@ -21,7 +21,6 @@ package soot.toolkits.exceptions;
 
 import soot.*;
 import soot.baf.ThrowInst;
-import soot.grimp.NewInvokeExpr;
 import soot.jimple.ThrowStmt;
 
 /**
@@ -59,13 +58,8 @@ public abstract class AbstractThrowAnalysis implements ThrowAnalysis {
 	    throw new IllegalStateException("UnitThrowAnalysis StmtSwitch: type of throw argument is not a RefType!");
 	} else {
 	    ThrowableSet result = ThrowableSet.Manager.v().EMPTY;
-	    if (thrownExpression instanceof NewInvokeExpr) {
-		// In this case, we know the exact type of the 
-		// argument exception.
-		result = result.add((RefType) thrownType);
-	    } else {
+
 		result = result.add(AnySubType.v((RefType) thrownType));
-	    }
 	    return result;
 	}
     }

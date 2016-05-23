@@ -73,14 +73,6 @@ public abstract class AbstractUnitPrinter implements UnitPrinter {
         startOfLine = false;
     }
 
-    public void incIndent() {
-        indent = indent + "    ";
-    }
-
-    public void decIndent() {
-        if (indent.length() >= 4) indent = indent.substring(4);
-    }
-
     public String getIndent() {
         return indent;
     }

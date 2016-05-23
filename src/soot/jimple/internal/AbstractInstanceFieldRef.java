@@ -29,7 +29,6 @@ package soot.jimple.internal;
 
 import soot.*;
 import soot.baf.Baf;
-import soot.grimp.PrecedenceTest;
 import soot.jimple.ConvertToBaf;
 import soot.jimple.InstanceFieldRef;
 import soot.jimple.JimpleToBafContext;
@@ -60,9 +59,7 @@ public abstract class AbstractInstanceFieldRef implements InstanceFieldRef, Conv
     }
     
     public void toString( UnitPrinter up ) {
-        if( PrecedenceTest.needsBrackets( baseBox, this ) ) up.literal("(");
         baseBox.toString(up);
-        if( PrecedenceTest.needsBrackets( baseBox, this ) ) up.literal(")");
         up.literal(".");
         up.fieldRef(fieldRef);
     }

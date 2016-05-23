@@ -28,7 +28,6 @@ package soot.jimple.internal;
 
 import soot.*;
 import soot.baf.Baf;
-import soot.grimp.PrecedenceTest;
 import soot.jimple.*;
 import soot.util.Switch;
 
@@ -39,10 +38,6 @@ import java.util.List;
 abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf {
     final ValueBox opBox;
     Type type;
-
-    AbstractCastExpr(Value op, Type type) {
-        this(Jimple.v().newImmediateBox(op), type);
-    }
 
     protected AbstractCastExpr(ValueBox opBox, Type type) {
         this.opBox = opBox;
@@ -75,9 +70,7 @@ abstract public class AbstractCastExpr implements CastExpr, ConvertToBaf {
         up.literal("(");
         up.type(type);
         up.literal(") ");
-        if (PrecedenceTest.needsBrackets(opBox, this)) up.literal("(");
         opBox.toString(up);
-        if (PrecedenceTest.needsBrackets(opBox, this)) up.literal(")");
     }
 
     @Override

@@ -26,13 +26,10 @@
 package soot;
 
 import soot.coffi.Utf8_Enumeration;
-import soot.dava.internal.SET.SETBasicBlock;
-import soot.dava.internal.SET.SETNode;
 import soot.jimple.spark.pag.MethodPAG;
 import soot.jimple.spark.sets.P2SetFactory;
 import soot.jimple.toolkits.annotation.arraycheck.Array2ndDimensionSymbol;
 import soot.jimple.toolkits.pointer.UnionFactory;
-import soot.jimple.toolkits.pointer.util.NativeHelper;
 import soot.jimple.toolkits.typing.ClassHierarchy;
 import soot.shimple.DefaultShimpleFactory;
 import soot.shimple.ShimpleFactory;
@@ -66,9 +63,6 @@ public class G extends Singletons {
     public long coffi_BasicBlock_ids = 0;
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e1 = new Utf8_Enumeration();
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e2 = new Utf8_Enumeration();
-    public int SETNodeLabel_uniqueId = 0;
-    public HashMap<SETNode, SETBasicBlock> SETBasicBlock_binding = new HashMap<>();
-    public boolean ASTAnalysis_modified;
     public P2SetFactory newSetFactory;
     public P2SetFactory oldSetFactory;
     public Map Parm_pairToElement = new HashMap();
@@ -85,15 +79,6 @@ public class G extends Singletons {
     public Timer Timer_forcedGarbageCollectionTimer = new Timer("gc");
     public int Timer_count;
     public ShimpleFactory shimpleFactory = new DefaultShimpleFactory();
-    public boolean ASTTransformations_modified;
-    /*
-     * 16th Feb 2006 Nomair
-     * The AST transformations are unfortunately non-monotonic.
-     * Infact one transformation on each iteration simply reverses the bodies of an if-else
-     * To make the remaining transformations monotonic this transformation is handled with
-     * a separate flag...clumsy but works
-     */
-    public boolean ASTIfElseFlipped;
     /*
      * Nomair A. Naeem January 15th 2006
      * Added For Dava.toolkits.AST.transformations.SuperFirstStmtHandler
@@ -113,9 +98,6 @@ public class G extends Singletons {
      * if this class's name exists in the list prints out an implementation
      * of DavSuperHandler
      */
-    public boolean SootMethodAddedByDava;
-    public ArrayList<SootClass> SootClassNeedsDavaSuperHandlerClass = new ArrayList<>();
-    public ArrayList<SootMethod> SootMethodsAdded = new ArrayList<>();
     //ASTMetrics Data
     public ArrayList<ClassData> ASTMetricsData = new ArrayList<>();
 

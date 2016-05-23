@@ -29,7 +29,6 @@ package soot.jimple.internal;
 import soot.UnitPrinter;
 import soot.Value;
 import soot.ValueBox;
-import soot.grimp.PrecedenceTest;
 import soot.jimple.Expr;
 
 import java.util.ArrayList;
@@ -119,14 +118,10 @@ public abstract class AbstractBinopExpr implements Expr
         //Value val1 = op1Box.getValue();
         //Value val2 = op2Box.getValue();
 
-        if( PrecedenceTest.needsBrackets( op1Box, this ) ) up.literal("(");
         op1Box.toString(up);
-        if( PrecedenceTest.needsBrackets( op1Box, this ) ) up.literal(")");
 
         up.literal(getSymbol());
 
-        if( PrecedenceTest.needsBracketsRight( op2Box, this ) ) up.literal("(");
-        op2Box.toString(up);        
-        if( PrecedenceTest.needsBracketsRight( op2Box, this ) ) up.literal(")");
+        op2Box.toString(up);
     }
 }

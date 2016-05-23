@@ -46,11 +46,6 @@ public class ArrayNullCheckTag implements OneByteCodeTag
     public ArrayNullCheckTag()
     {}
 
-    public ArrayNullCheckTag(byte v)
-    {
-    	value = v;
-    }
-
     public String getName()
     {
 	return NAME;

@@ -107,8 +107,6 @@ public class CFG {
         } else
             firstInstruction = null;
 
-        // calculate complexity metrics
-        if (soot.jbco.Main.metrics) complexity();
     }
 
     /* given the list of instructions head, this pulls off the front

@@ -21,8 +21,6 @@ package soot.toolkits.exceptions;
 
 import soot.*;
 import soot.baf.*;
-import soot.grimp.GrimpValueSwitch;
-import soot.grimp.NewInvokeExpr;
 import soot.jimple.*;
 import soot.shimple.PhiExpr;
 import soot.shimple.ShimpleValueSwitch;
@@ -563,7 +561,7 @@ public class UnitThrowAnalysis extends AbstractThrowAnalysis {
     }
 
 
-    protected class ValueSwitch implements GrimpValueSwitch, ShimpleValueSwitch {
+    protected class ValueSwitch implements ShimpleValueSwitch {
 
 	// Asynchronous errors are always possible:
 	private ThrowableSet result = defaultResult();
@@ -804,9 +802,6 @@ public class UnitThrowAnalysis extends AbstractThrowAnalysis {
 	public void caseLocal(Local l) {
 	}
 
-	public void caseNewInvokeExpr(NewInvokeExpr e) {
-	    caseStaticInvokeExpr(e);
-	}
 
 	@SuppressWarnings("rawtypes")
 	public void casePhiExpr(PhiExpr e) {

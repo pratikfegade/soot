@@ -73,24 +73,7 @@ public class CallGraph implements Iterable<Edge>
         e.insertAfterByTgt( position );
         return true;
     }
-    
-    /**
-     * Removes all outgoing edges that start at the given unit
-     * @param u The unit from which to remove all outgoing edges
-     * @return True if at least one edge has been removed, otherwise false
-     */
-    public boolean removeAllEdgesOutOf(Unit u) {
-    	boolean hasRemoved = false;
-    	for (QueueReader<Edge> edgeRdr = listener(); edgeRdr.hasNext(); ) {
-    		Edge e = edgeRdr.next();
-    		if (e.srcUnit() == u) {
-    			removeEdge(e);
-    			hasRemoved = true;
-    		}
-    	}
-    	return hasRemoved;
-    }
-    
+
     /**
      * Swaps an invocation statement. All edges that previously went from the
      * given statement to some callee now go from the new statement to the same

@@ -27,7 +27,6 @@
 
 package soot;
 
-import soot.jimple.paddle.PaddleField;
 import soot.jimple.spark.pag.SparkField;
 import soot.tagkit.AbstractHost;
 import soot.util.Numberable;
@@ -35,7 +34,7 @@ import soot.util.Numberable;
 /**
  * Soot representation of a Java field.  Can be declared to belong to a SootClass.
  */
-public class SootField extends AbstractHost implements ClassMember, SparkField, Numberable, PaddleField {
+public class SootField extends AbstractHost implements ClassMember, SparkField, Numberable {
     protected boolean isPhantom = false;
     String name;
     Type type;

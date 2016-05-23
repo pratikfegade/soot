@@ -63,11 +63,6 @@ public class HashReversibleGraph<N> extends HashMutableDirectedGraph<N>
         super();
         reversed = false;
     }
-    
-    public boolean isReversed()
-    {
-        return reversed;
-    }
 
     public ReversibleGraph<N> reverse()
     {   

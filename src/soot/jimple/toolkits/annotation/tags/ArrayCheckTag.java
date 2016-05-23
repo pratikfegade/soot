@@ -62,20 +62,6 @@ public class ArrayCheckTag implements OneByteCodeTag
 
 	return value;
     }
-   
-  /** Needs upper bound check?
-   */ 
-    public boolean isCheckUpper()
-    {
-	return upperCheck;
-    }
-   
-  /** Needs lower bound check?
-   */ 
-    public boolean isCheckLower()
-    {
-	return lowerCheck;
-    }
 
     public String getName()
     {

@@ -79,8 +79,7 @@ public class Options extends OptionsBase {
 
     public boolean whole_program() { return whole_program; }
     private boolean whole_program = false;
-    public void set_whole_program( boolean setting ) { whole_program = setting; }
-  
+
     public boolean whole_shimple() { return whole_shimple; }
     private boolean whole_shimple = false;
 

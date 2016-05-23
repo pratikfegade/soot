@@ -80,16 +80,6 @@
             }
         
             private
-            soot.toolkits.graph.SlowPseudoTopologicalOrderer instance_soot_toolkits_graph_SlowPseudoTopologicalOrderer;
-            public
-            soot.toolkits.graph.SlowPseudoTopologicalOrderer soot_toolkits_graph_SlowPseudoTopologicalOrderer() {
-            if(
-            instance_soot_toolkits_graph_SlowPseudoTopologicalOrderer == null )
-            instance_soot_toolkits_graph_SlowPseudoTopologicalOrderer = new soot.toolkits.graph.SlowPseudoTopologicalOrderer();
-            return instance_soot_toolkits_graph_SlowPseudoTopologicalOrderer;
-            }
-        
-            private
             soot.jimple.toolkits.invoke.SynchronizerManager instance_soot_jimple_toolkits_invoke_SynchronizerManager;
             public
             soot.jimple.toolkits.invoke.SynchronizerManager soot_jimple_toolkits_invoke_SynchronizerManager() {
@@ -170,16 +160,6 @@
             }
         
             private
-            soot.dava.toolkits.base.finders.AbruptEdgeFinder instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder;
-            public
-            soot.dava.toolkits.base.finders.AbruptEdgeFinder soot_dava_toolkits_base_finders_AbruptEdgeFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder == null )
-            instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder = new soot.dava.toolkits.base.finders.AbruptEdgeFinder( g );
-            return instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder;
-            }
-        
-            private
             soot.jimple.toolkits.base.Aggregator instance_soot_jimple_toolkits_base_Aggregator;
             public
             soot.jimple.toolkits.base.Aggregator soot_jimple_toolkits_base_Aggregator() {
@@ -187,16 +167,6 @@
             instance_soot_jimple_toolkits_base_Aggregator == null )
             instance_soot_jimple_toolkits_base_Aggregator = new soot.jimple.toolkits.base.Aggregator( g );
             return instance_soot_jimple_toolkits_base_Aggregator;
-            }
-        
-            private
-            soot.jimple.toolkits.annotation.arraycheck.ArrayBoundsChecker instance_soot_jimple_toolkits_annotation_arraycheck_ArrayBoundsChecker;
-            public
-            soot.jimple.toolkits.annotation.arraycheck.ArrayBoundsChecker soot_jimple_toolkits_annotation_arraycheck_ArrayBoundsChecker() {
-            if(
-            instance_soot_jimple_toolkits_annotation_arraycheck_ArrayBoundsChecker == null )
-            instance_soot_jimple_toolkits_annotation_arraycheck_ArrayBoundsChecker = new soot.jimple.toolkits.annotation.arraycheck.ArrayBoundsChecker( g );
-            return instance_soot_jimple_toolkits_annotation_arraycheck_ArrayBoundsChecker;
             }
         
             private
@@ -217,16 +187,6 @@
             instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator == null )
             instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator = new soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator( g );
             return instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator;
-            }
-        
-            private
-            soot.dava.toolkits.base.AST.ASTWalker instance_soot_dava_toolkits_base_AST_ASTWalker;
-            public
-            soot.dava.toolkits.base.AST.ASTWalker soot_dava_toolkits_base_AST_ASTWalker() {
-            if(
-            instance_soot_dava_toolkits_base_AST_ASTWalker == null )
-            instance_soot_dava_toolkits_base_AST_ASTWalker = new soot.dava.toolkits.base.AST.ASTWalker( g );
-            return instance_soot_dava_toolkits_base_AST_ASTWalker;
             }
         
             private
@@ -330,16 +290,6 @@
             }
         
             private
-            soot.grimp.toolkits.base.ConstructorFolder instance_soot_grimp_toolkits_base_ConstructorFolder;
-            public
-            soot.grimp.toolkits.base.ConstructorFolder soot_grimp_toolkits_base_ConstructorFolder() {
-            if(
-            instance_soot_grimp_toolkits_base_ConstructorFolder == null )
-            instance_soot_grimp_toolkits_base_ConstructorFolder = new soot.grimp.toolkits.base.ConstructorFolder( g );
-            return instance_soot_grimp_toolkits_base_ConstructorFolder;
-            }
-        
-            private
             soot.jimple.toolkits.scalar.CopyPropagator instance_soot_jimple_toolkits_scalar_CopyPropagator;
             public
             soot.jimple.toolkits.scalar.CopyPropagator soot_jimple_toolkits_scalar_CopyPropagator() {
@@ -357,26 +307,6 @@
             instance_soot_jimple_toolkits_graph_CriticalEdgeRemover == null )
             instance_soot_jimple_toolkits_graph_CriticalEdgeRemover = new soot.jimple.toolkits.graph.CriticalEdgeRemover( g );
             return instance_soot_jimple_toolkits_graph_CriticalEdgeRemover;
-            }
-        
-            private
-            soot.dava.toolkits.base.finders.CycleFinder instance_soot_dava_toolkits_base_finders_CycleFinder;
-            public
-            soot.dava.toolkits.base.finders.CycleFinder soot_dava_toolkits_base_finders_CycleFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_CycleFinder == null )
-            instance_soot_dava_toolkits_base_finders_CycleFinder = new soot.dava.toolkits.base.finders.CycleFinder( g );
-            return instance_soot_dava_toolkits_base_finders_CycleFinder;
-            }
-        
-            private
-            soot.dava.Dava instance_soot_dava_Dava;
-            public
-            soot.dava.Dava soot_dava_Dava() {
-            if(
-            instance_soot_dava_Dava == null )
-            instance_soot_dava_Dava = new soot.dava.Dava();
-            return instance_soot_dava_Dava;
             }
         
             private
@@ -480,16 +410,6 @@
             }
         
             private
-            soot.dava.toolkits.base.finders.ExceptionFinder instance_soot_dava_toolkits_base_finders_ExceptionFinder;
-            public
-            soot.dava.toolkits.base.finders.ExceptionFinder soot_dava_toolkits_base_finders_ExceptionFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_ExceptionFinder == null )
-            instance_soot_dava_toolkits_base_finders_ExceptionFinder = new soot.dava.toolkits.base.finders.ExceptionFinder( g );
-            return instance_soot_dava_toolkits_base_finders_ExceptionFinder;
-            }
-        
-            private
             soot.jimple.toolkits.pointer.FieldRWTagger instance_soot_jimple_toolkits_pointer_FieldRWTagger;
             public
             soot.jimple.toolkits.pointer.FieldRWTagger soot_jimple_toolkits_pointer_FieldRWTagger() {
@@ -520,26 +440,6 @@
             }
         
             private
-            soot.grimp.Grimp instance_soot_grimp_Grimp;
-            public
-            soot.grimp.Grimp soot_grimp_Grimp() {
-            if(
-            instance_soot_grimp_Grimp == null )
-            instance_soot_grimp_Grimp = new soot.grimp.Grimp( g );
-            return instance_soot_grimp_Grimp;
-            }
-        
-            private
-            soot.dava.toolkits.base.finders.IfFinder instance_soot_dava_toolkits_base_finders_IfFinder;
-            public
-            soot.dava.toolkits.base.finders.IfFinder soot_dava_toolkits_base_finders_IfFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_IfFinder == null )
-            instance_soot_dava_toolkits_base_finders_IfFinder = new soot.dava.toolkits.base.finders.IfFinder( g );
-            return instance_soot_dava_toolkits_base_finders_IfFinder;
-            }
-        
-            private
             soot.IntType instance_soot_IntType;
             public
             soot.IntType soot_IntType() {
@@ -557,16 +457,6 @@
             instance_soot_jimple_Jimple == null )
             instance_soot_jimple_Jimple = new soot.jimple.Jimple( g );
             return instance_soot_jimple_Jimple;
-            }
-        
-            private
-            soot.dava.toolkits.base.finders.LabeledBlockFinder instance_soot_dava_toolkits_base_finders_LabeledBlockFinder;
-            public
-            soot.dava.toolkits.base.finders.LabeledBlockFinder soot_dava_toolkits_base_finders_LabeledBlockFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_LabeledBlockFinder == null )
-            instance_soot_dava_toolkits_base_finders_LabeledBlockFinder = new soot.dava.toolkits.base.finders.LabeledBlockFinder( g );
-            return instance_soot_dava_toolkits_base_finders_LabeledBlockFinder;
             }
         
             private
@@ -605,7 +495,7 @@
             soot.jimple.toolkits.annotation.LineNumberAdder soot_jimple_toolkits_annotation_LineNumberAdder() {
             if(
             instance_soot_jimple_toolkits_annotation_LineNumberAdder == null )
-            instance_soot_jimple_toolkits_annotation_LineNumberAdder = new soot.jimple.toolkits.annotation.LineNumberAdder( g );
+            instance_soot_jimple_toolkits_annotation_LineNumberAdder = new soot.jimple.toolkits.annotation.LineNumberAdder();
             return instance_soot_jimple_toolkits_annotation_LineNumberAdder;
             }
         
@@ -670,16 +560,6 @@
             }
         
             private
-            soot.dava.toolkits.base.misc.MonitorConverter instance_soot_dava_toolkits_base_misc_MonitorConverter;
-            public
-            soot.dava.toolkits.base.misc.MonitorConverter soot_dava_toolkits_base_misc_MonitorConverter() {
-            if(
-            instance_soot_dava_toolkits_base_misc_MonitorConverter == null )
-            instance_soot_dava_toolkits_base_misc_MonitorConverter = new soot.dava.toolkits.base.misc.MonitorConverter( g );
-            return instance_soot_dava_toolkits_base_misc_MonitorConverter;
-            }
-        
-            private
             soot.jimple.toolkits.scalar.NopEliminator instance_soot_jimple_toolkits_scalar_NopEliminator;
             public
             soot.jimple.toolkits.scalar.NopEliminator soot_jimple_toolkits_scalar_NopEliminator() {
@@ -717,16 +597,6 @@
             instance_soot_NullType == null )
             instance_soot_NullType = new soot.NullType( g );
             return instance_soot_NullType;
-            }
-        
-            private
-            soot.dava.toolkits.base.misc.PackageNamer instance_soot_dava_toolkits_base_misc_PackageNamer;
-            public
-            soot.dava.toolkits.base.misc.PackageNamer soot_dava_toolkits_base_misc_PackageNamer() {
-            if(
-            instance_soot_dava_toolkits_base_misc_PackageNamer == null )
-            instance_soot_dava_toolkits_base_misc_PackageNamer = new soot.dava.toolkits.base.misc.PackageNamer( g );
-            return instance_soot_dava_toolkits_base_misc_PackageNamer;
             }
         
             private
@@ -787,16 +657,6 @@
             instance_soot_Scene == null )
             instance_soot_Scene = new soot.Scene( g );
             return instance_soot_Scene;
-            }
-        
-            private
-            soot.dava.toolkits.base.finders.SequenceFinder instance_soot_dava_toolkits_base_finders_SequenceFinder;
-            public
-            soot.dava.toolkits.base.finders.SequenceFinder soot_dava_toolkits_base_finders_SequenceFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_SequenceFinder == null )
-            instance_soot_dava_toolkits_base_finders_SequenceFinder = new soot.dava.toolkits.base.finders.SequenceFinder( g );
-            return instance_soot_dava_toolkits_base_finders_SequenceFinder;
             }
         
             private
@@ -890,46 +750,6 @@
             }
         
             private
-            soot.dava.toolkits.base.finders.SwitchFinder instance_soot_dava_toolkits_base_finders_SwitchFinder;
-            public
-            soot.dava.toolkits.base.finders.SwitchFinder soot_dava_toolkits_base_finders_SwitchFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_SwitchFinder == null )
-            instance_soot_dava_toolkits_base_finders_SwitchFinder = new soot.dava.toolkits.base.finders.SwitchFinder( g );
-            return instance_soot_dava_toolkits_base_finders_SwitchFinder;
-            }
-        
-            private
-            soot.dava.toolkits.base.finders.SynchronizedBlockFinder instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder;
-            public
-            soot.dava.toolkits.base.finders.SynchronizedBlockFinder soot_dava_toolkits_base_finders_SynchronizedBlockFinder() {
-            if(
-            instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder == null )
-            instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder = new soot.dava.toolkits.base.finders.SynchronizedBlockFinder( g );
-            return instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder;
-            }
-        
-            private
-            soot.dava.toolkits.base.misc.ThrowFinder instance_soot_dava_toolkits_base_misc_ThrowFinder;
-            public
-            soot.dava.toolkits.base.misc.ThrowFinder soot_dava_toolkits_base_misc_ThrowFinder() {
-            if(
-            instance_soot_dava_toolkits_base_misc_ThrowFinder == null )
-            instance_soot_dava_toolkits_base_misc_ThrowFinder = new soot.dava.toolkits.base.misc.ThrowFinder( g );
-            return instance_soot_dava_toolkits_base_misc_ThrowFinder;
-            }
-        
-            private
-            soot.dava.toolkits.base.misc.ThrowNullConverter instance_soot_dava_toolkits_base_misc_ThrowNullConverter;
-            public
-            soot.dava.toolkits.base.misc.ThrowNullConverter soot_dava_toolkits_base_misc_ThrowNullConverter() {
-            if(
-            instance_soot_dava_toolkits_base_misc_ThrowNullConverter == null )
-            instance_soot_dava_toolkits_base_misc_ThrowNullConverter = new soot.dava.toolkits.base.misc.ThrowNullConverter( g );
-            return instance_soot_dava_toolkits_base_misc_ThrowNullConverter;
-            }
-        
-            private
             soot.Timers instance_soot_Timers;
             public
             soot.Timers soot_Timers() {
@@ -937,16 +757,6 @@
             instance_soot_Timers == null )
             instance_soot_Timers = new soot.Timers( g );
             return instance_soot_Timers;
-            }
-        
-            private
-            soot.dava.toolkits.base.AST.TryContentsFinder instance_soot_dava_toolkits_base_AST_TryContentsFinder;
-            public
-            soot.dava.toolkits.base.AST.TryContentsFinder soot_dava_toolkits_base_AST_TryContentsFinder() {
-            if(
-            instance_soot_dava_toolkits_base_AST_TryContentsFinder == null )
-            instance_soot_dava_toolkits_base_AST_TryContentsFinder = new soot.dava.toolkits.base.AST.TryContentsFinder( g );
-            return instance_soot_dava_toolkits_base_AST_TryContentsFinder;
             }
         
             private
@@ -1017,16 +827,6 @@
             instance_soot_coffi_UnusuableType == null )
             instance_soot_coffi_UnusuableType = new soot.coffi.UnusuableType( g );
             return instance_soot_coffi_UnusuableType;
-            }
-        
-            private
-            soot.dava.toolkits.base.AST.UselessTryRemover instance_soot_dava_toolkits_base_AST_UselessTryRemover;
-            public
-            soot.dava.toolkits.base.AST.UselessTryRemover soot_dava_toolkits_base_AST_UselessTryRemover() {
-            if(
-            instance_soot_dava_toolkits_base_AST_UselessTryRemover == null )
-            instance_soot_dava_toolkits_base_AST_UselessTryRemover = new soot.dava.toolkits.base.AST.UselessTryRemover( g );
-            return instance_soot_dava_toolkits_base_AST_UselessTryRemover;
             }
         
             private
@@ -1305,18 +1105,8 @@
             soot.javaToJimple.InitialResolver soot_javaToJimple_InitialResolver() {
             if(
             instance_soot_javaToJimple_InitialResolver == null )
-            instance_soot_javaToJimple_InitialResolver = new soot.javaToJimple.InitialResolver();
+            instance_soot_javaToJimple_InitialResolver = new soot.javaToJimple.InitialResolver( g );
             return instance_soot_javaToJimple_InitialResolver;
-            }
-        
-            private
-            soot.jimple.paddle.PaddleHook instance_soot_jimple_paddle_PaddleHook;
-            public
-            soot.jimple.paddle.PaddleHook soot_jimple_paddle_PaddleHook() {
-            if(
-            instance_soot_jimple_paddle_PaddleHook == null )
-            instance_soot_jimple_paddle_PaddleHook = new soot.jimple.paddle.PaddleHook( g );
-            return instance_soot_jimple_paddle_PaddleHook;
             }
         
             private
@@ -1347,26 +1137,6 @@
             instance_soot_javaToJimple_toolkits_CondTransformer == null )
             instance_soot_javaToJimple_toolkits_CondTransformer = new soot.javaToJimple.toolkits.CondTransformer( g );
             return instance_soot_javaToJimple_toolkits_CondTransformer;
-            }
-        
-            private
-            soot.dava.toolkits.base.AST.transformations.UselessLabelFinder instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder;
-            public
-            soot.dava.toolkits.base.AST.transformations.UselessLabelFinder soot_dava_toolkits_base_AST_transformations_UselessLabelFinder() {
-            if(
-            instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder == null )
-            instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder = new soot.dava.toolkits.base.AST.transformations.UselessLabelFinder( g );
-            return instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder;
-            }
-        
-            private
-            soot.dava.DavaStaticBlockCleaner instance_soot_dava_DavaStaticBlockCleaner;
-            public
-            soot.dava.DavaStaticBlockCleaner soot_dava_DavaStaticBlockCleaner() {
-            if(
-            instance_soot_dava_DavaStaticBlockCleaner == null )
-            instance_soot_dava_DavaStaticBlockCleaner = new soot.dava.DavaStaticBlockCleaner( g );
-            return instance_soot_dava_DavaStaticBlockCleaner;
             }
         
             private

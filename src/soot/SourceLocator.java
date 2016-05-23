@@ -345,36 +345,6 @@ public class SourceLocator {
         return classes;
     }
 
-    public String getFileNameFor(SootClass c, int rep) {
-        if (rep == Options.output_format_none)
-            return null;
-
-        StringBuffer b = new StringBuffer();
-
-        if (!Options.v().output_jar()) {
-            b.append(getOutputDir());
-        }
-
-        if ((b.length() > 0) && (b.charAt(b.length() - 1) != File.separatorChar))
-            b.append(File.separatorChar);
-
-        if (rep != Options.output_format_dava) {
-            if (rep == Options.output_format_class) {
-                b.append(c.getName().replace('.', File.separatorChar));
-            } else if (rep == Options.output_format_template) {
-                b.append(c.getName().replace('.', '_'));
-                b.append("_Maker");
-            } else {
-                b.append(c.getName());
-            }
-            b.append(getExtensionFor(rep));
-
-
-        }
-
-        return b.toString();
-    }
-
 
     /* This is called after sootClassPath has been defined. */
     public Set<String> classesInDynamicPackage(String str) {
@@ -404,23 +374,6 @@ public class SourceLocator {
                 set.add(str + "." + string);
         }
         return set;
-    }
-
-    public String getExtensionFor(int rep) {
-        switch (rep) {
-            case Options.output_format_jimple:
-                return ".jimple";
-            case Options.output_format_jimp:
-                return ".jimp";
-            case Options.output_format_shimple:
-                return ".shimple";
-            case Options.output_format_shimp:
-                return ".shimp";
-            case Options.output_format_class:
-                return ".class";
-            default:
-                throw new RuntimeException();
-        }
     }
 
     /**

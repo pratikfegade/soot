@@ -28,14 +28,12 @@ package soot.jimple;
 
 import soot.Local;
 import soot.Unit;
-import soot.baf.BafBody;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class JimpleToBafContext {
     private Map<Local, Local> jimpleLocalToBafLocal = new HashMap<>();
-    private BafBody bafBody;
     private Unit mCurrentUnit;
 
     /**
@@ -60,14 +58,6 @@ public class JimpleToBafContext {
 
     public void setBafLocalOfJimpleLocal(Local jimpleLocal, Local bafLocal) {
         jimpleLocalToBafLocal.put(jimpleLocal, bafLocal);
-    }
-
-    public BafBody getBafBody() {
-        return bafBody;
-    }
-
-    public void setBafBody(BafBody bafBody) {
-        this.bafBody = bafBody;
     }
 
 }
