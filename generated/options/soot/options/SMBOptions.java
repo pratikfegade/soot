@@ -80,30 +80,6 @@ public class SMBOptions
     public boolean insert_redundant_casts() {
         return soot.PhaseOptions.getBoolean( options, "insert-redundant-casts" );
     }
-    
-    public static final int allowed_modifier_changes_unsafe = 1;
-    public static final int allowed_modifier_changes_safe = 2;
-    public static final int allowed_modifier_changes_none = 3;
-    /** Allowed Modifier Changes --
-    
-     * .
-    
-     * Specify which changes in visibility modifiers are allowed. 
-     */
-    public int allowed_modifier_changes() {
-        String s = soot.PhaseOptions.getString( options, "allowed-modifier-changes" );
-        
-        if( s.equalsIgnoreCase( "unsafe" ) )
-            return allowed_modifier_changes_unsafe;
-        
-        if( s.equalsIgnoreCase( "safe" ) )
-            return allowed_modifier_changes_safe;
-        
-        if( s.equalsIgnoreCase( "none" ) )
-            return allowed_modifier_changes_none;
-        
-        throw new RuntimeException( "Invalid value "+s+" of phase option allowed-modifier-changes" );
-    }
-    
+
 }
         
