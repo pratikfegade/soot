@@ -299,108 +299,6 @@ public class FastHierarchy {
         }
     }
 
-    public Collection<SootMethod> resolveConcreteDispatchWithoutFailing(Collection<Type> concreteTypes, SootMethod m, RefType declaredTypeOfBase) {
-
-        Set<SootMethod> ret = new HashSet<>();
-        SootClass declaringClass = declaredTypeOfBase.getSootClass();
-        declaringClass.checkLevel(SootClass.HIERARCHY);
-        for (final Type t : concreteTypes) {
-            if (t instanceof AnySubType) {
-                HashSet<SootClass> s = new HashSet<>();
-                s.add(declaringClass);
-                while (!s.isEmpty()) {
-                    SootClass c = s.iterator().next();
-                    s.remove(c);
-                    if (!c.isInterface() && !c.isAbstract()
-                            && canStoreClass(c, declaringClass)) {
-                        SootMethod concreteM = resolveConcreteDispatch(c, m);
-                        if (concreteM != null)
-                            ret.add(concreteM);
-                    }
-                    if (classToSubclasses.containsKey(c)) {
-                        s.addAll(classToSubclasses.get(c));
-                    }
-                    if (interfaceToSubinterfaces.containsKey(c)) {
-                        s.addAll(interfaceToSubinterfaces.get(c));
-                    }
-                    if (interfaceToImplementers.containsKey(c)) {
-                        s.addAll(interfaceToImplementers.get(c));
-                    }
-                }
-                return ret;
-            } else if (t instanceof RefType) {
-                RefType concreteType = (RefType) t;
-                SootClass concreteClass = concreteType.getSootClass();
-                if (!canStoreClass(concreteClass, declaringClass)) {
-                    continue;
-                }
-                SootMethod concreteM = null;
-                try {
-                    concreteM = resolveConcreteDispatch(concreteClass, m);
-                } catch (Exception e) {
-                    concreteM = null;
-                }
-                if (concreteM != null) ret.add(concreteM);
-            } else if (t instanceof ArrayType) {
-                SootMethod concreteM = null;
-                try {
-                    concreteM = resolveConcreteDispatch(
-                            RefType.v("java.lang.Object").getSootClass(), m);
-                } catch (Exception e) {
-                    concreteM = null;
-                }
-                if (concreteM != null) ret.add(concreteM);
-            } else throw new RuntimeException("Unrecognized reaching type " + t);
-        }
-        return ret;
-    }
-
-    public Collection<SootMethod> resolveConcreteDispatch(Collection<Type> concreteTypes, SootMethod m, RefType declaredTypeOfBase) {
-
-        Set<SootMethod> ret = new HashSet<>();
-        SootClass declaringClass = declaredTypeOfBase.getSootClass();
-        declaringClass.checkLevel(SootClass.HIERARCHY);
-        for (final Type t : concreteTypes) {
-            if (t instanceof AnySubType) {
-                HashSet<SootClass> s = new HashSet<>();
-                s.add(declaringClass);
-                while (!s.isEmpty()) {
-                    SootClass c = s.iterator().next();
-                    s.remove(c);
-                    if (!c.isInterface() && !c.isAbstract()
-                            && canStoreClass(c, declaringClass)) {
-                        SootMethod concreteM = resolveConcreteDispatch(c, m);
-                        if (concreteM != null)
-                            ret.add(concreteM);
-                    }
-                    if (classToSubclasses.containsKey(c)) {
-                        s.addAll(classToSubclasses.get(c));
-                    }
-                    if (interfaceToSubinterfaces.containsKey(c)) {
-                        s.addAll(interfaceToSubinterfaces.get(c));
-                    }
-                    if (interfaceToImplementers.containsKey(c)) {
-                        s.addAll(interfaceToImplementers.get(c));
-                    }
-                }
-                return ret;
-            } else if (t instanceof RefType) {
-                RefType concreteType = (RefType) t;
-                SootClass concreteClass = concreteType.getSootClass();
-                if (!canStoreClass(concreteClass, declaringClass)) {
-                    continue;
-                }
-                SootMethod concreteM = resolveConcreteDispatch(concreteClass, m);
-                if (concreteM != null) ret.add(concreteM);
-            } else if (t instanceof ArrayType) {
-                SootMethod concreteM = resolveConcreteDispatch(
-                        RefType.v("java.lang.Object").getSootClass(), m);
-                if (concreteM != null) ret.add(concreteM);
-            } else throw new RuntimeException("Unrecognized reaching type " + t);
-        }
-        return ret;
-    }
-
     /**
      * Returns true if the method m is visible from code in the class from.
      */
@@ -496,22 +394,6 @@ public class FastHierarchy {
         // When there is no proper dispatch found, we simply return null to let the caller decide what to do
         return null;
 //        throw new RuntimeException("could not resolve concrete dispatch!\nType: "+concreteType+"\nMethod: "+m);
-    }
-
-    /**
-     * Returns the target for the given SpecialInvokeExpr.
-     */
-    public SootMethod resolveSpecialDispatch(SpecialInvokeExpr ie, SootMethod container) {
-        SootMethod target = ie.getMethod();
-
-        /* This is a bizarre condition!  Hopefully the implementation is correct.
-           See VM Spec, 2nd Edition, Chapter 6, in the definition of invokespecial. */
-        if (target.getName().equals("<init>") || target.isPrivate())
-            return target;
-        else if (isSubclass(target.getDeclaringClass(), container.getDeclaringClass()))
-            return resolveConcreteDispatch(container.getDeclaringClass(), target);
-        else
-            return target;
     }
 
     /**

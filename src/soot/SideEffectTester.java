@@ -32,7 +32,6 @@ package soot;
  * different implementations of this interface.
  */
 public interface SideEffectTester {
-    boolean unitCanReadFrom(Unit u, Value v);
 
     boolean unitCanWriteTo(Unit u, Value v);
 

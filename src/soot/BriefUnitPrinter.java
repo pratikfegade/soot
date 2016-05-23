@@ -75,8 +75,7 @@ public class BriefUnitPrinter extends LabeledUnitPrinter {
         }
         eatSpace = false;
         if (!baf) {
-            if (false
-                    || s.equals(Jimple.STATICINVOKE)
+            if (s.equals(Jimple.STATICINVOKE)
                     || s.equals(Jimple.VIRTUALINVOKE)
                     || s.equals(Jimple.INTERFACEINVOKE)
                     ) {

@@ -66,8 +66,6 @@ public class Scene  //extends AbstractHost
     ArrayNumberer<Kind> kindNumberer = new ArrayNumberer<>();
     ArrayNumberer<Type> typeNumberer = new ArrayNumberer<>();
     ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<>();
-    Numberer<Unit> unitNumberer = new MapNumberer<>();
-    Numberer<Context> contextNumberer = null;
     Numberer<SparkField> fieldNumberer = new ArrayNumberer<>();
     ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<>();
     StringNumberer subSigNumberer = new StringNumberer();
@@ -76,7 +74,6 @@ public class Scene  //extends AbstractHost
     SootClass mainClass;
     String sootClassPath = null;
     Set<String> reservedNames = new HashSet<>();
-    List<String> pkgList;
     private Hierarchy activeHierarchy;
     private FastHierarchy activeFastHierarchy;
     private CallGraph activeCallGraph;
@@ -87,7 +84,6 @@ public class Scene  //extends AbstractHost
     // Two default values for constructing ExceptionalUnitGraphs:
     private ThrowAnalysis defaultThrowAnalysis = null;
     private int stateCount;
-    private ContextSensitiveCallGraph cscg = null;
     private List<SootClass> dynamicClasses = null;
     private boolean doneResolving = false;
     private boolean incrementalBuild;
@@ -490,7 +486,7 @@ public class Scene  //extends AbstractHost
         sb.append(File.separator);
         sb.append("rt.jar");
 
-        if (Options.v().whole_program() || Options.v().output_format() == Options.output_format_dava) {
+        if (Options.v().whole_program()) {
             //add jce.jar, which is necessary for whole program mode
             //(java.security.Signature from rt.jar import javax.crypto.Cipher from jce.jar
             sb.append(File.pathSeparator +
@@ -625,13 +621,7 @@ public class Scene  //extends AbstractHost
      */
 
     public SootClass tryLoadClass(String className, int desiredLevel) {
-        /*
-        if(Options.v().time())
-            Main.v().resolveTimer.start();
-        */
-
         setPhantomRefs(true);
-        //SootResolver resolver = new SootResolver();
         if (!getPhantomRefs()
                 && SourceLocator.v().getClassSource(className) == null) {
             setPhantomRefs(false);
@@ -642,10 +632,6 @@ public class Scene  //extends AbstractHost
         setPhantomRefs(false);
 
         return toReturn;
-
-        /*
-        if(Options.v().time())
-            Main.v().resolveTimer.end(); */
     }
 
     /**
@@ -659,22 +645,12 @@ public class Scene  //extends AbstractHost
     }
 
     public SootClass loadClass(String className, int desiredLevel) {
-        /*
-        if(Options.v().time())
-            Main.v().resolveTimer.start();
-        */
-
         setPhantomRefs(true);
-        //SootResolver resolver = new SootResolver();
         SootResolver resolver = SootResolver.v();
         SootClass toReturn = resolver.resolveClass(className, desiredLevel);
         setPhantomRefs(false);
 
         return toReturn;
-
-        /*
-        if(Options.v().time())
-            Main.v().resolveTimer.end(); */
     }
 
     /* The four following chains are mutually disjoint. */
@@ -831,10 +807,6 @@ public class Scene  //extends AbstractHost
         return activeSideEffectAnalysis != null;
     }
 
-    public void releaseSideEffectAnalysis() {
-        activeSideEffectAnalysis = null;
-    }
-
     /**
      * Retrieves the active pointer analysis
      */
@@ -859,10 +831,6 @@ public class Scene  //extends AbstractHost
 
     public boolean hasPointsToAnalysis() {
         return activePointsToAnalysis != null;
-    }
-
-    public void releasePointsToAnalysis() {
-        activePointsToAnalysis = null;
     }
 
     /**
@@ -897,10 +865,6 @@ public class Scene  //extends AbstractHost
 
     public boolean hasFastHierarchy() {
         return activeFastHierarchy != null;
-    }
-
-    public void releaseFastHierarchy() {
-        activeFastHierarchy = null;
     }
 
     /**
@@ -952,16 +916,6 @@ public class Scene  //extends AbstractHost
         this.entryPoints = entryPoints;
     }
 
-    public ContextSensitiveCallGraph getContextSensitiveCallGraph() {
-        if (cscg == null)
-            throw new RuntimeException("No context-sensitive call graph present in Scene. You can bulid one with Paddle.");
-        return cscg;
-    }
-
-    public void setContextSensitiveCallGraph(ContextSensitiveCallGraph cscg) {
-        this.cscg = cscg;
-    }
-
     public CallGraph getCallGraph() {
         if (!hasCallGraph()) {
             throw new RuntimeException("No call graph present in Scene. Maybe you want Whole Program mode (-w).");
@@ -993,21 +947,11 @@ public class Scene  //extends AbstractHost
         return reachableMethods;
     }
 
-    public void setReachableMethods(ReachableMethods rm) {
-        reachableMethods = rm;
-    }
-
-    public boolean hasReachableMethods() {
-        return reachableMethods != null;
-    }
-
     public void releaseReachableMethods() {
         reachableMethods = null;
     }
 
     public boolean getPhantomRefs() {
-        //if( !Options.v().allow_phantom_refs() ) return false;
-        //return allowsPhantomRefs;
         return Options.v().allow_phantom_refs();
     }
 
@@ -1019,31 +963,12 @@ public class Scene  //extends AbstractHost
         return getPhantomRefs();
     }
 
-    public Numberer<Kind> kindNumberer() {
-        return kindNumberer;
-    }
-
     public ArrayNumberer<Type> getTypeNumberer() {
         return typeNumberer;
     }
 
     public ArrayNumberer<SootMethod> getMethodNumberer() {
         return methodNumberer;
-    }
-
-    public Numberer<Context> getContextNumberer() {
-        return contextNumberer;
-    }
-
-    public void setContextNumberer(Numberer<Context> n) {
-        if (contextNumberer != null)
-            throw new RuntimeException(
-                    "Attempt to set context numberer when it is already set.");
-        contextNumberer = n;
-    }
-
-    public Numberer<Unit> getUnitNumberer() {
-        return unitNumberer;
     }
 
     public Numberer<SparkField> getFieldNumberer() {
@@ -1084,16 +1009,6 @@ public class Scene  //extends AbstractHost
             }
         }
         return defaultThrowAnalysis;
-    }
-
-    /**
-     * Sets the {@link ThrowAnalysis} to be used by default when
-     * constructing CFGs which include exceptional control flow.
-     *
-     * @param ta the default {@link ThrowAnalysis}.
-     */
-    public void setDefaultThrowAnalysis(ThrowAnalysis ta) {
-        defaultThrowAnalysis = ta;
     }
 
     private void setReservedNames() {
@@ -1434,14 +1349,6 @@ public class Scene  //extends AbstractHost
         return false;
     }
 
-    public List<String> getPkgList() {
-        return pkgList;
-    }
-
-    public void setPkgList(List<String> list) {
-        pkgList = list;
-    }
-
     /**
      * Create an unresolved reference to a method.
      */
@@ -1532,14 +1439,6 @@ public class Scene  //extends AbstractHost
      */
     public boolean isIncrementalBuild() {
         return incrementalBuild;
-    }
-
-    public void initiateIncrementalBuild() {
-        this.incrementalBuild = true;
-    }
-
-    public void incrementalBuildFinished() {
-        this.incrementalBuild = false;
     }
 
     /*

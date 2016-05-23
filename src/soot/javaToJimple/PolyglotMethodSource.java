@@ -95,10 +95,6 @@ public class PolyglotMethodSource implements MethodSource {
         initializerBlocks = inits;
     }
 
-    public soot.Local getOuterClassThisInit() {
-        return outerClassThisInit;
-    }
-
     public void setOuterClassThisInit(soot.Local l) {
         outerClassThisInit = l;
     }
@@ -242,11 +238,4 @@ public class PolyglotMethodSource implements MethodSource {
         finalsList = list;
     }
 
-    public HashMap getNewToOuterMap() {
-        return newToOuterMap;
-    }
-
-    public void setNewToOuterMap(HashMap map) {
-        newToOuterMap = map;
-    }
 }

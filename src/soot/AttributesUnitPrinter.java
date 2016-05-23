@@ -93,10 +93,6 @@ public class AttributesUnitPrinter {
         return currentLn;
     }
 
-    public void setEndLn(int ln) {
-        currentLn = ln;
-    }
-
     public void newline() {
         currentLn++;
         lastNewline = output().length();

@@ -55,43 +55,6 @@ public class NaiveSideEffectTester implements SideEffectTester {
     public void newMethod(SootMethod m) {
     }
 
-    /**
-     * Returns true if the unit can read from v.
-     * Does not deal with expressions; deals with Refs.
-     */
-    public boolean unitCanReadFrom(Unit u, Value v) {
-        Stmt s = (Stmt) u;
-
-        // This doesn't really make any sense, but we need to return something.
-        if (v instanceof Constant)
-            return false;
-
-        if (v instanceof Expr)
-            throw new RuntimeException("can't deal with expr");
-
-        // If it's an invoke, then only locals are safe.
-        if (s.containsInvokeExpr()) {
-            if (!(v instanceof Local))
-                return true;
-        }
-
-        // otherwise, use boxes tell all.
-        Iterator useIt = u.getUseBoxes().iterator();
-        while (useIt.hasNext()) {
-            Value use = (Value) useIt.next();
-
-            if (use.equivTo(v))
-                return true;
-
-            Iterator vUseIt = v.getUseBoxes().iterator();
-            while (vUseIt.hasNext()) {
-                if (use.equivTo(vUseIt.next()))
-                    return true;
-            }
-        }
-        return false;
-    }
-
     public boolean unitCanWriteTo(Unit u, Value v) {
         Stmt s = (Stmt) u;
 

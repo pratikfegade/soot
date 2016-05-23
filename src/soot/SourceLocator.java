@@ -166,10 +166,6 @@ public class SourceLocator {
         return null;
     }
 
-    public void additionalClassLoader(ClassLoader c) {
-        additionalClassLoaders.add(c);
-    }
-
     private void setupClassProviders() {
         classProviders = new LinkedList<>();
         ClassProvider classFileClassProvider = Options.v().coffi() ? new CoffiClassProvider() : new AsmClassProvider();
@@ -373,32 +369,12 @@ public class SourceLocator {
             }
             b.append(getExtensionFor(rep));
 
-            return b.toString();
+
         }
-
-        return getDavaFilenameFor(c, b);
-    }
-
-    private String getDavaFilenameFor(SootClass c, StringBuffer b) {
-        b.append("dava");
-        b.append(File.separatorChar);
-        ensureDirectoryExists(new File(b.toString() + "classes"));
-
-        b.append("src");
-        b.append(File.separatorChar);
-        String fixedPackageName = c.getJavaPackageName();
-        if (!fixedPackageName.equals("")) {
-            b.append(fixedPackageName.replace('.', File.separatorChar));
-            b.append(File.separatorChar);
-        }
-
-        ensureDirectoryExists(new File(b.toString()));
-
-        b.append(c.getShortJavaStyleName());
-        b.append(".java");
 
         return b.toString();
     }
+
 
     /* This is called after sootClassPath has been defined. */
     public Set<String> classesInDynamicPackage(String str) {
@@ -432,10 +408,6 @@ public class SourceLocator {
 
     public String getExtensionFor(int rep) {
         switch (rep) {
-            case Options.output_format_baf:
-                return ".baf";
-            case Options.output_format_b:
-                return ".b";
             case Options.output_format_jimple:
                 return ".jimple";
             case Options.output_format_jimp:
@@ -444,22 +416,8 @@ public class SourceLocator {
                 return ".shimple";
             case Options.output_format_shimp:
                 return ".shimp";
-            case Options.output_format_grimp:
-                return ".grimp";
-            case Options.output_format_grimple:
-                return ".grimple";
             case Options.output_format_class:
                 return ".class";
-            case Options.output_format_dava:
-                return ".java";
-            case Options.output_format_jasmin:
-                return ".jasmin";
-            case Options.output_format_xml:
-                return ".xml";
-            case Options.output_format_template:
-                return ".java";
-            case Options.output_format_asm:
-                return ".asm";
             default:
                 throw new RuntimeException();
         }
@@ -489,35 +447,6 @@ public class SourceLocator {
         }
 
         ensureDirectoryExists(dir);
-        return dir.getPath();
-    }
-
-    /**
-     * If {@link Options#v()#output_jar()} is set, returns the name of the jar
-     * file to which the output will be written. The name of the jar file can be
-     * given with the -output-dir option or a default will be used. Also ensures
-     * that all directories in the path exist.
-     *
-     * @return the name of the Jar file to which outputs are written
-     */
-    public String getOutputJarName() {
-        if (!Options.v().output_jar()) {
-            return "";
-        }
-
-        File dir;
-        if (Options.v().output_dir().length() == 0) {
-            //Default if -output-dir was not set
-            dir = new File("sootOutput/out.jar");
-        } else {
-            dir = new File(Options.v().output_dir());
-            //If a Jar name was not given, then supply default
-            if (!dir.getPath().endsWith(".jar")) {
-                dir = new File(dir.getPath(), "out.jar");
-            }
-        }
-
-        ensureDirectoryExists(dir.getParentFile());
         return dir.getPath();
     }
 
@@ -559,18 +488,6 @@ public class SourceLocator {
         } catch (IOException e) {
             throw new RuntimeException("Caught IOException " + e + " looking in archive file " + archivePath + " for file " + fileName);
         }
-    }
-
-    public HashMap<String, String> getSourceToClassMap() {
-        return sourceToClassMap;
-    }
-
-    public void setSourceToClassMap(HashMap<String, String> map) {
-        sourceToClassMap = map;
-    }
-
-    public void addToSourceToClassMap(String key, String val) {
-        sourceToClassMap.put(key, val);
     }
 
     /**

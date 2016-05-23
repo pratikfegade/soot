@@ -50,8 +50,6 @@ public interface ShimpleFactory {
 
     DominanceFrontier<Block> getDominanceFrontier();
 
-    GlobalValueNumberer getGlobalValueNumberer();
-
     ReversibleGraph<Block> getReverseBlockGraph();
 
     DominatorsFinder<Block> getReverseDominatorsFinder();

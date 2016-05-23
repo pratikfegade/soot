@@ -508,23 +508,6 @@ public class SootMethod
     }
 
     /**
-     * Removes the given exception from the list of exceptions thrown by this method.
-     */
-    public void removeException(SootClass e) {
-        if (DEBUG)
-            System.out.println("Removing exception " + e);
-
-        if (exceptions == null)
-            exceptions = new ArrayList<>();
-
-        if (!exceptions.contains(e))
-            throw new RuntimeException(
-                    "does not throw exception " + e.getName());
-
-        exceptions.remove(e);
-    }
-
-    /**
      * Returns true if this method throws exception <code>e</code>.
      */
     public boolean throwsException(SootClass e) {
@@ -626,13 +609,6 @@ public class SootMethod
     }
 
     /**
-     * @return yes, if this function is a static initializer.
-     */
-    public boolean isStaticInitializer() {
-        return name.equals(staticInitializerName);
-    }
-
-    /**
      * @return yes, if this is a class initializer or main function.
      */
     public boolean isEntryMethod() {
@@ -649,36 +625,6 @@ public class SootMethod
     public boolean isJavaLibraryMethod() {
         SootClass cl = getDeclaringClass();
         return cl.isJavaLibraryClass();
-    }
-
-    /**
-     * Returns the parameters part of the signature in the format in which
-     * it appears in bytecode.
-     */
-    public String getBytecodeParms() {
-        StringBuffer buffer = new StringBuffer();
-        for (Iterator<Type> typeIt = getParameterTypes().iterator(); typeIt.hasNext(); ) {
-            final Type type = typeIt.next();
-            buffer.append(AbstractJasminClass.jasminDescriptorOf(type));
-        }
-        return buffer.toString().intern();
-    }
-
-    /**
-     * Returns the signature of this method in the format in which it appears
-     * in bytecode (eg. [Ljava/lang/Object instead of java.lang.Object[]).
-     */
-    public String getBytecodeSignature() {
-        String name = getName();
-
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(
-                "<" + Scene.v().quotedNameOf(getDeclaringClass().getName()) + ": ");
-        buffer.append(name);
-        buffer.append(AbstractJasminClass.jasminDescriptorOf(makeRef()));
-        buffer.append(">");
-
-        return buffer.toString().intern();
     }
 
     /**

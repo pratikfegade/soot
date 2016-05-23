@@ -173,13 +173,6 @@ public class SootClass extends AbstractHost implements Numberable {
         resolvingLevel = newLevel;
     }
 
-    /*
-    public void setFields(Field[] fields)
-    {
-        this.fields = new ArraySet(fields);
-    }
-    */
-
     public boolean isInScene() {
         return isInScene;
     }
@@ -226,19 +219,6 @@ public class SootClass extends AbstractHost implements Numberable {
         f.isDeclared = true;
         f.declaringClass = this;
 
-    }
-
-    /**
-     * Removes the given field from this class.
-     */
-
-    public void removeField(SootField f) {
-        checkLevel(SIGNATURES);
-        if (!f.isDeclared() || f.getDeclaringClass() != this)
-            throw new RuntimeException("did not declare: " + f.getName());
-
-        fields.remove(f);
-        f.isDeclared = false;
     }
 
     /**
@@ -318,16 +298,6 @@ public class SootClass extends AbstractHost implements Numberable {
             if (field.getSubSignature().equals(subsignature)) return field;
         }
         return null;
-    }
-
-    /**
-     * Does this class declare a field with the given subsignature?
-     */
-    public boolean declaresField(String subsignature) {
-        checkLevel(SIGNATURES);
-        for (SootField field : fields)
-            if (field.getSubSignature().equals(subsignature)) return true;
-        return false;
     }
 
     /**
@@ -591,11 +561,6 @@ public class SootClass extends AbstractHost implements Numberable {
         if (m.isDeclared())
             throw new RuntimeException("already declared: " + m.getName());
 
-        /*
-        if(declaresMethod(m.getName(), m.getParameterTypes()))
-            throw new RuntimeException("duplicate signature for: " + m.getName());
-        */
-
         if (subSigToMethods.get(m.getNumberedSubSignature()) != null) {
             throw new RuntimeException(
                     "Attempting to add method " + m.getSubSignature() + " to class " + this + ", but the class already has a method with that signature.");
@@ -705,18 +670,6 @@ public class SootClass extends AbstractHost implements Numberable {
     }
 
     /**
-     * Removes the given class from the list of interfaces which are directly implemented by this class.
-     */
-
-    public void removeInterface(SootClass interfaceClass) {
-        checkLevel(HIERARCHY);
-        if (!implementsInterface(interfaceClass.getName()))
-            throw new RuntimeException("no such interface: " + interfaceClass.getName());
-
-        interfaces.remove(interfaceClass);
-    }
-
-    /**
      * WARNING: interfaces are subclasses of the java.lang.Object class!
      * Does this class have a superclass? False implies that this is
      * the java.lang.Object class.  Note that interfaces are
@@ -767,10 +720,6 @@ public class SootClass extends AbstractHost implements Numberable {
     public void setOuterClass(SootClass c) {
         checkLevel(HIERARCHY);
         outerClass = c;
-    }
-
-    public boolean isInnerClass() {
-        return hasOuterClass();
     }
 
     /**
@@ -871,31 +820,9 @@ public class SootClass extends AbstractHost implements Numberable {
         return Modifier.isPublic(this.getModifiers());
     }
 
-    /**
-     * Returns true if some method in this class has an active Baf body.
-     */
-    public boolean containsBafBody() {
-        Iterator<SootMethod> methodIt = methodIterator();
-
-        while (methodIt.hasNext()) {
-            SootMethod m = methodIt.next();
-
-            if (m.hasActiveBody() &&
-                    m.getActiveBody() instanceof soot.baf.BafBody) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     // made public for obfuscator..
     public void setRefType(RefType refType) {
         this.refType = refType;
-    }
-
-    public boolean hasRefType() {
-        return refType != null;
     }
 
     /**
@@ -910,42 +837,6 @@ public class SootClass extends AbstractHost implements Numberable {
      */
     public String toString() {
         return getName();
-    }
-
-    /* Renames private fields and methods with numeric names. */
-    public void renameFieldsAndMethods(boolean privateOnly) {
-        checkLevel(SIGNATURES);
-        // Rename fields.  Ignore collisions for now.
-        {
-            Iterator<SootField> fieldIt = this.getFields().iterator();
-            int fieldCount = 0;
-
-            if (fieldIt.hasNext()) {
-                while (fieldIt.hasNext()) {
-                    SootField f = fieldIt.next();
-                    if (!privateOnly || Modifier.isPrivate(f.getModifiers())) {
-                        String newFieldName = "__field" + (fieldCount++);
-                        f.setName(newFieldName);
-                    }
-                }
-            }
-        }
-
-        // Rename methods.  Again, ignore collisions for now.
-        {
-            Iterator<SootMethod> methodIt = methodIterator();
-            int methodCount = 0;
-
-            if (methodIt.hasNext()) {
-                while (methodIt.hasNext()) {
-                    SootMethod m = methodIt.next();
-                    if (!privateOnly || Modifier.isPrivate(m.getModifiers())) {
-                        String newMethodName = "__method" + (methodCount++);
-                        m.setName(newMethodName);
-                    }
-                }
-            }
-        }
     }
 
     /**

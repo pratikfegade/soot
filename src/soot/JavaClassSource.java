@@ -19,12 +19,10 @@
 
 package soot;
 
-import polyglot.ast.Node;
 import soot.javaToJimple.IInitialResolver;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.javaToJimple.InitialResolver;
 import soot.options.Options;
-import soot.toolkits.astmetrics.ComputeASTMetrics;
 
 import java.io.File;
 
@@ -58,23 +56,6 @@ public class JavaClassSource extends ClassSource {
         }
         //System.out.println("about to call initial resolver in j2j: "+sc.getName());
         Dependencies references = resolver.resolveFromJavaFile(sc);
-
-        /*
-         * 1st March 2006
-         * Nomair
-         * This seems to be a good place to calculate all the
-         * AST Metrics needed from Java's AST
-         */
-        if (Options.v().ast_metrics()) {
-            //System.out.println("CALLING COMPUTEASTMETRICS!!!!!!!");
-            Node ast = InitialResolver.v().getAst();
-            if (ast == null) {
-                G.v().out.println("No compatible AST available for AST metrics. Skipping. Try -polyglot option.");
-            } else {
-                ComputeASTMetrics metrics = new ComputeASTMetrics(ast);
-                metrics.apply();
-            }
-        }
 
         return references;
     }

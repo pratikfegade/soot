@@ -86,14 +86,7 @@ public class PASideEffectTester implements SideEffectTester
 	return ret;
     }
 
-    /** Returns true if the unit can read from v.
-     * Does not deal with expressions; deals with Refs. */
-    public boolean unitCanReadFrom(Unit u, Value v)
-    {
-	return valueTouchesRWSet( readSet( u ), v, u.getUseBoxes() );
-    }
-
-    /** Returns true if the unit can read from v.
+	/** Returns true if the unit can read from v.
      * Does not deal with expressions; deals with Refs. */
     public boolean unitCanWriteTo(Unit u, Value v)
     {

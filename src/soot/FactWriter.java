@@ -94,7 +94,7 @@ public class FactWriter {
 
     public void writeEnterMonitor(SootMethod m, Stmt stmt, Local var, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ENTER_MONITOR,
                 _db.asEntity(rep),
@@ -105,7 +105,7 @@ public class FactWriter {
 
     public void writeExitMonitor(SootMethod m, Stmt stmt, Local var, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(EXIT_MONITOR,
                 _db.asEntity(rep),
@@ -116,7 +116,7 @@ public class FactWriter {
 
     public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_LOCAL,
                 _db.asEntity(rep),
@@ -128,7 +128,7 @@ public class FactWriter {
 
     public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, ThisRef ref, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_LOCAL,
                 _db.asEntity(rep),
@@ -140,7 +140,7 @@ public class FactWriter {
 
     public void writeAssignLocal(SootMethod m, Stmt stmt, Local to, ParameterRef ref, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_LOCAL,
                 _db.asEntity(rep),
@@ -180,7 +180,7 @@ public class FactWriter {
 
         // statement
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_HEAP_ALLOC,
                 _db.asEntity(rep),
@@ -205,14 +205,14 @@ public class FactWriter {
      */
 
     public void writeAssignNewMultiArrayExpr(SootMethod m, Stmt stmt, Local l, NewMultiArrayExpr expr, Session session) {
-        writeAssignNewMultiArrayExprHelper(m, stmt, l, _rep.local(m, l), expr, (ArrayType) expr.getType(), session);
+        writeAssignNewMultiArrayExprHelper(m, stmt, l, _rep.local(m, l), (ArrayType) expr.getType(), session);
     }
 
 
-    private void writeAssignNewMultiArrayExprHelper(SootMethod m, Stmt stmt, Local l, String assignTo, NewMultiArrayExpr expr, ArrayType arrayType, Session session) {
-        String heap = _rep.heapMultiArrayAlloc(m, expr, arrayType, session);
+    private void writeAssignNewMultiArrayExprHelper(SootMethod m, Stmt stmt, Local l, String assignTo, ArrayType arrayType, Session session) {
+        String heap = _rep.heapMultiArrayAlloc(m, arrayType, session);
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(NORMAL_OBJ,
                 _db.asEntity(heap),
@@ -228,9 +228,9 @@ public class FactWriter {
         Type componentType = getComponentType(arrayType);
         if (componentType instanceof ArrayType) {
             String childAssignTo = _rep.newLocalIntermediate(m, l, session);
-            writeAssignNewMultiArrayExprHelper(m, stmt, l, childAssignTo, expr, (ArrayType) componentType, session);
+            writeAssignNewMultiArrayExprHelper(m, stmt, l, childAssignTo, (ArrayType) componentType, session);
             int storeInsnIndex = session.calcUnitNumber(stmt);
-            String storeInstrRep = _rep.instruction(m, stmt, session, storeInsnIndex);
+            String storeInstrRep = _rep.instruction(m, stmt, storeInsnIndex);
 
             _db.add(STORE_ARRAY_INDEX,
                     _db.asEntity(storeInstrRep),
@@ -299,11 +299,11 @@ public class FactWriter {
     */
 
     public void writeAssignStringConstant(SootMethod m, Stmt stmt, Local l, StringConstant s, Session session) {
-        String heap = _rep.stringconstant(m, s);
+        String heap = _rep.stringconstant(s);
 
         // statement
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         // write heap allocation
         _db.add(STRING_CONST, _db.asEntity(heap), writeType(s.getType()));
@@ -318,7 +318,7 @@ public class FactWriter {
 
     public void writeAssignNull(SootMethod m, Stmt stmt, Local l, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_NULL,
                 _db.asEntity(rep),
@@ -329,12 +329,12 @@ public class FactWriter {
 
     public void writeAssignNumConstant(SootMethod m, Stmt stmt, Local l, NumericConstant constant, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_NUM_CONST,
                 _db.asEntity(rep),
                 _db.asIntColumn(String.valueOf(index)),
-                _db.asEntity(_rep.numconstant(m, constant)),
+                _db.asEntity(_rep.numconstant(constant)),
                 _db.asEntity(_rep.local(m, l)),
                 _db.asEntity(METHOD_SIGNATURE, _rep.method(m)));
     }
@@ -376,7 +376,7 @@ public class FactWriter {
                 _db.asEntity(actualType));
 
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_HEAP_ALLOC,
                 _db.asEntity(rep),
@@ -389,7 +389,7 @@ public class FactWriter {
 
     public void writeAssignCast(SootMethod m, Stmt stmt, Local to, Local from, Type t, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(ASSIGN_CAST,
                 _db.asEntity(rep),
@@ -402,7 +402,7 @@ public class FactWriter {
 
     public void writeStoreInstanceField(SootMethod m, Stmt stmt, SootField f, Local base, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(STORE_INST_FIELD,
                 _db.asEntity(rep),
@@ -416,7 +416,7 @@ public class FactWriter {
     public void writeLoadInstanceField(SootMethod m, Stmt stmt, SootField f, Local base, Local to, Session session) {
         int index = session.calcUnitNumber(stmt);
 
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(LOAD_INST_FIELD,
                 _db.asEntity(rep),
@@ -429,7 +429,7 @@ public class FactWriter {
 
     public void writeStoreStaticField(SootMethod m, Stmt stmt, SootField f, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(STORE_STATIC_FIELD,
                 _db.asEntity(rep),
@@ -441,7 +441,7 @@ public class FactWriter {
 
     public void writeLoadStaticField(SootMethod m, Stmt stmt, SootField f, Local to, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(LOAD_STATIC_FIELD,
                 _db.asEntity(rep),
@@ -454,7 +454,7 @@ public class FactWriter {
     public void writeLoadArrayIndex(SootMethod m, Stmt stmt, Local base, Local to, Session session) {
         int index = session.calcUnitNumber(stmt);
 
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(LOAD_ARRAY_INDEX,
                 _db.asEntity(rep),
@@ -466,7 +466,7 @@ public class FactWriter {
 
     public void writeStoreArrayIndex(SootMethod m, Stmt stmt, Local base, Local from, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(STORE_ARRAY_INDEX,
                 _db.asEntity(rep),
@@ -512,7 +512,7 @@ public class FactWriter {
 
     public void writeReturn(SootMethod m, Stmt stmt, Local l, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(RETURN,
                 _db.asEntity(rep),
@@ -523,7 +523,7 @@ public class FactWriter {
 
     public void writeReturnVoid(SootMethod m, Stmt stmt, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(RETURN_VOID,
                 _db.asEntity(rep),
@@ -556,7 +556,7 @@ public class FactWriter {
         // index was already computed earlier
         int indexTo = session.getUnitNumber(to);
 
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(GOTO,
                 _db.asEntity(rep),
@@ -578,7 +578,7 @@ public class FactWriter {
         // index was already computed earlier
         int indexTo = session.getUnitNumber(to);
 
-        String rep = _rep.instruction(m, stmt, session, index);
+        String rep = _rep.instruction(m, stmt, index);
 
         _db.add(IF,
                 _db.asEntity(rep),
@@ -600,7 +600,7 @@ public class FactWriter {
 
         Local l = (Local) v;
 
-        String rep = _rep.instruction(inMethod, stmt, session, stmtIndex);
+        String rep = _rep.instruction(inMethod, stmt, stmtIndex);
 
         _db.add(TABLE_SWITCH,
                 _db.asEntity(rep),
@@ -634,7 +634,7 @@ public class FactWriter {
 
         Local l = (Local) v;
 
-        String rep = _rep.instruction(inMethod, stmt, session, stmtIndex);
+        String rep = _rep.instruction(inMethod, stmt, stmtIndex);
 
         _db.add(LOOKUP_SWITCH,
                 _db.asEntity(rep),
@@ -663,7 +663,7 @@ public class FactWriter {
 
     public void writeUnsupported(SootMethod m, Stmt stmt, Session session) {
         int index = session.calcUnitNumber(stmt);
-        String rep = _rep.unsupported(m, stmt, session, index);
+        String rep = _rep.unsupported(m, stmt, index);
 
         _db.add(UNSUPPORTED_INSTRUCTION,
                 _db.asEntity(rep),

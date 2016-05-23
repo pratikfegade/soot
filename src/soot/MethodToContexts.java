@@ -29,9 +29,6 @@ import java.util.*;
 public final class MethodToContexts {
     private final Map<SootMethod, List<MethodOrMethodContext>> map = new HashMap<>();
 
-    public MethodToContexts() {
-    }
-
     public MethodToContexts(Iterator<MethodOrMethodContext> it) {
         add(it);
     }

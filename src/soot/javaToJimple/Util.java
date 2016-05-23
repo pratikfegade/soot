@@ -164,57 +164,6 @@ public class Util {
         }
     }
 
-    /**
-     * Position Tag Adder
-     */
-    public static void addPosTag(soot.tagkit.Host host, polyglot.util.Position pos) {
-        if (pos != null) {
-            addPosTag(host, pos.column(), pos.endColumn());
-        }
-    }
-
-    public static void addMethodPosTag(soot.tagkit.Host meth, int start, int end) {
-
-        meth.addTag(new soot.tagkit.SourcePositionTag(start, end));
-    }
-
-    /**
-     * Position Tag Adder
-     */
-    public static void addPosTag(soot.tagkit.Host host, int sc, int ec) {
-
-        host.addTag(new soot.tagkit.SourcePositionTag(sc, ec));
-    }
-
-    public static void addMethodLineTag(soot.tagkit.Host host, int sline, int eline) {
-        if (soot.options.Options.v().keep_line_number()) {
-            host.addTag(new soot.tagkit.SourceLineNumberTag(sline, eline));
-        }
-    }
-
-    /**
-     * Line Tag Adder
-     */
-    public static void addLineTag(soot.tagkit.Host host, polyglot.ast.Node node) {
-
-        if (soot.options.Options.v().keep_line_number()) {
-            if (node.position() != null) {
-                host.addTag(new soot.tagkit.SourceLineNumberTag(node.position().line(), node.position().line()));
-
-            }
-        }
-    }
-
-    /**
-     * Line Tag Adder
-     */
-    public static void addLineTag(soot.tagkit.Host host, int sLine, int eLine) {
-
-        host.addTag(new soot.tagkit.SourceLineNumberTag(sLine, eLine));
-
-    }
-
-
     public static soot.Local getThis(soot.Type sootType, soot.Body body, HashMap getThisMap, LocalGenerator lg) {
 
         if (InitialResolver.v().hierarchy() == null) {

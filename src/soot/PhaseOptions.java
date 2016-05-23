@@ -177,21 +177,7 @@ public class PhaseOptions {
         }
     }
 
-    private boolean checkParentEnabled(String phaseName) {
-/*
-        if( true ) return true;
-        for (Pack p : getPM().allPacks()) {
-            if( getBoolean( getPhaseOptions( p ), "enabled" ) ) continue;
-            for( Iterator tIt = p.iterator(); tIt.hasNext(); ) {
-                final Transform t = (Transform) tIt.next();
-                if( t.getPhaseName().equals( phaseName ) ) {
-                    G.v().out.println( "Attempt to set option for phase "+phaseName+" of disabled pack "+p.getPhaseName() );
-                    return false;
-
-                }
-            }
-        }
-*/
+    private boolean checkParentEnabled() {
         return true;
     }
 
@@ -207,7 +193,7 @@ public class PhaseOptions {
 
     public boolean setPhaseOption(HasPhaseOptions phase, String option) {
         Map<String, String> optionMap = mapForPhase(phase);
-        if (!checkParentEnabled(phase.getPhaseName())) return false;
+        if (!checkParentEnabled()) return false;
         if (optionMap == null) {
             G.v().out.println("Option " + option + " given for nonexistent"
                     + " phase " + phase.getPhaseName());

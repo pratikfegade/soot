@@ -210,9 +210,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
             if (initExpr instanceof polyglot.ast.ArrayInit) {
                 sootExpr = getArrayInitLocal((polyglot.ast.ArrayInit) initExpr, field.type().type());
             } else {
-                //System.out.println("field init expr: "+initExpr);
                 sootExpr = base().createAggressiveExpr(initExpr, false, false);
-                //System.out.println("soot expr: "+sootExpr);
             }
             if (sootExpr instanceof soot.jimple.ConditionExpr) {
                 sootExpr = handleCondBinExpr((soot.jimple.ConditionExpr) sootExpr);
@@ -220,9 +218,9 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
 
             soot.jimple.AssignStmt assign;
             if (sootExpr instanceof soot.Local) {
-                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, (soot.Local) sootExpr);
+                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, sootExpr);
             } else if (sootExpr instanceof soot.jimple.Constant) {
-                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, (soot.jimple.Constant) sootExpr);
+                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, sootExpr);
             } else {
                 throw new RuntimeException("fields must assign to local or constant only");
             }

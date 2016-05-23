@@ -124,10 +124,6 @@ public class Modifier {
         return (m & CONSTRUCTOR) != 0;
     }
 
-    public static boolean isDeclaredSynchronized(int m) {
-        return (m & DECLARED_SYNCHRONIZED) != 0;
-    }
-
     /**
      * Converts the given modifiers to their string representation, in canonical form.
      *

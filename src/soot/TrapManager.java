@@ -60,24 +60,6 @@ public class TrapManager {
     }
 
     /**
-     * Returns the list of traps caught at Unit u in Body b.
-     */
-    public static List<Trap> getTrapsAt(Unit unit, Body b) {
-        List<Trap> trapsList = new ArrayList<>();
-        Chain<Unit> units = b.getUnits();
-
-        for (Trap t : b.getTraps()) {
-            Iterator<Unit> it = units.iterator(t.getBeginUnit(),
-                    units.getPredOf(t.getEndUnit()));
-            while (it.hasNext())
-                if (unit.equals(it.next()))
-                    trapsList.add(t);
-        }
-
-        return trapsList;
-    }
-
-    /**
      * Returns a set of units which lie inside the range of any trap.
      */
     public static Set<Unit> getTrappedUnitsOf(Body b) {
@@ -91,55 +73,6 @@ public class TrapManager {
                 trapsSet.add(it.next());
         }
         return trapsSet;
-    }
-
-    /**
-     * Splits all traps so that they do not cross the range rangeStart - rangeEnd.
-     * Note that rangeStart is inclusive, rangeEnd is exclusive.
-     */
-    public static void splitTrapsAgainst(Body b, Unit rangeStart, Unit rangeEnd) {
-        Chain<Trap> traps = b.getTraps();
-        Chain<Unit> units = b.getUnits();
-        Iterator<Trap> trapsIt = traps.snapshotIterator();
-
-        while (trapsIt.hasNext()) {
-            Trap t = trapsIt.next();
-
-            Iterator<Unit> unitIt = units.iterator(t.getBeginUnit(),
-                    t.getEndUnit());
-
-            boolean insideRange = false;
-
-            while (unitIt.hasNext()) {
-                Unit u = unitIt.next();
-                if (u.equals(rangeStart))
-                    insideRange = true;
-                if (!unitIt.hasNext()) // i.e. u.equals(t.getEndUnit())
-                {
-                    if (insideRange) {
-                        Trap newTrap = (Trap) t.clone();
-                        t.setBeginUnit(rangeStart);
-                        newTrap.setEndUnit(rangeStart);
-                        traps.insertAfter(newTrap, t);
-                    } else
-                        break;
-                }
-                if (u.equals(rangeEnd)) {
-                    // insideRange had better be true now.
-                    if (!insideRange)
-                        throw new RuntimeException("inversed range?");
-                    Trap firstTrap = (Trap) t.clone();
-                    Trap secondTrap = (Trap) t.clone();
-                    firstTrap.setEndUnit(rangeStart);
-                    secondTrap.setBeginUnit(rangeStart);
-                    secondTrap.setEndUnit(rangeEnd);
-                    t.setBeginUnit(rangeEnd);
-
-                    traps.insertAfter(firstTrap, t);
-                    traps.insertAfter(secondTrap, t);
-                }
-            }
-        }
     }
 
     /**

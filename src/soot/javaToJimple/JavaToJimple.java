@@ -77,7 +77,7 @@ public class JavaToJimple {
     /**
      * uses polyglot to compile source and build AST
      */
-    public polyglot.ast.Node compile(polyglot.frontend.Compiler compiler, String fileName, polyglot.frontend.ExtensionInfo extInfo) {
+    public polyglot.ast.Node compile(polyglot.frontend.Compiler compiler, String fileName) {
         SourceLoader source_loader = compiler.sourceExtension().sourceLoader();
 
         try {

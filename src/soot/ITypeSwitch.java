@@ -62,5 +62,4 @@ interface ITypeSwitch extends soot.util.Switch {
 
     void caseErroneousType(ErroneousType t);
 
-    void caseDefault(Type t);
 }

@@ -65,7 +65,7 @@ public class JasminClass extends AbstractJasminClass {
                 if (Options.v().verbose()) {
                     G.v().out.println("Was expecting Baf body for " + method + " but found a Jimple body. Will convert body to Baf on the fly.");
                 }
-                activeBody = PackManager.v().convertJimpleBodyToBaf(method);
+//                activeBody = PackManager.v().convertJimpleBodyToBaf(method);
             } else
                 throw new RuntimeException("method: " + method.getName() + " has an invalid active body!");
         }

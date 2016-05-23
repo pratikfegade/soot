@@ -25,7 +25,6 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.pointer.SideEffectAnalysis;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.shimple.toolkits.graph.GlobalValueNumberer;
-import soot.shimple.toolkits.graph.SimpleGlobalValueNumberer;
 import soot.toolkits.graph.*;
 
 /**
@@ -156,11 +155,4 @@ public class DefaultShimpleFactory implements ShimpleFactory {
         return dFrontier;
     }
 
-    public GlobalValueNumberer getGlobalValueNumberer() {
-        if (gvn != null)
-            return gvn;
-
-        gvn = new SimpleGlobalValueNumberer(getBlockGraph());
-        return gvn;
-    }
 }

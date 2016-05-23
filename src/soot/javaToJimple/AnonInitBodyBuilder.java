@@ -73,7 +73,7 @@ public class AnonInitBodyBuilder extends JimpleBodyBuilder {
         ArrayList paramsForFinals = new ArrayList();
 
         soot.Local outerLocal = null;
-        soot.Local qualifierLocal = null;
+        soot.Local qualifierLocal;
 
         // param
         Iterator fIt = sootMethod.getParameterTypes().iterator();

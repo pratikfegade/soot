@@ -18,13 +18,6 @@ public class Representation {
         return t.toString();
     }
 
-  /*
-  public String classconstant(Type t)
-  {
-    return "<class " + type(t) + ">";
-  }
-   */
-
     public String classconstant(SootClass c) {
         return "<class " + type(c) + ">";
     }
@@ -182,7 +175,7 @@ public class Representation {
         return kind;
     }
 
-    public String unsupported(SootMethod inMethod, Stmt stmt, Session session, int index) {
+    public String unsupported(SootMethod inMethod, Stmt stmt, int index) {
         return compactMethod(inMethod) +
                 "/unsupported " + getKind(stmt) +
                 "/" + stmt.toString() +
@@ -192,7 +185,7 @@ public class Representation {
     /**
      * Text representation of instruction to be used as refmode.
      */
-    public String instruction(SootMethod inMethod, Stmt stmt, Session session, int index) {
+    public String instruction(SootMethod inMethod, Stmt stmt, int index) {
         return compactMethod(inMethod) + "/" + getKind(stmt) + "/instruction" + index;
     }
 
@@ -209,13 +202,12 @@ public class Representation {
             return heapAlloc(inMethod, expr.getType(), session);
         } else if (expr instanceof NewMultiArrayExpr) {
             return heapAlloc(inMethod, expr.getType(), session);
-            //      return compactMethod(inMethod) + "/" + type + "/" +  session.nextNumber(type);
         } else {
             throw new RuntimeException("Cannot handle new expression: " + expr);
         }
     }
 
-    public String heapMultiArrayAlloc(SootMethod inMethod, NewMultiArrayExpr expr, ArrayType type, Session session) {
+    public String heapMultiArrayAlloc(SootMethod inMethod, ArrayType type, Session session) {
         return heapAlloc(inMethod, type, session);
     }
 
@@ -224,7 +216,7 @@ public class Representation {
         return compactMethod(inMethod) + "/new " + s + "/" + session.nextNumber(s);
     }
 
-    public String stringconstant(SootMethod inMethod, StringConstant constant) {
+    public String stringconstant(StringConstant constant) {
         String s = constant.toString();
         String content = s.substring(1, s.length() - 1);
 
@@ -235,7 +227,7 @@ public class Representation {
         }
     }
 
-    public String numconstant(SootMethod inMethod, NumericConstant constant) {
+    public String numconstant(NumericConstant constant) {
         return constant.toString();
     }
 }

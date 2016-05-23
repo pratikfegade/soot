@@ -82,10 +82,6 @@ public class InitialResolver implements IInitialResolver {
         return jbbFactory;
     }
 
-    public void setJBBFactory(AbstractJBBFactory jbbFactory) {
-        this.jbbFactory = jbbFactory;
-    }
-
     /**
      * returns true if there is an AST avail for given soot class
      */
@@ -116,7 +112,7 @@ public class InitialResolver implements IInitialResolver {
             compiler = new polyglot.frontend.Compiler(extInfo);
         }
         // build ast
-        astNode = jtj.compile(compiler, fullPath, extInfo);
+        astNode = jtj.compile(compiler, fullPath);
 
         resolveAST();
 

@@ -69,12 +69,10 @@ public class G extends Singletons {
     public int SETNodeLabel_uniqueId = 0;
     public HashMap<SETNode, SETBasicBlock> SETBasicBlock_binding = new HashMap<>();
     public boolean ASTAnalysis_modified;
-    public NativeHelper NativeHelper_helper = null;
     public P2SetFactory newSetFactory;
     public P2SetFactory oldSetFactory;
     public Map Parm_pairToElement = new HashMap();
     public int SparkNativeHelper_tempVar = 0;
-    public int PaddleNativeHelper_tempVar = 0;
     public boolean PointsToSetInternal_warnedAlready = false;
     public HashMap<SootMethod, MethodPAG> MethodPAG_methodToPag = new HashMap<>();
     public Set MethodRWSet_allGlobals = new HashSet();
@@ -82,7 +80,6 @@ public class G extends Singletons {
     public int GeneralConstObject_counter = 0;
     public UnionFactory Union_factory = null;
     public HashMap<Object, Array2ndDimensionSymbol> Array2ndDimensionSymbol_pool = new HashMap<>();
-    public Map AbstractUnit_allMapToUnnamed = Collections.unmodifiableMap(new AbstractUnitAllMapTo("<unnamed>"));
     public List<Timer> Timer_outstandingTimers = new ArrayList<>();
     public boolean Timer_isGarbageCollecting;
     public Timer Timer_forcedGarbageCollectionTimer = new Timer("gc");
@@ -130,9 +127,6 @@ public class G extends Singletons {
         objectGetter.reset();
     }
 
-    public static void setGlobalObjectGetter(GlobalObjectGetter newGetter) {
-        objectGetter = newGetter;
-    }
     public interface GlobalObjectGetter {
         G getG();
 

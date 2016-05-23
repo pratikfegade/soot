@@ -176,7 +176,7 @@ public abstract class AbstractASMBackend {
             return body;
 
         if (activeBody instanceof JimpleBody) {
-            body = PackManager.v().convertJimpleBodyToBaf(method);
+//            body = PackManager.v().convertJimpleBodyToBaf(method);
         } else {
             throw new RuntimeException(
                     "ASM-backend can only translate Baf- and JimpleBodies!");

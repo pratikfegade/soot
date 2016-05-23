@@ -27,8 +27,6 @@ package soot;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * An abstract class which acts on a Body. This class provides a harness and acts as an
@@ -37,7 +35,6 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 
 public abstract class BodyTransformer extends Transformer {
-    private static final Lock lock = new ReentrantLock();
 
     /**
      * Called by clients of the transformation. Acts as a generic interface
@@ -60,11 +57,7 @@ public abstract class BodyTransformer extends Transformer {
         HashMap<String, String> dummyOptions = new HashMap<>();
         dummyOptions.put("enabled", "true");
 
-//        System.out.println("Trying to acquire lock");
-//        lock.lock();
         transform(b, phaseName, dummyOptions);
-//        lock.lock();
-//        System.out.println("Leaving lock");
     }
 
     public final void transform(Body b) {
