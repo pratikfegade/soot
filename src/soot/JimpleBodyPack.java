@@ -51,10 +51,11 @@ public class JimpleBodyPack extends BodyPack
     private void applyPhaseOptions(JimpleBody b, Map<String,String> opts) 
     {
         JBOptions options = new JBOptions( opts );
-        
+        lock.lock();
         if(options.use_original_names())
             PhaseOptions.v().setPhaseOptionIfUnset( "jb.lns", "only-stack-locals");
-        
+        lock.unlock();
+
         if(Options.v().time()) Timers.v().splitTimer.start();
 
         PackManager.v().getTransform( "jb.tt" ).apply( b );
@@ -77,11 +78,14 @@ public class JimpleBodyPack extends BodyPack
 
         lock.unlock();
         if(Options.v().time()) Timers.v().assignTimer.end();
+        lock.lock();
 
         if(options.use_original_names())
         {   
             PackManager.v().getTransform( "jb.ulp" ).apply( b );
         }
+        lock.unlock();
+
         PackManager.v().getTransform( "jb.lns" ).apply( b );		// LocalNameStandardizer
         PackManager.v().getTransform( "jb.cp" ).apply( b );			// CopyPropagator
         PackManager.v().getTransform( "jb.dae" ).apply( b );		// DeadAssignmentElimintaor
