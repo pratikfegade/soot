@@ -193,6 +193,20 @@ public class DalvikThrowAnalysis extends UnitThrowAnalysis {
      */
     public static DalvikThrowAnalysis v() { return G.v().soot_dexpler_DalvikThrowAnalysis(); }
 
+    protected DalvikThrowAnalysis(boolean isInterproc) {
+    	super(isInterproc);
+    }
+    
+    public DalvikThrowAnalysis(Singletons.Global g, boolean isInterproc) {
+    	super(isInterproc);
+    }
+    
+    public static DalvikThrowAnalysis interproceduralAnalysis = null;
+    
+    public static DalvikThrowAnalysis interproc() {
+    	return G.v().interproceduralDalvikThrowAnalysis();
+    }
+    
     @Override
 	protected ThrowableSet defaultResult() {
 		return mgr.EMPTY;

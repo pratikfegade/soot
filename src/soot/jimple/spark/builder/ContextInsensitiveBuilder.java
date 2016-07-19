@@ -70,7 +70,7 @@ public class ContextInsensitiveBuilder {
 					new SparkNativeHelper(pag));
 		}
 		if (opts.on_fly_cg() && !opts.vta()) {
-			ofcg = new OnFlyCallGraph(pag);
+			ofcg = new OnFlyCallGraph(pag, opts.apponly());
 			pag.setOnFlyCallGraph(ofcg);
 		} else {
 			cgb = new CallGraphBuilder(DumbPointerAnalysis.v());
@@ -97,7 +97,8 @@ public class ContextInsensitiveBuilder {
 		while (callEdges.hasNext()) {
 			Edge e = callEdges.next();
 			if (e.getTgt().method().getDeclaringClass().isConcrete()) {
-				MethodPAG.v(pag, e.tgt()).addToPAG(null);
+				if (e.tgt().isConcrete() || e.tgt().isNative())
+					MethodPAG.v(pag, e.tgt()).addToPAG(null);
 				pag.addCallTarget(e);
 			}
 		}

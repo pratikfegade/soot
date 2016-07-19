@@ -147,7 +147,7 @@ public class DexPrinter {
 	
 	private static final String CLASSES_DEX = "classes.dex";
 	
-	private static DexBuilder dexFile;
+	private DexBuilder dexFile;
 	
 	private File originalApk;
 	
@@ -157,7 +157,7 @@ public class DexPrinter {
 	}
 	
 	private void printApk(String outputDir, File originalApk) throws IOException {
-		ZipOutputStream outputApk;
+		ZipOutputStream outputApk = null;
 		if(Options.v().output_jar()) {
 			outputApk = PackManager.v().getJarFile();
 			G.v().out.println("Writing APK to: " + Options.v().output_dir());
@@ -172,9 +172,17 @@ public class DexPrinter {
 			G.v().out.println("Writing APK to: " + outputFileName);
 		}
 		G.v().out.println("do not forget to sign the .apk file with jarsigner and to align it with zipalign");
-		ZipFile original = new ZipFile(originalApk);
-		copyAllButClassesDexAndSigFiles(original, outputApk);
-		original.close();
+		
+		// Copy over additional resources from original APK
+		ZipFile original = null;
+		try {
+			original = new ZipFile(originalApk);
+			copyAllButClassesDexAndSigFiles(original, outputApk);
+		}
+		finally {
+			if (original != null)
+				original.close();
+		}
 		
 		// put our classes.dex into the zip archive
 		File tmpFile = File.createTempFile("toDex", null);
@@ -188,11 +196,12 @@ public class DexPrinter {
 				outputApk.write(data);
 			}
 			outputApk.closeEntry();
-			outputApk.close();
 		}
 		finally {
 			fis.close();
 			tmpFile.delete();
+			if (outputApk != null)
+				outputApk.close();
 		}
 	}
 
@@ -1054,6 +1063,7 @@ public class DexPrinter {
 		// into bulk initializations
 		DexArrayInitDetector initDetector = new DexArrayInitDetector();
 		initDetector.constructArrayInitializations(activeBody);
+		initDetector.fixTraps(activeBody);
 		
 		// Split the tries since Dalvik does not supported nested try/catch blocks
 		TrapSplitter.v().transform(activeBody);
@@ -1090,13 +1100,15 @@ public class DexPrinter {
 		
 		Map<Local, Integer> seenRegisters = new HashMap<Local, Integer>();
 		Map<Instruction, LocalRegisterAssignmentInformation> instructionRegisterMap = stmtV.getInstructionRegisterMap();
-
-		for (LocalRegisterAssignmentInformation assignment : stmtV.getParameterInstructionsList()) {
-			//The "this" local gets added automatically, so we do not need to add it explicitly
-			//(at least not if it exists with exactly this name)
-			if (assignment.getLocal().getName().equals("this"))
-				continue;
-			addRegisterAssignmentDebugInfo(assignment, seenRegisters, builder);
+		
+		if (Options.v().write_local_annotations()) {
+			for (LocalRegisterAssignmentInformation assignment : stmtV.getParameterInstructionsList()) {
+				//The "this" local gets added automatically, so we do not need to add it explicitly
+				//(at least not if it exists with exactly this name)
+				if (assignment.getLocal().getName().equals("this"))
+					continue;
+				addRegisterAssignmentDebugInfo(assignment, seenRegisters, builder);
+			}
 		}
     	
         for (BuilderInstruction ins : instructions) {

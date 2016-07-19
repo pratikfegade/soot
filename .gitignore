@@ -2,7 +2,7 @@
 /classes
 /.classpath
 /sootOutput
-# IntelliJ IDEA project dir
+# IntelliJ IDEA project directory
 .idea
 # Directory with .jars required to build Soot with IntelliJ IDEA
 /libs_intellij
@@ -10,3 +10,8 @@
 /reports
 /testclasses
 *.iml
+
+# Eclipse settings directory
+/.settings
+
+

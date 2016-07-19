@@ -39,7 +39,7 @@ import soot.TypeSwitch;
 import soot.Unit;
 import soot.UnitBox;
 import soot.Value;
-import soot.ValueBox;
+import soot.baf.internal.BafLocal;
 import soot.jimple.CaughtExceptionRef;
 import soot.jimple.ClassConstant;
 import soot.jimple.Constant;
@@ -130,10 +130,15 @@ public class BafASMBackend extends AbstractASMBackend {
 			}
 		}
 
+		Label startLabel = null;
+		if (Options.v().write_local_annotations()) {
+			startLabel = new Label();
+			mv.visitLabel(startLabel);
+		}
+		
 		/*
 		 * Handle all TRY-CATCH-blocks
 		 */
-		int idx = 0;
 		for (Trap trap : body.getTraps()) {
 			// Check if the try-block contains any statement
 			if (trap.getBeginUnit() != trap.getEndUnit()) {
@@ -196,6 +201,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			}
 		}
 
+		
 		// Generate the code
 		for (Unit u : instructions) {
 			if (branchTargetLabels.containsKey(u)) {
@@ -213,6 +219,26 @@ public class BafASMBackend extends AbstractASMBackend {
 				mv.visitLineNumber(lnt.getLineNumber(), l);
 			}
 			generateInstruction(mv, (Inst) u);
+		}
+				
+		// Generate the local annotations
+		if (Options.v().write_local_annotations()) {
+			Label endLabel = new Label();
+			mv.visitLabel(endLabel);
+			
+			for (Local local : body.getLocals()) {
+				Integer slot = localToSlot.get(local);
+				if (slot != null) {
+					BafLocal l = (BafLocal) local;
+					if (l.getOriginalLocal() != null)
+					{
+						Local jimpleLocal = l.getOriginalLocal();
+						if (jimpleLocal != null)
+							mv.visitLocalVariable(jimpleLocal.getName(), toTypeDesc(jimpleLocal.getType()),
+									null, startLabel, endLabel, slot);
+					}
+				}
+			}
 		}
 	}
 
@@ -1176,7 +1202,7 @@ public class BafASMBackend extends AbstractASMBackend {
 				Type castType = i.getCastType();
 				if (castType instanceof RefType) {
 					mv.visitTypeInsn(Opcodes.CHECKCAST,
-							slashify(castType.toString()));
+							slashify(((RefType)castType).getClassName()));
 				} else if (castType instanceof ArrayType) {
 					mv.visitTypeInsn(Opcodes.CHECKCAST, toTypeDesc(castType));
 				}
@@ -1187,7 +1213,7 @@ public class BafASMBackend extends AbstractASMBackend {
 				Type checkType = i.getCheckType();
 				if (checkType instanceof RefType) {
 					mv.visitTypeInsn(Opcodes.INSTANCEOF,
-							slashify(checkType.toString()));
+							slashify(((RefType)checkType).getClassName()));
 				} else if (checkType instanceof ArrayType) {
 					mv.visitTypeInsn(Opcodes.INSTANCEOF, toTypeDesc(checkType));
 				}
@@ -1577,8 +1603,8 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseIncInst(IncInst i) {
-				if (((ValueBox) i.getUseBoxes().get(0)).getValue() != ((ValueBox) i
-						.getDefBoxes().get(0)).getValue()) {
+				if (i.getUseBoxes().get(0).getValue() != i
+						.getDefBoxes().get(0).getValue()) {
 					throw new RuntimeException(
 							"iinc def and use boxes don't match");
 				}
@@ -1775,7 +1801,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			@Override
 			public void caseNewInst(NewInst i) {
 				mv.visitTypeInsn(Opcodes.NEW, slashify(i.getBaseType()
-						.toString()));
+						.getClassName()));
 			}
 
 			@Override
@@ -1943,7 +1969,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			public void caseNewArrayInst(NewArrayInst i) {
 				Type t = i.getBaseType();
 				if (t instanceof RefType) {
-					mv.visitTypeInsn(Opcodes.ANEWARRAY, slashify(t.toString()));
+					mv.visitTypeInsn(Opcodes.ANEWARRAY, slashify(((RefType)t).getClassName()));
 				} else if (t instanceof ArrayType) {
 					mv.visitTypeInsn(Opcodes.ANEWARRAY, toTypeDesc(t));
 				} else {
