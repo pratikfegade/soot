@@ -98,7 +98,7 @@ public class SootMethod
         Body body = ms.getBody(this, phaseName);
 
         long tEnd = System.currentTimeMillis();
-        G.v().out.println("\ngetBody in getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
+//        G.v().out.println("\ngetBody in getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
 
         return  body;
         /**
@@ -352,7 +352,7 @@ public class SootMethod
         }
 
         long tEnd = System.currentTimeMillis();
-        G.v().out.println("getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
+//        G.v().out.println("getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
 
         return getActiveBody();
     }

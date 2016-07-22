@@ -51,6 +51,7 @@ import soot.DoubleType;
 import soot.FloatType;
 import soot.G;
 import soot.IntType;
+import soot.JastAddJ.CONSTANT_NameAndType_Info;
 import soot.Local;
 import soot.LongType;
 import soot.Modifier;
@@ -2494,11 +2495,23 @@ public class CFG {
     private Type jimpleReturnTypeOfMethodRef(Scene cm,
         cp_info[] constant_pool, int index)
     {
-        CONSTANT_Methodref_info mr = (CONSTANT_Methodref_info)
-                (constant_pool[index]);
+		CONSTANT_NameAndType_info nat = null;
+    	if (constant_pool[index] instanceof CONSTANT_Methodref_info) {
+			CONSTANT_Methodref_info mr = (CONSTANT_Methodref_info)
+					(constant_pool[index]);
+			nat = (CONSTANT_NameAndType_info)
+					(constant_pool[mr.name_and_type_index]);
+		}
+		else if (constant_pool[index] instanceof CONSTANT_InterfaceMethodref_info) {
+			CONSTANT_InterfaceMethodref_info imr = (CONSTANT_InterfaceMethodref_info) (constant_pool[index]);
+			nat = (CONSTANT_NameAndType_info)
+					(constant_pool[imr.name_and_type_index]);
+		}
+		else {
+			System.err.println("Cannot handle method refs of type: " + constant_pool[index].getClass().getName());
+		}
 
-        CONSTANT_NameAndType_info nat = (CONSTANT_NameAndType_info)
-            (constant_pool[mr.name_and_type_index]);
+
 
         String methodDescriptor = ((CONSTANT_Utf8_info)
             (constant_pool[nat.descriptor_index])).convert();
@@ -4404,10 +4417,19 @@ public class CFG {
             Instruction_Invokenonvirtual iv = (Instruction_Invokenonvirtual)ins;
             args = cp_info.countParams(constant_pool,iv.arg_i);
 
-            CONSTANT_Methodref_info methodInfo =
-            	(CONSTANT_Methodref_info) constant_pool[iv.arg_i];
 
-            SootMethodRef methodRef = createMethodRef(constant_pool, methodInfo, false);
+             SootMethodRef methodRef = null;
+             if (constant_pool[iv.arg_i] instanceof CONSTANT_Methodref_info) {
+                 CONSTANT_Methodref_info methodInfo =
+                         (CONSTANT_Methodref_info) constant_pool[iv.arg_i];
+                 methodRef = createMethodRef(constant_pool, methodInfo, false);
+
+             }
+             else if (constant_pool[iv.arg_i] instanceof CONSTANT_InterfaceMethodref_info) {
+                 CONSTANT_InterfaceMethodref_info methodInfo =
+                         (CONSTANT_InterfaceMethodref_info) constant_pool[iv.arg_i];
+                 methodRef = createMethodRef(constant_pool, methodInfo, false);
+             }
 
             Type returnType = methodRef.returnType();
 
@@ -4444,10 +4466,18 @@ public class CFG {
             Instruction_Invokestatic is = (Instruction_Invokestatic)ins;
             args = cp_info.countParams(constant_pool,is.arg_i);
 
-            CONSTANT_Methodref_info methodInfo =
-            	(CONSTANT_Methodref_info) constant_pool[is.arg_i];
+             SootMethodRef methodRef = null;
+             if (constant_pool[is.arg_i] instanceof CONSTANT_Methodref_info) {
+                 CONSTANT_Methodref_info methodInfo =
+                         (CONSTANT_Methodref_info) constant_pool[is.arg_i];
+                 methodRef = createMethodRef(constant_pool, methodInfo, true);
 
-            SootMethodRef methodRef = createMethodRef(constant_pool, methodInfo, true);
+             }
+             else if (constant_pool[is.arg_i] instanceof CONSTANT_InterfaceMethodref_info) {
+                 CONSTANT_InterfaceMethodref_info methodInfo =
+                         (CONSTANT_InterfaceMethodref_info) constant_pool[is.arg_i];
+                 methodRef = createMethodRef(constant_pool, methodInfo, true);
+             }
 
             Type returnType = methodRef.returnType();
 
