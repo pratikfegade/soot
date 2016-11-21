@@ -690,7 +690,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
 
     // Declared in ASTNode.ast at line 51
 
-  int childIndex;
+  protected int childIndex;
 
     // Declared in ASTNode.ast at line 52
 
