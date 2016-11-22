@@ -71,7 +71,9 @@ public class ShimpleBodyBuilder
     public PiNodeManager pi;
 
     ShimpleOptions options;
-    
+
+    final String ssaSeparator = "_$$A_";
+
     /**
      * Transforms the provided body to pure SSA form.
      **/
@@ -363,7 +365,7 @@ public class ShimpleBodyBuilder
 
         // If the name already exists, makeUniqueLocalNames() will
         // take care of it.
-        String name = oldLocal.getName() + "_" + subscript;
+        String name = oldLocal.getName() + ssaSeparator + subscript;
 
         Local newLocal = newLocals.get(name);
 
@@ -436,7 +438,7 @@ public class ShimpleBodyBuilder
         String newName = dupName;
 
         while(localNames.contains(newName))
-            newName = dupName + "_" + counter++;
+            newName = dupName + ssaSeparator + counter++;
 
         return newName;
     }
