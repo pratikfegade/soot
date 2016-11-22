@@ -32,7 +32,7 @@ import soot.javaToJimple.IInitialResolver.Dependencies;
  * 
  * @author Aaloan Miftah
  */
-class AsmClassSource extends ClassSource {
+public class AsmClassSource extends ClassSource {
 
 	private InputStream data;
 	
@@ -41,7 +41,7 @@ class AsmClassSource extends ClassSource {
 	 * @param cls fully qualified name of the class.
 	 * @param data stream containing data for class.
 	 */
-	AsmClassSource(String cls, InputStream data) {
+	public AsmClassSource(String cls, InputStream data) {
 		super(cls);
 		this.data = data;
 	}
