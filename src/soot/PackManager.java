@@ -972,6 +972,7 @@ public class PackManager {
                 m.setActiveBody(sBody);
                 PackManager.v().getPack("stp").apply(sBody);
                 PackManager.v().getPack("sop").apply(sBody);
+//                PackManager.v().getTransform("jb.dr").apply(sBody);            // DoopRenamer
 
                 if( produceJimple || (wholeShimple && !produceShimple) )
                     m.setActiveBody(sBody.toJimpleBody());
