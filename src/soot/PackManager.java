@@ -101,6 +101,7 @@ import soot.jimple.toolkits.scalar.ConstantPropagatorAndFolder;
 import soot.jimple.toolkits.scalar.CopyPropagator;
 import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
+import soot.jimple.toolkits.scalar.DoopRenamer;
 import soot.jimple.toolkits.scalar.NopEliminator;
 import soot.jimple.toolkits.scalar.UnconditionalBranchFolder;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
@@ -158,6 +159,7 @@ public class PackManager {
             p.add(new Transform("jb.tr", TypeAssigner.v()));
             p.add(new Transform("jb.ulp", LocalPacker.v()));
             p.add(new Transform("jb.lns", LocalNameStandardizer.v()));
+            p.add(new Transform("jb.dr", DoopRenamer.v()));
             p.add(new Transform("jb.cp", CopyPropagator.v()));
             p.add(new Transform("jb.dae", DeadAssignmentEliminator.v()));
             p.add(new Transform("jb.cp-ule", UnusedLocalEliminator.v()));

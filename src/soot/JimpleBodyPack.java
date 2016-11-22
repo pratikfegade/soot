@@ -77,6 +77,7 @@ public class JimpleBodyPack extends BodyPack
             PackManager.v().getTransform( "jb.ulp" ).apply( b );
         }
         PackManager.v().getTransform( "jb.lns" ).apply( b );		// LocalNameStandardizer
+        PackManager.v().getTransform( "jb.dr" ).apply( b ); 		// DoopRenamer
         PackManager.v().getTransform( "jb.cp" ).apply( b );			// CopyPropagator
         PackManager.v().getTransform( "jb.dae" ).apply( b );		// DeadAssignmentElimintaor
         PackManager.v().getTransform( "jb.cp-ule" ).apply( b );		// UnusedLocalEliminator

@@ -733,6 +733,17 @@ public class Singletons {
         return instance_soot_jimple_toolkits_scalar_LocalNameStandardizer;
     }
 
+    private soot.jimple.toolkits.scalar.DoopRenamer instance_soot_jimple_toolkits_scalar_DoopRenamer;
+    public soot.jimple.toolkits.scalar.DoopRenamer soot_jimple_toolkits_scalar_DoopRenamer() {
+        if( instance_soot_jimple_toolkits_scalar_DoopRenamer == null ) {
+	       	synchronized (this) {
+		        if( instance_soot_jimple_toolkits_scalar_DoopRenamer == null )
+	        		instance_soot_jimple_toolkits_scalar_DoopRenamer = new soot.jimple.toolkits.scalar.DoopRenamer( g );
+	       	}
+       	}
+        return instance_soot_jimple_toolkits_scalar_DoopRenamer;
+    }
+
     private soot.toolkits.scalar.LocalPacker instance_soot_toolkits_scalar_LocalPacker;
     public soot.toolkits.scalar.LocalPacker soot_toolkits_scalar_LocalPacker() {
         if( instance_soot_toolkits_scalar_LocalPacker == null ) {
