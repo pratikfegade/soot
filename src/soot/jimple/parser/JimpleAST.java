@@ -86,11 +86,9 @@ public class JimpleAST
      */
     public Body getBody(SootMethod m)
     {
-        if (methodToParsedBodyMap == null) {
-        	synchronized (this) {
-                if (methodToParsedBodyMap == null)
-                	stashBodiesForClass(m.getDeclaringClass());
-        	}
+       	synchronized (this) {
+            if (methodToParsedBodyMap == null)
+               	stashBodiesForClass(m.getDeclaringClass());
         }
         return methodToParsedBodyMap.get(m);
     } 

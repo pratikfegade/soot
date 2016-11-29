@@ -59,52 +59,50 @@ public class PeepholeOptimizer extends BodyTransformer {
 
 	protected void internalTransform(Body body, String phaseName,
 			Map<String, String> options) {
-		if (!peepholesLoaded) {
-			synchronized (loaderLock) {
-				if (!peepholesLoaded) {
-					peepholesLoaded = true;
-					
-					InputStream peepholeListingStream = null;
-					peepholeListingStream = PeepholeOptimizer.class
-							.getResourceAsStream("peephole.dat");
-					if (peepholeListingStream == null)
-						throw new RuntimeException("could not open file peephole.dat!");
-					BufferedReader reader = new BufferedReader(
-							new InputStreamReader(peepholeListingStream));
+		synchronized (loaderLock) {
+			if (!peepholesLoaded) {
+				peepholesLoaded = true;
 
-					String line = null;
-					List<String> peepholes = new LinkedList<String>();
-					try {
+				InputStream peepholeListingStream = null;
+				peepholeListingStream = PeepholeOptimizer.class
+						.getResourceAsStream("peephole.dat");
+				if (peepholeListingStream == null)
+					throw new RuntimeException("could not open file peephole.dat!");
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(peepholeListingStream));
+
+				String line = null;
+				List<String> peepholes = new LinkedList<String>();
+				try {
+					line = reader.readLine();
+					while (line != null) {
+						if (line.length() > 0)
+							if (!(line.charAt(0) == '#'))
+								peepholes.add(line);
 						line = reader.readLine();
-						while (line != null) {
-							if (line.length() > 0)
-								if (!(line.charAt(0) == '#'))
-									peepholes.add(line);
-							line = reader.readLine();
+					}
+				} catch (IOException e) {
+					throw new RuntimeException("IO error occured while reading file:  "
+							+ line + System.getProperty("line.separator") + e);
+				}
+
+				try {
+					reader.close();
+					peepholeListingStream.close();
+				}
+				catch (IOException e) {
+				}
+
+				for (String peepholeName : peepholes) {
+					Class<?> peepholeClass;
+					if ((peepholeClass = peepholeMap.get(peepholeName)) == null) {
+						try {
+							peepholeClass = Class.forName(packageName + "."
+									+ peepholeName);
+						} catch (ClassNotFoundException e) {
+							throw new RuntimeException(e.toString());
 						}
-					} catch (IOException e) {
-						throw new RuntimeException("IO error occured while reading file:  "
-								+ line + System.getProperty("line.separator") + e);
-					}
-					
-					try {
-						reader.close();
-						peepholeListingStream.close();
-					}
-					catch (IOException e) {
-					}
-					
-					for (String peepholeName : peepholes) {
-						Class<?> peepholeClass;
-						if ((peepholeClass = peepholeMap.get(peepholeName)) == null) {
-							try {
-								peepholeClass = Class.forName(packageName + "."
-										+ peepholeName);
-							} catch (ClassNotFoundException e) {
-								throw new RuntimeException(e.toString());
-							}
-							peepholeMap.put(peepholeName, peepholeClass);
-						}
+						peepholeMap.put(peepholeName, peepholeClass);
 					}
 				}
 			}
