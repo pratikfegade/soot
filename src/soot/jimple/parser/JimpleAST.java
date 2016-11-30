@@ -89,8 +89,8 @@ public class JimpleAST
        	synchronized (this) {
             if (methodToParsedBodyMap == null)
                	stashBodiesForClass(m.getDeclaringClass());
+            return methodToParsedBodyMap.get(m);
         }
-        return methodToParsedBodyMap.get(m);
     } 
 
 

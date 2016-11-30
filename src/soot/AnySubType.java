@@ -41,12 +41,10 @@ public class AnySubType extends RefLikeType
     }
 
     public static AnySubType v( RefType base ) {
-        if( base.getAnySubType() == null ) {
-        	synchronized (base) {
-                if( base.getAnySubType() == null ) {
-                	base.setAnySubType( new AnySubType( base ) );
-                }
-        	}
+        synchronized (base) {
+            if( base.getAnySubType() == null ) {
+                base.setAnySubType( new AnySubType( base ) );
+            }
         }
         return base.getAnySubType();
     }
