@@ -900,22 +900,24 @@ public class Scene  //extends AbstractHost
      * @return The class if it exists, otherwise null  
      */
 	public SootClass getSootClassUnsafe(String className) {
-		RefType type = nameToClass.get(className);
-		if (type != null) {
-			SootClass tsc = type.getSootClass();
-			if (tsc != null)
-				return tsc;
+		synchronized(className.intern()) {
+			RefType type = nameToClass.get(className);
+			if (type != null) {
+				SootClass tsc = type.getSootClass();
+				if (tsc != null)
+					return tsc;
+			}
+
+			if (allowsPhantomRefs() ||
+					   className.equals(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME)) {
+				SootClass c = new SootClass(className);
+				addClass(c);
+				c.setPhantom(true);
+				return c;
+			}
+
+			return null;
 		}
-		
-		if (allowsPhantomRefs() ||
-				   className.equals(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME)) {
-			SootClass c = new SootClass(className);
-			addClass(c);
-            c.setPhantom(true);
-			return c;
-		}
-		
-		return null;
 	}
 	
     /**
