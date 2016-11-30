@@ -1,8 +1,8 @@
-ant.importBuild 'build.xml'
 
-apply plugin: 'java'
-apply plugin: 'application'
-apply plugin: 'maven-publish'
+
+
+
+ant.importBuild 'build.xml'
 
 repositories {
     mavenCentral()
@@ -20,32 +20,31 @@ repositories {
 
 group = ''
 version = '1.0-SNAPSHOT'
-mainClassName = 'soot.Main'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'
 }
-if (project.hasProperty('artifactory_user')) {
+// if (project.hasProperty('artifactory_user')) {
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
+//     publishing {
+//         publications {
+//             mavenJava(MavenPublication) {
+//                 from components.java
 
-            }
-        }
+//             }
+//         }
 
-        repositories {
-            maven {
-                credentials {
-                    username artifactory_user
-                    password artifactory_password
-                }
+//         repositories {
+//             maven {
+//                 credentials {
+//                     username artifactory_user
+//                     password artifactory_password
+//                 }
 
-                url version.endsWith("-SNAPSHOT") ?
-                "${artifactory_contextUrl}/libs-snapshot-local" :
-                "${artifactory_contextUrl}/libs-release-local"
-            }
-        }
-    }
-}
+//                 url version.endsWith("-SNAPSHOT") ?
+//                 "${artifactory_contextUrl}/libs-snapshot-local" :
+//                 "${artifactory_contextUrl}/libs-release-local"
+//             }
+//         }
+//     }
+// }
