@@ -142,7 +142,7 @@ public class SootClass extends AbstractHost implements Numberable {
 	 *             if the resolution is at an insufficient level
 	 */
 	public void checkLevel(int level) {
-		if (!Scene.v().doneResolving())
+		if (!Scene.v().doneResolving() || Options.v().ignore_resolving_levels())
 			return;
 		checkLevelIgnoreResolving(level);
 	}
@@ -264,9 +264,7 @@ public class SootClass extends AbstractHost implements Numberable {
 	 */
 	public SootField getFieldUnsafe(String name, Type type) {
 		checkLevel(SIGNATURES);
-		for (Iterator<SootField> fieldIt = fields.snapshotIterator(); fieldIt
-				.hasNext();) {
-			SootField field = fieldIt.next();
+		for (SootField field : fields.getElementsUnsorted()) {
 			if (field.getName().equals(name) && field.getType().equals(type))
 				return field;
 		}
@@ -295,7 +293,7 @@ public class SootClass extends AbstractHost implements Numberable {
 		checkLevel(SIGNATURES);
 		SootField foundField = null;
 
-		for (SootField field : fields) {
+		for (SootField field : fields.getElementsUnsorted()) {
 			if (field.getName().equals(name)) {
 				if (foundField == null)
 					foundField = field;
@@ -324,7 +322,7 @@ public class SootClass extends AbstractHost implements Numberable {
 	 */
 	public SootField getFieldUnsafe(String subsignature) {
 		checkLevel(SIGNATURES);
-		for (SootField field : fields) {
+		for (SootField field : fields.getElementsUnsorted()) {
 			if (field.getSubSignature().equals(subsignature))
 				return field;
 		}
@@ -336,10 +334,7 @@ public class SootClass extends AbstractHost implements Numberable {
 	 */
 	public boolean declaresField(String subsignature) {
 		checkLevel(SIGNATURES);
-		for (SootField field : fields)
-			if (field.getSubSignature().equals(subsignature))
-				return true;
-		return false;
+		return getFieldUnsafe(subsignature) != null;
 	}
 
 	/**
@@ -1071,18 +1066,6 @@ public class SootClass extends AbstractHost implements Numberable {
 	/** Convenience method returning true if this class is phantom. */
 	public boolean isPhantom() {
 		return isPhantom;
-	}
-
-	/** Marks this class as phantom, without notifying the Scene. */
-	public void setPhantom(boolean value) {
-		if (value == false)
-			if (isPhantom)
-				throw new RuntimeException(
-						"don't know how to de-phantomize this class");
-			else
-				return;
-
-		setPhantomClass();
 	}
 
 	/**

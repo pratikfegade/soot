@@ -121,14 +121,17 @@ public class DexClassLoader {
         			// Check the inner class to make sure that this tag actually
         			// refers to the current class as the inner class
         			String inner = ict.getInnerClass().replaceAll("/", ".");
-        			if (!inner.equals(sc.getName()))
+        			if (!inner.equals(sc.getName())) {
+						innerTagIt.remove();
         				continue;
+        			}
         			
-        			String outer = null;
-					if (ict.getOuterClass() == null) { // anonymous and local classes
-						outer = ict.getInnerClass().replaceAll("\\$[0-9].*$", "").replaceAll("/", ".");
-        			} else {
-        				outer = ict.getOuterClass().replaceAll("/", ".");
+        			String outer = DexInnerClassParser.getOuterClassNameFromTag(ict);
+        			if (outer == null) {
+						// If we don't have any clue what the outer class is, we just remove
+						// the reference entirely
+						innerTagIt.remove();
+						continue;
         			}
         			
         			SootClass osc = SootResolver.v().makeClassRef(outer);

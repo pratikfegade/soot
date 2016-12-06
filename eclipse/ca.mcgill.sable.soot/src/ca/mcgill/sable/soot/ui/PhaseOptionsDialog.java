@@ -739,6 +739,9 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		addToEnableGroup("cg", getcgtrim_clinit_widget(), "trim-clinit");
 		
 		
+		addToEnableGroup("cg", getcgtypes_for_invoke_widget(), "types-for-invoke");
+		
+		
 		getcgenabled_widget().getButton().addSelectionListener(this);
 		
 		getcgsafe_forname_widget().getButton().addSelectionListener(this);
@@ -752,6 +755,8 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		getcgimplicit_entry_widget().getButton().addSelectionListener(this);
 		
 		getcgtrim_clinit_widget().getButton().addSelectionListener(this);
+		
+		getcgtypes_for_invoke_widget().getButton().addSelectionListener(this);
 		
 		
 		makeNewEnableGroup("cg", "cg.cha");
@@ -2070,6 +2075,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 			getConfig().put(getGeneral_Optionsdebug_resolver_widget().getAlias(), new Boolean(boolRes));
 		}
 		
+		boolRes = getGeneral_Optionsignore_resolving_levels_widget().getButton().getSelection();
+		
+		
+		defBoolRes = false;
+		
+
+		if (boolRes != defBoolRes) {
+			getConfig().put(getGeneral_Optionsignore_resolving_levels_widget().getAlias(), new Boolean(boolRes));
+		}
+		
 		stringRes = getGeneral_Optionsphase_help_widget().getText().getText();
 		
 		defStringRes = "";
@@ -2087,6 +2102,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 
 		if (boolRes != defBoolRes) {
 			getConfig().put(getInput_Optionsprepend_classpath_widget().getAlias(), new Boolean(boolRes));
+		}
+		
+		boolRes = getInput_Optionsignore_classpath_errors_widget().getButton().getSelection();
+		
+		
+		defBoolRes = false;
+		
+
+		if (boolRes != defBoolRes) {
+			getConfig().put(getInput_Optionsignore_classpath_errors_widget().getAlias(), new Boolean(boolRes));
 		}
 		
 		boolRes = getInput_Optionsprocess_multiple_dex_widget().getButton().getSelection();
@@ -2179,6 +2204,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 			getConfig().put(getInput_Optionspermissive_resolving_widget().getAlias(), new Boolean(boolRes));
 		}
 		
+		boolRes = getInput_Optionsdrop_bodies_after_load_widget().getButton().getSelection();
+		
+		
+		defBoolRes = true;
+		
+
+		if (boolRes != defBoolRes) {
+			getConfig().put(getInput_Optionsdrop_bodies_after_load_widget().getAlias(), new Boolean(boolRes));
+		}
+		
 		stringRes = getInput_Optionssoot_classpath_widget().getText().getText();
 		
 		defStringRes = "";
@@ -2213,6 +2248,15 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 
 	        if ( (!(stringRes.equals(defStringRes))) && (stringRes != null) && (stringRes.length() != 0)) {
 			getConfig().put(getInput_Optionsforce_android_jar_widget().getAlias(), stringRes);
+		}
+		
+		stringRes = getInput_Optionsandroid_api_version_widget().getText().getText();
+		
+		defStringRes = "";
+		
+
+	        if ( (!(stringRes.equals(defStringRes))) && (stringRes != null) && (stringRes.length() != 0)) {
+			getConfig().put(getInput_Optionsandroid_api_version_widget().getAlias(), stringRes);
 		}
 		
 		stringRes = getInput_Optionsmain_class_widget().getText().getText();
@@ -2442,6 +2486,8 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 
 		
 		defStringRes = "unit";
+		
+		defStringRes = "dalvik";
 		
 
 		if (!stringRes.equals(defStringRes)) {
@@ -3056,6 +3102,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 
 		if (boolRes != defBoolRes) {
 			getConfig().put(getcgtrim_clinit_widget().getAlias(), new Boolean(boolRes));
+		}
+		
+		boolRes = getcgtypes_for_invoke_widget().getButton().getSelection();
+		
+		
+		defBoolRes = false;
+		
+
+		if (boolRes != defBoolRes) {
+			getConfig().put(getcgtypes_for_invoke_widget().getAlias(), new Boolean(boolRes));
 		}
 		
 		stringRes = getcgjdkver_widget().getText().getText();
@@ -5398,7 +5454,7 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		boolRes = getInput_Attribute_Optionskeep_line_number_widget().getButton().getSelection();
 		
 		
-		defBoolRes = true;
+		defBoolRes = false;
 		
 
 		if (boolRes != defBoolRes) {
@@ -5418,7 +5474,7 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		boolRes = getOutput_Attribute_Optionswrite_local_annotations_widget().getButton().getSelection();
 		
 		
-		defBoolRes = true;
+		defBoolRes = false;
 		
 
 		if (boolRes != defBoolRes) {
@@ -6797,6 +6853,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		return General_Optionsdebug_resolver_widget;
 	}	
 	
+	private BooleanOptionWidget General_Optionsignore_resolving_levels_widget;
+	
+	private void setGeneral_Optionsignore_resolving_levels_widget(BooleanOptionWidget widget) {
+		General_Optionsignore_resolving_levels_widget = widget;
+	}
+	
+	public BooleanOptionWidget getGeneral_Optionsignore_resolving_levels_widget() {
+		return General_Optionsignore_resolving_levels_widget;
+	}	
+	
 
 	private ListOptionWidget General_Optionsphase_help_widget;
 	
@@ -6817,6 +6883,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 	
 	public BooleanOptionWidget getInput_Optionsprepend_classpath_widget() {
 		return Input_Optionsprepend_classpath_widget;
+	}	
+	
+	private BooleanOptionWidget Input_Optionsignore_classpath_errors_widget;
+	
+	private void setInput_Optionsignore_classpath_errors_widget(BooleanOptionWidget widget) {
+		Input_Optionsignore_classpath_errors_widget = widget;
+	}
+	
+	public BooleanOptionWidget getInput_Optionsignore_classpath_errors_widget() {
+		return Input_Optionsignore_classpath_errors_widget;
 	}	
 	
 	private BooleanOptionWidget Input_Optionsprocess_multiple_dex_widget;
@@ -6909,6 +6985,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		return Input_Optionspermissive_resolving_widget;
 	}	
 	
+	private BooleanOptionWidget Input_Optionsdrop_bodies_after_load_widget;
+	
+	private void setInput_Optionsdrop_bodies_after_load_widget(BooleanOptionWidget widget) {
+		Input_Optionsdrop_bodies_after_load_widget = widget;
+	}
+	
+	public BooleanOptionWidget getInput_Optionsdrop_bodies_after_load_widget() {
+		return Input_Optionsdrop_bodies_after_load_widget;
+	}	
+	
 
 	private ListOptionWidget Input_Optionsprocess_dir_widget;
 	
@@ -6954,6 +7040,18 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 	
 	public StringOptionWidget getInput_Optionsforce_android_jar_widget() {
 		return Input_Optionsforce_android_jar_widget;
+	}
+	
+	
+	
+	private StringOptionWidget Input_Optionsandroid_api_version_widget;
+	
+	private void setInput_Optionsandroid_api_version_widget(StringOptionWidget widget) {
+		Input_Optionsandroid_api_version_widget = widget;
+	}
+	
+	public StringOptionWidget getInput_Optionsandroid_api_version_widget() {
+		return Input_Optionsandroid_api_version_widget;
 	}
 	
 	
@@ -7825,6 +7923,16 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 	
 	public BooleanOptionWidget getcgtrim_clinit_widget() {
 		return cgtrim_clinit_widget;
+	}	
+	
+	private BooleanOptionWidget cgtypes_for_invoke_widget;
+	
+	private void setcgtypes_for_invoke_widget(BooleanOptionWidget widget) {
+		cgtypes_for_invoke_widget = widget;
+	}
+	
+	public BooleanOptionWidget getcgtypes_for_invoke_widget() {
+		return cgtypes_for_invoke_widget;
 	}	
 	
 	
@@ -10647,6 +10755,22 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		setGeneral_Optionsdebug_resolver_widget(new BooleanOptionWidget(editGroupGeneral_Options, SWT.NONE, new OptionData("Debug Resolver", "", "","debug-resolver", "\nPrint debugging information about class resolving. ", defaultBool)));
 		
 		
+		
+		defKey = ""+" "+""+" "+"ignore-resolving-levels";
+		defKey = defKey.trim();
+
+		if (isInDefList(defKey)) {
+			defaultBool = getBoolDef(defKey);	
+		}
+		else {
+			
+			defaultBool = false;
+			
+		}
+
+		setGeneral_Optionsignore_resolving_levels_widget(new BooleanOptionWidget(editGroupGeneral_Options, SWT.NONE, new OptionData("Ignore Resolving Levels", "", "","ignore-resolving-levels", "\nIf this option is set, Soot will not check whether the current \nclass' resolving level is sufficiently high for the operation \nattempted on the class. This allows you to perform any operation \non a class even if the class has not been fully loaded, which \ncan lead to inconsistencies between your Soot scene and the \noriginal classes you loaded. Use this option at your own risk. ", defaultBool)));
+		
+		
 
 		defKey = ""+" "+""+" "+"ph";
 		defKey = defKey.trim();
@@ -10706,6 +10830,22 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		}
 
 		setInput_Optionsprepend_classpath_widget(new BooleanOptionWidget(editGroupInput_Options, SWT.NONE, new OptionData("Prepend classpath", "", "","pp", "\nInstead of replacing the default soot classpath with the \nclasspath given on the command line, prepent it with that \nclasspath. The default classpath holds whatever is set in the \nCLASSPATH environment variable, followed by rt.jar (resolved \nthrough the JAVA-UNDERSCORE-HOME environment variable). If \nwhole-program mode is enabled, jce.jar is also appended in the \nend. ", defaultBool)));
+		
+		
+		
+		defKey = ""+" "+""+" "+"ice";
+		defKey = defKey.trim();
+
+		if (isInDefList(defKey)) {
+			defaultBool = getBoolDef(defKey);	
+		}
+		else {
+			
+			defaultBool = false;
+			
+		}
+
+		setInput_Optionsignore_classpath_errors_widget(new BooleanOptionWidget(editGroupInput_Options, SWT.NONE, new OptionData("Ignore classpath error", "", "","ice", "\nNormally, Soot throws an exception when an invalid classpath \nentry is detected. To instead silently ignore such errors, \nenable this option. ", defaultBool)));
 		
 		
 		
@@ -10853,6 +10993,22 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		
 		
 		
+		defKey = ""+" "+""+" "+"drop-bodies-after-load";
+		defKey = defKey.trim();
+
+		if (isInDefList(defKey)) {
+			defaultBool = getBoolDef(defKey);	
+		}
+		else {
+			
+			defaultBool = true;
+			
+		}
+
+		setInput_Optionsdrop_bodies_after_load_widget(new BooleanOptionWidget(editGroupInput_Options, SWT.NONE, new OptionData("Drop method source after loading bodies", "", "","drop-bodies-after-load", "\n			 Each method is associated with a method source for \nloading its body. When this option is disabled, 			 a \nreference to this source is kept around even after the body has \nalready been loaded. This is a waste 			 of memory for most \nuse cases. When this option is enabled, the reference is \ndropped, allowing for garbage 			 collection of the method \nsource. On the other hand, if the body is ever released, it \ncannot easily be 			 recovered (i.e., loaded again) easily. \n			", defaultBool)));
+		
+		
+		
 		data = new OptionData [] {
 		
 		new OptionData("Class File",
@@ -10964,7 +11120,22 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 			
 		}
 
-		setInput_Optionsforce_android_jar_widget(new StringOptionWidget(editGroupInput_Options, SWT.NONE, new OptionData("Force specific Android jar file",  "", "","force-android-jar", "\nUse PATH as the path to the android.jar file Soot should use. \nThis option overrides the 'android-jars' option. 			", defaultString)));
+		setInput_Optionsforce_android_jar_widget(new StringOptionWidget(editGroupInput_Options, SWT.NONE, new OptionData("Force specific Android jar file",  "", "","force-android-jar", "\nUse PATH as the path to the android.jar file Soot should use. \nThis option overrides the 'android-jars' option. If the \n'android-api-version' option is not specified, Soot will try to \nparse the API version from the given file path. If that fails, \nit will fall back to the default. If the 'android-api-version' \noption is specified, the API version used for parsing will be \ntaken from there. 			", defaultString)));
+		
+		
+		defKey = ""+" "+""+" "+"android-api-version";
+		defKey = defKey.trim();
+		
+		if (isInDefList(defKey)) {
+			defaultString = getStringDef(defKey);	
+		}
+		else {
+			
+			defaultString = "";
+			
+		}
+
+		setInput_Optionsandroid_api_version_widget(new StringOptionWidget(editGroupInput_Options, SWT.NONE, new OptionData("Force specific Android API version",  "", "","android-api-version", "\nUse VERSION as the Android API version that Soot should use \nwhen processing APK or DEX files. When combined with the \n'android-jars' option, this value will take precedence over the \nAPI version specified in the app's manifest file. When combined \nwith the 'force-android-jar' option, the JAR file will be the \none from the 'force-android-jar' option, but the API version \nused for parsing will be the explicitly given one. 			", defaultString)));
 		
 		
 		defKey = ""+" "+""+" "+"main-class";
@@ -11530,6 +11701,12 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		new OptionData("Unit",
 		"unit",
 		"\nSays that each statement in the intermediate representation may \nthrow those exception types associated with the corresponding \nJava bytecode instructions in the JVM Specification. The \nanalysis deals with each statement in isolation, without regard \nto the surrounding program. ",
+		
+		true),
+		
+		new OptionData("Dalvik",
+		"dalvik",
+		"\nSpecialized throw analysis implementation that covers the \nsemantics of the Dalvik IR used for Android apps",
 		
 		true),
 		
@@ -13463,6 +13640,22 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		}
 
 		setcgtrim_clinit_widget(new BooleanOptionWidget(editGroupcg, SWT.NONE, new OptionData("Trim Static Initializer Edges", "p", "cg","trim-clinit", "\nThe call graph contains an edge from each statement that could \ntrigger execution of a static initializer to that static \ninitializer. However, each static initializer is triggered only \nonce. When this option is enabled, after the call graph is \nbuilt, an intra-procedural analysis is performed to detect \nstatic initializer edges leading to methods that must have \nalready been executed. Since these static initializers cannot be \nexecuted again, the corresponding call graph edges are removed \nfrom the call graph. ", defaultBool)));
+		
+		
+		
+		defKey = "p"+" "+"cg"+" "+"types-for-invoke";
+		defKey = defKey.trim();
+
+		if (isInDefList(defKey)) {
+			defaultBool = getBoolDef(defKey);	
+		}
+		else {
+			
+			defaultBool = false;
+			
+		}
+
+		setcgtypes_for_invoke_widget(new BooleanOptionWidget(editGroupcg, SWT.NONE, new OptionData("Types for invoke", "p", "cg","types-for-invoke", "\nFor each call to Method.invoke(), use the possible types of the \nfirst receiver 								 argument and the possible types stored \nin the second argument array to resolve calls to 								 \nMethod.invoke(). This strategy makes no attempt to resolve \nreflectively invoked static methods. 								 Currently only \nworks for context insensitive pointer analyses. 								 ", defaultBool)));
 		
 		
 		
@@ -20609,7 +20802,7 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		}
 		else {
 			
-			defaultBool = true;
+			defaultBool = false;
 			
 		}
 
@@ -20671,7 +20864,7 @@ Composite dbdb_force_recompileChild = dbdb_force_recompileCreate(getPageContaine
 		}
 		else {
 			
-			defaultBool = true;
+			defaultBool = false;
 			
 		}
 

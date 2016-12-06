@@ -44,11 +44,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import soot.dexpler.DalvikThrowAnalysis;
 import soot.jimple.spark.internal.ClientAccessibilityOracle;
 import soot.jimple.spark.internal.PublicAndProtectedAccessibility;
 import soot.jimple.spark.pag.SparkField;
@@ -163,6 +166,8 @@ public class Scene  //extends AbstractHost
     // Two default values for constructing ExceptionalUnitGraphs:
     private ThrowAnalysis defaultThrowAnalysis = null;
     
+    private int androidAPIVersion = -1;
+    
     public void setMainClass(SootClass m)
     {
         mainClass = m;
@@ -191,7 +196,7 @@ public class Scene  //extends AbstractHost
     {
     	// Pre-check: Is there a chance that we need to escape something?
     	// If not, skip the transformation altogether.
-    	boolean found = false;
+    	boolean found = s.contains("-");
     	for (String token : reservedNames)
     		if (s.contains(token)) {
     			found = true;
@@ -204,7 +209,7 @@ public class Scene  //extends AbstractHost
     	for (String part : s.split("\\.")) {
     		if (res.length() > 0)
     			res.append('.');
-	        if(reservedNames.contains(part)) {
+	        if(part.startsWith("-") || reservedNames.contains(part)) {
 	            res.append('\'');
 	            res.append(part);
 	            res.append('\'');
@@ -275,6 +280,11 @@ public class Scene  //extends AbstractHost
         SourceLocator.v().invalidateClassPath();
     }
     
+    public void extendSootClassPath(String newPathElement){
+    	sootClassPath += File.pathSeparator + newPathElement;
+    	SourceLocator.v().extendClassPath(newPathElement);
+    }
+    
     public String getSootClassPath()
     {
         if( sootClassPath == null ) {
@@ -283,7 +293,7 @@ public class Scene  //extends AbstractHost
                 sootClassPath = optionscp;
             
 	        //if no classpath is given on the command line, take the default
-	        if( sootClassPath == null ) {
+	        if( sootClassPath == null || sootClassPath.isEmpty() ) {
 	        	sootClassPath = defaultClassPath();
 	        } else {
 	        	//if one is given...
@@ -351,7 +361,6 @@ public class Scene  //extends AbstractHost
     }
 
 	public String getAndroidJarPath(String jars, String apk) {
-
 		int APIVersion = getAndroidAPIVersion(jars,apk);
 
 		String jarPath = jars + File.separator + "android-" + APIVersion + File.separator + "android.jar";
@@ -363,27 +372,45 @@ public class Scene  //extends AbstractHost
 
 		return jarPath;
 	}
+	
+	public int getAndroidAPIVersion() {
+		return androidAPIVersion > 0 ? androidAPIVersion : (Options.v().android_api_version() > 0 
+				? Options.v().android_api_version() : defaultSdkVersion);
+	}
 
-	public int getAndroidAPIVersion(String jars, String apk) {
+	private int getAndroidAPIVersion(String jars, String apk) {
+		// Do we already have an API version?
+		if (androidAPIVersion > 0)
+			return androidAPIVersion;
+		
 		// get path to appropriate android.jar
 		File jarsF = new File(jars);
-		File apkF = new File(apk);
+		File apkF = apk == null ? null : new File(apk);
 
 		if (!jarsF.exists())
 			throw new RuntimeException("file '" + jars + "' does not exist!");
 
-		if (!apkF.exists())
+		if (apkF != null && !apkF.exists())
 			throw new RuntimeException("file '" + apk + "' does not exist!");
 
+		// Use the default if we don't have any other information
+		androidAPIVersion = defaultSdkVersion;
 
-		// get path to appropriate android.jar
-		int APIVersion = defaultSdkVersion;
-		if (apk.toLowerCase().endsWith(".apk"))
-			APIVersion = getTargetSDKVersion(apk, jars);
+		// Do we have an explicit API version?
+		if (Options.v().android_api_version() > 0)
+			androidAPIVersion = Options.v().android_api_version();
+		// Look into the manifest file
+		else if (apk != null)
+			if (apk.toLowerCase().endsWith(".apk"))
+				androidAPIVersion = getTargetSDKVersion(apk, jars);
+		
+		// If we don't have that API version installed, we take the most recent
+		// one we have
 		final int maxAPI = getMaxAPIAvailable(jars);
-		if (APIVersion > maxAPI)
-			APIVersion = maxAPI;
-		return APIVersion;
+		if (androidAPIVersion > maxAPI)
+			androidAPIVersion = maxAPI;
+		
+		return androidAPIVersion;
 	}
 	
 	private int getTargetSDKVersion(String apkFile, String platformJARs) {
@@ -529,7 +556,8 @@ public class Scene  //extends AbstractHost
 		String forceAndroidJar = Options.v().force_android_jar();
 		if ((androidJars == null || androidJars.equals(""))
 				&& (forceAndroidJar == null || forceAndroidJar.equals(""))) {
-			throw new RuntimeException("You are analyzing an Android application but did not define android.jar. Options -android-jars or -force-android-jar should be used.");
+			throw new RuntimeException("You are analyzing an Android application but did "
+					+ "not define android.jar. Options -android-jars or -force-android-jar should be used.");
 		}
 		
 		// Get the platform JAR file. It either directly specified, or
@@ -538,22 +566,46 @@ public class Scene  //extends AbstractHost
 		String jarPath = "";
 		if (forceAndroidJar != null && !forceAndroidJar.isEmpty()) {
 			jarPath = forceAndroidJar;
+			
+			if (Options.v().android_api_version() > 0)
+				androidAPIVersion = Options.v().android_api_version();
+			else if (forceAndroidJar.contains("android-")) {
+				Pattern pt = Pattern.compile("\\" + File.separatorChar + "android-(\\d+)"
+						+ "\\" + File.separatorChar);
+				Matcher m = pt.matcher(forceAndroidJar);
+				if (m.find())
+					androidAPIVersion = Integer.valueOf(m.group(1));
+			}
+			else
+				androidAPIVersion = defaultSdkVersion;
 		}
 		else if (androidJars != null && !androidJars.isEmpty()) {
 			List<String> classPathEntries = new LinkedList<String>(Arrays.asList(
 					Options.v().soot_classpath().split(File.pathSeparator)));
 			classPathEntries.addAll(Options.v().process_dir());
-			Set<String> targetApks = new HashSet<String>();
+			
+			String targetApk = "";
+			Set<String> targetDexs = new HashSet<String>();
 			for (String entry : classPathEntries) {
-				if(entry.toLowerCase().endsWith(".apk")
-						|| entry.toLowerCase().endsWith(".dex"))	// on Windows, file names are case-insensitive
-					targetApks.add(entry);
-			}					
-			if (targetApks.size() == 0)
-				throw new RuntimeException("no apk file given");
-			else if (targetApks.size() > 1)
-				throw new RuntimeException("only one Android application can be analyzed when using option -android-jars.");
-			jarPath = getAndroidJarPath (androidJars, (String)targetApks.toArray()[0]);
+				if(entry.toLowerCase().endsWith(".apk")) {	// on Windows, file names are case-insensitive
+					// We cannot have multiple APKs, because this would give us multiple
+					// manifests which we do not support right now
+					if (targetApk != null && !targetApk.isEmpty())
+						throw new RuntimeException("only one Android application can be analyzed when using option -android-jars.");
+					targetApk = entry;
+				}
+				if(entry.toLowerCase().endsWith(".dex"))	// on Windows, file names are case-insensitive
+					targetDexs.add(entry);
+			}
+			
+			// We need at least one file to process
+			if (targetApk == null || targetApk.isEmpty()) {
+				if (targetDexs.isEmpty())
+					throw new RuntimeException("no apk file given");
+				jarPath = getAndroidJarPath(androidJars, null);
+			}
+			else
+				jarPath = getAndroidJarPath(androidJars, targetApk);
 		}
 		
 		// We must have a platform JAR file when analyzing Android apps
@@ -629,7 +681,25 @@ public class Scene  //extends AbstractHost
         activePointsToAnalysis = null;
     }
 
+    /**
+     * Adds the given class to the Scene. This method marks the given class
+     * as a library class and invalidates the class hierarchy.
+     * @param c The class to add
+     */
     public void addClass(SootClass c) 
+    {
+    	addClassSilent(c);
+        c.setLibraryClass();
+       	modifyHierarchy();
+    }
+
+    /**
+     * Adds the given class to the Scene. This method does not handle any
+     * dependencies such as invalidating the hierarchy. The class is neither
+     * marked as application class, nor library class.
+     * @param c The class to add
+     */
+    private void addClassSilent(SootClass c) 
     {
         if(c.isInScene())
             throw new RuntimeException("already managed: "+c.getName());
@@ -638,8 +708,6 @@ public class Scene  //extends AbstractHost
             throw new RuntimeException("duplicate class: "+c.getName());
 
         classes.add(c);
-        c.setLibraryClass();
-
         nameToClass.put(c.getName(), c.getType());
         c.getType().setSootClass(c);
         c.setInScene(true);
@@ -874,7 +942,7 @@ public class Scene  //extends AbstractHost
      */
     public RefType getRefTypeUnsafe(String className) 
     {
-        RefType refType = nameToClass.get(className);
+        RefType refType = nameToClass.get(unescapeName(className));
 		return refType;
     }
     
@@ -900,24 +968,22 @@ public class Scene  //extends AbstractHost
      * @return The class if it exists, otherwise null  
      */
 	public SootClass getSootClassUnsafe(String className) {
-		synchronized(className.intern()) {
-			RefType type = nameToClass.get(className);
-			if (type != null) {
-				SootClass tsc = type.getSootClass();
-				if (tsc != null)
-					return tsc;
-			}
-
-			if (allowsPhantomRefs() ||
-					   className.equals(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME)) {
-				SootClass c = new SootClass(className);
-				addClass(c);
-				c.setPhantom(true);
-				return c;
-			}
-
-			return null;
+		RefType type = nameToClass.get(className);
+		if (type != null) {
+			SootClass tsc = type.getSootClass();
+			if (tsc != null)
+				return tsc;
 		}
+		
+		if (allowsPhantomRefs() ||
+				   className.equals(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME)) {
+			SootClass c = new SootClass(className);
+			addClassSilent(c);
+			c.setPhantomClass();
+			return c;
+		}
+		
+		return null;
 	}
 	
     /**
@@ -1249,30 +1315,31 @@ public class Scene  //extends AbstractHost
         contextNumberer = n;
     }
 
-    /**
-     * Returns the {@link ThrowAnalysis} to be used by default when
-     * constructing CFGs which include exceptional control flow.
-     *
-     * @return the default {@link ThrowAnalysis}
-     */
-    public ThrowAnalysis getDefaultThrowAnalysis() 
-    {
-	if( defaultThrowAnalysis == null ) {
-	    int optionsThrowAnalysis = Options.v().throw_analysis();
-	    switch (optionsThrowAnalysis) {
-	    case Options.throw_analysis_pedantic:
-		defaultThrowAnalysis = PedanticThrowAnalysis.v();
-		break;
-	    case Options.throw_analysis_unit:
-		defaultThrowAnalysis = UnitThrowAnalysis.v();
-		break;
-	    default:
-		throw new IllegalStateException("Options.v().throw_analysi() == " +
-						Options.v().throw_analysis());
-	    }
+	/**
+	 * Returns the {@link ThrowAnalysis} to be used by default when constructing
+	 * CFGs which include exceptional control flow.
+	 *
+	 * @return the default {@link ThrowAnalysis}
+	 */
+	public ThrowAnalysis getDefaultThrowAnalysis() {
+		if (defaultThrowAnalysis == null) {
+			int optionsThrowAnalysis = Options.v().throw_analysis();
+			switch (optionsThrowAnalysis) {
+			case Options.throw_analysis_pedantic:
+				defaultThrowAnalysis = PedanticThrowAnalysis.v();
+				break;
+			case Options.throw_analysis_unit:
+				defaultThrowAnalysis = UnitThrowAnalysis.v();
+				break;
+			case Options.throw_analysis_dalvik:
+				defaultThrowAnalysis = DalvikThrowAnalysis.v();
+				break;
+			default:
+				throw new IllegalStateException("Options.v().throw_analysi() == " + Options.v().throw_analysis());
+			}
+		}
+		return defaultThrowAnalysis;
 	}
-	return defaultThrowAnalysis;
-    }
 
     /**
      * Sets the {@link ThrowAnalysis} to be used by default when
@@ -1528,7 +1595,8 @@ public class Scene  //extends AbstractHost
 	        for( final String path : Options.v().process_dir() ) {
 	            for (String cl : SourceLocator.v().getClassesUnder(path)) {
 	            	SootClass theClass = loadClassAndSupport(cl);
-	            	theClass.setApplicationClass();
+	            	if (!theClass.isPhantom)
+	            		theClass.setApplicationClass();
 	            }
 	        }
         }

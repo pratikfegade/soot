@@ -21,6 +21,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.jf.dexlib2.AnnotationVisibility;
 import org.jf.dexlib2.Opcode;
+import org.jf.dexlib2.Opcodes;
 import org.jf.dexlib2.builder.BuilderInstruction;
 import org.jf.dexlib2.builder.BuilderOffsetInstruction;
 import org.jf.dexlib2.builder.Label;
@@ -76,6 +77,7 @@ import soot.G;
 import soot.IntType;
 import soot.Local;
 import soot.PackManager;
+import soot.Scene;
 import soot.ShortType;
 import soot.SootClass;
 import soot.SootField;
@@ -85,6 +87,7 @@ import soot.SourceLocator;
 import soot.Trap;
 import soot.Type;
 import soot.Unit;
+import soot.dexpler.DexInnerClassParser;
 import soot.dexpler.DexType;
 import soot.dexpler.Util;
 import soot.jimple.ClassConstant;
@@ -152,8 +155,8 @@ public class DexPrinter {
 	private File originalApk;
 	
 	public DexPrinter() {
-		dexFile = DexBuilder.makeDexBuilder();
-		//dexAnnotation = new DexAnnotation(dexFile);
+		int api = Scene.v().getAndroidAPIVersion();
+		dexFile = new DexBuilder(Opcodes.forApi(api));
 	}
 	
 	private void printApk(String outputDir, File originalApk) throws IOException {
@@ -837,7 +840,7 @@ public class DexPrinter {
         	// InnerClass tag are written to the inner class which is different
         	// to Java. We thus check whether this tag actually points to our
     		// outer class.
-    		String outerClass = getOuterClassNameFromTag(icTag);
+    		String outerClass = DexInnerClassParser.getOuterClassNameFromTag(icTag);
 			String innerClass = icTag.getInnerClass().replaceAll("/", ".");
 						
 			// Only write the InnerClass tag to the inner class itself, not
@@ -885,18 +888,7 @@ public class DexPrinter {
     	    	
     	return anns;
     }
-
-	private String getOuterClassNameFromTag(InnerClassTag icTag) {
-		String outerClass;
-		if (icTag.getOuterClass() == null) { // anonymous inner classes
-			outerClass = icTag.getInnerClass().replaceAll("\\$[0-9,a-z,A-Z]*$", "").replaceAll("/", ".");
-		} else {
-			outerClass = icTag.getOuterClass().replaceAll("/", ".");
-		}
-		
-		return outerClass;
-	}
-
+    
     private List<Annotation> buildMemberClassesAttribute(SootClass parentClass,
     		InnerClassAttribute t, Set<String> skipList) {
     	List<Annotation> anns = null;
@@ -905,7 +897,7 @@ public class DexPrinter {
     	// Collect the inner classes
     	for (Tag t2 : t.getSpecs()) {
     		InnerClassTag icTag = (InnerClassTag) t2;
-    		String outerClass = getOuterClassNameFromTag(icTag);
+    		String outerClass = DexInnerClassParser.getOuterClassNameFromTag(icTag);
 			
 			// Only classes with names are member classes
 			if (icTag.getOuterClass() != null

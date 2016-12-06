@@ -34,6 +34,7 @@ import java.util.StringTokenizer;
 import soot.dava.DavaBody;
 import soot.dava.toolkits.base.renamer.RemoveFullyQualifiedName;
 import soot.jimple.toolkits.callgraph.VirtualCalls;
+import soot.options.Options;
 import soot.tagkit.AbstractHost;
 import soot.util.IterableSet;
 import soot.util.Numberable;
@@ -86,26 +87,9 @@ public class SootMethod
      *
      * @param phaseName       Phase name for body loading. */
     private Body getBodyFromMethodSource(String phaseName) {
-
-        if (ms == null)
+    	if (ms == null)
     		throw new RuntimeException("No method source set for method " + this.getSignature());
-
-        /**
-         * from here
-         * */
-        long tStart = System.currentTimeMillis();
-
-        Body body = ms.getBody(this, phaseName);
-
-        long tEnd = System.currentTimeMillis();
-//        G.v().out.println("\ngetBody in getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
-
-        return  body;
-        /**
-         * to here count time
-         * getBody seems to be the "slow" method
-         * */
-//        return ms.getBody(this, phaseName);
+        return ms.getBody(this, phaseName);
     }
 
     /** Sets the MethodSource of the current SootMethod. */
@@ -327,10 +311,6 @@ public class SootMethod
      * Please call setApplicationClass() on the relevant class.
      */
 
-
-    /**
-     *  The call to getBodyFromMethodSource seems to be a bottleneck
-     */
     public Body retrieveActiveBody() {
     	// If we already have a body for some reason, we just take it. In this case,
     	// we don't care about resolving levels or whatever.
@@ -343,22 +323,19 @@ public class SootMethod
                 "cannot get resident body for phantom class : "
                     + getSignature()
                     + "; maybe you want to call c.setApplicationClass() on this class!");
-
-        long tStart = System.currentTimeMillis();
-
-        if (!hasActiveBody()) {
-            setActiveBody(this.getBodyFromMethodSource("jb"));
-            ms = null;
-        }
-
-        long tEnd = System.currentTimeMillis();
-//        G.v().out.println("getBodyFromMethodSource ran for " + (tEnd - tStart)/ 1000.0 + " seconds\n");
-
-        return getActiveBody();
+        
+        Body b = this.getBodyFromMethodSource("jb");
+        setActiveBody(b);
+        
+        // If configured, we drop the method source to save memory
+        if (Options.v().drop_bodies_after_load())
+        	ms = null;
+        
+        return b;
     }
 
     /**
-        Sets the active body for this method.
+        Sets the active body for this method. 
      */
     public void setActiveBody(Body body) {
         if ((declaringClass != null)
