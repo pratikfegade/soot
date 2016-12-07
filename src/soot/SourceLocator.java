@@ -548,7 +548,7 @@ public class SourceLocator
         private ZipEntry zipEntry;
         private List<InputStream> openedInputStreams;
         
-        FoundFile(String archivePath, String entryName) {
+        public FoundFile(String archivePath, String entryName) {
         	this();
         	if(archivePath == null || entryName == null)
         		throw new IllegalArgumentException("Error: The archive path and entry name cannot be null.");
@@ -556,7 +556,7 @@ public class SourceLocator
         	this.entryName = entryName;
         }
     	
-        FoundFile(File file) {
+        public FoundFile(File file) {
         	this();
         	if(file == null)
         		throw new IllegalArgumentException("Error: The file cannot be null.");
