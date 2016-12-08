@@ -308,21 +308,6 @@
         </jar>
     </target>
 
-    <target name="classesjar" depends="settings,compile"
-	    description="Build the class files jar in the release subdirectory (usually lib).">
-    	<mkdir dir="META-INF"/>
-
-        <manifest file="META-INF/MANIFEST.MF">
-           <attribute name="Main-Class" value="soot.Main"/>
-           <attribute name="Implementation-Version" value="${soot.version}"/>
-        </manifest>
-
-    	<jar destfile="${release.loc}/sootclasses-${soot.version}.jar" manifest="META-INF/MANIFEST.MF">
-            <fileset dir="classes"/>
-        </jar>
-		<delete dir="META-INF"/>
-    </target>
-
     <target name="eclipse-plugin" depends="compile,settings,graph-plugin"
 	    description="Build the Eclipse plugin.">
         <xslt
@@ -369,6 +354,21 @@
             <fileset dir="eclipse/ca.mcgill.sable.graph/classes"/>
         </jar>
 
+    </target>
+
+    <target name="classesjar" depends="settings,compile"
+            description="Build the class files jar in the release subdirectory (usually lib).">
+        <mkdir dir="META-INF"/>
+
+        <manifest file="META-INF/MANIFEST.MF">
+            <attribute name="Main-Class" value="soot.Main"/>
+            <attribute name="Implementation-Version" value="${soot.version}"/>
+        </manifest>
+
+        <jar destfile="${release.loc}/sootclasses-${soot.version}.jar" manifest="META-INF/MANIFEST.MF">
+            <fileset dir="classes"/>
+        </jar>
+        <delete dir="META-INF"/>
     </target>
 
 	<target name="fulljar" depends="classesjar"

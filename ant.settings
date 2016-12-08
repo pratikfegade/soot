@@ -49,4 +49,4 @@ javassist.jar=libs/javassist-3.18.2-GA.jar
 
 # Imported from heros. You only need this in combination with herosclasses.jar.
 # If you are using the full heros JAR file, guava is already packaged.
-guava.jar=
+guava.jar=libs/guava-18.0.jar
