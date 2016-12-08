@@ -71,19 +71,19 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	};
 
 	/** Erases the contents of the current HashChain. */
-	public void clear() {
+	public synchronized void clear() {
 		stateCount++;
 		firstItem = lastItem = null;
 		map.clear();
 	}
 
-	public void swapWith(E out, E in) {
+	public synchronized void swapWith(E out, E in) {
 		insertBefore(in, out);
 		remove(out);
 	}
 
 	/** Adds the given object to this HashChain. */
-	public boolean add(E item) {
+	public synchronized boolean add(E item) {
 		addLast(item);
 		return true;
 	}
@@ -92,7 +92,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 * Gets all elements in the chain. There is no guarantee on sorting.
 	 * @return All elements in the chain in an unsorted collection
 	 */
-	public Collection<E> getElementsUnsorted() {
+	public synchronized Collection<E> getElementsUnsorted() {
 		return map.keySet();
 	}
 
@@ -117,7 +117,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		addAll(src);
 	}
 
-	public boolean follows(E someObject, E someReferenceObject) {
+	public synchronized boolean follows(E someObject, E someReferenceObject) {
 		Iterator<E> it = iterator(someObject);
 		while (it.hasNext()) {
 			if (it.next() == someReferenceObject)
@@ -126,11 +126,11 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return true;
 	}
 
-	public boolean contains(Object o) {
+	public synchronized boolean contains(Object o) {
 		return map.containsKey(o);
 	}
 
-	public boolean containsAll(Collection<?> c) {
+	public synchronized boolean containsAll(Collection<?> c) {
 		Iterator<?> it = c.iterator();
 		while (it.hasNext())
 			if (!(map.containsKey(it.next())))
@@ -139,7 +139,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return true;
 	}
 
-	public void insertAfter(E toInsert, E point) {
+	public synchronized void insertAfter(E toInsert, E point) {
 		if (toInsert == null)
 			throw new RuntimeException("Bad idea! You tried to insert "
 					+ " a null object into a Chain!");
@@ -158,7 +158,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		map.put(toInsert, newLink);
 	}
 
-	public void insertAfter(Collection<? extends E> toInsert, E point) {
+	public synchronized void insertAfter(Collection<? extends E> toInsert, E point) {
 		// if the list is null, treat it as an empty list
 		if (toInsert == null)
 			throw new RuntimeException("Warning! You tried to insert "
@@ -171,15 +171,15 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		}
 	}
 
-	public void insertAfter(List<E> toInsert, E point) {
+	public synchronized void insertAfter(List<E> toInsert, E point) {
 		insertAfter((Collection<? extends E>) toInsert, point);
 	}
 
-	public void insertAfter(Chain<E> toInsert, E point) {
+	public synchronized void insertAfter(Chain<E> toInsert, E point) {
 		insertAfter((Collection<? extends E>) toInsert, point);
 	}
 
-	public void insertBefore(E toInsert, E point) {
+	public synchronized void insertBefore(E toInsert, E point) {
 		if (toInsert == null)
 			throw new RuntimeException("Bad idea! You tried to insert "
 					+ "a null object into a Chain!");
@@ -197,7 +197,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		map.put(toInsert, newLink);
 	}
 
-	public void insertBefore(Collection<? extends E> toInsert, E point) {
+	public synchronized void insertBefore(Collection<? extends E> toInsert, E point) {
 		// if the list is null, treat it as an empty list
 		if (toInsert == null)
 			throw new RuntimeException("Warning! You tried to insert "
@@ -208,11 +208,11 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		}
 	}
 
-	public void insertBefore(List<E> toInsert, E point) {
+	public synchronized void insertBefore(List<E> toInsert, E point) {
 		insertBefore((Collection<E>) toInsert, point);
 	}
 
-	public void insertBefore(Chain<E> toInsert, E point) {
+	public synchronized void insertBefore(Chain<E> toInsert, E point) {
 		insertBefore((Collection<E>) toInsert, point);
 	}
 	
@@ -225,7 +225,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 * @param point_src the source point of an edge in CFG
 	 * @param point_tgt the target point of an edge
 	 */
-	public void insertOnEdge(E toInsert, E point_src, E point_tgt) {
+	public synchronized void insertOnEdge(E toInsert, E point_src, E point_tgt) {
 		
 		List<E> o = new ArrayList<E>();
 		o.add(toInsert);
@@ -242,7 +242,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 * @param point_src the source point of an edge in CFG
 	 * @param point_tgt the target point of an edge
 	 */
-	public void insertOnEdge(Collection<? extends E> toInsert, E point_src, E point_tgt) {
+	public synchronized void insertOnEdge(Collection<? extends E> toInsert, E point_src, E point_tgt) {
 
 		if (toInsert == null)
 			throw new RuntimeException("Bad idea! You tried to insert " + "a null object into a Chain!");
@@ -351,7 +351,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 * @param point_src the source point of an edge in CFG
 	 * @param point_tgt the target point of an edge
 	 */
-	public void insertOnEdge(List<E> toInsert, E point_src, E point_tgt) {
+	public synchronized void insertOnEdge(List<E> toInsert, E point_src, E point_tgt) {
 		insertOnEdge((Collection<E>) toInsert, point_src, point_tgt);
 	}
 
@@ -364,7 +364,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 * @param point_src the source point of an edge in CFG
 	 * @param point_tgt the target point of an edge
 	 */
-	public void insertOnEdge(Chain<E> toInsert, E point_src, E point_tgt) {
+	public synchronized void insertOnEdge(Chain<E> toInsert, E point_src, E point_tgt) {
 		insertOnEdge((Collection<E>) toInsert, point_src, point_tgt);
 	}
 
@@ -376,7 +376,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return c;
 	}
 
-	public boolean remove(Object item) {
+	public synchronized boolean remove(Object item) {
 		if (item == null)
 			throw new RuntimeException("Bad idea! You tried to remove "
 					+ " a null object from a Chain!");
@@ -396,7 +396,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return false;
 	}
 
-	public void addFirst(E item) {
+	public synchronized void addFirst(E item) {
 		if (item == null)
 			throw new RuntimeException("Bad idea!  You tried to insert "
 					+ "a null object into a Chain!");
@@ -417,7 +417,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		map.put(item, newLink);
 	}
 
-	public void addLast(E item) {
+	public synchronized void addLast(E item) {
 		if (item == null)
 			throw new RuntimeException("Bad idea! You tried to insert "
 					+ " a null object into a Chain!");
@@ -437,14 +437,14 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		map.put(item, newLink);
 	}
 
-	public void removeFirst() {
+	public synchronized void removeFirst() {
 		stateCount++;
 		Object item = firstItem;
 		map.get(firstItem).unlinkSelf();
 		map.remove(item);
 	}
 
-	public void removeLast() {
+	public synchronized void removeLast() {
 		stateCount++;
 		Object item = lastItem;
 		map.get(lastItem).unlinkSelf();
@@ -463,7 +463,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return lastItem;
 	}
 
-	public E getSuccOf(E point) throws NoSuchElementException {
+	public synchronized E getSuccOf(E point) throws NoSuchElementException {
 		Link<E> link = map.get(point);
 		try {
 			link = link.getNext();
@@ -476,7 +476,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return link.getItem();
 	}
 
-	public E getPredOf(E point) throws NoSuchElementException {
+	public synchronized E getPredOf(E point) throws NoSuchElementException {
 		Link<E> link = map.get(point);
 		if (point == null)
 			throw new RuntimeException("trying to hash null value.");
@@ -493,11 +493,11 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 			return link.getItem();
 	}
 
-	public Iterator<E> snapshotIterator() {
+	public synchronized Iterator<E> snapshotIterator() {
 		return (new ArrayList<E>(this)).iterator();
 	}
 
-	public Iterator<E> snapshotIterator(E item) {
+	public synchronized Iterator<E> snapshotIterator(E item) {
 		List<E> l = new ArrayList<E>(map.size());
 
 		Iterator<E> it = new LinkIterator<E>(item);
@@ -507,13 +507,13 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return l.iterator();
 	}
 
-	public Iterator<E> iterator() {
+	public synchronized Iterator<E> iterator() {
 		if (firstItem == null || isEmpty())
 			return emptyIterator;
 		return new LinkIterator<E>(firstItem);
 	}
 
-	public Iterator<E> iterator(E item) {
+	public synchronized Iterator<E> iterator(E item) {
 		if (firstItem == null || isEmpty())
 			return emptyIterator;
 		return new LinkIterator<E>(item);
@@ -538,7 +538,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	 * @throws NoSuchElementException
 	 *             if <code>head</code> is not an element of the chain.
 	 */
-	public Iterator<E> iterator(E head, E tail) {
+	public synchronized Iterator<E> iterator(E head, E tail) {
 		if (firstItem == null || isEmpty())
 			return emptyIterator;
 		if (head != null && this.getPredOf(head) == tail) {
@@ -552,7 +552,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	/** Returns a textual representation of the contents of this Chain. */
-	public String toString() {
+	public synchronized String toString() {
 		StringBuilder strBuf = new StringBuilder();
 
 		Iterator<E> it = iterator();
@@ -729,7 +729,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	/** Returns the number of times this chain has been modified. */
-	public long getModificationCount() {
+	public synchronized long getModificationCount() {
 		return stateCount;
 	}
 }

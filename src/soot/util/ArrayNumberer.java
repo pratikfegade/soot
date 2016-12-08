@@ -63,14 +63,14 @@ public class ArrayNumberer<E extends Numberable> implements IterableNumberer<E> 
         return ret;
     }
 
-	public E get( long number ) {
+	public synchronized E get( long number ) {
         if( number == 0 ) return null;
 		E ret = numberToObj[(int) number];
         if( ret == null ) throw new RuntimeException( "no object with number "+number );
         return ret;
     }
 
-    public int size() { 
+    public synchronized int size() { 
     	return lastNumber; 
     }
 
@@ -78,14 +78,18 @@ public class ArrayNumberer<E extends Numberable> implements IterableNumberer<E> 
         return new Iterator<E>() {
             int cur = 1;
             public final boolean hasNext() {
-                return cur <= lastNumber && cur < numberToObj.length && numberToObj[cur] != null;
+                synchronized(this) {
+                    return cur <= lastNumber && cur < numberToObj.length && numberToObj[cur] != null;
+                }
             }
 
     		public final E next() { 
-                if ( hasNext() ) {
-                	return numberToObj[cur++];
+                synchronized(this) {
+                    if ( hasNext() ) {
+                        return numberToObj[cur++];
+                    }
+                    throw new NoSuchElementException();
                 }
-                throw new NoSuchElementException();
             }
     		
             public final void remove() {

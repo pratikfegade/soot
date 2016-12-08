@@ -137,7 +137,7 @@ public class Scene  //extends AbstractHost
     Chain<SootClass> libraryClasses = new HashChain<SootClass>();
     Chain<SootClass> phantomClasses = new HashChain<SootClass>();
     
-    private final Map<String,RefType> nameToClass = new HashMap<String,RefType>();
+    private final Map<String,RefType> nameToClass = new java.util.concurrent.ConcurrentHashMap<String,RefType>();
 
     final ArrayNumberer<Kind> kindNumberer;
     ArrayNumberer<Type> typeNumberer = new ArrayNumberer<Type>();
