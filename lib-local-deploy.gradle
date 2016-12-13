@@ -19,7 +19,7 @@ apply plugin: 'maven-publish'
 publishing {
     publications {
         def gradleInvocationDir = System.getProperty('user.dir')
-        def libDirName = project.property('dir')
+        def libDirName = project.hasProperty('dir')? project.property('dir') : "lib"
         def libDir = file("${gradleInvocationDir}/${libDirName}")
         libDir.eachFile { File f ->
             def initName = f.getName() - '.jar'
