@@ -87,9 +87,11 @@ public class SootMethod
      *
      * @param phaseName       Phase name for body loading. */
     private Body getBodyFromMethodSource(String phaseName) {
-    	if (ms == null)
-    		throw new RuntimeException("No method source set for method " + this.getSignature());
-        return ms.getBody(this, phaseName);
+    	if (ms == null) {
+            System.out.println("No method source set for method " + this.getSignature());
+            return null;
+        }
+    	return ms.getBody(this, phaseName);
     }
 
     /** Sets the MethodSource of the current SootMethod. */
