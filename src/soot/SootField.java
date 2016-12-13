@@ -24,6 +24,8 @@
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
 
+/* Modified by Yannis Smaragdakis/UoA PLAST Lab,
+   this comment included per LGPL. */
 
 package soot;
 
@@ -40,27 +42,32 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
     String name;
     Type type;
     int modifiers;
+    String initialValueString; // Dalvik-only
 
     boolean isDeclared = false;
     SootClass declaringClass;
     protected boolean isPhantom = false;
 
-    /** Constructs a Soot field with the given name, type and modifiers. */
-    public SootField(String name, Type type, int modifiers)
+    /** Constructs a Soot field with the given name, type, etc. */
+    public SootField(String name, Type type, int modifiers, String initialValueString)
     {
         this.name = name;
         this.type = type;
         this.modifiers = modifiers;
+        this.initialValueString = initialValueString;
         if( type instanceof RefLikeType ) Scene.v().getFieldNumberer().add(this);
+    }
+
+    /** Constructs a Soot field with the given name, type and modifiers. */
+    public SootField(String name, Type type, int modifiers)
+    {
+        this(name, type, modifiers, null);
     }
 
     /** Constructs a Soot field with the given name, type and no modifiers. */
     public SootField(String name, Type type)
     {
-        this.name = name;
-        this.type = type;
-        this.modifiers = 0;
-        if( type instanceof RefLikeType ) Scene.v().getFieldNumberer().add(this);
+        this(name, type, 0, null);
     }
 
     public int equivHashCode()
@@ -195,6 +202,8 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
     {
         return modifiers;
     }
+
+    public String getInitialValueString() { return initialValueString; }
 
     public String toString()
     {
