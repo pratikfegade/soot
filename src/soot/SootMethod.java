@@ -299,8 +299,7 @@ public class SootMethod
 
 		// ignore empty body exceptions if we are just computing coffi metrics
         if (!soot.jbco.Main.metrics && !hasActiveBody())
-            throw new RuntimeException(
-                "no active body present for method " + getSignature());
+            System.out.println("no active body present for method " + getSignature());
 
         return activeBody;
     }
