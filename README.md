@@ -1,5 +1,13 @@
 [![Build Status](http://build.renjin.org/job/Soot/job/soot/badge/icon)](http://build.renjin.org/job/Soot/job/soot/)
 
+# Please help us improve Soot!
+You are using Soot and would like to help us support it in the future? Then please support us by filling out [this little web form](https://goo.gl/forms/rk1oSxFIxAH0xaf52).
+
+That way you can help us in two ways:
+* By letting us know how we can improve Soot you can directly help us prioritize newly planned features.
+* By stating your name and affiliation you help us showcasing Soot’s large user base.
+Thanks!
+
 # What is Soot?
 
 Soot is a Java optimization framework. It provides four intermediate representations for analyzing and transforming Java bytecode:
@@ -26,23 +34,24 @@ a dependency via Maven, Gradle, SBT, etc using the following coordinates:
   <dependency>
     <groupId>ca.mcgill.sable</groupId>
     <artifactId>soot</artifactId>
-    <version>RELEASE</version>
+    <version>3.0.0-SNAPSHOT</version>
   </dependency>
 </dependencies>
 <repositories>
   <repository>
-    <id>bedatadriven</id>
-    <name>bedatadriven public repo</name>
-    <url>https://nexus.bedatadriven.com/content/groups/public/</url>
+    <id>soot-snapshot</id>
+    <name>soot snapshots</name>
+    <url>http://soot-build.cs.uni-paderborn.de/nexus/repository/soot-snapshot/</url>
   </repository>
-</repositories>
+</repositories>	
+
 ```
 
 # How do I obtain the nightly builds
 
 **Note that the nightly build server has moved**
 
-Nightly builds of soot can be obtained from [nightly build](https://ssebuild.cased.de/nightly/soot/). The "soot-trunk.jar" file is an all-in-one file that also contains all the required libraries. The "sootclasses-trunk.jar" file contains only Soot, allowing you to use manually pick dependencies as you need them.
+Nightly builds of soot can be obtained from [nightly build](http://soot-build.cs.uni-paderborn.de/nightly/soot/). The "soot-trunk.jar" file is an all-in-one file that also contains all the required libraries. The "sootclasses-trunk.jar" file contains only Soot, allowing you to use manually pick dependencies as you need them.
 
 # About Soot's source code
 

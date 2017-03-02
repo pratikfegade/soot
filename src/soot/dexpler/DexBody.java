@@ -98,6 +98,9 @@ import soot.jimple.toolkits.scalar.ConditionalBranchFolder;
 import soot.jimple.toolkits.scalar.ConstantCastEliminator;
 import soot.jimple.toolkits.scalar.CopyPropagator;
 import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
+import soot.jimple.toolkits.scalar.FieldStaticnessCorrector;
+import soot.jimple.toolkits.scalar.IdentityCastEliminator;
+import soot.jimple.toolkits.scalar.IdentityOperationEliminator;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
 import soot.jimple.toolkits.scalar.NopEliminator;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
@@ -677,7 +680,12 @@ public class DexBody  {
         LocalPacker.v().transform(jBody);
         UnusedLocalEliminator.v().transform(jBody);
         LocalNameStandardizer.v().transform(jBody);
-
+        
+        // Some apps reference static fields as instance fields. We fix this
+        // on the fly.
+        if (Options.v().wrong_staticness() == Options.wrong_staticness_fix)
+        	FieldStaticnessCorrector.v().transform(jBody);
+        
         Debug.printDbg("\nafter type assigner localpacker and name standardizer");
         Debug.printDbg("",(Body)jBody);
         
@@ -700,6 +708,10 @@ public class DexBody  {
         
         // Remove unnecessary typecasts
         ConstantCastEliminator.v().transform(jBody);
+        IdentityCastEliminator.v().transform(jBody);
+        
+        // Remove unnecessary logic operations
+        IdentityOperationEliminator.v().transform(jBody);
         
         // We need to run this transformer since the conditional branch folder
         // might have rendered some code unreachable (well, it was unreachable

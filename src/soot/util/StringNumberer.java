@@ -18,10 +18,10 @@
  */
 
 package soot.util;
-import heros.ThreadSafe;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import heros.ThreadSafe;
 
 /** A class that numbers strings, so they can be placed in bitsets.
  *
@@ -30,8 +30,8 @@ import java.util.concurrent.ConcurrentMap;
 
 @ThreadSafe
 public class StringNumberer extends ArrayNumberer<NumberedString> {
-    ConcurrentMap<String, NumberedString> stringToNumbered =
-    		new ConcurrentHashMap<String, NumberedString>(1024);
+    private Map<String, NumberedString> stringToNumbered =
+    		new HashMap<String, NumberedString>(1024);
     
     public synchronized NumberedString findOrAdd( String s ) {
     	NumberedString numStr = new NumberedString(s);

@@ -1426,6 +1426,48 @@ public class Singletons {
     	instance_soot_jimple_toolkits_scalar_ConstantCastEliminator = null;
     }
 
+    private soot.jimple.toolkits.scalar.IdentityCastEliminator instance_soot_jimple_toolkits_scalar_IdentityCastEliminator;
+    public soot.jimple.toolkits.scalar.IdentityCastEliminator soot_jimple_toolkits_scalar_IdentityCastEliminator() {
+        if( instance_soot_jimple_toolkits_scalar_IdentityCastEliminator == null ) {
+	       	synchronized (this) {
+		        if( instance_soot_jimple_toolkits_scalar_IdentityCastEliminator == null )
+	        		instance_soot_jimple_toolkits_scalar_IdentityCastEliminator = new soot.jimple.toolkits.scalar.IdentityCastEliminator( g );
+	       	}
+       	}
+        return instance_soot_jimple_toolkits_scalar_IdentityCastEliminator;
+    }
+    protected void release_soot_jimple_toolkits_scalar_IdentityCastEliminator() {
+    	instance_soot_jimple_toolkits_scalar_IdentityCastEliminator = null;
+    }
+
+    private soot.jimple.toolkits.scalar.FieldStaticnessCorrector instance_soot_jimple_toolkits_scalar_FieldStaticnessCorrector;
+    public soot.jimple.toolkits.scalar.FieldStaticnessCorrector soot_jimple_toolkits_scalar_FieldStaticnessCorrector() {
+        if( instance_soot_jimple_toolkits_scalar_FieldStaticnessCorrector == null ) {
+	       	synchronized (this) {
+		        if( instance_soot_jimple_toolkits_scalar_FieldStaticnessCorrector == null )
+	        		instance_soot_jimple_toolkits_scalar_FieldStaticnessCorrector = new soot.jimple.toolkits.scalar.FieldStaticnessCorrector( g );
+	       	}
+       	}
+        return instance_soot_jimple_toolkits_scalar_FieldStaticnessCorrector;
+    }
+    protected void release_soot_jimple_toolkits_scalar_FieldStaticnessCorrector() {
+    	instance_soot_jimple_toolkits_scalar_FieldStaticnessCorrector = null;
+    }
+
+    private soot.jimple.toolkits.scalar.IdentityOperationEliminator instance_soot_jimple_toolkits_scalar_IdentityOperationEliminator;
+    public soot.jimple.toolkits.scalar.IdentityOperationEliminator soot_jimple_toolkits_scalar_IdentityOperationEliminator() {
+        if( instance_soot_jimple_toolkits_scalar_IdentityOperationEliminator == null ) {
+	       	synchronized (this) {
+		        if( instance_soot_jimple_toolkits_scalar_IdentityOperationEliminator == null )
+	        		instance_soot_jimple_toolkits_scalar_IdentityOperationEliminator = new soot.jimple.toolkits.scalar.IdentityOperationEliminator( g );
+	       	}
+       	}
+        return instance_soot_jimple_toolkits_scalar_IdentityOperationEliminator;
+    }
+    protected void release_soot_jimple_toolkits_scalar_IdentityOperationEliminator() {
+    	instance_soot_jimple_toolkits_scalar_IdentityOperationEliminator = null;
+    }
+
     private soot.UnknownType instance_soot_UnknownType;
     public soot.UnknownType soot_UnknownType() {
         if( instance_soot_UnknownType == null ) {
@@ -1844,6 +1886,20 @@ public class Singletons {
     }
     protected void release_soot_toolkits_exceptions_TrapTightener() {
     	instance_soot_toolkits_exceptions_TrapTightener = null;
+    }
+
+    private soot.toolkits.exceptions.DuplicateCatchAllTrapRemover instance_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover;
+    public soot.toolkits.exceptions.DuplicateCatchAllTrapRemover soot_toolkits_exceptions_DuplicateCatchAllTrapRemover() {
+        if( instance_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover == null ) {
+	       	synchronized (this) {
+		        if( instance_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover == null )
+	        		instance_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover = new soot.toolkits.exceptions.DuplicateCatchAllTrapRemover( g );
+	       	}
+       	}
+        return instance_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover;
+    }
+    protected void release_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover() {
+    	instance_soot_toolkits_exceptions_DuplicateCatchAllTrapRemover = null;
     }
 
     private soot.jimple.toolkits.annotation.callgraph.CallGraphGrapher instance_soot_jimple_toolkits_annotation_callgraph_CallGraphGrapher;

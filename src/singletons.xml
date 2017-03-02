@@ -100,6 +100,9 @@
   <class>soot.jimple.toolkits.typing.TypeAssigner</class>
   <class>soot.jimple.toolkits.scalar.UnconditionalBranchFolder</class>
   <class>soot.jimple.toolkits.scalar.ConstantCastEliminator</class>
+  <class>soot.jimple.toolkits.scalar.IdentityCastEliminator</class>
+  <class>soot.jimple.toolkits.scalar.FieldStaticnessCorrector</class>
+  <class>soot.jimple.toolkits.scalar.IdentityOperationEliminator</class>
   <class>soot.UnknownType</class>
   <class>soot.jimple.toolkits.scalar.UnreachableCodeEliminator</class>
   <class>soot.toolkits.scalar.UnusedLocalEliminator</class>
@@ -130,6 +133,7 @@
   <class>soot.dexpler.DalvikThrowAnalysis</class>
   <class>soot.toolkits.exceptions.PedanticThrowAnalysis</class>
   <class>soot.toolkits.exceptions.TrapTightener</class>
+  <class>soot.toolkits.exceptions.DuplicateCatchAllTrapRemover</class>
   <class>soot.jimple.toolkits.annotation.callgraph.CallGraphGrapher</class>
   <class>soot.SootResolver</class>
   <class>soot.javaToJimple.InitialResolver</class>
