@@ -119,6 +119,7 @@ import soot.sootify.TemplatePrinter;
 import soot.tagkit.InnerClassTagAggregator;
 import soot.tagkit.LineNumberTagAggregator;
 import soot.toDex.DexPrinter;
+import soot.toolkits.exceptions.DuplicateCatchAllTrapRemover;
 import soot.toolkits.exceptions.TrapTightener;
 import soot.toolkits.graph.interaction.InteractionHandler;
 import soot.toolkits.scalar.ConstantInitializerToTagTransformer;
@@ -153,6 +154,7 @@ public class PackManager {
         addPack(p = new JimpleBodyPack());
         {
             p.add(new Transform("jb.tt", TrapTightener.v()));
+            p.add(new Transform("jb.dtr", DuplicateCatchAllTrapRemover.v()));
             p.add(new Transform("jb.ls", LocalSplitter.v()));
             p.add(new Transform("jb.a", Aggregator.v()));
             p.add(new Transform("jb.ule", UnusedLocalEliminator.v()));
@@ -691,8 +693,12 @@ public class PackManager {
 		}
         
         // If something went wrong, we tell the world
-        if (executor.getException() != null)
-        	throw (RuntimeException) executor.getException();
+        if (executor.getException() != null) {
+        	if (executor.getException() instanceof RuntimeException)
+        		throw (RuntimeException) executor.getException();
+        	else
+        		throw new RuntimeException(executor.getException());
+        }
     }
 
 	private void tearDownJAR() {

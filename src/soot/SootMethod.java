@@ -87,6 +87,7 @@ public class SootMethod
      *
      * @param phaseName       Phase name for body loading. */
     private Body getBodyFromMethodSource(String phaseName) {
+
     	// We get a copy of the field value just in case another thread
     	// overwrites the method source in the meantime. We then check
     	// again whether we really need to load anything.
@@ -103,8 +104,7 @@ public class SootMethod
     	// but then find that the method source is already gone when the other
     	// thread finally passes statement (3) before we attempt to use the
     	// method source here.
-
-
+        
     	if (ms == null) {
             System.out.println("No method source set for method " + this.getSignature());
             return null;
