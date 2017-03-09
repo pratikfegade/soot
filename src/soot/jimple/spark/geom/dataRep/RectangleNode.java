@@ -63,7 +63,13 @@ public class RectangleNode extends SegmentNode {
 		
 		return false;
 	}
-	
+
+	// Should never be called! But if it is, let's make it a performance problem, not a correctness one!
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+
 	@Override
 	public long yEnd() 
 	{ 

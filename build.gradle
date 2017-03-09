@@ -1,50 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'application'
 
+mainClassName = "soot.Main"
 
-
-
-ant.importBuild 'build.xml'
-
-repositories {
-    mavenCentral()
-
-    maven {
-        credentials {
-            username artifactory_user
-            password artifactory_password
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+            srcDir 'generated/singletons'
+            srcDir 'generated/jastadd'
+            srcDir 'generated/options'
+            srcDir 'generated/sablecc'
         }
-
-        url "${artifactory_contextUrl}/libs-snapshot"
     }
 }
-
-
-group = ''
-version = '1.0-SNAPSHOT'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.1'
 }
-// if (project.hasProperty('artifactory_user')) {
 
-//     publishing {
-//         publications {
-//             mavenJava(MavenPublication) {
-//                 from components.java
+repositories {
 
-//             }
-//         }
+    mavenLocal()
 
-//         repositories {
-//             maven {
-//                 credentials {
-//                     username artifactory_user
-//                     password artifactory_password
-//                 }
+    mavenCentral()
 
-//                 url version.endsWith("-SNAPSHOT") ?
-//                 "${artifactory_contextUrl}/libs-snapshot-local" :
-//                 "${artifactory_contextUrl}/libs-release-local"
-//             }
-//         }
-//     }
-// }
+    maven {
+        url "http://centauri.di.uoa.gr:8081/artifactory/plast-public"
+    }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7',             // Groovy
+            'org.apache.ivy:ivy:2.3.0',                         // Apache Ivy (for downloading jars from maven repos)
+            'org.ow2.asm:asm-debug-all:5.1',                    // Java Bytecode library
+            'com.google.guava:guava:18.0',                       // GSON library
+            'org.apache.ant:ant:1.10.1'
+
+    compile files ("libs/polyglot.jar",
+            "libs/heros-trunk.jar",
+            "libs/jboss-common-core-2.5.0.Final.jar",
+            "libs/AXMLPrinter2.jar",
+            "libs/cglib-nodep-2.2.2.jar",
+            "libs/dexlib2-2.2b4-adb12356.jar",
+            "libs/hamcrest-all-1.3.jar",
+            "libs/heros-trunk.jar",
+            "libs/jasminclasses-2.5.0.jar",
+            "libs/javassist-3.18.2-GA.jar",
+            "libs/junit-4.11.jar",
+            "libs/mockito-all-1.10.8.jar",
+            "libs/polyglot.jar",
+            "libs/powermock-mockito-1.6.1-full.jar",
+            "libs/slf4j-api-1.7.5.jar",
+            "libs/slf4j-simple-1.7.5.jar",
+            "libs/util-2.2b4-adb12356.jar"
+    )
+}
