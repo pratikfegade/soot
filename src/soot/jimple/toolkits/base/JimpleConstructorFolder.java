@@ -142,6 +142,11 @@ public class JimpleConstructorFolder extends BodyTransformer
             if(alloc != null && !alloc.equals(o.alloc)) return false;
             return true;
         }
+        // Should never be called! But if it is, let's make it a performance problem, not a correctness one!
+        @Override
+        public int hashCode() {
+            return 1;
+        }
         public Stmt alloc() { return alloc; }
         public void setAlloc(Stmt newAlloc) { alloc = newAlloc; }
     }
