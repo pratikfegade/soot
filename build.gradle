@@ -35,16 +35,16 @@ dependencies {
             'org.apache.ivy:ivy:2.3.0',                         // Apache Ivy (for downloading jars from maven repos)
             'org.ow2.asm:asm-debug-all:5.1',                    // Java Bytecode library
             'com.google.guava:guava:18.0',                       // GSON library
-            'org.apache.ant:ant:1.10.1'
+            'org.apache.ant:ant:1.10.1',
+            'org.smali:dexlib2:2.2b4',                           // Dexlib2: library for reading/modifying/writing Android dex files
+            'org.smali:util:2.2b4'                              // Dexlib2 utilities  
 
     compile files ("libs/polyglot.jar",
             "libs/heros-trunk.jar",
             "libs/jboss-common-core-2.5.0.Final.jar",
             "libs/AXMLPrinter2.jar",
             "libs/cglib-nodep-2.2.2.jar",
-            "libs/dexlib2-2.2b4-adb12356.jar",
             "libs/hamcrest-all-1.3.jar",
-            "libs/heros-trunk.jar",
             "libs/jasminclasses-2.5.0.jar",
             "libs/javassist-3.18.2-GA.jar",
             "libs/junit-4.11.jar",
@@ -52,7 +52,6 @@ dependencies {
             "libs/polyglot.jar",
             "libs/powermock-mockito-1.6.1-full.jar",
             "libs/slf4j-api-1.7.5.jar",
-            "libs/slf4j-simple-1.7.5.jar",
-            "libs/util-2.2b4-adb12356.jar"
+            "libs/slf4j-simple-1.7.5.jar"
     )
 }
