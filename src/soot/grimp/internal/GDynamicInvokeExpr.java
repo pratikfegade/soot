@@ -115,7 +115,7 @@ public class GDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInv
 
 
 	public int equivHashCode() {
-		return getMethod().equivHashCode();
+		return getMethod().hashCode();
 	}
 	
 	public SootMethodRef getBootstrapMethodRef() {

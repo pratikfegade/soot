@@ -128,7 +128,12 @@ final class Operand {
 			return true;
 		return stackOrValue().equivTo(other.stackOrValue());
 	}
-	
+
+    // For consistency
+    int equivHashCode() {
+		return stackOrValue().equivHashCode();
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		return other instanceof Operand && equivTo((Operand) other);

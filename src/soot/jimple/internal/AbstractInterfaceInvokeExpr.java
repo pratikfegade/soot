@@ -63,7 +63,7 @@ public abstract class AbstractInterfaceInvokeExpr extends AbstractInstanceInvoke
 	 * Returns a hash code for this object, consistent with structural equality.
 	 */
 	public int equivHashCode() {
-		return baseBox.getValue().equivHashCode() * 101 + getMethod().equivHashCode() * 17;
+		return baseBox.getValue().equivHashCode() * 101 + getMethod().hashCode() * 17;
 	}
 
 	public abstract Object clone();

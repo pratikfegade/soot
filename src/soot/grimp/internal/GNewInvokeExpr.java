@@ -169,6 +169,6 @@ public class GNewInvokeExpr extends AbstractInvokeExpr
     /** Returns a hash code for this object, consistent with structural equality. */
     public int equivHashCode()
     {
-        return getMethod().equivHashCode();
+        return getMethod().hashCode();
     }
 }

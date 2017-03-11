@@ -52,11 +52,13 @@ public class JimpleLocal implements Local, ConvertToBaf {
 	 * Returns a hash code for this object, consistent with structural equality.
 	 */
 	public int equivHashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+        return this.hashCode();
+        //// Probably doesn't matter, but should be consistent with equivTo.
+		// final int prime = 31;
+		// int result = 1;
+		// result = prime * result + ((name == null) ? 0 : name.hashCode());
+		// result = prime * result + ((type == null) ? 0 : type.hashCode());
+		// return result;
 	}
 
 	/** Returns a clone of the current JimpleLocal. */

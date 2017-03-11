@@ -100,7 +100,7 @@ public class StaticFieldRef implements FieldRef, ConvertToBaf
 
     public int equivHashCode()
     {
-        return getField().equivHashCode();
+        return getField().hashCode();
     }
 
     public void convertToBaf(JimpleToBafContext context, List<Unit> out)

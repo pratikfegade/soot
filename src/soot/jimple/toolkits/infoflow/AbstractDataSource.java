@@ -42,6 +42,10 @@ public class AbstractDataSource implements Value
         return (c instanceof AbstractDataSource && ((AbstractDataSource)c).sourcename.equals(sourcename));
     }
 
+    public int hashCode() {
+        return sourcename.hashCode();
+    }
+    
     /** Returns a hash code consistent with structural equality for this object. */
     public int equivHashCode()
     {

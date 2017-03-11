@@ -63,7 +63,7 @@ public abstract class AbstractStaticInvokeExpr extends AbstractInvokeExpr implem
 	 * Returns a hash code for this object, consistent with structural equality.
 	 */
 	public int equivHashCode() {
-		return getMethod().equivHashCode();
+		return getMethod().hashCode();
 	}
 
 	public abstract Object clone();
