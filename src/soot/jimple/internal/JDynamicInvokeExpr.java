@@ -142,7 +142,9 @@ public class JDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInv
 	 * Returns a hash code for this object, consistent with structural equality.
 	 */
 	public int equivHashCode() {
-		return getBootstrapMethod().equivHashCode() * getMethod().equivHashCode() * 17;
+		return bsmRef.hashCode() * getMethod().hashCode() * 17;
+        //// Made more consistent with equivTo
+        // getBootstrapMethod().equivHashCode() * getMethod().equivHashCode() * 17;
 	}
 
 	public String toString() {

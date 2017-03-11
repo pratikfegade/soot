@@ -128,7 +128,7 @@ public abstract class AbstractInstanceFieldRef implements InstanceFieldRef, Conv
     /** Returns a hash code for this object, consistent with structural equality. */
     public int equivHashCode() 
     {
-        return getField().equivHashCode() * 101 + baseBox.getValue().equivHashCode() + 17;
+        return getField().hashCode() * 101 + baseBox.getValue().equivHashCode() + 17;
     }
 
     public void convertToBaf(JimpleToBafContext context, List<Unit> out)

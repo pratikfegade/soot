@@ -39,7 +39,7 @@ public class JCaughtExceptionRef implements CaughtExceptionRef
     
     public boolean equivTo(Object c)
     {
-        return c instanceof CaughtExceptionRef;
+        return c instanceof JCaughtExceptionRef;
     }
 
     /** Returns a hash code for this object, consistent with structural equality. */
