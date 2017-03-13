@@ -1,7 +1,17 @@
-apply plugin: 'java'
-apply plugin: 'application'
+plugins {
+    id 'java'
+    id 'application'
+    id 'maven-publish'
+    id 'net.researchgate.release' version '2.4.0'
+}
+
+group = 'ext'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 mainClassName = "soot.Main"
+archivesBaseName = "sootclasses"
 
 sourceSets {
     main {
@@ -30,6 +40,10 @@ repositories {
     }
 }
 
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.7',             // Groovy
             'org.apache.ivy:ivy:2.3.0',                         // Apache Ivy (for downloading jars from maven repos)
@@ -54,4 +68,25 @@ dependencies {
             "libs/jasminclasses-2.5.0.jar",
             "libs/polyglot.jar",
     )
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId 'sootclasses'
+            version sootVersion
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            credentials {
+                username artifactory_user
+                password artifactory_password
+            }
+
+            url "${artifactory_contextUrl}/ext-snapshot-local"
+        }
+    }
 }
