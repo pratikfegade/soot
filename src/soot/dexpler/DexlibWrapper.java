@@ -101,7 +101,7 @@ public class DexlibWrapper {
 	public void initialize() {
 		ZipFile archive = null;
 		try {
-			int api = 24; // TODO: this matters now so it should be a soot option
+			int api = Scene.v().getAndroidAPIVersion(); // TODO: this matters now so it should be a soot option
 			if(Options.v().process_multiple_dex() && (inputDexFile.getName().endsWith(".apk") || 
 					inputDexFile.getName().endsWith(".zip") || inputDexFile.getName().endsWith(".jar"))){
 	            archive = new ZipFile(inputDexFile);
