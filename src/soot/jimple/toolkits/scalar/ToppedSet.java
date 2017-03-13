@@ -192,6 +192,10 @@ public class ToppedSet<T> extends AbstractFlowSet<T>
         return underlyingSet.equals(other.underlyingSet);
     }
 
+    public int hashCode() {
+        return underlyingSet.hashCode();
+    }
+    
     public String toString()
     {
         if (isTop()) return "{TOP}"; else return underlyingSet.toString();

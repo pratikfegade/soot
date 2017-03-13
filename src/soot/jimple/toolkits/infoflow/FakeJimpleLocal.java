@@ -54,6 +54,21 @@ public class FakeJimpleLocal extends JimpleLocal
     	return equivTo(o);
     }
 
+	/**
+	 * Returns a hash code for this object, consistent with structural equality.
+	 */
+	public int equivHashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+		result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+		return result;
+	}
+
+    public int hashCode() {
+        return equivHashCode();
+    }
+    
     /** Returns a clone of the current JimpleLocal. */
     public Object clone()
     {
