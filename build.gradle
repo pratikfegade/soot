@@ -63,6 +63,12 @@ dependencies {
             'ext:jasminclasses:2.5.0'
 }
 
+task fullJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
