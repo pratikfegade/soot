@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class StaticImportOnDemandDecl extends StaticImportDecl implements Cloneable {
@@ -18,8 +18,8 @@ public class StaticImportOnDemandDecl extends StaticImportDecl implements Clonea
     }
      @SuppressWarnings({"unchecked", "cast"})  public StaticImportOnDemandDecl copy() {
       try {
-          StaticImportOnDemandDecl node = (StaticImportOnDemandDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          StaticImportOnDemandDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -27,7 +27,7 @@ public class StaticImportOnDemandDecl extends StaticImportDecl implements Clonea
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public StaticImportOnDemandDecl fullCopy() {
-        StaticImportOnDemandDecl res = (StaticImportOnDemandDecl)copy();
+        StaticImportOnDemandDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();

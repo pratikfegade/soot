@@ -157,7 +157,7 @@ public class RegisterAllocator {
 	}
 	
 	public Register asLocal(Local v) {
-		Local l = (Local) v;
+		Local l = v;
 		String localName = l.getName();
 		Register localRegister;
 		if (localToLastRegNum.containsKey(localName)) {

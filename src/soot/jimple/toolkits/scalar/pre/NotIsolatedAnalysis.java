@@ -109,7 +109,7 @@ public class NotIsolatedAnalysis extends BackwardFlowAnalysis<Unit, FlowSet<Equi
 		in.copy(out);
 
 		// Perform generation
-		EquivalentValue rhs = (EquivalentValue) unitToGen.get(unit);
+		EquivalentValue rhs = unitToGen.get(unit);
 		if (rhs != null)
 			out.add(rhs);
 

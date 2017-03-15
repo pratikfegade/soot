@@ -55,7 +55,7 @@ public class LineNumberGenerator {
       PatchingChain<Unit> units = b.getUnits(); // get the method code
       Iterator<Unit> it = units.iterator();
       while (it.hasNext()) { // for each jimple statement or baf instruction
-        Unit u = (Unit)it.next();
+        Unit u = it.next();
         if (u.hasTag("LineNumberTag")) { // see if a LineNumberTag exists (it will if you use -keep-line-number)
           LineNumberTag tag = (LineNumberTag)u.getTag(("LineNumberTag"));
           System.out.println(u + " has Line Number: " + tag.getLineNumber()); // print out the unit and line number

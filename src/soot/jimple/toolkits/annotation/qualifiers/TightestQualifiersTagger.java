@@ -22,6 +22,8 @@ package soot.jimple.toolkits.annotation.qualifiers;
 import soot.*;
 
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 import soot.jimple.*;
 import soot.jimple.toolkits.callgraph.*;
@@ -251,19 +253,16 @@ public class TightestQualifiersTagger extends SceneTransformer {
     }
     
     private boolean isCallClassMethodClass(SootClass call, SootClass check){
-        if (call.equals(check)) return true;
-        return false;
+        return call.equals(check);
     }
 
     private boolean isCallClassSubClass(SootClass call, SootClass check){
         if (!call.hasSuperclass()) return false;
-        if (call.getSuperclass().equals(check)) return true;
-        return false;
+        return call.getSuperclass().equals(check);
     }
 
     private boolean isCallSamePackage(SootClass call, SootClass check){
-        if (call.getPackageName().equals(check.getPackageName())) return true;
-        return false;
+        return call.getPackageName().equals(check.getPackageName());
     }
 
     private void handleFields(){

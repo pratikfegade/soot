@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class ParSuperConstructorAccess extends SuperConstructorAccess implements Cloneable {
@@ -18,8 +18,8 @@ public class ParSuperConstructorAccess extends SuperConstructorAccess implements
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParSuperConstructorAccess copy() {
       try {
-          ParSuperConstructorAccess node = (ParSuperConstructorAccess)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ParSuperConstructorAccess node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -27,7 +27,7 @@ public class ParSuperConstructorAccess extends SuperConstructorAccess implements
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParSuperConstructorAccess fullCopy() {
-        ParSuperConstructorAccess res = (ParSuperConstructorAccess)copy();
+        ParSuperConstructorAccess res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -72,7 +72,7 @@ public class ParSuperConstructorAccess extends SuperConstructorAccess implements
 
 
     // Declared in GenericMethods.ast line 14
-    public ParSuperConstructorAccess(beaver.Symbol p0, List<Expr> p1, List<Access> p2) {
+    public ParSuperConstructorAccess(jastadd.beaver.Symbol p0, List<Expr> p1, List<Access> p2) {
         setID(p0);
         setChild(p1, 0);
         setChild(p2, 1);
@@ -99,7 +99,7 @@ public class ParSuperConstructorAccess extends SuperConstructorAccess implements
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -130,7 +130,7 @@ public class ParSuperConstructorAccess extends SuperConstructorAccess implements
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getArg(int i) {
-        return (Expr)getArgList().getChild(i);
+        return getArgList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -202,7 +202,7 @@ public class ParSuperConstructorAccess extends SuperConstructorAccess implements
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getTypeArgument(int i) {
-        return (Access)getTypeArgumentList().getChild(i);
+        return getTypeArgumentList().getChild(i);
     }
 
     // Declared in GenericMethods.ast at line 14

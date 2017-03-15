@@ -39,10 +39,11 @@ import soot.toolkits.graph.Block;
 
 public class PDGNode {
 	
-	public enum Type{REGION, CFGNODE};
-	public enum Attribute{NORMAL, ENTRY, CONDHEADER, LOOPHEADER};
-	
-	protected Type m_type;
+	public enum Type{REGION, CFGNODE}
+
+    public enum Attribute{NORMAL, ENTRY, CONDHEADER, LOOPHEADER}
+
+    protected Type m_type;
 	protected Object m_node = null;
 	protected List<PDGNode> m_dependents = new ArrayList<PDGNode>();
 	protected List<PDGNode> m_backDependents = new ArrayList<PDGNode>();

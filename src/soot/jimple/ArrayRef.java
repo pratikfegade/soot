@@ -34,14 +34,14 @@ import soot.util.*;
 
 public interface ArrayRef extends ConcreteRef
 {
-    public Value getBase();
-    public void setBase(Local base);
-    public ValueBox getBaseBox();
-    public Value getIndex();
-    public void setIndex(Value index);
-    public ValueBox getIndexBox();
-    public Type getType();
-    public void apply(Switch sw);
+    Value getBase();
+    void setBase(Local base);
+    ValueBox getBaseBox();
+    Value getIndex();
+    void setIndex(Value index);
+    ValueBox getIndexBox();
+    Type getType();
+    void apply(Switch sw);
 }
 
 

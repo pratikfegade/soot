@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 // 4.1 The Kinds of Types and Values
@@ -65,7 +65,7 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
 
 
     // Declared in java.ast line 41
-    public ReferenceType(Modifiers p0, beaver.Symbol p1, List<BodyDecl> p2) {
+    public ReferenceType(Modifiers p0, jastadd.beaver.Symbol p1, List<BodyDecl> p2) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -111,7 +111,7 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -142,7 +142,7 @@ public abstract class ReferenceType extends TypeDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public BodyDecl getBodyDecl(int i) {
-        return (BodyDecl)getBodyDeclList().getChild(i);
+        return getBodyDeclList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -235,10 +235,8 @@ if(narrowingConversionTo_TypeDecl_values == null) narrowingConversionTo_TypeDecl
       return true;
     // Dragons
     // TODO: Check if both are interfaces with compatible methods
-    if(isArrayDecl() && type.isArrayDecl() && elementType().instanceOf(type.elementType()))
-      return true;
-    return false;
-  }
+        return isArrayDecl() && type.isArrayDecl() && elementType().instanceOf(type.elementType());
+    }
 
     // Declared in TypeAnalysis.jrag at line 166
  @SuppressWarnings({"unchecked", "cast"})     public boolean isReferenceType() {
@@ -270,10 +268,8 @@ if(narrowingConversionTo_TypeDecl_values == null) narrowingConversionTo_TypeDecl
     if(fullName().equals("java.lang.Class"))
       return true;
     // include generic versions of Class
-    if(erasure().fullName().equals("java.lang.Class"))
-      return true;
-    return false;
-  }
+        return erasure().fullName().equals("java.lang.Class");
+    }
 
     // Declared in AutoBoxing.jrag at line 48
  @SuppressWarnings({"unchecked", "cast"})     public boolean unboxingConversionTo(TypeDecl typeDecl) {

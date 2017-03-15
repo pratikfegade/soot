@@ -236,7 +236,7 @@ public abstract class CFGGraphType extends CFGOptionMatcher.CFGOption {
       Class<?>[] paramTypes = new Class[] { Body.class };
       Constructor constructor = graphClass.getConstructor(paramTypes);    
       DirectedGraph result = (DirectedGraph) 
-	constructor.newInstance(new Object[] { b });
+	constructor.newInstance(b);
       return result;
     } 
     // Turn class loading exceptions into RuntimeExceptions, so callers

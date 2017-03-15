@@ -57,7 +57,7 @@ public abstract class ASTNode extends AbstractUnit
 
 	Iterator<Object> it = body.iterator();
 	while (it.hasNext()) {
-	    b.append( ((ASTNode) it.next()).toString());
+	    b.append( it.next().toString());
 
 	    if (it.hasNext())
 		b.append( NEWLINE);

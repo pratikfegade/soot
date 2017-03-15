@@ -26,12 +26,12 @@ package soot;
  */
 
 public interface SootFieldRef {
-    public SootClass declaringClass();
-    public String name();
-    public Type type();
-    public boolean isStatic();
+    SootClass declaringClass();
+    String name();
+    Type type();
+    boolean isStatic();
 
-    public String getSignature();
+    String getSignature();
 
-    public SootField resolve();
+    SootField resolve();
 }

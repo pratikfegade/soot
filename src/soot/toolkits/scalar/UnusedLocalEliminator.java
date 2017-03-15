@@ -25,8 +25,9 @@
 
 package soot.toolkits.scalar;
 
-import soot.options.*;
+import soot.options.Options;
 import soot.*;
+import soot.singletons.Singletons;
 
 import java.util.*;
 

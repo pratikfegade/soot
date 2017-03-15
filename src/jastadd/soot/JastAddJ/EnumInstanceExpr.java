@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -27,8 +27,8 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public EnumInstanceExpr copy() {
       try {
-          EnumInstanceExpr node = (EnumInstanceExpr)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          EnumInstanceExpr node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -36,7 +36,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public EnumInstanceExpr fullCopy() {
-        EnumInstanceExpr res = (EnumInstanceExpr)copy();
+        EnumInstanceExpr res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -95,7 +95,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public TypeDecl getTypeDecl() {
-        return (TypeDecl)getTypeDeclOpt().getChild(0);
+        return getTypeDeclOpt().getChild(0);
     }
 
     // Declared in Enums.ast at line 14
@@ -154,7 +154,7 @@ public class EnumInstanceExpr extends ClassInstanceExpr implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getArg(int i) {
-        return (Expr)getArgList().getChild(i);
+        return getArgList().getChild(i);
     }
 
     // Declared in Enums.ast at line 14

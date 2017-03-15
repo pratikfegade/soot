@@ -24,7 +24,7 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.options.*;
+import soot.options.Options;
 
 import soot.* ;
 import soot.toolkits.graph.*;
@@ -81,7 +81,7 @@ class ArrayBoundsCheckerAnalysis
         
         SootMethod thismethod = body.getMethod();
 
-        if (Options.v().debug()) 
+        if (Options.v().debug())
             G.v().out.println("ArrayBoundsCheckerAnalysis started on  "+thismethod.getName());
 
         ailanalysis = new ArrayIndexLivenessAnalysis(new ExceptionalUnitGraph(body), fieldin, arrayin, csin, rectarray);

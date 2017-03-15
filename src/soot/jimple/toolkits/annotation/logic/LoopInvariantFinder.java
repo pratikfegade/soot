@@ -20,6 +20,7 @@
 package soot.jimple.toolkits.annotation.logic;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.toolkits.graph.*;
 import soot.jimple.*;
 

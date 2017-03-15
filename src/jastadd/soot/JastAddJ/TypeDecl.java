@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
  
 
@@ -379,7 +379,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
       public boolean hasNext() {
         if((inner == null || !inner.hasNext()) && outer.hasNext())
           inner = ((SimpleSet)outer.next()).iterator();
-        return inner == null ? false : inner.hasNext();
+        return inner != null && inner.hasNext();
       }
       public Object next() {
         return inner.next();
@@ -400,7 +400,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
       public boolean hasNext() {
         if((inner == null || !inner.hasNext()) && outer.hasNext())
           inner = ((SimpleSet)outer.next()).iterator();
-        return inner != null ? inner.hasNext() : false;
+        return inner != null && inner.hasNext();
       }
       public Object next() {
         return inner.next();
@@ -442,7 +442,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
       public boolean hasNext() {
         if((inner == null || !inner.hasNext()) && outer.hasNext())
           inner = ((SimpleSet)outer.next()).iterator();
-        return inner != null ? inner.hasNext() : false;
+        return inner != null && inner.hasNext();
       }
       public Object next() {
         return inner.next();
@@ -546,7 +546,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
     // 8.4.6.4 & 9.4.1
     for(Iterator iter1 = localMethodsIterator(); iter1.hasNext(); ) {
       MethodDecl m = (MethodDecl)iter1.next();
-      ASTNode target = m.hostType() == this ? (ASTNode)m : (ASTNode)this;
+      ASTNode target = m.hostType() == this ? m : this;
       
       //for(Iterator i2 = overrides(m).iterator(); i2.hasNext(); ) {
       for(Iterator i2 = ancestorMethods(m.signature()).iterator(); i2.hasNext(); ) {
@@ -1161,7 +1161,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
 
 
     // Declared in java.ast line 38
-    public TypeDecl(Modifiers p0, beaver.Symbol p1, List<BodyDecl> p2) {
+    public TypeDecl(Modifiers p0, jastadd.beaver.Symbol p1, List<BodyDecl> p2) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -1219,7 +1219,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -1250,7 +1250,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
 
 
      @SuppressWarnings({"unchecked", "cast"})  public BodyDecl getBodyDecl(int i) {
-        return (BodyDecl)getBodyDeclList().getChild(i);
+        return getBodyDeclList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -1351,7 +1351,7 @@ public abstract class TypeDecl extends ASTNode<ASTNode> implements Cloneable, Si
 private boolean refined_TypeConversion_TypeDecl_assignConversionTo_TypeDecl_Expr(TypeDecl type, Expr expr)
 {
     //System.out.println("@@@ " + fullName() + " assign conversion to " + type.fullName() + ", expr: " + expr);
-    boolean sourceIsConstant = expr != null ? expr.isConstant() : false;
+    boolean sourceIsConstant = expr != null && expr.isConstant();
     //System.out.println("@@@ sourceIsConstant: " + sourceIsConstant);
     if(identityConversionTo(type) || wideningConversionTo(type))
       return true;
@@ -1450,9 +1450,7 @@ if(accessibleFromExtend_TypeDecl_values == null) accessibleFromExtend_TypeDecl_v
       if(hostPackage().equals(type.hostPackage())) {
         return true;
       }
-      if(type.isNestedType() && type.enclosingType().withinBodyThatSubclasses(enclosingType()) != null)
-        return true;
-      return false;
+        return type.isNestedType() && type.enclosingType().withinBodyThatSubclasses(enclosingType()) != null;
     }
     else if(isPrivate()) {
       return topLevelType() == type.topLevelType();
@@ -2576,7 +2574,7 @@ if(narrowingConversionTo_TypeDecl_values == null) narrowingConversionTo_TypeDecl
     boolean canUnboxThis = !unboxed().isUnknown();
     boolean canUnboxType = !type.unboxed().isUnknown();
     TypeDecl t = !canUnboxThis && canUnboxType ? type.unboxed() : type;
-    boolean sourceIsConstant = expr != null ? expr.isConstant() : false;
+    boolean sourceIsConstant = expr != null && expr.isConstant();
     if(sourceIsConstant && (isInt() || isChar() || isShort() || isByte()) &&
         (t.isByte() || t.isShort() || t.isChar()) &&
         narrowingConversionTo(t) && expr.representableIn(t))

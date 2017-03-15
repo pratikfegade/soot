@@ -25,6 +25,7 @@
 
 package soot;
 
+import soot.options.Options;
 import soot.util.*;
 import java.util.*;
 
@@ -126,10 +127,10 @@ public abstract class Pack implements HasPhaseOptions, Iterable<Transform> {
 	}
 
 	public String getDeclaredOptions() {
-		return soot.options.Options.getDeclaredOptionsForPhase(getPhaseName());
+		return Options.getDeclaredOptionsForPhase(getPhaseName());
 	}
 
 	public String getDefaultOptions() {
-		return soot.options.Options.getDefaultOptionsForPhase(getPhaseName());
+		return Options.getDefaultOptionsForPhase(getPhaseName());
 	}
 }

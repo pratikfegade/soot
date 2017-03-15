@@ -62,15 +62,15 @@ public final class PropIter extends Propagator {
 				ofcg.build();
 
 				while (addedEdges.hasNext()) {
-					Node addedSrc = (Node) addedEdges.next();
-					Node addedTgt = (Node) addedEdges.next();
+					Node addedSrc = addedEdges.next();
+					Node addedTgt = addedEdges.next();
 					change = true;
 					if (addedSrc instanceof VarNode) {
-						PointsToSetInternal p2set = ((VarNode) addedSrc).getP2Set();
+						PointsToSetInternal p2set = addedSrc.getP2Set();
 						if (p2set != null)
 							p2set.unFlushNew();
 					} else if (addedSrc instanceof AllocNode) {
-						((VarNode) addedTgt).makeP2Set().add(addedSrc);
+						addedTgt.makeP2Set().add(addedSrc);
 					}
 				}
 				if (change) {

@@ -23,6 +23,7 @@ import java.util.LinkedList;
 
 import soot.*;
 import soot.baf.*;
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 
 /** The aggregator for ArrayNullCheckAttribute. */

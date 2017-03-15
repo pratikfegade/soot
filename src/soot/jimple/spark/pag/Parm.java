@@ -38,7 +38,7 @@ public class Parm implements SparkField {
     }
     public static Parm v( SootMethod m, int index ) {
         Pair<SootMethod, Integer> p = new Pair<SootMethod, Integer>( m, new Integer(index) );
-        Parm ret = (Parm) G.v().Parm_pairToElement.get( p );
+        Parm ret = G.v().Parm_pairToElement.get( p );
         if( ret == null ) {
             G.v().Parm_pairToElement.put( p, ret = new Parm( m, index ) );
         }

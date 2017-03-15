@@ -24,6 +24,7 @@ import java.util.*;
 import soot.dava.*;
 import soot.jimple.*;
 import soot.dava.internal.javaRep.*;
+import soot.singletons.Singletons;
 
 public class ThrowNullConverter
 {

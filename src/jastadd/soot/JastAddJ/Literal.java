@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -164,7 +164,7 @@ public abstract class Literal extends PrimaryExpr implements Cloneable {
 
 
     // Declared in java.ast line 124
-    public Literal(beaver.Symbol p0) {
+    public Literal(jastadd.beaver.Symbol p0) {
         setLITERAL(p0);
     }
 
@@ -201,7 +201,7 @@ public abstract class Literal extends PrimaryExpr implements Cloneable {
 
     // Declared in java.ast at line 8
 
-    public void setLITERAL(beaver.Symbol symbol) {
+    public void setLITERAL(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setLITERAL is only valid for String lexemes");
         tokenString_LITERAL = (String)symbol.value;

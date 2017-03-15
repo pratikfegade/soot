@@ -13,7 +13,7 @@ import soot.RefLikeType;
 import soot.RefType;
 import soot.Scene;
 import soot.SootClass;
-import soot.options.Options;
+import soot.options.options.Options;
 
 /**
  * Class which packages together some objects useful in unit tests of exception

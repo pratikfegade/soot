@@ -24,10 +24,11 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.options.*;
+import soot.options.Options;
 
 import soot.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.tagkit.*;
 import soot.jimple.toolkits.annotation.tags.*;

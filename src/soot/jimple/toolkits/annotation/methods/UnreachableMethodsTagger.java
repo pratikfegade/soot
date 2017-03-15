@@ -21,6 +21,8 @@ package soot.jimple.toolkits.annotation.methods;
 import soot.*;
 
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 
 /** A scene transformer that adds tags to unused methods. */

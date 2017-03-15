@@ -26,6 +26,7 @@ import soot.dava.internal.asg.*;
 import soot.dava.internal.SET.*;
 import soot.dava.internal.AST.*;
 import soot.dava.internal.javaRep.*;
+import soot.singletons.Singletons;
 
 public class UselessLabelFinder{
 	public static boolean DEBUG = false;

@@ -59,7 +59,7 @@ public class NestedClassListBuilder extends polyglot.visit.NodeVisitor {
         }
         if (n instanceof polyglot.ast.ClassDecl) {
 
-            if (((polyglot.types.ClassType)((polyglot.ast.ClassDecl)n).type()).isNested()){
+            if (((polyglot.ast.ClassDecl)n).type().isNested()){
                 classDeclsList.add(n);
             }
         }

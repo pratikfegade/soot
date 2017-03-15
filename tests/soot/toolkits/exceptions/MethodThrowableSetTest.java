@@ -15,7 +15,7 @@ import soot.PackManager;
 import soot.RefLikeType;
 import soot.Scene;
 import soot.SootMethod;
-import soot.options.Options;
+import soot.options.options.Options;
 
 public class MethodThrowableSetTest {
 	

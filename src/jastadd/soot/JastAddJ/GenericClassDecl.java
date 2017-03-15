@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 // generic type declarations
 
 public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTypeDecl {
@@ -40,8 +40,8 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
     }
      @SuppressWarnings({"unchecked", "cast"})  public GenericClassDecl copy() {
       try {
-          GenericClassDecl node = (GenericClassDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          GenericClassDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -49,7 +49,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public GenericClassDecl fullCopy() {
-        GenericClassDecl res = (GenericClassDecl)copy();
+        GenericClassDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -73,7 +73,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
   public ClassDecl p(Parameterization parTypeDecl) {
     GenericClassDecl c = new GenericClassDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       hasSuperClassAccess() ? new Opt(getSuperClassAccess().type().substitute(parTypeDecl)) : new Opt(),
       getImplementsList().substitute(parTypeDecl),
@@ -176,7 +176,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
 
     // Declared in Generics.ast line 2
-    public GenericClassDecl(Modifiers p0, beaver.Symbol p1, Opt<Access> p2, List<Access> p3, List<BodyDecl> p4, List<TypeVariable> p5) {
+    public GenericClassDecl(Modifiers p0, jastadd.beaver.Symbol p1, Opt<Access> p2, List<Access> p3, List<BodyDecl> p4, List<TypeVariable> p5) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -226,7 +226,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
     // Declared in Generics.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -257,7 +257,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getSuperClassAccess() {
-        return (Access)getSuperClassAccessOpt().getChild(0);
+        return getSuperClassAccessOpt().getChild(0);
     }
 
     // Declared in Generics.ast at line 14
@@ -297,7 +297,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getImplements(int i) {
-        return (Access)getImplementsList().getChild(i);
+        return getImplementsList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -369,7 +369,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
 
      @SuppressWarnings({"unchecked", "cast"})  public BodyDecl getBodyDecl(int i) {
-        return (BodyDecl)getBodyDeclList().getChild(i);
+        return getBodyDeclList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -441,7 +441,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
 
 
      @SuppressWarnings({"unchecked", "cast"})  public TypeVariable getTypeParameter(int i) {
-        return (TypeVariable)getTypeParameterList().getChild(i);
+        return getTypeParameterList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -569,7 +569,7 @@ public class GenericClassDecl extends ClassDecl implements Cloneable, GenericTyp
     // Declared in Generics.jrag at line 213
 
   public TypeDecl makeGeneric(Signatures.ClassSignature s) {
-    return (TypeDecl)this;
+    return this;
   }
 
     // Declared in Generics.jrag at line 460
@@ -655,12 +655,12 @@ if(lookupParTypeDecl_ParTypeAccess_values == null) lookupParTypeDecl_ParTypeAcce
 
     private TypeDecl lookupParTypeDecl_compute(ParTypeAccess p) {
     for(int i = 0; i < getNumParTypeDecl(); i++) {
-      ParTypeDecl decl = (ParTypeDecl)getParTypeDecl(i);
+      ParTypeDecl decl = getParTypeDecl(i);
       if(!decl.isRawType() && decl.sameSignature(p))
         return (TypeDecl)decl;
     }
     ParClassDecl typeDecl = new ParClassDecl();
-    typeDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    typeDecl.setModifiers(getModifiers().fullCopy());
     typeDecl.setID(getID());
     addParTypeDecl(typeDecl);
     List list = new List();
@@ -690,12 +690,12 @@ if(lookupParTypeDecl_ArrayList_values == null) lookupParTypeDecl_ArrayList_value
 
     private TypeDecl lookupParTypeDecl_compute(ArrayList list) {
     for(int i = 0; i < getNumParTypeDecl(); i++) {
-      ParTypeDecl decl = (ParTypeDecl)getParTypeDecl(i);
+      ParTypeDecl decl = getParTypeDecl(i);
       if(decl.isRawType() ? list.isEmpty() : (!list.isEmpty() && decl.sameSignature(list)))
         return (TypeDecl)decl;
     }
     ParClassDecl typeDecl = list.size() == 0 ? new RawClassDecl() : new ParClassDecl();
-    typeDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    typeDecl.setModifiers(getModifiers().fullCopy());
     typeDecl.setID(getID());
     addParTypeDecl(typeDecl);
     typeDecl.setArgumentList(createArgumentList(list));

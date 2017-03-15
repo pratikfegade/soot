@@ -13,9 +13,9 @@ import soot.G;
 import soot.PhaseOptions;
 import soot.Scene;
 import soot.SceneTransformer;
-import soot.Singletons;
 import soot.SootClass;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.util.Chain;
 
 /**

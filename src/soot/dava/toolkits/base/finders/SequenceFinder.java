@@ -22,6 +22,8 @@ package soot.dava.toolkits.base.finders;
 import soot.*;
 import soot.dava.*;
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.dava.internal.asg.*;
 import soot.dava.internal.SET.*;
@@ -50,7 +52,7 @@ public class SequenceFinder implements FactFinder
 	    IterableSet sequenceBody = new IterableSet();
 
 	    while (as.bpreds.size() == 1) {
-		AugmentedStmt pas = (AugmentedStmt) as.bpreds.get(0);
+		AugmentedStmt pas = as.bpreds.get(0);
 		if ((body.contains( pas) == false) || (childUnion.contains( pas) == true))
 		    break;
 
@@ -63,7 +65,7 @@ public class SequenceFinder implements FactFinder
 		sequenceBody.addLast( as);
 		
 		if (as.bsuccs.isEmpty() == false)
-		    as = (AugmentedStmt) as.bsuccs.get(0);
+		    as = as.bsuccs.get(0);
 
 		if (as.bpreds.size() != 1)
 		    break;

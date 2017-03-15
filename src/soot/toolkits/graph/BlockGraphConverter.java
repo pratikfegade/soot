@@ -60,7 +60,7 @@ public class BlockGraphConverter
             DummyBlock head = new DummyBlock(graph.getBody(), 0);
             head.makeHeadBlock(heads);
 
-            graph.mHeads = Collections.<Block>singletonList(head);
+            graph.mHeads = Collections.singletonList(head);
                         		
             for( Block block : blocks ) {
             	block.setIndexInMethod(block.getIndexInMethod() + 1);
@@ -86,7 +86,7 @@ public class BlockGraphConverter
             DummyBlock tail = new DummyBlock(graph.getBody(), blocks.size());
             tail.makeTailBlock(tails);
 
-            graph.mTails = Collections.<Block>singletonList(tail);
+            graph.mTails = Collections.singletonList(tail);
 
             blocks.add(tail);
         }

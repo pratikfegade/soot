@@ -21,6 +21,7 @@ package soot.jimple.toolkits.annotation.callgraph;
 
 import soot.*;
 import soot.jimple.toolkits.callgraph.*;
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 import java.util.*;
 import soot.jimple.*;

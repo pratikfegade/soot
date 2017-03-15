@@ -57,10 +57,7 @@ public class NullCheckTag implements OneByteCodeTag
 
     public boolean needCheck()
     {
-    	if (value == 0)
-	    return false;
-	else
-	    return true;
+        return value != 0;
     }
 
     public String toString()

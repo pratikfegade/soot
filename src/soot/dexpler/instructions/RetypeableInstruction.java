@@ -41,7 +41,7 @@ public interface RetypeableInstruction  {
      * @param body the body that contains the instruction
      * @param t the real type.
      */
-    public void setRealType(DexBody body, Type t);
+    void setRealType(DexBody body, Type t);
 
     /**
      * Do actual retype.
@@ -51,5 +51,5 @@ public interface RetypeableInstruction  {
      * 
      * @param body The body containing the processed statement
      */
-    public void retype(Body body);
+    void retype(Body body);
 }

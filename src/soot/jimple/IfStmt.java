@@ -33,13 +33,13 @@ import soot.*;
 
 public interface IfStmt extends Stmt
 {
-    public Value getCondition();
+    Value getCondition();
     /**
 	 * condition must be soot.jimple.ConditionExpr
 	 */
-	public void setCondition(Value condition);
-    public ValueBox getConditionBox();
-    public Stmt getTarget();
-    public void setTarget(Unit target);
-    public UnitBox getTargetBox();
+    void setCondition(Value condition);
+    ValueBox getConditionBox();
+    Stmt getTarget();
+    void setTarget(Unit target);
+    UnitBox getTargetBox();
 }

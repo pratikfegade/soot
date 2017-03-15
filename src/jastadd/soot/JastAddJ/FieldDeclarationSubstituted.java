@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class FieldDeclarationSubstituted extends FieldDeclaration implements Cloneable {
@@ -22,8 +22,8 @@ public class FieldDeclarationSubstituted extends FieldDeclaration implements Clo
     }
      @SuppressWarnings({"unchecked", "cast"})  public FieldDeclarationSubstituted copy() {
       try {
-          FieldDeclarationSubstituted node = (FieldDeclarationSubstituted)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          FieldDeclarationSubstituted node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -31,7 +31,7 @@ public class FieldDeclarationSubstituted extends FieldDeclaration implements Clo
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public FieldDeclarationSubstituted fullCopy() {
-        FieldDeclarationSubstituted res = (FieldDeclarationSubstituted)copy();
+        FieldDeclarationSubstituted res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -65,7 +65,7 @@ public class FieldDeclarationSubstituted extends FieldDeclaration implements Clo
 
 
     // Declared in Generics.ast line 29
-    public FieldDeclarationSubstituted(Modifiers p0, Access p1, beaver.Symbol p2, Opt<Expr> p3, FieldDeclaration p4) {
+    public FieldDeclarationSubstituted(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, Opt<Expr> p3, FieldDeclaration p4) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -132,7 +132,7 @@ public class FieldDeclarationSubstituted extends FieldDeclaration implements Clo
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -163,7 +163,7 @@ public class FieldDeclarationSubstituted extends FieldDeclaration implements Clo
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getInit() {
-        return (Expr)getInitOpt().getChild(0);
+        return getInitOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14

@@ -30,19 +30,19 @@ import java.util.*;
 
 public interface TableSwitchInst extends Inst
 {
-    public Unit getDefaultTarget();
-    public void setDefaultTarget(Unit defTarget);
-    public UnitBox getDefaultTargetBox();
+    Unit getDefaultTarget();
+    void setDefaultTarget(Unit defTarget);
+    UnitBox getDefaultTargetBox();
     
-    public int getLowIndex();
-    public void setLowIndex(int index);
+    int getLowIndex();
+    void setLowIndex(int index);
     
-    public int getHighIndex();
-    public void setHighIndex(int index);
+    int getHighIndex();
+    void setHighIndex(int index);
     
-    public List<Unit> getTargets();
-    public Unit getTarget(int index);
-    public void setTarget(int index, Unit target);
-    public void setTargets(List<Unit> targets);
-    public UnitBox getTargetBox(int index);
+    List<Unit> getTargets();
+    Unit getTarget(int index);
+    void setTarget(int index, Unit target);
+    void setTargets(List<Unit> targets);
+    UnitBox getTargetBox(int index);
 }

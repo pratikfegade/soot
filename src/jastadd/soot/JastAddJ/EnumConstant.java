@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -23,8 +23,8 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public EnumConstant copy() {
       try {
-          EnumConstant node = (EnumConstant)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          EnumConstant node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -32,7 +32,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public EnumConstant fullCopy() {
-        EnumConstant res = (EnumConstant)copy();
+        EnumConstant res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -172,7 +172,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
 
 
     // Declared in Enums.ast line 3
-    public EnumConstant(Modifiers p0, beaver.Symbol p1, List<Expr> p2, Opt<Expr> p3) {
+    public EnumConstant(Modifiers p0, jastadd.beaver.Symbol p1, List<Expr> p2, Opt<Expr> p3) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -220,7 +220,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
 
     // Declared in Enums.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -251,7 +251,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getArg(int i) {
-        return (Expr)getArgList().getChild(i);
+        return getArgList().getChild(i);
     }
 
     // Declared in Enums.ast at line 14
@@ -323,7 +323,7 @@ public class EnumConstant extends FieldDeclaration implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getInit() {
-        return (Expr)getInitOpt().getChild(0);
+        return getInitOpt().getChild(0);
     }
 
     // Declared in Enums.ast at line 14

@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class CharacterLiteral extends Literal implements Cloneable {
@@ -26,8 +26,8 @@ public class CharacterLiteral extends Literal implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public CharacterLiteral copy() {
       try {
-          CharacterLiteral node = (CharacterLiteral)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          CharacterLiteral node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -35,7 +35,7 @@ public class CharacterLiteral extends Literal implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public CharacterLiteral fullCopy() {
-        CharacterLiteral res = (CharacterLiteral)copy();
+        CharacterLiteral res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -77,7 +77,7 @@ public class CharacterLiteral extends Literal implements Cloneable {
 
 
     // Declared in java.ast line 130
-    public CharacterLiteral(beaver.Symbol p0) {
+    public CharacterLiteral(jastadd.beaver.Symbol p0) {
         setLITERAL(p0);
     }
 
@@ -102,7 +102,7 @@ public class CharacterLiteral extends Literal implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setLITERAL(beaver.Symbol symbol) {
+    public void setLITERAL(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setLITERAL is only valid for String lexemes");
         tokenString_LITERAL = (String)symbol.value;

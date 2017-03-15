@@ -25,6 +25,7 @@
 
 package soot.tagkit;
 import soot.*;
+import soot.singletons.Singletons;
 
 /** Utility functions for tags. */
 public class TagManager

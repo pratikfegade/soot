@@ -25,10 +25,11 @@
 
 
 package soot.jimple.toolkits.graph;
-import soot.options.*;
+import soot.options.Options;
 
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 import java.util.*;
 
@@ -140,7 +141,7 @@ public class CriticalEdgeRemover extends BodyTransformer {
     {
       Iterator<Unit> unitIt = unitChain.snapshotIterator();
       while (unitIt.hasNext()) {
-        Unit currentUnit = (Unit)unitIt.next();
+        Unit currentUnit = unitIt.next();
 
         Iterator<UnitBox> succsIt = currentUnit.getUnitBoxes().iterator();
         while (succsIt.hasNext()) {

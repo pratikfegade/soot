@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -29,8 +29,8 @@ public class ParameterDeclaration extends ASTNode<ASTNode> implements Cloneable,
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration copy() {
       try {
-          ParameterDeclaration node = (ParameterDeclaration)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ParameterDeclaration node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -38,7 +38,7 @@ public class ParameterDeclaration extends ASTNode<ASTNode> implements Cloneable,
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration fullCopy() {
-        ParameterDeclaration res = (ParameterDeclaration)copy();
+        ParameterDeclaration res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -162,7 +162,7 @@ public class ParameterDeclaration extends ASTNode<ASTNode> implements Cloneable,
 
 
     // Declared in java.ast line 84
-    public ParameterDeclaration(Modifiers p0, Access p1, beaver.Symbol p2) {
+    public ParameterDeclaration(Modifiers p0, Access p1, jastadd.beaver.Symbol p2) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -239,7 +239,7 @@ public class ParameterDeclaration extends ASTNode<ASTNode> implements Cloneable,
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;

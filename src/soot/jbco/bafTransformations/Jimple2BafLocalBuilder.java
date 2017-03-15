@@ -69,7 +69,7 @@ public class Jimple2BafLocalBuilder extends BodyTransformer implements IJbcoTran
       Local jl = jlocIt.next();
       Iterator<Local> blocIt = bLocals.iterator();
       while (blocIt.hasNext()) {
-        Local bl = (Local) blocIt.next();
+        Local bl = blocIt.next();
         if (bl.getName().equals(jl.getName())) {
           bafToJLocals.put(bl, jl);
           break;

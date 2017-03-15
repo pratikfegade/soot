@@ -26,7 +26,7 @@
 
 
 package soot.jimple;
-import soot.options.*;
+import soot.options.Options;
 import soot.*;
 import soot.jimple.internal.*;
 import soot.tagkit.LineNumberTag;
@@ -186,7 +186,7 @@ public class JasminClass extends AbstractJasminClass
                 for(int i = 0; i < paramTypes.size(); i++)
                 {
                     paramSlots[i] = localCount;
-                    localCount += sizeOfType((Type) paramTypes.get(i));
+                    localCount += sizeOfType(paramTypes.get(i));
                 }
             }
 
@@ -757,7 +757,7 @@ public class JasminClass extends AbstractJasminClass
 
         final Value op1 = ((BinopExpr) cond).getOp1();
         final Value op2 = ((BinopExpr) cond).getOp2();
-        final String label = (String) unitToLabel.get(stmt.getTarget());
+        final String label = unitToLabel.get(stmt.getTarget());
 
         // Handle simple subcase where op1 is null
             if(op2 instanceof NullConstant || op1 instanceof NullConstant)
@@ -1261,7 +1261,7 @@ public class JasminClass extends AbstractJasminClass
             {
                 emitValue(s.getInvokeExpr());
 
-                Type returnType = ((InvokeExpr) s.getInvokeExpr()).getMethodRef().returnType();
+                Type returnType = s.getInvokeExpr().getMethodRef().returnType();
 
                 if(!returnType.equals(VoidType.v()))
                 {

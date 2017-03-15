@@ -24,9 +24,10 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import soot.options.*;
+import soot.options.Options;
 import soot.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.*;
 
 import java.util.*;
@@ -54,7 +55,7 @@ public class ClassFieldAnalysis
      
 	/* Summerize class information here. */
 	Date start = new Date();
- 	if (Options.v().verbose()) 
+ 	if (Options.v().verbose())
 	    G.v().out.println("[] ClassFieldAnalysis started on : "
 			       +start+" for "
 			       +c.getPackageName()+c.getName());

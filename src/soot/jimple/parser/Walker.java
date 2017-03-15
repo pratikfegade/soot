@@ -75,8 +75,8 @@ import soot.jimple.NullConstant;
 import soot.jimple.Stmt;
 import soot.jimple.StringConstant;
 import soot.jimple.UnopExpr;
-import soot.jimple.parser.analysis.DepthFirstAdapter;
-import soot.jimple.parser.node.*;
+import sablecc.soot.jimple.parser.analysis.DepthFirstAdapter;
+import sablecc.soot.jimple.parser.node.*;
 import soot.util.StringTools;
 
 /*Modified By Marc Berndl 17th May */

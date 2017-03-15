@@ -239,7 +239,7 @@ public class PAG implements PointsToAnalysis {
 					"The alias edge propagator does not compute points-to information for instance fields! Use a different propagator.");
 		}
 		PointsToSetInternal bases = (PointsToSetInternal) s;
-		final PointsToSetInternal ret = setFactory.newSet((f instanceof SootField) ? ((SootField) f).getType() : null,
+		final PointsToSetInternal ret = setFactory.newSet((f instanceof SootField) ? f.getType() : null,
 				this);
 		bases.forall(new P2SetVisitor() {
 			public final void visit(Node n) {

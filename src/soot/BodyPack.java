@@ -27,8 +27,9 @@
 package soot;
 
 import java.util.*;
+
+import soot.options.Options;
 import soot.toolkits.graph.interaction.*;
-import soot.options.*;
 
 /** A wrapper object for a pack of optimizations.
  * Provides chain-like operations, except that the key is the phase name. */

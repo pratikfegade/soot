@@ -25,6 +25,7 @@
 
 
 package soot;
+import soot.singletons.Singletons;
 import soot.util.*;
 
 /** Represents the Java void type. */

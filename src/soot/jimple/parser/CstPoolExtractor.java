@@ -28,8 +28,8 @@ package soot.jimple.parser;
 
 import soot.util.*;
 
-import soot.jimple.parser.node.*;
-import soot.jimple.parser.analysis.*;
+import sablecc.soot.jimple.parser.node.*;
+import sablecc.soot.jimple.parser.analysis.*;
 
 import java.util.*;
 

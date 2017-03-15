@@ -34,6 +34,6 @@ import soot.util.*;
 
 public interface CaughtExceptionRef extends IdentityRef
 {
-    public Type getType();
-    public void apply(Switch sw);
+    Type getType();
+    void apply(Switch sw);
 }

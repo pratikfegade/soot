@@ -7,7 +7,7 @@
  * All rights reserved.
  */
 
-package soot.JastAddJ;
+package jastadd.soot.JastAddJ;
 import java.io.*;
 
 public class Unicode extends FilterReader {

@@ -75,10 +75,8 @@ public class AccessManager
 
             // protected means that you can be accessed by your children.
             // i.e. container must be in a child of target.
-            if (h.isClassSuperclassOfIncluding(targetClass, containerClass))
-                return true;
+            return h.isClassSuperclassOfIncluding(targetClass, containerClass);
 
-            return false;
         }
 
         return true;        

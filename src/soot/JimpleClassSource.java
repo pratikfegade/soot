@@ -19,9 +19,9 @@
 
 package soot;
 import soot.SourceLocator.FoundFile;
-import soot.jimple.parser.lexer.LexerException;
-import soot.jimple.parser.parser.ParserException;
-import soot.options.*;
+import sablecc.soot.jimple.parser.lexer.LexerException;
+import sablecc.soot.jimple.parser.parser.ParserException;
+import soot.options.Options;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.jimple.*;
 

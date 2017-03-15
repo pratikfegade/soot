@@ -87,8 +87,7 @@ public class FastHierarchy
         boolean isSubrange( Interval potentialSubrange ) {
         	if (potentialSubrange == null) return false;
             if( lower > potentialSubrange.lower ) return false;
-            if( upper < potentialSubrange.upper ) return false;
-            return true;
+            return upper >= potentialSubrange.upper;
         }
     }
     protected int dfsVisit( int start, SootClass c ) {
@@ -180,7 +179,7 @@ public class FastHierarchy
      * */
     public Set<SootClass> getAllSubinterfaces( SootClass parent ) {
         parent.checkLevel(SootClass.HIERARCHY);
-        if (!parent.isInterface()) return Collections.<SootClass>emptySet();
+        if (!parent.isInterface()) return Collections.emptySet();
         if( !interfaceToAllSubinterfaces.containsKey( parent ) ) {
             interfaceToAllSubinterfaces.put( parent, parent );
             for(SootClass si : interfaceToSubinterfaces.get( parent )) {
@@ -229,7 +228,7 @@ public class FastHierarchy
                 else worklist.add(base);
                 Set<SootClass> workset = new HashSet<SootClass>();
                 while(!worklist.isEmpty()) {
-                    SootClass cl = (SootClass) worklist.removeFirst();
+                    SootClass cl = worklist.removeFirst();
                     if( !workset.add(cl) ) continue;
                     if( cl.isConcrete() 
                     &&  canStoreClass(cl, parentClass) ) return true;
@@ -261,9 +260,7 @@ public class FastHierarchy
                     return true;
                 if( aparent.baseType.equals( RefType.v( "java.io.Serializable" ) ) )
                     return true;
-                if( aparent.baseType.equals( RefType.v( "java.lang.Cloneable" ) ) )
-                    return true;
-                return false;
+                return aparent.baseType.equals(RefType.v("java.lang.Cloneable"));
             } else return false;
         } else
         	return false;
@@ -310,7 +307,7 @@ public class FastHierarchy
                 HashSet<SootClass> s = new HashSet<SootClass>();
                 s.add( declaringClass );
                 while( !s.isEmpty() ) {
-                    SootClass c = (SootClass) s.iterator().next();
+                    SootClass c = s.iterator().next();
                     s.remove( c );
                     if( !c.isInterface() && !c.isAbstract()
                             && canStoreClass( c, declaringClass ) ) {
@@ -366,7 +363,7 @@ public class FastHierarchy
                 HashSet<SootClass> s = new HashSet<SootClass>();
                 s.add( declaringClass );
                 while( !s.isEmpty() ) {
-                    SootClass c = (SootClass) s.iterator().next();
+                    SootClass c = s.iterator().next();
                     s.remove( c );
                     if( !c.isInterface() && !c.isAbstract()
                             && canStoreClass( c, declaringClass ) ) {
@@ -430,7 +427,7 @@ public class FastHierarchy
         LinkedList<SootClass> worklist = new LinkedList<SootClass>();
         worklist.add( abstractType );
         while( !worklist.isEmpty() ) {
-            SootClass concreteType = (SootClass) worklist.removeFirst();
+            SootClass concreteType = worklist.removeFirst();
             SootClass savedConcreteType = concreteType;
             if( concreteType.isInterface() ) {
                 worklist.addAll( getAllImplementersOfInterface( concreteType ) );

@@ -34,9 +34,9 @@ import java.util.*;
 
 public interface TableSwitchStmt extends SwitchStmt
 {
-    public void setLowIndex(int lowIndex);
-    public void setHighIndex(int highIndex);
-    public int getLowIndex();
-    public int getHighIndex();
-    public void setTargets(List<? extends Unit> targets);
+    void setLowIndex(int lowIndex);
+    void setHighIndex(int highIndex);
+    int getLowIndex();
+    int getHighIndex();
+    void setTargets(List<? extends Unit> targets);
 }

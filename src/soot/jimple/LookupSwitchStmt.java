@@ -34,10 +34,10 @@ import java.util.*;
 
 public interface LookupSwitchStmt extends SwitchStmt
 {
-    public void setLookupValues(List<IntConstant> lookupValues);
-    public void setLookupValue(int index, int value);
-    public int getLookupValue(int index);
-    public List<IntConstant> getLookupValues();
-    public int getTargetCount();
-    public void setTargets(Unit[] targets);
+    void setLookupValues(List<IntConstant> lookupValues);
+    void setLookupValue(int index, int value);
+    int getLookupValue(int index);
+    List<IntConstant> getLookupValues();
+    int getTargetCount();
+    void setTargets(Unit[] targets);
 }

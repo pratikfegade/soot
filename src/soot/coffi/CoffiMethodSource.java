@@ -25,7 +25,7 @@
 
 
 package soot.coffi;
-import soot.options.*;
+import soot.options.Options;
 
 import soot.*;
 import java.util.*;

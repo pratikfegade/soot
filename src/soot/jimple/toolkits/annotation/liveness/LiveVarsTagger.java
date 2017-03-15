@@ -20,6 +20,7 @@
 package soot.jimple.toolkits.annotation.liveness;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.*;
 import soot.toolkits.graph.*;
 import soot.tagkit.*;

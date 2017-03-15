@@ -28,28 +28,28 @@ import heros.solver.Pair;
  */
 
 public interface MultiMap<K,V> extends Iterable<Pair<K, V>> {
-    public boolean isEmpty();
-    public int numKeys();
-    public boolean contains( K key, V value );
-    public boolean containsKey( K key );
-    public boolean containsValue( V value );
-    public boolean put( K key, V value );
-    public boolean putAll( K key, Set<V> values );
-    public boolean putAll( Map<K,Set<V>> m );
-    public boolean putAll( MultiMap<K,V> m );
-    public boolean remove( K key, V value );
-    public boolean remove( K key );
-    public boolean removeAll( K key, Set<V> values );
-    public Set<V> get( K o );
-    public Set<K> keySet();
-    public Set<V> values();
-    public boolean equals( Object o );
-    public int hashCode();
+    boolean isEmpty();
+    int numKeys();
+    boolean contains(K key, V value);
+    boolean containsKey(K key);
+    boolean containsValue(V value);
+    boolean put(K key, V value);
+    boolean putAll(K key, Set<V> values);
+    boolean putAll(Map<K, Set<V>> m);
+    boolean putAll(MultiMap<K, V> m);
+    boolean remove(K key, V value);
+    boolean remove(K key);
+    boolean removeAll(K key, Set<V> values);
+    Set<V> get(K o);
+    Set<K> keySet();
+    Set<V> values();
+    boolean equals(Object o);
+    int hashCode();
     
     /**
      * Gets the number of keys in this MultiMap
      * @return The number of keys in this MultiMap
      */
-    public int size();
-	public void clear();
+    int size();
+	void clear();
 }

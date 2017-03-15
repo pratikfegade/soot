@@ -27,9 +27,9 @@
 package soot.jimple.parser;
 
 import soot.jimple.JimpleBody;
-import soot.jimple.parser.parser.*;
-import soot.jimple.parser.lexer.*;
-import soot.jimple.parser.node.*;
+import sablecc.soot.jimple.parser.parser.*;
+import sablecc.soot.jimple.parser.lexer.*;
+import sablecc.soot.jimple.parser.node.*;
 import java.io.*;
 import soot.util.*;
 import java.util.*;

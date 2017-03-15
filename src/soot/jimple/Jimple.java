@@ -27,6 +27,7 @@ package soot.jimple;
 
 import soot.*;
 import soot.jimple.internal.*;
+import soot.singletons.Singletons;
 
 import java.util.*;
 
@@ -354,7 +355,7 @@ public class Jimple {
 	}
 	
 	public StaticInvokeExpr newStaticInvokeExpr(SootMethodRef method) {
-		return newStaticInvokeExpr(method, Collections.<Value>emptyList());
+		return newStaticInvokeExpr(method, Collections.emptyList());
 	}
 
 	
@@ -377,12 +378,12 @@ public class Jimple {
 	}
 
 	public SpecialInvokeExpr newSpecialInvokeExpr(Local base, SootMethodRef method, Value arg) {
-		return newSpecialInvokeExpr(base, method, Collections.<Value>singletonList(arg));
+		return newSpecialInvokeExpr(base, method, Collections.singletonList(arg));
 	}
 	
 	public SpecialInvokeExpr newSpecialInvokeExpr(Local base,
 			SootMethodRef method) {
-		return newSpecialInvokeExpr(base, method, Collections.<Value>emptyList());
+		return newSpecialInvokeExpr(base, method, Collections.emptyList());
 	}
 	
 	/**
@@ -429,12 +430,12 @@ public class Jimple {
 	}
 	
 	public VirtualInvokeExpr newVirtualInvokeExpr(Local base, SootMethodRef method, Value arg) {
-		return newVirtualInvokeExpr(base, method, Collections.<Value>singletonList(arg));
+		return newVirtualInvokeExpr(base, method, Collections.singletonList(arg));
 	}
 	
 	public VirtualInvokeExpr newVirtualInvokeExpr(Local base,
 			SootMethodRef method) {
-		return newVirtualInvokeExpr(base, method, Collections.<Value>emptyList());
+		return newVirtualInvokeExpr(base, method, Collections.emptyList());
 	}
 	
 	/**
@@ -456,12 +457,12 @@ public class Jimple {
 	}
 	
 	public InterfaceInvokeExpr newInterfaceInvokeExpr(Local base, SootMethodRef method, Value arg) {
-		return newInterfaceInvokeExpr(base, method, Collections.<Value>singletonList(arg));
+		return newInterfaceInvokeExpr(base, method, Collections.singletonList(arg));
 	}
 	
 	public InterfaceInvokeExpr newInterfaceInvokeExpr(Local base,
 			SootMethodRef method) {
-		return newInterfaceInvokeExpr(base, method, Collections.<Value>emptyList());
+		return newInterfaceInvokeExpr(base, method, Collections.emptyList());
 	}
 
 	/**

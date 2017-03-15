@@ -148,7 +148,7 @@ public class JArrayRef implements ArrayRef, ConvertToBaf
         	if (type instanceof ArrayType)
         		arrayType = (ArrayType) type;
         	else
-        		arrayType = (ArrayType) type.makeArrayType();
+        		arrayType = type.makeArrayType();
 
             if(arrayType.numDimensions == 1)
                 return arrayType.baseType;

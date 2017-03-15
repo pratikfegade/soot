@@ -70,7 +70,7 @@ public final class BitPointsToSet extends PointsToSetInternal {
     /** Calls v's visit method on all nodes in this set. */
     public final boolean forall( P2SetVisitor v ) {
         for( BitSetIterator it = bits.iterator(); it.hasNext(); ) {
-            v.visit( (Node) pag.getAllocNodeNumberer().get( it.next() ) );
+            v.visit(pag.getAllocNodeNumberer().get( it.next() ));
         }
         return v.getReturnValue();
     }

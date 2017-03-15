@@ -98,13 +98,13 @@ public class BooleanConditionSimplification extends DepthFirstAdapter{
 	    if(op1 instanceof DIntConstant){
 		Type op1Type = ((DIntConstant)op1).type;
 		if( op1Type instanceof BooleanType){
-		    return decideCondition(op2,((DIntConstant)op1).toString(),condition);
+		    return decideCondition(op2, op1.toString(),condition);
 		}
 	    }
 	    else if(op2 instanceof DIntConstant){
 		Type op2Type = ((DIntConstant)op2).type;
 		if( op2Type instanceof BooleanType){
-		    return decideCondition(op1,((DIntConstant)op2).toString(),condition);
+		    return decideCondition(op1, op2.toString(),condition);
 		}
 	    }
 	    

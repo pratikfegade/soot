@@ -39,6 +39,7 @@ import java.util.Date;
 
 import soot.options.CGOptions;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.toolkits.astmetrics.ClassData;
 
 import com.google.common.base.Joiner;

@@ -601,7 +601,7 @@ public class DalvikTyper implements IDalvikTyper {
 		            Constant cst = (Constant)r;
 		            if (!localTyped.containsKey(l))
 		                continue;
-		            Type lt = localTyped.get((Local)l);
+		            Type lt = localTyped.get(l);
 					Debug.printDbg(IDalvikTyper.DEBUG, "would like to set type ", lt, " to constant: ", c);
 		            Value newValue = null;
 		            if (lt instanceof IntType

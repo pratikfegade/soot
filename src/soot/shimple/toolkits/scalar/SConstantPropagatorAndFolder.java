@@ -20,8 +20,9 @@
 package soot.shimple.toolkits.scalar;
 
 import soot.*;
+import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.util.*;
-import soot.options.*;
 import soot.jimple.*;
 import soot.shimple.*;
 import soot.toolkits.scalar.*;
@@ -272,7 +273,7 @@ class SCPFAnalysis extends ForwardBranchedFlowAnalysis
             localToConstant = new HashMap<Local, Constant>(graph.size() * 2 + 1, 0.7f);
 
             while(localsIt.hasNext()){
-                Local local = (Local) localsIt.next();
+                Local local = localsIt.next();
                 localToConstant.put(local, TopConstant.v());
             }
         }
@@ -296,7 +297,7 @@ class SCPFAnalysis extends ForwardBranchedFlowAnalysis
      **/
     protected Object entryInitialFlow()
     {
-        FlowSet entrySet = (FlowSet) emptySet.emptySet();
+        FlowSet entrySet = emptySet.emptySet();
         entrySet.add(TopConstant.v());
         return entrySet;
     }

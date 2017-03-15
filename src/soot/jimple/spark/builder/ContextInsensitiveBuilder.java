@@ -30,8 +30,8 @@ import java.util.*;
 import soot.jimple.spark.geom.geomPA.GeomPointsTo;
 import soot.jimple.spark.internal.*;
 import soot.jimple.spark.solver.OnFlyCallGraph;
+import soot.options.SparkOptions;
 import soot.util.queue.*;
-import soot.options.*;
 
 /**
  * A context insensitive pointer assignment graph builder.

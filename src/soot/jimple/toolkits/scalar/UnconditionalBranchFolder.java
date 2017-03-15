@@ -26,8 +26,9 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
+import soot.options.Options;
 
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.*;
 import soot.jimple.*;
@@ -49,7 +50,7 @@ public class UnconditionalBranchFolder extends BodyTransformer
     {
         StmtBody body = (StmtBody)b;
 
-        if (Options.v().verbose()) 
+        if (Options.v().verbose())
             G.v().out.println("[" + body.getMethod().getName() + "] Folding unconditional branches...");
 
 

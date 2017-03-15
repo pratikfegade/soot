@@ -88,8 +88,7 @@ public class ExceptionChecker extends BodyTransformer{
 
     // is the throw created by the compiler
     protected boolean isThrowFromCompiler(ThrowStmt ts){
-        if (ts.hasTag("ThrowCreatedByCompilerTag")) return true;
-        return false;
+        return ts.hasTag("ThrowCreatedByCompilerTag");
     }
 
     // is the throw caught inside the method

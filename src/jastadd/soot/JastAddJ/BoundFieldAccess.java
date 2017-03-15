@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 // Explicitly bound access that bypasses name binding
@@ -24,8 +24,8 @@ public class BoundFieldAccess extends VarAccess implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public BoundFieldAccess copy() {
       try {
-          BoundFieldAccess node = (BoundFieldAccess)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          BoundFieldAccess node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -33,7 +33,7 @@ public class BoundFieldAccess extends VarAccess implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public BoundFieldAccess fullCopy() {
-        BoundFieldAccess res = (BoundFieldAccess)copy();
+        BoundFieldAccess res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -76,7 +76,7 @@ public class BoundFieldAccess extends VarAccess implements Cloneable {
 
 
     // Declared in BoundNames.ast line 6
-    public BoundFieldAccess(beaver.Symbol p0, FieldDeclaration p1) {
+    public BoundFieldAccess(jastadd.beaver.Symbol p0, FieldDeclaration p1) {
         setID(p0);
         setFieldDeclaration(p1);
     }
@@ -102,7 +102,7 @@ public class BoundFieldAccess extends VarAccess implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;

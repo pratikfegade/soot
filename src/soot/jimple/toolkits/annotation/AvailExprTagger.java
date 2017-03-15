@@ -20,9 +20,11 @@
 package soot.jimple.toolkits.annotation;
 import soot.*;
 import java.util.*;
+
+import soot.options.AETOptions;
+import soot.singletons.Singletons;
 import soot.toolkits.graph.*;
 import soot.jimple.*;
-import soot.options.*;
 import soot.jimple.toolkits.pointer.*;
 import soot.jimple.toolkits.scalar.*;
 

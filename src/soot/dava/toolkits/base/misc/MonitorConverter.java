@@ -26,6 +26,7 @@ import soot.jimple.*;
 import soot.grimp.internal.*;
 import soot.dava.internal.asg.*;
 import soot.dava.internal.javaRep.*;
+import soot.singletons.Singletons;
 
 public class MonitorConverter
 {

@@ -20,6 +20,7 @@
 package soot.jimple.toolkits.annotation.defs;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.*;
 import soot.tagkit.*;
 

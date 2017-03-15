@@ -32,7 +32,7 @@ import soot.BodyTransformer;
 import soot.DoubleType;
 import soot.FloatType;
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.Unit;
 import soot.jimple.AssignStmt;
 import soot.jimple.CastExpr;

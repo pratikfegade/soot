@@ -27,11 +27,11 @@ import soot.toolkits.scalar.*;
  **/
 public interface PiExpr extends ShimpleExpr
 {
-    public ValueUnitPair getArgBox();
-    public Value getValue();
-    public Unit getCondStmt();
-    public Object getTargetKey();
-    public void setValue(Value v);
-    public void setCondStmt(Unit cs);
-    public void setTargetKey(Object targetKey);
+    ValueUnitPair getArgBox();
+    Value getValue();
+    Unit getCondStmt();
+    Object getTargetKey();
+    void setValue(Value v);
+    void setCondStmt(Unit cs);
+    void setTargetKey(Object targetKey);
 }

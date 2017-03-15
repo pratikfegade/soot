@@ -49,10 +49,7 @@ public abstract class ASTAggregatedCondition extends ASTCondition{
      }
 
     public void flip(){
-	if(not)
-	    not=false;
-	else
-	    not=true;
+        not = !not;
     }
 
     public boolean isNotted(){

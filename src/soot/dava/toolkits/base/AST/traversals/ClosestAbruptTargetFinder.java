@@ -34,6 +34,7 @@ import soot.dava.internal.javaRep.*;
 import soot.dava.internal.AST.*;
 import soot.dava.internal.SET.*;
 import soot.dava.toolkits.base.AST.analysis.*;
+import soot.singletons.Singletons;
 
 
 /**

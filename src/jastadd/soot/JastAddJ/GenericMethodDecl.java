@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 public class GenericMethodDecl extends MethodDecl implements Cloneable {
     public void flushCache() {
@@ -27,8 +27,8 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public GenericMethodDecl copy() {
       try {
-          GenericMethodDecl node = (GenericMethodDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          GenericMethodDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -36,7 +36,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public GenericMethodDecl fullCopy() {
-        GenericMethodDecl res = (GenericMethodDecl)copy();
+        GenericMethodDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -61,7 +61,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
         list.add(((TypeDecl)iter.next()).createBoundAccess());
     }
     methodDecl.setTypeArgumentList(list);
-    methodDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    methodDecl.setModifiers(getModifiers().fullCopy());
     methodDecl.setTypeAccess(getTypeAccess().type().substituteReturnType(methodDecl));
     methodDecl.setID(getID());
     methodDecl.setParameterList(getParameterList().substitute(methodDecl));
@@ -124,13 +124,13 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
   public BodyDecl p(Parameterization parTypeDecl) {
     //System.out.println("Begin substituting generic " + signature() + " in " + hostType().typeName() + " with " + parTypeDecl.typeSignature());
     GenericMethodDecl m = new GenericMethodDecl(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getTypeAccess().type().substituteReturnType(parTypeDecl),
       getID(),
       getParameterList().substitute(parTypeDecl),
       getExceptionList().substitute(parTypeDecl),
       new Opt(),
-      (List)getTypeParameterList().fullCopy()
+            getTypeParameterList().fullCopy()
     );
     m.original = this;
     //System.out.println("End substituting generic " + signature());
@@ -174,7 +174,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
 
 
     // Declared in GenericMethods.ast line 1
-    public GenericMethodDecl(Modifiers p0, Access p1, beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5, List<TypeVariable> p6) {
+    public GenericMethodDecl(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5, List<TypeVariable> p6) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -244,7 +244,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -275,7 +275,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration getParameter(int i) {
-        return (ParameterDeclaration)getParameterList().getChild(i);
+        return getParameterList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -347,7 +347,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getException(int i) {
-        return (Access)getExceptionList().getChild(i);
+        return getExceptionList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -419,7 +419,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Block getBlock() {
-        return (Block)getBlockOpt().getChild(0);
+        return getBlockOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -459,7 +459,7 @@ public class GenericMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public TypeVariable getTypeParameter(int i) {
-        return (TypeVariable)getTypeParameterList().getChild(i);
+        return getTypeParameterList().getChild(i);
     }
 
     // Declared in GenericMethods.ast at line 14

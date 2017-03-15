@@ -26,6 +26,8 @@
 
 package soot.coffi;
 import soot.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /** Provides sharing for Utf8_info string objects 

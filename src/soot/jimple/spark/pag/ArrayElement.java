@@ -21,7 +21,7 @@ package soot.jimple.spark.pag;
 import soot.G;
 import soot.RefType;
 import soot.Scene;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.Type;
 
 /** Represents an array element.

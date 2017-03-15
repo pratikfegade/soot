@@ -21,8 +21,9 @@ package soot.shimple.internal;
 
 import soot.*;
 import java.util.*;
+
+import soot.options.ShimpleOptions;
 import soot.shimple.*;
-import soot.options.*;
 import soot.jimple.*;
 import soot.jimple.internal.*;
 import soot.jimple.toolkits.base.*;

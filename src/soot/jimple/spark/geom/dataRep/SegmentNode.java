@@ -60,14 +60,12 @@ public class SegmentNode implements Comparable<SegmentNode> {
 	{
 		if ( other instanceof RectangleNode )
 			return false;
-		
-		if ( I1 == other.I1 &&
-				I2 == other.I2 &&
-				L == other.L )
-			return true;
-		
-		return false;
-	}
+
+        return I1 == other.I1 &&
+                I2 == other.I2 &&
+                L == other.L;
+
+    }
 
 	// Should never be called! But if it is, let's make it a performance problem, not a correctness one!
 	@Override

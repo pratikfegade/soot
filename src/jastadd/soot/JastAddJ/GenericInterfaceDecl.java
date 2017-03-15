@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, GenericTypeDecl {
@@ -40,8 +40,8 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
     }
      @SuppressWarnings({"unchecked", "cast"})  public GenericInterfaceDecl copy() {
       try {
-          GenericInterfaceDecl node = (GenericInterfaceDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          GenericInterfaceDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -49,7 +49,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public GenericInterfaceDecl fullCopy() {
-        GenericInterfaceDecl res = (GenericInterfaceDecl)copy();
+        GenericInterfaceDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -69,7 +69,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
 
   public InterfaceDecl p(Parameterization parTypeDecl) {
     GenericInterfaceDecl c = new GenericInterfaceDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       getSuperInterfaceIdList().substitute(parTypeDecl),
       new List(),
@@ -158,7 +158,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
 
 
     // Declared in Generics.ast line 3
-    public GenericInterfaceDecl(Modifiers p0, beaver.Symbol p1, List<Access> p2, List<BodyDecl> p3, List<TypeVariable> p4) {
+    public GenericInterfaceDecl(Modifiers p0, jastadd.beaver.Symbol p1, List<Access> p2, List<BodyDecl> p3, List<TypeVariable> p4) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -207,7 +207,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
 
     // Declared in Generics.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -238,7 +238,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getSuperInterfaceId(int i) {
-        return (Access)getSuperInterfaceIdList().getChild(i);
+        return getSuperInterfaceIdList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -310,7 +310,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
 
 
      @SuppressWarnings({"unchecked", "cast"})  public BodyDecl getBodyDecl(int i) {
-        return (BodyDecl)getBodyDeclList().getChild(i);
+        return getBodyDeclList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -382,7 +382,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
 
 
      @SuppressWarnings({"unchecked", "cast"})  public TypeVariable getTypeParameter(int i) {
-        return (TypeVariable)getTypeParameterList().getChild(i);
+        return getTypeParameterList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -510,7 +510,7 @@ public class GenericInterfaceDecl extends InterfaceDecl implements Cloneable, Ge
     // Declared in Generics.jrag at line 213
 
   public TypeDecl makeGeneric(Signatures.ClassSignature s) {
-    return (TypeDecl)this;
+    return this;
   }
 
     // Declared in Generics.jrag at line 460
@@ -596,12 +596,12 @@ if(lookupParTypeDecl_ParTypeAccess_values == null) lookupParTypeDecl_ParTypeAcce
 
     private TypeDecl lookupParTypeDecl_compute(ParTypeAccess p) {
     for(int i = 0; i < getNumParTypeDecl(); i++) {
-      ParTypeDecl decl = (ParTypeDecl)getParTypeDecl(i);
+      ParTypeDecl decl = getParTypeDecl(i);
       if(!decl.isRawType() && decl.sameSignature(p))
         return (TypeDecl)decl;
     }
     ParInterfaceDecl typeDecl = new ParInterfaceDecl();
-    typeDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    typeDecl.setModifiers(getModifiers().fullCopy());
     typeDecl.setID(getID());
     addParTypeDecl(typeDecl);
     List list = new List();
@@ -631,12 +631,12 @@ if(lookupParTypeDecl_ArrayList_values == null) lookupParTypeDecl_ArrayList_value
 
     private TypeDecl lookupParTypeDecl_compute(ArrayList list) {
     for(int i = 0; i < getNumParTypeDecl(); i++) {
-      ParTypeDecl decl = (ParTypeDecl)getParTypeDecl(i);
+      ParTypeDecl decl = getParTypeDecl(i);
       if(decl.isRawType() ? list.isEmpty() : (!list.isEmpty() && decl.sameSignature(list)))
         return (TypeDecl)decl;
     }
     ParInterfaceDecl typeDecl = list.size() == 0 ? new RawInterfaceDecl() : new ParInterfaceDecl();
-    typeDecl.setModifiers((Modifiers)getModifiers().fullCopy());
+    typeDecl.setModifiers(getModifiers().fullCopy());
     typeDecl.setID(getID());
     addParTypeDecl(typeDecl);
     typeDecl.setArgumentList(createArgumentList(list));

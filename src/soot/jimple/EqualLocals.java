@@ -34,8 +34,8 @@ import java.util.*;
 
 public interface EqualLocals
 {
-    public boolean isLocalEqualToAt(Local l1, Local l2, Stmt s);
-    public List getCopiesAt(Stmt s);
+    boolean isLocalEqualToAt(Local l1, Local l2, Stmt s);
+    List getCopiesAt(Stmt s);
     
 } 
 

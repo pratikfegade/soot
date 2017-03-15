@@ -22,6 +22,8 @@ package soot.dava.toolkits.base.misc;
 import soot.*;
 import java.io.*;
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.dava.*;
 import java.util.jar.*;

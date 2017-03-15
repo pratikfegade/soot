@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 // parameterized type access
@@ -24,8 +24,8 @@ public class ParTypeAccess extends Access implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParTypeAccess copy() {
       try {
-          ParTypeAccess node = (ParTypeAccess)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ParTypeAccess node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -33,7 +33,7 @@ public class ParTypeAccess extends Access implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParTypeAccess fullCopy() {
-        ParTypeAccess res = (ParTypeAccess)copy();
+        ParTypeAccess res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -160,7 +160,7 @@ public class ParTypeAccess extends Access implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getTypeArgument(int i) {
-        return (Access)getTypeArgumentList().getChild(i);
+        return getTypeArgumentList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14

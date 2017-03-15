@@ -107,7 +107,6 @@ public class PosColorAttribute{
     }
 
     public boolean hasColor(){
-        if (color() != null) return true;
-        else return false;
+        return color() != null;
     }
 }

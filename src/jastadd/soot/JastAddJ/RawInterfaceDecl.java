@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class RawInterfaceDecl extends ParInterfaceDecl implements Cloneable {
@@ -22,8 +22,8 @@ public class RawInterfaceDecl extends ParInterfaceDecl implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public RawInterfaceDecl copy() {
       try {
-          RawInterfaceDecl node = (RawInterfaceDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          RawInterfaceDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -31,7 +31,7 @@ public class RawInterfaceDecl extends ParInterfaceDecl implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public RawInterfaceDecl fullCopy() {
-        RawInterfaceDecl res = (RawInterfaceDecl)copy();
+        RawInterfaceDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -79,7 +79,7 @@ public class RawInterfaceDecl extends ParInterfaceDecl implements Cloneable {
 
 
     // Declared in Generics.ast line 10
-    public RawInterfaceDecl(Modifiers p0, beaver.Symbol p1, List<Access> p2) {
+    public RawInterfaceDecl(Modifiers p0, jastadd.beaver.Symbol p1, List<Access> p2) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -127,7 +127,7 @@ public class RawInterfaceDecl extends ParInterfaceDecl implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -158,7 +158,7 @@ public class RawInterfaceDecl extends ParInterfaceDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getArgument(int i) {
-        return (Access)getArgumentList().getChild(i);
+        return getArgumentList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14

@@ -33,7 +33,7 @@ import soot.*;
 
 public interface MonitorStmt extends Stmt
 {
-    public Value getOp();
-    public void setOp(Value op);
-    public ValueBox getOpBox();
+    Value getOp();
+    void setOp(Value op);
+    ValueBox getOpBox();
 }

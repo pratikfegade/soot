@@ -110,29 +110,29 @@ public class BytecodeHierarchy implements IHierarchy
 	public static Collection<Type> lcas_(Type a, Type b)
 	{
 		if ( TypeResolver.typesEqual(a, b) )
-			return Collections.<Type>singletonList(a);
+			return Collections.singletonList(a);
 		else if ( a instanceof BottomType )
-			return Collections.<Type>singletonList(b);
+			return Collections.singletonList(b);
 		else if ( b instanceof BottomType )
-			return Collections.<Type>singletonList(a);
+			return Collections.singletonList(a);
 		else if ( a instanceof IntegerType && b instanceof IntegerType )
-			return Collections.<Type>singletonList(IntType.v());
+			return Collections.singletonList(IntType.v());
 		
 		// Implicit type widening: Integer+Float -> Float
 		else if ( a instanceof IntegerType && b instanceof FloatType )
-			return Collections.<Type>singletonList(FloatType.v());
+			return Collections.singletonList(FloatType.v());
 		else if ( b instanceof IntegerType && a instanceof FloatType )
-			return Collections.<Type>singletonList(FloatType.v());
+			return Collections.singletonList(FloatType.v());
 		
 		// Disallow type sharing for primitives in general 
 		else if ( a instanceof PrimType || b instanceof PrimType )
-			return Collections.<Type>emptyList();
+			return Collections.emptyList();
 		
 		// Null reference handling
 		else if ( a instanceof NullType )
-			return Collections.<Type>singletonList(b);
+			return Collections.singletonList(b);
 		else if ( b instanceof NullType )
-			return Collections.<Type>singletonList(a);
+			return Collections.singletonList(a);
 		
 		// a and b are both ArrayType or RefType
 		else if ( a instanceof ArrayType && b instanceof ArrayType )
@@ -143,7 +143,7 @@ public class BytecodeHierarchy implements IHierarchy
 			
 			// Primitive arrays are not covariant but all other arrays are
 			if ( eta instanceof PrimType || etb instanceof PrimType )
-				ts = Collections.<Type>emptyList();
+				ts = Collections.emptyList();
 			else
 				ts = lcas_(eta, etb);
 			

@@ -20,6 +20,7 @@
 package soot.jimple.spark.fieldrw;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 
 public class FieldReadTagAggregator extends ImportantTagAggregator

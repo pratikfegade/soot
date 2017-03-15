@@ -87,7 +87,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 		while(useIt.hasNext())
 		{
 			Unit u = useIt.next();
-			FlowSet fs = (FlowSet) getFlowBefore(u);
+			FlowSet fs = getFlowBefore(u);
 			Iterator<Stmt> redefIt = redefStmts.iterator();
 			while(redefIt.hasNext())
 			{
@@ -163,7 +163,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 		Iterator<ValueBox> newDefBoxesIt = stmt.getDefBoxes().iterator();
 		while(newDefBoxesIt.hasNext())
 		{
-			newDefs.add( ((ValueBox) newDefBoxesIt.next()).getValue() );
+			newDefs.add( newDefBoxesIt.next().getValue() );
 		}
 		
 		// check if any locals of interest were redefined here
@@ -249,13 +249,13 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 				{
 					Iterator<Value> newDefsIt = newDefs.iterator();
 					while(newDefsIt.hasNext())
-						aliases.add( new EquivalentValue( (Value) newDefsIt.next() ) );
+						aliases.add( new EquivalentValue(newDefsIt.next()) );
 				}
 				else
 				{
 					Iterator<Value> newDefsIt = newDefs.iterator();
 					while(newDefsIt.hasNext())
-						aliases.remove( new EquivalentValue( (Value) newDefsIt.next() ) );
+						aliases.remove( new EquivalentValue(newDefsIt.next()) );
 				}
 			}
 		}

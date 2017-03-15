@@ -22,6 +22,7 @@ import soot.*;
 
 import java.util.*;
 import soot.dava.internal.AST.*;
+import soot.singletons.Singletons;
 
 public class UselessTryRemover extends ASTAnalysis
 {

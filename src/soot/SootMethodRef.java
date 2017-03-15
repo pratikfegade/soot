@@ -28,17 +28,17 @@ import soot.util.*;
  */
 
 public interface SootMethodRef {
-    public SootClass declaringClass();
-    public String name();
-    public List<Type> parameterTypes();
-    public Type returnType();
-    public boolean isStatic();
+    SootClass declaringClass();
+    String name();
+    List<Type> parameterTypes();
+    Type returnType();
+    boolean isStatic();
 
-    public NumberedString getSubSignature();
+    NumberedString getSubSignature();
 
-    public String getSignature();
+    String getSignature();
 
-    public Type parameterType(int i);
+    Type parameterType(int i);
 
     /**
      * Resolves this method call, i.e., finds the method to which this reference
@@ -46,7 +46,7 @@ public interface SootMethodRef {
      * immediate target, which can also be an abstract method.
      * @return The immediate target if this method reference
      */
-    public SootMethod resolve();
+    SootMethod resolve();
     
     /**
      * Tries to resolve this method call, i.e., tries to finds the method to
@@ -63,6 +63,6 @@ public interface SootMethodRef {
      * @return The immediate target if this method reference if available, null
      * otherwise
      */
-    public SootMethod tryResolve();
+    SootMethod tryResolve();
     
 }

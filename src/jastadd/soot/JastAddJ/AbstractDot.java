@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -29,8 +29,8 @@ public class AbstractDot extends Access implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public AbstractDot copy() {
       try {
-          AbstractDot node = (AbstractDot)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          AbstractDot node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -38,7 +38,7 @@ public class AbstractDot extends Access implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public AbstractDot fullCopy() {
-        AbstractDot res = (AbstractDot)copy();
+        AbstractDot res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -375,7 +375,7 @@ if(isDUafter_Variable_values == null) isDUafter_Variable_values = new java.util.
         return rightSide_value;
     }
 
-    private Access rightSide_compute() {  return getRight/*NoTransform*/() instanceof AbstractDot ? (Access)((AbstractDot)getRight/*NoTransform*/()).getLeft() : (Access)getRight();  }
+    private Access rightSide_compute() {  return getRight/*NoTransform*/() instanceof AbstractDot ? (Access)((AbstractDot)getRight/*NoTransform*/()).getLeft() : getRight();  }
 
     // Declared in ResolveAmbiguousNames.jrag at line 67
  @SuppressWarnings({"unchecked", "cast"})     public Access lastAccess() {

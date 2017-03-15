@@ -20,11 +20,13 @@
 package soot.jimple.toolkits.annotation.parity;
 import soot.*;
 import java.util.*;
+
+import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.toolkits.graph.*;
 import soot.toolkits.scalar.*;
 import soot.tagkit.*;
 import soot.jimple.*;
-import soot.options.*;
 
 /** A body transformer that records parity analysis 
  * information in tags. */

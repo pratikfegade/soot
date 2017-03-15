@@ -111,7 +111,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 	}
 	
 
-	static enum Orderer {
+	enum Orderer {
 		INSTANCE;
 
 		/**

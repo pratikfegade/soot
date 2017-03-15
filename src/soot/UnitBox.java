@@ -37,13 +37,13 @@ import java.io.*;
 public interface UnitBox extends Serializable
 {
     /** Sets this box to contain the given unit.  Subject to canContainValue() checks. */
-    public void setUnit(Unit u);
+    void setUnit(Unit u);
 
     /** Returns the unit contained within this box. */
-    public Unit getUnit();
+    Unit getUnit();
 
     /** Returns true if this box can contain the given Unit. */
-    public boolean canContainUnit(Unit u);   
+    boolean canContainUnit(Unit u);
     
     /**
      * Returns true if the UnitBox is holding a Unit that is the
@@ -54,7 +54,7 @@ public interface UnitBox extends Serializable
      * indicates the end of a CFG block and may require specialised
      * processing for SSA.
      **/
-    public boolean isBranchTarget();
+    boolean isBranchTarget();
 
-    public void toString(UnitPrinter up); 
+    void toString(UnitPrinter up);
 }

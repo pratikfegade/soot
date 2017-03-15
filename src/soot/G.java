@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import soot.singletons.Singletons;
 import soot.coffi.Utf8_Enumeration;
 import soot.dava.internal.SET.SETBasicBlock;
 import soot.dava.internal.SET.SETNode;
@@ -49,12 +50,12 @@ import soot.toolkits.astmetrics.ClassData;
 import soot.toolkits.scalar.Pair;
 
 /** A class to group together all the global variables in Soot. */
-public class G extends Singletons 
+public class G extends Singletons
 {
     
-    public static interface GlobalObjectGetter {
-    	public G getG();
-    	public void reset();
+    public interface GlobalObjectGetter {
+    	G getG();
+    	void reset();
     }
     
     public static G v() { return objectGetter.getG(); }

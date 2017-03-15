@@ -78,9 +78,8 @@ public class CallsiteContextVar extends ContextVar
 	public boolean contains(ContextVar cv) 
 	{
 		CallsiteContextVar ccv = (CallsiteContextVar)cv;
-		if ( context == ccv.context ) return true;
-		return false;
-	}
+        return context == ccv.context;
+    }
 
 	@Override
 	public boolean merge(ContextVar cv) 

@@ -49,7 +49,7 @@ public class AbstractHost implements Host
     /** get the list of tags. This list should not be modified! */
     public List<Tag> getTags()
     {
-        return (mTagList == null) ? Collections.<Tag>emptyList() : mTagList;
+        return (mTagList == null) ? Collections.emptyList() : mTagList;
     }
 
     /** remove the tag named <code>aName</code> */

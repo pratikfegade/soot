@@ -115,7 +115,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
         this.localsAndFieldRefs = new HashSet<Value>(); 
         
         //add all locals
-        for (Local l : (Collection<Local>) g.getBody().getLocals()) {
+        for (Local l : g.getBody().getLocals()) {
             if (l.getType() instanceof RefLikeType)
                 this.localsAndFieldRefs.add(l);
         }
@@ -162,7 +162,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
 	    	}
 	    	    	
 			CallGraph cg = Scene.v().getCallGraph();
-			ReachableMethods reachableMethods = new ReachableMethods(cg,Collections.<MethodOrMethodContext>singletonList(container));
+			ReachableMethods reachableMethods = new ReachableMethods(cg,Collections.singletonList(container));
 			reachableMethods.update();
 			for (Iterator<MethodOrMethodContext> iterator = reachableMethods.listener(); iterator.hasNext();) {
 				SootMethod m = (SootMethod) iterator.next();

@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -87,8 +87,8 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
     }
      @SuppressWarnings({"unchecked", "cast"})  public TryStmt copy() {
       try {
-          TryStmt node = (TryStmt)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          TryStmt node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -96,7 +96,7 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public TryStmt fullCopy() {
-        TryStmt res = (TryStmt)copy();
+        TryStmt res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -351,7 +351,7 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public CatchClause getCatchClause(int i) {
-        return (CatchClause)getCatchClauseList().getChild(i);
+        return getCatchClauseList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -423,7 +423,7 @@ public class TryStmt extends Stmt implements Cloneable, FinallyHost {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Block getFinally() {
-        return (Block)getFinallyOpt().getChild(0);
+        return getFinallyOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -998,10 +998,8 @@ if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = 
 {
     if(!getBlock().isDUafter(v))
       return false;
-    if(!getBlock().isDUeverywhere(v))
-      return false;
-    return true;
-  }
+    return getBlock().isDUeverywhere(v);
+}
 }
         if(caller == getBlockNoTransform()) {
             return isDUbefore(v);
@@ -1052,10 +1050,8 @@ if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = 
         return false;
     if(reachableThrow(getCatchClause(childIndex)))
       return true;
-    if(type.mayCatch(typeError()) || type.mayCatch(typeRuntimeException()))
-      return true;
-    return false;
-  }
+    return type.mayCatch(typeError()) || type.mayCatch(typeRuntimeException());
+}
 }
         return getParent().Define_boolean_reachableCatchClause(this, caller);
     }

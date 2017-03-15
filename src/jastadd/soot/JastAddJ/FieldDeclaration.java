@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet, Iterator, Variable {
@@ -42,8 +42,8 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
     }
      @SuppressWarnings({"unchecked", "cast"})  public FieldDeclaration copy() {
       try {
-          FieldDeclaration node = (FieldDeclaration)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          FieldDeclaration node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -51,7 +51,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public FieldDeclaration fullCopy() {
-        FieldDeclaration res = (FieldDeclaration)copy();
+        FieldDeclaration res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -260,7 +260,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
 
   public BodyDecl p(Parameterization parTypeDecl) {
     FieldDeclaration f = new FieldDeclarationSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getTypeAccess().type().substituteReturnType(parTypeDecl),
       getID(),
       new Opt(),
@@ -435,7 +435,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
 
 
     // Declared in java.ast line 77
-    public FieldDeclaration(Modifiers p0, Access p1, beaver.Symbol p2, Opt<Expr> p3) {
+    public FieldDeclaration(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, Opt<Expr> p3) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -513,7 +513,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -544,7 +544,7 @@ public class FieldDeclaration extends MemberDecl implements Cloneable, SimpleSet
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getInit() {
-        return (Expr)getInitOpt().getChild(0);
+        return getInitOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -590,9 +590,7 @@ if(accessibleFrom_TypeDecl_values == null) accessibleFrom_TypeDecl_values = new 
     else if(isProtected()) {
       if(hostPackage().equals(type.hostPackage()))
         return true;
-      if(type.withinBodyThatSubclasses(hostType()) != null)
-        return true;
-      return false;
+        return type.withinBodyThatSubclasses(hostType()) != null;
     }
     else if(isPrivate())
       return hostType().topLevelType() == type.topLevelType();

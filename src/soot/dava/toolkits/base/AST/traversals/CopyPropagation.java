@@ -164,12 +164,8 @@ public class CopyPropagation extends DepthFirstAdapter {
 		Value leftOp = ((DefinitionStmt) s).getLeftOp();
 		Value rightOp = ((DefinitionStmt) s).getRightOp();
 
-		if (leftOp instanceof Local && rightOp instanceof Local) {
-			// this is a copy statement
-			return true;
-		}
-		return false;
-	}
+        return leftOp instanceof Local && rightOp instanceof Local;
+    }
 
 	/*
 	 * Given a copy stmt (a=b) find all uses of local a (using dU chain)

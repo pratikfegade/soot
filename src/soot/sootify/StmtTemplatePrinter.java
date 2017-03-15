@@ -154,7 +154,7 @@ class StmtTemplatePrinter implements StmtSwitch {
 		
 		p.println("List<IntConstant> lookupValues = new LinkedList<IntConstant>();");
 		int i=0;
-		for(IntConstant c: (List<IntConstant>)stmt.getLookupValues()) {
+		for(IntConstant c: stmt.getLookupValues()) {
 			vtp.suggestVariableName("lookupValue"+i);
 			c.apply(vtp);
 			i++;

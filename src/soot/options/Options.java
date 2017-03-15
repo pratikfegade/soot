@@ -24,6 +24,7 @@ package soot.options;
 import soot.*;
 import java.util.*;
 import soot.PackManager;
+import soot.singletons.Singletons;
 
 /** Soot command-line options parser.
  * @author Ondrej Lhotak

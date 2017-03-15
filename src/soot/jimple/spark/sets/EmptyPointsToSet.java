@@ -21,6 +21,7 @@ package soot.jimple.spark.sets;
 import soot.*;
 import soot.jimple.ClassConstant;
 import soot.jimple.spark.pag.Node;
+import soot.singletons.Singletons;
 
 import java.util.*;
 

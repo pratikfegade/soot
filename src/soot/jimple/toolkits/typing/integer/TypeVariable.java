@@ -87,12 +87,7 @@ class TypeVariable implements Comparable<Object>
     
     TypeVariable ecr = ((TypeVariable) obj).ecr();
 
-    if(ecr != this)
-      {
-	return false;
-      }
-    
-    return true;
+      return ecr == this;
   }
 
   public int compareTo(Object o)

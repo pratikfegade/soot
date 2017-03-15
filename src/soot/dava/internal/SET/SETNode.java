@@ -353,7 +353,7 @@ public abstract class SETNode {
 		Iterator it = body.iterator();
 		while (it.hasNext())
 			out.println(indentation + TAB
-					+ ((AugmentedStmt) it.next()).toString());
+					+ it.next().toString());
 
 		Iterator<IterableSet> sbit = subBodies.iterator();
 		while (sbit.hasNext()) {
@@ -363,7 +363,7 @@ public abstract class SETNode {
 			Iterator bit = subBody.iterator();
 			while (bit.hasNext())
 				out.println(indentation + TAB
-						+ ((AugmentedStmt) bit.next()).toString());
+						+ bit.next().toString());
 
 			out.println(indentation + TAB);
 
@@ -402,11 +402,8 @@ public abstract class SETNode {
 		if (subBodies.equals(typed_other.subBodies) == false) {
 			return false;
 		}
-		if (body2childChain.equals(typed_other.body2childChain) == false) {
-			return false;
-		}
-		return true;
-	}
+        return body2childChain.equals(typed_other.body2childChain) != false;
+    }
 
 	@Override
 	public int hashCode() {

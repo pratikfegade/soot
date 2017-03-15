@@ -95,7 +95,7 @@ public class TryCatchCombiner extends BodyTransformer implements IJbcoTransform 
     Unit first = null;
     Iterator<Unit> uit = units.iterator();
     while (uit.hasNext()) {
-      Unit unit = (Unit)uit.next();
+      Unit unit = uit.next();
       if (!(unit instanceof IdentityInst))
         break;
       first = unit;
@@ -104,7 +104,7 @@ public class TryCatchCombiner extends BodyTransformer implements IJbcoTransform 
       first = Baf.v().newNopInst();
       units.insertBefore(first,units.getFirst());
     } else {
-      first = (Unit)units.getSuccOf(first);
+      first = units.getSuccOf(first);
     }
     
     Collection<Local> locs = b.getLocals();
@@ -200,7 +200,7 @@ public class TryCatchCombiner extends BodyTransformer implements IJbcoTransform 
       units.insertBefore(Baf.v().newPopInst(RefType.v()), begUnit);
       
       while (varsToLoad.size() > 0) {
-        Local varLocal = (Local)varsToLoad.pop();
+        Local varLocal = varsToLoad.pop();
         units.insertBefore(Baf.v().newLoadInst(varLocal.getType(),varLocal), begUnit);
       }
       

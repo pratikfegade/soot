@@ -79,7 +79,7 @@ public class IfElseBreaker{
 
 	//breaking is possible
 	//break and store
-	newIfNode = new ASTIfNode(((ASTLabeledNode)node).get_Label(),node.get_Condition(),ifBody);
+	newIfNode = new ASTIfNode(node.get_Label(),node.get_Condition(),ifBody);
 	remainingBody = node.getElseBody();
 	
 	return true;
@@ -104,7 +104,7 @@ public class IfElseBreaker{
 	//flip
 	cond.flip();
 
-	newIfNode = new ASTIfNode(((ASTLabeledNode)node).get_Label(),cond,elseBody);
+	newIfNode = new ASTIfNode(node.get_Label(),cond,elseBody);
 	remainingBody = node.getIfBody();
 	
 	return true;
@@ -141,7 +141,7 @@ public class IfElseBreaker{
 
 	//make sure that the break is not that of the if
 	//unliekly but good to check
-	SETNodeLabel ifLabel = ((ASTLabeledNode)node).get_Label();
+	SETNodeLabel ifLabel = node.get_Label();
 	
 	if (ifLabel!=null){
 	    if(ifLabel.toString()!=null){

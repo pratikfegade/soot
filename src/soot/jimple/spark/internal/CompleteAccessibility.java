@@ -20,7 +20,7 @@
 package soot.jimple.spark.internal;
 
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.SootField;
 import soot.SootMethod;
 

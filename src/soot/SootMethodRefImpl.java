@@ -87,7 +87,7 @@ class SootMethodRefImpl implements SootMethodRef {
     }
 
     public Type parameterType(int i) {
-        return (Type) parameterTypes.get(i);
+        return parameterTypes.get(i);
     }
 
     public class ClassResolutionFailedException extends ResolutionFailedException {
@@ -226,7 +226,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		
 		//exc.<init>(message)
 		SootMethodRef cref = Scene.v().makeConstructorRef(runtimeExceptionType.getSootClass(),
-				Collections.<Type>singletonList(RefType.v("java.lang.String")));
+				Collections.singletonList(RefType.v("java.lang.String")));
 		SpecialInvokeExpr constructorInvokeExpr = Jimple.v().newSpecialInvokeExpr(exceptionLocal, cref,
 				StringConstant.v("Unresolved compilation error: Method "+getSignature()+" does not exist!"));
 		InvokeStmt initStmt = Jimple.v().newInvokeStmt(constructorInvokeExpr);

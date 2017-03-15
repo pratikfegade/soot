@@ -25,10 +25,11 @@
 
 package soot.jimple.toolkits.scalar.pre;
 
-import soot.options.*;
+import soot.options.Options;
 import soot.jimple.toolkits.graph.*;
 import soot.jimple.toolkits.scalar.*;
 import soot.*;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.*;
 import soot.toolkits.graph.*;
 import soot.jimple.*;
@@ -193,8 +194,8 @@ public class LazyCodeMotion extends BodyTransformer {
 		{ /* replace old computations by the helper-vars */
 			Iterator<Unit> unitIt = unitChain.iterator();
 			while (unitIt.hasNext()) {
-				Unit currentUnit = (Unit) unitIt.next();
-				EquivalentValue rhs = (EquivalentValue) unitToEquivRhs.get(currentUnit);
+				Unit currentUnit = unitIt.next();
+				EquivalentValue rhs = unitToEquivRhs.get(currentUnit);
 				if (rhs != null) {
 					FlowSet<EquivalentValue> latestSet = latest.getFlowBefore(currentUnit);
 					FlowSet<EquivalentValue> notIsolatedSet = notIsolated.getFlowAfter(currentUnit);

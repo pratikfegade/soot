@@ -22,7 +22,7 @@ import java.util.Map;
 
 import soot.Body;
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 

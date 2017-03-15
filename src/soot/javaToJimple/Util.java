@@ -19,6 +19,8 @@
 
 package soot.javaToJimple;
 
+import soot.options.Options;
+
 import java.util.*;
 
 public class Util {
@@ -156,7 +158,7 @@ public class Util {
     
     public static void addLnPosTags(soot.tagkit.Host host, polyglot.util.Position pos) {
         if (pos != null) {
-            if (soot.options.Options.v().keep_line_number()){
+            if (Options.v().keep_line_number()){
             	if(pos.file()!=null) {
 	                host.addTag(
 	                		new soot.tagkit.SourceLnNamePosTag(
@@ -175,7 +177,7 @@ public class Util {
     }
     
     public static void addLnPosTags(soot.tagkit.Host host, int sline, int eline, int spos, int epos) {
-        if (soot.options.Options.v().keep_line_number()){
+        if (Options.v().keep_line_number()){
             host.addTag(new soot.tagkit.SourceLnPosTag(sline, eline, spos, epos));
         }
     }
@@ -203,7 +205,7 @@ public class Util {
     }
 
     public static void addMethodLineTag(soot.tagkit.Host host, int sline, int eline){
-        if (soot.options.Options.v().keep_line_number()){
+        if (Options.v().keep_line_number()){
             host.addTag(new soot.tagkit.SourceLineNumberTag(sline, eline));    
         }
     }
@@ -213,7 +215,7 @@ public class Util {
      */
     public static void addLineTag(soot.tagkit.Host host, polyglot.ast.Node node) {
 
-        if (soot.options.Options.v().keep_line_number()){
+        if (Options.v().keep_line_number()){
             if (node.position() != null) {
                 host.addTag(new soot.tagkit.SourceLineNumberTag(node.position().line(), node.position().line()));
                 

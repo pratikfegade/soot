@@ -30,34 +30,34 @@ package soot;
 public interface ClassMember
 {
     /** Returns the SootClass declaring this one. */
-    public SootClass getDeclaringClass();
+    SootClass getDeclaringClass();
 
     /** Returns true when some SootClass object declares this object. */
-    public boolean isDeclared();
+    boolean isDeclared();
 
     /** Returns true when this object is from a phantom class. */
-    public boolean isPhantom();
+    boolean isPhantom();
 
     /** Sets the phantom flag */
-    public void setPhantom(boolean value);
+    void setPhantom(boolean value);
 
     /** Convenience method returning true if this class member is protected. */
-    public boolean isProtected();
+    boolean isProtected();
 
     /** Convenience method returning true if this class member is private. */
-    public boolean isPrivate();
+    boolean isPrivate();
 
     /** Convenience method returning true if this class member is public. */
-    public boolean isPublic();
+    boolean isPublic();
 
     /** Convenience method returning true if this class member is static. */
-    public boolean isStatic();
+    boolean isStatic();
 
     /** Sets modifiers of this class member. */
-    public void setModifiers(int modifiers);
+    void setModifiers(int modifiers);
 
     /** Returns modifiers of this class member. */
-    public int getModifiers();
+    int getModifiers();
 
 
 }

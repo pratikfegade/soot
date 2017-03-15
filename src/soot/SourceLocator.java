@@ -45,6 +45,7 @@ import com.google.common.cache.LoadingCache;
 import soot.JavaClassProvider.JarException;
 import soot.asm.AsmClassProvider;
 import soot.options.Options;
+import soot.singletons.Singletons;
 
 /** Provides utility methods to retrieve an input stream for a class name, given
  * a classfile, or jimple or baf output files. */
@@ -56,8 +57,8 @@ public class SourceLocator
     protected Set<ClassLoader> additionalClassLoaders = new HashSet<ClassLoader>();
 	protected Set<String> classesToLoad;
 	
-	private enum ClassSourceType { jar, zip, apk, dex, directory, unknown };
-    
+	private enum ClassSourceType { jar, zip, apk, dex, directory, unknown }
+
     /** Given a class name, uses the soot-class-path to return a ClassSource for the given class. */
 	public ClassSource getClassSource(String className) 
     {

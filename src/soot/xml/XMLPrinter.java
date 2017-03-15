@@ -41,7 +41,7 @@ import soot.Main;
 import soot.Modifier;
 import soot.NormalUnitPrinter;
 import soot.Scene;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
@@ -208,7 +208,7 @@ public class XMLPrinter {
 
         // for each statement...
         while (unitIt.hasNext()) {
-            currentStmt = (Unit) unitIt.next();
+            currentStmt = unitIt.next();
 
             // new label								
             if (stmtToName.containsKey(currentStmt)) {
@@ -270,10 +270,10 @@ public class XMLPrinter {
             int j = 0;
             Iterator<ValueBox> boxIt = currentStmt.getUseBoxes().iterator();
             while (boxIt.hasNext()) {
-                ValueBox box = (ValueBox) boxIt.next();
+                ValueBox box = boxIt.next();
                 if (box.getValue() instanceof Local) {
                     String local =
-                        cleanLocal(((Local) box.getValue()).toString());
+                        cleanLocal(box.getValue().toString());
                     sootstmtNode.addChild(
                         "uses",
                         new String[] { "id", "local", "method" },
@@ -303,10 +303,10 @@ public class XMLPrinter {
             j = 0;
             boxIt = currentStmt.getDefBoxes().iterator();
             while (boxIt.hasNext()) {
-                ValueBox box = (ValueBox) boxIt.next();
+                ValueBox box = boxIt.next();
                 if (box.getValue() instanceof Local) {
                     String local =
-                        cleanLocal(((Local) box.getValue()).toString());
+                        cleanLocal(box.getValue().toString());
                     sootstmtNode.addChild(
                         "defines",
                         new String[] { "id", "local", "method" },
@@ -524,8 +524,8 @@ public class XMLPrinter {
         while (localsIterator.hasNext()) {
             int useCount = 0;
             int defineCount = 0;
-            Local localData = (Local) localsIterator.next();
-            String local = cleanLocal((String) localData.toString());
+            Local localData = localsIterator.next();
+            String local = cleanLocal(localData.toString());
             String localType = localData.getType().toString();
 
             // collect the local types			
@@ -570,7 +570,7 @@ public class XMLPrinter {
                             new String[] { "id", "line", "method" },
                             new String[] {
                                 i + "",
-                                ((Long) tempVector.elementAt(i)).toString(),
+                                tempVector.elementAt(i).toString(),
                                 cleanMethodName });
                     }
                     useCount = tempVector.size();
@@ -591,7 +591,7 @@ public class XMLPrinter {
                             new String[] { "id", "line", "method" },
                             new String[] {
                                 i + "",
-                                ((Long) tempVector.elementAt(i)).toString(),
+                                tempVector.elementAt(i).toString(),
                                 cleanMethodName });
                     }
                     defineCount = tempVector.size();

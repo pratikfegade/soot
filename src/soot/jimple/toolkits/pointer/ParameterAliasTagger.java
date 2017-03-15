@@ -19,6 +19,7 @@
 
 package soot.jimple.toolkits.pointer;
 import soot.*;
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 import soot.jimple.*;
 

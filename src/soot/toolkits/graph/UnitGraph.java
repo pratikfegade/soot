@@ -104,11 +104,11 @@ public abstract class UnitGraph implements DirectedGraph<Unit> {
 		Iterator<Unit> unitIt = unitChain.iterator();
 		Unit currentUnit, nextUnit;
 
-		nextUnit = unitIt.hasNext() ? (Unit) unitIt.next() : null;
+		nextUnit = unitIt.hasNext() ? unitIt.next() : null;
 
 		while (nextUnit != null) {
 			currentUnit = nextUnit;
-			nextUnit = unitIt.hasNext() ? (Unit) unitIt.next() : null;
+			nextUnit = unitIt.hasNext() ? unitIt.next() : null;
 
 			ArrayList<Unit> successors = new ArrayList<Unit>();
 
@@ -226,7 +226,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit> {
 
 			int resultSize = listA.size() + listB.size();
 			if (resultSize == 0) {
-				result.put(unit, Collections.<Unit> emptyList());
+				result.put(unit, Collections.emptyList());
 			} else {
 				List<Unit> resultList = new ArrayList<Unit>(resultSize);
 				List<Unit> list = null;
@@ -346,7 +346,7 @@ public abstract class UnitGraph implements DirectedGraph<Unit> {
 				continue;
 			}
 
-			Unit betweenUnit = (Unit) (succs.get(p));
+			Unit betweenUnit = succs.get(p);
 
 			// we win!
 			if (betweenUnit == to) {

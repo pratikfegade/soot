@@ -31,6 +31,7 @@
 package soot.jimple.toolkits.scalar;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.util.Chain;
 
 import java.util.*;

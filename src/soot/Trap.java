@@ -46,7 +46,7 @@ public interface Trap extends UnitBoxOwner
      *  empty trap, <code>getBeginUnit()</code> will return the same value 
      *  as {@link #getEndUnit()}.</p>
      */
-    public Unit getBeginUnit();
+    Unit getBeginUnit();
 
     /** <p>Returns the unit following the last trapped unit (that is, the
      *  first succeeding untrapped unit in the underlying 
@@ -62,40 +62,40 @@ public interface Trap extends UnitBoxOwner
      *  for describing a <code>Trap</code> which traps the last unit 
      *  in a method.</p>
      */
-    public Unit getEndUnit();
+    Unit getEndUnit();
 
     /** Returns the unit handling the exception being trapped. */
-    public Unit getHandlerUnit();
+    Unit getHandlerUnit();
 
     /** Returns the box holding the unit returned by {@link #getBeginUnit()}. */
-    public UnitBox getBeginUnitBox();
+    UnitBox getBeginUnitBox();
 
     /** Returns the box holding the unit returned by {@link #getEndUnit()}. */
-    public UnitBox getEndUnitBox();
+    UnitBox getEndUnitBox();
 
     /** Returns the box holding the exception handler's unit. */
-    public UnitBox getHandlerUnitBox();
+    UnitBox getHandlerUnitBox();
 
     /** Returns the boxes for first, last and handler units. */
-    public List<UnitBox> getUnitBoxes();
+    List<UnitBox> getUnitBoxes();
 
     /** Returns the exception being caught. */
-    public SootClass getException();
+    SootClass getException();
 
     /** Sets the value to be returned by {@link #getBeginUnit()} to 
      *  <code>beginUnit</code>. */
-    public void setBeginUnit(Unit beginUnit);
+    void setBeginUnit(Unit beginUnit);
 
     /** Sets the value to be returned by {@link #getEndUnit()} to 
      *  <code>endUnit</code>. */
-    public void setEndUnit(Unit endUnit);
+    void setEndUnit(Unit endUnit);
 
     /** Sets the unit handling the exception to <code>handlerUnit</code>. */
-    public void setHandlerUnit(Unit handlerUnit);
+    void setHandlerUnit(Unit handlerUnit);
 
     /** Sets the exception being caught to <code>exception</code>. */
-    public void setException(SootClass exception);
+    void setException(SootClass exception);
 
     /** Performs a shallow clone of this trap. */
-    public Object clone();
+    Object clone();
 }

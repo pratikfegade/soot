@@ -236,10 +236,10 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
                 
             soot.jimple.AssignStmt assign;
             if (sootExpr instanceof soot.Local){
-                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, (soot.Local)sootExpr);
+                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, sootExpr);
             }
             else if (sootExpr instanceof soot.jimple.Constant){
-                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, (soot.jimple.Constant)sootExpr);
+                assign = soot.jimple.Jimple.v().newAssignStmt(fieldRef, sootExpr);
             }
             else {
                 throw new RuntimeException("fields must assign to local or constant only");
@@ -1406,8 +1406,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
             }
         }
 
-        if ((counter-1) == (highest - lowest)) return false;
-        return true;
+        return (counter - 1) != (highest - lowest);
     }
     
     /**
@@ -2482,7 +2481,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
     }
 
     private soot.Local getStringConcatAssignRightLocal(polyglot.ast.Assign assign){
-        soot.Local sb = (soot.Local)createStringBuffer(assign);
+        soot.Local sb = createStringBuffer(assign);
         sb = generateAppends(assign.left(), sb);
         sb = generateAppends(assign.right(), sb);
         soot.Local rLocal = createToString(sb, assign);
@@ -2828,22 +2827,22 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
             //System.out.println("num: "+num);
             if (num instanceof Long) {
                 //System.out.println(((Long)num).longValue());
-                return soot.jimple.LongConstant.v(((Long)num).longValue());
+                return soot.jimple.LongConstant.v(num.longValue());
             }
             else if (num instanceof Double) {
-                return soot.jimple.DoubleConstant.v(((Double)num).doubleValue());
+                return soot.jimple.DoubleConstant.v(num.doubleValue());
             }
             else if (num instanceof Float) {
-                return soot.jimple.FloatConstant.v(((Float)num).floatValue());
+                return soot.jimple.FloatConstant.v(num.floatValue());
             }
             else if (num instanceof Byte) {
-                return soot.jimple.IntConstant.v(((Byte)num).byteValue());
+                return soot.jimple.IntConstant.v(num.byteValue());
             }
             else if (num instanceof Short) {
-                return soot.jimple.IntConstant.v(((Short)num).shortValue());
+                return soot.jimple.IntConstant.v(num.shortValue());
             }
             else {
-                return soot.jimple.IntConstant.v(((Integer)num).intValue());
+                return soot.jimple.IntConstant.v(num.intValue());
             }
         }
     }
@@ -2851,23 +2850,20 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
     private Number createConstantCast(polyglot.types.Type fieldType, Number constant) {
         if (constant instanceof Integer){
             if (fieldType.isDouble()){
-                return new Double((double)((Integer)constant).intValue());
+                return new Double((double) constant.intValue());
             }
             else if (fieldType.isFloat()){
-                return new Float((float)((Integer)constant).intValue());
+                return new Float((float) constant.intValue());
             }
             else if (fieldType.isLong()){
-                return new Long((long)((Integer)constant).intValue());
+                return new Long((long) constant.intValue());
             }
         }
         return constant;
     }
     
     private boolean shouldReturnConstant(polyglot.ast.Field field){
-        if (field.isConstant() && field.constantValue() != null) {
-            return true;
-        }
-        return false;
+        return field.isConstant() && field.constantValue() != null;
     }
     
     /**
@@ -3126,7 +3122,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
                 return soot.jimple.StringConstant.v(result);
             }
             else {
-                soot.Local sb = (soot.Local)createStringBuffer(binary);
+                soot.Local sb = createStringBuffer(binary);
                 sb = generateAppends(binary.left(), sb);
                 sb = generateAppends(binary.right(), sb);
                 return createToString(sb, binary);
@@ -3176,41 +3172,29 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
        // System.out.println("node in is string lit: "+node+" kind: "+node.getClass());
         if (node instanceof polyglot.ast.StringLit) return true;
         else if ( node instanceof polyglot.ast.Field) {
-            if (shouldReturnConstant((polyglot.ast.Field)node)) return true;
-            else return false;
+            return shouldReturnConstant((polyglot.ast.Field) node);
         }
         else if (node instanceof polyglot.ast.Binary){
-            if (areAllStringLitsBinary((polyglot.ast.Binary)node)) return true;
-            return false;
+            return areAllStringLitsBinary((polyglot.ast.Binary) node);
         }
         else if (node instanceof polyglot.ast.Unary){
             polyglot.ast.Unary unary = (polyglot.ast.Unary)node;
-            if (unary.isConstant()){
-                return true;
-            }
-            return false;
+            return unary.isConstant();
         }
         else if (node instanceof polyglot.ast.Cast){
             polyglot.ast.Cast cast = (polyglot.ast.Cast)node;
-            if (cast.isConstant()){
-                return true;
-            }
-            return false;
+            return cast.isConstant();
         }
         else if (node instanceof polyglot.ast.Lit){
             polyglot.ast.Lit lit = (polyglot.ast.Lit)node;
             //System.out.println("lit: "+lit+" is constant: "+(lit.isConstant()?true:false));
-            if (lit.isConstant()){
-                return true;
-            }
-            return false;
+            return lit.isConstant();
         }
         return false;
     }
    
     private boolean areAllStringLitsBinary(polyglot.ast.Binary binary){
-        if (areAllStringLits(binary.left()) && areAllStringLits(binary.right())) return true;
-        else return false;
+        return areAllStringLits(binary.left()) && areAllStringLits(binary.right());
     }
 
     private String createStringConstant(polyglot.ast.Node node){
@@ -3222,7 +3206,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         else if (node instanceof polyglot.ast.Cast){
             polyglot.ast.Cast cast = (polyglot.ast.Cast)node;
             if (cast.type().isChar()){
-                s = "" + (char)((Character)cast.constantValue()).charValue();
+                s = "" + ((Character)cast.constantValue()).charValue();
             }
             else {
                 s = "" + cast.constantValue();
@@ -3266,22 +3250,22 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
                 Number num = (Number)field.fieldInstance().constantValue();
                 num = createConstantCast(field.type(), num);
                 if (num instanceof Long) {
-                    s = "" + ((Long)num).longValue();
+                    s = "" + num.longValue();
                 }
                 else if (num instanceof Double) {
-                    s = "" + ((Double)num).doubleValue();
+                    s = "" + num.doubleValue();
                 }
                 else if (num instanceof Float) {
-                    s = "" + ((Float)num).floatValue();
+                    s = "" + num.floatValue();
                 }
                 else if (num instanceof Byte) {
-                    s = "" + ((Byte)num).byteValue();
+                    s = "" + num.byteValue();
                 }
                 else if (num instanceof Short) {
-                    s = "" + ((Short)num).shortValue();
+                    s = "" + num.shortValue();
                 }
                 else {
-                    s = "" + ((Integer)num).intValue();
+                    s = "" + num.intValue();
                 }
             }
             
@@ -3311,15 +3295,9 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
     }
     
     private boolean isComparisonBinary(polyglot.ast.Binary.Operator op) {
-        if ((op == polyglot.ast.Binary.EQ) || (op == polyglot.ast.Binary.NE) ||
-           (op == polyglot.ast.Binary.GE) || (op == polyglot.ast.Binary.GT) ||
-           (op == polyglot.ast.Binary.LE) || (op == polyglot.ast.Binary.LT)) {
-            
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (op == polyglot.ast.Binary.EQ) || (op == polyglot.ast.Binary.NE) ||
+                (op == polyglot.ast.Binary.GE) || (op == polyglot.ast.Binary.GT) ||
+                (op == polyglot.ast.Binary.LE) || (op == polyglot.ast.Binary.LT);
 
         
     }
@@ -3528,18 +3506,15 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
     }
 
     private boolean isDouble(soot.Value val) {
-        if (val.getType() instanceof soot.DoubleType) return true;
-        return false;
+        return val.getType() instanceof soot.DoubleType;
     }
     
     private boolean isFloat(soot.Value val) {
-        if (val.getType() instanceof soot.FloatType) return true;
-        return false;
+        return val.getType() instanceof soot.FloatType;
     }
     
     private boolean isLong(soot.Value val) {
-        if (val.getType() instanceof soot.LongType) return true;
-        return false;
+        return val.getType() instanceof soot.LongType;
     }
     
     /**
@@ -3833,16 +3808,14 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         if (expr instanceof polyglot.ast.Binary) {
             polyglot.ast.Binary bin = (polyglot.ast.Binary)expr;
             if (bin.operator() == polyglot.ast.Binary.ADD){
-                if (bin.type().toString().equals("java.lang.String")) return true;
-                return false;        
+                return bin.type().toString().equals("java.lang.String");
             }
             return false;
         }
         else if (expr instanceof polyglot.ast.Assign) {
             polyglot.ast.Assign assign = (polyglot.ast.Assign)expr;
             if (assign.operator() == polyglot.ast.Assign.ADD_ASSIGN){
-                if (assign.type().toString().equals("java.lang.String")) return true;
-                return false;
+                return assign.type().toString().equals("java.lang.String");
             }
             return false;
         }
@@ -3879,14 +3852,14 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
                 appendType = toApp.getType();
             }
             else if (toApp instanceof soot.Local) {
-                if (((soot.Local)toApp).getType() instanceof soot.PrimType) {
-                    appendType = ((soot.Local)toApp).getType();   
+                if (toApp.getType() instanceof soot.PrimType) {
+                    appendType = toApp.getType();
                 }
-                else if (((soot.Local)toApp).getType() instanceof soot.RefType) {
-                    if (((soot.Local)toApp).getType().toString().equals("java.lang.String")){
+                else if (toApp.getType() instanceof soot.RefType) {
+                    if (toApp.getType().toString().equals("java.lang.String")){
                         appendType = soot.RefType.v("java.lang.String");
                     }
-                    else if (((soot.Local)toApp).getType().toString().equals("java.lang.StringBuffer")){
+                    else if (toApp.getType().toString().equals("java.lang.StringBuffer")){
                         appendType = soot.RefType.v("java.lang.StringBuffer");
                     }
                     else{
@@ -4596,7 +4569,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
         
         sootParamsTypes.addAll(getSootParamsTypes(newExpr));
 
-        handleFinalLocalParams(sootParams, sootParamsTypes, (polyglot.types.ClassType)objType);
+        handleFinalLocalParams(sootParams, sootParamsTypes, objType);
     
         soot.SootMethodRef methodToInvoke = getMethodFromClass(classToInvoke, "<init>", sootParamsTypes, soot.VoidType.v(), false);
         soot.jimple.SpecialInvokeExpr specialInvokeExpr = soot.jimple.Jimple.v().newSpecialInvokeExpr(retLocal, methodToInvoke, sootParams);
@@ -4830,7 +4803,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
     protected soot.Value getBaseLocal(polyglot.ast.Receiver receiver) {
       
         if (receiver instanceof polyglot.ast.TypeNode) {
-            return generateLocal(((polyglot.ast.TypeNode)receiver).type());
+            return generateLocal(receiver.type());
         }
         else {
             soot.Value val = base().createAggressiveExpr((polyglot.ast.Expr)receiver, false, false);
@@ -4941,7 +4914,7 @@ public class JimpleBodyBuilder extends AbstractJimpleBodyBuilder {
             soot.Value elem;
             if (elemExpr instanceof polyglot.ast.ArrayInit){
                
-                if (((polyglot.ast.ArrayInit)elemExpr).type() instanceof polyglot.types.NullType) {
+                if (elemExpr.type() instanceof polyglot.types.NullType) {
                     if (lhsType instanceof polyglot.types.ArrayType){
                         //System.out.println("coming from 1 in get arrayinitlocal"+((polyglot.types.ArrayType)lhsType).base());
                         elem = getArrayInitLocal((polyglot.ast.ArrayInit)elemExpr, ((polyglot.types.ArrayType)lhsType).base());

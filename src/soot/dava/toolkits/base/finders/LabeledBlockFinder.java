@@ -22,6 +22,8 @@ import soot.*;
 
 import soot.dava.*;
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.dava.internal.asg.*;
 import soot.dava.internal.SET.*;
@@ -88,7 +90,7 @@ public class LabeledBlockFinder implements FactFinder
 			}
 		}
 		if (startSETNode == null)
-		    startSETNode = ((SETTryNode) SETParent).get_EntryStmt().myNode;
+		    startSETNode = SETParent.get_EntryStmt().myNode;
 
 		while (children.contains( startSETNode) == false)
 		    startSETNode = startSETNode.get_Parent();

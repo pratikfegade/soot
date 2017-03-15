@@ -25,7 +25,7 @@
 
 
 package soot.jimple;
-import soot.options.*;
+import soot.options.Options;
 import soot.*;
 import soot.jimple.parser.*;
 

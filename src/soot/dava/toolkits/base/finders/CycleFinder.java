@@ -30,6 +30,7 @@ import soot.*;
 import java.util.*;
 
 import soot.dava.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.jimple.*;
 import soot.grimp.internal.*;
@@ -85,7 +86,7 @@ public class CycleFinder implements FactFinder {
 				}
 
 				// gets to this code only if each SCC has one entry point?
-				AugmentedStmt entry_point = (AugmentedStmt) entry_points
+				AugmentedStmt entry_point = entry_points
 						.getFirst();
 				AugmentedStmt characterizing_stmt = find_CharacterizingStmt(
 						entry_point, node_list, wasg), succ_stmt = null;
@@ -266,7 +267,7 @@ public class CycleFinder implements FactFinder {
 		for (AugmentedStmt pas : entry_point.bpreds) {
 			if ((pas.get_Stmt() instanceof GotoStmt)
 					&& (pas.bpreds.size() == 1))
-				pas = (AugmentedStmt) pas.bpreds.get(0);
+				pas = pas.bpreds.get(0);
 
 			if ((sc_component.contains(pas))
 					&& (pas.get_Stmt() instanceof IfStmt)) {
@@ -296,7 +297,7 @@ public class CycleFinder implements FactFinder {
 		 */
 
 		if (candidates.size() == 1)
-			return (AugmentedStmt) candidates.getFirst();
+			return candidates.getFirst();
 
 		// Take the candidate(s) whose successor has maximal reachability from
 		// all candidates.
@@ -307,7 +308,7 @@ public class CycleFinder implements FactFinder {
 		int reachSize = 0;
 
 		for (AugmentedStmt as : candidates) {
-			int current_reach_size = ((AugmentedStmt) candSuccMap.get(as))
+			int current_reach_size = candSuccMap.get(as)
 					.get_Reachers().intersection(candidates).size();
 
 			if (current_reach_size > reachSize) {
@@ -324,7 +325,7 @@ public class CycleFinder implements FactFinder {
 		if (candidates == null)
 			throw new RuntimeException("Did not find a suitable candidate");
 		if (candidates.size() == 1)
-			return (AugmentedStmt) candidates.getFirst();
+			return candidates.getFirst();
 
 		// Find a single source shortest path from the entry point to any of the
 		// remaining candidates.

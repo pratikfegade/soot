@@ -74,7 +74,7 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 							} else {
 								LinkedHashSet<Pair<Value, Set<DefinitionStmt>>> res = new LinkedHashSet<Pair<Value, Set<DefinitionStmt>>>();
 								 res.add(new Pair<Value, Set<DefinitionStmt>>(assignment.getLeftOp(),
-													Collections.<DefinitionStmt> singleton(assignment)));
+													Collections.singleton(assignment)));
 								return res;
 							}
 						}
@@ -172,7 +172,7 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 
 
 	public Pair<Value, Set<DefinitionStmt>> createZeroValue() {
-		return new Pair<Value, Set<DefinitionStmt>>(new JimpleLocal("<<zero>>", NullType.v()), Collections.<DefinitionStmt> emptySet());
+		return new Pair<Value, Set<DefinitionStmt>>(new JimpleLocal("<<zero>>", NullType.v()), Collections.emptySet());
 	}
 
 }

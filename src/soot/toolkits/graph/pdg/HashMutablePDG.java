@@ -231,7 +231,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 					DominatorNode<Block> dode = bDode;
 					while(dode != aParentDode)
 					{
-						dependents.add((Block)dode.getGode());
+						dependents.add(dode.getGode());
 						
 						//This occurs if the CFG is multi-tailed and therefore the pdom is a forest.
 						if(dode.getParent() == null)
@@ -393,7 +393,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 						}
 						else
 						{
-							PDGNode predPDGofdepB = (PDGNode) this.getPredsOf(depBPDGNode).get(0);
+							PDGNode predPDGofdepB = this.getPredsOf(depBPDGNode).get(0);
 							assert(this.m_obj2pdgNode.containsKey(rdepB));							
 							PDGNode pdgnodeOfdepBRegion = this.m_obj2pdgNode.get(rdepB);
 							//If the loop header has not been separated from its weak region yet
@@ -442,7 +442,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 								//If a is dependent on itself (simple loop)
 								if(depB == a)
 								{
-									PDGNode loopBodyPDGNode = (PDGNode) this.getSuccsOf(depBPDGNode).get(0);
+									PDGNode loopBodyPDGNode = this.getSuccsOf(depBPDGNode).get(0);
 									this.addEdge(depBPDGNode, newpdgnode, "dependency-back");
 									((LoopedPDGNode)newpdgnode).setBody(loopBodyPDGNode);
 									
@@ -631,7 +631,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 			IRegion reg = toProcess.poll();
 			list.add(reg);
 			for(Iterator<IRegion> itr = reg.getChildRegions().iterator(); itr.hasNext(); )
-				toProcess.add((Region)itr.next());
+				toProcess.add(itr.next());
 			
 		}
 		
@@ -717,7 +717,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 		if(!dependents.isEmpty())
 			for(Iterator<PDGNode> itr = dependents.iterator(); itr.hasNext(); )
 			{
-				PDGNode curNode = (PDGNode) itr.next();
+				PDGNode curNode = itr.next();
 				if(curNode.getVisited())
 					continue;
 				
@@ -741,7 +741,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 					Iterator<PDGNode> condItr = childs.iterator();
 					while(condItr.hasNext())
 					{
-						PDGNode child = (PDGNode)condItr.next();
+						PDGNode child = condItr.next();
 						PDGRegion kid = pdgpostorder(child, list);
                         if(kid != null){
 						  kid.setParent(region);
@@ -799,7 +799,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 	{		
 		this.addNode(newnode);
 		
-		HashMutableEdgeLabelledDirectedGraph graph = (HashMutableEdgeLabelledDirectedGraph) this.clone();
+		HashMutableEdgeLabelledDirectedGraph graph = this.clone();
 				
 		List<PDGNode> succs = graph.getSuccsOf(oldnode);
 		List<PDGNode> preds = graph.getPredsOf(oldnode);
@@ -857,7 +857,7 @@ public class HashMutablePDG extends HashMutableEdgeLabelledDirectedGraph<PDGNode
 		
 		while(nodes.peek() != null)
 		{
-			PDGNode node = (PDGNode) nodes.remove();
+			PDGNode node = nodes.remove();
 			processed.add(node);
 			
 			s += "\n Begin PDGNode: " + node;

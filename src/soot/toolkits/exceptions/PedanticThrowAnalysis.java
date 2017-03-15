@@ -20,7 +20,7 @@
 package soot.toolkits.exceptions;
 
 import soot.Unit;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.G;
 import soot.baf.ThrowInst;
 import soot.jimple.ThrowStmt;

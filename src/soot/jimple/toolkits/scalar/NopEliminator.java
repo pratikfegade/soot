@@ -31,12 +31,12 @@ import java.util.Map;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
-import soot.Singletons;
 import soot.Trap;
 import soot.Unit;
 import soot.jimple.JimpleBody;
 import soot.jimple.NopStmt;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.util.Chain;
 
 public class NopEliminator extends BodyTransformer

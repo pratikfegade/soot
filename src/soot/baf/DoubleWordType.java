@@ -29,6 +29,7 @@
 
 package soot.baf;
 
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.*;
 

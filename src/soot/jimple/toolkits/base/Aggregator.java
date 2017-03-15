@@ -26,9 +26,10 @@
 /* Reference Version: $SootVersion: 1.2.5.dev.5 $ */
 
 package soot.jimple.toolkits.base;
-import soot.options.*;
+import soot.options.Options;
 import soot.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.*;
 import soot.toolkits.graph.*;
 import soot.util.*;
@@ -51,7 +52,7 @@ public class Aggregator extends BodyTransformer
         StmtBody body = (StmtBody)b;
         boolean onlyStackVars = PhaseOptions.getBoolean(options, "only-stack-locals"); 
 
-		if (Options.v().time()) 
+		if (Options.v().time())
 			Timers.v().aggregationTimer.start();
 		
         int aggregateCount = 1;
@@ -315,8 +316,7 @@ public class Aggregator extends BodyTransformer
       if( !(u instanceof DefinitionStmt) ) return false;
       DefinitionStmt defstmt = (DefinitionStmt) u;
       if( !( defstmt.getRightOp() instanceof Local ) ) return false;
-      if( !( defstmt.getLeftOp() instanceof Local ) ) return false;
-      return true;
+      return defstmt.getLeftOp() instanceof Local;
   }
         
 }

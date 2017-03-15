@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.SootClass;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 

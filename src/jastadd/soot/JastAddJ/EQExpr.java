@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class EQExpr extends EqualityExpr implements Cloneable {
@@ -18,8 +18,8 @@ public class EQExpr extends EqualityExpr implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public EQExpr copy() {
       try {
-          EQExpr node = (EQExpr)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          EQExpr node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -27,7 +27,7 @@ public class EQExpr extends EqualityExpr implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public EQExpr fullCopy() {
-        EQExpr res = (EQExpr)copy();
+        EQExpr res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();

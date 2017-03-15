@@ -20,7 +20,7 @@
 package soot.jimple.spark.internal;
 
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.SootField;
 import soot.SootMethod;
 
@@ -33,7 +33,7 @@ import soot.SootMethod;
  */
 public class PublicAndProtectedAccessibility implements ClientAccessibilityOracle {
 	
-    public PublicAndProtectedAccessibility( Singletons.Global g ) {	
+    public PublicAndProtectedAccessibility( Singletons.Global g ) {
     }
     
     public static PublicAndProtectedAccessibility v() { return G.v().soot_jimple_spark_internal_PublicAndProtectedAccessibility(); }

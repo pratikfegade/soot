@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.StringTokenizer;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.G;
 
 /**

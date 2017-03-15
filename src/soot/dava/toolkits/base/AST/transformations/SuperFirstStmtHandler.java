@@ -784,7 +784,7 @@ public class SuperFirstStmtHandler extends DepthFirstAdapter {
 		// add any statements following the this.<init> statement
 		Iterator<AugmentedStmt> it = initNode.getStatements().iterator();
 		while (it.hasNext()) {
-			AugmentedStmt augStmt = (AugmentedStmt) it.next();
+			AugmentedStmt augStmt = it.next();
 			Stmt stmtTemp = augStmt.get_Stmt();
 			if (stmtTemp == originalConstructorUnit) {
 				break;

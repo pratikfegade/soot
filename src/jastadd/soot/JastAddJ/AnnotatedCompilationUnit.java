@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 // 7.4.1.1 Package Annotations
@@ -20,8 +20,8 @@ public class AnnotatedCompilationUnit extends CompilationUnit implements Cloneab
     }
      @SuppressWarnings({"unchecked", "cast"})  public AnnotatedCompilationUnit copy() {
       try {
-          AnnotatedCompilationUnit node = (AnnotatedCompilationUnit)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          AnnotatedCompilationUnit node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -29,7 +29,7 @@ public class AnnotatedCompilationUnit extends CompilationUnit implements Cloneab
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public AnnotatedCompilationUnit fullCopy() {
-        AnnotatedCompilationUnit res = (AnnotatedCompilationUnit)copy();
+        AnnotatedCompilationUnit res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -101,7 +101,7 @@ public class AnnotatedCompilationUnit extends CompilationUnit implements Cloneab
 
 
     // Declared in Annotations.ast line 16
-    public AnnotatedCompilationUnit(beaver.Symbol p0, List<ImportDecl> p1, List<TypeDecl> p2, Modifiers p3) {
+    public AnnotatedCompilationUnit(jastadd.beaver.Symbol p0, List<ImportDecl> p1, List<TypeDecl> p2, Modifiers p3) {
         setPackageDecl(p0);
         setChild(p1, 0);
         setChild(p2, 1);
@@ -129,7 +129,7 @@ public class AnnotatedCompilationUnit extends CompilationUnit implements Cloneab
 
     // Declared in java.ast at line 5
 
-    public void setPackageDecl(beaver.Symbol symbol) {
+    public void setPackageDecl(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setPackageDecl is only valid for String lexemes");
         tokenjava_lang_String_PackageDecl = (String)symbol.value;
@@ -160,7 +160,7 @@ public class AnnotatedCompilationUnit extends CompilationUnit implements Cloneab
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ImportDecl getImportDecl(int i) {
-        return (ImportDecl)getImportDeclList().getChild(i);
+        return getImportDeclList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -232,7 +232,7 @@ public class AnnotatedCompilationUnit extends CompilationUnit implements Cloneab
 
 
      @SuppressWarnings({"unchecked", "cast"})  public TypeDecl getTypeDecl(int i) {
-        return (TypeDecl)getTypeDeclList().getChild(i);
+        return getTypeDeclList().getChild(i);
     }
 
     // Declared in java.ast at line 14

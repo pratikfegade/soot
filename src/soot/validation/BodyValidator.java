@@ -13,7 +13,7 @@ public interface BodyValidator {
 	 * @param body the body to check
 	 * @param exceptions the list of exceptions
 	 */
-	public void validate(Body body, List<ValidationException> exceptions);
+    void validate(Body body, List<ValidationException> exceptions);
 	
 	/**
 	 * Basic validators run essential checks and are run always if validate is called.<br>
@@ -21,5 +21,5 @@ public interface BodyValidator {
 	 * the checks will only be run if the debug or validation option is activated. 
 	 * @return whether this validator is a basic validator
 	 */
-	public boolean isBasicValidator();
+    boolean isBasicValidator();
 }

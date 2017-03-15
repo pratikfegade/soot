@@ -316,7 +316,7 @@ public class GeomPointsTo extends PAG
 		// Output the SPARK running information
 		double mem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 		ps.println();
-		ps.printf("[Spark] Time: %.3f s\n", (double)spark_run_time/1000 );
+		ps.printf("[Spark] Time: %.3f s\n", spark_run_time /1000 );
 		ps.printf("[Spark] Memory: %.1f MB\n", mem  / 1024 / 1024 );
 				
 		// Get type manager from SPARK
@@ -1487,7 +1487,7 @@ public class GeomPointsTo extends PAG
 	 */
 	public boolean isReachableMethod( int fid )
 	{
-		return fid == Constants.UNKNOWN_FUNCTION ? false : vis_cg[fid] != 0;
+		return fid != Constants.UNKNOWN_FUNCTION && vis_cg[fid] != 0;
 	}
 	
 	/**

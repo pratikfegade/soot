@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -33,8 +33,8 @@ public class IfStmt extends Stmt implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public IfStmt copy() {
       try {
-          IfStmt node = (IfStmt)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          IfStmt node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -42,7 +42,7 @@ public class IfStmt extends Stmt implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public IfStmt fullCopy() {
-        IfStmt res = (IfStmt)copy();
+        IfStmt res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -206,7 +206,7 @@ public class IfStmt extends Stmt implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Stmt getElse() {
-        return (Stmt)getElseOpt().getChild(0);
+        return getElseOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14

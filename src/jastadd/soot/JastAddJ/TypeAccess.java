@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class TypeAccess extends Access implements Cloneable {
@@ -30,8 +30,8 @@ public class TypeAccess extends Access implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public TypeAccess copy() {
       try {
-          TypeAccess node = (TypeAccess)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          TypeAccess node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -39,7 +39,7 @@ public class TypeAccess extends Access implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public TypeAccess fullCopy() {
-        TypeAccess res = (TypeAccess)copy();
+        TypeAccess res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -192,7 +192,7 @@ public class TypeAccess extends Access implements Cloneable {
 
 
     // Declared in java.ast line 20
-    public TypeAccess(beaver.Symbol p0, beaver.Symbol p1) {
+    public TypeAccess(jastadd.beaver.Symbol p0, jastadd.beaver.Symbol p1) {
         setPackage(p0);
         setID(p1);
     }
@@ -230,7 +230,7 @@ public class TypeAccess extends Access implements Cloneable {
 
     // Declared in java.ast at line 8
 
-    public void setPackage(beaver.Symbol symbol) {
+    public void setPackage(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setPackage is only valid for String lexemes");
         tokenString_Package = (String)symbol.value;
@@ -264,7 +264,7 @@ public class TypeAccess extends Access implements Cloneable {
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;

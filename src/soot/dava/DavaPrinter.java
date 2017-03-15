@@ -38,7 +38,6 @@ import soot.Modifier;
 import soot.RefType;
 import soot.Scene;
 import soot.ShortType;
-import soot.Singletons;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
@@ -48,6 +47,7 @@ import soot.UnitPrinter;
 import soot.dava.internal.AST.ASTNode;
 import soot.dava.toolkits.base.renamer.RemoveFullyQualifiedName;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.tagkit.DoubleConstantValueTag;
 import soot.tagkit.FloatConstantValueTag;
 import soot.tagkit.IntegerConstantValueTag;
@@ -69,14 +69,14 @@ public class DavaPrinter {
       if (Options.v().verbose())
         System.out.println("Printing "+body.getMethod().getName());
       
-        Chain<Unit> units = ((DavaBody) body).getUnits();
+        Chain<Unit> units = body.getUnits();
 
         if (units.size() != 1) {
             throw new RuntimeException("DavaBody AST doesn't have single root.");
         }
 
         UnitPrinter up = new DavaUnitPrinter((DavaBody)body);
-        ((ASTNode) units.getFirst()).toString(up);
+        units.getFirst().toString(up);
         out.print( up.toString() );
     }
 
@@ -100,7 +100,7 @@ public class DavaPrinter {
 
             Iterator<SootClass> interfaceIt = cl.getInterfaces().iterator();
             while (interfaceIt.hasNext()) {
-                String interfacePackage = ((SootClass) interfaceIt.next()).toString();
+                String interfacePackage = interfaceIt.next().toString();
                 
                 if(!importList.contains(interfacePackage))
                 	importList.add(interfacePackage);
@@ -111,7 +111,7 @@ public class DavaPrinter {
 
             Iterator<SootMethod> methodIt = cl.methodIterator();
             while (methodIt.hasNext()) {
-                SootMethod dm = (SootMethod) methodIt.next();
+                SootMethod dm = methodIt.next();
 
                 if (dm.hasActiveBody()){
                 	//packagesUsed = packagesUsed.union(((DavaBody) dm.getActiveBody()).get_PackagesUsed());
@@ -130,7 +130,7 @@ public class DavaPrinter {
 
                 Iterator<Type> pit = dm.getParameterTypes().iterator();
                 while (pit.hasNext()) {
-                    Type t = (Type) pit.next();
+                    Type t = pit.next();
 
                     if (t instanceof RefType) {
                         String paramPackage = ((RefType) t).getSootClass().toString();
@@ -158,7 +158,7 @@ public class DavaPrinter {
 
             Iterator<SootField> fieldIt = cl.getFields().iterator();
             while (fieldIt.hasNext()) {
-                SootField f = (SootField) fieldIt.next();
+                SootField f = fieldIt.next();
 
                 if (f.isPhantom())
                     continue;
@@ -181,7 +181,7 @@ public class DavaPrinter {
             	 * dont import any file which has currentPackage.className
             	 * dont import any file which starts with java.lang
             	 */
-            	String temp = (String)pit.next();
+            	String temp = pit.next();
             	//System.out.println("temp is "+temp);
             	if(temp.indexOf("java.lang")>-1 ){
             		//problem is that we need to import sub packages java.lang.ref 
@@ -399,7 +399,7 @@ public class DavaPrinter {
                     out.println();
 
                 while (methodIt.hasNext()) {
-                    SootMethod method = (SootMethod) methodIt.next();
+                    SootMethod method = methodIt.next();
 
                     if (method.isPhantom())
                         continue;

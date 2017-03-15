@@ -89,10 +89,7 @@ public class DVariableDeclarationStmt extends AbstractUnit implements Stmt {
 	}
 
 	public boolean isOfType(Type type) {
-		if (type.toString().compareTo(declarationType.toString()) == 0)
-			return true;
-		else
-			return false;
+        return type.toString().compareTo(declarationType.toString()) == 0;
 	}
 
 	public Object clone() {

@@ -31,6 +31,7 @@ import java.util.*;
 import soot.*;
 import soot.jimple.toolkits.callgraph.*;
 import soot.options.PurityOptions;
+import soot.singletons.Singletons;
 
 /**
  * Purity analysis phase.

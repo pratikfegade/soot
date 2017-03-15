@@ -34,12 +34,12 @@ import soot.NullType;
 import soot.PhaseOptions;
 import soot.RefType;
 import soot.Scene;
-import soot.Singletons;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.Type;
 import soot.jimple.SpecialInvokeExpr;
 import soot.options.CGOptions;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.Pair;
 import soot.util.Chain;
 import soot.util.LargeNumberedMap;
@@ -54,7 +54,7 @@ public final class VirtualCalls
 { 
 	private CGOptions options = new CGOptions( PhaseOptions.v().getPhaseOptions("cg") );
 	
-    public VirtualCalls( Singletons.Global g ) {	
+    public VirtualCalls( Singletons.Global g ) {
     }
     public static VirtualCalls v() { return G.v().soot_jimple_toolkits_callgraph_VirtualCalls(); }
 

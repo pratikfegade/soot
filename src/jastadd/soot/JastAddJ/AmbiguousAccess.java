@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class AmbiguousAccess extends Access implements Cloneable {
@@ -18,8 +18,8 @@ public class AmbiguousAccess extends Access implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public AmbiguousAccess copy() {
       try {
-          AmbiguousAccess node = (AmbiguousAccess)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          AmbiguousAccess node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -27,7 +27,7 @@ public class AmbiguousAccess extends Access implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public AmbiguousAccess fullCopy() {
-        AmbiguousAccess res = (AmbiguousAccess)copy();
+        AmbiguousAccess res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -71,7 +71,7 @@ public class AmbiguousAccess extends Access implements Cloneable {
 
 
     // Declared in java.ast line 32
-    public AmbiguousAccess(beaver.Symbol p0) {
+    public AmbiguousAccess(jastadd.beaver.Symbol p0) {
         setID(p0);
     }
 
@@ -108,7 +108,7 @@ public class AmbiguousAccess extends Access implements Cloneable {
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;

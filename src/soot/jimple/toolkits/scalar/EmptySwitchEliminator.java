@@ -31,7 +31,7 @@ import java.util.Map;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.Unit;
 import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;

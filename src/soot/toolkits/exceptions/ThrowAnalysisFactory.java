@@ -35,7 +35,7 @@ public class ThrowAnalysisFactory {
      */
     public static ThrowAnalysis checkInitThrowAnalysis() {
         switch (Options.v().check_init_throw_analysis()) {
-	        case soot.options.Options.check_init_throw_analysis_auto:
+	        case Options.check_init_throw_analysis_auto:
 	        	if(!Options.v().android_jars().equals("") || 
 	        	   !Options.v().force_android_jar().equals("")) {
 	        	   // If Android related options are set, use 'dalvik' throw 
@@ -44,11 +44,11 @@ public class ThrowAnalysisFactory {
 	        	} else {
 	        		return PedanticThrowAnalysis.v();
 	        	}
-	        case soot.options.Options.check_init_throw_analysis_pedantic:
+	        case Options.check_init_throw_analysis_pedantic:
 	            return PedanticThrowAnalysis.v();
-	        case soot.options.Options.check_init_throw_analysis_unit:
+	        case Options.check_init_throw_analysis_unit:
 	            return UnitThrowAnalysis.v();
-	        case soot.options.Options.check_init_throw_analysis_dalvik:
+	        case Options.check_init_throw_analysis_dalvik:
 	            return DalvikThrowAnalysis.v();
 	        default:
 	            assert false; // The above cases should cover all posible options

@@ -25,8 +25,9 @@
 
 
 package soot.baf.toolkits.base;
-import soot.options.*;
+import soot.options.Options;
 
+import soot.singletons.Singletons;
 import soot.util.*;
 import java.util.*;
 import soot.*;
@@ -252,7 +253,7 @@ class Instance {
                                 if(PhaseOptions.getBoolean(gOptions, "sl")) {
                                     if(!mPass2 || PhaseOptions.getBoolean(gOptions, "sl2")) {
                                 // try to eliminate store/load pair
-                                        Unit loadUnit = ((UnitValueBoxPair)uses.get(0)).getUnit();
+                                        Unit loadUnit = uses.get(0).getUnit();
                                         block =  mUnitToBlockMap.get(unit);
                                         int test = stackIndependent(unit, loadUnit , block, STORE_LOAD_ELIMINATION);
                                 
@@ -282,8 +283,8 @@ class Instance {
                                 if(PhaseOptions.getBoolean(gOptions, "sll")) {
                                     if(!mPass2 || PhaseOptions.getBoolean(gOptions, "sll2")) {
                                 // try to replace store/load/load trio by a flavor of the dup unit
-                                        Unit firstLoad = ((UnitValueBoxPair)uses.get(0)).getUnit();
-                                        Unit secondLoad = ((UnitValueBoxPair)uses.get(1)).getUnit();
+                                        Unit firstLoad = uses.get(0).getUnit();
+                                        Unit secondLoad = uses.get(1).getUnit();
                                         block = mUnitToBlockMap.get(unit);
 
 
@@ -664,12 +665,9 @@ class Instance {
      */
     private boolean isNonLocalReadOrWrite(Unit aUnit)
     {
-        if((aUnit instanceof FieldArgInst ) ||
-           (aUnit instanceof ArrayReadInst) ||
-           (aUnit instanceof ArrayWriteInst) )
-            return true;
-        else
-            return false;
+        return (aUnit instanceof FieldArgInst) ||
+                (aUnit instanceof ArrayReadInst) ||
+                (aUnit instanceof ArrayWriteInst);
     }
 
 
@@ -778,7 +776,7 @@ class Instance {
             return false;                
                 
         while( current != block.getHead()) {   // do not go past basic block limit
-            current = (Unit) mUnits.getPredOf(current);
+            current = mUnits.getPredOf(current);
             
             if(!canMoveUnitOver(current, unitToMove))
                 return false;
@@ -1011,11 +1009,8 @@ class Instance {
             if(!preds.contains(it.next())) 
                 return false;
         }
-        
-        if(size == preds.size())
-            return true;
-        else
-            return false;        
+
+        return size == preds.size();
     }
 
 
@@ -1029,15 +1024,12 @@ class Instance {
     {
         if(aUnit == null )
             return false;
-        
-        if(aUnit instanceof AddInst ||
-           aUnit instanceof MulInst ||
-           aUnit instanceof AndInst ||
-           aUnit instanceof OrInst ||
-           aUnit instanceof XorInst) 
-            return true;
-        else
-            return false;
+
+        return aUnit instanceof AddInst ||
+                aUnit instanceof MulInst ||
+                aUnit instanceof AndInst ||
+                aUnit instanceof OrInst ||
+                aUnit instanceof XorInst;
     }
 
     void propagateBackwardsIndependentHunk() 

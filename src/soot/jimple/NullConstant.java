@@ -30,6 +30,7 @@
 package soot.jimple;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 
 public class NullConstant extends Constant

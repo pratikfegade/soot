@@ -21,7 +21,7 @@
 package soot.dexpler;
 
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.baf.EnterMonitorInst;
 import soot.baf.ReturnInst;
 import soot.baf.ReturnVoidInst;

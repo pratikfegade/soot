@@ -27,6 +27,7 @@ package soot.jimple.toolkits.invoke;
 
 import soot.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 import java.util.*;
 

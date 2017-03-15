@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -29,8 +29,8 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParMethodDecl copy() {
       try {
-          ParMethodDecl node = (ParMethodDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ParMethodDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -38,7 +38,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParMethodDecl fullCopy() {
-        ParMethodDecl res = (ParMethodDecl)copy();
+        ParMethodDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -114,7 +114,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
 
 
     // Declared in GenericMethods.ast line 4
-    public ParMethodDecl(Modifiers p0, Access p1, beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5, List<Access> p6) {
+    public ParMethodDecl(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5, List<Access> p6) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -183,7 +183,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -214,7 +214,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration getParameter(int i) {
-        return (ParameterDeclaration)getParameterList().getChild(i);
+        return getParameterList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -286,7 +286,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getException(int i) {
-        return (Access)getExceptionList().getChild(i);
+        return getExceptionList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -358,7 +358,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Block getBlock() {
-        return (Block)getBlockOpt().getChild(0);
+        return getBlockOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -398,7 +398,7 @@ public class ParMethodDecl extends MethodDecl implements Cloneable, Parameteriza
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getTypeArgument(int i) {
-        return (Access)getTypeArgumentList().getChild(i);
+        return getTypeArgumentList().getChild(i);
     }
 
     // Declared in GenericMethods.ast at line 14

@@ -33,8 +33,8 @@ import soot.*;
 
 public interface ReturnStmt extends Stmt
 {
-    public ValueBox getOpBox();
-    public void setOp(Value returnValue);
-    public Value getOp();
+    ValueBox getOpBox();
+    void setOp(Value returnValue);
+    Value getOp();
 }
 

@@ -21,6 +21,8 @@ package soot.shimple;
 
 import soot.*;
 import soot.options.Options;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /**

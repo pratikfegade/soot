@@ -25,7 +25,7 @@ import java.util.Map;
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.jimple.Stmt;
 import soot.tagkit.LinkTag;
 import soot.toolkits.graph.ExceptionalUnitGraph;

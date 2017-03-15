@@ -165,14 +165,12 @@ public class BodyBuilder {
   }
   
   public static boolean isBafIf(Unit u) {
-    if (u instanceof IfCmpEqInst || u instanceof IfCmpGeInst
-        || u instanceof IfCmpGtInst || u instanceof IfCmpLeInst
-        || u instanceof IfCmpLtInst || u instanceof IfCmpNeInst
-        || u instanceof IfEqInst || u instanceof IfGeInst
-        || u instanceof IfGtInst || u instanceof IfLeInst
-        || u instanceof IfLtInst || u instanceof IfNeInst
-        || u instanceof IfNonNullInst || u instanceof IfNullInst)
-      return true;
-    return false;
+      return u instanceof IfCmpEqInst || u instanceof IfCmpGeInst
+              || u instanceof IfCmpGtInst || u instanceof IfCmpLeInst
+              || u instanceof IfCmpLtInst || u instanceof IfCmpNeInst
+              || u instanceof IfEqInst || u instanceof IfGeInst
+              || u instanceof IfGtInst || u instanceof IfLeInst
+              || u instanceof IfLtInst || u instanceof IfNeInst
+              || u instanceof IfNonNullInst || u instanceof IfNullInst;
   }
 }

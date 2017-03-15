@@ -39,7 +39,7 @@ public class LoopFinder{
 			System.out.println("---loop---");
 			while (loopIt.hasNext()){
 				JPegStmt o = (JPegStmt)loopIt.next();
-				Tag tag = (Tag)o.getTags().get(0);
+				Tag tag = o.getTags().get(0);
 				System.out.println(tag+" "+o);
 			}
 		}

@@ -55,7 +55,7 @@ public class DexArrayInitReducer extends BodyTransformer {
 			Unit u = uIt.next();
 			
 			// If this is not an assignment, it does not matter.
-			if (!(u instanceof AssignStmt) || !((Stmt) u).getBoxesPointingToThis().isEmpty()) {
+			if (!(u instanceof AssignStmt) || !u.getBoxesPointingToThis().isEmpty()) {
 				u1 = null;
 				u2 = null;
 				continue;

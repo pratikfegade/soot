@@ -23,6 +23,7 @@ import soot.*;
 
 import java.util.*;
 
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 
 public class FieldTagAggregator extends TagAggregator

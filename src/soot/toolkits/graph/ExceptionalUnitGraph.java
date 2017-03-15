@@ -854,25 +854,25 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	@Override
 	public List<Unit> getUnexceptionalPredsOf(Unit u) {
 		List<Unit> preds = unitToUnexceptionalPreds.get(u);
-		return preds == null ? Collections.<Unit>emptyList() : preds;
+		return preds == null ? Collections.emptyList() : preds;
 	}
 
 	@Override
 	public List<Unit> getUnexceptionalSuccsOf(Unit u) {
 		List<Unit> succs = unitToUnexceptionalSuccs.get(u);
-		return succs == null ? Collections.<Unit>emptyList() : succs;
+		return succs == null ? Collections.emptyList() : succs;
 	}
 
 	@Override
 	public List<Unit> getExceptionalPredsOf(Unit u) {
 		List<Unit> preds = unitToExceptionalPreds.get(u);
-		return preds == null ? Collections.<Unit>emptyList() : preds;
+		return preds == null ? Collections.emptyList() : preds;
 	}
 
 	@Override
 	public List<Unit> getExceptionalSuccsOf(Unit u) {
 		List<Unit> succs = unitToExceptionalSuccs.get(u);
-		return succs == null ? Collections.<Unit>emptyList() : succs;
+		return succs == null ? Collections.emptyList() : succs;
 	}
 
 	/**

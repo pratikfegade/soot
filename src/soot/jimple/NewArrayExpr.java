@@ -34,11 +34,11 @@ import soot.util.*;
 
 public interface NewArrayExpr extends Expr, AnyNewExpr
 {
-    public Type getBaseType();
-    public void setBaseType(Type type);
-    public ValueBox getSizeBox();
-    public Value getSize();
-    public void setSize(Value size);
-    public Type getType();
-    public void apply(Switch sw);
+    Type getBaseType();
+    void setBaseType(Type type);
+    ValueBox getSizeBox();
+    Value getSize();
+    void setSize(Value size);
+    Type getType();
+    void apply(Switch sw);
 }

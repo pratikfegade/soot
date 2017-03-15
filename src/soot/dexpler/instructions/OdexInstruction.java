@@ -17,6 +17,6 @@ public interface OdexInstruction {
 	 * @param parentFile The parent file to which the current ODEX instruction
 	 * belongs
 	 */
-	public void deOdex(DexFile parentFile, Method m, ClassPath cp);
+    void deOdex(DexFile parentFile, Method m, ClassPath cp);
 
 }

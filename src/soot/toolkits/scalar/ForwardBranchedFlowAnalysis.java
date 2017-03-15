@@ -42,12 +42,12 @@
 package soot.toolkits.scalar;
 
 import soot.*;
+import soot.options.Options;
 import soot.toolkits.graph.*;
 import soot.util.*;
 import java.util.*;
 
 import soot.toolkits.graph.interaction.*;
-import soot.options.*;
 
 /**
  * Abstract class providing an engine for branched forward flow analysis.

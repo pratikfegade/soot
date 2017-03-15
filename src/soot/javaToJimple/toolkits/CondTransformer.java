@@ -21,6 +21,8 @@ package soot.javaToJimple.toolkits;
 
 import soot.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 public class CondTransformer extends BodyTransformer {
@@ -172,26 +174,17 @@ public class CondTransformer extends BodyTransformer {
     private boolean sameTarget(Stmt s1, Stmt s2){
         IfStmt is1 = (IfStmt)s1;
         IfStmt is2 = (IfStmt)s2;
-        if (is1.getTarget().equals(is2.getTarget())){
-            return true;
-        }
-        return false;
+        return is1.getTarget().equals(is2.getTarget());
     }
 
     private boolean isTarget(Stmt s1, Stmt s){
-        if (s1.equals(s)){
-            return true;
-        }
-        return false;
+        return s1.equals(s);
     }
 
     private boolean sameLocal(Stmt s1, Stmt s2){
         AssignStmt as1 = (AssignStmt)s1;
         AssignStmt as2 = (AssignStmt)s2;
-        if (as1.getLeftOp().equals(as2.getLeftOp())){
-            return true;
-        }
-        return false;
+        return as1.getLeftOp().equals(as2.getLeftOp());
     }
 
     private boolean sameCondLocal(Stmt s1, Stmt s2){

@@ -31,6 +31,7 @@ import polyglot.util.IdentityKey;
 import soot.FastHierarchy;
 import soot.SootClass;
 import soot.SootMethod;
+import soot.singletons.Singletons;
 
 public class InitialResolver implements IInitialResolver {
 
@@ -85,8 +86,7 @@ public class InitialResolver implements IInitialResolver {
      */
     public boolean hasASTForSootName(String name){
        if (sootNameToAST == null) return false;
-       if (sootNameToAST.containsKey(name)) return true;
-       return false;
+        return sootNameToAST.containsKey(name);
     }
     
     /**
@@ -99,7 +99,7 @@ public class InitialResolver implements IInitialResolver {
         setAst(sootNameToAST.get(name));
     }
    
-    public InitialResolver(soot.Singletons.Global g){}
+    public InitialResolver(Singletons.Global g){}
     public static InitialResolver v() {
         return soot.G.v().soot_javaToJimple_InitialResolver();
     }

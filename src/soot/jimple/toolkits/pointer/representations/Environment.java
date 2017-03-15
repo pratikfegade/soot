@@ -42,6 +42,7 @@
 package soot.jimple.toolkits.pointer.representations;
 
 import soot.*;
+import soot.singletons.Singletons;
 
 public class Environment {
     public Environment( Singletons.Global g ) {}

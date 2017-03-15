@@ -26,12 +26,13 @@ import java.util.List;
 import java.util.Map;
 
 import soot.javaToJimple.IInitialResolver;
-import soot.JastAddJ.BodyDecl;
-import soot.JastAddJ.CompilationUnit;
-import soot.JastAddJ.ConstructorDecl;
-import soot.JastAddJ.MethodDecl;
-import soot.JastAddJ.Program;
-import soot.JastAddJ.TypeDecl;
+import jastadd.soot.JastAddJ.BodyDecl;
+import jastadd.soot.JastAddJ.CompilationUnit;
+import jastadd.soot.JastAddJ.ConstructorDecl;
+import jastadd.soot.JastAddJ.MethodDecl;
+import jastadd.soot.JastAddJ.Program;
+import jastadd.soot.JastAddJ.TypeDecl;
+import soot.singletons.Singletons;
 
 /**
  * An {@link IInitialResolver} for the JastAdd frontend.
@@ -41,7 +42,7 @@ import soot.JastAddJ.TypeDecl;
  */
 public class JastAddInitialResolver implements IInitialResolver {
 
-    public JastAddInitialResolver(soot.Singletons.Global g){}
+    public JastAddInitialResolver(Singletons.Global g){}
 
     public static JastAddInitialResolver v() {
         return soot.G.v().soot_JastAddInitialResolver();
@@ -54,10 +55,10 @@ public class JastAddInitialResolver implements IInitialResolver {
     	  CompilationUnit u = program.getCachedOrLoadCompilationUnit(fullPath);
     	  if(u != null && !u.isResolved) {
     		  u.isResolved = true;
-	          java.util.ArrayList<soot.JastAddJ.Problem> errors = new java.util.ArrayList<soot.JastAddJ.Problem>();
+	          java.util.ArrayList<jastadd.soot.JastAddJ.Problem> errors = new java.util.ArrayList<jastadd.soot.JastAddJ.Problem>();
 	          u.errorCheck(errors);
 	          if(!errors.isEmpty()) {
-	        	  for(soot.JastAddJ.Problem p : errors)
+	        	  for(jastadd.soot.JastAddJ.Problem p : errors)
 	        		  G.v().out.println(p);
 	        	  //die
 	        	  throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED,

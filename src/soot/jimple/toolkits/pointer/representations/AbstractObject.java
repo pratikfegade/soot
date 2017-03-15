@@ -34,7 +34,7 @@ package soot.jimple.toolkits.pointer.representations;
 import soot.*;
 
 public interface AbstractObject{
-  public Type getType();
-  public String toString();
-  public String shortString();
+  Type getType();
+  String toString();
+  String shortString();
 }

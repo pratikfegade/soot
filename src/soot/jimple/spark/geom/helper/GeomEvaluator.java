@@ -380,7 +380,7 @@ public class GeomEvaluator {
 								continue;
 
 							LocalVarNode vn = ptsProvider
-									.findLocalVarNode((Local) ifr.getBase());
+									.findLocalVarNode(ifr.getBase());
 							if (vn == null)
 								continue;
 							
@@ -480,8 +480,8 @@ public class GeomEvaluator {
 						if ( !pn.hasPTResult() ) continue;
 						
 						evalRes.total_casts++;
-						final Type targetType = 
-								(RefLikeType) ((CastExpr) rhs).getCastType();
+						final Type targetType =
+                                ((CastExpr) rhs).getCastType();
 
 						// We first use the geometric points-to result to
 						// evaluate
@@ -570,7 +570,7 @@ public class GeomEvaluator {
 				if (ifr != null) {
 					final SootField field = ifr.getField();
 
-					LocalVarNode vn = ptsProvider.findLocalVarNode((Local) ifr
+					LocalVarNode vn = ptsProvider.findLocalVarNode(ifr
 							.getBase());
 					if (vn == null)
 						continue;

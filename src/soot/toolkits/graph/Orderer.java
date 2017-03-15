@@ -37,6 +37,6 @@ public interface Orderer<N> {
 	 *  @param reverse <code>true</code> to compute the reverse order
 	 *  @return a somehow ordered list of the graph's nodes
 	 */
-	public abstract List<N> newList(DirectedGraph<N> g, boolean reverse);
+    List<N> newList(DirectedGraph<N> g, boolean reverse);
 
 }

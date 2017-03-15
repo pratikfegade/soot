@@ -19,6 +19,7 @@
 
 package soot.jimple.spark.fieldrw;
 import soot.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 import java.util.*;
 import soot.jimple.toolkits.callgraph.*;

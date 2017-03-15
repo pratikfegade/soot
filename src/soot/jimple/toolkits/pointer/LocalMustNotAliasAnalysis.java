@@ -131,7 +131,7 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
     protected HashMap<Local,Set<NewExpr>> entryInitialFlow()
     {
     	HashMap<Local,Set<NewExpr>> m = new HashMap<Local,Set<NewExpr>>();
-        for (Local l : (Collection<Local>) locals) {
+        for (Local l : locals) {
             HashSet<NewExpr> s = new HashSet<NewExpr>();
             s.add(UNKNOWN);
             m.put(l, s);
@@ -142,7 +142,7 @@ public class LocalMustNotAliasAnalysis extends ForwardFlowAnalysis<Unit, HashMap
     protected HashMap<Local,Set<NewExpr>> newInitialFlow()
     {
     	HashMap<Local,Set<NewExpr>> m = new HashMap<Local,Set<NewExpr>>();
-        for (Local l : (Collection<Local>) locals) {
+        for (Local l : locals) {
         	HashSet<NewExpr> s = new HashSet<NewExpr>(); 
             m.put(l, s);
         }

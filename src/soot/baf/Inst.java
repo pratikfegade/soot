@@ -29,17 +29,17 @@ import soot.*;
 
 public interface Inst extends Unit
 {    
-    public int getInCount();
-    public int getOutCount();
-    public int getNetCount();
+    int getInCount();
+    int getOutCount();
+    int getNetCount();
     
-    public int getInMachineCount();
-    public int getOutMachineCount();
-    public int getNetMachineCount();
+    int getInMachineCount();
+    int getOutMachineCount();
+    int getNetMachineCount();
     
-    public boolean containsInvokeExpr();
-    public boolean containsFieldRef();
-    public boolean containsArrayRef();
-    public boolean containsNewExpr();
+    boolean containsInvokeExpr();
+    boolean containsFieldRef();
+    boolean containsArrayRef();
+    boolean containsNewExpr();
 }
 

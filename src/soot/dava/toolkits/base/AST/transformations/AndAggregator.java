@@ -107,7 +107,7 @@ public class AndAggregator extends DepthFirstAdapter {
 
 					// Get the body of the inner Node that will be the overall
 					// body
-					List<Object> newBodyList = ((ASTIfNode) bodyNode)
+					List<Object> newBodyList = bodyNode
 							.get_SubBodies();
 
 					// retireve the actual body List

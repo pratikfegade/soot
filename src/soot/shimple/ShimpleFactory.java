@@ -34,17 +34,17 @@ public interface ShimpleFactory
      * to force recomputations if body has changed and setBody()
      * hasn't been called again.
      **/
-    public void clearCache();
+    void clearCache();
 
-    public UnitGraph getUnitGraph();
-    public BlockGraph getBlockGraph();
-    public DominatorsFinder<Block> getDominatorsFinder();
-    public DominatorTree<Block> getDominatorTree();
-    public DominanceFrontier<Block> getDominanceFrontier();
+    UnitGraph getUnitGraph();
+    BlockGraph getBlockGraph();
+    DominatorsFinder<Block> getDominatorsFinder();
+    DominatorTree<Block> getDominatorTree();
+    DominanceFrontier<Block> getDominanceFrontier();
 
-    public GlobalValueNumberer getGlobalValueNumberer();
-    public ReversibleGraph<Block> getReverseBlockGraph();
-    public DominatorsFinder<Block> getReverseDominatorsFinder();
-    public DominatorTree<Block> getReverseDominatorTree();
-    public DominanceFrontier<Block> getReverseDominanceFrontier();
+    GlobalValueNumberer getGlobalValueNumberer();
+    ReversibleGraph<Block> getReverseBlockGraph();
+    DominatorsFinder<Block> getReverseDominatorsFinder();
+    DominatorTree<Block> getReverseDominatorTree();
+    DominanceFrontier<Block> getReverseDominanceFrontier();
 }

@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import soot.Body;
-import soot.Singletons;
 import soot.Trap;
 import soot.Unit;
 import soot.jimple.Jimple;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.toolkits.exceptions.TrapTransformer;
 import soot.toolkits.graph.ExceptionalGraph.ExceptionDest;
 import soot.toolkits.graph.ExceptionalUnitGraph;

@@ -29,7 +29,7 @@
 package soot.jimple.parser;
 
 import soot.*;
-import soot.jimple.parser.node.*;
+import sablecc.soot.jimple.parser.node.*;
 import java.util.*;
 
 

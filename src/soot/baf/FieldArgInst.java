@@ -30,6 +30,6 @@ import soot.*;
 
 public interface FieldArgInst extends Inst
 {
-    public SootFieldRef getFieldRef();
-    public SootField getField();
+    SootFieldRef getFieldRef();
+    SootField getField();
 }

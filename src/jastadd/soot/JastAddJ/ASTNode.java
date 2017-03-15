@@ -1,10 +1,10 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 // Generated with JastAdd II (http://jastadd.cs.lth.se) version R20090610
 
-public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Cloneable, Iterable<T> {
+public class ASTNode<T extends ASTNode> extends jastadd.beaver.Symbol  implements Cloneable, Iterable<T> {
     public void flushCache() {
     }
     public void flushCollectionCache() {
@@ -17,8 +17,8 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
     }
      @SuppressWarnings({"unchecked", "cast"})  public ASTNode<T> copy() {
       try {
-          ASTNode node = (ASTNode)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ASTNode node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -26,7 +26,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ASTNode<T> fullCopy() {
-        ASTNode res = (ASTNode)copy();
+        ASTNode res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -777,7 +777,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
 
   public void removeChild(int i) {
     if(children != null) {
-      ASTNode child = (ASTNode)children[i];
+      ASTNode child = children[i];
       if(child != null) {
         child.setParent(null);
         child.childIndex = -1;
@@ -790,10 +790,10 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
     // Declared in ASTNode.ast at line 117
 
   public ASTNode getParent() {
-    if(parent != null && ((ASTNode)parent).is$Final() != is$Final()) {
+    if(parent != null && parent.is$Final() != is$Final()) {
       state().boundariesCrossed++;
     }
-    return (ASTNode)parent;
+    return parent;
   }
 
     // Declared in ASTNode.ast at line 123
@@ -963,7 +963,7 @@ public class ASTNode<T extends ASTNode> extends beaver.Symbol  implements Clonea
             }
             @SuppressWarnings("unchecked") public T next() {
                 if(hasNext())
-                    return (T)getChild(counter++);
+                    return getChild(counter++);
                 else
                     return null;
             }

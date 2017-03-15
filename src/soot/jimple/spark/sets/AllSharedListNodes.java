@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.jimple.spark.sets.SharedListSet.ListNode;
 import soot.jimple.spark.sets.SharedListSet.Pair;
 

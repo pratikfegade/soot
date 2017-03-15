@@ -607,7 +607,7 @@ public class JBCOViewer extends javax.swing.JFrame {
                 }
                 
                 Vector trans = new Vector();
-                ListModel lmy = (ListModel)ListTransforms.getModel();
+                ListModel lmy = ListTransforms.getModel();
                 for (int i = 0; i < lmy.getSize(); i++) {
                   String text = (String)lmy.getElementAt(i);
                   for (int j = 0; j < optionStrings[0].length; j++)
@@ -623,7 +623,7 @@ public class JBCOViewer extends javax.swing.JFrame {
                       }
                       trans.add("-t:"+weight+":"+optionStrings[1][j]);
                       
-                      ListModel lmx = (ListModel)models[j];
+                      ListModel lmx = models[j];
                       if (lmx != null) {
                         for (int k = 0; k < lmx.getSize(); k++) {
                           String val = (String)lmx.getElementAt(k);

@@ -37,7 +37,7 @@ public class BafLineNumberer extends BodyTransformer implements IJbcoTransform {
       Inst i  = (Inst)it.next();
       List<Tag> tags = i.getTags();
       for (int k = 0; k < tags.size(); k++) {
-        Tag t = (Tag)tags.get(k);
+        Tag t = tags.get(k);
         if (t instanceof LineNumberTag) {
             tags.remove(k);
             break;

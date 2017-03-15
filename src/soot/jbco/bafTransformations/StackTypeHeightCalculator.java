@@ -82,7 +82,7 @@ public class StackTypeHeightCalculator {
     }
     
     public void caseStoreInst(StoreInst i){
-      remove_types=new Type[]{((AbstractOpTypeInst)i).getOpType()};
+      remove_types=new Type[]{i.getOpType()};
       add_types=null;
     }
     
@@ -90,7 +90,7 @@ public class StackTypeHeightCalculator {
       remove_types = null;
       add_types = null;
       if (bafToJLocals!=null) {
-        Local jl = (Local)bafToJLocals.get(i.getLocal());
+        Local jl = bafToJLocals.get(i.getLocal());
         if (jl!=null)
           add_types = new Type[]{jl.getType()};
       }
@@ -488,7 +488,7 @@ public class StackTypeHeightCalculator {
     {
       Unit h = heads.get(i);
       RefType handlerExc = isHandlerUnit(b.getTraps(),h);
-      Stack<Type> stack = (Stack<Type>)results.get(h);
+      Stack<Type> stack = results.get(h);
       if (stack != null) {
         if (stack.size() != (handlerExc!=null ? 1 : 0))
           throw new java.lang.RuntimeException("Problem with stack height - head expects ZERO or one if handler");
@@ -506,7 +506,7 @@ public class StackTypeHeightCalculator {
         
         inst.apply(sw);
 
-        stack = updateStack(sw,(Stack<Type>)results.get(inst));
+        stack = updateStack(sw, results.get(inst));
         Iterator<Unit> lit = bug.getSuccsOf(inst).iterator();
         while (lit.hasNext()) {
           Unit next = lit.next();
@@ -594,11 +594,9 @@ public class StackTypeHeightCalculator {
     
     if (t1 instanceof DoubleType && t2 instanceof DoubleType)
       return true;
-    
-    if (t1 instanceof FloatType && t2 instanceof FloatType)
-      return true;
-    
-    return false;
+
+      return t1 instanceof FloatType && t2 instanceof FloatType;
+
   }
   
   public static void printStack(PatchingChain<Unit> units, Map<Unit,Stack<Type>> stacks, boolean before) {
@@ -631,7 +629,7 @@ public class StackTypeHeightCalculator {
       Stack<Type> stack = stacks.get(unit);
       if (stack != null) {
         if (!before) {
-          ((Unit)unit).apply(sw);
+          unit.apply(sw);
           stack = updateStack(sw,stack);
           if (stack == null) {
             soot.jbco.util.Debugger.printUnits(units, " StackTypeHeightCalc failed");
@@ -670,7 +668,7 @@ public class StackTypeHeightCalculator {
   private static RefType isHandlerUnit(Chain<Trap> traps, Unit h) {
     Iterator<Trap> it = traps.iterator();
     while (it.hasNext()) {
-      Trap t = (Trap)it.next();
+      Trap t = it.next();
       if (t.getHandlerUnit() == h)
         return t.getException().getType();
     }

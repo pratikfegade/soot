@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 public interface GenericTypeDecl {
     // Declared in Generics.jrag at line 140
@@ -21,42 +21,46 @@ public interface GenericTypeDecl {
 
     // Declared in Generics.jrag at line 145
 
-    public String fullName();
+    String fullName();
 
     // Declared in Generics.jrag at line 146
 
-    public String typeName();
+    String typeName();
 
     // Declared in Generics.jrag at line 147
 
-    public int getNumParTypeDecl();
+    int getNumParTypeDecl();
 
     // Declared in Generics.jrag at line 148
 
-    public ParTypeDecl getParTypeDecl(int index);
+    ParTypeDecl getParTypeDecl(int index);
 
     // Declared in Generics.jrag at line 213
 
-  public TypeDecl makeGeneric(Signatures.ClassSignature s);
+  TypeDecl makeGeneric(Signatures.ClassSignature s);
 
 
     // Declared in Generics.jrag at line 460
 
 
-  public SimpleSet addTypeVariables(SimpleSet c, String name);
+  SimpleSet addTypeVariables(SimpleSet c, String name);
 
 
     // Declared in Generics.jrag at line 661
 
-  public List createArgumentList(ArrayList params);
+  List createArgumentList(ArrayList params);
 
 
     // Declared in Generics.jrag at line 139
- @SuppressWarnings({"unchecked", "cast"})     public boolean isGenericType();
+ @SuppressWarnings({"unchecked", "cast"})
+ boolean isGenericType();
     // Declared in Generics.jrag at line 144
- @SuppressWarnings({"unchecked", "cast"})     public TypeDecl rawType();
+ @SuppressWarnings({"unchecked", "cast"})
+ TypeDecl rawType();
     // Declared in Generics.jrag at line 595
- @SuppressWarnings({"unchecked", "cast"})     public TypeDecl lookupParTypeDecl(ParTypeAccess p);
+ @SuppressWarnings({"unchecked", "cast"})
+ TypeDecl lookupParTypeDecl(ParTypeAccess p);
     // Declared in Generics.jrag at line 632
- @SuppressWarnings({"unchecked", "cast"})     public TypeDecl lookupParTypeDecl(ArrayList list);
+ @SuppressWarnings({"unchecked", "cast"})
+ TypeDecl lookupParTypeDecl(ArrayList list);
 }

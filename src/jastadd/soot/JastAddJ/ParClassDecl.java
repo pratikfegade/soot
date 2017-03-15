@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 // parameterized type declarations
@@ -88,8 +88,8 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParClassDecl copy() {
       try {
-          ParClassDecl node = (ParClassDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ParClassDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -97,7 +97,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ParClassDecl fullCopy() {
-        ParClassDecl res = (ParClassDecl)copy();
+        ParClassDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -172,7 +172,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
 
 
     // Declared in Generics.ast line 6
-    public ParClassDecl(Modifiers p0, beaver.Symbol p1, List<Access> p2) {
+    public ParClassDecl(Modifiers p0, jastadd.beaver.Symbol p1, List<Access> p2) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -221,7 +221,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -252,7 +252,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getArgument(int i) {
-        return (Access)getArgumentList().getChild(i);
+        return getArgumentList().getChild(i);
     }
 
     // Declared in Generics.ast at line 14
@@ -529,7 +529,7 @@ public class ParClassDecl extends ClassDecl implements Cloneable, ParTypeDecl, M
   public Access createQualifiedAccess() {
     List typeArgumentList = new List();
     for(int i = 0; i < getNumArgument(); i++) {
-      Access a = (Access)getArgument(i);
+      Access a = getArgument(i);
       if(a instanceof TypeAccess)
         typeArgumentList.add(a.type().createQualifiedAccess());
       else

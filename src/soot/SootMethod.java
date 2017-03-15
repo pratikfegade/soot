@@ -131,7 +131,7 @@ public class SootMethod
 
     /** Constructs a SootMethod with the given name, parameter types and return type. */
     public SootMethod(String name, List<Type> parameterTypes, Type returnType) {
-        this(name, parameterTypes, returnType, 0, Collections.<SootClass>emptyList());
+        this(name, parameterTypes, returnType, 0, Collections.emptyList());
     }
 
     /** Constructs a SootMethod with the given name, parameter types, return type and modifiers. */
@@ -140,7 +140,7 @@ public class SootMethod
         List<Type> parameterTypes,
         Type returnType,
         int modifiers) {
-        this(name, parameterTypes, returnType, modifiers, Collections.<SootClass>emptyList());
+        this(name, parameterTypes, returnType, modifiers, Collections.emptyList());
     }
 
     /** Constructs a SootMethod with the given name, parameter types, return type,
@@ -712,7 +712,7 @@ public class SootMethod
         Iterator<Type> typeIt = this.getParameterTypes().iterator();
         int count = 0;
         while (typeIt.hasNext()) {
-            Type t = (Type) typeIt.next();
+            Type t = typeIt.next();
 			String tempString = t.toString();
 
             /*
@@ -820,7 +820,7 @@ public class SootMethod
         Iterator<Type> typeIt = this.getParameterTypes().iterator();
         //int count = 0;
         while (typeIt.hasNext()) {
-            Type t = (Type) typeIt.next();
+            Type t = typeIt.next();
 
             buffer.append(t);
 

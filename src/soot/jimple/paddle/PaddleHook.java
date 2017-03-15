@@ -19,6 +19,8 @@
 
 package soot.jimple.paddle;
 import soot.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /** Loads the Paddle plugin.

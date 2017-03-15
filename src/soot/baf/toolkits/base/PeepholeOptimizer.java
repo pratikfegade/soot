@@ -29,6 +29,7 @@ import java.util.*;
 import java.io.*;
 
 import soot.*;
+import soot.singletons.Singletons;
 
 /**
  * Driver class to run peepholes on the Baf IR. The peepholes applied must

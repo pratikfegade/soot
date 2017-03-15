@@ -18,6 +18,8 @@
  */
 
 package soot;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /** Manages the phase options of the various soot phases. */
@@ -159,7 +161,7 @@ public class PhaseOptions {
             if( !(p instanceof RadioScenePack) ) continue;
             if( p.get(phaseName) == null ) continue;
             for( Iterator<Transform> tIt = p.iterator(); tIt.hasNext(); ) {
-                final Transform t = (Transform) tIt.next();
+                final Transform t = tIt.next();
                 setPhaseOption( t.getPhaseName(), "enabled:false" );
             }
         }

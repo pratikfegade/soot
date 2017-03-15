@@ -19,6 +19,7 @@
 
 package soot.jimple.toolkits.pointer;
 import soot.*;
+import soot.singletons.Singletons;
 
 /** A very naive pointer analysis that just reports that any points can point
  * to any object. */

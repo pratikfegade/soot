@@ -20,7 +20,8 @@
 package soot.shimple;
 
 import soot.*;
-import soot.options.*;
+import soot.options.Options;
+import soot.options.ShimpleOptions;
 import soot.jimple.*;
 import soot.shimple.internal.*;
 import soot.util.*;

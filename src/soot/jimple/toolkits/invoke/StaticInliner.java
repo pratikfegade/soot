@@ -24,11 +24,12 @@
  */
 
 package soot.jimple.toolkits.invoke;
-import soot.options.*;
+import soot.options.Options;
 
 import soot.*;
 import soot.jimple.*;
 import soot.jimple.toolkits.callgraph.*;
+import soot.singletons.Singletons;
 import soot.tagkit.Host;
 import java.util.*;
 
@@ -118,12 +119,12 @@ public class StaticInliner extends SceneTransformer
             {
                 List l = sitesIt.next();
                 SootMethod inlinee = (SootMethod)l.get(0);
-                int inlineeSize = ((JimpleBody)(inlinee.retrieveActiveBody())).getUnits().size();
+                int inlineeSize = inlinee.retrieveActiveBody().getUnits().size();
 
                 Stmt invokeStmt = (Stmt)l.get(1);
 
                 SootMethod container = (SootMethod)l.get(2);
-                int containerSize = ((JimpleBody)(container.retrieveActiveBody())).getUnits().size();
+                int containerSize = container.retrieveActiveBody().getUnits().size();
                 
                 if (inlineeSize + containerSize > maxContainerSize)
                     continue;
@@ -164,7 +165,7 @@ public class StaticInliner extends SceneTransformer
                 SootMethod m = (SootMethod) methodsIt.next();
                 if (m.isConcrete())
                 {
-                    int size = ((JimpleBody)m.retrieveActiveBody()).getUnits().size();
+                    int size = m.retrieveActiveBody().getUnits().size();
                     sum += size;
                     methodToOriginalSize.put(m, new Integer(size));
                     count++;

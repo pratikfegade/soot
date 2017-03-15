@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
@@ -18,8 +18,8 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public AnnotationMethodDecl copy() {
       try {
-          AnnotationMethodDecl node = (AnnotationMethodDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          AnnotationMethodDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -27,7 +27,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public AnnotationMethodDecl fullCopy() {
-        AnnotationMethodDecl res = (AnnotationMethodDecl)copy();
+        AnnotationMethodDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -106,7 +106,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
 
 
     // Declared in Annotations.ast line 3
-    public AnnotationMethodDecl(Modifiers p0, Access p1, beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5, Opt<ElementValue> p6) {
+    public AnnotationMethodDecl(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5, Opt<ElementValue> p6) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -175,7 +175,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -206,7 +206,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration getParameter(int i) {
-        return (ParameterDeclaration)getParameterList().getChild(i);
+        return getParameterList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -278,7 +278,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getException(int i) {
-        return (Access)getExceptionList().getChild(i);
+        return getExceptionList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -350,7 +350,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Block getBlock() {
-        return (Block)getBlockOpt().getChild(0);
+        return getBlockOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -390,7 +390,7 @@ public class AnnotationMethodDecl extends MethodDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ElementValue getDefaultValue() {
-        return (ElementValue)getDefaultValueOpt().getChild(0);
+        return getDefaultValueOpt().getChild(0);
     }
 
     // Declared in Annotations.ast at line 14

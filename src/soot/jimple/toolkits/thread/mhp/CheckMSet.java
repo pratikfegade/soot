@@ -82,7 +82,7 @@ public class CheckMSet {
 		while (keySetIt.hasNext()) {
 			Object key = keySetIt.next();
 			if (key instanceof JPegStmt) {
-				Tag tag1 = (Tag) ((JPegStmt) key).getTags().get(0);
+				Tag tag1 = ((JPegStmt) key).getTags().get(0);
 				// System.out.println("check key: "+tag1+" "+key);
 
 			}

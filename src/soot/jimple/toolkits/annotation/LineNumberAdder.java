@@ -23,6 +23,7 @@ import soot.*;
 
 import java.util.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 
 public class LineNumberAdder extends SceneTransformer {

@@ -275,7 +275,7 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 			Iterator<AugmentedStmt> tempIt = node.getStatements().iterator();
 			// get to the array creation stmt
 			while (tempIt.hasNext()) {
-				AugmentedStmt tempAs = (AugmentedStmt) tempIt.next();
+				AugmentedStmt tempAs = tempIt.next();
 				Stmt tempS = tempAs.get_Stmt();
 				if (tempS.equals(s))
 					break;
@@ -425,11 +425,8 @@ public class ShortcutArrayInit extends DepthFirstAdapter {
 
 		DShortcutAssignStmt shortcut = (DShortcutAssignStmt) one;
 		Value shortcutVar = shortcut.getLeftOp();
-		if (!shortcutVar.equals(rightOp))
-			return false;
-
-		return true;
-	}
+        return shortcutVar.equals(rightOp);
+    }
 
 	// This local is declared using a shortcut declaration hence needs to be
 	// somehow removed from the declared locals list

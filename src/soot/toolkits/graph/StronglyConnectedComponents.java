@@ -24,7 +24,7 @@
  */
 
 package soot.toolkits.graph;
-import soot.options.*;
+import soot.options.Options;
 
 import soot.*;
 import soot.util.*;
@@ -104,7 +104,7 @@ public class StronglyConnectedComponents
         }
         componentList = Collections.unmodifiableList(componentList);
 
-        if (Options.v().verbose()) 
+        if (Options.v().verbose())
         {
             G.v().out.println("Done computing scc components");
             G.v().out.println("number of nodes in underlying graph: "+g.size());

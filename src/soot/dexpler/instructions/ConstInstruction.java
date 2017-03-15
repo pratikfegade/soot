@@ -115,7 +115,7 @@ public class ConstInstruction extends DexlibAbstractInstruction {
                 //return UntypedLongOrDoubleConstant.v((long)literal<<48).toDoubleConstant();
                 // seems that dexlib correctly puts the 16bits into the topmost bits.
                 //
-                return UntypedLongOrDoubleConstant.v((long)literal);//.toDoubleConstant();
+                return UntypedLongOrDoubleConstant.v(literal);//.toDoubleConstant();
             } else {
             	return LongConstant.v(literal);
             }

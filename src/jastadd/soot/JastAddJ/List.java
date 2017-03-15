@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 public class List<T extends ASTNode> extends ASTNode<T> implements Cloneable {
     public void flushCache() {
         super.flushCache();
@@ -16,8 +16,8 @@ public class List<T extends ASTNode> extends ASTNode<T> implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public List<T> copy() {
       try {
-          List node = (List)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          List node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -25,7 +25,7 @@ public class List<T extends ASTNode> extends ASTNode<T> implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public List<T> fullCopy() {
-        List res = (List)copy();
+        List res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -48,7 +48,7 @@ public class List<T extends ASTNode> extends ASTNode<T> implements Cloneable {
         VariableArityParameterDeclaration p = (VariableArityParameterDeclaration)node;
         list.add(
           new VariableArityParameterDeclarationSubstituted(
-            (Modifiers)p.getModifiers().fullCopy(),
+                  p.getModifiers().fullCopy(),
             // use the type acces since VariableArity adds to the dimension
             p.getTypeAccess().type().substituteParameterType(parTypeDecl),
             p.getID(),
@@ -60,7 +60,7 @@ public class List<T extends ASTNode> extends ASTNode<T> implements Cloneable {
         ParameterDeclaration p = (ParameterDeclaration)node;
         list.add(
           new ParameterDeclarationSubstituted(
-            (Modifiers)p.getModifiers().fullCopy(),
+                  p.getModifiers().fullCopy(),
             p.type().substituteParameterType(parTypeDecl),
             p.getID(),
             p

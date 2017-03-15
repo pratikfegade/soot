@@ -40,10 +40,10 @@ import soot.BodyTransformer;
 import soot.G;
 import soot.PhaseOptions;
 import soot.Scene;
-import soot.Singletons;
 import soot.Trap;
 import soot.Unit;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.toolkits.exceptions.PedanticThrowAnalysis;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.DirectedGraph;
@@ -82,7 +82,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		int numPruned = units.size();
 		
 		Set<Unit> reachable = units.isEmpty()
-			? Collections.<Unit>emptySet()
+			? Collections.emptySet()
 			: reachable(units.getFirst(), graph)
 			;
 		
@@ -138,7 +138,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 	// 3799th level.
 	private <T> Set<T> reachable(T first, DirectedGraph<T> g) {
 		if ( first == null || g == null ) {
-			return Collections.<T>emptySet();
+			return Collections.emptySet();
 		}
 		Set<T> visited = new HashSet<T>(g.size());
 		Deque<T> q = new ArrayDeque<T>();

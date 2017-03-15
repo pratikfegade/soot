@@ -113,12 +113,7 @@ class TypeVariableBV implements Comparable<Object>
     
     TypeVariableBV ecr = ((TypeVariableBV) obj).ecr();
 
-    if(ecr != this)
-      {
-	return false;
-      }
-    
-    return true;
+      return ecr == this;
   }
 
   public int compareTo(Object o)

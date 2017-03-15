@@ -85,7 +85,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 		setMergeType();
 		// the input to the process method is an empty DavaFlow Set meaning
 		// out(start) ={} (no var initialized)
-		finalResult = (DavaFlowSet) process(analyze, new DavaFlowSet());
+		finalResult = process(analyze, new DavaFlowSet());
 
 		// finalResult contains the flowSet of having processed the whole of the
 		// method
@@ -118,7 +118,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 
 	@Override
 	public DavaFlowSet cloneFlowSet(DavaFlowSet flowSet) {
-		return ((DavaFlowSet) flowSet).clone();
+		return flowSet.clone();
 	}
 
 	/*
@@ -163,14 +163,13 @@ public class MustMayInitialize extends StructuredAnalysis {
 		}
 
 		if (s instanceof DefinitionStmt) {
-			DavaFlowSet toReturn = (DavaFlowSet) cloneFlowSet(inSet);
+			DavaFlowSet toReturn = cloneFlowSet(inSet);
 			// x = expr;
 
 			Value leftOp = ((DefinitionStmt) s).getLeftOp();
 
 			SootField field = null;
-			;
-			if (leftOp instanceof Local) {
+            if (leftOp instanceof Local) {
 				toReturn.add(leftOp);
 
 				/*
@@ -222,10 +221,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 				return false;
 			else {
 				List list = (List) temp;
-				if (list.size() == 0)
-					return false;
-				else
-					return true;
+                return list.size() != 0;
 			}
 		} else
 			throw new RuntimeException("Cannot invoke isMayInitialized for a MUST analysis");
@@ -238,10 +234,7 @@ public class MustMayInitialize extends StructuredAnalysis {
 				return false;
 			else {
 				List list = (List) temp;
-				if (list.size() == 0)
-					return false;
-				else
-					return true;
+                return list.size() != 0;
 			}
 		} else
 			throw new RuntimeException("Cannot invoke isMayInitialized for a MUST analysis");
@@ -249,19 +242,15 @@ public class MustMayInitialize extends StructuredAnalysis {
 
 	public boolean isMustInitialized(SootField field) {
 		if (MUSTMAY == MUST) {
-			if (finalResult.contains(field))
-				return true;
-			return false;
-		} else
+            return finalResult.contains(field);
+        } else
 			throw new RuntimeException("Cannot invoke isMustinitialized for a MAY analysis");
 	}
 
 	public boolean isMustInitialized(Value local) {
 		if (MUSTMAY == MUST) {
-			if (finalResult.contains(local))
-				return true;
-			return false;
-		} else
+            return finalResult.contains(local);
+        } else
 			throw new RuntimeException("Cannot invoke isMustinitialized for a MAY analysis");
 	}
 

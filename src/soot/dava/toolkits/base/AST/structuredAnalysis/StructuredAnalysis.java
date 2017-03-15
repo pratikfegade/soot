@@ -391,8 +391,7 @@ public abstract class StructuredAnalysis<E> {
 			output = process(s, output);
 			if (DEBUG_STATEMENTS) {
 				System.out.println("After Processing statement " + s + output.toString());
-				;
-			}
+            }
 		}
 		return output;
 	}
@@ -944,16 +943,7 @@ public abstract class StructuredAnalysis<E> {
 	}
 
 	public boolean isDifferent(DavaFlowSet<E> oldObj, DavaFlowSet<E> newObj) {
-		if (oldObj.equals(newObj) && oldObj.internalDataMatchesTo(newObj)) {
-			// set matches and breaks and continues also match
-			// System.out.println("NOT DIFFERENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			return false;
-		} else {
-			// System.out.println(oldObj);
-			// System.out.println(newObj);
-			// System.out.println("DIFFERENT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			return true;
-		}
+        return !(oldObj.equals(newObj) && oldObj.internalDataMatchesTo(newObj));
 	}
 
 	/*

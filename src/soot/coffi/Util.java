@@ -35,6 +35,7 @@ import soot.jimple.*;
 import java.util.*;
 import java.io.*;
 
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 import soot.*;
 

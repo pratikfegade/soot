@@ -40,5 +40,5 @@ public interface DeferableInstruction  {
      *
      * @param body to jimplify into
      */
-    public void deferredJimplify(DexBody body);
+    void deferredJimplify(DexBody body);
 }

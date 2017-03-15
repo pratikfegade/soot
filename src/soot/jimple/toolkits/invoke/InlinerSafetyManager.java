@@ -148,13 +148,8 @@ public class InlinerSafetyManager
         	//System.out.println("checkSpecialInlineRestrictions failed");
         	return false;
         }
-        
-        if (!checkAccessRestrictions(container, target, modifierOptions)) {
-        	//System.out.println("checkAccessRestrictions failed");
-        	return false;
-        }
-        
-        return true;
+
+        return checkAccessRestrictions(container, target, modifierOptions);
     }
     
     /** Checks the safety criteria enumerated in section 3.1.4 
@@ -208,12 +203,9 @@ public class InlinerSafetyManager
 
         // Rule 7: Don't change semantics of program by moving 
         //         an invokespecial.
-        if (ie instanceof SpecialInvokeExpr && 
+        return !(ie instanceof SpecialInvokeExpr &&
                 (specialInvokePerformsLookupIn(ie, inlinee.getDeclaringClass()) ||
-                specialInvokePerformsLookupIn(ie, container.getDeclaringClass())))
-            return false;
-
-        return true;
+                        specialInvokePerformsLookupIn(ie, container.getDeclaringClass())));
     }
 
     /** Returns true if any of the following cases holds:

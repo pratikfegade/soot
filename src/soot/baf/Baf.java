@@ -34,6 +34,8 @@ import soot.*;
 import soot.jimple.*;
 import soot.jimple.internal.*;
 import soot.baf.internal.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 public class Baf
@@ -557,7 +559,7 @@ public class Baf
     /** Returns a BafBody constructed from b. */
     public BafBody newBody(Body b)
     {
-        return new BafBody(b, Collections.<String,String>emptyMap());
+        return new BafBody(b, Collections.emptyMap());
     }
 
     /** Returns a BafBody constructed from b. */

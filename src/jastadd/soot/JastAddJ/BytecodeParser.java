@@ -1,11 +1,11 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 public class BytecodeParser extends java.lang.Object implements Flags, BytecodeReader {
     // Declared in BytecodeReader.jrag at line 13
 
-    public CompilationUnit read(InputStream is, String fullName, Program p) throws FileNotFoundException, IOException {
+    public CompilationUnit read(InputStream is, String fullName, Program p) throws IOException {
       return new BytecodeParser(is, fullName).parse(null, null, p);
     }
 
@@ -303,7 +303,7 @@ public class BytecodeParser extends java.lang.Object implements Flags, BytecodeR
 
 
 	  public CompilationUnit parse(TypeDecl outerTypeDecl, String outerClassName, Program classPath, boolean isInner) 
-        throws FileNotFoundException, IOException {
+        throws IOException {
           isInnerClass = isInner;
           return parse(outerTypeDecl, outerClassName, classPath);
     }
@@ -312,7 +312,7 @@ public class BytecodeParser extends java.lang.Object implements Flags, BytecodeR
 
 
     public CompilationUnit parse(TypeDecl outerTypeDecl, String outerClassName, Program program) 
-      throws FileNotFoundException, IOException {
+      throws IOException {
         //InputStream file = ClassLoader.getSystemResourceAsStream(name);
 
         if(is == null) {

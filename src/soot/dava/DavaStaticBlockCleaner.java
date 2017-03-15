@@ -23,7 +23,7 @@ package soot.dava;
 import soot.Body;
 import soot.G;
 import soot.Modifier;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.dava.internal.AST.ASTMethodNode;
@@ -87,7 +87,7 @@ public class DavaStaticBlockCleaner {
 
 	
     	Body clinitBody = clinit.getActiveBody();	
-        Chain units = ((DavaBody) clinitBody).getUnits();
+        Chain units = clinitBody.getUnits();
 
         if (units.size() != 1) {
             throw new RuntimeException("DavaBody AST doesn't have single root.");
@@ -130,7 +130,7 @@ public class DavaStaticBlockCleaner {
 	
 		    Body bod = maybeInline.getActiveBody();
 	
-		    Chain units = ((DavaBody) bod).getUnits();
+		    Chain units = bod.getUnits();
 
 		    if (units.size() != 1) {
 			throw new RuntimeException("DavaBody AST doesn't have single root.");

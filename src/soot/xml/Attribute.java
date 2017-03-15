@@ -130,8 +130,7 @@ public class Attribute {
     }
 
     public boolean hasColor(){
-        if (colors != null) return true;
-        else return false;
+        return colors != null;
     }
 
     ArrayList<StringAttribute> texts;
@@ -153,7 +152,7 @@ public class Attribute {
 
     public void addTag(Tag t){
 		if (t instanceof LineNumberTag) {
-            int lnNum = (new Integer(((LineNumberTag)t).toString())).intValue();
+            int lnNum = (new Integer(t.toString())).intValue();
             javaStartLn(lnNum);
             javaEndLn(lnNum);
 		}
@@ -220,7 +219,7 @@ public class Attribute {
 				return ((SourceLnPosTag)t).startLn();
 			}
             else if (t instanceof LineNumberTag){
-                return (new Integer(((LineNumberTag)t).toString())).intValue();
+                return (new Integer(t.toString())).intValue();
             }
 		}
 		return 0;

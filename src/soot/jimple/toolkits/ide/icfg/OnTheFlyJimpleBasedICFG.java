@@ -178,7 +178,7 @@ public class OnTheFlyJimpleBasedICFG extends AbstractJimpleBasedICFG {
 	@Override
 	public Set<Unit> getCallersOf(SootMethod m) {
 		Set<Unit> callers = methodToCallers.get(m);
-		return callers == null ? Collections.<Unit>emptySet() : callers;
+		return callers == null ? Collections.emptySet() : callers;
 		
 //		throw new UnsupportedOperationException("This class is not suited for unbalanced problems");
 	}

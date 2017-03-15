@@ -62,7 +62,7 @@ public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<
 								res.add(u);
 							}
 						}
-						return res == null ? Collections.<Unit>emptySet() : res;
+						return res == null ? Collections.emptySet() : res;
 					}
 				});
 	

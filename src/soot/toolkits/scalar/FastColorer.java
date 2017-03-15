@@ -305,7 +305,7 @@ public class FastColorer {
 						}
 						
 
-						Value defValue = ((ValueBox) defBoxes.get(0)).getValue();
+						Value defValue = defBoxes.get(0).getValue();
 						if (defValue instanceof Local) {
 							Local defLocal = (Local) defValue;
 							for (Local otherLocal : liveLocalsAtUnit) {

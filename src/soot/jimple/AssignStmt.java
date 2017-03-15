@@ -33,6 +33,6 @@ import soot.*;
 
 public interface AssignStmt extends DefinitionStmt
 {
-    public void setLeftOp(Value variable);
-    public void setRightOp(Value rvalue);
+    void setLeftOp(Value variable);
+    void setRightOp(Value rvalue);
 }

@@ -82,7 +82,7 @@ public class SlowCallGraph extends CallGraph
      * which will be informed of any new edges that are later added to
      * the graph. */
     public QueueReader listener() {
-        return (QueueReader) reader.clone();
+        return reader.clone();
     }
     /** Returns a QueueReader object which will contain ONLY NEW edges
      * which will be added to the graph.

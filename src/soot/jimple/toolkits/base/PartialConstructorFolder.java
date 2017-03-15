@@ -29,7 +29,7 @@
 
 
 package soot.jimple.toolkits.base;
-import soot.options.*;
+import soot.options.Options;
 import soot.*;
 import soot.toolkits.scalar.*;
 import soot.jimple.*;
@@ -39,7 +39,7 @@ import java.util.*;
 
 public class PartialConstructorFolder extends BodyTransformer
 {
-    //public JimpleConstructorFolder( Singletons.Global g ) {}
+    //public JimpleConstructorFolder( soot.singletons.Singletons.Global g ) {}
     //public static JimpleConstructorFolder v() { return G.v().JimpleConstructorFolder(); }
 
     private List<Type> types;
@@ -113,7 +113,7 @@ public class PartialConstructorFolder extends BodyTransformer
             
 
             // check if new is in the types list - only process these
-            if (!types.contains(((NewExpr)rhs).getType())) continue;
+            if (!types.contains(rhs.getType())) continue;
             
             List<UnitValueBoxPair> lu = localUses.getUsesOf(s);
             Iterator<UnitValueBoxPair> luIter = lu.iterator();

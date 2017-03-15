@@ -22,6 +22,7 @@ import soot.*;
 import java.util.*;
 import soot.jimple.toolkits.callgraph.*;
 import soot.jimple.*;
+import soot.singletons.Singletons;
 
 public class SideEffectTagger extends BodyTransformer
 { 

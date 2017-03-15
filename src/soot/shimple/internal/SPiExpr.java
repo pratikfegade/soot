@@ -76,7 +76,7 @@ public class SPiExpr implements PiExpr
     
     public List<UnitBox> getUnitBoxes()
     {
-        return Collections.<UnitBox>singletonList(argBox);
+        return Collections.singletonList(argBox);
     }
 
     public void clearUnitBoxes()

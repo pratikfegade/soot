@@ -32,6 +32,7 @@
 package soot.coffi;
 
 import soot.*;
+import soot.singletons.Singletons;
 
 public class Long2ndHalfType extends Type
 {

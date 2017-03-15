@@ -76,7 +76,7 @@ public class ArithmeticTransformer extends BodyTransformer implements
 
     Iterator<Unit> it = units.snapshotIterator();
     while (it.hasNext()) {
-      Unit u = (Unit) it.next();
+      Unit u = it.next();
       if (u instanceof AssignStmt) {
         AssignStmt as = (AssignStmt) u;
         Value v = as.getRightOp();

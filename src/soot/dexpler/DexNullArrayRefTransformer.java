@@ -145,7 +145,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 		Local lcEx = lc.newLocal(tp);
 		
 		SootMethodRef constructorRef = Scene.v().makeConstructorRef(tp.getSootClass(),
-				Collections.singletonList((Type) RefType.v("java.lang.String")));
+				Collections.singletonList(RefType.v("java.lang.String")));
 		
 		// Create the exception instance
 		Stmt newExStmt = Jimple.v().newAssignStmt(lcEx, Jimple.v().newNewExpr(tp));

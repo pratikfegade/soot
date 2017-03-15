@@ -2,6 +2,8 @@
 package soot.jimple.toolkits.thread.mhp;
 
 import soot.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 /**
  *

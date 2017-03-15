@@ -390,10 +390,8 @@ public class DavaFlowSet<T> extends AbstractFlowSet<T> {
 		SETNodeLabel label = ab.getLabel();
 		if (label == null)
 			return true;
-		if (label.toString() == null)
-			return true;
-		return false;
-	}
+        return label.toString() == null;
+    }
 
 	/**
 	 * The next two methods take an abruptStmt as input along with a flowSet. It
@@ -659,11 +657,8 @@ public class DavaFlowSet<T> extends AbstractFlowSet<T> {
 
 		// check implicitContinues match
 		otherMap = other.getImplicitContinues();
-		if (!compareHashMaps(implicitContinues, otherMap))
-			return false;
-
-		return true;
-	}
+        return compareHashMaps(implicitContinues, otherMap);
+    }
 
 	private boolean compareHashMaps(HashMap<Serializable, List<DavaFlowSet<T>>> thisMap,
 			HashMap<Serializable, List<DavaFlowSet<T>>> otherMap) {

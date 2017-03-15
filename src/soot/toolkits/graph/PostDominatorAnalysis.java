@@ -121,9 +121,7 @@ public class PostDominatorAnalysis extends BackwardFlowAnalysis<Unit,FlowSet<Uni
     
     private boolean isUnitEndNode(Unit s){
         //System.out.println("head: "+g.getHeads().get(0));
-        if( g.getTails().contains(s) )
-        	return true;
-        return false;
+        return g.getTails().contains(s);
     }
 
 // STEP 6: Determine value for start/end node, and

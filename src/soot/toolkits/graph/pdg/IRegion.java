@@ -39,19 +39,19 @@ import soot.toolkits.graph.UnitGraph;
 
 public interface IRegion {
 	
-	public SootMethod getSootMethod();
-	public SootClass getSootClass();	
-	public UnitGraph getUnitGraph();
-	public List<Unit> getUnits();
-	public List<Unit> getUnits(Unit from, Unit to);
-	public List<Block> getBlocks();
-	public Unit getLast();
-	public Unit getFirst();
-	public int getID();
-	public boolean occursBefore(Unit u1, Unit u2);
-	public void setParent(IRegion pr);
-	public IRegion getParent();
-	public void addChildRegion(IRegion chr);
-	public List<IRegion> getChildRegions();
+	SootMethod getSootMethod();
+	SootClass getSootClass();
+	UnitGraph getUnitGraph();
+	List<Unit> getUnits();
+	List<Unit> getUnits(Unit from, Unit to);
+	List<Block> getBlocks();
+	Unit getLast();
+	Unit getFirst();
+	int getID();
+	boolean occursBefore(Unit u1, Unit u2);
+	void setParent(IRegion pr);
+	IRegion getParent();
+	void addChildRegion(IRegion chr);
+	List<IRegion> getChildRegions();
 
 }

@@ -133,7 +133,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 
 						for (Local localArgument : localArguments) {
 							if (source.equivTo(localArgument)) {
-								return Collections.<Local>singleton(destinationMethod.getActiveBody().getParameterLocal(args.indexOf(localArgument)));
+								return Collections.singleton(destinationMethod.getActiveBody().getParameterLocal(args.indexOf(localArgument)));
 							}
 						}
 

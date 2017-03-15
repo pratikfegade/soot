@@ -25,12 +25,13 @@
 
 package soot.jimple.toolkits.callgraph;
 
-import soot.options.*;
+import soot.options.CHAOptions;
 import soot.*;
 
 import java.util.*;
 
 import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
+import soot.singletons.Singletons;
 
 /** Builds an invoke graph using Class Hierarchy Analysis. */
 public class CHATransformer extends SceneTransformer

@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 public class EnhancedForStmt extends BranchTargetStmt implements Cloneable, VariableScope {
     public void flushCache() {
@@ -41,8 +41,8 @@ public class EnhancedForStmt extends BranchTargetStmt implements Cloneable, Vari
     }
      @SuppressWarnings({"unchecked", "cast"})  public EnhancedForStmt copy() {
       try {
-          EnhancedForStmt node = (EnhancedForStmt)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          EnhancedForStmt node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -50,7 +50,7 @@ public class EnhancedForStmt extends BranchTargetStmt implements Cloneable, Vari
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public EnhancedForStmt fullCopy() {
-        EnhancedForStmt res = (EnhancedForStmt)copy();
+        EnhancedForStmt res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();

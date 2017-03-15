@@ -1,12 +1,12 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * This file is part of Beaver Parser Generator.                       *
+ * This file is part of jastadd.beaver Parser Generator.                       *
  * Copyright (C) 2003,2004 Alexander Demenchuk <alder@softanvil.com>.  *
  * All rights reserved.                                                *
  * See the file "LICENSE" for the terms and conditions for copying,    *
- * distribution and modification of Beaver.                            *
+ * distribution and modification of jastadd.beaver.                            *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-package beaver;
+package jastadd.beaver;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

@@ -78,8 +78,7 @@ public class Utf8_Enumeration implements Enumeration {
 
    /** <i>true</i> if the entire string hasn't been enumerated yet. */
    public boolean hasMoreElements() {
-      if (curindex<length) return true;
-      return false;
+       return curindex < length;
    }
 
    /** Determines the next Utf8 character, and stores it in c.

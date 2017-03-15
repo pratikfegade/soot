@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class CatchClause extends ASTNode<ASTNode> implements Cloneable, VariableScope {
@@ -32,8 +32,8 @@ public class CatchClause extends ASTNode<ASTNode> implements Cloneable, Variable
     }
      @SuppressWarnings({"unchecked", "cast"})  public CatchClause copy() {
       try {
-          CatchClause node = (CatchClause)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          CatchClause node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -41,7 +41,7 @@ public class CatchClause extends ASTNode<ASTNode> implements Cloneable, Variable
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public CatchClause fullCopy() {
-        CatchClause res = (CatchClause)copy();
+        CatchClause res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -174,7 +174,7 @@ if(parameterDeclaration_String_values == null) parameterDeclaration_String_value
         return parameterDeclaration_String_value;
     }
 
-    private SimpleSet parameterDeclaration_compute(String name) {  return getParameter().name().equals(name) ? (ParameterDeclaration)getParameter() : SimpleSet.emptySet;  }
+    private SimpleSet parameterDeclaration_compute(String name) {  return getParameter().name().equals(name) ? getParameter() : SimpleSet.emptySet;  }
 
     protected boolean label_computed = false;
     protected soot.jimple.Stmt label_value;

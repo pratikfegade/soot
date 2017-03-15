@@ -100,7 +100,7 @@ public final class TypeManager {
                 }
             }
         }
-        BitVector ret = (BitVector) typeMask.get( type );
+        BitVector ret = typeMask.get( type );
         if( ret == null && fh != null ) {
         	// If we have a phantom class and have no type mask, we assume that
         	// it is not cast-compatible to anything
@@ -264,7 +264,7 @@ public final class TypeManager {
         Collection<SootClass> implementers = fh.getAllImplementersOfInterface(interf);
             
         for (SootClass impl : implementers) {
-            BitVector other = (BitVector)typeMask.get(impl.getType());
+            BitVector other = typeMask.get(impl.getType());
             if (other == null) other = makeClassTypeMask(impl);
             ret.or(other);          
         }

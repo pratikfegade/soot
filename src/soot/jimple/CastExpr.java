@@ -34,11 +34,11 @@ import soot.util.*;
 
 public interface CastExpr extends Expr
 {
-    public Value getOp();
-    public void setOp(Value op);
-    public ValueBox getOpBox();
-    public Type getCastType();
-    public void setCastType(Type castType);
-    public Type getType();
-    public void apply(Switch sw);
+    Value getOp();
+    void setOp(Value op);
+    ValueBox getOpBox();
+    Type getCastType();
+    void setCastType(Type castType);
+    Type getType();
+    void apply(Switch sw);
 }

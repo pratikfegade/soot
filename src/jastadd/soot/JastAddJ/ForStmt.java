@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class ForStmt extends BranchTargetStmt implements Cloneable, VariableScope {
@@ -52,8 +52,8 @@ public class ForStmt extends BranchTargetStmt implements Cloneable, VariableScop
     }
      @SuppressWarnings({"unchecked", "cast"})  public ForStmt copy() {
       try {
-          ForStmt node = (ForStmt)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ForStmt node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -61,7 +61,7 @@ public class ForStmt extends BranchTargetStmt implements Cloneable, VariableScop
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ForStmt fullCopy() {
-        ForStmt res = (ForStmt)copy();
+        ForStmt res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -222,7 +222,7 @@ public class ForStmt extends BranchTargetStmt implements Cloneable, VariableScop
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Stmt getInitStmt(int i) {
-        return (Stmt)getInitStmtList().getChild(i);
+        return getInitStmtList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -294,7 +294,7 @@ public class ForStmt extends BranchTargetStmt implements Cloneable, VariableScop
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getCondition() {
-        return (Expr)getConditionOpt().getChild(0);
+        return getConditionOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -334,7 +334,7 @@ public class ForStmt extends BranchTargetStmt implements Cloneable, VariableScop
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Stmt getUpdateStmt(int i) {
-        return (Stmt)getUpdateStmtList().getChild(i);
+        return getUpdateStmtList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -822,10 +822,8 @@ if(lookupVariable_String_values == null) lookupVariable_String_values = new java
         if(caller == getStmtNoTransform()){
     if(hasCondition() && getCondition().isDAafterTrue(v))
       return true;
-    if(!hasCondition() && isDAafterInitialization(v))
-      return true;
-    return false;
-  }
+            return !hasCondition() && isDAafterInitialization(v);
+        }
         if(caller == getConditionOptNoTransform()) {
             return isDAafterInitialization(v);
         }

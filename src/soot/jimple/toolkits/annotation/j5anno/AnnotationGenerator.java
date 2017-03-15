@@ -31,7 +31,7 @@ import soot.G;
 import soot.SootClass;
 import soot.SootField;
 import soot.SootMethod;
-import soot.Singletons.Global;
+import soot.singletons.Singletons.Global;
 import soot.tagkit.AnnotationConstants;
 import soot.tagkit.AnnotationElem;
 import soot.tagkit.AnnotationTag;

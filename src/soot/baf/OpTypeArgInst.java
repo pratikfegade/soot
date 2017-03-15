@@ -29,6 +29,6 @@ import soot.*;
 
 public interface OpTypeArgInst extends Inst
 {
-    public Type getOpType();
-    public void setOpType(Type t);
+    Type getOpType();
+    void setOpType(Type t);
 }

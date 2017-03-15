@@ -24,8 +24,11 @@
  */
 
 package soot;
-import soot.options.*;
+import soot.options.Options;
+
 import java.io.*;
+
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 import java.util.*;
 

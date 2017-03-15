@@ -51,7 +51,7 @@ public class SETStatementSequenceNode extends SETNode {
 
 	public IterableSet get_NaturalExits() {
 		IterableSet c = new IterableSet();
-		AugmentedStmt last = (AugmentedStmt) get_Body().getLast();
+		AugmentedStmt last = get_Body().getLast();
 
 		if ((last.csuccs != null) && (last.csuccs.isEmpty() == false))
 			c.add(last);
@@ -116,7 +116,7 @@ public class SETStatementSequenceNode extends SETNode {
 	}
 
 	public AugmentedStmt get_EntryStmt() {
-		return (AugmentedStmt) get_Body().getFirst();
+		return get_Body().getFirst();
 	}
 
 	public void insert_AbruptStmt(DAbruptStmt stmt) {

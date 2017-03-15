@@ -791,12 +791,12 @@ public class DavaBody extends Body {
 				if (s instanceof IfStmt) {
 					IfStmt ifs = (IfStmt) s;
 
-					JGotoStmt jgs = new JGotoStmt((Unit) units.getSuccOf(u));
+					JGotoStmt jgs = new JGotoStmt(units.getSuccOf(u));
 					units.insertAfter(jgs, u);
 
-					JGotoStmt jumper = new JGotoStmt((Unit) ifs.getTarget());
+					JGotoStmt jumper = new JGotoStmt(ifs.getTarget());
 					units.insertAfter(jumper, jgs);
-					ifs.setTarget((Unit) jumper);
+					ifs.setTarget(jumper);
 				}
 
 				else if (s instanceof TableSwitchStmt) {
@@ -805,35 +805,35 @@ public class DavaBody extends Body {
 					int targetCount = tss.getHighIndex() - tss.getLowIndex()
 							+ 1;
 					for (int i = 0; i < targetCount; i++) {
-						JGotoStmt jgs = new JGotoStmt((Unit) tss.getTarget(i));
+						JGotoStmt jgs = new JGotoStmt(tss.getTarget(i));
 						units.insertAfter(jgs, tss);
-						tss.setTarget(i, (Unit) jgs);
+						tss.setTarget(i, jgs);
 					}
 
-					JGotoStmt jgs = new JGotoStmt((Unit) tss.getDefaultTarget());
+					JGotoStmt jgs = new JGotoStmt(tss.getDefaultTarget());
 					units.insertAfter(jgs, tss);
-					tss.setDefaultTarget((Unit) jgs);
+					tss.setDefaultTarget(jgs);
 				}
 
 				else if (s instanceof LookupSwitchStmt) {
 					LookupSwitchStmt lss = (LookupSwitchStmt) s;
 
 					for (int i = 0; i < lss.getTargetCount(); i++) {
-						JGotoStmt jgs = new JGotoStmt((Unit) lss.getTarget(i));
+						JGotoStmt jgs = new JGotoStmt(lss.getTarget(i));
 						units.insertAfter(jgs, lss);
-						lss.setTarget(i, (Unit) jgs);
+						lss.setTarget(i, jgs);
 					}
 
-					JGotoStmt jgs = new JGotoStmt((Unit) lss.getDefaultTarget());
+					JGotoStmt jgs = new JGotoStmt(lss.getDefaultTarget());
 					units.insertAfter(jgs, lss);
-					lss.setDefaultTarget((Unit) jgs);
+					lss.setDefaultTarget(jgs);
 				}
 			}
 
 			for (Trap t : getTraps()) {
-				JGotoStmt jgs = new JGotoStmt((Unit) t.getHandlerUnit());
+				JGotoStmt jgs = new JGotoStmt(t.getHandlerUnit());
 				units.addLast(jgs);
-				t.setHandlerUnit((Unit) jgs);
+				t.setHandlerUnit(jgs);
 			}
 		}
 
@@ -910,7 +910,7 @@ public class DavaBody extends Body {
 				}
 
 				else if (s instanceof InvokeStmt)
-					javafy(((InvokeStmt) s).getInvokeExprBox());
+					javafy(s.getInvokeExprBox());
 			}
 		}
 
@@ -982,7 +982,7 @@ public class DavaBody extends Body {
 											"More than one candidate for constructor found.");
 
 								constructorExpr = iie;
-								constructorUnit = (Unit) s;
+								constructorUnit = s;
 							}
 						}
 					}
@@ -1134,9 +1134,9 @@ public class DavaBody extends Body {
 		javafy(uoe.getOpBox());
 
 		if (uoe instanceof LengthExpr)
-			vb.setValue(new DLengthExpr(((LengthExpr) uoe).getOp()));
+			vb.setValue(new DLengthExpr(uoe.getOp()));
 		else if (uoe instanceof NegExpr)
-			vb.setValue(new DNegExpr(((NegExpr) uoe).getOp()));
+			vb.setValue(new DNegExpr(uoe.getOp()));
 	}
 
 	private void javafy_cast_expr(ValueBox vb) {

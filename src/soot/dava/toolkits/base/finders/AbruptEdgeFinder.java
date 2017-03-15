@@ -21,6 +21,8 @@ package soot.dava.toolkits.base.finders;
 
 import soot.*;
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.dava.*;
 import soot.dava.internal.asg.*;

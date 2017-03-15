@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 // A BoundMethodAccess is a method access that bypasses the normal name binding.
 // It receives its corresponding declaration explicitly through the constructor.
 
@@ -23,8 +23,8 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public BoundMethodAccess copy() {
       try {
-          BoundMethodAccess node = (BoundMethodAccess)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          BoundMethodAccess node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -32,7 +32,7 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public BoundMethodAccess fullCopy() {
-        BoundMethodAccess res = (BoundMethodAccess)copy();
+        BoundMethodAccess res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -77,7 +77,7 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
 
 
     // Declared in BoundNames.ast line 3
-    public BoundMethodAccess(beaver.Symbol p0, List<Expr> p1) {
+    public BoundMethodAccess(jastadd.beaver.Symbol p0, List<Expr> p1) {
         setID(p0);
         setChild(p1, 0);
     }
@@ -103,7 +103,7 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -134,7 +134,7 @@ public class BoundMethodAccess extends MethodAccess implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Expr getArg(int i) {
-        return (Expr)getArgList().getChild(i);
+        return getArgList().getChild(i);
     }
 
     // Declared in java.ast at line 14

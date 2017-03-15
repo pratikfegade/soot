@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class VariableArityParameterDeclarationSubstituted extends VariableArityParameterDeclaration implements Cloneable {
@@ -18,8 +18,8 @@ public class VariableArityParameterDeclarationSubstituted extends VariableArityP
     }
      @SuppressWarnings({"unchecked", "cast"})  public VariableArityParameterDeclarationSubstituted copy() {
       try {
-          VariableArityParameterDeclarationSubstituted node = (VariableArityParameterDeclarationSubstituted)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          VariableArityParameterDeclarationSubstituted node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -27,7 +27,7 @@ public class VariableArityParameterDeclarationSubstituted extends VariableArityP
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public VariableArityParameterDeclarationSubstituted fullCopy() {
-        VariableArityParameterDeclarationSubstituted res = (VariableArityParameterDeclarationSubstituted)copy();
+        VariableArityParameterDeclarationSubstituted res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -59,7 +59,7 @@ public class VariableArityParameterDeclarationSubstituted extends VariableArityP
 
 
     // Declared in Generics.ast line 31
-    public VariableArityParameterDeclarationSubstituted(Modifiers p0, Access p1, beaver.Symbol p2, VariableArityParameterDeclaration p3) {
+    public VariableArityParameterDeclarationSubstituted(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, VariableArityParameterDeclaration p3) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -125,7 +125,7 @@ public class VariableArityParameterDeclarationSubstituted extends VariableArityP
 
     // Declared in java.ast at line 5
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;

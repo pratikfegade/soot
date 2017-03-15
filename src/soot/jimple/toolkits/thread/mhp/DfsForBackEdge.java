@@ -93,10 +93,10 @@ public class DfsForBackEdge{
 		for(Iterator iter=maps.iterator(); iter.hasNext();){
 			Map.Entry entry = (Map.Entry)iter.next();
 			JPegStmt key = (JPegStmt)entry.getKey();
-			Tag tag = (Tag)key.getTags().get(0);
+			Tag tag = key.getTags().get(0);
 			System.out.println("---key=  "+tag+" "+key);
 			JPegStmt  value = (JPegStmt)entry.getValue();
-			Tag tag1 = (Tag)value.getTags().get(0);
+			Tag tag1 = value.getTags().get(0);
 			System.out.println("---value=  "+tag1+" "+value);
 		}
 		System.out.println("===test backEdges==end==");

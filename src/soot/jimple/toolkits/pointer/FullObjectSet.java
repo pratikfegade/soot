@@ -22,6 +22,7 @@ import java.util.*;
 
 import soot.*;
 import soot.jimple.ClassConstant;
+import soot.singletons.Singletons;
 
 public class FullObjectSet extends Union {
     public FullObjectSet( Singletons.Global g ) {

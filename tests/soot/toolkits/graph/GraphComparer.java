@@ -21,7 +21,7 @@ import soot.G;
 import soot.LabeledUnitPrinter;
 import soot.Trap;
 import soot.Unit;
-import soot.options.Options;
+import soot.options.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph.ExceptionDest;
 import soot.util.Chain;
 

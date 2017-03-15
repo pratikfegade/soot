@@ -27,6 +27,8 @@
 package soot.jimple.toolkits.typing.integer;
 
 import soot.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /**

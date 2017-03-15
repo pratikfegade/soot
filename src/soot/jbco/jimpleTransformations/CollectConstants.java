@@ -151,7 +151,7 @@ public class CollectConstants extends SceneTransformer implements IJbcoTransform
     Body b = null;
     boolean newInit = false;
     if (!clas.declaresMethodByName("<clinit>")) {
-      SootMethod m = new SootMethod("<clinit>", Collections.<Type>emptyList(), VoidType.v());
+      SootMethod m = new SootMethod("<clinit>", Collections.emptyList(), VoidType.v());
       clas.addMethod(m);
       b = Jimple.v().newBody(m);
       m.setActiveBody(b);

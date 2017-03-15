@@ -36,7 +36,7 @@ public interface InstanceInvokeExpr extends InvokeExpr
     /**
      * @return the target (qualifier) of this method invocation expression.
      */
-    public Value getBase();
-    public ValueBox getBaseBox();
-    public void setBase(Value base);
+    Value getBase();
+    ValueBox getBaseBox();
+    void setBase(Value base);
 }

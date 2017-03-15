@@ -29,7 +29,6 @@ import soot.Body;
 import soot.G;
 import soot.Local;
 import soot.PhaseOptions;
-import soot.Singletons;
 import soot.SootMethod;
 import soot.Unit;
 import soot.UnitBox;
@@ -39,6 +38,7 @@ import soot.jimple.JimpleBody;
 import soot.options.Options;
 import soot.shimple.internal.SPhiExpr;
 import soot.shimple.internal.SPiExpr;
+import soot.singletons.Singletons;
 import soot.toolkits.graph.Block;
 import soot.toolkits.scalar.ValueUnitPair;
 import soot.util.Chain;
@@ -164,7 +164,7 @@ public class Shimple
     public static boolean isPhiNode(Unit unit)
     {
         return
-            getPhiExpr(unit) == null ? false : true;
+                getPhiExpr(unit) != null;
     }
 
     /**
@@ -191,7 +191,7 @@ public class Shimple
 
     public static boolean isPiNode(Unit unit)
     {
-        return getPiExpr(unit) == null ? false : true;
+        return getPiExpr(unit) != null;
     }
 
     public static PiExpr getPiExpr(Unit unit)
@@ -265,7 +265,7 @@ public class Shimple
         
         // find fall-through pred
         if(!remove.equals(units.getFirst())){
-            Unit possiblePred = (Unit) units.getPredOf(remove);
+            Unit possiblePred = units.getPredOf(remove);
             if(possiblePred.fallsThrough())
                 preds.add(possiblePred);
         }
@@ -298,13 +298,13 @@ public class Shimple
                 G.v().out.println("Warning: Shimple.redirectToPreds couldn't find any predecessors for " + remove + " in " + body.getMethod() + ".");
 
             if(!remove.equals(units.getFirst())){
-                Unit pred = (Unit) units.getPredOf(remove);
+                Unit pred = units.getPredOf(remove);
                 if(debug)
                     G.v().out.println("Warning: Falling back to immediate chain predecessor: " + pred + ".");
                 preds.add(pred);
             }
             else if(!remove.equals(units.getLast())){
-                Unit succ = (Unit) units.getSuccOf(remove);
+                Unit succ = units.getSuccOf(remove);
                 if(debug)
                     G.v().out.println("Warning: Falling back to immediate chain successor: " + succ + ".");
                 preds.add(succ);

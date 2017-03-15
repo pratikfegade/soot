@@ -29,6 +29,8 @@ package soot.tagkit;
 
 
 import soot.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /** The aggregator for LineNumberTable attribute. */

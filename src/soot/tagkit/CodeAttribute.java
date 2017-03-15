@@ -25,7 +25,7 @@
 
 
 package soot.tagkit;
-import soot.options.*;
+import soot.options.Options;
 
 import java.util.*;
 import soot.baf.*;

@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -41,8 +41,8 @@ public class BreakStmt extends Stmt implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public BreakStmt copy() {
       try {
-          BreakStmt node = (BreakStmt)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          BreakStmt node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -50,7 +50,7 @@ public class BreakStmt extends Stmt implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public BreakStmt fullCopy() {
-        BreakStmt res = (BreakStmt)copy();
+        BreakStmt res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -127,7 +127,7 @@ public class BreakStmt extends Stmt implements Cloneable {
 
 
     // Declared in java.ast line 215
-    public BreakStmt(beaver.Symbol p0) {
+    public BreakStmt(jastadd.beaver.Symbol p0) {
         setLabel(p0);
     }
 
@@ -164,7 +164,7 @@ public class BreakStmt extends Stmt implements Cloneable {
 
     // Declared in java.ast at line 8
 
-    public void setLabel(beaver.Symbol symbol) {
+    public void setLabel(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setLabel is only valid for String lexemes");
         tokenString_Label = (String)symbol.value;

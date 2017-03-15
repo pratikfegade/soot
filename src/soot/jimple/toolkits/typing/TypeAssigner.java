@@ -46,7 +46,6 @@ import soot.NullType;
 import soot.PhaseOptions;
 import soot.Scene;
 import soot.ShortType;
-import soot.Singletons;
 import soot.Type;
 import soot.Unit;
 import soot.UnknownType;
@@ -62,6 +61,7 @@ import soot.jimple.toolkits.scalar.ConstantPropagatorAndFolder;
 import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.options.JBTROptions;
 import soot.options.Options;
+import soot.singletons.Singletons;
 import soot.toolkits.scalar.UnusedLocalEliminator;
 
 /**
@@ -177,7 +177,7 @@ public class TypeAssigner extends BodyTransformer {
 		List<Unit> unitToReplaceByException = new ArrayList<Unit>();
 		for (Unit u: b.getUnits()) {
 			for (ValueBox vb : u.getUseBoxes()) {
-				if( vb.getValue() instanceof Local && ((Local)vb.getValue()).getType() instanceof NullType) {
+				if( vb.getValue() instanceof Local && vb.getValue().getType() instanceof NullType) {
 					
 					Local l = (Local)vb.getValue();
 					Stmt s = (Stmt)u;

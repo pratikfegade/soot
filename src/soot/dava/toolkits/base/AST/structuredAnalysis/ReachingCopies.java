@@ -106,11 +106,8 @@ public class ReachingCopies extends StructuredAnalysis {
 		 * checks something in a list
 		 */
 		public boolean contains(Local local) {
-			if (leftLocal.toString().equals(local.toString()) || rightLocal.toString().equals(local.toString())) {
-				return true;
-			}
-			return false;
-		}
+            return leftLocal.toString().equals(local.toString()) || rightLocal.toString().equals(local.toString());
+        }
 
 		public String toString() {
 			StringBuffer b = new StringBuffer();
@@ -126,7 +123,7 @@ public class ReachingCopies extends StructuredAnalysis {
 		super();
 		// the input to the process method is an empty DavaFlow Set meaning
 		// out(start) ={}
-		DavaFlowSet temp = (DavaFlowSet) process(analyze, new DavaFlowSet());
+		DavaFlowSet temp = process(analyze, new DavaFlowSet());
 	}
 
 	public DavaFlowSet emptyFlowSet() {
@@ -144,7 +141,7 @@ public class ReachingCopies extends StructuredAnalysis {
 
 	@Override
 	public DavaFlowSet cloneFlowSet(DavaFlowSet flowSet) {
-		return ((DavaFlowSet) flowSet).clone();
+		return flowSet.clone();
 	}
 
 	/*
@@ -181,7 +178,7 @@ public class ReachingCopies extends StructuredAnalysis {
 	 */
 	@Override
 	public DavaFlowSet processStatement(Stmt s, DavaFlowSet input) {
-		DavaFlowSet inSet = (DavaFlowSet) input;
+		DavaFlowSet inSet = input;
 
 		/*
 		 * If this path will not be taken return no path straightaway
@@ -191,7 +188,7 @@ public class ReachingCopies extends StructuredAnalysis {
 		}
 
 		if (s instanceof DefinitionStmt) {
-			DavaFlowSet toReturn = (DavaFlowSet) cloneFlowSet(inSet);
+			DavaFlowSet toReturn = cloneFlowSet(inSet);
 			// x = expr;
 			// check if expr is a local in which case this is a copy
 			Value leftOp = ((DefinitionStmt) s).getLeftOp();

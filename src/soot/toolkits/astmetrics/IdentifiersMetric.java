@@ -20,7 +20,7 @@
 package soot.toolkits.astmetrics;
 
 import soot.G;
-import soot.options.*;
+import soot.options.Options;
 import polyglot.ast.*;
 import polyglot.visit.NodeVisitor;
 

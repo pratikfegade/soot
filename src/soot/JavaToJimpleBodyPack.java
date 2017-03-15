@@ -25,7 +25,8 @@
 
 
 package soot;
-import soot.options.*;
+import soot.options.JJOptions;
+import soot.options.Options;
 
 import soot.jimple.*;
 import java.util.*;

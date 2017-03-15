@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
   // a statement that can be reached by break or continue
 
 public class Block extends Stmt implements Cloneable, VariableScope {
@@ -34,8 +34,8 @@ public class Block extends Stmt implements Cloneable, VariableScope {
     }
      @SuppressWarnings({"unchecked", "cast"})  public Block copy() {
       try {
-          Block node = (Block)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          Block node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -43,7 +43,7 @@ public class Block extends Stmt implements Cloneable, VariableScope {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public Block fullCopy() {
-        Block res = (Block)copy();
+        Block res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -139,7 +139,7 @@ public class Block extends Stmt implements Cloneable, VariableScope {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Stmt getStmt(int i) {
-        return (Stmt)getStmtList().getChild(i);
+        return getStmtList().getChild(i);
     }
 
     // Declared in java.ast at line 14

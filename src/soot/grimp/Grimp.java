@@ -34,6 +34,8 @@ package soot.grimp;
 import soot.*;
 import soot.jimple.*;
 import soot.grimp.internal.*;
+import soot.singletons.Singletons;
+
 import java.util.*;
 
 /**
@@ -716,7 +718,7 @@ public class Grimp
         if (value instanceof Expr)
             {
                 final ExprBox returnedExpr = new ExprBox(IntConstant.v(0));
-                ((Expr)value).apply(new AbstractExprSwitch()
+                value.apply(new AbstractExprSwitch()
                 {
                     public void caseAddExpr(AddExpr v)
                     {

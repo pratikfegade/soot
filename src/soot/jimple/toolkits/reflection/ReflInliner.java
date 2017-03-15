@@ -28,7 +28,6 @@ import soot.PackManager;
 import soot.Scene;
 import soot.SootClass;
 import soot.Transform;
-import soot.jimple.toolkits.reflection.ReflectiveCallsInliner;
 import soot.options.Options;
 import soot.rtlib.tamiflex.DefaultHandler;
 import soot.rtlib.tamiflex.IUnexpectedReflectiveCallHandler;

@@ -10,7 +10,7 @@ import soot.FloatType;
 import soot.G;
 import soot.IntType;
 import soot.LongType;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.Type;
 import soot.Unit;
 import soot.Value;

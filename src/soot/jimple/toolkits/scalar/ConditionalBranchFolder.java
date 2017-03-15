@@ -26,8 +26,9 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.options.*;
+import soot.options.Options;
 
+import soot.singletons.Singletons;
 import soot.util.*;
 import soot.*;
 import soot.jimple.*;

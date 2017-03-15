@@ -51,7 +51,6 @@ import soot.DoubleType;
 import soot.FloatType;
 import soot.G;
 import soot.IntType;
-import soot.JastAddJ.CONSTANT_NameAndType_Info;
 import soot.Local;
 import soot.LongType;
 import soot.Modifier;
@@ -1366,7 +1365,7 @@ public class CFG {
 
 			targetToHandler.put(firstTargetStmt, newTarget);
             if (units.getFirst()!=newTarget) {
-              Unit prev = (Unit)units.getPredOf(newTarget);
+              Unit prev = units.getPredOf(newTarget);
               if (prev != null && prev.fallsThrough())
                 units.insertAfter(Jimple.v().newGotoStmt(firstTargetStmt), prev);
             }

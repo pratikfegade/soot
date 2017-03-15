@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 public class GLBTypeFactory extends java.lang.Object {
     // Declared in GLBTypeFactory.jadd at line 44
@@ -44,8 +44,8 @@ public class GLBTypeFactory extends java.lang.Object {
          */
         private static void addInterfaces(ArrayList intersectInterfaceList, ArrayList allInterfaceList, TypeDecl typeDecl) {
             if(typeDecl.isInterfaceDecl()) {
-                intersectInterfaceList.add((InterfaceDecl)typeDecl);
-                allInterfaceList.add((InterfaceDecl)typeDecl);
+                intersectInterfaceList.add(typeDecl);
+                allInterfaceList.add(typeDecl);
             }
             else if (typeDecl instanceof TypeVariable) {
                 TypeVariable varTD = (TypeVariable)typeDecl;
@@ -122,7 +122,7 @@ public class GLBTypeFactory extends java.lang.Object {
             if (result.size() == 1)
                 return (TypeDecl) result.get(0);
             else
-                return (TypeDecl) t.typeObject();
+                return t.typeObject();
         }
 
     // Declared in GLBTypeFactory.jadd at line 168
@@ -148,7 +148,7 @@ public class GLBTypeFactory extends java.lang.Object {
 
             // class
             if (t.isClassDecl() && !result.contains(t)) {
-                result.add((ClassDecl) t);
+                result.add(t);
             }
             // type variable, probably called from from 1st if case.
             else if (t.isTypeVariable()) {
@@ -162,7 +162,7 @@ public class GLBTypeFactory extends java.lang.Object {
             }
             // interface
             else if (t.isInterfaceDecl())
-                result.add((ClassDecl) t.typeObject());
+                result.add(t.typeObject());
 
         }
 

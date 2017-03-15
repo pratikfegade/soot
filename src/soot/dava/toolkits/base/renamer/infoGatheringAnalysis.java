@@ -200,7 +200,7 @@ public class infoGatheringAnalysis extends DepthFirstAdapter {
 	public void inInstanceFieldRef(InstanceFieldRef ifr) {
 		if (ifr instanceof AbstractInstanceFieldRef) {
 			if (inDefinitionStmt && (definedLocal != null)) {
-				SootField field = ((AbstractInstanceFieldRef) ifr).getField();
+				SootField field = ifr.getField();
 				//System.out.println(definedLocal+" is being assigned field:"+field.getName());
 				info.setFieldName(definedLocal, field.getName());
 			}

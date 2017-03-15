@@ -35,12 +35,12 @@ Rules:
    - in your singleton, include the following two methods following
      the model in soot.jimple.toolkits.base.Aggregator:
 
-    public Aggregator( Singletons.Global g ) {}
+    public Aggregator( soot.singletons.Singletons.Global g ) {}
     public static Aggregator v() { return G.v().Aggregator(); }
 
-     The Singletons.Global parameter to the only constructor ensures
+     The soot.singletons.Singletons.Global parameter to the only constructor ensures
      that only the Singletons class may instantiate the singleton,
-     since only it can create a Singletons.Global. The v() method
+     since only it can create a soot.singletons.Singletons.Global. The v() method
      fetches the singleton instance from the Singletons class.
      THE SINGLETON SHOULD NOT HAVE ITS OWN STATIC FIELD CONTAINING
      THE SINGLETON INSTANCE. soot.G is the only singleton holding

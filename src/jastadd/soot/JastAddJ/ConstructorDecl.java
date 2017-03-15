@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 public class ConstructorDecl extends BodyDecl implements Cloneable {
@@ -60,8 +60,8 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
     }
      @SuppressWarnings({"unchecked", "cast"})  public ConstructorDecl copy() {
       try {
-          ConstructorDecl node = (ConstructorDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          ConstructorDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -69,7 +69,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public ConstructorDecl fullCopy() {
-        ConstructorDecl res = (ConstructorDecl)copy();
+        ConstructorDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -206,7 +206,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
 
   public BodyDecl p(Parameterization parTypeDecl) {
     ConstructorDecl c = new ConstructorDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getID(),
       getParameterList().substitute(parTypeDecl),
       getExceptionList().substitute(parTypeDecl),
@@ -470,7 +470,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
 
 
     // Declared in java.ast line 72
-    public ConstructorDecl(Modifiers p0, beaver.Symbol p1, List<ParameterDeclaration> p2, List<Access> p3, Opt<Stmt> p4, Block p5) {
+    public ConstructorDecl(Modifiers p0, jastadd.beaver.Symbol p1, List<ParameterDeclaration> p2, List<Access> p3, Opt<Stmt> p4, Block p5) {
         setChild(p0, 0);
         setID(p1);
         setChild(p2, 1);
@@ -531,7 +531,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -562,7 +562,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration getParameter(int i) {
-        return (ParameterDeclaration)getParameterList().getChild(i);
+        return getParameterList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -634,7 +634,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getException(int i) {
-        return (Access)getExceptionList().getChild(i);
+        return getExceptionList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -706,7 +706,7 @@ public class ConstructorDecl extends BodyDecl implements Cloneable {
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Stmt getConstructorInvocation() {
-        return (Stmt)getConstructorInvocationOpt().getChild(0);
+        return getConstructorInvocationOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -1053,7 +1053,7 @@ if(parameterDeclaration_String_values == null) parameterDeclaration_String_value
     private SimpleSet parameterDeclaration_compute(String name) {
     for(int i = 0; i < getNumParameter(); i++)
       if(getParameter(i).name().equals(name))
-        return (ParameterDeclaration)getParameter(i);
+        return getParameter(i);
     return SimpleSet.emptySet;
   }
 
@@ -1244,10 +1244,8 @@ if(circularThisInvocation_ConstructorDecl_values == null) circularThisInvocation
     private boolean potentiallyApplicable_compute(List argList) {
     if(isVariableArity() && !(argList.getNumChild() >= arity()-1))
       return false;
-    if(!isVariableArity() && !(arity() == argList.getNumChild()))
-      return false;
-    return true;
-  }
+        return !(!isVariableArity() && !(arity() == argList.getNumChild()));
+    }
 
     // Declared in MethodSignature.jrag at line 325
  @SuppressWarnings({"unchecked", "cast"})     public int arity() {
@@ -1265,7 +1263,7 @@ if(circularThisInvocation_ConstructorDecl_values == null) circularThisInvocation
         return isVariableArity_value;
     }
 
-    private boolean isVariableArity_compute() {  return getNumParameter() == 0 ? false : getParameter(getNumParameter()-1).isVariableArity();  }
+    private boolean isVariableArity_compute() {  return getNumParameter() != 0 && getParameter(getNumParameter() - 1).isVariableArity();  }
 
     // Declared in VariableArityParameters.jrag at line 63
  @SuppressWarnings({"unchecked", "cast"})     public ParameterDeclaration lastParameter() {
@@ -1614,7 +1612,7 @@ if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = 
     // Declared in UnreachableStatements.jrag at line 32
     public boolean Define_boolean_reachable(ASTNode caller, ASTNode child) {
         if(caller == getBlockNoTransform()) {
-            return !hasConstructorInvocation() ? true : getConstructorInvocation().canCompleteNormally();
+            return !hasConstructorInvocation() || getConstructorInvocation().canCompleteNormally();
         }
         if(caller == getConstructorInvocationOptNoTransform()) {
             return true;

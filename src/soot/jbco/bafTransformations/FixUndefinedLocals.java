@@ -90,13 +90,13 @@ public class FixUndefinedLocals extends BodyTransformer implements IJbcoTransfor
       List<?> defs = gd.getGuaranteedDefs(u);
       Iterator<ValueBox> useIt = u.getUseBoxes().iterator();
       while (useIt.hasNext()) {
-        Value v = ((ValueBox) useIt.next()).getValue();
+        Value v = useIt.next().getValue();
         if (!(v instanceof Local) || defs.contains(v) || initialized.contains(v))
           continue;
 
         Type t = null;
         Local l = (Local) v;
-        Local jl = (Local) bafToJLocals.get(l);
+        Local jl = bafToJLocals.get(l);
         if (jl != null) {
           t = jl.getType();
         } else {

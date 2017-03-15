@@ -30,6 +30,7 @@
 package soot.baf;
 
 import soot.*;
+import soot.singletons.Singletons;
 import soot.util.*;
 
 public class WordType extends Type

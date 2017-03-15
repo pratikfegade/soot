@@ -36,13 +36,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import soot.JastAddJ.BytecodeParser;
-import soot.JastAddJ.CompilationUnit;
-import soot.JastAddJ.JastAddJavaParser;
-import soot.JastAddJ.JavaParser;
-import soot.JastAddJ.Program;
+import jastadd.soot.JastAddJ.BytecodeParser;
+import jastadd.soot.JastAddJ.CompilationUnit;
+import jastadd.soot.JastAddJ.JastAddJavaParser;
+import jastadd.soot.JastAddJ.JavaParser;
+import jastadd.soot.JastAddJ.Program;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
+import soot.singletons.Singletons;
 
 /** Loads symbols for SootClasses from either class files or jimple files. */
 public class SootResolver {
@@ -70,7 +71,7 @@ public class SootResolver {
 			program.initBytecodeReader(new BytecodeParser());
 			program.initJavaParser(new JavaParser() {
 				public CompilationUnit parse(InputStream is, String fileName)
-						throws IOException, beaver.Parser.Exception {
+						throws IOException, jastadd.beaver.Parser.Exception {
 					return new JastAddJavaParser().parse(is, fileName);
 				}
 			});
@@ -236,8 +237,8 @@ public class SootResolver {
 					G.v().out.println("Warning: " + className
 							+ " is a phantom class!");
 					sc.setPhantomClass();
-					classToTypesSignature.put(sc, Collections.<Type> emptyList());
-					classToTypesHierarchy.put(sc, Collections.<Type> emptyList());
+					classToTypesSignature.put(sc, Collections.emptyList());
+					classToTypesHierarchy.put(sc, Collections.emptyList());
 				}
 			} else {
 				Dependencies dependencies = is.resolve(sc);

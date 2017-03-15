@@ -143,7 +143,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			} // branch's successor test.
 			if ((succCount > 1) || (u.branches())) {
 				for (Iterator<Unit> it = successors.iterator(); it.hasNext();) {
-					leaders.add((Unit) it.next()); // The cast is an
+					leaders.add(it.next()); // The cast is an
 				} // assertion check.
 			}
 		}
@@ -217,7 +217,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 
 		// The underlying UnitGraph defines heads and tails.
 		for (Iterator<Unit> it = unitGraph.getHeads().iterator(); it.hasNext();) {
-			Unit headUnit = (Unit) it.next();
+			Unit headUnit = it.next();
 			Block headBlock = unitToBlock.get(headUnit);
 			if (headBlock.getHead() == headUnit) {
 				mHeads.add(headBlock);
@@ -226,7 +226,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			}
 		}
 		for (Iterator<Unit> it = unitGraph.getTails().iterator(); it.hasNext();) {
-			Unit tailUnit = (Unit) it.next();
+			Unit tailUnit = it.next();
 			Block tailBlock = unitToBlock.get(tailUnit);
 			if (tailBlock.getTail() == tailUnit) {
 				mTails.add(tailBlock);
@@ -250,7 +250,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			}
 
 			if (predBlocks.size() == 0) {
-				block.setPreds(Collections.<Block> emptyList());
+				block.setPreds(Collections.emptyList());
 
 				// If the UnreachableCodeEliminator is not eliminating
 				// unreachable handlers, then they will have no
@@ -284,7 +284,7 @@ public abstract class BlockGraph implements DirectedGraph<Block> {
 			}
 			
 			if (succBlocks.size() == 0) {
-				block.setSuccs(Collections.<Block> emptyList());
+				block.setSuccs(Collections.emptyList());
 				if (!mTails.contains(block)) {
 					// if this block is totally empty and unreachable, we remove it
 					if (block.getPreds().isEmpty()

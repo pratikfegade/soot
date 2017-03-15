@@ -34,7 +34,7 @@ import soot.Body;
 import soot.CompilationDeathException;
 import soot.G;
 import soot.Local;
-import soot.Singletons;
+import soot.singletons.Singletons;
 import soot.SootMethod;
 import soot.Type;
 import soot.jimple.Jimple;

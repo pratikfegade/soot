@@ -77,7 +77,7 @@ public class InnerClassAttribute implements Tag
     }
 
     public List<InnerClassTag> getSpecs() {
-        return list == null ? Collections.<InnerClassTag>emptyList() : list;
+        return list == null ? Collections.emptyList() : list;
     }
 
 	public void add(InnerClassTag newt) {

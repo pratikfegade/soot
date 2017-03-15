@@ -310,7 +310,7 @@ public class Util {
 						Scene.v().makeMethodRef(
 								Scene.v().getSootClass(exceptionType),
 								"<init>",
-								Collections.singletonList((Type) RefType
+								Collections.singletonList(RefType
 										.v("java.lang.String")), VoidType.v(),
 								false), StringConstant.v(m)));
 		Unit u3 = Jimple.v().newThrowStmt(l);

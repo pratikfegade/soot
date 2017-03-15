@@ -126,7 +126,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 			Scene.v().addClass(reflectiveCallsClass);
 			reflectiveCallsClass.setApplicationClass();
 
-			UNINTERPRETED_METHOD = Scene.v().makeMethodRef(Scene.v().getSootClass("soot.rtlib.tamiflex.OpaquePredicate"), "getFalse", Collections.<Type>emptyList(), BooleanType.v(), true);
+			UNINTERPRETED_METHOD = Scene.v().makeMethodRef(Scene.v().getSootClass("soot.rtlib.tamiflex.OpaquePredicate"), "getFalse", Collections.emptyList(), BooleanType.v(), true);
 			
 			if(useCaching)
 				addCaching();
@@ -413,23 +413,23 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 						break;
 					case ConstructorNewInstance:
 						//add Object[] argument
-						args.add((Value) ie.getArgs().get(0));					
+						args.add(ie.getArgs().get(0));
 						break;
 					case MethodInvoke:
 						//add Object argument
-						args.add((Value) ie.getArgs().get(0));					
+						args.add(ie.getArgs().get(0));
 						//add Object[] argument
-						args.add((Value) ie.getArgs().get(1));					
+						args.add(ie.getArgs().get(1));
 						break;
 					case FieldSet:
 						//add Object argument
-						args.add((Value) ie.getArgs().get(0));					
+						args.add(ie.getArgs().get(0));
 						//add value argument
-						args.add((Value) ie.getArgs().get(1));
+						args.add(ie.getArgs().get(1));
 						break;
 					case FieldGet:
 						//add Object argument
-						args.add((Value) ie.getArgs().get(0));					
+						args.add(ie.getArgs().get(0));
 						break;
 					default:
 						throw new IllegalStateException();	
@@ -543,7 +543,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 				Local argArrayLocal = localGen.generateLocal(arrayType);
 				newUnits.add(Jimple.v().newIdentityStmt(argArrayLocal, Jimple.v().newParameterRef(arrayType, 0)));
 				int i=0;
-				for(Type paramType: ((Collection<Type>)constructor.getParameterTypes())) {
+				for(Type paramType: constructor.getParameterTypes()) {
 					paramLocals[i] = localGen.generateLocal(paramType);
 					unboxParameter(argArrayLocal, i, paramLocals, paramType, newUnits, localGen);
 					i++;
@@ -578,7 +578,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 				Local argArrayLocal = localGen.generateLocal(arrayType);
 				newUnits.add(Jimple.v().newIdentityStmt(argArrayLocal, Jimple.v().newParameterRef(arrayType, 1)));
 				int i=0;
-				for(Type paramType: ((Collection<Type>)method.getParameterTypes())) {
+				for(Type paramType: method.getParameterTypes()) {
 					paramLocals[i] = localGen.generateLocal(paramType);
 					unboxParameter(argArrayLocal, i, paramLocals, paramType, newUnits, localGen);							
 					i++;
@@ -627,7 +627,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 		{
 			//add: freshLocal.<init>()
 			SootClass targetClass = Scene.v().getSootClass(target);
-			SpecialInvokeExpr constrCallExpr = Jimple.v().newSpecialInvokeExpr(freshLocal, Scene.v().makeMethodRef(targetClass, SootMethod.constructorName, Collections.<Type>emptyList(), VoidType.v(), false));
+			SpecialInvokeExpr constrCallExpr = Jimple.v().newSpecialInvokeExpr(freshLocal, Scene.v().makeMethodRef(targetClass, SootMethod.constructorName, Collections.emptyList(), VoidType.v(), false));
 			InvokeStmt constrCallStmt2 = Jimple.v().newInvokeStmt(constrCallExpr);
 			newUnits.add(constrCallStmt2);
 			//add: retLocal = freshLocal
@@ -734,7 +734,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 				SootMethodRef ref = Scene.v().makeMethodRef(
 					      boxedType.getSootClass(),
 					      lhs.getType().toString() + "Value",
-					      Collections.<Type>emptyList(),
+					      Collections.emptyList(),
 					      lhs.getType(),
 					      false
 					    );
@@ -755,7 +755,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 				SootMethodRef ref = Scene.v().makeMethodRef(
 					      boxedType.getSootClass(),
 					      "valueOf",
-					      Collections.<Type>singletonList(rhs.getType()),
+					      Collections.singletonList(rhs.getType()),
 					      boxedType,
 					      true
 					    );
@@ -781,7 +781,7 @@ public class ReflectiveCallsInliner extends SceneTransformer {
 			SootMethodRef ref = Scene.v().makeMethodRef(
 		      boxedType.getSootClass(),
 		      paramType + "Value",
-		      Collections.<Type>emptyList(),
+		      Collections.emptyList(),
 		      paramType,
 		      false
 		    );

@@ -281,7 +281,7 @@ public class CPApplication extends DepthFirstAdapter {
 			Value val = ((ASTUnaryCondition) cond).getValue();
 			if (val instanceof Local) {
 				Object value = set
-						.contains(className, ((Local) val).toString());
+						.contains(className, val.toString());
 				if (value != null) {
 					// System.out.println("if Condition Local "+((Local)val)+"is present in before set with value"+value);
 					// create constant value for the value and replace this

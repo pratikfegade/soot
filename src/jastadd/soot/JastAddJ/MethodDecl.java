@@ -1,6 +1,6 @@
 
-package soot.JastAddJ;
-import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
+package jastadd.soot.JastAddJ;
+import java.util.HashSet;import java.util.LinkedHashSet;import java.io.File;import java.util.*;import jastadd.beaver.*;import java.util.ArrayList;import java.util.zip.*;import java.io.*;import java.io.FileNotFoundException;import java.util.Collection;import soot.*;import soot.util.*;import soot.jimple.*;import soot.coffi.ClassFile;import soot.coffi.method_info;import soot.coffi.CONSTANT_Utf8_info;import soot.tagkit.SourceFileTag;import soot.coffi.CoffiMethodSource;
 
 
 
@@ -59,8 +59,8 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
     }
      @SuppressWarnings({"unchecked", "cast"})  public MethodDecl copy() {
       try {
-          MethodDecl node = (MethodDecl)clone();
-          if(children != null) node.children = (ASTNode[])children.clone();
+          MethodDecl node = clone();
+          if(children != null) node.children = children.clone();
           return node;
       } catch (CloneNotSupportedException e) {
       }
@@ -68,7 +68,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
       return null;
     }
      @SuppressWarnings({"unchecked", "cast"})  public MethodDecl fullCopy() {
-        MethodDecl res = (MethodDecl)copy();
+        MethodDecl res = copy();
         for(int i = 0; i < getNumChildNoTransform(); i++) {
           ASTNode node = getChildNoTransform(i);
           if(node != null) node = node.fullCopy();
@@ -252,7 +252,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
   public BodyDecl p(Parameterization parTypeDecl) {
     //System.out.println("Begin substituting " + signature() + " in " + hostType().typeName() + " with " + parTypeDecl.typeSignature());
     MethodDecl m = new MethodDeclSubstituted(
-      (Modifiers)getModifiers().fullCopy(),
+            getModifiers().fullCopy(),
       getTypeAccess().type().substituteReturnType(parTypeDecl),
       getID(),
       getParameterList().substitute(parTypeDecl),
@@ -323,7 +323,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
     Access access = new BoundMethodAccess(name(), argumentList, this);
     if(!isStatic())
       access = new ThisAccess("this").qualifiesAccess(access);
-    return isVoid() ? (Stmt) new ExprStmt(access) : new ReturnStmt(new Opt(access));
+    return isVoid() ? new ExprStmt(access) : new ReturnStmt(new Opt(access));
   }
 
     // Declared in InnerClasses.jrag at line 245
@@ -532,7 +532,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
                 erased.type().erasure().createBoundAccess(),
                 erased.name(),
                 parameters,
-                (List)getExceptionList().fullCopy(),
+                    getExceptionList().fullCopy(),
                 new Opt(
                   new Block(
                     new List().add(stmt)
@@ -575,7 +575,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
 
 
     // Declared in java.ast line 88
-    public MethodDecl(Modifiers p0, Access p1, beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5) {
+    public MethodDecl(Modifiers p0, Access p1, jastadd.beaver.Symbol p2, List<ParameterDeclaration> p3, List<Access> p4, Opt<Block> p5) {
         setChild(p0, 0);
         setChild(p1, 1);
         setID(p2);
@@ -655,7 +655,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
 
     // Declared in java.ast at line 8
 
-    public void setID(beaver.Symbol symbol) {
+    public void setID(jastadd.beaver.Symbol symbol) {
         if(symbol.value != null && !(symbol.value instanceof String))
           throw new UnsupportedOperationException("setID is only valid for String lexemes");
         tokenString_ID = (String)symbol.value;
@@ -686,7 +686,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
 
 
      @SuppressWarnings({"unchecked", "cast"})  public ParameterDeclaration getParameter(int i) {
-        return (ParameterDeclaration)getParameterList().getChild(i);
+        return getParameterList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -758,7 +758,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Access getException(int i) {
-        return (Access)getExceptionList().getChild(i);
+        return getExceptionList().getChild(i);
     }
 
     // Declared in java.ast at line 14
@@ -830,7 +830,7 @@ public class MethodDecl extends MemberDecl implements Cloneable, SimpleSet, Iter
 
 
      @SuppressWarnings({"unchecked", "cast"})  public Block getBlock() {
-        return (Block)getBlockOpt().getChild(0);
+        return getBlockOpt().getChild(0);
     }
 
     // Declared in java.ast at line 14
@@ -931,9 +931,7 @@ if(accessibleFrom_TypeDecl_values == null) accessibleFrom_TypeDecl_values = new 
     else if(isProtected()) {
       if(hostPackage().equals(type.hostPackage()))
         return true;
-      if(type.withinBodyThatSubclasses(hostType()) != null)
-        return true;
-      return false;
+        return type.withinBodyThatSubclasses(hostType()) != null;
     }
     else if(isPrivate())
       return hostType().topLevelType() == type.topLevelType();
@@ -1137,7 +1135,7 @@ if(parameterDeclaration_String_values == null) parameterDeclaration_String_value
     private SimpleSet parameterDeclaration_compute(String name) {
     for(int i = 0; i < getNumParameter(); i++)
       if(getParameter(i).name().equals(name))
-        return (ParameterDeclaration)getParameter(i);
+        return getParameter(i);
     return SimpleSet.emptySet;
   }
 
@@ -1367,7 +1365,7 @@ if(parameterDeclaration_String_values == null) parameterDeclaration_String_value
         return isVariableArity_value;
     }
 
-    private boolean isVariableArity_compute() {  return getNumParameter() == 0 ? false : getParameter(getNumParameter()-1).isVariableArity();  }
+    private boolean isVariableArity_compute() {  return getNumParameter() != 0 && getParameter(getNumParameter() - 1).isVariableArity();  }
 
     // Declared in VariableArityParameters.jrag at line 38
  @SuppressWarnings({"unchecked", "cast"})     public ParameterDeclaration lastParameter() {
@@ -1531,7 +1529,7 @@ if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = 
     // Declared in DefiniteAssignment.jrag at line 438
     public boolean Define_boolean_isDAbefore(ASTNode caller, ASTNode child, Variable v) {
         if(caller == getBlockOptNoTransform()) {
-            return v.isFinal() && (v.isClassVariable() || v.isInstanceVariable()) ? true : isDAbefore(v);
+            return v.isFinal() && (v.isClassVariable() || v.isInstanceVariable()) || isDAbefore(v);
         }
         return getParent().Define_boolean_isDAbefore(this, caller, v);
     }
@@ -1539,7 +1537,7 @@ if(handlesException_TypeDecl_values == null) handlesException_TypeDecl_values = 
     // Declared in DefiniteAssignment.jrag at line 869
     public boolean Define_boolean_isDUbefore(ASTNode caller, ASTNode child, Variable v) {
         if(caller == getBlockOptNoTransform()) {
-            return v.isFinal() && (v.isClassVariable() || v.isInstanceVariable()) ? false : true;
+            return !(v.isFinal() && (v.isClassVariable() || v.isInstanceVariable()));
         }
         return getParent().Define_boolean_isDUbefore(this, caller, v);
     }

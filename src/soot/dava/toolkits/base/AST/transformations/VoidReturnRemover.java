@@ -49,7 +49,7 @@ public class VoidReturnRemover{
     	if(!method.hasActiveBody())
     		return;
     	
-        Chain units = ((DavaBody) method.getActiveBody()).getUnits();
+        Chain units = method.getActiveBody().getUnits();
 
         if (units.size() != 1) 
         	return;
@@ -85,7 +85,7 @@ public class VoidReturnRemover{
 	    	subBody.remove(subBody.size()-1);
 	    	return;
 	    }
-	    AugmentedStmt lastas = (AugmentedStmt)stmts.get(stmts.size()-1);
+	    AugmentedStmt lastas = stmts.get(stmts.size()-1);
 	    Stmt lastStmt = lastas.get_Stmt();
 	    if(! (lastStmt instanceof ReturnVoidStmt))
 	    		return;

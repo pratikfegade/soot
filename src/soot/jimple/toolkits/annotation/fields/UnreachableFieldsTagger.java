@@ -21,6 +21,8 @@ package soot.jimple.toolkits.annotation.fields;
 import soot.*;
 
 import java.util.*;
+
+import soot.singletons.Singletons;
 import soot.tagkit.*;
 import soot.jimple.*;
 

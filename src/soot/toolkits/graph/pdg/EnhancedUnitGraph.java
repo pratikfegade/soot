@@ -460,13 +460,13 @@ public class EnhancedUnitGraph extends UnitGraph {
 					}
 					else
 						succsOfA.remove(b);
-					succsOfA.add((Unit) ehnop);
+					succsOfA.add(ehnop);
 				}
 
 				predsOfB.clear();
-				predsOfB.add((Unit) ehnop);
+				predsOfB.add(ehnop);
 
-				this.unitToPreds.put((Unit) ehnop, predsOfehnop);
+				this.unitToPreds.put(ehnop, predsOfehnop);
 			}
 
 			List<Unit> succsOfehnop = this.unitToSuccs.get(ehnop);
@@ -486,12 +486,12 @@ public class EnhancedUnitGraph extends UnitGraph {
 				this.unitToPreds.put(handler, predsOfhandler);
 			}
 
-			predsOfhandler.add((Unit) ehnop);
+			predsOfhandler.add(ehnop);
 
 			Chain<Unit> units = body.getUnits().getNonPatchingChain();
 
 			if (!units.contains(ehnop))
-				units.insertBefore((Unit) ehnop, b);
+				units.insertBefore(ehnop, b);
 
 			nop2added.put(ehnop, Boolean.TRUE);
 		}

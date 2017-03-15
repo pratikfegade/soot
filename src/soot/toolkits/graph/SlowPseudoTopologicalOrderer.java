@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import soot.G;
-import soot.Singletons;
+import soot.singletons.Singletons;
 
 /**
  * Provide the pseudo topological order of a graph's nodes. It has same

@@ -119,8 +119,7 @@ public class DominatorAnalysis extends ForwardFlowAnalysis<Unit,FlowSet<Unit>> {
     
     private boolean isUnitStartNode(Unit s){
         //System.out.println("head: "+g.getHeads().get(0));
-        if (s.equals(g.getHeads().get(0))) return true;
-        return false;
+        return s.equals(g.getHeads().get(0));
     }
 
 // STEP 6: Determine value for start/end node, and
