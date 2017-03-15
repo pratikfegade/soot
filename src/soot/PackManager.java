@@ -405,7 +405,8 @@ public class PackManager {
     }
 
 	private void runPacksForOneClassAtATime() {
-		if (Options.v().src_prec() == Options.src_prec_class && Options.v().keep_line_number()){
+
+        if (Options.v().src_prec() == Options.src_prec_class && Options.v().keep_line_number()){
             LineNumberAdder lineNumAdder = LineNumberAdder.v();
             lineNumAdder.internalTransform("", null);
         }
@@ -465,7 +466,8 @@ public class PackManager {
     }
 
 	private void runPacksNormally() {
-		if (Options.v().src_prec() == Options.src_prec_class && Options.v().keep_line_number()){
+
+        if (Options.v().src_prec() == Options.src_prec_class && Options.v().keep_line_number()){
             LineNumberAdder lineNumAdder = LineNumberAdder.v();
             lineNumAdder.internalTransform("", null);
         }
@@ -572,6 +574,7 @@ public class PackManager {
     }
 	
     private void runWholeProgramPacks() {
+
         if (Options.v().whole_shimple()) {
             ShimpleTransformer.v().transform();
             getPack("wspp").apply();
@@ -890,6 +893,7 @@ public class PackManager {
     
     @SuppressWarnings("fallthrough")
     private void runBodyPacks(SootClass c) {
+
         final int format = Options.v().output_format();
         if (format == Options.output_format_dava) {
             G.v().out.print("Decompiling ");
@@ -958,10 +962,9 @@ public class PackManager {
             }
 
             if (!m.isConcrete()) continue;
-
             if (produceShimple || wholeShimple) {
                 ShimpleBody sBody = null;
-
+                System.out.println("Producing shimple bodies");
                 // whole shimple or not?
                 {
                     Body body = m.retrieveActiveBody();
@@ -1064,7 +1067,7 @@ public class PackManager {
 		return bafBody;
 	}
 
-    private void writeClass(SootClass c) {
+    public void writeClass(SootClass c) {
         // Create code assignments for those values we only have in code assignments
         if (Options.v().output_format() == Options.output_format_jimple)
         	if (!c.isPhantom)
@@ -1107,7 +1110,7 @@ public class PackManager {
             	}
             }
             writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
-            G.v().out.println( "Writing to "+fileName );
+            //G.v().out.println( "Writing to "+fileName );
         } catch (IOException e) {
             throw new CompilationDeathException("Cannot output file " + fileName,e);
         }
