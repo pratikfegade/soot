@@ -53,7 +53,7 @@ dependencies {
             'org.slf4j:slf4j-api:1.7.24',
             'cglib:cglib:3.2.5',
             'ext:polyglot:1.0',
-            'ext:heros:1.0',
+            'ext:herosclasses:1.1',
             'ext:AXMLPrinter:2.0',
             'ext:jasminclasses:2.5.0'
 }
