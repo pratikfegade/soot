@@ -26,13 +26,19 @@
  */
 
 package soot.jimple.toolkits.annotation.purity;
-import java.util.*;
-import java.io.File;
+
 import soot.*;
-import soot.util.dot.*;
 import soot.jimple.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+import soot.util.dot.DotGraph;
+import soot.util.dot.DotGraphEdge;
+import soot.util.dot.DotGraphNode;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Intra-procedural purity-graph analysis.

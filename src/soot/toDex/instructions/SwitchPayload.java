@@ -1,8 +1,8 @@
 package soot.toDex.instructions;
 
-import java.util.List;
-
 import soot.Unit;
+
+import java.util.List;
 
 /**
  * The payload for switch instructions, usually placed at the end of a method.

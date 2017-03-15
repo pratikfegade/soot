@@ -25,8 +25,9 @@
 
 package soot.baf;
 
-import soot.*;
-import java.util.*;
+import soot.Type;
+
+import java.util.List;
 
 
 public interface DupInst extends Inst

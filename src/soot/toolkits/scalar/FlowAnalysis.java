@@ -25,20 +25,6 @@
 
 package soot.toolkits.scalar;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.RandomAccess;
-import java.util.Set;
-
 import soot.baf.GotoInst;
 import soot.jimple.GotoStmt;
 import soot.options.Options;
@@ -47,6 +33,8 @@ import soot.toolkits.graph.interaction.FlowInfo;
 import soot.toolkits.graph.interaction.InteractionHandler;
 import soot.util.Numberable;
 import soot.util.PriorityQueue;
+
+import java.util.*;
 
 /**
  * An abstract class providing a framework for carrying out dataflow analysis.

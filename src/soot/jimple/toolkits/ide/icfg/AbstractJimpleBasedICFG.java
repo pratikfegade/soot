@@ -1,31 +1,18 @@
 package soot.jimple.toolkits.ide.icfg;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import heros.DontSynchronize;
 import heros.SynchronizedBy;
 import heros.solver.IDESolver;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Body;
-import soot.SootMethod;
-import soot.Unit;
-import soot.UnitBox;
-import soot.Value;
+import soot.*;
 import soot.jimple.Stmt;
 import soot.toolkits.exceptions.UnitThrowAnalysis;
 import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import java.util.*;
 
 public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<Unit,SootMethod> {
 	

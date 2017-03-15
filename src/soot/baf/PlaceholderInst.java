@@ -29,9 +29,8 @@
 
 package soot.baf;
 
-import soot.*;
-
-import soot.baf.internal.*;
+import soot.Unit;
+import soot.baf.internal.AbstractInst;
 
 public class PlaceholderInst extends AbstractInst
 {

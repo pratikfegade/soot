@@ -19,11 +19,16 @@
 
 package soot.dava.toolkits.base.AST.transformations;
 
-import soot.dava.toolkits.base.AST.analysis.*;
-import soot.dava.internal.javaRep.*;
+import soot.BooleanType;
+import soot.Type;
+import soot.Value;
 import soot.dava.internal.AST.*;
-import soot.*;
-import soot.jimple.*;
+import soot.dava.internal.javaRep.DIntConstant;
+import soot.dava.internal.javaRep.DNotExpr;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.jimple.ConditionExpr;
+import soot.jimple.EqExpr;
+import soot.jimple.NeExpr;
 
 /*
   TO MAKE CODE EFFECIENT BLOCK THE ANALYSIS TO GOING INTO STATEMENTS

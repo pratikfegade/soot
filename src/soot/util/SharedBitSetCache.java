@@ -18,7 +18,8 @@
  */
 
 package soot.util;
-import soot.*;
+
+import soot.G;
 import soot.singletons.Singletons;
 
 public final class SharedBitSetCache {

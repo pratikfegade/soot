@@ -18,15 +18,14 @@
  */
 package soot.toolkits.scalar;
 
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import soot.Body;
 import soot.G;
 import soot.singletons.Singletons;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
 
 /**
  * This class implements a pool for {@link SmartLocalDefs} instances. This is useful, as these analyses are expensive to compute.

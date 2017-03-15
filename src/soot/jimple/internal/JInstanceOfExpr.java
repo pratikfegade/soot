@@ -30,11 +30,15 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.baf.*;
+import soot.Type;
+import soot.Unit;
+import soot.Value;
+import soot.baf.Baf;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleToBafContext;
 
-import java.util.*;
+import java.util.List;
 
 public class JInstanceOfExpr extends AbstractInstanceOfExpr
   implements ConvertToBaf

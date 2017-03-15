@@ -26,15 +26,19 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.options.Options;
+
 import soot.*;
-import soot.singletons.Singletons;
-import soot.toolkits.scalar.*;
 import soot.jimple.*;
+import soot.options.Options;
+import soot.singletons.Singletons;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.toolkits.graph.Orderer;
+import soot.toolkits.graph.PseudoTopologicalOrderer;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.LocalDefs;
 
-import java.util.*;
-
-import soot.toolkits.graph.*;
+import java.util.List;
+import java.util.Map;
 
 /** Does constant propagation and folding. 
  * Constant folding is the compile-time evaluation of constant

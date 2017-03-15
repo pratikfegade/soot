@@ -24,45 +24,17 @@
  */
 
 package soot.jimple.toolkits.annotation.arraycheck;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
-import soot.ArrayType;
-import soot.Body;
-import soot.G;
-import soot.IntType;
-import soot.Local;
-import soot.SootField;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
-import soot.jimple.AddExpr;
-import soot.jimple.ArrayRef;
-import soot.jimple.BinopExpr;
-import soot.jimple.ConditionExpr;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.FieldRef;
-import soot.jimple.IfStmt;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.IntConstant;
-import soot.jimple.LengthExpr;
-import soot.jimple.MulExpr;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.NewMultiArrayExpr;
-import soot.jimple.StaticFieldRef;
-import soot.jimple.Stmt;
-import soot.jimple.SubExpr;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.internal.JAddExpr;
 import soot.jimple.internal.JSubExpr;
 import soot.options.Options;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.BackwardFlowAnalysis;
+
+import java.util.*;
 
 class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
 {

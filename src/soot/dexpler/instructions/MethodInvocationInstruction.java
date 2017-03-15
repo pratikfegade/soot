@@ -24,38 +24,26 @@
 
 package soot.dexpler.instructions;
 
-import static soot.dexpler.Util.dottedClassName;
-import static soot.dexpler.Util.isFloatLike;
+import org.jf.dexlib2.iface.instruction.Instruction;
+import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
+import org.jf.dexlib2.iface.instruction.formats.Instruction35c;
+import org.jf.dexlib2.iface.instruction.formats.Instruction3rc;
+import org.jf.dexlib2.iface.reference.MethodReference;
+import soot.*;
+import soot.dexpler.Debug;
+import soot.dexpler.DexBody;
+import soot.dexpler.DexType;
+import soot.dexpler.IDalvikTyper;
+import soot.dexpler.typing.DalvikTyper;
+import soot.jimple.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jf.dexlib2.iface.instruction.Instruction;
-import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
-import org.jf.dexlib2.iface.instruction.formats.Instruction35c;
-import org.jf.dexlib2.iface.instruction.formats.Instruction3rc;
-import org.jf.dexlib2.iface.reference.MethodReference;
-
-import soot.Local;
-import soot.Modifier;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootMethodRef;
-import soot.SootResolver;
-import soot.Type;
-import soot.dexpler.Debug;
-import soot.dexpler.DexBody;
-import soot.dexpler.DexType;
-import soot.dexpler.IDalvikTyper;
-import soot.dexpler.typing.DalvikTyper;
-import soot.jimple.AssignStmt;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.InvokeStmt;
-import soot.jimple.Jimple;
+import static soot.dexpler.Util.dottedClassName;
+import static soot.dexpler.Util.isFloatLike;
 
 public abstract class MethodInvocationInstruction extends DexlibAbstractInstruction implements DanglingInstruction {
 	private enum InvocationType {

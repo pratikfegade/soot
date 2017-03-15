@@ -20,14 +20,7 @@
 
 package soot.toolkits.astmetrics;
 
-import polyglot.ast.Block;
-import polyglot.ast.Do;
-import polyglot.ast.For;
-import polyglot.ast.If;
-import polyglot.ast.Labeled;
-import polyglot.ast.Node;
-import polyglot.ast.Stmt;
-import polyglot.ast.While;
+import polyglot.ast.*;
 import polyglot.visit.NodeVisitor;
 
 /*

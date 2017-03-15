@@ -1,6 +1,3 @@
-import java.util.*;
-
-
 public class AddAssignTest {
 
     private Vector charSet = new Vector(27);

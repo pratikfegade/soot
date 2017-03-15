@@ -28,7 +28,8 @@
 
 package soot.jimple.toolkits.pointer.representations;
 
-import soot.*;
+import soot.G;
+import soot.Type;
 
 public class GeneralConstObject extends ConstantObject {
 

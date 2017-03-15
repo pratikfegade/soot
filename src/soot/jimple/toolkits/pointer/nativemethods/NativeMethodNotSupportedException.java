@@ -26,7 +26,7 @@
 
 package soot.jimple.toolkits.pointer.nativemethods;
 
-import soot.*;
+import soot.SootMethod;
 
 public class NativeMethodNotSupportedException
   extends RuntimeException {

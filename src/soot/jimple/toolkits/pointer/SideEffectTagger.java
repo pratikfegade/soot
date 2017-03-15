@@ -18,11 +18,13 @@
  */
 
 package soot.jimple.toolkits.pointer;
+
 import soot.*;
-import java.util.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.jimple.*;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.singletons.Singletons;
+
+import java.util.*;
 
 public class SideEffectTagger extends BodyTransformer
 { 

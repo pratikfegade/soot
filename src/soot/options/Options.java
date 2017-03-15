@@ -21,10 +21,14 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import soot.*;
-import java.util.*;
+
+import soot.G;
 import soot.PackManager;
 import soot.singletons.Singletons;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /** Soot command-line options parser.
  * @author Ondrej Lhotak

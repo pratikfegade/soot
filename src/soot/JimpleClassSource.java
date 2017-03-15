@@ -18,15 +18,17 @@
  */
 
 package soot;
-import soot.SourceLocator.FoundFile;
+
 import sablecc.soot.jimple.parser.lexer.LexerException;
 import sablecc.soot.jimple.parser.parser.ParserException;
-import soot.options.Options;
+import soot.SourceLocator.FoundFile;
 import soot.javaToJimple.IInitialResolver.Dependencies;
-import soot.jimple.*;
+import soot.jimple.JimpleMethodSource;
+import soot.options.Options;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 
 /** A class source for resolving from .jimple files using the Jimple parser.
  */

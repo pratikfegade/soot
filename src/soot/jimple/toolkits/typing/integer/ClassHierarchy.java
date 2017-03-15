@@ -29,7 +29,8 @@ package soot.jimple.toolkits.typing.integer;
 import soot.*;
 import soot.singletons.Singletons;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class encapsulates the integer type hierarchy.

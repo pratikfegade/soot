@@ -19,8 +19,9 @@
 
 package soot.javaToJimple.jj.ast;
 
-import polyglot.ast.*;
-import polyglot.util.*;
+import polyglot.ast.Expr;
+import polyglot.ast.NodeFactory;
+import polyglot.util.Position;
 
 /**
  * NodeFactory for jj extension.

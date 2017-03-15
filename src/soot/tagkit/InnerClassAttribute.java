@@ -28,7 +28,9 @@
 
 package soot.tagkit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /** Represents an inner class attribute which can be attached to

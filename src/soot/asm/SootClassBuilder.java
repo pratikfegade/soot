@@ -18,35 +18,12 @@
  */
 package soot.asm;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.*;
 import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import soot.*;
+import soot.tagkit.*;
 
-import soot.Modifier;
-import soot.RefType;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethod;
-import soot.SootResolver;
-import soot.tagkit.DoubleConstantValueTag;
-import soot.tagkit.EnclosingMethodTag;
-import soot.tagkit.FloatConstantValueTag;
-import soot.tagkit.InnerClassTag;
-import soot.tagkit.IntegerConstantValueTag;
-import soot.tagkit.LongConstantValueTag;
-import soot.tagkit.SignatureTag;
-import soot.tagkit.SourceFileTag;
-import soot.tagkit.StringConstantValueTag;
-import soot.tagkit.Tag;
+import java.util.*;
 
 /**
  * Constructs a Soot class from a visited class.

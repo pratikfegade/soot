@@ -1,7 +1,11 @@
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.util.*;
-import java.util.*;
+import soot.util.Chain;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 
 // *** USE AT YOUR OWN RISK ***

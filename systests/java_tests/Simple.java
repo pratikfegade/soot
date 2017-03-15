@@ -1,4 +1,3 @@
-import java.util.*;
 public class Simple {
 
     private int x;

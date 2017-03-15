@@ -1,15 +1,14 @@
 package soot.asm.backend;
 
-import static org.junit.Assert.fail;
-
-import java.io.File;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import soot.G;
 import soot.Main;
+
+import java.io.File;
+
+import static org.junit.Assert.fail;
 
 /**
  * Test for the correct determination of the required Java version

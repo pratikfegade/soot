@@ -1,54 +1,17 @@
 package soot.toolkits.exceptions;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import soot.AnySubType;
-import soot.ArrayType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.Local;
-import soot.LongType;
-import soot.Modifier;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootFieldRef;
-import soot.SootMethod;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.VoidType;
+import soot.*;
 import soot.grimp.Grimp;
-import soot.jimple.ArrayRef;
-import soot.jimple.DivExpr;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FloatConstant;
-import soot.jimple.IfStmt;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.IntConstant;
-import soot.jimple.Jimple;
-import soot.jimple.LongConstant;
-import soot.jimple.RemExpr;
-import soot.jimple.StaticFieldRef;
-import soot.jimple.StaticInvokeExpr;
-import soot.jimple.Stmt;
-import soot.jimple.StringConstant;
-import soot.jimple.ThrowStmt;
-import soot.jimple.VirtualInvokeExpr;
+import soot.jimple.*;
 import soot.toolkits.exceptions.ExceptionTestUtility.ExceptionHashSet;
+
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UnitThrowAnalysisTest {
 

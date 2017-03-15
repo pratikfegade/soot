@@ -19,9 +19,10 @@
 
 package soot.jimple.spark.fieldrw;
 
-import soot.*;
+import soot.G;
 import soot.singletons.Singletons;
-import soot.tagkit.*;
+import soot.tagkit.ImportantTagAggregator;
+import soot.tagkit.Tag;
 
 public class FieldWriteTagAggregator extends ImportantTagAggregator
 {    

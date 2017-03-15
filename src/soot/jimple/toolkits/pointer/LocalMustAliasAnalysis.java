@@ -18,35 +18,15 @@
  * Boston, MA 02111-1307, USA.
  */
 package soot.jimple.toolkits.pointer;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import soot.EquivalentValue;
-import soot.Local;
-import soot.MethodOrMethodContext;
-import soot.RefLikeType;
-import soot.Scene;
-import soot.SootMethod;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
-import soot.jimple.CastExpr;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.FieldRef;
-import soot.jimple.IdentityRef;
-import soot.jimple.ParameterRef;
-import soot.jimple.Stmt;
-import soot.jimple.ThisRef;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
+
+import java.util.*;
 
 /** LocalMustAliasAnalysis attempts to determine if two local
  * variables (at two potentially different program points) must point

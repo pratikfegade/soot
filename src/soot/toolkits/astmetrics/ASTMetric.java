@@ -19,13 +19,13 @@
 
 package soot.toolkits.astmetrics;
 
-import java.util.Iterator;
-
 import polyglot.ast.ClassDecl;
 import polyglot.ast.Node;
-import polyglot.visit.NodeVisitor;
 import polyglot.util.CodeWriter;
+import polyglot.visit.NodeVisitor;
 import soot.G;
+
+import java.util.Iterator;
 
 public abstract class ASTMetric extends NodeVisitor implements MetricInterface {
 	polyglot.ast.Node astNode;

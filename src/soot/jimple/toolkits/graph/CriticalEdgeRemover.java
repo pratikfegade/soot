@@ -25,15 +25,14 @@
 
 
 package soot.jimple.toolkits.graph;
-import soot.options.Options;
-
 
 import soot.*;
+import soot.jimple.Jimple;
+import soot.options.Options;
 import soot.singletons.Singletons;
-import soot.util.*;
-import java.util.*;
+import soot.util.Chain;
 
-import soot.jimple.*;
+import java.util.*;
 
 /**
  * removes all critical edges.<br>

@@ -18,25 +18,8 @@
  */
 
 package soot.jimple.spark.internal;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
-import soot.AnySubType;
-import soot.ArrayType;
-import soot.FastHierarchy;
-import soot.G;
-import soot.NullType;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.Type;
-import soot.TypeSwitch;
+import soot.*;
 import soot.jimple.spark.pag.AllocNode;
 import soot.jimple.spark.pag.Node;
 import soot.jimple.spark.pag.PAG;
@@ -44,6 +27,8 @@ import soot.util.ArrayNumberer;
 import soot.util.BitVector;
 import soot.util.LargeNumberedMap;
 import soot.util.queue.QueueReader;
+
+import java.util.*;
 
 /** A map of bit-vectors representing subtype relationships.
  * @author Ondrej Lhotak

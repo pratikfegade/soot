@@ -18,11 +18,7 @@
  */
 package soot.jimple.spark.ondemand.genericutil;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 abstract class AbstractMultiMap<K, V> implements MultiMap<K, V> {
 

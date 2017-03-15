@@ -29,7 +29,6 @@ import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.NarrowLiteralInstruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.WideLiteralInstruction;
-
 import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
@@ -37,11 +36,7 @@ import soot.dexpler.typing.DalvikTyper;
 import soot.dexpler.typing.UntypedConstant;
 import soot.dexpler.typing.UntypedIntOrFloatConstant;
 import soot.dexpler.typing.UntypedLongOrDoubleConstant;
-import soot.jimple.AssignStmt;
-import soot.jimple.Constant;
-import soot.jimple.IntConstant;
-import soot.jimple.Jimple;
-import soot.jimple.LongConstant;
+import soot.jimple.*;
 
 public class ConstInstruction extends DexlibAbstractInstruction {
 

@@ -30,10 +30,13 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.baf.*;
-import java.util.*;
+import soot.RefType;
+import soot.Unit;
+import soot.baf.Baf;
+import soot.jimple.ConvertToBaf;
+import soot.jimple.JimpleToBafContext;
+
+import java.util.List;
 
 public class JNewExpr extends AbstractNewExpr implements ConvertToBaf
 {

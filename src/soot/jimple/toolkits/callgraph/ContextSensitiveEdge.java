@@ -18,8 +18,12 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import soot.*;
-import soot.jimple.*;
+
+import soot.Context;
+import soot.Kind;
+import soot.SootMethod;
+import soot.Unit;
+import soot.jimple.Stmt;
 
 /** Represents a single context-sensitive edge in a call graph.
  * @author Ondrej Lhotak

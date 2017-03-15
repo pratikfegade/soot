@@ -19,15 +19,10 @@
 
 package soot.sootify;
 
-import java.io.PrintWriter;
-
-import soot.Body;
-import soot.G;
-import soot.Local;
+import soot.*;
 import soot.singletons.Singletons;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.Unit;
+
+import java.io.PrintWriter;
 
 public class TemplatePrinter {
     

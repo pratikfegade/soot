@@ -28,8 +28,9 @@
 
 
 package soot;
+
 import soot.singletons.Singletons;
-import soot.util.*;
+import soot.util.Switch;
 
 
 /**

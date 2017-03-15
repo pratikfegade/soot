@@ -3,31 +3,10 @@ package soot.util.backend;
 
 import org.objectweb.asm.ByteVector;
 import org.objectweb.asm.ClassWriter;
-
-import soot.ArrayType;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.LongType;
-import soot.RefType;
-import soot.ShortType;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethodRef;
-import soot.Type;
-import soot.TypeSwitch;
-import soot.VoidType;
+import soot.*;
 import soot.baf.DoubleWordType;
 import soot.options.Options;
-import soot.tagkit.Attribute;
-import soot.tagkit.DoubleConstantValueTag;
-import soot.tagkit.FloatConstantValueTag;
-import soot.tagkit.IntegerConstantValueTag;
-import soot.tagkit.LongConstantValueTag;
-import soot.tagkit.StringConstantValueTag;
+import soot.tagkit.*;
 
 /**
  * Utility class for ASM-based back-ends.

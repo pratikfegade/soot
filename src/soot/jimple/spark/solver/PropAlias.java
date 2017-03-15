@@ -19,12 +19,19 @@
 
 package soot.jimple.spark.solver;
 
-import soot.jimple.spark.pag.*;
-import soot.jimple.spark.sets.*;
 import soot.*;
-import soot.util.*;
-import soot.util.queue.*;
-import java.util.*;
+import soot.jimple.spark.pag.*;
+import soot.jimple.spark.sets.EmptyPointsToSet;
+import soot.jimple.spark.sets.P2SetVisitor;
+import soot.jimple.spark.sets.PointsToSetInternal;
+import soot.util.HashMultiMap;
+import soot.util.LargeNumberedMap;
+import soot.util.MultiMap;
+import soot.util.queue.QueueReader;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Propagates points-to sets along pointer assignment graph using a relevant

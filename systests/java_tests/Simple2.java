@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class Simple2 {
     private int x;
     

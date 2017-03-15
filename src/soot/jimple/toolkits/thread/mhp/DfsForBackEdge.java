@@ -1,10 +1,11 @@
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
 import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
-import soot.tagkit.*;
-import soot.util.*;
+import soot.tagkit.Tag;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.scalar.FlowSet;
+import soot.util.Chain;
+
 import java.util.*;
 
 // *** USE AT YOUR OWN RISK ***

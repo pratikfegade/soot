@@ -25,10 +25,10 @@
 
 package soot.tagkit;
 
-import java.util.LinkedList;
+import soot.Unit;
+import soot.baf.Inst;
 
-import soot.*;
-import soot.baf.*;
+import java.util.LinkedList;
 
 /**
  * A tag aggregator that associates a tag with the <b>most important</b>

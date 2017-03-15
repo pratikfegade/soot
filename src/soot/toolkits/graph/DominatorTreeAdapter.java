@@ -19,7 +19,9 @@
 
 package soot.toolkits.graph;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This adapter provides a DirectedGraph interface to DominatorTree.

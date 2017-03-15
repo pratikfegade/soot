@@ -18,7 +18,11 @@
  */
 
 package soot.jimple;
-import soot.*;
+
+import soot.ArrayType;
+import soot.Local;
+import soot.RefType;
+import soot.Value;
 
 public abstract class PointerStmtSwitch extends AbstractStmtSwitch {
     Stmt statement;

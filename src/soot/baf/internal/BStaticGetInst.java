@@ -29,9 +29,13 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.AbstractJasminClass;
+import soot.SootField;
+import soot.SootFieldRef;
+import soot.UnitPrinter;
+import soot.baf.InstSwitch;
+import soot.baf.StaticGetInst;
+import soot.util.Switch;
 
 public class BStaticGetInst extends AbstractInst implements StaticGetInst
 {

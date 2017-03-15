@@ -18,9 +18,10 @@
  */
 
 package soot;
-import java.util.LinkedList;
 
 import soot.options.Options;
+
+import java.util.LinkedList;
 
 /** Representation of a reference to a field as it appears in a class file.
  * Note that the field directly referred to may not actually exist; the

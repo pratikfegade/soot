@@ -29,8 +29,9 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.DoubleType;
+import soot.Type;
+import soot.util.Switch;
 
 public class DoubleConstant extends RealConstant
 {

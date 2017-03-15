@@ -26,7 +26,9 @@
 
 package soot.util;
 
-import java.io.*;
+import java.io.FilterWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 /** A FilterWriter which catches to-be-escaped characters (<code>\\unnnn</code>) in the
  * input and substitutes their escaped representation.  Used for Soot output. */

@@ -2,8 +2,11 @@
 
 package sablecc.soot.jimple.parser.node;
 
-import java.util.*;
-import sablecc.soot.jimple.parser.analysis.*;
+import sablecc.soot.jimple.parser.analysis.Analysis;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 @SuppressWarnings("nls")
 public final class AQuotedNonvoidType extends PNonvoidType

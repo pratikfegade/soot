@@ -25,44 +25,12 @@
 
 package soot.jimple.toolkits.invoke;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import soot.Body;
-import soot.Hierarchy;
-import soot.Local;
-import soot.PhaseOptions;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.Trap;
-import soot.TrapManager;
-import soot.Unit;
-import soot.UnitBox;
-import soot.Value;
-import soot.ValueBox;
-import soot.jimple.AssignStmt;
-import soot.jimple.CaughtExceptionRef;
-import soot.jimple.IdentityRef;
-import soot.jimple.IdentityStmt;
-import soot.jimple.IfStmt;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.InvokeStmt;
-import soot.jimple.Jimple;
-import soot.jimple.JimpleBody;
-import soot.jimple.NullConstant;
-import soot.jimple.ParameterRef;
-import soot.jimple.ReturnStmt;
-import soot.jimple.ReturnVoidStmt;
-import soot.jimple.Stmt;
-import soot.jimple.ThisRef;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
 import soot.util.Chain;
+
+import java.util.*;
 
 /** Provides methods to inline a given invoke site. */
 public class SiteInliner

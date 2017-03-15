@@ -20,13 +20,16 @@
 package soot.jimple.toolkits.annotation.qualifiers;
 
 import soot.*;
-
-import java.util.*;
-
+import soot.jimple.FieldRef;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
 import soot.singletons.Singletons;
-import soot.tagkit.*;
-import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
+import soot.tagkit.ColorTag;
+import soot.tagkit.StringTag;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /** a scene transformer that add tags to indicate the tightest qualifies 
  * possible for fields and methods (ie: private, protected or public)

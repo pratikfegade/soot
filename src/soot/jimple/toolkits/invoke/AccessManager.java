@@ -25,13 +25,13 @@
 
 package soot.jimple.toolkits.invoke;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import soot.*;
 import soot.javaToJimple.LocalGenerator;
 import soot.jimple.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /** Methods for checking Java scope and visibiliity requirements. */
 public class AccessManager

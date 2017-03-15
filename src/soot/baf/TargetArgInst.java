@@ -25,7 +25,8 @@
 
 package soot.baf;
 
-import soot.*;
+import soot.Unit;
+import soot.UnitBox;
 
 public interface TargetArgInst extends Inst
 {

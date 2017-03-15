@@ -18,10 +18,16 @@
  */
 
 package soot.jimple.toolkits.pointer;
+
 import soot.*;
 import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
-import java.util.*;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Filter;
+import soot.jimple.toolkits.callgraph.TransitiveTargets;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /** Generates side-effect information from a PointsToAnalysis. */
 public class SideEffectAnalysis {

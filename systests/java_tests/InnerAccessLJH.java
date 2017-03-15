@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class InnerAccessLJH {
     public static void main(String[] args) {
       if (new C().getCount() == 3)

@@ -29,8 +29,10 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.RefType;
+import soot.Type;
+import soot.util.StringTools;
+import soot.util.Switch;
 
 public class ClassConstant extends Constant
 {

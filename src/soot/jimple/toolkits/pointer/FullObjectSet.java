@@ -18,11 +18,13 @@
  */
 
 package soot.jimple.toolkits.pointer;
-import java.util.*;
 
 import soot.*;
 import soot.jimple.ClassConstant;
 import soot.singletons.Singletons;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class FullObjectSet extends Union {
     public FullObjectSet( Singletons.Global g ) {

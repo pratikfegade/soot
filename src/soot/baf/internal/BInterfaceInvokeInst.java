@@ -26,9 +26,11 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.SootMethodRef;
+import soot.UnitPrinter;
+import soot.baf.InstSwitch;
+import soot.baf.InterfaceInvokeInst;
+import soot.util.Switch;
 
 public class BInterfaceInvokeInst extends AbstractInvokeInst 
                                   implements InterfaceInvokeInst

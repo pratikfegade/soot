@@ -25,13 +25,14 @@
 
 package soot.jimple.parser;
 
+import sablecc.soot.jimple.parser.node.*;
+import soot.*;
+import soot.jimple.JimpleBody;
 import soot.options.Options;
 
-import soot.*;
-import soot.jimple.*;
-
-import sablecc.soot.jimple.parser.node.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Walks a jimple AST and constructs the method bodies for all the methods of

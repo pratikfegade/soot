@@ -19,19 +19,15 @@
 
 package soot.jimple.spark.pag;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import soot.SootField;
 import soot.SootMethod;
 import soot.jimple.spark.ondemand.genericutil.Predicate;
 import soot.jimple.spark.sets.P2SetVisitor;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Utilities for dumping dot representations of parts of a {@link PAG}.

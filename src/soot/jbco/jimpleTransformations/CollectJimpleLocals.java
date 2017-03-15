@@ -19,10 +19,13 @@
 
 package soot.jbco.jimpleTransformations;
 
-import java.util.*;
-
-import soot.*;
+import soot.Body;
+import soot.BodyTransformer;
+import soot.Local;
 import soot.jbco.IJbcoTransform;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * @author Michael Batchelder

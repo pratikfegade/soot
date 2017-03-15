@@ -26,11 +26,16 @@
 
 package soot.toolkits.graph;
 
-import soot.*;
-
-import java.util.*;
-
+import soot.Body;
+import soot.Timers;
+import soot.Trap;
+import soot.Unit;
 import soot.options.Options;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 
 /**

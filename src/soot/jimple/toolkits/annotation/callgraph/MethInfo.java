@@ -19,7 +19,8 @@
 
 package soot.jimple.toolkits.annotation.callgraph;
 
-import soot.*;
+import soot.Kind;
+import soot.SootMethod;
 
 public class MethInfo {
     private SootMethod method;

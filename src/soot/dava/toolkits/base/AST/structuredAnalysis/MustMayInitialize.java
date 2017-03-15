@@ -29,13 +29,20 @@
 
 package soot.dava.toolkits.base.AST.structuredAnalysis;
 
-import soot.*;
-import soot.dava.*;
-import java.util.*;
+import soot.Local;
+import soot.SootField;
+import soot.Value;
+import soot.dava.DavaFlowAnalysisException;
+import soot.dava.internal.AST.ASTUnaryBinaryCondition;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.FieldRef;
+import soot.jimple.Stmt;
 
-import soot.jimple.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 //import soot.dava.internal.javaRep.*;
-import soot.dava.internal.AST.*;
 
 /*
  * The analysis stores all defs of Locals/SootField. The user can then ask whether a local or SootField

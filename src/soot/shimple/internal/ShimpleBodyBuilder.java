@@ -19,17 +19,26 @@
 
 package soot.shimple.internal;
 
-import soot.*;
-import java.util.*;
-
+import soot.Local;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.internal.JimpleLocal;
+import soot.jimple.toolkits.base.Aggregator;
+import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
+import soot.jimple.toolkits.scalar.LocalNameStandardizer;
+import soot.jimple.toolkits.scalar.UnconditionalBranchFolder;
+import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.options.ShimpleOptions;
 import soot.shimple.*;
-import soot.jimple.*;
-import soot.jimple.internal.*;
-import soot.jimple.toolkits.base.*;
-import soot.jimple.toolkits.scalar.*;
-import soot.toolkits.graph.*;
-import soot.toolkits.scalar.*;
+import soot.toolkits.graph.Block;
+import soot.toolkits.graph.BlockGraph;
+import soot.toolkits.graph.DominatorNode;
+import soot.toolkits.graph.DominatorTree;
+import soot.toolkits.scalar.UnusedLocalEliminator;
+
+import java.util.*;
 
 /**
  * This class does the real high-level work.  It takes a Jimple body

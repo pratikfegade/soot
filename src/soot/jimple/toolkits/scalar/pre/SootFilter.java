@@ -25,8 +25,12 @@
 
 
 package soot.jimple.toolkits.scalar.pre;
+
+import soot.EquivalentValue;
+import soot.Local;
+import soot.Unit;
+import soot.Value;
 import soot.jimple.*;
-import soot.*;
 
 /**
  * Allows easy filtering/wrapping of Soot objects. Operations that are done

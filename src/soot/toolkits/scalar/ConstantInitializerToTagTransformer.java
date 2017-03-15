@@ -1,37 +1,11 @@
 package soot.toolkits.scalar;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import soot.*;
+import soot.jimple.*;
+import soot.tagkit.*;
 
-import soot.G;
-import soot.Scene;
-import soot.SceneTransformer;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethod;
-import soot.Unit;
-import soot.jimple.AssignStmt;
-import soot.jimple.Constant;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FieldRef;
-import soot.jimple.FloatConstant;
-import soot.jimple.IntConstant;
-import soot.jimple.LongConstant;
-import soot.jimple.StaticFieldRef;
-import soot.jimple.StringConstant;
-import soot.tagkit.ConstantValueTag;
-import soot.tagkit.DoubleConstantValueTag;
-import soot.tagkit.FloatConstantValueTag;
-import soot.tagkit.IntegerConstantValueTag;
-import soot.tagkit.LongConstantValueTag;
-import soot.tagkit.StringConstantValueTag;
-import soot.tagkit.Tag;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is the reverse operation of the {@link ConstantValueToInitializerTransformer}.

@@ -1,13 +1,12 @@
 package soot.toDex.instructions;
 
-import java.util.BitSet;
-import java.util.List;
-
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.builder.BuilderInstruction;
-
 import soot.toDex.LabelAssigner;
 import soot.toDex.Register;
+
+import java.util.BitSet;
+import java.util.List;
 
 /**
  * Interface for the dalvik instruction formats.

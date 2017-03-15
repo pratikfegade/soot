@@ -1,7 +1,7 @@
 
 package soot.jimple.toolkits.thread.synchronization;
 
-import soot.*;
+import soot.SootClass;
 
 public class DeadlockAvoidanceEdge extends NewStaticLock
 {	

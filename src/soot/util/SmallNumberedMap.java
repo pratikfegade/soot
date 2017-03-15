@@ -18,7 +18,8 @@
  */
 
 package soot.util;
-import java.util.*;
+
+import java.util.Iterator;
 
 /** A java.util.Map-like map with Numberable objects as the keys.
  *

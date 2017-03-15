@@ -26,7 +26,8 @@
 
 package soot.baf.internal;
 
-import soot.*;
+import soot.AbstractValueBox;
+import soot.Value;
 
 public class BafLocalBox extends AbstractValueBox
 {

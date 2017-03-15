@@ -19,7 +19,8 @@
 
 package soot.dava.toolkits.base.finders;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 class IndexSetComparator implements Comparator
 {

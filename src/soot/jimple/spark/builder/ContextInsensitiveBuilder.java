@@ -19,19 +19,25 @@
 
 package soot.jimple.spark.builder;
 
-import soot.jimple.spark.pag.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.jimple.toolkits.pointer.util.NativeMethodDriver;
-import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
-import soot.*;
-
-import java.util.*;
-
+import soot.G;
+import soot.Scene;
+import soot.SootClass;
+import soot.SootMethod;
 import soot.jimple.spark.geom.geomPA.GeomPointsTo;
-import soot.jimple.spark.internal.*;
+import soot.jimple.spark.internal.SparkNativeHelper;
+import soot.jimple.spark.pag.MethodPAG;
+import soot.jimple.spark.pag.PAG;
 import soot.jimple.spark.solver.OnFlyCallGraph;
+import soot.jimple.toolkits.callgraph.CallGraphBuilder;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.jimple.toolkits.callgraph.ReachableMethods;
+import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
+import soot.jimple.toolkits.pointer.util.NativeMethodDriver;
 import soot.options.SparkOptions;
-import soot.util.queue.*;
+import soot.util.queue.QueueReader;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * A context insensitive pointer assignment graph builder.

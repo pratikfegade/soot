@@ -25,13 +25,13 @@
 
 package soot.toolkits.scalar;
 
-import soot.options.Options;
-
 import soot.*;
+import soot.jimple.GroupIntPair;
+import soot.options.Options;
 import soot.singletons.Singletons;
-import soot.util.*;
+import soot.util.DeterministicHashMap;
+
 import java.util.*;
-import soot.jimple.*;
 
 /**
  * A BodyTransformer that attemps to minimize the number of local variables used

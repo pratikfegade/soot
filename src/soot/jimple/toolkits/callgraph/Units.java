@@ -18,7 +18,8 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import java.util.*;
+
+import java.util.Iterator;
 
 /** Adapts an iterator over a collection of Edge's to be an iterator
  * over the source units of the edges.

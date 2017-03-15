@@ -1,19 +1,9 @@
 package soot.toolkits.exceptions;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import soot.AnySubType;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
+import soot.*;
 import soot.options.options.Options;
+
+import java.util.*;
 
 /**
  * Class which packages together some objects useful in unit tests of exception

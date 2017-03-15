@@ -29,8 +29,9 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
+import soot.AbstractUnit;
+import soot.UnitPrinter;
+import soot.baf.Inst;
 
 public abstract class AbstractInst extends AbstractUnit implements Inst
 {

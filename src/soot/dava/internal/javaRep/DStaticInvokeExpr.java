@@ -20,10 +20,12 @@
 
 package soot.dava.internal.javaRep;
 
-import soot.*;
-import java.util.*;
-import soot.grimp.*;
-import soot.grimp.internal.*;
+import soot.SootMethodRef;
+import soot.UnitPrinter;
+import soot.grimp.Grimp;
+import soot.grimp.internal.GStaticInvokeExpr;
+
+import java.util.ArrayList;
 
 public class DStaticInvokeExpr extends GStaticInvokeExpr
 {

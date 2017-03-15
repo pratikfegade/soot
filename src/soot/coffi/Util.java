@@ -30,14 +30,15 @@
 
 
 package soot.coffi;
-import soot.jimple.*;
 
-import java.util.*;
-import java.io.*;
-
+import soot.*;
+import soot.jimple.Jimple;
+import soot.jimple.JimpleBody;
 import soot.singletons.Singletons;
 import soot.tagkit.*;
-import soot.*;
+
+import java.io.InputStream;
+import java.util.*;
 
 
 public class Util

@@ -1,10 +1,10 @@
 package soot.util;
 
+import heros.solver.Pair;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import heros.solver.Pair;
 
 public abstract class AbstractMultiMap<K, V> implements MultiMap<K, V> {
 	

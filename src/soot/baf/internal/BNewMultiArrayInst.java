@@ -29,9 +29,11 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.ArrayType;
+import soot.UnitPrinter;
+import soot.baf.InstSwitch;
+import soot.baf.NewMultiArrayInst;
+import soot.util.Switch;
 
 public class BNewMultiArrayInst extends AbstractInst implements NewMultiArrayInst
 {

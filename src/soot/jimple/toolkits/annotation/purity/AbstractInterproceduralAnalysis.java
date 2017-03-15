@@ -26,13 +26,22 @@
  */
 
 package soot.jimple.toolkits.annotation.purity;
+
+import soot.G;
+import soot.SootMethod;
+import soot.SourceLocator;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.graph.Orderer;
+import soot.toolkits.graph.PseudoTopologicalOrderer;
+import soot.util.dot.DotGraph;
+import soot.util.dot.DotGraphEdge;
+import soot.util.dot.DotGraphNode;
+
+import java.io.File;
 import java.util.*;
-import java.io.*;
-import soot.*;
-import soot.util.dot.*;
-import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.toolkits.graph.*;
 
 /**
  * Inter-procedural iterator skeleton for summary-based analysis

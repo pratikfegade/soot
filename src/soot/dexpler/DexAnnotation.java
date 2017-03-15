@@ -1,71 +1,17 @@
 package soot.dexpler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.jf.dexlib2.AnnotationVisibility;
-import org.jf.dexlib2.iface.Annotation;
-import org.jf.dexlib2.iface.AnnotationElement;
-import org.jf.dexlib2.iface.ClassDef;
-import org.jf.dexlib2.iface.Field;
-import org.jf.dexlib2.iface.Method;
-import org.jf.dexlib2.iface.MethodParameter;
+import org.jf.dexlib2.iface.*;
 import org.jf.dexlib2.iface.reference.FieldReference;
 import org.jf.dexlib2.iface.reference.MethodReference;
-import org.jf.dexlib2.iface.value.AnnotationEncodedValue;
-import org.jf.dexlib2.iface.value.ArrayEncodedValue;
-import org.jf.dexlib2.iface.value.BooleanEncodedValue;
-import org.jf.dexlib2.iface.value.ByteEncodedValue;
-import org.jf.dexlib2.iface.value.CharEncodedValue;
-import org.jf.dexlib2.iface.value.DoubleEncodedValue;
-import org.jf.dexlib2.iface.value.EncodedValue;
-import org.jf.dexlib2.iface.value.EnumEncodedValue;
-import org.jf.dexlib2.iface.value.FieldEncodedValue;
-import org.jf.dexlib2.iface.value.FloatEncodedValue;
-import org.jf.dexlib2.iface.value.IntEncodedValue;
-import org.jf.dexlib2.iface.value.LongEncodedValue;
-import org.jf.dexlib2.iface.value.MethodEncodedValue;
-import org.jf.dexlib2.iface.value.ShortEncodedValue;
-import org.jf.dexlib2.iface.value.StringEncodedValue;
-import org.jf.dexlib2.iface.value.TypeEncodedValue;
-
-import soot.ArrayType;
-import soot.RefType;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.SootResolver;
-import soot.Type;
+import org.jf.dexlib2.iface.value.*;
+import soot.*;
 import soot.javaToJimple.IInitialResolver.Dependencies;
-import soot.tagkit.AnnotationAnnotationElem;
-import soot.tagkit.AnnotationArrayElem;
-import soot.tagkit.AnnotationBooleanElem;
-import soot.tagkit.AnnotationClassElem;
-import soot.tagkit.AnnotationConstants;
-import soot.tagkit.AnnotationDefaultTag;
-import soot.tagkit.AnnotationDoubleElem;
-import soot.tagkit.AnnotationElem;
-import soot.tagkit.AnnotationEnumElem;
-import soot.tagkit.AnnotationFloatElem;
-import soot.tagkit.AnnotationIntElem;
-import soot.tagkit.AnnotationLongElem;
-import soot.tagkit.AnnotationStringElem;
-import soot.tagkit.AnnotationTag;
-import soot.tagkit.DeprecatedTag;
-import soot.tagkit.EnclosingMethodTag;
-import soot.tagkit.Host;
-import soot.tagkit.InnerClassAttribute;
-import soot.tagkit.InnerClassTag;
-import soot.tagkit.ParamNamesTag;
-import soot.tagkit.SignatureTag;
-import soot.tagkit.Tag;
-import soot.tagkit.VisibilityAnnotationTag;
-import soot.tagkit.VisibilityParameterAnnotationTag;
+import soot.tagkit.*;
 import soot.toDex.SootToDexUtils;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Converts annotations from Dexlib to Jimple.

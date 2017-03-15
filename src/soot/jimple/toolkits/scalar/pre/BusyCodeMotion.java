@@ -25,19 +25,7 @@
 
 package soot.jimple.toolkits.scalar.pre;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import soot.Body;
-import soot.BodyTransformer;
-import soot.EquivalentValue;
-import soot.G;
-import soot.Local;
-import soot.Scene;
-import soot.SideEffectTester;
-import soot.Unit;
-import soot.Value;
+import soot.*;
 import soot.jimple.AssignStmt;
 import soot.jimple.IdentityStmt;
 import soot.jimple.Jimple;
@@ -52,6 +40,10 @@ import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.Chain;
 import soot.util.UnitMap;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Performs a partial redundancy elimination (= code motion). This is done, by

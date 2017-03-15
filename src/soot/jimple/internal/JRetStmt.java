@@ -30,10 +30,16 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.Jimple;
+import soot.jimple.RetStmt;
+import soot.jimple.StmtSwitch;
+import soot.util.Switch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JRetStmt extends AbstractStmt implements RetStmt
 {

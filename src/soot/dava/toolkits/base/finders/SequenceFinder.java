@@ -19,14 +19,19 @@
 
 package soot.dava.toolkits.base.finders;
 
-import soot.*;
-import soot.dava.*;
-import java.util.*;
-
+import soot.G;
+import soot.dava.Dava;
+import soot.dava.DavaBody;
+import soot.dava.RetriggerAnalysisException;
+import soot.dava.internal.SET.SETNode;
+import soot.dava.internal.SET.SETStatementSequenceNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.asg.AugmentedStmtGraph;
 import soot.singletons.Singletons;
-import soot.util.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.SET.*;
+import soot.util.IterableSet;
+
+import java.util.HashSet;
+import java.util.Iterator;
 
 public class SequenceFinder implements FactFinder
 {

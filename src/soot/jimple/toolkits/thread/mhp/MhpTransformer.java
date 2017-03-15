@@ -1,10 +1,11 @@
 
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.*;
+import soot.G;
+import soot.SceneTransformer;
 import soot.singletons.Singletons;
 
-import java.util.*;
+import java.util.Map;
 /**
  *
  */

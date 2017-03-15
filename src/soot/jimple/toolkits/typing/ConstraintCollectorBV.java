@@ -28,7 +28,9 @@ package soot.jimple.toolkits.typing;
 
 import soot.*;
 import soot.jimple.*;
-import java.util.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 

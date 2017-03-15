@@ -1,10 +1,11 @@
 
 package soot.jimple.toolkits.thread.synchronization;
 
-import java.util.*;
-
 import soot.*;
-import soot.util.*;
+import soot.util.Switch;
+
+import java.util.Collections;
+import java.util.List;
 
 // Written by Richard L. Halpert on August 11, 2007
 // Acts as a dummy value that gets put in a transaction's lockset,

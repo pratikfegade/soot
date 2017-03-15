@@ -19,19 +19,10 @@
 
 package soot.jimple.spark.pag;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import soot.Context;
-import soot.PhaseOptions;
-import soot.RefType;
-import soot.SootMethod;
-import soot.Type;
+import soot.*;
 import soot.options.CGOptions;
+
+import java.util.*;
 
 /**
  * Represents an allocation site node (Blue) in the pointer assignment graph.

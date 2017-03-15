@@ -19,19 +19,16 @@
 
 package soot.jbco.jimpleTransformations;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
 import soot.*;
+import soot.jbco.IJbcoTransform;
 import soot.jbco.util.Rand;
-import soot.jbco.*;
-import soot.jimple.*;
+import soot.jimple.IdentityStmt;
+import soot.jimple.IfStmt;
+import soot.jimple.IntConstant;
+import soot.jimple.Jimple;
 import soot.toolkits.graph.BriefUnitGraph;
+
+import java.util.*;
 /**
  * @author Michael Batchelder 
  * 

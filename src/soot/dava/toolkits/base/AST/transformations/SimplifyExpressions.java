@@ -6,15 +6,7 @@ import soot.dava.internal.javaRep.DCmpExpr;
 import soot.dava.internal.javaRep.DCmpgExpr;
 import soot.dava.internal.javaRep.DCmplExpr;
 import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
-import soot.jimple.AddExpr;
-import soot.jimple.BinopExpr;
-import soot.jimple.DoubleConstant;
-import soot.jimple.FloatConstant;
-import soot.jimple.IntConstant;
-import soot.jimple.LongConstant;
-import soot.jimple.MulExpr;
-import soot.jimple.NumericConstant;
-import soot.jimple.SubExpr;
+import soot.jimple.*;
 
 /*
  * x = 2+3  should be simplified to x =5

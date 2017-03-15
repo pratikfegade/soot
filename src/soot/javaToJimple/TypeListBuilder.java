@@ -18,9 +18,10 @@
  */
 
 package soot.javaToJimple;
-import java.util.*;
 
 import polyglot.types.Type;
+
+import java.util.HashSet;
 
 public class TypeListBuilder extends polyglot.visit.NodeVisitor {
 

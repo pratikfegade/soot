@@ -18,11 +18,13 @@
  */
 
 package soot.jimple.spark.internal;
-import soot.jimple.spark.pag.*;
-import soot.jimple.toolkits.pointer.representations.*;
-import soot.jimple.toolkits.pointer.util.*;
-import soot.toolkits.scalar.Pair;
+
 import soot.*;
+import soot.jimple.spark.pag.*;
+import soot.jimple.toolkits.pointer.representations.AbstractObject;
+import soot.jimple.toolkits.pointer.representations.ReferenceVariable;
+import soot.jimple.toolkits.pointer.util.NativeHelper;
+import soot.toolkits.scalar.Pair;
 
 public class SparkNativeHelper extends NativeHelper {
     protected PAG pag;

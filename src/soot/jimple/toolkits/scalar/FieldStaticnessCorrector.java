@@ -1,18 +1,14 @@
 package soot.jimple.toolkits.scalar;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import soot.Body;
 import soot.BodyTransformer;
 import soot.G;
-import soot.singletons.Singletons;
 import soot.Unit;
-import soot.jimple.AssignStmt;
-import soot.jimple.FieldRef;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.Jimple;
-import soot.jimple.Stmt;
+import soot.jimple.*;
+import soot.singletons.Singletons;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class FieldStaticnessCorrector extends BodyTransformer {
 

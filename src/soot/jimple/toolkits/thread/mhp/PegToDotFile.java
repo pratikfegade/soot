@@ -26,11 +26,15 @@
 /* Reference Version: $SootVersion: 1.2.5.dev.1 $ */
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.util.dot.*;
-import soot.util.*;
-import java.util.*;
 import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
-import soot.tagkit.*;
+import soot.tagkit.Tag;
+import soot.util.Chain;
+import soot.util.dot.DotGraph;
+import soot.util.dot.DotGraphConstants;
+import soot.util.dot.DotGraphEdge;
+import soot.util.dot.DotGraphNode;
+
+import java.util.*;
 
 
 

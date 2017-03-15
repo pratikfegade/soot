@@ -29,13 +29,17 @@
 
 
 package soot.jimple.toolkits.base;
-import soot.options.Options;
 
 import soot.*;
-import soot.toolkits.scalar.*;
 import soot.jimple.*;
-import soot.toolkits.graph.*;
-import soot.util.*;
+import soot.options.Options;
+import soot.toolkits.graph.BriefUnitGraph;
+import soot.toolkits.graph.DirectedGraph;
+import soot.toolkits.scalar.ForwardFlowAnalysis;
+import soot.util.Chain;
+import soot.util.HashMultiMap;
+import soot.util.MultiMap;
+
 import java.util.*;
 
 public class JimpleConstructorFolder extends BodyTransformer

@@ -18,8 +18,11 @@
  */
 
 package soot;
-import java.util.*;
+
 import soot.tagkit.*;
+
+import java.util.Iterator;
+import java.util.Stack;
 
 /**
  * Adds PositionTags to ValueBoxes to identify their position in the output.

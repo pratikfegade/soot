@@ -19,11 +19,13 @@
 
 package soot.javaToJimple.jj.ast;
 
-import polyglot.ast.*;
-import polyglot.types.*;
-import polyglot.visit.*;
-import polyglot.ext.jl.ast.*;
-import polyglot.util.*;
+import polyglot.ast.Binary;
+import polyglot.ast.Expr;
+import polyglot.ext.jl.ast.Binary_c;
+import polyglot.types.Type;
+import polyglot.types.TypeSystem;
+import polyglot.util.Position;
+import polyglot.visit.AscriptionVisitor;
 
 public class JjBinary_c extends Binary_c {
 

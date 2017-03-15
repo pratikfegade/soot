@@ -25,27 +25,15 @@
 
 package soot.jimple;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import soot.Body;
-import soot.Local;
-import soot.RefType;
-import soot.SootMethod;
-import soot.Type;
-import soot.Unit;
-import soot.jimple.validation.FieldRefValidator;
-import soot.jimple.validation.IdentityStatementsValidator;
-import soot.jimple.validation.IdentityValidator;
-import soot.jimple.validation.InvokeArgumentValidator;
-import soot.jimple.validation.JimpleTrapValidator;
-import soot.jimple.validation.NewValidator;
-import soot.jimple.validation.ReturnStatementsValidator;
-import soot.jimple.validation.TypesValidator;
+import soot.*;
+import soot.jimple.validation.*;
 import soot.options.Options;
 import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /** Implementation of the Body class for the Jimple IR. */
 public class JimpleBody extends StmtBody

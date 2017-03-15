@@ -2,8 +2,9 @@ package soot.jimple.toolkits.thread.mhp;
 
 
 import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
-import soot.toolkits.scalar.*;
-import soot.util.*;
+import soot.toolkits.scalar.FlowSet;
+import soot.util.Chain;
+
 import java.util.*;
 
 // *** USE AT YOUR OWN RISK ***

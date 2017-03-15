@@ -1,7 +1,8 @@
 package soot.jimple.toolkits.infoflow;
 
-import soot.*;
-import soot.jimple.internal.*;
+import soot.Local;
+import soot.Type;
+import soot.jimple.internal.JimpleLocal;
 
 // A wrapper for a JimpleLocal that defines equivalence and equality
 // as having the same name and type.  This is useful for comparing

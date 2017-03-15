@@ -19,10 +19,6 @@
 
 package soot.javaToJimple.jj;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-
 import polyglot.ast.NodeFactory;
 import polyglot.frontend.Job;
 import polyglot.frontend.Source;
@@ -30,6 +26,10 @@ import polyglot.main.Options;
 import polyglot.types.TypeSystem;
 import soot.javaToJimple.jj.ast.JjNodeFactory_c;
 import soot.javaToJimple.jj.types.JjTypeSystem_c;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Extension information for jj extension.

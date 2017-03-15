@@ -26,15 +26,20 @@
 
 package soot.jimple.parser;
 
+import sablecc.soot.jimple.parser.lexer.Lexer;
+import sablecc.soot.jimple.parser.lexer.LexerException;
+import sablecc.soot.jimple.parser.node.Start;
+import sablecc.soot.jimple.parser.parser.Parser;
+import sablecc.soot.jimple.parser.parser.ParserException;
+import soot.G;
+import soot.Scene;
+import soot.SootClass;
+import soot.SootMethod;
 import soot.jimple.JimpleBody;
-import sablecc.soot.jimple.parser.parser.*;
-import sablecc.soot.jimple.parser.lexer.*;
-import sablecc.soot.jimple.parser.node.*;
-import java.io.*;
-import soot.util.*;
-import java.util.*;
+import soot.util.EscapedReader;
 
-import soot.*;
+import java.io.*;
+import java.util.HashMap;
 
 /** Provides a test-driver for the Jimple parser. */
 @Deprecated

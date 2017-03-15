@@ -31,10 +31,12 @@
 package soot.jimple.internal;
 
 import soot.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.util.*;
-import java.util.*;
-import soot.baf.*;
+import soot.util.Switch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JInvokeStmt extends AbstractStmt implements InvokeStmt
 {

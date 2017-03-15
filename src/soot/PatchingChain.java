@@ -25,13 +25,9 @@
 
 package soot;
 
-import java.util.AbstractCollection;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import soot.util.Chain;
+
+import java.util.*;
 
 /** An implementation of a Chain which can contain only Units,
  * and handles patching to deal with element insertions and removals.

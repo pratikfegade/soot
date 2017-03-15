@@ -30,11 +30,15 @@
 
 package soot.jimple.internal;
 
-import soot.*;
+import soot.Unit;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.util.*;
-import soot.baf.*;
-import java.util.*;
+import soot.util.Switch;
+
+import java.util.List;
 
 public class JThrowStmt extends AbstractOpStmt implements ThrowStmt
 {

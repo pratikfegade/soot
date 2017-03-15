@@ -26,10 +26,14 @@
 
 package soot.toolkits.graph;
 
-import soot.util.*;
-import java.util.*;
-import soot.*;
-import soot.baf.*;
+import soot.Body;
+import soot.SootMethod;
+import soot.Unit;
+import soot.baf.BafBody;
+import soot.util.Chain;
+
+import java.util.Iterator;
+import java.util.List;
 
 
 

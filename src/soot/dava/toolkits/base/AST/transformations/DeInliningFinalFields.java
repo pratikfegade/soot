@@ -20,20 +20,23 @@
 package soot.dava.toolkits.base.AST.transformations;
 
 import soot.*;
-import soot.dava.*;
+import soot.dava.DavaBody;
+import soot.dava.internal.AST.*;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DStaticFieldRef;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.jimple.*;
 import soot.tagkit.*;
 import soot.util.Chain;
-import soot.jimple.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 //import soot.jimple.internal.*;
 //import soot.grimp.internal.*;
-import soot.dava.internal.AST.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.toolkits.base.AST.analysis.*;
 //import soot.dava.toolkits.base.AST.traversals.*;
 //import soot.dava.toolkits.base.AST.structuredAnalysis.*;
-
-import java.util.*;
 
 /**
  * Maintained by: Nomair A. Naeem

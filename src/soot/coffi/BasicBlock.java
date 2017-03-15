@@ -31,11 +31,13 @@
 
 package soot.coffi;
 
-import java.util.*;
-
+import soot.G;
 import soot.jimple.Stmt;
-import soot.util.*;
-import soot.*;
+import soot.util.ArraySet;
+
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 /** Represents one basic block in a control flow graph.
  * @see CFG

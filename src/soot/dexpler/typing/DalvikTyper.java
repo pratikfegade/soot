@@ -20,76 +20,22 @@
 
 package soot.dexpler.typing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.ArrayType;
-import soot.Body;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.DoubleType;
-import soot.FloatType;
-import soot.IntType;
-import soot.Local;
-import soot.LongType;
-import soot.PrimType;
-import soot.RefType;
-import soot.ShortType;
-import soot.Type;
-import soot.Unit;
-import soot.UnknownType;
-import soot.Value;
-import soot.ValueBox;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.IDalvikTyper;
 import soot.dexpler.tags.DoubleOpTag;
 import soot.dexpler.tags.FloatOpTag;
 import soot.dexpler.tags.IntOpTag;
 import soot.dexpler.tags.LongOpTag;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.BinopExpr;
-import soot.jimple.BreakpointStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.Constant;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.DivExpr;
-import soot.jimple.DynamicInvokeExpr;
-import soot.jimple.EnterMonitorStmt;
-import soot.jimple.ExitMonitorStmt;
-import soot.jimple.GotoStmt;
-import soot.jimple.IdentityStmt;
-import soot.jimple.IfStmt;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.InvokeStmt;
-import soot.jimple.LookupSwitchStmt;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.NopStmt;
-import soot.jimple.NullConstant;
-import soot.jimple.RemExpr;
-import soot.jimple.RetStmt;
-import soot.jimple.ReturnStmt;
-import soot.jimple.ReturnVoidStmt;
-import soot.jimple.ShlExpr;
-import soot.jimple.ShrExpr;
-import soot.jimple.StaticInvokeExpr;
-import soot.jimple.StmtSwitch;
-import soot.jimple.TableSwitchStmt;
-import soot.jimple.ThrowStmt;
-import soot.jimple.UnopExpr;
-import soot.jimple.UshrExpr;
+import soot.jimple.*;
 import soot.tagkit.Tag;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.SimpleLocalDefs;
 import soot.toolkits.scalar.SimpleLocalUses;
 import soot.toolkits.scalar.UnitValueBoxPair;
+
+import java.util.*;
 
 public class DalvikTyper implements IDalvikTyper {
 

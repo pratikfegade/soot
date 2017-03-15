@@ -25,7 +25,6 @@
 
 package soot.tagkit;
 
-import soot.jimple.Constant;
 import soot.jimple.DoubleConstant;
 
 public class DoubleConstantValueTag extends ConstantValueTag

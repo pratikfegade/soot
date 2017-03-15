@@ -1,5 +1,3 @@
-import java.io.*;
-
 public class TryCatch2 {
 
     int x;

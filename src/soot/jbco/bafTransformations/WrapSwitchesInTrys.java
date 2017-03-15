@@ -19,13 +19,18 @@
 
 package soot.jbco.bafTransformations;
 
-import java.util.*;
-
 import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.baf.Baf;
+import soot.baf.TableSwitchInst;
+import soot.baf.ThrowInst;
 import soot.jbco.IJbcoTransform;
-import soot.jbco.util.*;
+import soot.jbco.util.BodyBuilder;
+import soot.jbco.util.Rand;
+import soot.jbco.util.ThrowSet;
+import soot.util.Chain;
+
+import java.util.Iterator;
+import java.util.Map;
 /**
  * @author Michael Batchelder 
  * 

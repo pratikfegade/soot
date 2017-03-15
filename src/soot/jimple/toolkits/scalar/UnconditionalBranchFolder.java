@@ -26,14 +26,22 @@
 
 
 package soot.jimple.toolkits.scalar;
+
+import soot.Body;
+import soot.BodyTransformer;
+import soot.G;
+import soot.Unit;
+import soot.jimple.GotoStmt;
+import soot.jimple.IfStmt;
+import soot.jimple.Stmt;
+import soot.jimple.StmtBody;
 import soot.options.Options;
-
 import soot.singletons.Singletons;
-import soot.util.*;
-import soot.*;
-import soot.jimple.*;
+import soot.util.Chain;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class UnconditionalBranchFolder extends BodyTransformer

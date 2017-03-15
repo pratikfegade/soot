@@ -26,7 +26,7 @@
 
 package soot.baf.toolkits.base;
 
-import soot.*;
+import soot.Body;
 
 
 

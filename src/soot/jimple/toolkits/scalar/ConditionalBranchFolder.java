@@ -26,13 +26,14 @@
 
 
 package soot.jimple.toolkits.scalar;
-import soot.options.Options;
 
-import soot.singletons.Singletons;
-import soot.util.*;
 import soot.*;
 import soot.jimple.*;
-import java.util.*;
+import soot.options.Options;
+import soot.singletons.Singletons;
+import soot.util.Chain;
+
+import java.util.Map;
 
 
 public class ConditionalBranchFolder  extends BodyTransformer

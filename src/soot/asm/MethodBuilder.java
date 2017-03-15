@@ -19,15 +19,13 @@
 package soot.asm;
 
 import org.objectweb.asm.*;
+import org.objectweb.asm.Attribute;
 import org.objectweb.asm.commons.JSRInlinerAdapter;
-
-import soot.*;
+import soot.ArrayType;
+import soot.RefType;
+import soot.SootMethod;
 import soot.Type;
-import soot.tagkit.AnnotationConstants;
-import soot.tagkit.AnnotationDefaultTag;
-import soot.tagkit.AnnotationTag;
-import soot.tagkit.VisibilityAnnotationTag;
-import soot.tagkit.VisibilityParameterAnnotationTag;
+import soot.tagkit.*;
 
 /**
  * Soot method builder.

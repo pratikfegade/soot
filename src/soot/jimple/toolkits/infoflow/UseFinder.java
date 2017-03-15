@@ -1,12 +1,12 @@
 package soot.jimple.toolkits.infoflow;
 
 import soot.*;
-import soot.util.*;
-import java.util.*;
-
-import soot.toolkits.scalar.*;
-import soot.jimple.toolkits.callgraph.*;
 import soot.jimple.*;
+import soot.jimple.toolkits.callgraph.ReachableMethods;
+import soot.toolkits.scalar.Pair;
+import soot.util.Chain;
+
+import java.util.*;
 
 // UseFinder written by Richard L. Halpert, 2007-03-13
 // Compiles a list of all uses of fields of each application class within the

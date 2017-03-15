@@ -25,17 +25,11 @@
 
 package soot.toolkits.scalar;
 
+import soot.*;
 import soot.options.Options;
-import soot.Timers;
-import soot.Unit;
-import soot.Local;
-import soot.G;
-import soot.Value;
-import soot.ValueBox;
+import soot.toolkits.graph.UnitGraph;
 
 import java.util.List;
-
-import soot.toolkits.graph.UnitGraph;
 
 /**
  * Analysis that provides an implementation of the LiveLocals interface.

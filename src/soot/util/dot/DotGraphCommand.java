@@ -28,7 +28,8 @@
 
 package soot.util.dot;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Encodes general Dot commands.

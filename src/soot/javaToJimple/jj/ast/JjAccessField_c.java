@@ -20,10 +20,12 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.*;
-import polyglot.visit.*;
-import polyglot.ext.jl.ast.*;
-import polyglot.util.*;
-import java.util.*;
+import polyglot.ext.jl.ast.Expr_c;
+import polyglot.util.Position;
+import polyglot.visit.CFGBuilder;
+import polyglot.visit.NodeVisitor;
+
+import java.util.List;
 
 public class JjAccessField_c extends Expr_c implements Expr {
 

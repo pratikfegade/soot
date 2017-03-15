@@ -18,11 +18,12 @@
  */
 
 package soot.jimple.spark.pag;
+
 import soot.G;
 import soot.RefType;
 import soot.Scene;
-import soot.singletons.Singletons;
 import soot.Type;
+import soot.singletons.Singletons;
 
 /** Represents an array element.
  * @author Ondrej Lhotak

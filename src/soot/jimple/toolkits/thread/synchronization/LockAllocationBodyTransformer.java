@@ -1,12 +1,13 @@
 package soot.jimple.toolkits.thread.synchronization;
 
-import java.util.*;
-
 import soot.*;
-import soot.util.*;
-import soot.toolkits.scalar.*;
 import soot.jimple.*;
-import soot.jimple.toolkits.infoflow.*;
+import soot.jimple.toolkits.infoflow.FakeJimpleLocal;
+import soot.toolkits.scalar.FlowSet;
+import soot.toolkits.scalar.Pair;
+import soot.util.Chain;
+
+import java.util.*;
 
 public class LockAllocationBodyTransformer extends BodyTransformer
 {

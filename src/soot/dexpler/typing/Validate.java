@@ -1,42 +1,19 @@
-package soot.dexpler.typing; 
+package soot.dexpler.typing;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import soot.ArrayType;
-import soot.Body;
-import soot.Local;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootMethodRef;
-import soot.SootResolver;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
-import soot.VoidType;
+import soot.*;
 import soot.dexpler.Debug;
 import soot.dexpler.IDalvikTyper;
-import soot.jimple.ArrayRef;
-import soot.jimple.AssignStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.Constant;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.FieldRef;
-import soot.jimple.IdentityRef;
-import soot.jimple.IdentityStmt;
-import soot.jimple.InvokeExpr;
-import soot.jimple.Jimple;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.StringConstant;
+import soot.jimple.*;
 import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.jimple.toolkits.scalar.NopEliminator;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.toolkits.scalar.LocalDefs;
 import soot.toolkits.scalar.UnusedLocalEliminator;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Validate {
 

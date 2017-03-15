@@ -18,11 +18,16 @@
  */
 
 package soot.jimple;
-import java.util.*;
 
 import soot.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Set;
 
 /** Dumps the reaching types of each local variable to a file in a format that
  * can be easily compared with results of other analyses, such as VTA.

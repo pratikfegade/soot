@@ -21,7 +21,8 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot.options;
-import java.util.*;
+
+import java.util.Map;
 
 /** Option parser for Call Graph Constructor. */
 public class CGOptions

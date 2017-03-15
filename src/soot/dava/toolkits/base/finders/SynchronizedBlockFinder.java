@@ -21,16 +21,19 @@
 package soot.dava.toolkits.base.finders;
 
 import soot.*;
-import soot.dava.*;
+import soot.dava.Dava;
+import soot.dava.DavaBody;
+import soot.dava.RetriggerAnalysisException;
+import soot.dava.internal.SET.SETNode;
+import soot.dava.internal.SET.SETSynchronizedBlockNode;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.asg.AugmentedStmtGraph;
+import soot.jimple.*;
 import soot.singletons.Singletons;
-import soot.util.*;
+import soot.toolkits.graph.StronglyConnectedComponentsFast;
+import soot.util.IterableSet;
 
 import java.util.*;
-
-import soot.jimple.*;
-import soot.toolkits.graph.*;
-import soot.dava.internal.asg.*;
-import soot.dava.internal.SET.*;
 
 public class SynchronizedBlockFinder implements FactFinder {
 	public SynchronizedBlockFinder(Singletons.Global g) {

@@ -1,6 +1,3 @@
-import java.io.*;
-import java.util.*;
-
 public class FileReaderTest {
 
     public static void main(String [] args) {

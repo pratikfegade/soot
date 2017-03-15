@@ -2,7 +2,7 @@
 
 package sablecc.soot.jimple.parser.node;
 
-import sablecc.soot.jimple.parser.analysis.*;
+import sablecc.soot.jimple.parser.analysis.Analysis;
 
 @SuppressWarnings("nls")
 public final class AUnopBoolExpr extends PBoolExpr

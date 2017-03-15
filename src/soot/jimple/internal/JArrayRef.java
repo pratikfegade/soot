@@ -31,11 +31,14 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.tagkit.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
-import java.util.*;
+import soot.tagkit.Tag;
+import soot.util.Switch;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class JArrayRef implements ArrayRef, ConvertToBaf
 {

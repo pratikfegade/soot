@@ -19,8 +19,11 @@
 
 package soot.dava.internal.javaRep;
 
-import soot.*;
-import soot.jimple.*;
+import soot.BooleanType;
+import soot.ByteType;
+import soot.CharType;
+import soot.Type;
+import soot.jimple.IntConstant;
 
 public class DIntConstant extends IntConstant
 {

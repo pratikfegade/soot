@@ -26,24 +26,14 @@
 
 package soot;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import jastadd.soot.JastAddJ.BytecodeParser;
-import jastadd.soot.JastAddJ.CompilationUnit;
-import jastadd.soot.JastAddJ.JastAddJavaParser;
-import jastadd.soot.JastAddJ.JavaParser;
-import jastadd.soot.JastAddJ.Program;
+import jastadd.soot.JastAddJ.*;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
 import soot.singletons.Singletons;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /** Loads symbols for SootClasses from either class files or jimple files. */
 public class SootResolver {

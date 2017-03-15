@@ -29,9 +29,12 @@ package soot.shimple.toolkits.graph;
 
 import soot.*;
 import soot.jimple.*;
-import soot.util.*;
-import soot.shimple.*;
+import soot.shimple.AbstractShimpleValueSwitch;
+import soot.shimple.PhiExpr;
+import soot.shimple.Shimple;
+import soot.shimple.ShimpleBody;
 import soot.toolkits.graph.*;
+import soot.util.Switch;
 
 import java.util.*;
 

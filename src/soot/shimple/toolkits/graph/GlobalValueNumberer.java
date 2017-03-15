@@ -19,7 +19,7 @@
 
 package soot.shimple.toolkits.graph;
 
-import soot.*;
+import soot.Local;
 
 public interface GlobalValueNumberer
 {

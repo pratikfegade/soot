@@ -19,18 +19,24 @@
 
 package soot.dava.toolkits.base.renamer;
 
-import soot.dava.toolkits.base.AST.analysis.*;
 import soot.*;
-import soot.jimple.*;
-import java.util.*;
-//import soot.util.*;
-import soot.dava.*;
-import soot.grimp.*;
-import soot.grimp.internal.*;
-import soot.dava.internal.javaRep.*;
-import soot.dava.internal.asg.*;
-import soot.jimple.internal.*;
+import soot.dava.DavaBody;
+import soot.dava.DecompilationException;
 import soot.dava.internal.AST.*;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.internal.javaRep.DIntConstant;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.grimp.NewInvokeExpr;
+import soot.grimp.internal.GAssignStmt;
+import soot.jimple.*;
+import soot.jimple.internal.AbstractInstanceFieldRef;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
+//import soot.util.*;
 
 public class infoGatheringAnalysis extends DepthFirstAdapter {
 	

@@ -50,14 +50,20 @@
 
 package soot.dava.toolkits.base.AST.traversals;
 
-import soot.*;
-
-import java.util.*;
-
-import soot.jimple.*;
-import soot.dava.internal.asg.*;
+import soot.Local;
+import soot.SootField;
+import soot.Value;
+import soot.ValueBox;
 import soot.dava.internal.AST.*;
-import soot.dava.toolkits.base.AST.analysis.*;
+import soot.dava.internal.asg.AugmentedStmt;
+import soot.dava.toolkits.base.AST.analysis.DepthFirstAdapter;
+import soot.jimple.FieldRef;
+import soot.jimple.Stmt;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /*
  * Creates a mapping of locals and all places where they might be used

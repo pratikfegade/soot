@@ -19,9 +19,10 @@
 
 package soot.jimple.toolkits.base;
 
-import soot.*;
-import soot.jimple.*;
-import soot.tagkit.*;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.jimple.Stmt;
+import soot.tagkit.SourceLnPosTag;
 
 public class ExceptionCheckerError extends Exception {
 

@@ -24,13 +24,15 @@
  */
 
 package soot.jimple.toolkits.invoke;
-import soot.options.Options;
 
 import soot.*;
-import soot.jimple.*;
+import soot.jimple.JimpleBody;
+import soot.jimple.Stmt;
 import soot.jimple.toolkits.callgraph.*;
+import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.tagkit.Host;
+
 import java.util.*;
 
 /** Uses the Scene's currently-active InvokeGraph to inline monomorphic call sites. */

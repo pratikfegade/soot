@@ -25,11 +25,19 @@
 
 package soot.baf.toolkits.base;
 
-import java.util.*;
-import java.io.*;
-
-import soot.*;
+import soot.Body;
+import soot.BodyTransformer;
+import soot.G;
 import soot.singletons.Singletons;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Driver class to run peepholes on the Baf IR. The peepholes applied must

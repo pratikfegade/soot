@@ -18,45 +18,19 @@
  */
 package soot.jimple.spark.geom.helper;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
-
-import soot.AnySubType;
-import soot.ArrayType;
-import soot.FastHierarchy;
-import soot.Local;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.SootField;
-import soot.SootMethod;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.jimple.AssignStmt;
-import soot.jimple.CastExpr;
-import soot.jimple.InstanceFieldRef;
-import soot.jimple.InvokeExpr;
-import soot.jimple.Stmt;
+import soot.*;
+import soot.jimple.*;
 import soot.jimple.spark.geom.dataRep.CgEdge;
 import soot.jimple.spark.geom.geomPA.GeomPointsTo;
 import soot.jimple.spark.geom.geomPA.IVarAbstraction;
 import soot.jimple.spark.geom.utils.Histogram;
-import soot.jimple.spark.pag.AllocDotField;
-import soot.jimple.spark.pag.AllocNode;
-import soot.jimple.spark.pag.LocalVarNode;
-import soot.jimple.spark.pag.Node;
-import soot.jimple.spark.pag.VarNode;
+import soot.jimple.spark.pag.*;
 import soot.jimple.spark.sets.P2SetVisitor;
 import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Edge;
+
+import java.io.PrintStream;
+import java.util.*;
 
 /**
  * We provide a set of methods to evaluate the quality of geometric points-to

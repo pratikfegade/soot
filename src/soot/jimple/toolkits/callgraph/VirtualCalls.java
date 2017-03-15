@@ -18,25 +18,8 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
-import soot.AnySubType;
-import soot.ArrayType;
-import soot.FastHierarchy;
-import soot.G;
-import soot.NullType;
-import soot.PhaseOptions;
-import soot.RefType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.Type;
+import soot.*;
 import soot.jimple.SpecialInvokeExpr;
 import soot.options.CGOptions;
 import soot.singletons.Singletons;
@@ -46,6 +29,8 @@ import soot.util.LargeNumberedMap;
 import soot.util.NumberedString;
 import soot.util.SmallNumberedMap;
 import soot.util.queue.ChunkedQueue;
+
+import java.util.*;
 
 /** Resolves virtual calls.
  * @author Ondrej Lhotak

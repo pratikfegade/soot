@@ -1,22 +1,12 @@
 package soot.jimple.toolkits.base;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.G;
-import soot.PhaseOptions;
-import soot.Scene;
-import soot.SceneTransformer;
-import soot.SootClass;
+import soot.*;
 import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.util.Chain;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * A scene transformer that renames the duplicated class names.

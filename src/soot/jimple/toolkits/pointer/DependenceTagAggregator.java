@@ -20,10 +20,10 @@
 package soot.jimple.toolkits.pointer;
 
 
-import soot.*;
-
+import soot.G;
 import soot.singletons.Singletons;
-import soot.tagkit.*;
+import soot.tagkit.ImportantTagAggregator;
+import soot.tagkit.Tag;
 
 public class DependenceTagAggregator extends ImportantTagAggregator
 {    

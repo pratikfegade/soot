@@ -1,23 +1,5 @@
 package soot.baf;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.objectweb.asm.Opcodes.DUP;
-import static org.objectweb.asm.Opcodes.DUP2;
-import static org.objectweb.asm.Opcodes.DUP2_X1;
-import static org.objectweb.asm.Opcodes.DUP2_X2;
-import static org.objectweb.asm.Opcodes.DUP_X1;
-import static org.objectweb.asm.Opcodes.DUP_X2;
-import static org.objectweb.asm.Opcodes.JSR;
-import static org.objectweb.asm.Opcodes.NOP;
-import static org.objectweb.asm.Opcodes.POP2;
-import static org.objectweb.asm.Opcodes.SWAP;
-import static org.powermock.api.mockito.PowerMockito.doCallRealMethod;
-import static org.powermock.api.mockito.PowerMockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,22 +8,14 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import soot.IntType;
-import soot.LongType;
-import soot.Type;
-import soot.Unit;
-import soot.VoidType;
-import soot.baf.internal.BDup1_x1Inst;
-import soot.baf.internal.BDup1_x2Inst;
-import soot.baf.internal.BDup2Inst;
-import soot.baf.internal.BDup2_x1Inst;
-import soot.baf.internal.BDup2_x2Inst;
-import soot.baf.internal.BJSRInst;
-import soot.baf.internal.BNopInst;
-import soot.baf.internal.BPopInst;
-import soot.baf.internal.BSwapInst;
+import soot.*;
+import soot.baf.internal.*;
 import soot.util.backend.ASMBackendUtils;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
+import static org.objectweb.asm.Opcodes.*;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 @PrepareForTest(ASMBackendUtils.class)
 @RunWith(PowerMockRunner.class)

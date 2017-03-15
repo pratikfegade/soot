@@ -27,10 +27,11 @@
 package soot.dava.internal.javaRep;
 
 import soot.*;
-import soot.util.*;
-import soot.grimp.*;
+import soot.grimp.Grimp;
+import soot.jimple.internal.AbstractUnopExpr;
+import soot.util.Switch;
+
 //import soot.jimple.*;
-import soot.jimple.internal.*;
 
 public class DNotExpr extends AbstractUnopExpr
 {

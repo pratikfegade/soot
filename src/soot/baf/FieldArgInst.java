@@ -26,7 +26,8 @@
 
 package soot.baf;
 
-import soot.*;
+import soot.SootField;
+import soot.SootFieldRef;
 
 public interface FieldArgInst extends Inst
 {

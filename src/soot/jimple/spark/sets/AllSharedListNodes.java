@@ -1,12 +1,12 @@
 package soot.jimple.spark.sets;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import soot.G;
-import soot.singletons.Singletons;
 import soot.jimple.spark.sets.SharedListSet.ListNode;
 import soot.jimple.spark.sets.SharedListSet.Pair;
+import soot.singletons.Singletons;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**A singleton to hold the hash table for SharedListSet*/
 

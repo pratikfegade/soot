@@ -1,30 +1,12 @@
 package soot.jimple.toolkits.callgraph;
 
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import soot.ArrayType;
-import soot.Body;
-import soot.Local;
-import soot.NullType;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
-import soot.ValueBox;
-import soot.jimple.ArrayRef;
-import soot.jimple.DefinitionStmt;
-import soot.jimple.IntConstant;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.NullConstant;
-import soot.jimple.Stmt;
+import soot.*;
+import soot.jimple.*;
 import soot.shimple.PhiExpr;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
+
+import java.util.*;
 
 public class ConstantArrayAnalysis extends ForwardFlowAnalysis<Unit, ConstantArrayAnalysis.ArrayState> {
 	private class ArrayTypesInternal implements Cloneable {

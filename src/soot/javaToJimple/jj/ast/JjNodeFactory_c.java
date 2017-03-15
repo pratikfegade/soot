@@ -20,10 +20,11 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.*;
-import polyglot.ext.jl.ast.*;
+import polyglot.ext.jl.ast.NodeFactory_c;
 import polyglot.types.Flags;
-import polyglot.util.*;
-import java.util.*;
+import polyglot.util.Position;
+
+import java.util.List;
 
 /**
  * NodeFactory for jj extension.

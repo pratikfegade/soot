@@ -18,11 +18,6 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import soot.Kind;
 import soot.MethodOrMethodContext;
@@ -31,6 +26,8 @@ import soot.Unit;
 import soot.jimple.Stmt;
 import soot.util.queue.ChunkedQueue;
 import soot.util.queue.QueueReader;
+
+import java.util.*;
 
 /** Represents the edges in a call graph. This class is meant to act as
  * only a container of edges; code for various call graph builders should

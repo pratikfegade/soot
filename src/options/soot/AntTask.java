@@ -22,12 +22,13 @@
 /* THIS FILE IS AUTO-GENERATED FROM soot_options.xml. DO NOT MODIFY. */
 
 package soot;
-import org.apache.tools.ant.*;
-import org.apache.tools.ant.taskdefs.*;
-import org.apache.tools.ant.types.*;
-import soot.*;
-import java.util.*;
-import java.io.*;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+import org.apache.tools.ant.types.Path;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Soot ant task.
  * @author Ondrej Lhotak

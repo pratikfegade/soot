@@ -18,9 +18,10 @@
  */
 
 package soot.javaToJimple;
-import java.util.*;
 
 import polyglot.util.IdentityKey;
+
+import java.util.ArrayList;
 
 public class PrivateAccessUses extends polyglot.visit.NodeVisitor {
 

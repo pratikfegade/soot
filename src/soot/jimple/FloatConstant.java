@@ -26,8 +26,9 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.FloatType;
+import soot.Type;
+import soot.util.Switch;
 
 public class FloatConstant extends RealConstant
 {

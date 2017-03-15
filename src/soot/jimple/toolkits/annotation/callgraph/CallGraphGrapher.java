@@ -20,13 +20,17 @@
 package soot.jimple.toolkits.annotation.callgraph;
 
 import soot.*;
-import java.util.*;
-import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.Edge;
 import soot.options.CGGOptions;
 import soot.options.Options;
 import soot.singletons.Singletons;
-import soot.toolkits.graph.interaction.*;
+import soot.toolkits.graph.interaction.InteractionHandler;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 /** A scene transformer that creates a graphical callgraph. */
 public class CallGraphGrapher extends SceneTransformer

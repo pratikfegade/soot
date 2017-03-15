@@ -18,11 +18,14 @@
  */
 
 package soot.jimple.toolkits.pointer;
-import java.util.*;
-import soot.toolkits.scalar.*;
-import soot.toolkits.graph.*;
+
 import soot.*;
 import soot.jimple.*;
+import soot.toolkits.graph.BriefUnitGraph;
+import soot.toolkits.graph.UnitGraph;
+import soot.toolkits.scalar.ForwardBranchedFlowAnalysis;
+
+import java.util.*;
 
 /** A flow analysis that detects redundant cast checks. */
 public class CastCheckEliminator extends ForwardBranchedFlowAnalysis<LocalTypeSet> {

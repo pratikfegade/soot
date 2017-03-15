@@ -1,7 +1,11 @@
 package soot.asm.backend;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.util.TraceClassVisitor;
+import soot.G;
+import soot.Main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,13 +13,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Scanner;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.util.TraceClassVisitor;
-
-import soot.G;
-import soot.Main;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Abstract base class for tests for the ASM backend that work with compiled class files

@@ -26,10 +26,14 @@
 
 package soot.toolkits.graph;
 
-import java.util.*;
-import soot.*;
-import soot.jimple.Stmt;
+import soot.Body;
+import soot.Trap;
+import soot.Unit;
 import soot.baf.Inst;
+import soot.jimple.Stmt;
+
+import java.util.Iterator;
+import java.util.Set;
 
 
 /**

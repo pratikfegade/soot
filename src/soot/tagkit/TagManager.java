@@ -24,7 +24,8 @@
  */
 
 package soot.tagkit;
-import soot.*;
+
+import soot.G;
 import soot.singletons.Singletons;
 
 /** Utility functions for tags. */

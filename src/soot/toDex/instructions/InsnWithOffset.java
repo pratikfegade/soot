@@ -1,7 +1,6 @@
 package soot.toDex.instructions;
 
 import org.jf.dexlib2.Opcode;
-
 import soot.jimple.Stmt;
 
 /**

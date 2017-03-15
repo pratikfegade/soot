@@ -19,12 +19,15 @@
 
 package soot.jbco.jimpleTransformations;
 
-import java.util.*;
-
 import soot.*;
 import soot.jbco.IJbcoTransform;
-import soot.jbco.util.*;
-import soot.jimple.*;
+import soot.jbco.util.BodyBuilder;
+import soot.jbco.util.Rand;
+import soot.jimple.FieldRef;
+import soot.jimple.IntConstant;
+import soot.jimple.Jimple;
+
+import java.util.*;
 
 /**
  * @author Michael Batchelder 

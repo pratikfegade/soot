@@ -2,7 +2,10 @@ package soot.jimple.toolkits.thread.mhp.pegcallgraph;
 
 import soot.jimple.toolkits.thread.mhp.SCC;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.

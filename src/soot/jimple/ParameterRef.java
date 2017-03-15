@@ -29,10 +29,13 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.util.*;
+import soot.Type;
+import soot.UnitPrinter;
+import soot.ValueBox;
+import soot.util.Switch;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 /** <code>ParameterRef</code> objects are used by <code>Body</code>
  * objects to refer to the parameter slots on method entry. <br>

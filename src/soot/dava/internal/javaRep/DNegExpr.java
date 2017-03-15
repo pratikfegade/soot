@@ -19,9 +19,10 @@
 
 package soot.dava.internal.javaRep;
 
-import soot.*;
-import soot.grimp.*;
-import soot.jimple.internal.*;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.grimp.Grimp;
+import soot.jimple.internal.AbstractNegExpr;
 
 public class DNegExpr extends AbstractNegExpr
 {

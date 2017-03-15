@@ -32,7 +32,7 @@
 package soot.coffi;
 // for storing statistical or informative data about a class file
 
-import java.io.*;
+import java.io.PrintStream;
 
 class Info {
 

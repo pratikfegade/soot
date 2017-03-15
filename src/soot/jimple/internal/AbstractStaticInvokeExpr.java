@@ -27,11 +27,11 @@
 package soot.jimple.internal;
 
 import soot.*;
+import soot.baf.Baf;
 import soot.jimple.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.util.Switch;
 
-import java.util.*;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public abstract class AbstractStaticInvokeExpr extends AbstractInvokeExpr implements StaticInvokeExpr, ConvertToBaf {

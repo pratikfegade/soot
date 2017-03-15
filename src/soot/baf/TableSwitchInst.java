@@ -25,8 +25,10 @@
 
 package soot.baf;
 
-import soot.*;
-import java.util.*;
+import soot.Unit;
+import soot.UnitBox;
+
+import java.util.List;
 
 public interface TableSwitchInst extends Inst
 {

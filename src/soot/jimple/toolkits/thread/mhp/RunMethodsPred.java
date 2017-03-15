@@ -18,7 +18,9 @@
  */
 
 package soot.jimple.toolkits.thread.mhp;
-import soot.jimple.toolkits.callgraph.*;
+
+import soot.jimple.toolkits.callgraph.Edge;
+import soot.jimple.toolkits.callgraph.EdgePredicate;
 
 /** A predicate that accepts edges whose targets are runnable.run methods.
  * @author Richard L. Halpert

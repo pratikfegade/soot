@@ -30,10 +30,13 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.jimple.*;
-import soot.util.*;
-import soot.baf.*;
+import soot.Type;
+import soot.Value;
+import soot.baf.Baf;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
+import soot.jimple.RemExpr;
+import soot.util.Switch;
 
 public class JRemExpr extends AbstractJimpleFloatBinopExpr implements RemExpr
 {

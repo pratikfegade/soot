@@ -27,7 +27,7 @@
 
 package soot.jimple.toolkits.scalar;
 
-import soot.*;
+import soot.Value;
 import soot.jimple.*;
 
 

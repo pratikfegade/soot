@@ -26,10 +26,14 @@
 /* Reference Version: $SootVersion: 1.2.5.dev.1 $ */
 package soot.jimple.toolkits.thread.mhp;
 
-import soot.toolkits.graph.*;
-//import soot.toolkits.mhp.*;
-import soot.util.dot.*;
+import soot.toolkits.graph.DirectedGraph;
+import soot.util.dot.DotGraph;
+import soot.util.dot.DotGraphConstants;
+import soot.util.dot.DotGraphNode;
+
 import java.util.*;
+
+//import soot.toolkits.mhp.*;
 
 
 

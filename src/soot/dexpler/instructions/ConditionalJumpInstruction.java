@@ -26,7 +26,6 @@ package soot.dexpler.instructions;
 
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
-
 import soot.Immediate;
 import soot.Local;
 import soot.dexpler.DexBody;

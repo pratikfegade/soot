@@ -29,9 +29,11 @@
 
 package soot.baf.internal;
 
-import soot.*;
-import soot.baf.*;
-import soot.util.*;
+import soot.AbstractJasminClass;
+import soot.Type;
+import soot.baf.InstSwitch;
+import soot.baf.RemInst;
+import soot.util.Switch;
 
 public class BRemInst extends AbstractOpTypeInst implements RemInst
 {

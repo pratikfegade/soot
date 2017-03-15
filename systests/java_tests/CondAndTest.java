@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class CondAndTest {
 
     private Vector charsSet = new Vector();

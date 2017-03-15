@@ -18,7 +18,8 @@
  */
 
 package soot;
-import java.util.*;
+
+import java.util.Map;
 
 /** Represents a pair of a method and a context.
  * @author Ondrej Lhotak

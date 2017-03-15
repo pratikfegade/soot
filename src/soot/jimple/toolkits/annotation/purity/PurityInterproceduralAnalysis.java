@@ -26,14 +26,19 @@
  */
 
 package soot.jimple.toolkits.annotation.purity;
-import java.util.*;
+
 import soot.*;
-import soot.util.dot.*;
 import soot.jimple.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.toolkits.graph.*;
+import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.options.PurityOptions;
-import soot.tagkit.*;
+import soot.tagkit.GenericAttribute;
+import soot.tagkit.StringTag;
+import soot.toolkits.graph.ExceptionalUnitGraph;
+import soot.util.dot.DotGraph;
+
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class PurityInterproceduralAnalysis 
     extends AbstractInterproceduralAnalysis {

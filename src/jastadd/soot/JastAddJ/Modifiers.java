@@ -1,10 +1,11 @@
 
 package jastadd.soot.JastAddJ;
-import java.util.*;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import soot.options.JBOptions;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 public class Modifiers extends ASTNode<ASTNode> implements Cloneable {

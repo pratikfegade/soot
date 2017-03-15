@@ -2,8 +2,9 @@
 
 package sablecc.soot.jimple.parser.analysis;
 
-import java.util.*;
 import sablecc.soot.jimple.parser.node.*;
+
+import java.util.Hashtable;
 
 public class AnalysisAdapter implements Analysis
 {

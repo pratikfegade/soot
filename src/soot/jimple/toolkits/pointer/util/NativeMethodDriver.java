@@ -26,10 +26,12 @@
  */
 package soot.jimple.toolkits.pointer.util;
 
-import soot.*;
-import soot.jimple.toolkits.pointer.representations.*;
+import soot.G;
+import soot.SootMethod;
 import soot.jimple.toolkits.pointer.nativemethods.*;
-import java.util.*;
+import soot.jimple.toolkits.pointer.representations.ReferenceVariable;
+
+import java.util.HashMap;
 
 public class NativeMethodDriver {
     public NativeMethodDriver( NativeHelper helper ) {

@@ -24,16 +24,17 @@
  */
 
 package soot;
+
 import soot.options.Options;
-
-import java.io.*;
-
 import soot.singletons.Singletons;
-import soot.tagkit.*;
-import java.util.*;
+import soot.tagkit.JimpleLineNumberTag;
+import soot.tagkit.Tag;
+import soot.toolkits.graph.UnitGraph;
+import soot.util.Chain;
+import soot.util.DeterministicHashMap;
 
-import soot.util.*;
-import soot.toolkits.graph.*;
+import java.io.PrintWriter;
+import java.util.*;
 
 /**
 * Prints out a class and all its methods.

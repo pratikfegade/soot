@@ -21,7 +21,10 @@ package soot.toolkits.graph;
 
 import soot.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This utility class can convert any BlockGraph to a single-headed

@@ -18,68 +18,10 @@
  */
 
 package soot.jimple.toolkits.callgraph;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import soot.ArrayType;
-import soot.Body;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.Context;
-import soot.DoubleType;
-import soot.EntryPoints;
-import soot.FastHierarchy;
-import soot.FloatType;
-import soot.G;
-import soot.IntType;
-import soot.Kind;
-import soot.Local;
-import soot.LongType;
-import soot.MethodContext;
-import soot.MethodOrMethodContext;
-import soot.NullType;
-import soot.PackManager;
-import soot.PhaseOptions;
-import soot.PrimType;
-import soot.RefLikeType;
-import soot.RefType;
-import soot.Scene;
-import soot.SceneTransformer;
-import soot.ShortType;
-import soot.SootClass;
-import soot.SootMethod;
-import soot.SootMethodRef;
-import soot.Transform;
-import soot.Type;
-import soot.Unit;
-import soot.Value;
+import soot.*;
 import soot.javaToJimple.LocalGenerator;
-import soot.jimple.AssignStmt;
-import soot.jimple.DynamicInvokeExpr;
-import soot.jimple.FieldRef;
-import soot.jimple.InstanceInvokeExpr;
-import soot.jimple.InvokeExpr;
-import soot.jimple.InvokeStmt;
-import soot.jimple.Jimple;
-import soot.jimple.NewArrayExpr;
-import soot.jimple.NewExpr;
-import soot.jimple.NewMultiArrayExpr;
-import soot.jimple.NullConstant;
-import soot.jimple.SpecialInvokeExpr;
-import soot.jimple.StaticFieldRef;
-import soot.jimple.StaticInvokeExpr;
-import soot.jimple.Stmt;
-import soot.jimple.StringConstant;
-import soot.jimple.VirtualInvokeExpr;
+import soot.jimple.*;
 import soot.jimple.spark.pag.AllocDotField;
 import soot.jimple.spark.pag.PAG;
 import soot.jimple.toolkits.annotation.nullcheck.NullnessAnalysis;
@@ -94,6 +36,10 @@ import soot.util.NumberedString;
 import soot.util.SmallNumberedMap;
 import soot.util.queue.ChunkedQueue;
 import soot.util.queue.QueueReader;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /** Models the call graph.
  * @author Ondrej Lhotak

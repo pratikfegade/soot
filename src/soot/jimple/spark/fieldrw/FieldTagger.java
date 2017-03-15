@@ -18,12 +18,19 @@
  */
 
 package soot.jimple.spark.fieldrw;
+
 import soot.*;
+import soot.jimple.AssignStmt;
+import soot.jimple.FieldRef;
+import soot.jimple.Stmt;
+import soot.jimple.toolkits.callgraph.CallGraph;
+import soot.jimple.toolkits.callgraph.TransitiveTargets;
 import soot.singletons.Singletons;
-import soot.util.*;
-import java.util.*;
-import soot.jimple.toolkits.callgraph.*;
-import soot.jimple.*;
+import soot.util.HashMultiMap;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 public class FieldTagger extends BodyTransformer
 { 

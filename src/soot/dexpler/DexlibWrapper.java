@@ -24,33 +24,19 @@
 
 package soot.dexpler;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import org.jf.dexlib2.DexFileFactory;
 import org.jf.dexlib2.Opcodes;
 import org.jf.dexlib2.dexbacked.DexBackedDexFile;
 import org.jf.dexlib2.iface.ClassDef;
 import org.jf.dexlib2.iface.DexFile;
-
-import soot.ArrayType;
-import soot.PrimType;
-import soot.Scene;
-import soot.SootClass;
-import soot.SootResolver;
-import soot.Type;
-import soot.VoidType;
+import soot.*;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
+
+import java.io.File;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * DexlibWrapper provides an entry point to the dexlib library from the smali

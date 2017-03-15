@@ -30,7 +30,6 @@ import org.jf.dexlib2.iface.instruction.NarrowLiteralInstruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22b;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22s;
-
 import soot.Local;
 import soot.Value;
 import soot.dexpler.Debug;

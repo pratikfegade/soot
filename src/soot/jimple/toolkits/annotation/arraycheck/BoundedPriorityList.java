@@ -25,11 +25,7 @@
 
 package soot.jimple.toolkits.annotation.arraycheck;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /** BoundedPriorityList keeps a list in a priority queue.
  * The order is decided by the initial list. 
