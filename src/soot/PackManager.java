@@ -602,7 +602,7 @@ public class PackManager {
     	int threadNum = Runtime.getRuntime().availableProcessors();
         CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
         		threadNum, 30, TimeUnit.SECONDS,
-        		new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<>());
     	
     	while( classes.hasNext() ) {
     		final SootClass c = classes.next();
@@ -644,17 +644,17 @@ public class PackManager {
     			&& jarFile == null ? Runtime.getRuntime().availableProcessors() : 1;
         CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
         		threadNum, 30, TimeUnit.SECONDS,
-        		new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<>());
     	
         while( classes.hasNext() ) {
         	final SootClass c = classes.next();
            	executor.execute(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					writeClass( c );
 				}
-				
+
            	});
         }
         
@@ -785,13 +785,13 @@ public class PackManager {
           * Generate decompiled code
           */
     	String pathForBuild=null;
-    	ArrayList<String> decompiledClasses = new ArrayList<String>();
+    	ArrayList<String> decompiledClasses = new ArrayList<>();
         Iterator<SootClass> classIt = appClasses.iterator();
         while (classIt.hasNext()) {
             SootClass s = classIt.next();
 
-            OutputStream streamOut = null;
-            PrintWriter writerOut = null;
+            OutputStream streamOut;
+            PrintWriter writerOut;
             String fileName = SourceLocator.v().getFileNameFor(s, Options.v().output_format());
             decompiledClasses.add(fileName.substring(fileName.lastIndexOf('/')+1));
             if(pathForBuild == null){
@@ -935,7 +935,7 @@ public class PackManager {
 
             if (!m.isConcrete()) continue;
             if (produceShimple || wholeShimple) {
-                ShimpleBody sBody = null;
+                ShimpleBody sBody;
                 System.out.println("Producing shimple bodies");
                 // whole shimple or not?
                 {
@@ -1016,7 +1016,7 @@ public class PackManager {
             	while(it.hasNext()){
             		c.addMethod(it.next());
             	}
-            	G.v().SootMethodsAdded = new ArrayList<SootMethod>();
+            	G.v().SootMethodsAdded = new ArrayList<>();
             	G.v().SootMethodAddedByDava=false;
             }
 
@@ -1055,8 +1055,8 @@ public class PackManager {
         	return;
         }
 
-        OutputStream streamOut = null;
-        PrintWriter writerOut = null;
+        OutputStream streamOut;
+        PrintWriter writerOut;
 
         String fileName = SourceLocator.v().getFileNameFor(c, format);
         if( Options.v().gzip() ) fileName = fileName+".gz";
@@ -1195,9 +1195,10 @@ public class PackManager {
     private void retrieveAllBodies() {
     	// The old coffi front-end is not thread-safe
     	int threadNum = Options.v().coffi() ? 1 : Runtime.getRuntime().availableProcessors();
-        CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
+
+    	CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
         		threadNum, 30, TimeUnit.SECONDS,
-        		new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<>());
     	
         Iterator<SootClass> clIt = reachableClasses();
         while( clIt.hasNext() ) {
