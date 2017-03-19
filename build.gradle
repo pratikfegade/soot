@@ -3,21 +3,24 @@ buildscript {
     configurations.classpath.resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
 
     repositories {
+        mavenLocal()
         maven {
-            url 'http://centauri.di.uoa.gr:8081/artifactory/all-snapshot'
+            url "${artifactory_contextUrl}/plast"
             credentials {
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
+                username artifactory_user
+                password artifactory_password
             }
         }
+        jcenter()
     }
 
     dependencies {
-        classpath ('org.clyze:doop-gradle-plugin:1.0-SNAPSHOT') {
+        classpath ('org.clyze:doop-gradle-plugin:1.+') {
             changing = true
         }
     }
 }
+
 
 plugins {
     id 'java'
