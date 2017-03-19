@@ -1,3 +1,24 @@
+buildscript {
+
+    configurations.classpath.resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+
+    repositories {
+        maven {
+            url 'http://centauri.di.uoa.gr:8081/artifactory/all-snapshot'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+
+    dependencies {
+        classpath ('org.clyze:doop-gradle-plugin:1.0-SNAPSHOT') {
+            changing = true
+        }
+    }
+}
+
 plugins {
     id 'java'
     id 'application'
@@ -5,6 +26,7 @@ plugins {
     id 'net.researchgate.release' version '2.4.0'
 }
 
+apply plugin: 'doop'
 group = 'ext'
 
 sourceCompatibility = 1.8
@@ -83,4 +105,15 @@ publishing {
             url "${artifactory_contextUrl}/ext-snapshot-local"
         }
     }
+}
+
+doop {
+    //host = 'centauri.di.uoa.gr'
+    host = 'localhost'
+    port = 8013
+    username = 'saikos'
+    password = 'saikos123'
+    analysis.options.jre = '1.7'
+    analysis.options.use_original_names = true
+    analysis.options.main_class = project.mainClassName
 }
