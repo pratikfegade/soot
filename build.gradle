@@ -96,7 +96,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifactId 'sootclasses'
-            version sootVersion
+            version version
             from components.java
         }
     }
@@ -114,12 +114,33 @@ publishing {
 }
 
 doop {
-    //host = 'centauri.di.uoa.gr'
     host = 'localhost'
     port = 8013
-    username = 'saikos'
-    password = 'saikos123'
+    username = 'user'
+    password = 'user123'
     analysis.options.jre = '1.7'
     analysis.options.use_original_names = true
     analysis.options.main_class = project.mainClassName
+    analysis.options.cache = true
 }
+
+release {
+    scmAdapters = [
+        net.researchgate.release.GitAdapter
+    ]    
+
+    failOnSnapshotDependencies = false
+    failOnUnversionedFiles = false
+    failOnCommitNeeded = false
+    
+    git {
+        requireBranch = 'develop'
+        commitVersionFileOnly = true
+        pushToRemote = 'origin'
+    }
+    /* publish before releasing
+       buildTasks =['build', 'publish']
+    */
+}
+
+afterReleaseBuild.dependsOn publish
