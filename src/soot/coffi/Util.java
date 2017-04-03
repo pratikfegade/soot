@@ -560,7 +560,10 @@ public class Util
 
 
     private final Map<String, Type[]> cache = new HashMap<String, Type[]>();
-    public Type[] jimpleTypesOfFieldOrMethodDescriptor(String descriptor)
+    /* Concurrent modification of 'cache' and 'conversionTypes' leads
+     * to errors but these are only used by this method, so we make it
+     * synchronized. */
+    public synchronized Type[] jimpleTypesOfFieldOrMethodDescriptor(String descriptor)
     {
         Type[] ret = cache.get(descriptor);
         if( ret != null ) return ret;
