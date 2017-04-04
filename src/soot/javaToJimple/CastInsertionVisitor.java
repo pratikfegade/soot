@@ -19,9 +19,13 @@
 
 package soot.javaToJimple;
 
+import polyglot.ast.NodeFactory;
+import polyglot.frontend.Job;
+import polyglot.types.TypeSystem;
+
 public class CastInsertionVisitor extends polyglot.visit.AscriptionVisitor {
 
-    public CastInsertionVisitor(polyglot.frontend.Job job, polyglot.types.TypeSystem ts, polyglot.ast.NodeFactory nf) {
+    public CastInsertionVisitor(Job job, TypeSystem ts, NodeFactory nf) {
         super(job, ts, nf);
     }
 

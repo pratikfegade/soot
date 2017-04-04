@@ -20,7 +20,6 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.*;
-import polyglot.ext.jl.ast.Expr_c;
 import polyglot.util.Position;
 import polyglot.visit.CFGBuilder;
 import polyglot.visit.NodeVisitor;
@@ -62,7 +61,7 @@ public class JjAccessField_c extends Expr_c implements Expr {
     }           
 
     public Term entry(){
-        return field.entry();
+        return field.reachable(true);
     }
 
     public Node visitChildren(NodeVisitor v){
@@ -70,6 +69,11 @@ public class JjAccessField_c extends Expr_c implements Expr {
         visitChild(getMeth, v);
         visitChild(setMeth, v);
         return this;
+    }
+
+    @Override
+    public Term firstChild() {
+        return null;
     }
 }
 

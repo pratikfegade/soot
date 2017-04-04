@@ -19,18 +19,18 @@
 
 package soot.javaToJimple;
 
-import polyglot.frontend.Job;
-import polyglot.frontend.Source;
+import polyglot.frontend.AbstractPass;
+import polyglot.frontend.goals.Goal;
 
 import java.util.HashMap;
 
-public class SaveASTVisitor extends polyglot.frontend.AbstractPass {
+public class SaveASTVisitor extends AbstractPass {
 
     private polyglot.frontend.Job job;
     private polyglot.frontend.ExtensionInfo extInfo;
     
-    public SaveASTVisitor(polyglot.frontend.Pass.ID id, polyglot.frontend.Job job,  polyglot.frontend.ExtensionInfo extInfo){
-        super(id);
+    public SaveASTVisitor(Goal goal, polyglot.frontend.Job job, polyglot.frontend.ExtensionInfo extInfo){
+        super(goal);
         this.job = job;
         this.extInfo = extInfo;
     }
@@ -39,7 +39,7 @@ public class SaveASTVisitor extends polyglot.frontend.AbstractPass {
         if (extInfo instanceof soot.javaToJimple.jj.ExtensionInfo){
             soot.javaToJimple.jj.ExtensionInfo jjInfo = (soot.javaToJimple.jj.ExtensionInfo)extInfo; 
             if (jjInfo.sourceJobMap() == null){
-                jjInfo.sourceJobMap(new HashMap<Source, Job>());
+                jjInfo.sourceJobMap(new HashMap<>());
             }
             jjInfo.sourceJobMap().put(job.source(), job);
             return true;

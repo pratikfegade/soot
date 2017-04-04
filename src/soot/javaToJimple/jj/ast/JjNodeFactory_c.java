@@ -20,7 +20,6 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.*;
-import polyglot.ext.jl.ast.NodeFactory_c;
 import polyglot.types.Flags;
 import polyglot.util.Position;
 
@@ -78,28 +77,14 @@ public class JjNodeFactory_c extends NodeFactory_c implements JjNodeFactory {
         n = (LocalAssign)n.del(delFactory().delLocalAssign());
         return n;
     }
-    
-    public LocalDecl LocalDecl(Position pos, Flags flags, TypeNode type, String name, Expr init) {
-        LocalDecl n = new JjLocalDecl_c(pos, flags, type, name, init);
-        n = (LocalDecl)n.ext(extFactory().extLocalDecl());
-        n = (LocalDecl)n.del(delFactory().delLocalDecl());
-        return n;
-    }
-    
+
     public FieldAssign FieldAssign(Position pos, Field left, Assign.Operator op, Expr right) {
         FieldAssign n = new JjFieldAssign_c(pos, left, op, right);
         n = (FieldAssign)n.ext(extFactory().extFieldAssign());
         n = (FieldAssign)n.del(delFactory().delFieldAssign());
         return n;
     }
-    
-    public FieldDecl FieldDecl(Position pos, Flags flags, TypeNode type, String name, Expr init) {
-        FieldDecl n = new JjFieldDecl_c(pos, flags, type, name, init);
-        n = (FieldDecl)n.ext(extFactory().extFieldDecl());
-        n = (FieldDecl)n.del(delFactory().delFieldDecl());
-        return n;
-    }
-    
+
     public ArrayAccessAssign ArrayAccessAssign(Position pos, ArrayAccess left, Assign.Operator op, Expr right) {
         ArrayAccessAssign n = new JjArrayAccessAssign_c(pos, left, op, right);
         n = (ArrayAccessAssign)n.ext(extFactory().extArrayAccessAssign());

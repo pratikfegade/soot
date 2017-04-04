@@ -20,8 +20,8 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.Expr;
+import polyglot.ast.Expr_c;
 import polyglot.ast.Term;
-import polyglot.ext.jl.ast.Expr_c;
 import polyglot.util.Position;
 import polyglot.visit.CFGBuilder;
 
@@ -38,7 +38,7 @@ public class JjComma_c extends Expr_c implements Expr {
         this.second = second;
     }
 
-    public Expr first(){
+    public Expr firstChild(){
         return first;
     }
 
@@ -52,7 +52,7 @@ public class JjComma_c extends Expr_c implements Expr {
     }           
 
     public Term entry(){
-        return first.entry();
+        return first.reachable(true);
     }
 }
 

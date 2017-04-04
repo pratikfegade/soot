@@ -20,8 +20,8 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.Binary;
+import polyglot.ast.Binary_c;
 import polyglot.ast.Expr;
-import polyglot.ext.jl.ast.Binary_c;
 import polyglot.types.Type;
 import polyglot.types.TypeSystem;
 import polyglot.util.Position;

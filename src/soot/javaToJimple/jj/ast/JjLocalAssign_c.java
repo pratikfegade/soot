@@ -21,7 +21,7 @@ package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.Expr;
 import polyglot.ast.Local;
-import polyglot.ext.jl.ast.LocalAssign_c;
+import polyglot.ast.LocalAssign_c;
 import polyglot.types.Type;
 import polyglot.util.Position;
 import polyglot.visit.AscriptionVisitor;

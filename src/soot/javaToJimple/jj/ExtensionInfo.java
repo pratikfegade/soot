@@ -29,12 +29,11 @@ import soot.javaToJimple.jj.types.JjTypeSystem_c;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Extension information for jj extension.
  */
-public class ExtensionInfo extends polyglot.ext.jl.ExtensionInfo {
+public class ExtensionInfo extends polyglot.ext.jl7.JL7ExtensionInfo {
     static {
         // force Topics to load
         new Topics();
@@ -62,11 +61,11 @@ public class ExtensionInfo extends polyglot.ext.jl.ExtensionInfo {
         return new JjTypeSystem_c();
     }
 
-    public List passes(Job job) {
-        List passes = super.passes(job);
-        // TODO: add passes as needed by your compiler
-        return passes;
-    }
+//    public List passes(Job job) {
+//        List passes = super.passes(job);
+//        // TODO: add passes as needed by your compiler
+//        return passes;
+//    }
 
     private HashMap<Source, Job> sourceJobMap;
 
@@ -88,11 +87,10 @@ public class ExtensionInfo extends polyglot.ext.jl.ExtensionInfo {
 			 * Appends the soot classpath to the default system classpath.
 			 */
 			public String constructFullClasspath() {
-				String cp = super.constructFullClasspath();
+				String cp = super.constructPostCompilerClasspath();
 				cp += File.pathSeparator + soot.options.Options.v().soot_classpath();
 				return cp;
 			}
-    		
     	};
     }
 }

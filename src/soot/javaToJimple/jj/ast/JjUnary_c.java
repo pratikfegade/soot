@@ -21,7 +21,7 @@ package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.Expr;
 import polyglot.ast.Unary;
-import polyglot.ext.jl.ast.Unary_c;
+import polyglot.ast.Unary_c;
 import polyglot.types.Type;
 import polyglot.types.TypeSystem;
 import polyglot.util.Position;

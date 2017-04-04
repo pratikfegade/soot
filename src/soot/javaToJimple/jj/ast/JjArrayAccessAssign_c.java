@@ -20,8 +20,8 @@
 package soot.javaToJimple.jj.ast;
 
 import polyglot.ast.ArrayAccess;
+import polyglot.ast.ArrayAccessAssign_c;
 import polyglot.ast.Expr;
-import polyglot.ext.jl.ast.ArrayAccessAssign_c;
 import polyglot.types.Type;
 import polyglot.util.Position;
 import polyglot.visit.AscriptionVisitor;

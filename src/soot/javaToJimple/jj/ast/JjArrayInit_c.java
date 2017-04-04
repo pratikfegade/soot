@@ -19,8 +19,8 @@
 
 package soot.javaToJimple.jj.ast;
 
+import polyglot.ast.ArrayInit_c;
 import polyglot.ast.Expr;
-import polyglot.ext.jl.ast.ArrayInit_c;
 import polyglot.types.Type;
 import polyglot.util.InternalCompilerError;
 import polyglot.util.Position;

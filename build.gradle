@@ -80,7 +80,7 @@ dependencies {
             'org.hamcrest:hamcrest-all:1.3',
             'org.slf4j:slf4j-api:1.7.24',
             'cglib:cglib:3.2.5',
-            'ext:polyglot:1.0',
+            'ext:polyglot:2.7',
             'ext:herosclasses:1.1',
             'ext:AXMLPrinter:2.0',
             'ext:jasminclasses:2.5.0'

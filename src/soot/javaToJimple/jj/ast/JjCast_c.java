@@ -19,9 +19,9 @@
 
 package soot.javaToJimple.jj.ast;
 
+import polyglot.ast.Cast_c;
 import polyglot.ast.Expr;
 import polyglot.ast.TypeNode;
-import polyglot.ext.jl.ast.Cast_c;
 import polyglot.types.Type;
 import polyglot.types.TypeSystem;
 import polyglot.util.Position;
