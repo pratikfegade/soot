@@ -54,7 +54,8 @@ public class Aggregator extends BodyTransformer
     protected void internalTransform(Body b, String phaseName, Map<String, String> options)
     {
         StmtBody body = (StmtBody)b;
-        boolean onlyStackVars = PhaseOptions.getBoolean(options, "only-stack-locals"); 
+        //boolean onlyStackVars = PhaseOptions.getBoolean(options, "only-stack-locals");
+        boolean onlyStackVars = true;
 
 		if (Options.v().time())
 			Timers.v().aggregationTimer.start();

@@ -192,7 +192,7 @@ public class UnitThrowAnalysis extends AbstractThrowAnalysis {
     	// We need a mapping between unit and exception
     	final PatchingChain<Unit> units = sm.getActiveBody().getUnits();
     	Map<Unit, Collection<Trap>> unitToTraps = sm.getActiveBody().getTraps().isEmpty()
-    			? null : new HashMap<Unit, Collection<Trap>>();
+    			? null : new HashMap<>();
     	for (Trap t : sm.getActiveBody().getTraps()) {
 			for (Iterator<Unit> unitIt = units.iterator(t.getBeginUnit(),
 					units.getPredOf(t.getEndUnit())); unitIt.hasNext();) {

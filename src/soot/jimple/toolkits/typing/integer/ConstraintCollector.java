@@ -198,7 +198,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 
 			// ******** LEFT ********
 			if (lv instanceof Local) {
-				if (lv.getType() instanceof IntegerType) {
+				if (lv.getType() instanceof IntegerType || lv.getType() instanceof LongType) {
 					lop = resolver.typeVariable((Local) lv);
 				}
 			} else if (lv instanceof DoubleConstant) {
@@ -224,6 +224,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 					lop = resolver.INT;
 				}
 			} else if (lv instanceof LongConstant) {
+				lop = resolver.LONG;
 			} else if (lv instanceof NullConstant) {
 			} else if (lv instanceof StringConstant) {
 			} else if (lv instanceof ClassConstant) {
@@ -233,7 +234,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 
 			// ******** RIGHT ********
 			if (rv instanceof Local) {
-				if (rv.getType() instanceof IntegerType) {
+				if (rv.getType() instanceof IntegerType  || rv.getType() instanceof LongType) {
 					rop = resolver.typeVariable((Local) rv);
 				}
 			} else if (rv instanceof DoubleConstant) {
@@ -259,6 +260,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 					rop = resolver.INT;
 				}
 			} else if (rv instanceof LongConstant) {
+				rop = resolver.LONG;
 			} else if (rv instanceof NullConstant) {
 			} else if (rv instanceof StringConstant) {
 			} else if (rv instanceof ClassConstant) {
@@ -297,7 +299,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 						lop.addParent(resolver.INT);
 					}
 
-					if (rop.type() == null) {
+					if (rop != null && rop.type() == null) {
 						rop.addParent(resolver.INT);
 					}
 				}
@@ -309,7 +311,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 						lop.addParent(resolver.INT);
 					}
 
-					if (rop.type() == null) {
+					if (rop != null && rop.type() == null) {
 						rop.addParent(resolver.INT);
 					}
 				}

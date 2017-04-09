@@ -27,10 +27,14 @@
 package soot.jimple.toolkits.typing.integer;
 
 import soot.*;
+import soot.jimple.toolkits.typing.fast.Integer127Type;
+import soot.jimple.toolkits.typing.fast.Integer1Type;
+import soot.jimple.toolkits.typing.fast.Integer32767Type;
 import soot.singletons.Singletons;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class encapsulates the integer type hierarchy.
@@ -45,6 +49,10 @@ public class ClassHierarchy {
 		typeNodeMap.put(ShortType.v(), SHORT);
 		typeNodeMap.put(CharType.v(), CHAR);
 		typeNodeMap.put(IntType.v(), INT);
+		typeNodeMap.put(Integer1Type.v(), BOOLEAN);
+		typeNodeMap.put(Integer127Type.v(), BYTE);
+		typeNodeMap.put(Integer32767Type.v(), SHORT);
+		typeNodeMap.put(LongType.v(), LONG);
 	}
 
 	public static ClassHierarchy v() {
@@ -57,12 +65,14 @@ public class ClassHierarchy {
 	public final TypeNode CHAR = new TypeNode(3, CharType.v());
 	public final TypeNode INT = new TypeNode(4, IntType.v());
 	public final TypeNode TOP = new TypeNode(5, null);
-	public final TypeNode R0_1 = new TypeNode(6, null); // eventually becomes
+	public final TypeNode R0_1 = new TypeNode(6, BooleanType.v()); // eventually becomes
 														// boolean
-	public final TypeNode R0_127 = new TypeNode(7, null); // eventually becomes
+	public final TypeNode R0_127 = new TypeNode(7, ByteType.v()); // eventually becomes
 															// byte
-	public final TypeNode R0_32767 = new TypeNode(8, null); // eventually
+	public final TypeNode R0_32767 = new TypeNode(8, ShortType.v()); // eventually
 															// becomes short
+
+	public final TypeNode LONG = new TypeNode(8, LongType.v());
 
   private final boolean[][] ancestors_1 =
   {
@@ -169,7 +179,7 @@ public class ClassHierarchy {
   };
   
   /** Map: Type -> TypeNode **/
-  private final Map<Type,TypeNode> typeNodeMap = new HashMap<Type,TypeNode>();
+  private final Map<Type,TypeNode> typeNodeMap = new ConcurrentHashMap<>();
   
   /** Get the type node for the given type. **/
 	public TypeNode typeNode(Type type) {
@@ -181,6 +191,7 @@ public class ClassHierarchy {
 		TypeNode typeNode = typeNodeMap.get(type);
 
 		if (typeNode == null) {
+			System.out.println("Given type: " + type);
 			throw new InternalTypingException();
 		}
 

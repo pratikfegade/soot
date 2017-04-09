@@ -67,7 +67,7 @@ final class AsmMethodSource implements MethodSource {
 	private final Map<LabelNode, Unit> inlineExceptionHandlers = new HashMap<LabelNode, Unit>();
 	
 	private final CastAndReturnInliner castAndReturnInliner = new CastAndReturnInliner();
-	
+
 	AsmMethodSource(int maxLocals, InsnList insns,
 			List<LocalVariableNode> localVars,
 			List<TryCatchBlockNode> tryCatchBlocks) {
@@ -93,11 +93,17 @@ final class AsmMethodSource implements MethodSource {
 		Local l = locals.get(i);
 		if (l == null) {
 			String name;
+			String desc;
+			LabelNode startNode;
+			LabelNode endNode;
 			if (localVars != null) {
 				name = null;
+				desc = null;
 				for (LocalVariableNode lvn : localVars) {
 					if (lvn.index == idx) {
 						name = lvn.name;
+						desc = lvn.desc;
+						LabelNode node = lvn.start;
 						break;
 					}
 				}
@@ -106,8 +112,14 @@ final class AsmMethodSource implements MethodSource {
 					name = "l" + idx;
 			} else {
 				name = "l" + idx;
+				desc = null;
 			}
-			l = Jimple.v().newLocal(name, UnknownType.v());
+			if (desc == null) {
+				l = Jimple.v().newLocal(name, UnknownType.v());
+			}
+			else {
+				l = Jimple.v().newLocal(name, jimpleTypeOfDescriptor(desc));
+			}
 			locals.put(i, l);
 		}
 		return l;
@@ -1806,5 +1818,57 @@ final class AsmMethodSource implements MethodSource {
 		}
 		
  		return jb;
+	}
+
+	public Type jimpleTypeOfDescriptor(String descriptor)
+	{
+		boolean isArray = false;
+		int numDimensions = 0;
+		Type baseType;
+
+		// Handle array case
+		while(descriptor.startsWith("["))
+		{
+			isArray = true;
+			numDimensions++;
+			descriptor = descriptor.substring(1);
+		}
+
+		// Determine base type
+		if(descriptor.equals("B"))
+			baseType = ByteType.v();
+		else if(descriptor.equals("C"))
+			baseType = CharType.v();
+		else if(descriptor.equals("D"))
+			baseType = DoubleType.v();
+		else if(descriptor.equals("F"))
+			baseType = FloatType.v();
+		else if(descriptor.equals("I"))
+			baseType = IntType.v();
+		else if(descriptor.equals("J"))
+			baseType = LongType.v();
+		else if(descriptor.equals("V"))
+			baseType = VoidType.v();
+		else if(descriptor.startsWith("L"))
+		{
+			if(!descriptor.endsWith(";"))
+				throw new RuntimeException("Class reference does not end with ;");
+
+			String className = descriptor.substring(1, descriptor.length() - 1);
+
+			baseType = RefType.v(className.replace('/', '.'));
+		}
+		else if(descriptor.equals("S"))
+			baseType = ShortType.v();
+		else if(descriptor.equals("Z"))
+			baseType = BooleanType.v();
+		else
+			throw new RuntimeException("Unknown field type: " + descriptor);
+
+		// Return type
+		if(isArray)
+			return ArrayType.v(baseType, numDimensions);
+		else
+			return baseType;
 	}
 }

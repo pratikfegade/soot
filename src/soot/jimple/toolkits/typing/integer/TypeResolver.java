@@ -54,7 +54,7 @@ public class TypeResolver {
 	final TypeVariable R0_1 = typeVariable(ClassHierarchy.v().R0_1);
 	final TypeVariable R0_127 = typeVariable(ClassHierarchy.v().R0_127);
 	final TypeVariable R0_32767 = typeVariable(ClassHierarchy.v().R0_32767);
-
+	final TypeVariable LONG = typeVariable(ClassHierarchy.v().LONG);
 	private static final boolean DEBUG = false;
 
 	// categories for type variables (solved = hard, unsolved = soft)

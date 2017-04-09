@@ -176,15 +176,17 @@ public class AugEvalFunction implements IEvalFunction
 				return ((ArrayType)at).getElementType();
 			else if ( at instanceof RefType ) {
 				RefType ref = (RefType) at;
-				if (ref.getSootClass().getName().equals("java.lang.Object")
-						|| ref.getSootClass().getName().equals("java.io.Serializable")
-						|| ref.getSootClass().getName().equals("java.lang.Cloneable"))
-					return ref;
-				else
-					return BottomType.v();
+//				if (ref.getSootClass().getName().equals("java.lang.Object")
+//						|| ref.getSootClass().getName().equals("java.io.Serializable")
+//						|| ref.getSootClass().getName().equals("java.lang.Cloneable"))
+//					return ref;
+//				else
+//					return BottomType.v();
+				return ref;
 			}
-			else
-				return BottomType.v();
+			else {
+                return at;
+            }
 		}
 		else if ( expr instanceof NewArrayExpr )
 			return ((NewArrayExpr)expr).getBaseType().makeArrayType();

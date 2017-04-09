@@ -141,7 +141,7 @@ public class TypeResolver
 			if ( t instanceof IntegerType )
 			{
 				t = IntType.v();
-				tg.set(v, BottomType.v());
+				tg.set(v, IntType.v());
 			}
 			v.setType(t);
 		}
