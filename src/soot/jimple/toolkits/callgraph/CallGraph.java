@@ -27,7 +27,11 @@ import soot.jimple.Stmt;
 import soot.util.queue.ChunkedQueue;
 import soot.util.queue.QueueReader;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Represents the edges in a call graph. This class is meant to act as
  * only a container of edges; code for various call graph builders should
@@ -39,9 +43,9 @@ public class CallGraph implements Iterable<Edge>
     protected Set<Edge> edges = new HashSet<Edge>();
     protected ChunkedQueue<Edge> stream = new ChunkedQueue<Edge>();
     protected QueueReader<Edge> reader = stream.reader();
-    protected Map<MethodOrMethodContext,Edge> srcMethodToEdge = new HashMap<MethodOrMethodContext, Edge>();
-    protected Map<Unit, Edge> srcUnitToEdge = new HashMap<Unit, Edge>();
-    protected Map<MethodOrMethodContext, Edge> tgtToEdge = new HashMap<MethodOrMethodContext, Edge>();
+    protected Map<MethodOrMethodContext,Edge> srcMethodToEdge = new ConcurrentHashMap<MethodOrMethodContext, Edge>();
+    protected Map<Unit, Edge> srcUnitToEdge = new ConcurrentHashMap<Unit, Edge>();
+    protected Map<MethodOrMethodContext, Edge> tgtToEdge = new ConcurrentHashMap<MethodOrMethodContext, Edge>();
     protected Edge dummy = new Edge( null, null, null, Kind.INVALID );
 
     /** Used to add an edge to the call graph. Returns true iff the edge was

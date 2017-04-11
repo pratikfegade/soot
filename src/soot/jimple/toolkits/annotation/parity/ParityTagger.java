@@ -32,7 +32,6 @@ import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.scalar.LiveLocals;
 import soot.toolkits.scalar.SimpleLiveLocals;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -68,7 +67,7 @@ public class ParityTagger extends BodyTransformer
 
             Stmt s = (Stmt) sIt.next();
 
-            HashMap parityVars = (HashMap) a.getFlowAfter( s );
+            Map parityVars = a.getFlowAfter( s );
 
             Iterator it = parityVars.keySet().iterator();
             while( it.hasNext() ) {
@@ -85,8 +84,8 @@ public class ParityTagger extends BodyTransformer
                 }
             }
 
-			HashMap parityVarsUses = (HashMap) a.getFlowBefore( s );
-			HashMap parityVarsDefs = (HashMap) a.getFlowAfter( s );
+			Map parityVarsUses = a.getFlowBefore( s );
+			Map parityVarsDefs = a.getFlowAfter( s );
 
 			
 			//uses

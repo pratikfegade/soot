@@ -8,8 +8,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import soot.*;
-import soot.baf.internal.*;
 import soot.util.backend.ASMBackendUtils;
 
 import static org.mockito.Matchers.any;

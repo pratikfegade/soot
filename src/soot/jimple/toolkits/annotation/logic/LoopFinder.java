@@ -28,12 +28,13 @@ import soot.toolkits.graph.MHGDominatorsFinder;
 import soot.toolkits.graph.UnitGraph;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LoopFinder extends BodyTransformer {
 
     private UnitGraph g;
 
-    private HashMap<Stmt, List<Stmt>> loops;
+    private Map<Stmt, List<Stmt>> loops;
 
     public Collection<Loop> loops(){
         Collection<Loop> result = new HashSet<Loop>();
@@ -48,7 +49,7 @@ public class LoopFinder extends BodyTransformer {
         g = new ExceptionalUnitGraph(b);
         MHGDominatorsFinder a = new MHGDominatorsFinder(g);
         
-        loops = new HashMap<Stmt, List<Stmt>>();
+        loops = new ConcurrentHashMap<Stmt, List<Stmt>>();
         
         Iterator<Unit> stmtsIt = b.getUnits().iterator();
         while (stmtsIt.hasNext()){

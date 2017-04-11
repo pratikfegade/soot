@@ -25,8 +25,9 @@ import soot.jimple.spark.internal.TypeManager;
 import soot.jimple.spark.pag.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Collapses nodes that are members of simple trees (EBBs)
  * in the pointer assignment graph.
@@ -113,7 +114,7 @@ public class EBBCollapser {
             Type nType = n.getType();
             Node[] succs = pag.loadLookup( n );
             Node firstSucc = null;
-            HashMap<Type, VarNode> typeToSucc = new HashMap<Type, VarNode>();
+            Map<Type, VarNode> typeToSucc = new ConcurrentHashMap<Type, VarNode>();
             for (Node element : succs) {
                 VarNode succ = (VarNode) element;
                 Type sType = succ.getType();

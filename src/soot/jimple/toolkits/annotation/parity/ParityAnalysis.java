@@ -26,8 +26,8 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 import soot.toolkits.scalar.LiveLocals;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static soot.jimple.toolkits.annotation.parity.ParityAnalysis.Parity.*;
 
@@ -69,10 +69,10 @@ public class ParityAnalysis extends ForwardFlowAnalysis<Unit,Map<Value, ParityAn
 
         this.filter = filter;
         
-        filterUnitToBeforeFlow = new HashMap<Unit, Map<Value, Parity>>();
+        filterUnitToBeforeFlow = new ConcurrentHashMap<Unit, Map<Value, Parity>>();
         buildBeforeFilterMap();
         
-        filterUnitToAfterFlow = new HashMap<Unit, Map<Value, Parity>>();
+        filterUnitToAfterFlow = new ConcurrentHashMap<Unit, Map<Value, Parity>>();
         
         doAnalysis();
         
@@ -94,7 +94,7 @@ public class ParityAnalysis extends ForwardFlowAnalysis<Unit,Map<Value, ParityAn
         
             //if (!((left.getType() instanceof IntegerType) || (left.getType() instanceof LongType))) continue;
 
-            Map<Value, Parity> map = new HashMap<Value, Parity>();            
+            Map<Value, Parity> map = new ConcurrentHashMap<Value, Parity>();
             for (Local l : filter.getLiveLocalsBefore(s)) {
             	map.put(l, BOTTOM);
             }
@@ -267,7 +267,7 @@ public class ParityAnalysis extends ForwardFlowAnalysis<Unit,Map<Value, ParityAn
     
     private void buildAfterFilterMap(Unit s){
         
-        Map<Value, Parity> map = new HashMap<Value, Parity>();
+        Map<Value, Parity> map = new ConcurrentHashMap<Value, Parity>();
         for (Local local :  filter.getLiveLocalsAfter(s)) {
             map.put(local, BOTTOM);
         }
@@ -284,7 +284,7 @@ public class ParityAnalysis extends ForwardFlowAnalysis<Unit,Map<Value, ParityAn
     @Override
     protected Map<Value, Parity> entryInitialFlow()
     {
-	/*HashMap initMap = new HashMap();
+	/*HashMap initMap = new ConcurrentHashMap();
 	
 	Chain locals = g.getBody().getLocals();
 	Iterator it = locals.iterator();
@@ -330,7 +330,7 @@ public class ParityAnalysis extends ForwardFlowAnalysis<Unit,Map<Value, ParityAn
     @Override
     protected Map<Value, Parity> newInitialFlow()
     {
-	    Map<Value, Parity> initMap = new HashMap<Value, Parity>();
+	    Map<Value, Parity> initMap = new ConcurrentHashMap<Value, Parity>();
 	
 	    for (Local l : g.getBody().getLocals()) {
 	    	Type t = l.getType();

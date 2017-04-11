@@ -25,9 +25,9 @@ import soot.jimple.Stmt;
 import soot.singletons.Singletons;
 import soot.tagkit.LineNumberTag;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LineNumberAdder extends SceneTransformer {
 
@@ -40,7 +40,7 @@ public class LineNumberAdder extends SceneTransformer {
         while (it.hasNext()){
             SootClass sc = (SootClass)it.next();
             // make map of first line to each method
-            HashMap<Integer, SootMethod> lineToMeth = new HashMap<Integer, SootMethod>();
+            Map<Integer, SootMethod> lineToMeth = new ConcurrentHashMap<Integer, SootMethod>();
             Iterator methIt = sc.getMethods().iterator();
             while (methIt.hasNext()){
                 SootMethod meth = (SootMethod)methIt.next();

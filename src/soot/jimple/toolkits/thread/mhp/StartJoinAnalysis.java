@@ -21,6 +21,7 @@ import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // StartJoinFinder written by Richard L. Halpert, 2006-12-04
 // This can be used as an alternative to PegGraph and PegChain
@@ -44,14 +45,14 @@ public class StartJoinAnalysis extends ForwardFlowAnalysis
 	{
 		super(g);
 		
-		startStatements = new HashSet<Stmt>();
-		joinStatements = new HashSet<Stmt>();
+		startStatements = new HashSet<>();
+		joinStatements = new HashSet<>();
 		
 		hierarchy = Scene.v().getActiveHierarchy();
 
-		startToRunMethods = new HashMap<Stmt, List<SootMethod>>();
-		startToAllocNodes = new HashMap<Stmt, List<AllocNode>>();
-		startToJoin = new HashMap<Stmt, Stmt>();
+		startToRunMethods = new ConcurrentHashMap<>();
+		startToAllocNodes = new ConcurrentHashMap<>();
+		startToJoin = new ConcurrentHashMap<>();
 		
 		// Get lists of start and join statements		
 		doFlowInsensitiveSingleIterationAnalysis();

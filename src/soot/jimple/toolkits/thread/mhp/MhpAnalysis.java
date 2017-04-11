@@ -15,7 +15,7 @@ import soot.toolkits.scalar.FlowSet;
 import soot.util.Chain;
 
 import java.util.*;
-
+import java.util.concurrent.ConcurrentHashMap;
 
 
 // *** USE AT YOUR OWN RISK ***
@@ -56,15 +56,15 @@ class MhpAnalysis
 		this.g = g;
 		int size = g.size();
 		Map startToThread = g.getStartToThread();
-		unitToGen = new HashMap<Object, FlowSet>(size*2+1,0.7f);
-		unitToKill = new HashMap<Object, FlowSet>(size*2+1,0.7f);
-		unitToM= new HashMap<Object, FlowSet>(size*2+1,0.7f);
-		//unitToMSym = new HashMap(size*2+1, 0.7f);
-		unitToOut = new HashMap<Object, FlowSet>(size*2+1,0.7f);
-		notifySucc = new HashMap<Object, FlowSet>(size*2+1,0.7f);
-		//	notifyEdge = new HashMap(size*2+1,0.7f);
-		notifyPred = new HashMap<JPegStmt, Set<JPegStmt>>(size*2+1,0.7f);
-		//monitor = new HashMap(size*2+1,0.7f);
+		unitToGen = new ConcurrentHashMap<Object, FlowSet>(size*2+1,0.7f);
+		unitToKill = new ConcurrentHashMap<Object, FlowSet>(size*2+1,0.7f);
+		unitToM= new ConcurrentHashMap<Object, FlowSet>(size*2+1,0.7f);
+		//unitToMSym = new ConcurrentHashMap(size*2+1, 0.7f);
+		unitToOut = new ConcurrentHashMap<Object, FlowSet>(size*2+1,0.7f);
+		notifySucc = new ConcurrentHashMap<Object, FlowSet>(size*2+1,0.7f);
+		//	notifyEdge = new ConcurrentHashMap(size*2+1,0.7f);
+		notifyPred = new ConcurrentHashMap<JPegStmt, Set<JPegStmt>>(size*2+1,0.7f);
+		//monitor = new ConcurrentHashMap(size*2+1,0.7f);
 		monitor = g.getMonitor();
 		
 		

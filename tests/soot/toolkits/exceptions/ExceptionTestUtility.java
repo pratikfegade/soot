@@ -1,9 +1,6 @@
 package soot.toolkits.exceptions;
 
-import soot.*;
 import soot.options.options.Options;
-
-import java.util.*;
 
 /**
  * Class which packages together some objects useful in unit tests of exception

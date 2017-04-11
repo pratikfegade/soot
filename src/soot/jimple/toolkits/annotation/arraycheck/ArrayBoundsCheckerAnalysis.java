@@ -31,6 +31,7 @@ import soot.options.Options;
 import soot.toolkits.graph.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 class ArrayBoundsCheckerAnalysis 
 {
@@ -40,21 +41,21 @@ class ArrayBoundsCheckerAnalysis
     private final Map<FlowGraphEdge, WeightedDirectedSparseGraph> edgeMap;
     private final Set<FlowGraphEdge> edgeSet;
 
-    private HashMap<Block, Integer> stableRoundOfUnits;
+    private Map<Block, Integer> stableRoundOfUnits;
 
     private ArrayRefBlockGraph graph;
 
     private final IntContainer zero = new IntContainer(0);
 
     private boolean fieldin = false;
-    private HashMap<Object, HashSet<Value>> localToFieldRef;
-    private HashMap<Object, HashSet<Value>> fieldToFieldRef;
+    private Map<Object, HashSet<Value>> localToFieldRef;
+    private Map<Object, HashSet<Value>> fieldToFieldRef;
     private final int strictness = 2;
 
     private boolean arrayin = false;
 
     private boolean csin = false;
-    private HashMap<Value, HashSet<Value>> localToExpr;
+    private Map<Value, HashSet<Value>> localToExpr;
 
     private boolean classfieldin = false;
     private ClassFieldAnalysis cfield;
@@ -126,9 +127,9 @@ class ArrayBoundsCheckerAnalysis
 
         this.graph = new ArrayRefBlockGraph(body);
 
-        blockToBeforeFlow = new HashMap<Block, WeightedDirectedSparseGraph>(graph.size()*2+1, 0.7f);
+        blockToBeforeFlow = new ConcurrentHashMap<>(graph.size() * 2 + 1, 0.7f);
         
-        edgeMap = new HashMap<FlowGraphEdge, WeightedDirectedSparseGraph>(graph.size()*2+1, 0.7f);
+        edgeMap = new ConcurrentHashMap<>(graph.size() * 2 + 1, 0.7f);
         
         edgeSet = buildEdgeSet(graph);
         
@@ -142,7 +143,7 @@ class ArrayBoundsCheckerAnalysis
 
     private void convertToUnitEntry()
     {
-        unitToBeforeFlow = new HashMap<Unit, WeightedDirectedSparseGraph>();
+        unitToBeforeFlow = new ConcurrentHashMap<>();
         Iterator<Block> blockIt = blockToBeforeFlow.keySet().iterator();
         while (blockIt.hasNext())
         {
@@ -299,7 +300,7 @@ class ArrayBoundsCheckerAnalysis
 
         /* Set initial values and nodes to visit. */
         {
-            stableRoundOfUnits = new HashMap<Block, Integer>();
+            stableRoundOfUnits = new ConcurrentHashMap<Block, Integer>();
             
             Iterator it = graph.iterator();
 

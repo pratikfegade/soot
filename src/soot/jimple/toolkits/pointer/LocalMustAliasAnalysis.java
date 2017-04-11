@@ -27,6 +27,7 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** LocalMustAliasAnalysis attempts to determine if two local
  * variables (at two potentially different program points) must point
@@ -92,7 +93,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
 	public LocalMustAliasAnalysis(UnitGraph g, boolean tryTrackFieldAssignments) {
         super(g);
         this.container = g.getBody().getMethod();
-        this.localsAndFieldRefs = new HashSet<Value>(); 
+        this.localsAndFieldRefs = new HashSet<Value>();
         
         //add all locals
         for (Local l : g.getBody().getLocals()) {
@@ -104,8 +105,8 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
         	this.localsAndFieldRefs.addAll(trackableFields());
         }
 
-       	this.rhsToNumber = new HashMap<Value, Integer>();
-        this.mergePointToValueToNumber = new HashMap<Unit,Map<Value,Integer>>();
+       	this.rhsToNumber = new ConcurrentHashMap<>();
+        this.mergePointToValueToNumber = new ConcurrentHashMap<>();
         
         doAnalysis();
         
@@ -199,7 +200,7 @@ public class LocalMustAliasAnalysis extends ForwardFlowAnalysis<Unit,HashMap<Val
                 Map<Value, Integer> valueToNumber = mergePointToValueToNumber.get(succUnit);
                 Integer number = null;
                 if(valueToNumber==null) {
-                	valueToNumber = new HashMap<Value, Integer>();
+                	valueToNumber = new ConcurrentHashMap<Value, Integer>();
                 	mergePointToValueToNumber.put(succUnit, valueToNumber);
                 }
                 else

@@ -7,6 +7,7 @@ import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ConstantArrayAnalysis extends ForwardFlowAnalysis<Unit, ConstantArrayAnalysis.ArrayState> {
 	private class ArrayTypesInternal implements Cloneable {
@@ -77,13 +78,13 @@ public class ConstantArrayAnalysis extends ForwardFlowAnalysis<Unit, ConstantArr
 		}
 	}
 
-	private Map<Local, Integer> localToInt = new HashMap<Local, Integer>();
-	private Map<Type, Integer> typeToInt = new HashMap<Type, Integer>();
-	private Map<Integer, Integer> sizeToInt = new HashMap<Integer, Integer>();
+	private Map<Local, Integer> localToInt = new ConcurrentHashMap<Local, Integer>();
+	private Map<Type, Integer> typeToInt = new ConcurrentHashMap<Type, Integer>();
+	private Map<Integer, Integer> sizeToInt = new ConcurrentHashMap<Integer, Integer>();
 	
 	
-	private Map<Integer, Type> rvTypeToInt = new HashMap<Integer, Type>();
-	private Map<Integer, Integer> rvSizeToInt = new HashMap<Integer, Integer>();
+	private Map<Integer, Type> rvTypeToInt = new ConcurrentHashMap<Integer, Type>();
+	private Map<Integer, Integer> rvSizeToInt = new ConcurrentHashMap<Integer, Integer>();
 	
 	private int size;
 	private int typeSize;

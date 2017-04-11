@@ -14,6 +14,7 @@ import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -38,7 +39,7 @@ public class MultiRunStatementsFinder extends ForwardFlowAnalysis<Unit,BitSet>
 	{
 		super(g);
 		
-		nodeToIndex = new HashMap<Object, Integer>();
+		nodeToIndex = new ConcurrentHashMap<>();
 				
 		//      System.out.println("===entering MultiObjectAllocSites==");	
 		doAnalysis();

@@ -35,7 +35,7 @@ import soot.util.dot.DotGraphEdge;
 import soot.util.dot.DotGraphNode;
 
 import java.util.*;
-
+import java.util.concurrent.ConcurrentHashMap;
 
 
 // *** USE AT YOUR OWN RISK ***
@@ -61,8 +61,8 @@ public class PegToDotFile {
 	public static int graphtype = UNITGRAPH;
 	
 	public static boolean isBrief      = false;
-	private static final Map<Object, String> listNodeName = new HashMap<Object, String>();
-	private static final Map<Object, String> startNodeToName = new HashMap<Object, String>(); 
+	private static final Map<Object, String> listNodeName = new ConcurrentHashMap<Object, String>();
+	private static final Map<Object, String> startNodeToName = new ConcurrentHashMap<Object, String>();
 	
 	/* in one page or several pages of 8.5x11 */
 	public static boolean onepage      = true;

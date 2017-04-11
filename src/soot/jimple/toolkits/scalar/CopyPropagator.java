@@ -37,10 +37,10 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.LocalDefs;
 import soot.util.Chain;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CopyPropagator extends BodyTransformer {
 
@@ -93,7 +93,7 @@ public class CopyPropagator extends BodyTransformer {
 
 		Chain<Unit> units = stmtBody.getUnits();
 
-		Map<Local, Integer> localToDefCount = new HashMap<Local, Integer>();
+		Map<Local, Integer> localToDefCount = new ConcurrentHashMap<Local, Integer>();
 
 		// Count number of definitions for each local.
 		for (Unit u : units) {

@@ -36,6 +36,7 @@ import soot.toolkits.graph.BriefBlockGraph;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * "unrolls" the condition of while/for loops.<br>
@@ -153,7 +154,7 @@ public class LoopConditionUnroller extends BodyTransformer {
 		/* if we already did the "calculation" return the cached result. */
 		if (unitsToTraps != null)
 			return unitsToTraps;
-		unitsToTraps = new HashMap<Unit, List<Trap>>();
+		unitsToTraps = new ConcurrentHashMap<Unit, List<Trap>>();
 		for (Trap trap : body.getTraps()) {
 			Unit beginUnit = trap.getBeginUnit();
 			List<Trap> unitTraps = unitsToTraps.get(beginUnit);
@@ -191,7 +192,7 @@ public class LoopConditionUnroller extends BodyTransformer {
 	private Unit copyBlock(Block block) {
 		Map<Unit, List<Trap>> traps = getTraps();
 		Set<Trap> openedTraps = new HashSet<Trap>();
-		Map<Trap, Trap> copiedTraps = new HashMap<Trap, Trap>();
+		Map<Trap, Trap> copiedTraps = new ConcurrentHashMap<Trap, Trap>();
 		Chain<Unit> unitChain = body.getUnits();
 
 		Unit tail = block.getTail();

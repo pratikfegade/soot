@@ -35,8 +35,9 @@ import soot.*;
 import soot.jimple.JimpleBody;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** 
     This class encapsulates a JimpleAST instance and provides methods
@@ -45,7 +46,7 @@ import java.util.Set;
 public class JimpleAST
 {
     private Start mTree = null;
-    private HashMap<SootMethod, JimpleBody> methodToParsedBodyMap = null;
+    private Map<SootMethod, JimpleBody> methodToParsedBodyMap = null;
 
     /** Constructs a JimpleAST and generates its parse tree from the given InputStream.
      *
@@ -118,7 +119,7 @@ public class JimpleAST
      */
     private void stashBodiesForClass(SootClass sc) 
     {
-    	HashMap<SootMethod, JimpleBody> methodToBodyMap = new HashMap<SootMethod, JimpleBody>();
+    	Map<SootMethod, JimpleBody> methodToBodyMap = new ConcurrentHashMap<SootMethod, JimpleBody>();
 
         Walker w = new BodyExtractorWalker(sc, SootResolver.v(), methodToBodyMap);
 

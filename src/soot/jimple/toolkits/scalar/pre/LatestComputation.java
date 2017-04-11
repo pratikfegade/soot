@@ -33,8 +33,8 @@ import soot.toolkits.scalar.BoundedFlowSet;
 import soot.toolkits.scalar.CollectionFlowUniverse;
 import soot.toolkits.scalar.FlowSet;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Performs a Latest-Computation on the given graph. a computation is latest,
@@ -87,7 +87,7 @@ public class LatestComputation {
 	 */
 	public LatestComputation(UnitGraph unitGraph, DelayabilityAnalysis delayed,
 			Map<Unit, EquivalentValue> equivRhsMap, BoundedFlowSet<EquivalentValue> set) {
-		unitToLatest = new HashMap<Unit, FlowSet<EquivalentValue>>(unitGraph.size() + 1, 0.7f);
+		unitToLatest = new ConcurrentHashMap<Unit, FlowSet<EquivalentValue>>(unitGraph.size() + 1, 0.7f);
 
 		for (Unit currentUnit : unitGraph) {
 			/* create a new Earliest-list for each unit */

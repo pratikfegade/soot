@@ -10,6 +10,7 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.BackwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Finds the set of local variables and/or references that represent all of
@@ -47,8 +48,8 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 		begin = null;
 		lostObjects = false;
 
-		refToBase = new HashMap<Ref, EquivalentValue>();
-		refToIndex = new HashMap<Ref, EquivalentValue>();
+		refToBase = new ConcurrentHashMap<Ref, EquivalentValue>();
+		refToIndex = new ConcurrentHashMap<Ref, EquivalentValue>();
 
 		// analysis is done on-demand, not now
 	}
@@ -102,7 +103,7 @@ public class LockableReferenceAnalysis extends BackwardFlowAnalysis<Unit,Lockset
 			
 		// Reverse the results so it maps value->keys instead of key->value
 		// Then we can pick just one object (key) per group (value)
-		Map<Integer, List<EquivalentValue>> reversed = new HashMap<Integer, List<EquivalentValue>>();
+		Map<Integer, List<EquivalentValue>> reversed = new ConcurrentHashMap<Integer, List<EquivalentValue>>();
 		for (Map.Entry<EquivalentValue, Integer> e : results.entrySet()) {
 			EquivalentValue key = e.getKey();
 			Integer value = e.getValue();
@@ -845,10 +846,10 @@ class LocksetFlowInfo
 	
 	public LocksetFlowInfo()
 	{
-		groups = new HashMap<EquivalentValue, Integer>();
+		groups = new ConcurrentHashMap<EquivalentValue, Integer>();
 		
-		refToBaseGroup = new HashMap<Ref, Integer>();
-		refToIndexGroup = new HashMap<Ref, Integer>();
+		refToBaseGroup = new ConcurrentHashMap<Ref, Integer>();
+		refToIndexGroup = new ConcurrentHashMap<Ref, Integer>();
 	}
 	
 	public Object clone()

@@ -24,6 +24,7 @@ import soot.PointsToSet;
 import soot.SootField;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Represents the read or write set of a statement. */
 public class MethodRWSet extends RWSet {
@@ -202,7 +203,7 @@ public class MethodRWSet extends RWSet {
     }
     public boolean addFieldRef( PointsToSet otherBase, Object field ) {
 	boolean ret = false;
-	if( fields == null ) fields = new HashMap();
+	if( fields == null ) fields = new ConcurrentHashMap();
 	PointsToSet base = getBaseForField( field );
 	if( base instanceof FullObjectSet ) return false;
 	if( otherBase instanceof FullObjectSet ) {

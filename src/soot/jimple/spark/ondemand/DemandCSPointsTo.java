@@ -30,6 +30,7 @@ import soot.toolkits.scalar.Pair;
 import soot.util.NumberedString;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Tries to find imprecision in points-to sets from a previously run analysis.
@@ -187,11 +188,11 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 
 	protected final CallSiteToTargetsMap callSiteToResolvedTargets = new CallSiteToTargetsMap();
 
-	protected HashMap<List<Object>, Set<SootMethod>> callTargetsArgCache = new HashMap<List<Object>, Set<SootMethod>>();
+	protected Map<List<Object>, Set<SootMethod>> callTargetsArgCache = new ConcurrentHashMap<List<Object>, Set<SootMethod>>();
 
 	protected final Stack<VarAndContext> contextForAllocsStack = new Stack<VarAndContext>();
 
-	protected Map<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>> contextsForAllocsCache = new HashMap<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>>();
+	protected Map<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>> contextsForAllocsCache = new ConcurrentHashMap<VarAndContext, Pair<PointsToSetInternal, AllocAndContextSet>>();
 
 	protected final ContextSensitiveInfo csInfo;
 
@@ -231,7 +232,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 
 	protected OTFMethodSCCManager sccManager;
 
-	protected Map<VarContextAndUp, Map<AllocAndContext, CallingContextSet>> upContextCache = new HashMap<VarContextAndUp, Map<AllocAndContext, CallingContextSet>>();
+	protected Map<VarContextAndUp, Map<AllocAndContext, CallingContextSet>> upContextCache = new ConcurrentHashMap<VarContextAndUp, Map<AllocAndContext, CallingContextSet>>();
 
 	protected ValidMatches vMatches;
 	
@@ -253,8 +254,8 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 		this.lazy = lazy;
 		this.maxNodesPerPass = maxTraversal / maxPasses;
 		this.heuristicType = HeuristicType.INCR;
-		this.reachingObjectsCache = new HashMap<Local, PointsToSet>();
-		this.reachingObjectsCacheNoCGRefinement = new HashMap<Local, PointsToSet>();
+		this.reachingObjectsCache = new ConcurrentHashMap<Local, PointsToSet>();
+		this.reachingObjectsCacheNoCGRefinement = new ConcurrentHashMap<Local, PointsToSet>();
         this.useCache = true;
 	}
 
@@ -396,7 +397,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 			}
 		} else {
 			allocAndContextCache.put(allocAndContext,
-					new HashMap<VarNode, CallingContextSet>());
+					new ConcurrentHashMap<VarNode, CallingContextSet>());
 		}
 		return null;
 	}
@@ -533,7 +534,7 @@ public final class DemandCSPointsTo implements PointsToAnalysis {
 			}
 		} else {
 			upContextCache.put(varContextAndUp,
-					new HashMap<AllocAndContext, CallingContextSet>());
+					new ConcurrentHashMap<AllocAndContext, CallingContextSet>());
 		}
 		return null;
 	}

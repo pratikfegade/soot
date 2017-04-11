@@ -20,11 +20,12 @@
 package soot.jimple.toolkits.annotation.callgraph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CallData {
 
-    private final HashMap<Object, CallData> map = new HashMap<Object, CallData>();
+    private final Map<Object, CallData> map = new ConcurrentHashMap<Object, CallData>();
     private final ArrayList<CallData> children = new ArrayList<CallData>();
     private final ArrayList<CallData> outputs = new ArrayList<CallData>();
     private String data;
@@ -70,7 +71,7 @@ public class CallData {
         map.put(key, val);
     }
 
-    public HashMap<Object, CallData> getMap(){
+    public Map<Object, CallData> getMap(){
         return map;
     }
 

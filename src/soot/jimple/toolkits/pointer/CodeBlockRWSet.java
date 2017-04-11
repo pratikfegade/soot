@@ -9,9 +9,9 @@ import soot.jimple.spark.sets.HashPointsToSet;
 import soot.jimple.spark.sets.P2SetVisitor;
 import soot.jimple.spark.sets.PointsToSetInternal;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class CodeBlockRWSet extends MethodRWSet
@@ -219,7 +219,7 @@ public class CodeBlockRWSet extends MethodRWSet
 	{
 		boolean ret = false;
 		if( fields == null )
-			fields = new HashMap();
+			fields = new ConcurrentHashMap();
 		
 		// Get our points-to set, merge with other
 		PointsToSet base = getBaseForField( field );

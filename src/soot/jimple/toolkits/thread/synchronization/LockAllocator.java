@@ -23,6 +23,7 @@ import soot.toolkits.scalar.LocalDefs;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LockAllocator extends SceneTransformer
 {
@@ -160,8 +161,8 @@ public class LockAllocator extends SceneTransformer
     	// For all methods, run the intraprocedural analysis (TransactionAnalysis)
 		Date start = new Date();
     	G.v().out.println("[wjtp.tn] *** Find and Name Transactions *** " + start);
-    	Map<SootMethod, FlowSet> methodToFlowSet = new HashMap<SootMethod, FlowSet>();
-    	Map<SootMethod, ExceptionalUnitGraph> methodToExcUnitGraph = new HashMap<SootMethod, ExceptionalUnitGraph>();
+    	Map<SootMethod, FlowSet> methodToFlowSet = new ConcurrentHashMap<SootMethod, FlowSet>();
+    	Map<SootMethod, ExceptionalUnitGraph> methodToExcUnitGraph = new ConcurrentHashMap<SootMethod, ExceptionalUnitGraph>();
     	Iterator<SootClass> runAnalysisClassesIt = Scene.v().getApplicationClasses().iterator();
     	while (runAnalysisClassesIt.hasNext()) 
     	{
@@ -249,7 +250,7 @@ public class LockAllocator extends SceneTransformer
     	// For all methods, run the intraprocedural analysis (transaction finder)
     	// Note that these will only be transformed if they are either added to
     	// methodToFlowSet or if a loop and new body transformer are used for methodToStrayRWSet
-/*    	Map methodToStrayRWSet = new HashMap();
+/*    	Map methodToStrayRWSet = new ConcurrentHashMap();
     	Iterator runRWFinderClassesIt = Scene.v().getApplicationClasses().iterator();
     	while (runRWFinderClassesIt.hasNext()) 
     	{
@@ -329,7 +330,7 @@ public class LockAllocator extends SceneTransformer
 
 			// Data structures for determining lock numbers
 			lockPTSets = new ArrayList<PointsToSetInternal>();
-			lockToLockNum = new HashMap<Value, Integer>();
+			lockToLockNum = new ConcurrentHashMap<Value, Integer>();
 
 			findLockableReferences(criticalSections, pta, tasea, lockToLockNum,lockPTSets);
 
@@ -752,7 +753,7 @@ public class LockAllocator extends SceneTransformer
 	{
 		final String[] colors = {"black", "blue", "blueviolet", "chartreuse", "crimson", "darkgoldenrod1", "darkseagreen", "darkslategray", "deeppink",
 			"deepskyblue1", "firebrick1", "forestgreen", "gold", "gray80", "navy", "pink", "red", "sienna", "turquoise1", "yellow"};
-		Map<Integer, String> lockColors = new HashMap<Integer, String>();
+		Map<Integer, String> lockColors = new ConcurrentHashMap<Integer, String>();
 		int colorNum = 0;
 		HashSet<CriticalSection> visited = new HashSet<CriticalSection>();
 		

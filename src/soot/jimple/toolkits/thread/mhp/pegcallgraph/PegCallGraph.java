@@ -8,6 +8,7 @@ import soot.util.Chain;
 import soot.util.HashChain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -37,9 +38,9 @@ public class PegCallGraph implements DirectedGraph{
 		chain = new HashChain();
 		heads = new ArrayList();
 		tails = new ArrayList();
-		methodToSuccs = new HashMap();
-		methodToPreds = new HashMap();
-		methodToSuccsTrim = new HashMap();
+		methodToSuccs = new ConcurrentHashMap();
+		methodToPreds = new ConcurrentHashMap();
+		methodToSuccsTrim = new ConcurrentHashMap();
 		//	buildfortest();
 		buildChainAndSuccs(cg);
 		//testChain();

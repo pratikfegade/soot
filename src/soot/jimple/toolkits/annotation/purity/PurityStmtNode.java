@@ -29,8 +29,8 @@ package soot.jimple.toolkits.annotation.purity;
 
 import soot.jimple.Stmt;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A node created dynamically and attached to a statement Stmt.
@@ -48,7 +48,7 @@ public class PurityStmtNode implements PurityNode
     private boolean inside;
 
     /** gives a unique id, for pretty-printing purposes */
-    private static final Map<Stmt, Integer> nMap = new HashMap<Stmt, Integer>();
+    private static final Map<Stmt, Integer> nMap = new ConcurrentHashMap<Stmt, Integer>();
     private static int n = 0;
 
     PurityStmtNode(Stmt id, boolean inside)

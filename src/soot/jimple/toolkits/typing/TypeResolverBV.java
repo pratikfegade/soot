@@ -36,6 +36,7 @@ import soot.util.BitVector;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class resolves the type of local variables.
@@ -52,7 +53,7 @@ public class TypeResolverBV
   private final BitVector invalidIds = new BitVector();
 
   /** Hashtable: [TypeNode or Local] -> TypeVariableBV **/
-  private final Map<Object, TypeVariableBV> typeVariableMap = new HashMap<Object, TypeVariableBV>();
+  private final Map<Object, TypeVariableBV> typeVariableMap = new ConcurrentHashMap<Object, TypeVariableBV>();
 
   private final JimpleBody stmtBody;
 

@@ -31,6 +31,7 @@ import soot.jimple.toolkits.callgraph.Edge;
 
 import java.io.PrintStream;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * We provide a set of methods to evaluate the quality of geometric points-to
@@ -503,8 +504,8 @@ public class GeomEvaluator {
 	 */
 	public void estimateHeapDefuseGraph() 
 	{
-		final Map<IVarAbstraction, int[]> defUseCounterForGeom = new HashMap<IVarAbstraction, int[]>();
-		final Map<AllocDotField, int[]> defUseCounterForSpark = new HashMap<AllocDotField, int[]>();
+		final Map<IVarAbstraction, int[]> defUseCounterForGeom = new ConcurrentHashMap<>();
+		final Map<AllocDotField, int[]> defUseCounterForSpark = new ConcurrentHashMap<>();
 
 		Date begin = new Date();
 

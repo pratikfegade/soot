@@ -29,8 +29,6 @@ package soot.toolkits.graph;
 import org.junit.Test;
 import soot.toolkits.graph.pdg.MHGDominatorTree;
 
-import java.util.*;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;

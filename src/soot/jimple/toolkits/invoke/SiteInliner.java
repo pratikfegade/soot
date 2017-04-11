@@ -30,7 +30,11 @@ import soot.jimple.*;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
 import soot.util.Chain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Provides methods to inline a given invoke site. */
 public class SiteInliner
@@ -42,7 +46,7 @@ public class SiteInliner
 
     public static void inlineSites(List sites)
     {
-        inlineSites(sites, new HashMap());
+        inlineSites(sites, new ConcurrentHashMap());
     }
 
     /** Iterates over a list of sites, inlining them in order. 
@@ -66,7 +70,7 @@ public class SiteInliner
     public static void inlineSite(SootMethod inlinee, Stmt toInline, 
                                     SootMethod container)
     {
-        inlineSite(inlinee, toInline, container, new HashMap());
+        inlineSite(inlinee, toInline, container, new ConcurrentHashMap());
     }
 
     /**
@@ -184,8 +188,8 @@ public class SiteInliner
         Stmt exitPoint = (Stmt)containerUnits.getSuccOf(toInline);
 
         // First, clone all of the inlinee's units & locals.
-        HashMap<Local, Local> oldLocalsToNew = new HashMap<Local, Local>();
-        HashMap<Stmt, Stmt> oldUnitsToNew = new HashMap<Stmt, Stmt>();
+        Map<Local, Local> oldLocalsToNew = new ConcurrentHashMap<Local, Local>();
+        Map<Stmt, Stmt> oldUnitsToNew = new ConcurrentHashMap<Stmt, Stmt>();
         {
             Stmt cursor = toInline;
             for( Iterator<Unit> currIt = inlineeUnits.iterator(); currIt.hasNext(); ) {

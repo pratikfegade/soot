@@ -31,7 +31,11 @@ import soot.util.dot.DotGraph;
 import soot.util.dot.DotGraphConstants;
 import soot.util.dot.DotGraphNode;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 //import soot.toolkits.mhp.*;
 
@@ -55,7 +59,7 @@ public class PegCallGraphToDot {
 	
 	
 	public static boolean isBrief      = false;
-	private static final Map<Object, String> listNodeName = new HashMap<Object, String>();
+	private static final Map<Object, String> listNodeName = new ConcurrentHashMap<Object, String>();
 	
 	/* in one page or several pages of 8.5x11 */
 	public static boolean onepage      = true;

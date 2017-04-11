@@ -31,6 +31,7 @@ import soot.util.SmallNumberedMap;
 import soot.util.queue.ChunkedQueue;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Resolves virtual calls.
  * @author Ondrej Lhotak
@@ -102,8 +103,8 @@ public final class VirtualCalls
         return ret;
     }
 
-    private final Map<Type,List<Type>> baseToSubTypes = new HashMap<Type,List<Type>>();
-    private final Map<Pair<Type, NumberedString>, List<Pair<Type,NumberedString>>> baseToPossibleSubTypes = new HashMap<Pair<Type,NumberedString>, List<Pair<Type,NumberedString>>>();
+    private final Map<Type,List<Type>> baseToSubTypes = new ConcurrentHashMap<Type,List<Type>>();
+    private final Map<Pair<Type, NumberedString>, List<Pair<Type,NumberedString>>> baseToPossibleSubTypes = new ConcurrentHashMap<Pair<Type,NumberedString>, List<Pair<Type,NumberedString>>>();
 
     public void resolve( Type t, Type declaredType, NumberedString subSig,
     		SootMethod container, ChunkedQueue<SootMethod> targets ) {

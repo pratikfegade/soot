@@ -20,6 +20,7 @@ import soot.util.Chain;
 import soot.util.HashChain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 //import soot.util.cfgcmd.*;
 //add for add tag
@@ -47,7 +48,7 @@ public class PegChain extends HashChain{
 	private final List tails= new ArrayList() ;
 	private final FlowSet pegNodes = new ArraySparseSet();
 	
-	private final Map<Unit, JPegStmt> unitToPeg = new HashMap<Unit, JPegStmt>();
+	private final Map<Unit, JPegStmt> unitToPeg = new ConcurrentHashMap<Unit, JPegStmt>();
 	private final Map<String, FlowSet> waitingNodes;
 	private final PegGraph pg;
 	private final Set<List<Object>> joinNeedReconsidered = new HashSet<List<Object>>();
@@ -94,7 +95,7 @@ public class PegChain extends HashChain{
 		UnitGraph graph = new CompleteUnitGraph(unitBody);
 		
 		Iterator unitIt = graph.iterator();	
-		//	HashMap unitToPeg = new HashMap((graph.size())*2+1,0.7f);
+		//	HashMap unitToPeg = new ConcurrentHashMap((graph.size())*2+1,0.7f);
 		//June 19 add begin node
 		
 		if (addBeginNode){

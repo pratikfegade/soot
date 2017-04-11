@@ -32,6 +32,7 @@ import soot.jimple.*;
 import soot.util.StringTools;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /*Modified By Marc Berndl 17th May */
 
@@ -380,9 +381,9 @@ public class Walker extends DepthFirstAdapter {
 	 */
 
 	public void inAFullMethodBody(AFullMethodBody node) {
-		mLocals = new HashMap<String, Local>();
-		mLabelToStmtMap = new HashMap<Object, Unit>();
-		mLabelToPatchList = new HashMap<String, List>();
+		mLocals = new ConcurrentHashMap<String, Local>();
+		mLabelToStmtMap = new ConcurrentHashMap<Object, Unit>();
+		mLabelToPatchList = new ConcurrentHashMap<String, List>();
 	}
 
 	public void outAFullMethodBody(AFullMethodBody node) {

@@ -27,9 +27,10 @@ import soot.shimple.PhiExpr;
 import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.ForwardBranchedFlowAnalysis;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -98,7 +99,7 @@ public class NullnessAnalysis  extends ForwardBranchedFlowAnalysis<NullnessAnaly
 	protected final static int NON_NULL = 2;
 	protected final static int TOP = 3;
 	
-	protected final HashMap<Value,Integer> valueToIndex = new HashMap<Value,Integer>();
+	protected final Map<Value,Integer> valueToIndex = new ConcurrentHashMap<Value,Integer>();
 	protected int used = 0;
 
 	/**

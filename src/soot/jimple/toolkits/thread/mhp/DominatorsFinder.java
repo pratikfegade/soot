@@ -6,10 +6,10 @@ import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.FlowSet;
 import soot.util.Chain;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -27,7 +27,7 @@ public class DominatorsFinder{
 	private final DirectedGraph peg;
 	
 	DominatorsFinder(Chain chain, DirectedGraph pegGraph){
-		unitToDominators = new HashMap<Object, FlowSet>(); 
+		unitToDominators = new ConcurrentHashMap<Object, FlowSet>();
 		peg = pegGraph;
 		find(chain);
 		//testUnitToDominators();

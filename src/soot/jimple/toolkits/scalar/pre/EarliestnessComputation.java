@@ -31,10 +31,10 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.FlowSet;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Computes the earliest points for the given expressions.<br>
@@ -100,7 +100,7 @@ public class EarliestnessComputation {
 	 */
 	public EarliestnessComputation(UnitGraph unitGraph, UpSafetyAnalysis upSafe, DownSafetyAnalysis downSafe,
 			SideEffectTester sideEffect, FlowSet<EquivalentValue> set) {
-		unitToEarliest = new HashMap<Unit, FlowSet<EquivalentValue>>(unitGraph.size() + 1, 0.7f);
+		unitToEarliest = new ConcurrentHashMap<Unit, FlowSet<EquivalentValue>>(unitGraph.size() + 1, 0.7f);
 
 		for (Unit currentUnit : unitGraph) {
 			/* create a new Earliest-list for each unit */

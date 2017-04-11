@@ -24,8 +24,8 @@ import soot.toolkits.scalar.Pair;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Represents a simple variable node (Green) in the pointer assignment graph.
  * @author Ondrej Lhotak
@@ -108,7 +108,7 @@ public abstract class VarNode extends ValNode implements Comparable {
     }
     /** Registers a frn as having this node as its base. */
     void addField( FieldRefNode frn, SparkField field ) {
-	if( fields == null ) fields = new HashMap<SparkField, FieldRefNode>();
+	if( fields == null ) fields = new ConcurrentHashMap<SparkField, FieldRefNode>();
 	fields.put( field, frn );
     }
 

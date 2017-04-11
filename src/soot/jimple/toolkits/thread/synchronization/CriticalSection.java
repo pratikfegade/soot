@@ -46,17 +46,17 @@ class CriticalSection extends SynchronizedRegion
 		this.nestLevel = nestLevel;
 		this.read = new CodeBlockRWSet();
 		this.write = new CodeBlockRWSet();
-		this.invokes = new HashSet<Unit>();
-		this.units = new HashSet<Unit>();
-		this.unitToRWSet = new HashMap<Unit, CodeBlockRWSet>();
-		this.unitToUses = new HashMap<Unit, List>();
+		this.invokes = new HashSet<>();
+		this.units = new HashSet<>();
+		this.unitToRWSet = new HashMap<>();
+		this.unitToUses = new HashMap<>();
 		this.wholeMethod = wholeMethod;
 		this.method = method;
 		this.setNumber = 0; // 0 = no group, -1 = DELETE
 		this.group = null;
-		this.edges = new HashSet<CriticalSectionDataDependency>();
-		this.waits = new HashSet<Unit>();
-		this.notifys = new HashSet<Unit>();
+		this.edges = new HashSet<>();
+		this.waits = new HashSet<>();
+		this.notifys = new HashSet<>();
 		this.transitiveTargets = null;
 	    this.lockObject = null;
 	    this.lockObjectArrayIndex = null;

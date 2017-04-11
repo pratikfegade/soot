@@ -34,6 +34,7 @@ import soot.singletons.Singletons;
 import soot.tagkit.Host;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Uses the Scene's currently-active InvokeGraph to inline monomorphic call sites. */
 public class StaticInliner extends SceneTransformer
@@ -55,7 +56,7 @@ public class StaticInliner extends SceneTransformer
         int maxInlineeSize = PhaseOptions.getInt(options, "max-inlinee-size");
         boolean rerunJb = PhaseOptions.getBoolean(options, "rerun-jb");
 
-        HashMap instanceToStaticMap = new HashMap();
+        Map instanceToStaticMap = new ConcurrentHashMap();
 
         CallGraph cg = Scene.v().getCallGraph();
         Hierarchy hierarchy = Scene.v().getActiveHierarchy();
@@ -151,7 +152,7 @@ public class StaticInliner extends SceneTransformer
         }
     }
 
-    private final HashMap<SootMethod, Integer> methodToOriginalSize = new HashMap<SootMethod, Integer>();
+    private final Map<SootMethod, Integer> methodToOriginalSize = new ConcurrentHashMap<SootMethod, Integer>();
     private void computeAverageMethodSizeAndSaveOriginalSizes()
     {
         long sum = 0, count = 0;

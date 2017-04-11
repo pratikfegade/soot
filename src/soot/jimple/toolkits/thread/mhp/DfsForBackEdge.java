@@ -6,7 +6,11 @@ import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.scalar.FlowSet;
 import soot.util.Chain;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -21,7 +25,7 @@ import java.util.*;
 
 public class DfsForBackEdge{
 	
-	private final Map<Object, Object> backEdges = new HashMap<Object, Object>();    
+	private final Map<Object, Object> backEdges = new ConcurrentHashMap<Object, Object>();
 	private final Set<Object> gray = new HashSet<Object>();
 	private final Set<Object> black = new HashSet<Object>();
 	private final DominatorsFinder domFinder;

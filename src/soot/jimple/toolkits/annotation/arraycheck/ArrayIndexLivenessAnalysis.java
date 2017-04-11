@@ -35,6 +35,7 @@ import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.BackwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
 {
@@ -46,28 +47,28 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
      * for example, gen set of unit s are valid only when the condition object.
      * was in the living input set.
      */
-    HashMap<Stmt, HashSet<Object>> genOfUnit;
-    HashMap<Stmt, HashSet<Value>> absGenOfUnit;
-    HashMap<Stmt, HashSet<Value>> killOfUnit;
-    HashMap<Stmt, HashSet<Value>> conditionOfGen;
+    Map<Stmt, HashSet<Object>> genOfUnit;
+    Map<Stmt, HashSet<Value>> absGenOfUnit;
+    Map<Stmt, HashSet<Value>> killOfUnit;
+    Map<Stmt, HashSet<Value>> conditionOfGen;
 
     // s --> a kill all a[?].
-    HashMap<DefinitionStmt, Value> killArrayRelated;
+    Map<DefinitionStmt, Value> killArrayRelated;
     // s --> true
-    HashMap<DefinitionStmt, Boolean> killAllArrayRef;
+    Map<DefinitionStmt, Boolean> killAllArrayRef;
 
     IntContainer zero = new IntContainer(0);
 
     private final boolean fieldin;
-    HashMap<Object, HashSet<Value>> localToFieldRef, fieldToFieldRef;
+    Map<Object, HashSet<Value>> localToFieldRef, fieldToFieldRef;
     HashSet<Value> allFieldRefs;
 
     private final boolean arrayin;
-    HashMap localToArrayRef;
+    Map localToArrayRef;
     HashSet allArrayRefs;
 
     private final boolean csin;
-    HashMap<Value, HashSet<Value>> localToExpr;
+    Map<Value, HashSet<Value>> localToExpr;
 
     private final boolean rectarray;
     HashSet<Local> multiarraylocals;
@@ -92,25 +93,25 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         retrieveAllArrayLocals(eug.getBody(), fullSet);
         
         /* compute gen set, kill set, and condition set */
-        genOfUnit = new HashMap<Stmt, HashSet<Object>>(eug.size()*2+1);
-        absGenOfUnit = new HashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
-        killOfUnit = new HashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
-        conditionOfGen = new HashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
+        genOfUnit = new ConcurrentHashMap<Stmt, HashSet<Object>>(eug.size()*2+1);
+        absGenOfUnit = new ConcurrentHashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
+        killOfUnit = new ConcurrentHashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
+        conditionOfGen = new ConcurrentHashMap<Stmt, HashSet<Value>>(eug.size()*2+1);
         
         if (fieldin)
         {
-            localToFieldRef = new HashMap<Object, HashSet<Value>>();
-            fieldToFieldRef = new HashMap<Object, HashSet<Value>>();
+            localToFieldRef = new ConcurrentHashMap<Object, HashSet<Value>>();
+            fieldToFieldRef = new ConcurrentHashMap<Object, HashSet<Value>>();
             allFieldRefs = new HashSet<Value>();
         }
         
         if (arrayin)
         {
-            localToArrayRef = new HashMap();
+            localToArrayRef = new ConcurrentHashMap();
             allArrayRefs = new HashSet();
             
-            killArrayRelated = new HashMap<DefinitionStmt, Value>();
-            killAllArrayRef = new HashMap<DefinitionStmt, Boolean>();
+            killArrayRelated = new ConcurrentHashMap<DefinitionStmt, Value>();
+            killAllArrayRef = new ConcurrentHashMap<DefinitionStmt, Boolean>();
             
             if (rectarray)
             {
@@ -121,7 +122,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         
         if (csin)
         {
-            localToExpr = new HashMap<Value, HashSet<Value>>();
+            localToExpr = new ConcurrentHashMap<Value, HashSet<Value>>();
         }
 
         getAllRelatedMaps(eug.getBody());
@@ -134,12 +135,12 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
             G.v().out.println("Leave ArrayIndexLivenessAnalysis");
     }
 
-    public HashMap<Object, HashSet<Value>> getLocalToFieldRef()
+    public Map<Object, HashSet<Value>> getLocalToFieldRef()
     {
         return localToFieldRef;
     }
 
-    public HashMap<Object, HashSet<Value>> getFieldToFieldRef()
+    public Map<Object, HashSet<Value>> getFieldToFieldRef()
     {
         return fieldToFieldRef;
     }
@@ -149,7 +150,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         return this.allFieldRefs;
     }
 
-    public HashMap getLocalToArrayRef()
+    public Map getLocalToArrayRef()
     {
         return localToArrayRef;
     }
@@ -159,7 +160,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         return allArrayRefs;
     }
 
-    public HashMap<Value, HashSet<Value>> getLocalToExpr()
+    public Map<Value, HashSet<Value>> getLocalToExpr()
     {
         return localToExpr;
     }
@@ -357,7 +358,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
     }
 
     private void getGenAndKillSetForDefnStmt(DefinitionStmt asstmt, 
-                                             HashMap<Stmt, HashSet<Value>> absgen,
+                                             Map<Stmt, HashSet<Value>> absgen,
                                              HashSet<Object> genset,
                                              HashSet<Value> absgenset,
                                              HashSet<Value> killset,
@@ -611,7 +612,7 @@ class ArrayIndexLivenessAnalysis extends BackwardFlowAnalysis
         }
     }
 
-    private void getGenAndKillSet(Body body, HashMap<Stmt, HashSet<Value>> absgen, HashMap<Stmt, HashSet<Object>> gen, HashMap<Stmt, HashSet<Value>> kill, HashMap<Stmt, HashSet<Value>> condition)
+    private void getGenAndKillSet(Body body, Map<Stmt, HashSet<Value>> absgen, Map<Stmt, HashSet<Object>> gen, Map<Stmt, HashSet<Value>> kill, Map<Stmt, HashSet<Value>> condition)
     {
         for (Unit u : body.getUnits())
         {

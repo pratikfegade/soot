@@ -39,9 +39,9 @@ import soot.util.Chain;
 import soot.util.HashChain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Provides an user-interface for the AvailableExpressionsAnalysis class.
  * Returns, for each statement, the list of expressions available before and after it. */
@@ -61,10 +61,10 @@ public class SlowAvailableExpressions implements AvailableExpressions
 
         // Build unitToExprs map
         {
-            unitToPairsAfter = new HashMap<Unit, List<UnitValueBoxPair>>(b.getUnits().size() * 2 + 1, 0.7f);
-            unitToPairsBefore = new HashMap<Unit, List<UnitValueBoxPair>>(b.getUnits().size() * 2 + 1, 0.7f);
-            unitToEquivsAfter = new HashMap<Unit, Chain<EquivalentValue>>(b.getUnits().size() * 2 + 1, 0.7f);
-            unitToEquivsBefore = new HashMap<Unit, Chain<EquivalentValue>>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToPairsAfter = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToPairsBefore = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToEquivsAfter = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToEquivsBefore = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
 
             for (Unit s : b.getUnits()) {
                 FlowSet<Value> set = analysis.getFlowBefore(s);

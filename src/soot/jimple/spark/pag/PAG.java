@@ -45,6 +45,7 @@ import soot.util.queue.ChunkedQueue;
 import soot.util.queue.QueueReader;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Pointer assignment graph.
@@ -56,7 +57,7 @@ public class PAG implements PointsToAnalysis {
 		this.opts = opts;
 		this.cgOpts = new CGOptions(PhaseOptions.v().getPhaseOptions("cg"));
 		if (opts.add_tags()) {
-			nodeToTag = new HashMap<Node, Tag>();
+			nodeToTag = new ConcurrentHashMap<>();
 		}
 		if (opts.rta() && opts.on_fly_cg()) {
 			throw new RuntimeException("Incompatible options rta:true and on-fly-cg:true for cg.spark. Use -p cg-"
@@ -1357,19 +1358,19 @@ public class PAG implements PointsToAnalysis {
 	protected CGOptions cgOpts;
 	protected ClientAccessibilityOracle accessibilityOracle = Scene.v().getClientAccessibilityOracle();
 
-	protected Map<VarNode, Object> simple = new HashMap<VarNode, Object>();
-	protected Map<FieldRefNode, Object> load = new HashMap<FieldRefNode, Object>();
-	protected Map<VarNode, Object> store = new HashMap<VarNode, Object>();
-	protected Map<AllocNode, Object> alloc = new HashMap<AllocNode, Object>();
-	protected Map<VarNode, Object> newInstance = new HashMap<VarNode, Object>();
-	protected Map<NewInstanceNode, Object> assignInstance = new HashMap<NewInstanceNode, Object>();
+	protected Map<VarNode, Object> simple = new ConcurrentHashMap<VarNode, Object>();
+	protected Map<FieldRefNode, Object> load = new ConcurrentHashMap<FieldRefNode, Object>();
+	protected Map<VarNode, Object> store = new ConcurrentHashMap<VarNode, Object>();
+	protected Map<AllocNode, Object> alloc = new ConcurrentHashMap<AllocNode, Object>();
+	protected Map<VarNode, Object> newInstance = new ConcurrentHashMap<VarNode, Object>();
+	protected Map<NewInstanceNode, Object> assignInstance = new ConcurrentHashMap<NewInstanceNode, Object>();
 
-	protected Map<VarNode, Object> simpleInv = new HashMap<VarNode, Object>();
-	protected Map<VarNode, Object> loadInv = new HashMap<VarNode, Object>();
-	protected Map<FieldRefNode, Object> storeInv = new HashMap<FieldRefNode, Object>();
-	protected Map<VarNode, Object> allocInv = new HashMap<VarNode, Object>();
-	protected Map<NewInstanceNode, Object> newInstanceInv = new HashMap<NewInstanceNode, Object>();
-	protected Map<VarNode, Object> assignInstanceInv = new HashMap<VarNode, Object>();
+	protected Map<VarNode, Object> simpleInv = new ConcurrentHashMap<VarNode, Object>();
+	protected Map<VarNode, Object> loadInv = new ConcurrentHashMap<VarNode, Object>();
+	protected Map<FieldRefNode, Object> storeInv = new ConcurrentHashMap<FieldRefNode, Object>();
+	protected Map<VarNode, Object> allocInv = new ConcurrentHashMap<VarNode, Object>();
+	protected Map<NewInstanceNode, Object> newInstanceInv = new ConcurrentHashMap<NewInstanceNode, Object>();
+	protected Map<VarNode, Object> assignInstanceInv = new ConcurrentHashMap<VarNode, Object>();
 
 	protected <K extends Node> boolean addToMap(Map<K, Object> m, K key, Node value) {
 		Object valueList = m.get(key);
@@ -1388,17 +1389,17 @@ public class PAG implements PointsToAnalysis {
 	}
 
 	private boolean runGeomPTA = false;
-	protected Map<Pair<Node, Node>, Set<Edge>> assign2edges = new HashMap<Pair<Node, Node>, Set<Edge>>();
-	private final Map<Object, LocalVarNode> valToLocalVarNode = new HashMap<Object, LocalVarNode>(1000);
-	private final Map<Object, GlobalVarNode> valToGlobalVarNode = new HashMap<Object, GlobalVarNode>(1000);
-	private final Map<Object, AllocNode> valToAllocNode = new HashMap<Object, AllocNode>(1000);
+	protected Map<Pair<Node, Node>, Set<Edge>> assign2edges = new ConcurrentHashMap<Pair<Node, Node>, Set<Edge>>();
+	private final Map<Object, LocalVarNode> valToLocalVarNode = new ConcurrentHashMap<Object, LocalVarNode>(1000);
+	private final Map<Object, GlobalVarNode> valToGlobalVarNode = new ConcurrentHashMap<Object, GlobalVarNode>(1000);
+	private final Map<Object, AllocNode> valToAllocNode = new ConcurrentHashMap<Object, AllocNode>(1000);
 	private final Table<Object, Type, AllocNode> valToReflAllocNode = HashBasedTable.create();
 	private OnFlyCallGraph ofcg;
 	private final ArrayList<VarNode> dereferences = new ArrayList<VarNode>();
 	protected TypeManager typeManager;
 	private final LargeNumberedMap<Local, LocalVarNode> localToNodeMap = new LargeNumberedMap<Local, LocalVarNode>(
 			Scene.v().getLocalNumberer());
-	private final Map<Value, NewInstanceNode> newInstToNodeMap = new HashMap<Value, NewInstanceNode>();
+	private final Map<Value, NewInstanceNode> newInstToNodeMap = new ConcurrentHashMap<Value, NewInstanceNode>();
 	public int maxFinishNumber = 0;
 	private Map<Node, Tag> nodeToTag;
 	private final GlobalNodeFactory nodeFactory = new GlobalNodeFactory(this);
@@ -1410,7 +1411,7 @@ public class PAG implements PointsToAnalysis {
 	public NativeMethodDriver nativeMethodDriver;
 
 	public HashMultiMap<InvokeExpr, Pair<Node, Node>> callAssigns = new HashMultiMap<InvokeExpr, Pair<Node, Node>>();
-	public Map<InvokeExpr, SootMethod> callToMethod = new HashMap<InvokeExpr, SootMethod>();
-	public Map<InvokeExpr, Node> virtualCallsToReceivers = new HashMap<InvokeExpr, Node>();
+	public Map<InvokeExpr, SootMethod> callToMethod = new ConcurrentHashMap<InvokeExpr, SootMethod>();
+	public Map<InvokeExpr, Node> virtualCallsToReceivers = new ConcurrentHashMap<InvokeExpr, Node>();
 
 }

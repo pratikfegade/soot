@@ -29,8 +29,8 @@ package soot.jimple.toolkits.annotation.purity;
 
 import soot.SootMethod;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Kind of Stmt inside node, but global to the method.
@@ -42,7 +42,7 @@ public class PurityMethodNode implements PurityNode
     private SootMethod id;
 
     /** gives a unique id, for pretty-printing purposes */
-    private static final Map<SootMethod, Integer> nMap = new HashMap<SootMethod, Integer>();
+    private static final Map<SootMethod, Integer> nMap = new ConcurrentHashMap<SootMethod, Integer>();
     private static int n = 0;
 
     PurityMethodNode(SootMethod id)

@@ -32,7 +32,11 @@ import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.util.Chain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * removes all critical edges.<br>
@@ -133,7 +137,7 @@ public class CriticalEdgeRemover extends BodyTransformer {
   private void removeCriticalEdges(Body b) {
     Chain<Unit> unitChain = b.getUnits();
     int size = unitChain.size();
-    Map<Unit, List<Unit>> predecessors = new HashMap<Unit, List<Unit>>(2 * size + 1, 0.7f);
+    Map<Unit, List<Unit>> predecessors = new ConcurrentHashMap<Unit, List<Unit>>(2 * size + 1, 0.7f);
 
     /* First get the predecessors of each node (although direct predecessors are
      * predecessors too, we'll not include them in the lists) */

@@ -25,9 +25,10 @@ import soot.jimple.spark.ondemand.genericutil.Predicate;
 import soot.jimple.spark.sets.P2SetVisitor;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Utilities for dumping dot representations of parts of a {@link PAG}.
@@ -39,14 +40,14 @@ public class PagToDotDumper {
 	public static final int TRACE_MAX_LVL = 99;
 	private PAG pag;
 
-	private HashMap<Node, Node[]> vmatches;
+	private Map<Node, Node[]> vmatches;
 
-	private HashMap<Node, Node[]> invVmatches;
+	private Map<Node, Node[]> invVmatches;
 
 	public PagToDotDumper(PAG pag) {
 		this.pag = pag;
-		this.vmatches = new HashMap<Node, Node[]>();
-		this.invVmatches = new HashMap<Node, Node[]>();
+		this.vmatches = new ConcurrentHashMap<>();
+		this.invVmatches = new ConcurrentHashMap<>();
 	}
 	
 	/**

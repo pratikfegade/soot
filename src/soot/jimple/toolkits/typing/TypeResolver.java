@@ -34,6 +34,7 @@ import soot.toolkits.scalar.LocalDefs;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class resolves the type of local variables.
@@ -49,7 +50,7 @@ public class TypeResolver
   private final List<TypeVariable> typeVariableList = new ArrayList<TypeVariable>();
 
   /** Hashtable: [TypeNode or Local] -> TypeVariable **/
-  private final Map<Object, TypeVariable> typeVariableMap = new HashMap<Object, TypeVariable>();
+  private final Map<Object, TypeVariable> typeVariableMap = new ConcurrentHashMap<Object, TypeVariable>();
 
   private final JimpleBody stmtBody;
 

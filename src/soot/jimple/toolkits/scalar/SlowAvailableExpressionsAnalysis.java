@@ -38,8 +38,8 @@ import soot.util.Chain;
 import soot.util.HashChain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // future work: fieldrefs.
 
@@ -52,7 +52,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
     Map<Unit, BoundedFlowSet<Value>> unitToGenerateSet;
     Map<Unit, BoundedFlowSet<Value>> unitToPreserveSet;
     Map<Value, Stmt> rhsToContainingStmt;
-    private final HashMap<Value, EquivalentValue> valueToEquivValue;
+    private final Map<Value, EquivalentValue> valueToEquivValue;
 
     FlowSet<Value> emptySet;
     
@@ -66,16 +66,16 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
         ArrayList<Value> exprs = new ArrayList<Value>();
 
         // Consider "a + b".  containingExprs maps a and b (object equality) both to "a + b" (equivalence).
-        HashMap<EquivalentValue, Chain<EquivalentValue>> containingExprs =
-        		new HashMap<EquivalentValue, Chain<EquivalentValue>>();
+        Map<EquivalentValue, Chain<EquivalentValue>> containingExprs =
+        		new ConcurrentHashMap<EquivalentValue, Chain<EquivalentValue>>();
 
         // maps a Value to its EquivalentValue.
-        valueToEquivValue = new HashMap<Value, EquivalentValue>();
+        valueToEquivValue = new ConcurrentHashMap<>();
 
         // maps an rhs to its containing stmt.  object equality in rhs.
-        rhsToContainingStmt = new HashMap<Value, Stmt>();
+        rhsToContainingStmt = new ConcurrentHashMap<>();
 
-        HashMap<EquivalentValue, Chain<Value>> equivValToSiblingList = new HashMap<EquivalentValue, Chain<Value>>();
+        Map<EquivalentValue, Chain<Value>> equivValToSiblingList = new ConcurrentHashMap<EquivalentValue, Chain<Value>>();
 
         // Create the set of all expressions, and a map from values to their containing expressions.
         for (Unit u : g.getBody().getUnits()) {
@@ -92,9 +92,9 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
                     valueToEquivValue.put(v, ev);
                 }
 
-                Chain<Value> sibList = null;
+                Chain<Value> sibList;
                 if (equivValToSiblingList.get(ev) == null)
-                    { sibList = new HashChain<Value>(); equivValToSiblingList.put(ev, sibList); }
+                    { sibList = new HashChain<>(); equivValToSiblingList.put(ev, sibList); }
                 else
                     sibList = equivValToSiblingList.get(ev);
                 
@@ -118,7 +118,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
                         }
 
                         if (equivValToSiblingList.get(eo) == null)
-                            { sibList = new HashChain<Value>(); equivValToSiblingList.put(eo, sibList); }
+                            { sibList = new HashChain<>(); equivValToSiblingList.put(eo, sibList); }
                         else
                             sibList = equivValToSiblingList.get(eo);
                         if (!sibList.contains(o)) sibList.add(o);
@@ -144,7 +144,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
 
         // Create preserve sets.
         {
-            unitToPreserveSet = new HashMap<Unit, BoundedFlowSet<Value>>(g.size() * 2 + 1, 0.7f);
+            unitToPreserveSet = new ConcurrentHashMap<Unit, BoundedFlowSet<Value>>(g.size() * 2 + 1, 0.7f);
 
             for (Unit s : g) {
                 BoundedFlowSet<Value> killSet = new ArrayPackedSet<Value>(exprUniv);
@@ -176,7 +176,7 @@ public class SlowAvailableExpressionsAnalysis extends ForwardFlowAnalysis<Unit, 
 
         // Create generate sets
         {
-            unitToGenerateSet = new HashMap<Unit, BoundedFlowSet<Value>>(g.size() * 2 + 1, 0.7f);
+            unitToGenerateSet = new ConcurrentHashMap<Unit, BoundedFlowSet<Value>>(g.size() * 2 + 1, 0.7f);
 
             for (Unit s : g) {
                 BoundedFlowSet<Value> genSet = new ArrayPackedSet<Value>(exprUniv);

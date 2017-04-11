@@ -4,10 +4,10 @@ import soot.*;
 import soot.jimple.*;
 import soot.toolkits.graph.*;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // ClassInfoFlowAnalysis written by Richard L. Halpert, 2007-02-22
 // Constructs data flow tables for each method of a class.  Ignores indirect flow.
@@ -31,8 +31,8 @@ public class ClassInfoFlowAnalysis
 	{
 		 this.sootClass = sootClass;
 		 this.dfa = dfa;
-		 methodToInfoFlowAnalysis = new HashMap<SootMethod, SmartMethodInfoFlowAnalysis>();
-		 methodToInfoFlowSummary = new HashMap<SootMethod, HashMutableDirectedGraph<EquivalentValue>>();
+		 methodToInfoFlowAnalysis = new ConcurrentHashMap<SootMethod, SmartMethodInfoFlowAnalysis>();
+		 methodToInfoFlowSummary = new ConcurrentHashMap<SootMethod, HashMutableDirectedGraph<EquivalentValue>>();
 		 
 //		 doSimpleConservativeDataFlowAnalysis();
 	}

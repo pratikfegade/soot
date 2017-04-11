@@ -33,12 +33,12 @@ import soot.Local;
 import soot.Unit;
 import soot.baf.BafBody;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JimpleToBafContext
 {
-    private Map<Local, Local> jimpleLocalToBafLocal = new HashMap<Local, Local>();
+    private Map<Local, Local> jimpleLocalToBafLocal = new ConcurrentHashMap<Local, Local>();
     private BafBody bafBody;
     private Unit mCurrentUnit;
 
@@ -48,7 +48,7 @@ public class JimpleToBafContext
      
     public JimpleToBafContext(int localCount)
     {
-       jimpleLocalToBafLocal = new HashMap<Local, Local>(localCount * 2 + 1, 0.7f);
+       jimpleLocalToBafLocal = new ConcurrentHashMap<Local, Local>(localCount * 2 + 1, 0.7f);
     }
 
 

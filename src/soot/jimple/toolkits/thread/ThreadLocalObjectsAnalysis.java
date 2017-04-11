@@ -9,6 +9,7 @@ import soot.jimple.toolkits.infoflow.*;
 import soot.jimple.toolkits.thread.mhp.MhpTester;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // ThreadLocalObjectsAnalysis written by Richard L. Halpert, 2007-03-05
 // Runs LocalObjectsAnalysis for the special case where we want to know
@@ -32,9 +33,9 @@ public class ThreadLocalObjectsAnalysis extends LocalObjectsAnalysis implements 
 		this.threads = mhp.getThreads();
 		this.primitiveDfa = new InfoFlowAnalysis(true, true, printDebug); // ref+primitive, with inner fields
 
-		valueCache = new HashMap();
-		fieldCache = new HashMap();
-		invokeCache = new HashMap();
+		valueCache = new ConcurrentHashMap();
+		fieldCache = new ConcurrentHashMap();
+		invokeCache = new ConcurrentHashMap();
 	}
 	
 	// Forces the majority of computation to take place immediately, rather than on-demand

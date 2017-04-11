@@ -34,6 +34,7 @@ import soot.singletons.Singletons;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Uses the Scene's currently-active InvokeGraph to statically bind monomorphic call sites. */
 public class StaticMethodBinder extends SceneTransformer
@@ -46,7 +47,7 @@ public class StaticMethodBinder extends SceneTransformer
         Filter instanceInvokesFilter = new Filter( new InstanceInvokeEdgesPred() );
         SMBOptions options = new SMBOptions( opts );
         String modifierOptions = PhaseOptions.getString( opts, "allowed-modifier-changes");
-        HashMap instanceToStaticMap = new HashMap();
+        Map instanceToStaticMap = new ConcurrentHashMap();
 
         CallGraph cg = Scene.v().getCallGraph();
         Hierarchy hierarchy = Scene.v().getActiveHierarchy();

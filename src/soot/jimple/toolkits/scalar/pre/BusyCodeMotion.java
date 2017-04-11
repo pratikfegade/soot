@@ -41,9 +41,9 @@ import soot.toolkits.graph.UnitGraph;
 import soot.util.Chain;
 import soot.util.UnitMap;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Performs a partial redundancy elimination (= code motion). This is done, by
@@ -76,7 +76,7 @@ public class BusyCodeMotion extends BodyTransformer {
 	 */
 	protected void internalTransform(Body b, String phaseName, Map<String, String> opts) {
 		BCMOptions options = new BCMOptions(opts);
-		HashMap<EquivalentValue, Local> expToHelper = new HashMap<EquivalentValue, Local>();
+		Map<EquivalentValue, Local> expToHelper = new ConcurrentHashMap<EquivalentValue, Local>();
 		Chain<Unit> unitChain = b.getUnits();
 
 		if (Options.v().verbose())

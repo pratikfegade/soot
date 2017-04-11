@@ -25,16 +25,16 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.jimple.toolkits.callgraph.Filter;
 import soot.jimple.toolkits.callgraph.TransitiveTargets;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Generates side-effect information from a PointsToAnalysis. */
 public class SideEffectAnalysis {
     PointsToAnalysis pa;
     CallGraph cg;
-    Map<SootMethod, MethodRWSet> methodToNTReadSet = new HashMap<SootMethod, MethodRWSet>();
-    Map<SootMethod, MethodRWSet> methodToNTWriteSet = new HashMap<SootMethod, MethodRWSet>();
+    Map<SootMethod, MethodRWSet> methodToNTReadSet = new ConcurrentHashMap<SootMethod, MethodRWSet>();
+    Map<SootMethod, MethodRWSet> methodToNTWriteSet = new ConcurrentHashMap<SootMethod, MethodRWSet>();
     int rwsetcount = 0;
     TransitiveTargets tt;
     

@@ -3,12 +3,8 @@ package soot.toolkits.exceptions;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import soot.*;
 import soot.grimp.Grimp;
-import soot.jimple.*;
 import soot.toolkits.exceptions.ExceptionTestUtility.ExceptionHashSet;
-
-import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

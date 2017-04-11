@@ -46,6 +46,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 //add for add tag
 
@@ -80,14 +81,14 @@ public class PegGraph implements DirectedGraph
 	private List heads;
 	private List tails;
 	//    private long numberOfEdge = 0;
-	protected HashMap<Object,List> unitToSuccs;
-	protected HashMap<Object,List> unitToPreds;   
-	private HashMap unitToPegMap;
-	public HashMap<JPegStmt,List> startToThread;
-	public HashMap startToAllocNodes;
-	private HashMap<String, FlowSet> waitingNodes;
+	protected Map<Object,List> unitToSuccs;
+	protected Map<Object,List> unitToPreds;
+	private Map unitToPegMap;
+	public Map<JPegStmt,List> startToThread;
+	public Map startToAllocNodes;
+	private Map<String, FlowSet> waitingNodes;
 	private Map startToBeginNodes;
-	private HashMap<String, Set<JPegStmt>> notifyAll;
+	private Map<String, Set<JPegStmt>> notifyAll;
 	private Set methodsNeedingInlining;
 	private boolean needInlining;
 	private Set<List> synch;
@@ -181,29 +182,29 @@ public class PegGraph implements DirectedGraph
 		exceHandlers = new HashSet<Unit>();
 		needInlining = true;
 		monitorObjs = new HashSet<Object>();
-		startToBeginNodes = new HashMap();
+		startToBeginNodes = new ConcurrentHashMap();
 		unitChain = body.getUnits();
 		int size = unitChain.size();
 		//initial unitToSuccs, unitToPreds, unitToPegMap, and startToThread
-		unitToSuccs = new HashMap(size*2+1,0.7f);
-		unitToPreds = new HashMap(size*2+1,0.7f);
+		unitToSuccs = new ConcurrentHashMap(size*2+1,0.7f);
+		unitToPreds = new ConcurrentHashMap(size*2+1,0.7f);
 		//unitToPegMap is the map of a chain to its corresponding (cfg node --> peg node ) map.
-		unitToPegMap = new HashMap(size*2+1,0.7f);
-		startToThread = new HashMap(size*2+1,0.7f);
-		startToAllocNodes = new HashMap(size*2+1,0.7f);
-		waitingNodes = new HashMap<String, FlowSet>(size*2+1,0.7f);
-		joinStmtToThread = new HashMap<JPegStmt, Chain>();
-		threadNo = new HashMap();
-		threadNameToStart = new HashMap();
-		this.allocNodeToObj = new HashMap<AllocNode, String>(size*2+1,0.7f);
-		allocNodeToThread = new HashMap<AllocNode, PegChain>(size*2+1,0.7f);
-		notifyAll = new HashMap<String, Set<JPegStmt>>(size*2+1,0.7f);
+		unitToPegMap = new ConcurrentHashMap(size*2+1,0.7f);
+		startToThread = new ConcurrentHashMap(size*2+1,0.7f);
+		startToAllocNodes = new ConcurrentHashMap(size*2+1,0.7f);
+		waitingNodes = new ConcurrentHashMap<>(size * 2 + 1, 0.7f);
+		joinStmtToThread = new ConcurrentHashMap<>();
+		threadNo = new ConcurrentHashMap();
+		threadNameToStart = new ConcurrentHashMap();
+		this.allocNodeToObj = new ConcurrentHashMap<>(size * 2 + 1, 0.7f);
+		allocNodeToThread = new ConcurrentHashMap<>(size * 2 + 1, 0.7f);
+		notifyAll = new ConcurrentHashMap<>(size * 2 + 1, 0.7f);
 		
 		methodsNeedingInlining = new HashSet();
 		allNodes = new ArraySparseSet();
 		canNotBeCompacted = new HashSet();
 		threadAllocSites =  new HashSet();
-		specialJoin = new HashSet<JPegStmt>();
+		specialJoin = new HashSet<>();
 		//       if(Main.isVerbose)
 		//   System.out.println("     Constructing PegGraph...");
 		
@@ -1058,11 +1059,11 @@ public class PegGraph implements DirectedGraph
 	protected FlowSet getAllNodes(){
 		return allNodes;
 	}
-	protected  HashMap getUnitToSuccs(){
+	protected  Map getUnitToSuccs(){
 		return unitToSuccs;
 	}
 	
-	protected HashMap getUnitToPreds(){
+	protected Map getUnitToPreds(){
 		return unitToPreds;
 	}
 	

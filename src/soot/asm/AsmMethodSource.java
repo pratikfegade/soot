@@ -23,7 +23,6 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import org.objectweb.asm.Handle;
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.*;
 import soot.*;
 import soot.coffi.Util;
@@ -34,6 +33,7 @@ import soot.tagkit.Tag;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.tree.AbstractInsnNode.*;
@@ -64,7 +64,7 @@ final class AsmMethodSource implements MethodSource {
 	private final List<TryCatchBlockNode> tryCatchBlocks;
 	
 	private final Set<LabelNode> inlineExceptionLabels = new HashSet<LabelNode>();
-	private final Map<LabelNode, Unit> inlineExceptionHandlers = new HashMap<LabelNode, Unit>();
+	private final Map<LabelNode, Unit> inlineExceptionHandlers = new ConcurrentHashMap<>();
 	
 	private final CastAndReturnInliner castAndReturnInliner = new CastAndReturnInliner();
 
@@ -1647,7 +1647,7 @@ final class AsmMethodSource implements MethodSource {
 	private void emitTraps() {
 		Chain<Trap> traps = body.getTraps();
 		SootClass throwable = Scene.v().getSootClass("java.lang.Throwable");
-		Map<LabelNode, Iterator<UnitBox>> handlers = new HashMap<LabelNode, Iterator<UnitBox>>(tryCatchBlocks.size());
+        Map<LabelNode, Iterator<UnitBox>> handlers = new ConcurrentHashMap<>(tryCatchBlocks.size());
 		for (TryCatchBlockNode tc : tryCatchBlocks) {
 			UnitBox start = Jimple.v().newStmtBox(null);
 			UnitBox end = Jimple.v().newStmtBox(null);
@@ -1773,10 +1773,10 @@ final class AsmMethodSource implements MethodSource {
 		/* initialize */
 		int nrInsn = instructions.size();
 		nextLocal = maxLocals;
-		locals = new HashMap<Integer, Local>(maxLocals + (maxLocals / 2));
+		locals = new ConcurrentHashMap<>(maxLocals + (maxLocals / 2));
 		labels = ArrayListMultimap.create(4, 1);
-		units = new HashMap<AbstractInsnNode, Unit>(nrInsn);
-		frames = new HashMap<AbstractInsnNode, StackFrame>(nrInsn);
+		units = new ConcurrentHashMap<>(nrInsn);
+		frames = new ConcurrentHashMap<>(nrInsn);
 		trapHandlers = ArrayListMultimap.create(tryCatchBlocks.size(),1);
 		body = jb;
 		/* retrieve all trap handlers */

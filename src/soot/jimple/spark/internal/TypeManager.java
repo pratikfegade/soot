@@ -29,6 +29,7 @@ import soot.util.LargeNumberedMap;
 import soot.util.queue.QueueReader;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** A map of bit-vectors representing subtype relationships.
  * @author Ondrej Lhotak
@@ -45,7 +46,7 @@ import java.util.*;
  */
 public final class TypeManager {
     private Map<SootClass, List<AllocNode>> class2allocs = 
-        new HashMap<SootClass, List<AllocNode>>(1024);
+        new ConcurrentHashMap<SootClass, List<AllocNode>>(1024);
     private List<AllocNode> anySubtypeAllocs = new LinkedList<AllocNode>();
 
     public TypeManager( PAG pag ) {

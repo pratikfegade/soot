@@ -42,6 +42,7 @@ import soot.util.dot.DotGraphNode;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Inter-procedural iterator skeleton for summary-based analysis
@@ -195,11 +196,11 @@ public abstract class AbstractInterproceduralAnalysis {
     {
 	this.cg         = cg;
 	this.dg         = new DirectedCallGraph(cg, filter, heads, verbose);
-	this.data       = new HashMap();
-	this.unanalysed = new HashMap();
+	this.data       = new ConcurrentHashMap();
+	this.unanalysed = new ConcurrentHashMap();
 
 	// construct reverse pseudo topological order on filtered methods
-	this.order = new HashMap();
+	this.order = new ConcurrentHashMap();
 	Orderer o = new PseudoTopologicalOrderer();
 	Iterator it = (o.newList(dg,true)).iterator();
 	int i = 0;
@@ -227,7 +228,7 @@ public abstract class AbstractInterproceduralAnalysis {
 	dot.setGraphAttribute("compound","true");
 	//dot.setGraphAttribute("rankdir","LR");
 	int id = 0;
-	Map<SootMethod, Integer> idmap = new HashMap<SootMethod, Integer>();
+	Map<SootMethod, Integer> idmap = new ConcurrentHashMap<SootMethod, Integer>();
 
 	// draw sub-graph cluster
 	Iterator it = dg.iterator();
@@ -349,7 +350,7 @@ public abstract class AbstractInterproceduralAnalysis {
 	    queue.add(o);
 	}
 
-	Map<SootMethod,Integer> nb = new HashMap<SootMethod,Integer>(); // only for debug pretty-printing
+	Map<SootMethod,Integer> nb = new ConcurrentHashMap<SootMethod,Integer>(); // only for debug pretty-printing
 
 	// fixpoint iterations
 	while (!queue.isEmpty()) {

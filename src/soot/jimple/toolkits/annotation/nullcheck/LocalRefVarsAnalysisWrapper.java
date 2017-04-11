@@ -56,6 +56,7 @@ import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.scalar.FlowSet;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @deprecated uses deprecated type {@link BranchedRefVarsAnalysis} and seems of no use
@@ -98,11 +99,11 @@ public class LocalRefVarsAnalysisWrapper
     {
         analysis = new BranchedRefVarsAnalysis(graph);
         
-	unitToVarsBefore = new HashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
-	unitToVarsAfterFall = new HashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
-	unitToListsOfVarsAfterBranches = new HashMap<Unit, List<List<RefIntPair>>>(graph.size() * 2 + 1, 0.7f);
-	unitToVarsNeedCheck = new HashMap<Unit, List<Object>>(graph.size() * 2 + 1, 0.7f);
-	unitToVarsDontNeedCheck = new HashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsBefore = new ConcurrentHashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsAfterFall = new ConcurrentHashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
+	unitToListsOfVarsAfterBranches = new ConcurrentHashMap<Unit, List<List<RefIntPair>>>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsNeedCheck = new ConcurrentHashMap<Unit, List<Object>>(graph.size() * 2 + 1, 0.7f);
+	unitToVarsDontNeedCheck = new ConcurrentHashMap<Unit, List<RefIntPair>>(graph.size() * 2 + 1, 0.7f);
 	
 	Iterator unitIt = graph.iterator();
 	

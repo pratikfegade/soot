@@ -33,10 +33,10 @@ import soot.toolkits.scalar.ArraySparseSet;
 import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implements an available expressions analysis on local variables. The current
@@ -63,13 +63,13 @@ public class FastAvailableExpressionsAnalysis extends
         //LocalDefs ld = new SmartLocalDefs(g, new SimpleLiveLocals(g));
 
 		// maps an rhs to its containing stmt. object equality in rhs.
-		rhsToContainingStmt = new HashMap<Value, Unit>();
+		rhsToContainingStmt = new ConcurrentHashMap<Value, Unit>();
 
 		emptySet = new ToppedSet<Value>(new ArraySparseSet<Value>());
 
 		// Create generate sets
 		{
-			unitToGenerateSet = new HashMap<Unit, FlowSet<Value>>(
+			unitToGenerateSet = new ConcurrentHashMap<Unit, FlowSet<Value>>(
 					g.size() * 2 + 1, 0.7f);
 
 			for (Unit s : g) {

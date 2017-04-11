@@ -28,7 +28,11 @@ import soot.jimple.spark.pag.*;
 import soot.jimple.spark.sets.P2SetVisitor;
 
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class defines an abstract pointer in the geometric points-to solver.
@@ -79,9 +83,9 @@ public class FullSensitiveNode extends IVarAbstraction
 	@Override
 	public void reconstruct() 
 	{
-		flowto = new HashMap<FullSensitiveNode, GeometricManager>();
-		pt_objs = new HashMap<AllocNode, GeometricManager>();
-		new_pts = new HashMap<AllocNode, GeometricManager>();
+		flowto = new ConcurrentHashMap<>();
+		pt_objs = new ConcurrentHashMap<>();
+		new_pts = new ConcurrentHashMap<>();
 		complex_cons = null;
 		lrf_value = 0;
 	}
@@ -154,7 +158,7 @@ public class FullSensitiveNode extends IVarAbstraction
 				gm.flush();
 			}
 		}
-		new_pts = new HashMap<AllocNode, GeometricManager>();
+		new_pts = new ConcurrentHashMap<AllocNode, GeometricManager>();
 	}
 
 	@Override
@@ -538,7 +542,7 @@ public class FullSensitiveNode extends IVarAbstraction
 	public void injectPts()
 	{
 		final GeomPointsTo geomPTA = (GeomPointsTo)Scene.v().getPointsToAnalysis();
-		pt_objs = new HashMap<AllocNode, GeometricManager>();
+		pt_objs = new ConcurrentHashMap<AllocNode, GeometricManager>();
 		
 		me.getP2Set().forall( new P2SetVisitor() {
 			@Override

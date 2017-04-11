@@ -4,10 +4,10 @@ import soot.jimple.toolkits.thread.mhp.stmt.JPegStmt;
 import soot.tagkit.Tag;
 import soot.util.Chain;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -21,7 +21,7 @@ import java.util.Set;
 // -Richard L. Halpert, 2006-11-30
 
 public class LoopFinder{
-	private final Map<Chain, Set<Set<Object>>> chainToLoop = new HashMap<Chain, Set<Set<Object>>>();
+	private final Map<Chain, Set<Set<Object>>> chainToLoop = new ConcurrentHashMap<Chain, Set<Set<Object>>>();
 	
 	LoopFinder(PegGraph peg){
 		Chain chain = peg.getMainPegChain();

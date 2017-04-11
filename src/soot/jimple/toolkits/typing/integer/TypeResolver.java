@@ -32,16 +32,17 @@ import soot.jimple.Stmt;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class resolves the type of local variables.
  **/
 public class TypeResolver {
 	/** All type variable instances **/
-	private final List<TypeVariable> typeVariableList = new ArrayList<TypeVariable>();
+	private final List<TypeVariable> typeVariableList = new ArrayList<>();
 
 	/** Hashtable: [TypeNode or Local] -> TypeVariable **/
-	private final Map<Object, TypeVariable> typeVariableMap = new HashMap<Object, TypeVariable>();
+	private final Map<Object, TypeVariable> typeVariableMap = new ConcurrentHashMap<>();
 
 	private final JimpleBody stmtBody;
 

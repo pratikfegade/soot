@@ -12,6 +12,7 @@ import soot.jimple.toolkits.callgraph.Edge;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // StartJoinFinder written by Richard L. Halpert, 2006-12-04
 // This can be used as an alternative to PegGraph and PegChain
@@ -32,10 +33,10 @@ public class StartJoinFinder
 		startStatements = new HashSet<Stmt>();
 		joinStatements = new HashSet<Stmt>();
 
-		startToRunMethods = new HashMap<Stmt, List<SootMethod>>();
-		startToAllocNodes = new HashMap<Stmt, List<AllocNode>>();
-		startToJoin = new HashMap<Stmt, Stmt>();
-		startToContainingMethod = new HashMap<Stmt, SootMethod>();
+		startToRunMethods = new ConcurrentHashMap<>();
+		startToAllocNodes = new ConcurrentHashMap<>();
+		startToJoin = new ConcurrentHashMap<>();
+		startToContainingMethod = new ConcurrentHashMap<>();
 		
     	Iterator runAnalysisClassesIt = Scene.v().getApplicationClasses().iterator();
     	while (runAnalysisClassesIt.hasNext()) 

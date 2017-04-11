@@ -331,7 +331,7 @@ public class SharedListSet extends PointsToSetInternal
 	}
 	
 	//private final Map allNodes = AllSharedListNodes.v().allNodes;
-	//private static Map allNodes = new HashMap();
+	//private static Map allNodes = new ConcurrentHashMap();
 	private PAG pag; // I think this is needed to get the size of the bit
 	// vector and the mask for casting
 	

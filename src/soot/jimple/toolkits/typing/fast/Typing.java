@@ -24,27 +24,28 @@ import soot.Local;
 import soot.Type;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Ben Bellamy
  */
 public class Typing
 {
-	private HashMap<Local, Type> map;
+	private Map<Local, Type> map;
 
 	public Typing(Collection<Local> vs)
 	{
-		this.map = new HashMap<>();
+		this.map = new ConcurrentHashMap<>();
 		for ( Local v : vs )
 			this.map.put(v, BottomType.v());
 	}
 
 	public Typing(Typing tg)
 	{
-		this.map = new HashMap<>(tg.map);
+		this.map = new ConcurrentHashMap<>(tg.map);
 	}
 
 	public Type get(Local v) { return this.map.get(v); }

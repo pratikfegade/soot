@@ -22,8 +22,8 @@ package soot.jimple.spark.pag;
 import soot.SootMethod;
 import soot.Type;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Represents a simple variable node (Green) in the pointer assignment graph
  * that is specific to a particular method invocation.
@@ -48,7 +48,7 @@ public class LocalVarNode extends VarNode {
     }
     /** Registers a cvn as having this node as its base. */
     void addContext( ContextVarNode cvn, Object context ) {
-	if( cvns == null ) cvns = new HashMap<Object, ContextVarNode>();
+	if( cvns == null ) cvns = new ConcurrentHashMap<Object, ContextVarNode>();
 	cvns.put( context, cvn );
     }
 

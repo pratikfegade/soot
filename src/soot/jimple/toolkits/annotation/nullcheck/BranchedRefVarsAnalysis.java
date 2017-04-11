@@ -26,6 +26,7 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.*;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /*
@@ -146,7 +147,7 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
 
     // fast conversion from Value -> EquivalentValue
     //  because used in  methods
-    private final  HashMap<Value, EquivalentValue> valueToEquivValue = new HashMap<Value, EquivalentValue>(2293, 0.7f);
+    private final  Map<Value, EquivalentValue> valueToEquivValue = new ConcurrentHashMap<Value, EquivalentValue>(2293, 0.7f);
 
     public  EquivalentValue getEquivalentValue(Value v)
     {
@@ -161,16 +162,16 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
     
     // constant (r, v) pairs
     //  because used in  methods
-    private final  HashMap<EquivalentValue, RefIntPair> kRefBotttomPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
-    private final  HashMap<EquivalentValue, RefIntPair> kRefNonNullPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
-    private final  HashMap<EquivalentValue, RefIntPair> kRefNullPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
-    private final  HashMap<EquivalentValue, RefIntPair> kRefTopPairs = new HashMap<EquivalentValue, RefIntPair>(2293, 0.7f);
+    private final  Map<EquivalentValue, RefIntPair> kRefBotttomPairs = new ConcurrentHashMap<>(2293, 0.7f);
+    private final  Map<EquivalentValue, RefIntPair> kRefNonNullPairs = new ConcurrentHashMap<>(2293, 0.7f);
+    private final  Map<EquivalentValue, RefIntPair> kRefNullPairs = new ConcurrentHashMap<>(2293, 0.7f);
+    private final  Map<EquivalentValue, RefIntPair> kRefTopPairs = new ConcurrentHashMap<>(2293, 0.7f);
 
     // make that (r, v) pairs are constants
     // i.e. the same r and v values always generate the same (r, v) object    
     public  RefIntPair getKRefIntPair(EquivalentValue r, int v)
     {
-        HashMap<EquivalentValue, RefIntPair> pairsMap = null;
+        Map<EquivalentValue, RefIntPair> pairsMap;
 
         if (v == kNonNull)
             pairsMap =  kRefNonNullPairs;
@@ -507,7 +508,7 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
         Object[] universeArray = new Object[2*len];
         int i;
         
-        // kRefIntPairs = new HashMap(len*2 + 1, 0.7f);
+        // kRefIntPairs = new ConcurrentHashMap(len*2 + 1, 0.7f);
         // ideally we would like to be able to do the above to avoid that Map growth
         // but that would screw concurent execution of this analysis
         // and making that field non- would require changing our  utility methods to non-
@@ -535,14 +536,14 @@ public class BranchedRefVarsAnalysis  extends ForwardBranchedFlowAnalysis
         int cap = graph.size() * 2 + 1;
         float load = 0.7f;
         
-        unitToGenerateSet = new HashMap<Unit, FlowSet>(cap, load);
-        unitToPreserveSet = new HashMap<Unit, FlowSet>(cap, load);
+        unitToGenerateSet = new ConcurrentHashMap<Unit, FlowSet>(cap, load);
+        unitToPreserveSet = new ConcurrentHashMap<Unit, FlowSet>(cap, load);
         
-        unitToAnalyzedChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToArrayRefChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToInstanceFieldRefChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToInstanceInvokeExprChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
-        unitToLengthExprChecksSet = new HashMap<Unit, HashSet<Value>>(cap, load);
+        unitToAnalyzedChecksSet = new ConcurrentHashMap<Unit, HashSet<Value>>(cap, load);
+        unitToArrayRefChecksSet = new ConcurrentHashMap<Unit, HashSet<Value>>(cap, load);
+        unitToInstanceFieldRefChecksSet = new ConcurrentHashMap<Unit, HashSet<Value>>(cap, load);
+        unitToInstanceInvokeExprChecksSet = new ConcurrentHashMap<Unit, HashSet<Value>>(cap, load);
+        unitToLengthExprChecksSet = new ConcurrentHashMap<Unit, HashSet<Value>>(cap, load);
         
         
         Iterator unitIt = graph.iterator();

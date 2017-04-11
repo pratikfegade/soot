@@ -10,6 +10,7 @@ import soot.jimple.toolkits.pointer.LocalMustNotAliasAnalysis;
 import soot.options.Options;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This is an implementation of AbstractJimpleBasedICFG that computes the ICFG on-the-fly. In other words,
@@ -82,7 +83,7 @@ public class OnTheFlyJimpleBasedICFG extends AbstractJimpleBasedICFG {
 			});
 	
 	@SynchronizedBy("explicit lock on data structure")
-	protected Map<SootMethod, Set<Unit>> methodToCallers = new HashMap<SootMethod, Set<Unit>>();
+	protected Map<SootMethod, Set<Unit>> methodToCallers = new ConcurrentHashMap<SootMethod, Set<Unit>>();
 	
 	public OnTheFlyJimpleBasedICFG(SootMethod... entryPoints) {
 		this(Arrays.asList(entryPoints));

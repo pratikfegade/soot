@@ -18,11 +18,15 @@
  */
 package soot.jimple.spark.ondemand.genericutil;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 abstract class AbstractMultiMap<K, V> implements MultiMap<K, V> {
 
-	protected final Map<K, Set<V>> map = new HashMap<K, Set<V>>();
+	protected final Map<K, Set<V>> map = new ConcurrentHashMap<K, Set<V>>();
 	
 	protected final boolean create;
 	

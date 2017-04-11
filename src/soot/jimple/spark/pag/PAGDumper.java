@@ -30,9 +30,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Dumps a pointer assignment graph to a file.
  * @author Ondrej Lhotak
@@ -145,7 +146,7 @@ public class PAGDumper {
     protected PAG pag;
     protected String output_dir;
     protected int fieldNum = 0;
-    protected HashMap<SparkField, Integer> fieldMap = new HashMap<SparkField, Integer>();
+    protected Map<SparkField, Integer> fieldMap = new ConcurrentHashMap<SparkField, Integer>();
     protected ObjectNumberer root = new ObjectNumberer( null, 0 );
 
     protected void dumpTypes( PrintWriter file ) throws IOException {
@@ -177,7 +178,7 @@ public class PAGDumper {
             Type t = n.getType();
             if( t != null ) actualTypes.add( t );
         }
-        HashMap<Type, Integer> typeToInt = new HashMap<Type, Integer>();
+        Map<Type, Integer> typeToInt = new ConcurrentHashMap<Type, Integer>();
         int nextint = 1;
         for (Type type : declaredTypes) {
             typeToInt.put( type, new Integer( nextint++ ) );
@@ -264,14 +265,14 @@ public class PAGDumper {
         Object o = null;
         int num = 0;
         int nextChildNum = 1;
-        HashMap<Object, ObjectNumberer> children = null;
+        Map<Object, ObjectNumberer> children = null;
 
         ObjectNumberer( Object o, int num ) {
             this.o = o; this.num = num;
         }
 
         ObjectNumberer findOrAdd( Object child ) {
-            if( children == null ) children = new HashMap<Object, ObjectNumberer>();
+            if( children == null ) children = new ConcurrentHashMap<Object, ObjectNumberer>();
             ObjectNumberer ret = children.get( child );
             if( ret == null ) {
                 ret = new ObjectNumberer( child, nextChildNum++ );

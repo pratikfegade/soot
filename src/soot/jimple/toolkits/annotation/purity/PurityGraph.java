@@ -36,6 +36,7 @@ import soot.util.dot.DotGraphEdge;
 import soot.util.dot.DotGraphNode;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Purity graphs are mutable structures that are updated in-place.
@@ -171,8 +172,8 @@ public class PurityGraph
      * Caching: this semm to actually improve both speed and memory 
      * consumption!
      */
-    private static final Map<PurityNode, PurityNode> nodeCache =  new HashMap<PurityNode, PurityNode>();
-    private static final Map<PurityEdge, PurityEdge> edgeCache =  new HashMap<PurityEdge, PurityEdge>();
+    private static final Map<PurityNode, PurityNode> nodeCache =  new ConcurrentHashMap<PurityNode, PurityNode>();
+    private static final Map<PurityEdge, PurityEdge> edgeCache =  new ConcurrentHashMap<PurityEdge, PurityEdge>();
     private static PurityNode cacheNode(PurityNode p)
     {
 	if (!nodeCache.containsKey(p)) nodeCache.put(p,p);
@@ -637,7 +638,7 @@ public class PurityGraph
 	Iterator it = (new LinkedList(nodes)).iterator();
 	while (it.hasNext()) {
 	    PurityNode p = (PurityNode)it.next();
-	    Map<String, PurityNode> fmap = new HashMap<String, PurityNode>();
+	    Map<String, PurityNode> fmap = new ConcurrentHashMap<String, PurityNode>();
 	    Iterator itt = (new LinkedList(edges.get(p))).iterator();
 	    while (itt.hasNext()) {
 		PurityEdge e   = (PurityEdge)itt.next();
@@ -1105,7 +1106,7 @@ public class PurityGraph
      */
     void fillDotGraph(String prefix, DotGraph out)
     {
-        Map<PurityNode, String> nodeId = new HashMap<PurityNode, String>();
+        Map<PurityNode, String> nodeId = new ConcurrentHashMap<PurityNode, String>();
 	int id = 0;
 
 	// add nodes 

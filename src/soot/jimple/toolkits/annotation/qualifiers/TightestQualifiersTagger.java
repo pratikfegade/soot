@@ -27,9 +27,9 @@ import soot.singletons.Singletons;
 import soot.tagkit.ColorTag;
 import soot.tagkit.StringTag;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** a scene transformer that add tags to indicate the tightest qualifies 
  * possible for fields and methods (ie: private, protected or public)
@@ -44,8 +44,8 @@ public class TightestQualifiersTagger extends SceneTransformer {
     public final static int RESULT_PROTECTED = 2;
     public final static int RESULT_PRIVATE = 3;
     
-    private final HashMap<SootMethod, Integer> methodResultsMap = new HashMap<SootMethod, Integer>();
-    private final HashMap<SootField, Integer> fieldResultsMap = new HashMap<SootField, Integer>();
+    private final Map<SootMethod, Integer> methodResultsMap = new ConcurrentHashMap<SootMethod, Integer>();
+    private final Map<SootField, Integer> fieldResultsMap = new ConcurrentHashMap<SootField, Integer>();
     private MethodToContexts methodToContexts;
 
     protected void internalTransform(String phaseName, Map options){

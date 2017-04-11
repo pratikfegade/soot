@@ -31,7 +31,8 @@ import soot.SootMethod;
 import soot.jimple.toolkits.pointer.nativemethods.*;
 import soot.jimple.toolkits.pointer.representations.ReferenceVariable;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NativeMethodDriver {
     public NativeMethodDriver( NativeHelper helper ) {
@@ -116,7 +117,7 @@ public class NativeMethodDriver {
                        new SunMiscUnsafeNative(helper));
     }
 
-  private final HashMap<String,NativeMethodClass> cnameToSim = new HashMap<String,NativeMethodClass>(100);
+  private final Map<String,NativeMethodClass> cnameToSim = new ConcurrentHashMap<String,NativeMethodClass>(100);
   private final boolean DEBUG = false;
 
   /**

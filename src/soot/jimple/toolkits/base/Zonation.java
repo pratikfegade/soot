@@ -35,9 +35,9 @@ import soot.jimple.StmtBody;
 import soot.util.Chain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Zonation
 {
@@ -47,7 +47,7 @@ public class Zonation
     public Zonation(StmtBody body)
     {
         Chain<Unit> units = body.getUnits();
-        Map<Unit, List<Trap>> unitToTrapBoundaries = new HashMap<Unit, List<Trap>>();
+        Map<Unit, List<Trap>> unitToTrapBoundaries = new ConcurrentHashMap<Unit, List<Trap>>();
                     
         // Build trap boundaries
         for (Trap t : body.getTraps()) {
@@ -57,12 +57,12 @@ public class Zonation
         
         // Traverse units, assigning each to a zone
         {
-            Map<List<Trap>, Zone> trapListToZone = new HashMap<List<Trap>, Zone>(10, 0.7f);
+            Map<List<Trap>, Zone> trapListToZone = new ConcurrentHashMap<List<Trap>, Zone>(10, 0.7f);
             List<Trap> currentTraps = new ArrayList<Trap>();
             Zone currentZone;
             
             zoneCount = 0;
-            unitToZone = new HashMap<Unit, Zone>(units.size() * 2 + 1, 0.7f);
+            unitToZone = new ConcurrentHashMap<Unit, Zone>(units.size() * 2 + 1, 0.7f);
             
             // Initialize first empty zone
                 currentZone = new Zone("0");

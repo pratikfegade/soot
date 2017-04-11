@@ -30,10 +30,10 @@ import soot.util.HashMultiMap;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Information for a context-sensitive analysis, eg. for call sites
@@ -75,11 +75,11 @@ public class ContextSensitiveInfo {
 
     private final ArraySetMultiMap<Integer, AssignEdge> callSiteToEdges = new ArraySetMultiMap<Integer, AssignEdge>();
 
-    private final Map<Integer, LocalVarNode> virtCallSiteToReceiver = new HashMap<Integer, LocalVarNode>();
+    private final Map<Integer, LocalVarNode> virtCallSiteToReceiver = new ConcurrentHashMap<Integer, LocalVarNode>();
 
-    private final Map<Integer, SootMethod> callSiteToInvokedMethod = new HashMap<Integer, SootMethod>();
+    private final Map<Integer, SootMethod> callSiteToInvokedMethod = new ConcurrentHashMap<Integer, SootMethod>();
 
-    private final Map<Integer, SootMethod> callSiteToInvokingMethod = new HashMap<Integer, SootMethod>();
+    private final Map<Integer, SootMethod> callSiteToInvokingMethod = new ConcurrentHashMap<Integer, SootMethod>();
 
     private final ArraySetMultiMap<LocalVarNode, Integer> receiverToVirtCallSites = new ArraySetMultiMap<LocalVarNode, Integer>();
 

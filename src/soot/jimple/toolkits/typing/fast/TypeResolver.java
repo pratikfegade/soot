@@ -26,6 +26,7 @@ import soot.jimple.toolkits.typing.Util;
 import soot.toolkits.scalar.LocalDefs;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * New Type Resolver by Ben Bellamy (see 'Efficient Local Type Inference'
@@ -48,14 +49,14 @@ public class TypeResolver
 	private JimpleBody jb;
 	
 	private final List<DefinitionStmt> assignments;
-	private final HashMap<Local, BitSet> depends;
+	private final Map<Local, BitSet> depends;
 	
 	public TypeResolver(JimpleBody jb)
 	{
 		this.jb = jb;
 
 		this.assignments = new ArrayList<DefinitionStmt>();
-		this.depends = new HashMap<Local, BitSet>();
+		this.depends = new ConcurrentHashMap<Local, BitSet>();
 		for ( Local v : this.jb.getLocals() )
 			this.addLocal(v);
 		this.initAssignments();
@@ -413,7 +414,7 @@ public class TypeResolver
 		if (numAssignments == 0)
 			return sigma;
 		
-		HashMap<Typing, BitSet> worklists = new HashMap<Typing, BitSet>();
+		Map<Typing, BitSet> worklists = new ConcurrentHashMap<Typing, BitSet>();
 		
 		sigma.add(tg);
 		BitSet wl = new BitSet(numAssignments - 1);

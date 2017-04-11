@@ -8,7 +8,11 @@ import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.toolkits.graph.MutableDirectedGraph;
 import soot.toolkits.scalar.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // LocalObjectsAnalysis written by Richard L. Halpert, 2007-02-24
 // Constructs data flow tables for each method of every application class.  Ignores indirect flow.
@@ -37,8 +41,8 @@ public class LocalObjectsAnalysis
 		this.uf = new UseFinder();
 		this.cg = Scene.v().getCallGraph();
 		
-		classToClassLocalObjectsAnalysis = new HashMap<SootClass, ClassLocalObjectsAnalysis>();
-		mloaCache = new HashMap<SootMethod, SmartMethodLocalObjectsAnalysis>();
+		classToClassLocalObjectsAnalysis = new ConcurrentHashMap<>();
+		mloaCache = new ConcurrentHashMap<>();
 	}
 	
 	public ClassLocalObjectsAnalysis getClassLocalObjectsAnalysis(SootClass sc)
@@ -270,7 +274,7 @@ public class LocalObjectsAnalysis
 		return true;
 	}
 */
-	Map<SootMethod, ReachableMethods> rmCache = new HashMap<SootMethod, ReachableMethods>();
+	Map<SootMethod, ReachableMethods> rmCache = new ConcurrentHashMap<SootMethod, ReachableMethods>();
 	
 	public CallChain getNextCallChainBetween(SootMethod start, SootMethod goal, List previouslyFound)
 	{
@@ -301,7 +305,7 @@ public class LocalObjectsAnalysis
 		return null; // new ArrayList();
 	}
 
-	Map callChainsCache = new HashMap();
+	Map callChainsCache = new ConcurrentHashMap();
 
 	public CallChain getNextCallChainBetween(ReachableMethods rm, SootMethod start, SootMethod end, Edge endToPath, CallChain path, List previouslyFound)
 	{

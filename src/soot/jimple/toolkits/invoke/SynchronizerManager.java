@@ -31,6 +31,7 @@ import soot.singletons.Singletons;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Utility methods for dealing with synchronization. */
 public class SynchronizerManager
@@ -38,7 +39,7 @@ public class SynchronizerManager
     public SynchronizerManager( Singletons.Global g ) {}
     public static SynchronizerManager v() { return G.v().soot_jimple_toolkits_invoke_SynchronizerManager(); }
     /** Maps classes to class$ fields.  Don't trust default. */
-    public HashMap<SootClass, SootField> classToClassField = new HashMap<SootClass, SootField>();
+    public Map<SootClass, SootField> classToClassField = new ConcurrentHashMap<SootClass, SootField>();
 
     /** Adds code to fetch the static Class object to the given JimpleBody
      * before the target Stmt.

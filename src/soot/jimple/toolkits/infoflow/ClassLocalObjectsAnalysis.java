@@ -11,6 +11,7 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.Pair;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // ClassLocalObjectsAnalysis written by Richard L. Halpert, 2007-02-23
 // Finds objects that are local to the given scope.
@@ -61,7 +62,7 @@ public class ClassLocalObjectsAnalysis
 		this.uf = uf;
 		this.sootClass = sootClass;
 		
-		this.methodToMethodLocalObjectsAnalysis = new HashMap<SootMethod, SmartMethodLocalObjectsAnalysis>();
+		this.methodToMethodLocalObjectsAnalysis = new ConcurrentHashMap<SootMethod, SmartMethodLocalObjectsAnalysis>();
 		this.methodToContext = null;
 		 
 		this.allMethods = null;
@@ -502,7 +503,7 @@ public class ClassLocalObjectsAnalysis
 		worklist.addAll(entryMethods);
 		
 		// Initialize set of contexts
-		methodToContext = new HashMap<SootMethod, CallLocalityContext>(); // TODO: add the ability to share a map with another CLOA to save memory (be careful of context-sensitive call graph)
+		methodToContext = new ConcurrentHashMap<SootMethod, CallLocalityContext>(); // TODO: add the ability to share a map with another CLOA to save memory (be careful of context-sensitive call graph)
 		for (SootMethod method : worklist) {
 			methodToContext.put(method, getContextFor(method));
 		}
@@ -521,7 +522,7 @@ public class ClassLocalObjectsAnalysis
 					G.v().out.println("      " + containingMethod.getName() + " " + containingContext.toShortString());
 				
 				// Calculate the context for each invoke stmt in the containingMethod
-				Map<Stmt, CallLocalityContext> invokeToContext = new HashMap<Stmt, CallLocalityContext>();
+				Map<Stmt, CallLocalityContext> invokeToContext = new ConcurrentHashMap<Stmt, CallLocalityContext>();
 				for(Iterator edgesIt = Scene.v().getCallGraph().edgesOutOf(containingMethod); edgesIt.hasNext(); )
 				{
 					Edge e = (Edge) edgesIt.next();

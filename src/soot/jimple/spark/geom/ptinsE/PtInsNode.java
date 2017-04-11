@@ -33,7 +33,11 @@ import soot.jimple.spark.pag.StringConstantNode;
 import soot.jimple.spark.sets.P2SetVisitor;
 
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class defines a pointer variable in the PtIns encoding based points-to solver.
@@ -81,9 +85,9 @@ public class PtInsNode extends IVarAbstraction
 	@Override
 	public void reconstruct() 
 	{
-		flowto = new HashMap<PtInsNode, PtInsIntervalManager>();
-		pt_objs = new HashMap<AllocNode, PtInsIntervalManager>();
-		new_pts = new HashMap<AllocNode, PtInsIntervalManager>();
+		flowto = new ConcurrentHashMap<>();
+		pt_objs = new ConcurrentHashMap<>();
+		new_pts = new ConcurrentHashMap<>();
 		complex_cons = null;
 		lrf_value = 0;
 	}
@@ -144,7 +148,7 @@ public class PtInsNode extends IVarAbstraction
 			pim.flush();
 		}
 		
-		new_pts = new HashMap<AllocNode, PtInsIntervalManager>();
+		new_pts = new ConcurrentHashMap<AllocNode, PtInsIntervalManager>();
 	}
 
 	@Override
@@ -605,7 +609,7 @@ public class PtInsNode extends IVarAbstraction
 	public void injectPts() 
 	{
 		final GeomPointsTo geomPTA = (GeomPointsTo)Scene.v().getPointsToAnalysis();
-		pt_objs = new HashMap<AllocNode, PtInsIntervalManager>();
+		pt_objs = new ConcurrentHashMap<AllocNode, PtInsIntervalManager>();
 		
 		me.getP2Set().forall( new P2SetVisitor() {
 			@Override

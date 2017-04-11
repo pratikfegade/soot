@@ -27,9 +27,9 @@ import soot.jimple.spark.pag.VarNode;
 import soot.jimple.spark.sets.PointsToSetInternal;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A container for storing context sensitive querying result of geomPTA.
@@ -53,7 +53,7 @@ public abstract class PtSensVisitor<VarType extends ContextVar>
 	public List<VarType> outList = new ArrayList<VarType>();
 	
 	// The table view (cannot be accessed directly outside)
-	protected Map<Node, List<VarType>> tableView = new HashMap<Node, List<VarType>>();
+	protected Map<Node, List<VarType>> tableView = new ConcurrentHashMap<Node, List<VarType>>();
 	
 	/**
 	 * Called before each round of collection.

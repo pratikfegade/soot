@@ -17,7 +17,11 @@ import soot.jimple.spark.pag.*;
 import soot.jimple.spark.sets.P2SetVisitor;
 
 import java.io.PrintStream;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class defines a pointer variable for use in the HeapIns encoding based points-to solver.
@@ -31,10 +35,10 @@ import java.util.*;
 public class HeapInsNode extends IVarAbstraction
 {
 	// The targets of directed edges on the constraint graph
-	public HashMap<HeapInsNode, HeapInsIntervalManager> flowto;
+	public Map<HeapInsNode, HeapInsIntervalManager> flowto;
 
 	// The objects this variable points to
-	public HashMap<AllocNode, HeapInsIntervalManager> pt_objs;
+	public Map<AllocNode, HeapInsIntervalManager> pt_objs;
 	
 	// Newly added points-to tuple
 	public Map<AllocNode, HeapInsIntervalManager> new_pts;
@@ -66,9 +70,9 @@ public class HeapInsNode extends IVarAbstraction
 	@Override
 	public void reconstruct() 
 	{
-		flowto = new HashMap<HeapInsNode, HeapInsIntervalManager>();
-		pt_objs = new HashMap<AllocNode, HeapInsIntervalManager>();
-		new_pts = new HashMap<AllocNode, HeapInsIntervalManager>();
+		flowto = new ConcurrentHashMap<HeapInsNode, HeapInsIntervalManager>();
+		pt_objs = new ConcurrentHashMap<AllocNode, HeapInsIntervalManager>();
+		new_pts = new ConcurrentHashMap<AllocNode, HeapInsIntervalManager>();
 		complex_cons = null;
 		lrf_value = 0;
 	}
@@ -129,7 +133,7 @@ public class HeapInsNode extends IVarAbstraction
 			im.flush();
 		}
 		
-		new_pts = new HashMap<AllocNode, HeapInsIntervalManager>();
+		new_pts = new ConcurrentHashMap<AllocNode, HeapInsIntervalManager>();
 	}
 
 	@Override
@@ -590,7 +594,7 @@ public class HeapInsNode extends IVarAbstraction
 	public void injectPts() 
 	{
 		final GeomPointsTo geomPTA = (GeomPointsTo)Scene.v().getPointsToAnalysis();
-		pt_objs = new HashMap<AllocNode, HeapInsIntervalManager>();
+		pt_objs = new ConcurrentHashMap<AllocNode, HeapInsIntervalManager>();
 		
 		me.getP2Set().forall( new P2SetVisitor() {
 			@Override

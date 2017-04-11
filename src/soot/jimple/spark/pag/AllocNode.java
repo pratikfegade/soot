@@ -23,6 +23,7 @@ import soot.*;
 import soot.options.CGOptions;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Represents an allocation site node (Blue) in the pointer assignment graph.
@@ -78,14 +79,14 @@ public class AllocNode extends Node implements Context {
 	/** Registers a AllocDotField as having this node as its base. */
 	void addField(AllocDotField adf, SparkField field) {
 		if (fields == null)
-			fields = new HashMap<SparkField, AllocDotField>();
+			fields = new ConcurrentHashMap<>();
 		fields.put(field, adf);
 	}
 
 	public Set<AllocDotField> getFields() {
 		if (fields == null)
 			return Collections.emptySet();
-		return new HashSet<AllocDotField>(fields.values());
+		return new HashSet<>(fields.values());
 	}
 
 	/* End of package methods. */

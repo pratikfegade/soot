@@ -13,13 +13,14 @@ import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractJimpleBasedICFG implements BiDiInterproceduralCFG<Unit,SootMethod> {
 	
 	protected final boolean enableExceptions;
 	
 	@DontSynchronize("written by single thread; read afterwards")
-	protected final Map<Unit,Body> unitToOwner = new HashMap<Unit,Body>();
+	protected final Map<Unit,Body> unitToOwner = new ConcurrentHashMap<Unit,Body>();
 	
 	@SynchronizedBy("by use of synchronized LoadingCache class")
 	protected final LoadingCache<Body,DirectedGraph<Unit>> bodyToUnitGraph = IDESolver.DEFAULT_CACHE_BUILDER.build( new CacheLoader<Body,DirectedGraph<Unit>>() {

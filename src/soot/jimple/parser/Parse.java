@@ -39,7 +39,7 @@ import soot.jimple.JimpleBody;
 import soot.util.EscapedReader;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Provides a test-driver for the Jimple parser. */
 @Deprecated
@@ -80,7 +80,7 @@ public class Parse
         if(sc == null)
             w = new Walker(null);
         else {
-            w = new BodyExtractorWalker(sc, null, new HashMap<SootMethod, JimpleBody>());
+            w = new BodyExtractorWalker(sc, null, new ConcurrentHashMap<SootMethod, JimpleBody>());
         }
         
         tree.apply(w);          

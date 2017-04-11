@@ -7,6 +7,7 @@ import soot.util.Chain;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * A scene transformer that renames the duplicated class names.
@@ -61,7 +62,7 @@ public class RenameDuplicatedClasses extends SceneTransformer
 		
 		
 		Chain<SootClass> sootClasses = Scene.v().getClasses();
-		Map<String, String> lowerCaseClassNameToReal = new HashMap<String, String>();
+		Map<String, String> lowerCaseClassNameToReal = new ConcurrentHashMap<String, String>();
 		
 		int count = 0;
 		

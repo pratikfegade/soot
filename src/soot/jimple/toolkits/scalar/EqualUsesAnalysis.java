@@ -9,6 +9,7 @@ import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // EqualUsesAnalysis written by Richard L. Halpert, 2006-12-04
 // Determines if a set of uses of locals all use the same value
@@ -53,7 +54,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 
 	public boolean areEqualUses(Stmt firstStmt, Local firstLocal, Stmt secondStmt, Local secondLocal)
 	{
-		Map<Stmt, Local> stmtToLocal = new HashMap<Stmt, Local>();
+		Map<Stmt, Local> stmtToLocal = new ConcurrentHashMap<Stmt, Local>();
 		stmtToLocal.put(firstStmt, firstLocal);
 		stmtToLocal.put(secondStmt, secondLocal);
 		return areEqualUses(stmtToLocal, new ArrayList());
@@ -61,7 +62,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 	
 	public boolean areEqualUses(Stmt firstStmt, Local firstLocal, Stmt secondStmt, Local secondLocal, List boundaryStmts)
 	{
-		Map<Stmt, Local> stmtToLocal = new HashMap<Stmt, Local>();
+		Map<Stmt, Local> stmtToLocal = new ConcurrentHashMap<Stmt, Local>();
 		stmtToLocal.put(firstStmt, firstLocal);
 		stmtToLocal.put(secondStmt, secondLocal);
 		return areEqualUses(stmtToLocal, boundaryStmts);
@@ -79,7 +80,7 @@ public class EqualUsesAnalysis extends ForwardFlowAnalysis<Unit,FlowSet>
 		this.useLocals = stmtToLocal.values();
 		this.boundaryStmts = boundaryStmts;
 		this.redefStmts = new ArrayList<Stmt>();
-		this.firstUseToAliasSet = new HashMap<Stmt, List>();
+		this.firstUseToAliasSet = new ConcurrentHashMap<Stmt, List>();
 
 //		G.v().out.println("Checking for Locals " + useLocals + " in these statements: " + useStmts);
 

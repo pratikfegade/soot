@@ -11,10 +11,10 @@ import soot.toolkits.graph.MutableDirectedGraph;
 import soot.util.dot.DotGraph;
 import soot.util.dot.DotGraphConstants;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // InfoFlowAnalysis written by Richard L. Halpert, 2007-02-24
 // Constructs data flow tables for each method of every application class.  Ignores indirect flow.
@@ -43,7 +43,7 @@ public class InfoFlowAnalysis
 		this.includePrimitiveInfoFlow = includePrimitiveDataFlow;
 		this.includeInnerFields = includeInnerFields;
 		this.printDebug = printDebug;
-		classToClassInfoFlowAnalysis = new HashMap<SootClass, ClassInfoFlowAnalysis>();
+		classToClassInfoFlowAnalysis = new ConcurrentHashMap<SootClass, ClassInfoFlowAnalysis>();
 	}
 	
 	public boolean includesPrimitiveInfoFlow()
@@ -327,7 +327,7 @@ public class InfoFlowAnalysis
 	}
 
 	static int nodecount = 0;
-//	static Map nodeToNodeName = new HashMap();
+//	static Map nodeToNodeName = new ConcurrentHashMap();
 	public static String getNodeName(Object o)
 	{
 //		if(!nodeToNodeName.containsKey(o)) // Since this uses all different kinds of objects, we

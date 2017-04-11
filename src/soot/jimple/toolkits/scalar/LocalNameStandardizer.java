@@ -35,6 +35,7 @@ import soot.singletons.Singletons;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalNameStandardizer extends BodyTransformer
 {
@@ -93,7 +94,7 @@ public class LocalNameStandardizer extends BodyTransformer
                 ArrayList<Local> sortedLocals = new ArrayList<Local>(locals);
                 
                 Collections.sort(sortedLocals, new Comparator<Local>(){
-                    private Map<Local, Integer> firstOccuranceCache = new HashMap<Local, Integer>();
+                    private Map<Local, Integer> firstOccuranceCache = new ConcurrentHashMap<Local, Integer>();
                     public int compare(Local arg0, Local arg1) {
                         int ret = arg0.getType().toString().compareTo(arg1.getType().toString());
                         if(ret == 0){

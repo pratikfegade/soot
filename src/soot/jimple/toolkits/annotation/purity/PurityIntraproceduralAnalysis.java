@@ -36,9 +36,9 @@ import soot.util.dot.DotGraphEdge;
 import soot.util.dot.DotGraphNode;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Intra-procedural purity-graph analysis.
@@ -341,7 +341,7 @@ public class PurityIntraproceduralAnalysis extends ForwardFlowAnalysis
 	dot.setGraphLabel(name);
 	dot.setGraphAttribute("compound","true");
 	dot.setGraphAttribute("rankdir","LR");
-	Map<Unit, Integer> node = new HashMap<Unit, Integer>();
+	Map<Unit, Integer> node = new ConcurrentHashMap<Unit, Integer>();
 	int id = 0;
 	Iterator it = graph.iterator();
 	while (it.hasNext()) {

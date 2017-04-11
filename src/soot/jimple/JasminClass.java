@@ -40,6 +40,7 @@ import soot.toolkits.scalar.LocalUses;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /*
@@ -134,11 +135,11 @@ public class JasminClass extends AbstractJasminClass
 
         int stackLimitIndex = -1;
         
-        subroutineToReturnAddressSlot = new HashMap<Unit, Integer>(10, 0.7f);
+        subroutineToReturnAddressSlot = new ConcurrentHashMap<Unit, Integer>(10, 0.7f);
 
         // Determine the unitToLabel map
         {
-            unitToLabel = new HashMap<Unit, String>(units.size() * 2 + 1, 0.7f);
+            unitToLabel = new ConcurrentHashMap<Unit, String>(units.size() * 2 + 1, 0.7f);
             labelCount = 0;
 
             for (UnitBox ubox : body.getUnitBoxes(true))
@@ -170,9 +171,9 @@ public class JasminClass extends AbstractJasminClass
             int[] paramSlots = new int[method.getParameterCount()];
             int thisSlot = 0;
             Set<Local> assignedLocals = new HashSet<Local>();
-            Map<GroupIntPair, Integer> groupColorPairToSlot = new HashMap<GroupIntPair, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
+            Map<GroupIntPair, Integer> groupColorPairToSlot = new ConcurrentHashMap<GroupIntPair, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
             
-            localToSlot = new HashMap<Local, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
+            localToSlot = new ConcurrentHashMap<Local, Integer>(body.getLocalCount() * 2 + 1, 0.7f);
 
             assignColorsToLocals(body);
             

@@ -40,7 +40,11 @@ import soot.util.Chain;
 import soot.util.HashMultiMap;
 import soot.util.MultiMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JimpleConstructorFolder extends BodyTransformer
 {
@@ -83,7 +87,7 @@ public class JimpleConstructorFolder extends BodyTransformer
     static Local lhsLocal(Stmt s) { return (Local) lhs(s); }
     
     private class Fact {
-        private Map<Local, Stmt> varToStmt = new HashMap<Local, Stmt>();
+        private Map<Local, Stmt> varToStmt = new ConcurrentHashMap<Local, Stmt>();
         private MultiMap<Stmt,Local> stmtToVar = new HashMultiMap<Stmt,Local>();
         private Stmt alloc = null;
         public void add(Local l, Stmt s) {
@@ -104,12 +108,12 @@ public class JimpleConstructorFolder extends BodyTransformer
             stmtToVar.remove(s);
         }
         public void copyFrom(Fact in) {
-            varToStmt = new HashMap<Local, Stmt>(in.varToStmt);
+            varToStmt = new ConcurrentHashMap<Local, Stmt>(in.varToStmt);
             stmtToVar = new HashMultiMap<Stmt,Local>(in.stmtToVar);
             alloc = in.alloc;
         }
         public void mergeFrom(Fact in1, Fact in2) {
-            varToStmt = new HashMap<Local, Stmt>();
+            varToStmt = new ConcurrentHashMap<Local, Stmt>();
 
             for (Map.Entry<Local, Stmt> e : in1.varToStmt.entrySet()) {
             	Local l = e.getKey();

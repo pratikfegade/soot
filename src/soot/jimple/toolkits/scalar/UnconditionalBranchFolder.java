@@ -39,9 +39,9 @@ import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.util.Chain;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class UnconditionalBranchFolder extends BodyTransformer
@@ -52,7 +52,7 @@ public class UnconditionalBranchFolder extends BodyTransformer
     static final int JUMPOPT_TYPES = 6;
     int numFound[], numFixed[];
 
-    HashMap<Stmt, Stmt> stmtMap;
+    Map<Stmt, Stmt> stmtMap;
     
     protected void internalTransform(Body b, String phaseName, Map<String,String> options) 
     {
@@ -74,7 +74,7 @@ public class UnconditionalBranchFolder extends BodyTransformer
         }
 
         Chain<Unit> units = body.getUnits();
-        stmtMap = new HashMap<Stmt, Stmt>();
+        stmtMap = new ConcurrentHashMap<Stmt, Stmt>();
 
         // find goto and if-goto statements
         Iterator<Unit> stmtIt = units.iterator();

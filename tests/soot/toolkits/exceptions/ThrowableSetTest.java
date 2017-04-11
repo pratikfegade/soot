@@ -5,10 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import soot.*;
 import soot.toolkits.exceptions.ExceptionTestUtility.ExceptionHashSet;
-
-import java.util.*;
 
 import static org.junit.Assert.*;
 

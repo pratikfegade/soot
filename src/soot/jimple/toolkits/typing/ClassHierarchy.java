@@ -30,8 +30,9 @@ import soot.*;
 import soot.options.Options;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class encapsulates the typing class hierarchy, as well as non-reference types.
@@ -54,7 +55,7 @@ public class ClassHierarchy
   private final List<TypeNode> typeNodeList = new ArrayList<TypeNode>();
   
   /** Map: Type -> TypeNode **/
-  private final HashMap<Type, TypeNode> typeNodeMap = new HashMap<Type, TypeNode>();
+  private final Map<Type, TypeNode> typeNodeMap = new ConcurrentHashMap<Type, TypeNode>();
   
   /** Used to transform boolean, byte, short and char to int **/
   private final ToInt transform = new ToInt();

@@ -8,6 +8,7 @@ import soot.toolkits.scalar.FlowSet;
 import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 // *** USE AT YOUR OWN RISK ***
 // May Happen in Parallel (MHP) analysis by Lin Li.
@@ -35,7 +36,7 @@ public class MonitorAnalysis extends ForwardFlowAnalysis
 {
 	
 	private PegGraph g;
-	private final HashMap<String, FlowSet> monitor = new HashMap<String, FlowSet>();
+	private final Map<String, FlowSet> monitor = new ConcurrentHashMap<String, FlowSet>();
 	private final Vector<Object> nodes = new Vector<Object>();    
 	private final Vector<Object> valueBefore = new Vector<Object>();
 	private final Vector<Object> valueAfter = new Vector<Object>();

@@ -36,6 +36,7 @@ import soot.util.HashMultiMap;
 import soot.util.MultiMap;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Builds a DirectedGraph from a CallGraph and SootMethodFilter.
@@ -117,8 +118,8 @@ public class DirectedCallGraph implements DirectedGraph {
 	G.v().out.println("[AM] number of methods to be analysed: "+nb);
 
 	// MultiMap -> Map of List
-	this.succ   = new HashMap();
-	this.pred   = new HashMap();
+	this.succ   = new ConcurrentHashMap();
+	this.pred   = new ConcurrentHashMap();
 	this.tails  = new LinkedList();
 	this.heads  = new LinkedList();
 	Iterator it = this.nodes.iterator();

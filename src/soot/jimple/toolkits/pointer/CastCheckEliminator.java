@@ -26,12 +26,13 @@ import soot.toolkits.graph.UnitGraph;
 import soot.toolkits.scalar.ForwardBranchedFlowAnalysis;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** A flow analysis that detects redundant cast checks. */
 public class CastCheckEliminator extends ForwardBranchedFlowAnalysis<LocalTypeSet> {
-    Map unitToKill = new HashMap();
-    Map unitToGenFallThrough = new HashMap();
-    Map unitToGenBranch = new HashMap();
+    Map unitToKill = new ConcurrentHashMap();
+    Map unitToGenFallThrough = new ConcurrentHashMap();
+    Map unitToGenBranch = new ConcurrentHashMap();
     LocalTypeSet emptySet;
 
     public CastCheckEliminator(BriefUnitGraph cfg) {

@@ -5,13 +5,11 @@
 
 package soot.toolkits.graph;
 
-import soot.*;
 import soot.options.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph.ExceptionDest;
 import soot.util.Chain;
 
 import java.lang.reflect.Method;
-import java.util.*;
 
 public class GraphComparer {
 

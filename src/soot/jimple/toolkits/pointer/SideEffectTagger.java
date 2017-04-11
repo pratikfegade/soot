@@ -25,6 +25,7 @@ import soot.jimple.toolkits.callgraph.CallGraph;
 import soot.singletons.Singletons;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SideEffectTagger extends BodyTransformer
 { 
@@ -99,8 +100,8 @@ public class SideEffectTagger extends BodyTransformer
 	if( !optionNaive ) {
 	    sea.findNTRWSets( body.getMethod() );
 	}
-	HashMap<Object, RWSet> stmtToReadSet = new HashMap<Object, RWSet>();
-	HashMap<Object, RWSet> stmtToWriteSet = new HashMap<Object, RWSet>();
+	Map<Object, RWSet> stmtToReadSet = new ConcurrentHashMap<Object, RWSet>();
+	Map<Object, RWSet> stmtToWriteSet = new ConcurrentHashMap<Object, RWSet>();
 	UniqueRWSets sets = new UniqueRWSets();
 	boolean justDoTotallyConservativeThing = 
 	    body.getMethod().getName().equals( "<clinit>" );

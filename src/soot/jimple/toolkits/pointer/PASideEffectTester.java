@@ -22,9 +22,10 @@ package soot.jimple.toolkits.pointer;
 import soot.*;
 import soot.jimple.*;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 //  ArrayRef, 
 //  CaughtExceptionRef, 
@@ -39,9 +40,9 @@ public class PASideEffectTester implements SideEffectTester
 {
     PointsToAnalysis pa = Scene.v().getPointsToAnalysis();
     SideEffectAnalysis sea = Scene.v().getSideEffectAnalysis();
-    HashMap<Unit, RWSet> unitToRead;
-    HashMap<Unit, RWSet> unitToWrite;
-    HashMap<Local, PointsToSet> localToReachingObjects;
+    Map<Unit, RWSet> unitToRead;
+    Map<Unit, RWSet> unitToWrite;
+    Map<Local, PointsToSet> localToReachingObjects;
     SootMethod currentMethod;
 
     public PASideEffectTester() {
@@ -54,9 +55,9 @@ public class PASideEffectTester implements SideEffectTester
 
     /** Call this when starting to analyze a new method to setup the cache. */
     public void newMethod( SootMethod m ) {
-	unitToRead = new HashMap<Unit, RWSet>();
-	unitToWrite = new HashMap<Unit, RWSet>();
-	localToReachingObjects = new HashMap<Local, PointsToSet>();
+	unitToRead = new ConcurrentHashMap<>();
+	unitToWrite = new ConcurrentHashMap<>();
+	localToReachingObjects = new ConcurrentHashMap<>();
 	currentMethod = m;
 	sea.findNTRWSets( currentMethod );
     }

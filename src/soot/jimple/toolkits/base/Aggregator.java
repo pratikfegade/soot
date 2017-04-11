@@ -38,7 +38,11 @@ import soot.toolkits.scalar.LocalUses;
 import soot.toolkits.scalar.UnitValueBoxPair;
 import soot.util.Chain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Aggregator extends BodyTransformer
 {
@@ -64,7 +68,7 @@ public class Aggregator extends BodyTransformer
 
         boolean changed = false;
 
-        Map<ValueBox, Zone> boxToZone = new HashMap<ValueBox, Zone>(body.getUnits().size() * 2 + 1, 0.7f);
+        Map<ValueBox, Zone> boxToZone = new ConcurrentHashMap<ValueBox, Zone>(body.getUnits().size() * 2 + 1, 0.7f);
 
         // Determine the zone of every box
         {

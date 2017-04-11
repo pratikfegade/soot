@@ -32,6 +32,7 @@ import soot.singletons.Singletons;
 import soot.toolkits.scalar.LocalDefs;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ClassFieldAnalysis 
@@ -47,7 +48,7 @@ public class ClassFieldAnalysis
      * SootClass --> FieldInfoTable
      */
  
-    private final Map<SootClass, Hashtable<SootField, IntValueContainer>> classToFieldInfoMap = new HashMap<SootClass, Hashtable<SootField, IntValueContainer>>();	
+    private final Map<SootClass, Hashtable<SootField, IntValueContainer>> classToFieldInfoMap = new ConcurrentHashMap<SootClass, Hashtable<SootField, IntValueContainer>>();
   
     protected void internalTransform(SootClass c)
     {
@@ -193,7 +194,7 @@ public class ClassFieldAnalysis
 	   this.f, or other.f are treated as same because we summerize the field as a class's field. 
 	*/
 
-	HashMap<Stmt, SootField> stmtfield = new HashMap<Stmt, SootField>();
+	Map<Stmt, SootField> stmtfield = new ConcurrentHashMap<Stmt, SootField>();
 
 	{
 	    Iterator<Unit> unitIt = body.getUnits().iterator();

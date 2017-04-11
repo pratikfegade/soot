@@ -8,6 +8,7 @@ import soot.toolkits.scalar.Pair;
 import soot.util.Chain;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LockAllocationBodyTransformer extends BodyTransformer
 {
@@ -511,7 +512,7 @@ public class LockAllocationBodyTransformer extends BodyTransformer
 	}
 	
 	static int lockNumber = 0;
-	static Map<EquivalentValue, StaticFieldRef> lockEqValToLock = new HashMap<EquivalentValue, StaticFieldRef>();
+	static Map<EquivalentValue, StaticFieldRef> lockEqValToLock = new ConcurrentHashMap<EquivalentValue, StaticFieldRef>();
 	static public Value getLockFor(EquivalentValue lockEqVal)
 	{
 		Value lock = lockEqVal.getValue();

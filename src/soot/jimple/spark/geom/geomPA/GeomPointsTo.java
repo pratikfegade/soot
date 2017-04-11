@@ -45,8 +45,9 @@ import soot.util.queue.QueueReader;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
- 
+
 /**
  * The main interface for the points-to analysis with geometric encodings.
  * Since we need SPARK to bootstrap our analysis, thus, we identify ourself to be a subclass of SPARK.
@@ -155,16 +156,16 @@ public class GeomPointsTo extends PAG
 	private void prepareContainers()
 	{
 		// All kinds of variables
-		consG = new HashMap<Node, IVarAbstraction>(39341);
+		consG = new ConcurrentHashMap<>(39341);
 		
 		// Only the pointer variables
-		pointers = new ZArrayNumberer<IVarAbstraction>(25771);
+		pointers = new ZArrayNumberer<>(25771);
 		
 		// Only the heap variables
-		allocations = new ZArrayNumberer<IVarAbstraction>();
+		allocations = new ZArrayNumberer<>();
 		
 		// The constraints extracted from code
-		constraints = new ZArrayNumberer<PlainConstraint>(25771);
+		constraints = new ZArrayNumberer<>(25771);
 		
 		// The statements that fork a new thread
 		thread_run_callsites = new HashSet<Stmt>(251);
@@ -179,9 +180,9 @@ public class GeomPointsTo extends PAG
 		queue_cg = new LinkedList<Integer>();
 		
 		// Containers for functions and call graph edges
-		func2int = new HashMap<SootMethod, Integer>(5011);
-		int2func = new HashMap<Integer, SootMethod>(5011);
-		edgeMapping = new HashMap<Edge, CgEdge>(19763);
+		func2int = new ConcurrentHashMap<SootMethod, Integer>(5011);
+		int2func = new ConcurrentHashMap<Integer, SootMethod>(5011);
+		edgeMapping = new ConcurrentHashMap<Edge, CgEdge>(19763);
 		
 		consG.clear();
 		constraints.clear();
@@ -259,7 +260,7 @@ public class GeomPointsTo extends PAG
 			try {
 				FileReader fr = new  FileReader( method_verify_file );
 				java.util.Scanner fin = new java.util.Scanner(fr);
-				validMethods = new HashMap<String, Boolean>();
+				validMethods = new ConcurrentHashMap<String, Boolean>();
 				
 				while ( fin.hasNextLine() ) {
 					validMethods.put( fin.nextLine(), Boolean.FALSE );
@@ -1036,7 +1037,7 @@ public class GeomPointsTo extends PAG
 	 */
 	private void buildRevCallGraph()
 	{
-		rev_call_graph = new HashMap<Integer, LinkedList<CgEdge>>();
+		rev_call_graph = new ConcurrentHashMap<Integer, LinkedList<CgEdge>>();
 		
 		for (int i = 0; i < n_func; ++i) {
 			CgEdge p = call_graph[i];

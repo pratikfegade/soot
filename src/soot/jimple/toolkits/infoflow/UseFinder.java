@@ -6,7 +6,11 @@ import soot.jimple.toolkits.callgraph.ReachableMethods;
 import soot.toolkits.scalar.Pair;
 import soot.util.Chain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // UseFinder written by Richard L. Halpert, 2007-03-13
 // Compiles a list of all uses of fields of each application class within the
@@ -26,10 +30,10 @@ public class UseFinder
 	
 	public UseFinder()
 	{
-		classToExtFieldAccesses = new HashMap<SootClass, List>();
-		classToIntFieldAccesses = new HashMap<SootClass, ArrayList>();
-		classToExtCalls = new HashMap<SootClass, List>();
-		classToIntCalls = new HashMap<SootClass, ArrayList>();
+		classToExtFieldAccesses = new ConcurrentHashMap<SootClass, List>();
+		classToIntFieldAccesses = new ConcurrentHashMap<SootClass, ArrayList>();
+		classToExtCalls = new ConcurrentHashMap<SootClass, List>();
+		classToIntCalls = new ConcurrentHashMap<SootClass, ArrayList>();
 		
 		rm = Scene.v().getReachableMethods();
 		
@@ -38,10 +42,10 @@ public class UseFinder
 	
 	public UseFinder(ReachableMethods rm)
 	{
-		classToExtFieldAccesses = new HashMap<SootClass, List>();
-		classToIntFieldAccesses = new HashMap<SootClass, ArrayList>();
-		classToExtCalls = new HashMap<SootClass, List>();
-		classToIntCalls = new HashMap<SootClass, ArrayList>();
+		classToExtFieldAccesses = new ConcurrentHashMap<SootClass, List>();
+		classToIntFieldAccesses = new ConcurrentHashMap<SootClass, ArrayList>();
+		classToExtCalls = new ConcurrentHashMap<SootClass, List>();
+		classToIntCalls = new ConcurrentHashMap<SootClass, ArrayList>();
 		
 		this.rm = rm;
 		

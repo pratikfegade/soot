@@ -24,7 +24,6 @@ import soot.*;
 import soot.jimple.*;
 import soot.toolkits.scalar.LocalDefs;
 import soot.toolkits.scalar.LocalUses;
-import soot.toolkits.scalar.UnitValueBoxPair;
 
 import java.util.Iterator;
 

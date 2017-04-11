@@ -121,8 +121,8 @@ public class CompactSequentNodes{
 		
 		Iterator it = list.iterator();
 		FlowSet allNodes = peg.getAllNodes();
-		HashMap unitToSuccs = peg.getUnitToSuccs();
-		HashMap unitToPreds = peg.getUnitToPreds();
+		Map unitToSuccs = peg.getUnitToSuccs();
+		Map unitToPreds = peg.getUnitToPreds();
 		List<Object> newPreds = new ArrayList<Object>();
 		List<Object> newSuccs = new ArrayList<Object>();
 		
