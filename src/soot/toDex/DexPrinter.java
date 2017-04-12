@@ -22,7 +22,28 @@ import org.jf.dexlib2.immutable.reference.ImmutableMethodReference;
 import org.jf.dexlib2.immutable.value.*;
 import org.jf.dexlib2.writer.builder.*;
 import org.jf.dexlib2.writer.io.FileDataStore;
-import soot.*;
+
+
+import soot.Body;
+import soot.BooleanType;
+import soot.ByteType;
+import soot.CharType;
+import soot.CompilationDeathException;
+import soot.G;
+import soot.IntType;
+import soot.Local;
+import soot.PackManager;
+import soot.RefType;
+import soot.Scene;
+import soot.ShortType;
+import soot.SootClass;
+import soot.SootField;
+import soot.SootMethod;
+import soot.SootMethodRef;
+import soot.SourceLocator;
+import soot.Trap;
+import soot.Type;
+import soot.Unit;
 import soot.dexpler.DexInnerClassParser;
 import soot.dexpler.DexType;
 import soot.dexpler.Util;
@@ -252,7 +273,7 @@ public class DexPrinter {
         	Set<String> alreadyWritten = new HashSet<String>();
             List<AnnotationElement> elements = null;
             if (!e.getValue().getElems().isEmpty()) {
-            	elements = new ArrayList<AnnotationElement>();
+            	elements = new ArrayList<>();
 	            for (AnnotationElem ae : e.getValue().getElems()) {
 	            	if (!alreadyWritten.add(ae.getName()))
 	            		throw new RuntimeException("Duplicate annotation attribute: " + ae.getName());
@@ -360,7 +381,13 @@ public class DexPrinter {
             return new ImmutableFloatEncodedValue(f.getFloatValue());
         } else if (t instanceof StringConstantValueTag) {
             StringConstantValueTag s = (StringConstantValueTag) t;
-            return new ImmutableStringEncodedValue(s.getStringValue());
+            if (sf.getType().equals(RefType.v("java.lang.String")))
+            	return new ImmutableStringEncodedValue(s.getStringValue());
+            else
+            	//Not supported in Dalvik
+            	//See https://android.googlesource.com/platform/dalvik.git/+/android-4.3_r3/vm/oo/Class.cpp
+            	//Results in "Bogus static initialization"
+            	return null;
         } else
         	throw new RuntimeException("Unexpected constant type");
     }
@@ -380,14 +407,14 @@ public class DexPrinter {
         
         List<String> interfaces = null;
         if (!c.getInterfaces().isEmpty()) {
-        	interfaces = new ArrayList<String>();
+        	interfaces = new ArrayList<>();
             for (SootClass ifc : c.getInterfaces())
             	interfaces.add(SootToDexUtils.getDexTypeDescriptor(ifc.getType()));
         }
         
         List<BuilderField> fields = null;
         if (!c.getFields().isEmpty()) {
-        	fields = new ArrayList<BuilderField>();
+        	fields = new ArrayList<>();
 	        for (SootField f : c.getFields()) {       	
 	        	// Look for a static initializer
 	            EncodedValue staticInit = null;
@@ -542,8 +569,8 @@ public class DexPrinter {
     	}
     	List<SootClass> exceptionList = m.getExceptions();
     	if (exceptionList != null && !exceptionList.isEmpty()) {
-            Set<ImmutableAnnotationElement> elements = new HashSet<ImmutableAnnotationElement>();
-            List<ImmutableEncodedValue> valueList = new ArrayList<ImmutableEncodedValue>();
+            Set<ImmutableAnnotationElement> elements = new HashSet<>();
+            List<ImmutableEncodedValue> valueList = new ArrayList<>();
     		for (SootClass exceptionClass : exceptionList) {
 	            valueList.add(new ImmutableTypeEncodedValue(DexType.toDalvikICAT(exceptionClass.getName()).replace(".", "/")));
     		}
@@ -598,7 +625,7 @@ public class DexPrinter {
 
             Set<ImmutableAnnotationElement> elements = null;
             if (splitSignature != null && splitSignature.size() > 0) {
-            	elements = new HashSet<ImmutableAnnotationElement>();
+            	elements = new HashSet<>();
             
 	            List<ImmutableEncodedValue> valueList = new ArrayList<ImmutableEncodedValue>();
 	            for (String s : splitSignature) {
