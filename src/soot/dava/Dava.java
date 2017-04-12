@@ -61,17 +61,8 @@ public class Dava
 	return currentPackageContext;
     }
 
-    public DavaBody newBody(SootMethod m)
-    {
-        return new DavaBody( m);
-    }
 
-    /** Returns a DavaBody constructed from the given body b. */
-    public DavaBody newBody(Body b)
-    {
-        return new DavaBody(b);
-    }
-    
+
     public Local newLocal(String name, Type t)
     {
         return Jimple.v().newLocal(name, t);

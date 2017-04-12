@@ -30,9 +30,13 @@
 
 package soot.jimple.internal;
 
-import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
+import soot.jimple.InvokeExpr;
+import soot.jimple.InvokeStmt;
+import soot.jimple.Jimple;
+import soot.jimple.StmtSwitch;
 import soot.util.Switch;
 
 import java.util.ArrayList;
@@ -101,21 +105,6 @@ public class JInvokeStmt extends AbstractStmt implements InvokeStmt
     {
         ((StmtSwitch) sw).caseInvokeStmt(this);
     }
-   
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        InvokeExpr ie = getInvokeExpr();
-        
-	context.setCurrentUnit(this);
-	
-        ((ConvertToBaf) ie).convertToBaf(context, out);
-        if(!ie.getMethodRef().returnType().equals(VoidType.v()))
-        {
-            Unit u = Baf.v().newPopInst(ie.getMethodRef().returnType());
-            u.addAllTagsOf(this);
-            out.add(u);
-	}
-    }    
 
     public boolean fallsThrough() {return true;}
     public boolean branches() {return false;}

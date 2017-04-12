@@ -31,7 +31,6 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
 import soot.jimple.ExprSwitch;
 import soot.jimple.Jimple;
 import soot.jimple.ShrExpr;
@@ -42,9 +41,6 @@ public class JShrExpr extends AbstractJimpleIntLongBinopExpr implements ShrExpr
     public JShrExpr(Value op1, Value op2) { super(op1, op2); }
     public String getSymbol() { return " >> "; }
     public void apply(Switch sw) { ((ExprSwitch) sw).caseShrExpr(this); }
-
-    Object makeBafInst(Type opType) { return Baf.v().newShrInst(this.getOp1().getType()); }
-
     public Type getType()
     {
         Value op1 = op1Box.getValue();

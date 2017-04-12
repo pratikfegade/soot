@@ -30,6 +30,8 @@ import soot.G;
 import soot.singletons.Singletons;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Provides sharing for Utf8_info string objects 
  * reused in different contexts. */
@@ -38,13 +40,13 @@ public class CONSTANT_Utf8_collector
 {
     public CONSTANT_Utf8_collector( Singletons.Global g ) {}
     public static CONSTANT_Utf8_collector v() { return G.v().soot_coffi_CONSTANT_Utf8_collector(); }
-    HashMap<String, CONSTANT_Utf8_info> hash = null;
+    Map<String, CONSTANT_Utf8_info> hash = null;
 
     synchronized CONSTANT_Utf8_info add(CONSTANT_Utf8_info _Utf8_info) 
     {
         if (hash == null) 
         {
-            hash = new HashMap<String, CONSTANT_Utf8_info>();
+            hash = new ConcurrentHashMap<>();
         }
 
         String Utf8_str_key = _Utf8_info.convert();

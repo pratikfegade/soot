@@ -32,7 +32,6 @@
 
 package soot;
 
-import soot.baf.DoubleWordType;
 import soot.jimple.DoubleConstant;
 import soot.jimple.FloatConstant;
 import soot.jimple.IdentityStmt;
@@ -78,7 +77,7 @@ public abstract class AbstractJasminClass
 
     public static int sizeOfType(Type t)
     {
-        if(t instanceof DoubleWordType || t instanceof LongType || t instanceof DoubleType)
+        if(t instanceof LongType || t instanceof DoubleType)
             return 2;
         else if(t instanceof VoidType)
             return 0;

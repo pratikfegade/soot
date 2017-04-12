@@ -26,8 +26,6 @@
 package soot;
 
 import soot.coffi.Utf8_Enumeration;
-import soot.dava.internal.SET.SETBasicBlock;
-import soot.dava.internal.SET.SETNode;
 import soot.dexpler.DalvikThrowAnalysis;
 import soot.jimple.spark.pag.MethodPAG;
 import soot.jimple.spark.pag.Parm;
@@ -41,8 +39,6 @@ import soot.toolkits.astmetrics.ClassData;
 import soot.toolkits.scalar.Pair;
 
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 /** A class to group together all the global variables in Soot. */
@@ -81,18 +77,10 @@ public class G extends Singletons
     public class Global {
     }
 
-    public long coffi_BasicBlock_ids = 0;
-    public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e1 = new Utf8_Enumeration();
-    public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e2 = new Utf8_Enumeration();
-    public int SETNodeLabel_uniqueId = 0;
-    public HashMap<SETNode, SETBasicBlock> SETBasicBlock_binding = new HashMap<SETNode, SETBasicBlock>();
-    public boolean ASTAnalysis_modified;
-    public NativeHelper NativeHelper_helper = null;
     public P2SetFactory newSetFactory;
     public P2SetFactory oldSetFactory;
     public Map<Pair<SootMethod, Integer>, Parm> Parm_pairToElement = new HashMap<Pair<SootMethod, Integer>, Parm>();
     public int SparkNativeHelper_tempVar = 0;
-    public int PaddleNativeHelper_tempVar = 0;
     public boolean PointsToSetInternal_warnedAlready = false;
     public HashMap<SootMethod, MethodPAG> MethodPAG_methodToPag = new HashMap<SootMethod, MethodPAG>();
     public Set MethodRWSet_allGlobals = new HashSet();
@@ -113,20 +101,8 @@ public class G extends Singletons
     		this.interproceduralDalvikThrowAnalysis = new DalvikThrowAnalysis(g, true);
     	return this.interproceduralDalvikThrowAnalysis;
     }
-    
-    public boolean ASTTransformations_modified;
-    
-    /*
-     * 16th Feb 2006 Nomair
-     * The AST transformations are unfortunately non-monotonic.
-     * Infact one transformation on each iteration simply reverses the bodies of an if-else
-     * To make the remaining transformations monotonic this transformation is handled with
-     * a separate flag...clumsy but works
-     */
-    public boolean ASTIfElseFlipped;
-    
-    
-    
+
+
     /*
      * Nomair A. Naeem January 15th 2006
      * Added For Dava.toolkits.AST.transformations.SuperFirstStmtHandler
@@ -147,38 +123,11 @@ public class G extends Singletons
      * of DavSuperHandler
      */
     public boolean SootMethodAddedByDava;
-    public ArrayList<SootClass> SootClassNeedsDavaSuperHandlerClass = new ArrayList<SootClass>();
-    public ArrayList<SootMethod> SootMethodsAdded = new ArrayList<SootMethod>();
-    
+
     //ASTMetrics Data
     public ArrayList<ClassData> ASTMetricsData = new ArrayList<ClassData>();
-    
-    public void resetSpark() {
-    	// We reset SPARK the hard way.
-    	for (Method m : getClass().getSuperclass().getDeclaredMethods()) {
-    		if (m.getName().startsWith("release_soot_jimple_spark_"))
-				try {
-					m.invoke(this);
-				} catch (IllegalAccessException e) {
-					throw new RuntimeException(e);
-				} catch (IllegalArgumentException e) {
-					throw new RuntimeException(e);
-				} catch (InvocationTargetException e) {
-					throw new RuntimeException(e);
-				}
-    	}
-    	
-    	// Reset some other stuff directly in this class
-    	MethodPAG_methodToPag.clear();
-    	MethodRWSet_allFields.clear();
-    	MethodRWSet_allGlobals.clear();
-    	newSetFactory = null;
-    	oldSetFactory = null;
-    	Parm_pairToElement.clear();
-    	
-    	// We need to reset the virtual call resolution table
-    	release_soot_jimple_toolkits_callgraph_VirtualCalls();
-    }
-    
+    public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e1 = new Utf8_Enumeration();
+    public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e2 = new Utf8_Enumeration();
+
 }
 

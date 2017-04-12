@@ -23,45 +23,9 @@
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
 
+package soot.jimple;
 
-
-
-
-
-package soot.jimple.internal;
-
-import soot.*;
-import soot.jimple.ExprSwitch;
-import soot.jimple.Jimple;
-import soot.jimple.UshrExpr;
-import soot.util.Switch;
-
-public class JUshrExpr extends AbstractJimpleIntLongBinopExpr implements UshrExpr
+public interface Precedence
 {
-    public JUshrExpr(Value op1, Value op2) { super(op1, op2); }
-    public final String getSymbol() { return " >>> "; }
-    public void apply(Switch sw) { ((ExprSwitch) sw).caseUshrExpr(this); }
-
-    public Type getType()
-    {
-        Value op1 = op1Box.getValue();
-        Value op2 = op2Box.getValue();
-        
-        if (!isIntLikeType(op2.getType()))
-        	return UnknownType.v();
-        
-        if (isIntLikeType(op1.getType()))
-        	return IntType.v();
-        if (op1.getType().equals(LongType.v()))
-        	return LongType.v();
-        
-    	return UnknownType.v();
-    }
-    
-    public Object clone() 
-    {
-        return new JUshrExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));
-    }
-
-
+    int getPrecedence();
 }

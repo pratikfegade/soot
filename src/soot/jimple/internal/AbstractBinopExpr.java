@@ -29,8 +29,8 @@ package soot.jimple.internal;
 import soot.UnitPrinter;
 import soot.Value;
 import soot.ValueBox;
-import soot.grimp.PrecedenceTest;
 import soot.jimple.Expr;
+import soot.jimple.PrecedenceTest;
 
 import java.util.ArrayList;
 import java.util.List;

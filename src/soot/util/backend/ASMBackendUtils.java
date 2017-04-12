@@ -4,7 +4,6 @@ package soot.util.backend;
 import org.objectweb.asm.ByteVector;
 import org.objectweb.asm.ClassWriter;
 import soot.*;
-import soot.baf.DoubleWordType;
 import soot.options.Options;
 import soot.tagkit.*;
 
@@ -162,7 +161,7 @@ public class ASMBackendUtils {
      * @return Size in words
      */
     public static int sizeOfType(Type t) {
-        if (t instanceof DoubleWordType || t instanceof LongType
+        if (t instanceof LongType
                 || t instanceof DoubleType)
             return 2;
         else if (t instanceof VoidType)

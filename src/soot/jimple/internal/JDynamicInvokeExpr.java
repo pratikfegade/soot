@@ -28,15 +28,16 @@ package soot.jimple.internal;
 
 import org.objectweb.asm.Opcodes;
 import soot.*;
-import soot.baf.Baf;
-import soot.jimple.*;
+import soot.jimple.DynamicInvokeExpr;
+import soot.jimple.ExprSwitch;
+import soot.jimple.Jimple;
 import soot.util.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class JDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInvokeExpr, ConvertToBaf {
+public class JDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInvokeExpr {
 	protected SootMethodRef bsmRef;
 	protected ValueBox[] bsmArgBoxes;
 	protected int tag;
@@ -200,23 +201,6 @@ public class JDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInv
 
 	public void apply(Switch sw) {
 		((ExprSwitch) sw).caseDynamicInvokeExpr(this);
-	}
-
-	public void convertToBaf(JimpleToBafContext context, List<Unit> out) {
-		if (argBoxes != null) {
-			for (ValueBox element : argBoxes) {
-				((ConvertToBaf) (element.getValue())).convertToBaf(context, out);
-			}
-		}
-
-		List<Value> bsmArgs = new ArrayList<Value>();
-		for (ValueBox argBox : bsmArgBoxes) {
-			bsmArgs.add(argBox.getValue());
-		}
-
-		Unit u = Baf.v().newDynamicInvokeInst(bsmRef, bsmArgs, methodRef, tag);
-		u.addAllTagsOf(context.getCurrentUnit());
-		out.add(u);
 	}
 
 	public SootMethodRef getBootstrapMethodRef() {

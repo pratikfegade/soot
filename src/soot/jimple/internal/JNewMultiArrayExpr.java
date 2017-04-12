@@ -55,7 +55,6 @@ public class JNewMultiArrayExpr extends AbstractNewMultiArrayExpr
         for(int i = 0; i <  getSizeCount(); i++) {
             clonedSizes.add(i,  Jimple.cloneIfNecessary(getSize(i)));
         }
-                                                         
         
         return new JNewMultiArrayExpr(baseType, clonedSizes);
     }

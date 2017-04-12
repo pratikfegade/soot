@@ -29,7 +29,6 @@ package soot.toolkits.graph;
 import soot.Body;
 import soot.Trap;
 import soot.Unit;
-import soot.baf.Inst;
 import soot.jimple.Stmt;
 
 import java.util.Iterator;
@@ -43,7 +42,7 @@ import java.util.Set;
  *  the graph will be a forest where each exception handler 
  *  constitutes a disjoint subgraph.
  */
-public class ArrayRefBlockGraph extends BlockGraph 
+public class ArrayRefBlockGraph extends BlockGraph
 {
     /**
      *   <p>Constructs an {@link ArrayRefBlockGraph} from the given
@@ -76,10 +75,10 @@ public class ArrayRefBlockGraph extends BlockGraph
     {
         super(unitGraph);
 
-	soot.util.PhaseDumper.v().dumpGraph(this, mBody);
+        soot.util.PhaseDumper.v().dumpGraph(this, mBody);
     }
 
-    
+
     /**
      * <p>Utility method for computing the basic block leaders for a
      * {@link Body}, given its {@link UnitGraph} (i.e., the
@@ -107,20 +106,19 @@ public class ArrayRefBlockGraph extends BlockGraph
      * are block leaders.
      */
     protected Set<Unit> computeLeaders(UnitGraph unitGraph) {
-	Body body = unitGraph.getBody();
-	if (body != mBody) {
-	    throw new RuntimeException("ArrayRefBlockGraph.computeLeaders() called with a UnitGraph that doesn't match its mBody.");
-	}
+        Body body = unitGraph.getBody();
+        if (body != mBody) {
+            throw new RuntimeException("ArrayRefBlockGraph.computeLeaders() called with a UnitGraph that doesn't match its mBody.");
+        }
         Set<Unit> leaders = super.computeLeaders(unitGraph);
 
-	for (Iterator<Unit> it = body.getUnits().iterator(); it.hasNext(); ) {
-	    Unit unit = it.next();
-	    if (((unit instanceof Stmt) && ((Stmt) unit).containsArrayRef()) ||
-		((unit instanceof Inst) && ((Inst) unit).containsArrayRef())) {
-		leaders.add(unit);
-	    }
-	}
-	return leaders;
+        for (Iterator<Unit> it = body.getUnits().iterator(); it.hasNext(); ) {
+            Unit unit = it.next();
+            if (((unit instanceof Stmt) && ((Stmt) unit).containsArrayRef())) {
+                leaders.add(unit);
+            }
+        }
+        return leaders;
     }
 }
 

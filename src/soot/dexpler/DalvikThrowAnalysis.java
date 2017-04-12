@@ -21,9 +21,6 @@
 package soot.dexpler;
 
 import soot.G;
-import soot.baf.EnterMonitorInst;
-import soot.baf.ReturnInst;
-import soot.baf.ReturnVoidInst;
 import soot.jimple.AssignStmt;
 import soot.jimple.ClassConstant;
 import soot.jimple.EnterMonitorStmt;
@@ -214,23 +211,7 @@ public class DalvikThrowAnalysis extends UnitThrowAnalysis {
 	
 	@Override
 	protected UnitSwitch unitSwitch() {
-		return new UnitThrowAnalysis.UnitSwitch() {	
-		  
-			// Dalvik does not throw an exception for this instruction
-			@Override
-			public void caseReturnInst(ReturnInst i) { 
-			}
-			
-			// Dalvik does not throw an exception for this instruction
-			@Override
-			public void caseReturnVoidInst(ReturnVoidInst i) {
-			}
-			
-			@Override
-			public void caseEnterMonitorInst(EnterMonitorInst i) {
-			    result = result.add(mgr.NULL_POINTER_EXCEPTION);
-			    result = result.add(mgr.ILLEGAL_MONITOR_STATE_EXCEPTION);
-			}
+		return new UnitThrowAnalysis.UnitSwitch() {
 
 			@Override
 			public void caseEnterMonitorStmt(EnterMonitorStmt s) {

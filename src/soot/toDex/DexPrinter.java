@@ -22,28 +22,7 @@ import org.jf.dexlib2.immutable.reference.ImmutableMethodReference;
 import org.jf.dexlib2.immutable.value.*;
 import org.jf.dexlib2.writer.builder.*;
 import org.jf.dexlib2.writer.io.FileDataStore;
-
-
-import soot.Body;
-import soot.BooleanType;
-import soot.ByteType;
-import soot.CharType;
-import soot.CompilationDeathException;
-import soot.G;
-import soot.IntType;
-import soot.Local;
-import soot.PackManager;
-import soot.RefType;
-import soot.Scene;
-import soot.ShortType;
-import soot.SootClass;
-import soot.SootField;
-import soot.SootMethod;
-import soot.SootMethodRef;
-import soot.SourceLocator;
-import soot.Trap;
-import soot.Type;
-import soot.Unit;
+import soot.*;
 import soot.dexpler.DexInnerClassParser;
 import soot.dexpler.DexType;
 import soot.dexpler.Util;
@@ -941,7 +920,7 @@ public class DexPrinter {
 	
     protected static BuilderMethodReference toMethodReference
 			(SootMethodRef m, DexBuilder belongingDexFile) {
-    	List<String> parameters = new ArrayList<String>();
+    	List<String> parameters = new ArrayList<>();
     	for (Type t : m.parameterTypes())
     		parameters.add(SootToDexUtils.getDexTypeDescriptor(t));
     	MethodReference methodRef = new ImmutableMethodReference

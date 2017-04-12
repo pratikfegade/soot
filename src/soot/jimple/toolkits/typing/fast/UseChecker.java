@@ -212,7 +212,6 @@ public class UseChecker extends AbstractStmtSwitch
 		}
 
 		// They may have been changed above
-		lhs = stmt.getLeftOp();
 		rhs = stmt.getRightOp();
 
 		if ( rhs instanceof Local )
@@ -223,7 +222,7 @@ public class UseChecker extends AbstractStmtSwitch
 			Local base = (Local) aref.getBase();
 
 			//try to force Type integrity
-			ArrayType at = null;
+			ArrayType at;
 			Type et;
 			if (this.tg.get(base) instanceof ArrayType)
 				at = (ArrayType)this.tg.get(base);
@@ -285,21 +284,6 @@ public class UseChecker extends AbstractStmtSwitch
 		else if ( rhs instanceof Constant )
 			if (!(rhs instanceof NullConstant))
 				stmt.setRightOp(this.uv.visit(rhs, tlhs, stmt));
-	}
-
-	private Type getTargetType(final Value other) {
-		if (other instanceof Constant) {
-			if (other.getType() != NullType.v()) {
-				return other.getType();
-			}
-		}
-		else if (other instanceof Local) {
-			Type tgTp = tg.get((Local) other);
-			if (tgTp instanceof PrimType) {
-				return tgTp;
-			}
-		}
-		return null;
 	}
 
 	public void caseIdentityStmt(IdentityStmt stmt) { }

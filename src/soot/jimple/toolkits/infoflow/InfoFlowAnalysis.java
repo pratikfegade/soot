@@ -43,7 +43,7 @@ public class InfoFlowAnalysis
 		this.includePrimitiveInfoFlow = includePrimitiveDataFlow;
 		this.includeInnerFields = includeInnerFields;
 		this.printDebug = printDebug;
-		classToClassInfoFlowAnalysis = new ConcurrentHashMap<SootClass, ClassInfoFlowAnalysis>();
+		classToClassInfoFlowAnalysis = new ConcurrentHashMap<>();
 	}
 	
 	public boolean includesPrimitiveInfoFlow()

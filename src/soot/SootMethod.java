@@ -26,12 +26,9 @@
 
 package soot;
 
-import soot.dava.DavaBody;
-import soot.dava.toolkits.base.renamer.RemoveFullyQualifiedName;
 import soot.jimple.toolkits.callgraph.VirtualCalls;
 import soot.options.Options;
 import soot.tagkit.AbstractHost;
-import soot.util.IterableSet;
 import soot.util.Numberable;
 import soot.util.NumberedString;
 
@@ -157,7 +154,7 @@ public class SootMethod
         this.modifiers = modifiers;
 
         if (exceptions == null && !thrownExceptions.isEmpty()) {
-            exceptions = new ArrayList<SootClass>();
+            exceptions = new ArrayList<>();
             this.exceptions.addAll(thrownExceptions);
             /*DEBUG=true;
             if(DEBUG)
@@ -313,10 +310,6 @@ public class SootMethod
         if (declaringClass!=null && declaringClass.isPhantomClass())
             throw new RuntimeException(
                 "cannot get active body for phantom class: " + getSignature());
-
-		// ignore empty body exceptions if we are just computing coffi metrics
-        if (!soot.jbco.Main.metrics && !hasActiveBody())
-            System.out.println("no active body present for method " + getSignature());
 
         return activeBody;
     }
@@ -649,142 +642,6 @@ public class SootMethod
     /** Returns the signature of this method. */
     public String toString() {
         return getSignature();
-    }
-
-    /*
-     * TODO: Nomair A. Naeem .... 8th Feb 2006
-     * This is really messy coding
-     * So much for modularization!!
-     * Should some day look into creating the DavaDeclaration from within
-     * DavaBody
-     */
-    public String getDavaDeclaration() {
-        if (getName().equals(staticInitializerName))
-            return "static";
-
-        StringBuffer buffer = new StringBuffer();
-
-        // modifiers
-        StringTokenizer st =
-            new StringTokenizer(Modifier.toString(this.getModifiers()));
-        if (st.hasMoreTokens())
-            buffer.append(st.nextToken());
-
-        while (st.hasMoreTokens())
-            buffer.append(" " + st.nextToken());
-
-        if (buffer.length() != 0)
-            buffer.append(" ");
-
-        // return type + name
-
-        if (getName().equals(constructorName))
-            buffer.append(getDeclaringClass().getShortJavaStyleName());
-        else {
-            Type t = this.getReturnType();
-
-            String tempString = t.toString();
-
-            /*
-             * Added code to handle RuntimeExcepotion thrown by getActiveBody
-             */
-            if(hasActiveBody()){
-            	DavaBody body = (DavaBody) getActiveBody();
-            	IterableSet<String> importSet = body.getImportList();
-
-            	if(!importSet.contains(tempString)){
-            		body.addToImportList(tempString);
-            	}
-            	tempString = RemoveFullyQualifiedName.getReducedName(importSet,tempString,t);
-            }
-
-			buffer.append(tempString + " ");
-
-            buffer.append(Scene.v().quotedNameOf(this.getName()));
-        }
-
-        buffer.append("(");
-
-        // parameters
-        Iterator<Type> typeIt = this.getParameterTypes().iterator();
-        int count = 0;
-        while (typeIt.hasNext()) {
-            Type t = typeIt.next();
-			String tempString = t.toString();
-
-            /*
-			 *  Nomair A. Naeem 7th Feb 2006
-			 *  It is nice to remove the fully qualified type names
-			 *  of parameters if the package they belong to have been imported
-			 *  javax.swing.ImageIcon should be just ImageIcon if javax.swing is imported
-			 *  If not imported WHY NOT..import it!!
-			 */
-			if(hasActiveBody()){
-				DavaBody body = (DavaBody) getActiveBody();
-				IterableSet<String> importSet = body.getImportList();
-
-				if(!importSet.contains(tempString)){
-					body.addToImportList(tempString);
-				}
-				tempString = RemoveFullyQualifiedName.getReducedName(importSet,tempString,t);
-			}
-
-			buffer.append(tempString + " ");
-
-            buffer.append(" ");
-            if (hasActiveBody()){
-                buffer.append(((DavaBody) getActiveBody()).get_ParamMap().get(new Integer(count++)));
-            }
-            else {
-                if (t == BooleanType.v())
-                    buffer.append("z" + count++);
-                else if (t == ByteType.v())
-                    buffer.append("b" + count++);
-                else if (t == ShortType.v())
-                    buffer.append("s" + count++);
-                else if (t == CharType.v())
-                    buffer.append("c" + count++);
-                else if (t == IntType.v())
-                    buffer.append("i" + count++);
-                else if (t == LongType.v())
-                    buffer.append("l" + count++);
-                else if (t == DoubleType.v())
-                    buffer.append("d" + count++);
-                else if (t == FloatType.v())
-                    buffer.append("f" + count++);
-                else if (t == StmtAddressType.v())
-                    buffer.append("a" + count++);
-                else if (t == ErroneousType.v())
-                    buffer.append("e" + count++);
-                else if (t == NullType.v())
-                    buffer.append("n" + count++);
-                else
-                    buffer.append("r" + count++);
-            }
-
-            if (typeIt.hasNext())
-                buffer.append(", ");
-
-        }
-
-        buffer.append(")");
-
-        // Print exceptions
-        if (exceptions != null) {
-            Iterator<SootClass> exceptionIt = this.getExceptions().iterator();
-
-            if (exceptionIt.hasNext()) {
-                buffer.append(
-                    " throws " + exceptionIt.next().getName());
-
-                while (exceptionIt.hasNext()) {
-                    buffer.append(
-                        ", " + exceptionIt.next().getName());
-                }
-            }
-        }
-
-        return buffer.toString().intern();
     }
 
     /**

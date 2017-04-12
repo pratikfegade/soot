@@ -26,7 +26,6 @@
 package soot.toolkits.graph;
 
 import soot.*;
-import soot.baf.*;
 import soot.jimple.*;
 import soot.options.Options;
 import soot.toolkits.exceptions.ThrowAnalysis;
@@ -51,7 +50,7 @@ import java.util.Map.Entry;
  * implicitly by the VM to signal an error it encounters in the course of
  * executing an instruction, which need not be a <code>throw</code>.
  * </p>
- * 
+ *
  * <p>
  * For every {@link ThrowInst} or {@link ThrowStmt} <code>Unit</code> which may
  * explicitly throw an exception that would be caught by a {@link Trap} in the
@@ -78,10 +77,10 @@ import java.util.Map.Entry;
 public class ExceptionalUnitGraph extends UnitGraph implements
 		ExceptionalGraph<Unit> {
 	protected Map<Unit, List<Unit>> unitToUnexceptionalSuccs; // If there are no
-																// Traps within
+	// Traps within
 	protected Map<Unit, List<Unit>> unitToUnexceptionalPreds; // the method,
-																// these will be
-																// the
+	// these will be
+	// the
 	// same maps as unitToSuccs and
 	// unitToPreds.
 
@@ -131,7 +130,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	 *            analyses, or to cater to conservative bytecode verifiers.
 	 */
 	public ExceptionalUnitGraph(Body body, ThrowAnalysis throwAnalysis,
-			boolean omitExceptingUnitEdges) {
+								boolean omitExceptingUnitEdges) {
 		super(body);
 		initialize(throwAnalysis, omitExceptingUnitEdges);
 	}
@@ -221,7 +220,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	 *            the handler catches but which have no potential side effects.
 	 */
 	protected void initialize(ThrowAnalysis throwAnalysis,
-			boolean omitExceptingUnitEdges) {
+							  boolean omitExceptingUnitEdges) {
 		int size = unitChain.size();
 		Set<Unit> trapUnitsThatAreHeads = Collections.emptySet();
 
@@ -312,7 +311,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 		Map<Unit, ThrowableSet> unitToUncaughtThrowables = new LinkedHashMap<Unit, ThrowableSet>(
 				units.size());
 		Map<Unit, Collection<ExceptionDest>> result = null;
-		
+
 		// Record the caught exceptions.
 		for (Trap trap : body.getTraps()) {
 			RefType catcher = trap.getException().getType();
@@ -323,7 +322,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 				if (thrownSet == null) {
 					thrownSet = throwAnalysis.mightThrow(unit);
 				}
-				
+
 				ThrowableSet.Pair catchableAs = thrownSet
 						.whichCatchableAs(catcher);
 				if (!catchableAs.getCaught().equals(
@@ -447,9 +446,9 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	 *         completes execution.
 	 */
 	protected Set<Unit> buildExceptionalEdges(ThrowAnalysis throwAnalysis,
-			Map<Unit, Collection<ExceptionDest>> unitToExceptionDests,
-			Map<Unit, List<Unit>> unitToSuccs,
-			Map<Unit, List<Unit>> unitToPreds, boolean omitExceptingUnitEdges) {
+											  Map<Unit, Collection<ExceptionDest>> unitToExceptionDests,
+											  Map<Unit, List<Unit>> unitToSuccs,
+											  Map<Unit, List<Unit>> unitToPreds, boolean omitExceptingUnitEdges) {
 		Set<Unit> trapsThatAreHeads = new ArraySet<Unit>();
 		Unit entryPoint = unitChain.getFirst();
 		for (Entry<Unit, Collection<ExceptionDest>> entry : unitToExceptionDests.entrySet()) {
@@ -493,11 +492,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 			boolean alwaysAddSelfEdges = ((!omitExceptingUnitEdges) || mightHaveSideEffects(thrower));
 			ThrowableSet predThrowables = null;
 			ThrowableSet selfThrowables = null;
-			if (thrower instanceof ThrowInst) {
-				ThrowInst throwInst = (ThrowInst) thrower;
-				predThrowables = throwAnalysis.mightThrowImplicitly(throwInst);
-				selfThrowables = throwAnalysis.mightThrowExplicitly(throwInst);
-			} else if (thrower instanceof ThrowStmt) {
+			if (thrower instanceof ThrowStmt) {
 				ThrowStmt throwStmt = (ThrowStmt) thrower;
 				predThrowables = throwAnalysis.mightThrowImplicitly(throwStmt);
 				selfThrowables = throwAnalysis.mightThrowExplicitly(throwStmt);
@@ -520,7 +515,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 					}
 					if (alwaysAddSelfEdges
 							|| (selfThrowables != null && selfThrowables
-									.catchableAs(trapsType))) {
+							.catchableAs(trapsType))) {
 						addEdge(unitToSuccs, unitToPreds, thrower, catcher);
 					}
 				}
@@ -642,11 +637,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	 * @return whether or not <code>u</code> has the potential for side effects.
 	 */
 	static boolean mightHaveSideEffects(Unit u) {
-		if (u instanceof Inst) {
-			Inst i = (Inst) u;
-			return (i.containsInvokeExpr() || (i instanceof StaticPutInst)
-					|| (i instanceof StaticGetInst) || (i instanceof NewInst));
-		} else if (u instanceof Stmt) {
+		if (u instanceof Stmt) {
 			for (ValueBox vb : u.getUseBoxes()) {
 				Value v = vb.getValue();
 				if ((v instanceof StaticFieldRef) || (v instanceof InvokeExpr)
@@ -716,7 +707,7 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 	 * escape the method.
 	 */
 	private void buildHeadsAndTails(Set<Unit> additionalHeads) {
-		heads = new ArrayList<Unit>(additionalHeads.size() + 1);
+		heads = new ArrayList<>(additionalHeads.size() + 1);
 		heads.addAll(additionalHeads);
 
 		if (unitChain.isEmpty())
@@ -728,15 +719,12 @@ public class ExceptionalUnitGraph extends UnitGraph implements
 			heads.add(entryPoint);
 		}
 
-		tails = new ArrayList<Unit>();
+		tails = new ArrayList<>();
 		for (Unit u : unitChain) {
 			if (u instanceof soot.jimple.ReturnStmt
-					|| u instanceof soot.jimple.ReturnVoidStmt
-					|| u instanceof soot.baf.ReturnInst
-					|| u instanceof soot.baf.ReturnVoidInst) {
+					|| u instanceof soot.jimple.ReturnVoidStmt) {
 				tails.add(u);
-			} else if (u instanceof soot.jimple.ThrowStmt
-					|| u instanceof soot.baf.ThrowInst) {
+			} else if (u instanceof soot.jimple.ThrowStmt) {
 				Collection<ExceptionDest> dests = getExceptionDests(u);
 				int escapeMethodCount = 0;
 				for (ExceptionDest dest : dests) {

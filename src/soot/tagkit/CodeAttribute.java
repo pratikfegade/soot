@@ -29,7 +29,6 @@ package soot.tagkit;
 import soot.G;
 import soot.Unit;
 import soot.UnitBox;
-import soot.baf.Baf;
 import soot.options.Options;
 
 import java.util.*;
@@ -124,9 +123,9 @@ public class CodeAttribute extends JasminAttribute
 	
 	Iterator<Unit> it = mUnits.iterator();
 	
-	while(it.hasNext()) {
-	    unitBoxes.add(Baf.v().newInstBox(it.next()));
-	}
+//	while(it.hasNext()) {
+//	    unitBoxes.add(Baf.v().newInstBox(it.next()));
+//	}
 
 	return unitBoxes;
     }    

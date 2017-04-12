@@ -34,8 +34,6 @@ package soot.coffi;
 import soot.G;
 import soot.Value;
 
-import java.util.StringTokenizer;
-
 /** Base abstract class for constant pool entries; includes some utility methods.
  * @see ClassFile#constant_pool
  * @author Clark Verbrugge
@@ -214,61 +212,6 @@ abstract class cp_info {
       return "Can't find name of that object. Sorry.";
    }
 
-   /** Counts the number of parameters of the given method.
-    * @param constant_pool constant pool of ClassFile.
-    * @param m a constant pool index as accepted by getTypeDescr.
-    * @return the number of parameters.
-    * @see cp_info#getTypeDescr
-    */
-   public static int countParams(cp_info constant_pool[],int m) {
-      StringTokenizer st;
-      String s = getTypeDescr(constant_pool,m);
-      s = ClassFile.parseMethodDesc_params(s);
-      st = new StringTokenizer(s,",",false);
-      return st.countTokens();
-   }
-
-   /** Returns the type descriptor for the given constant pool
-    * object, which must be a CONSTANT_Utf8, CONSTANT_NameAndType,
-    * CONSTANT_Fieldref, CONSTANT_MethodRef, or CONSTANT_InterfaceMethodRef.
-    * @param constant_pool constant pool of ClassFile.
-    * @param i a constant pool index for an entry of type CONSTANT_Utf8,
-    * CONSTANT_NameAndType, CONSTANT_MethodRef, or CONSTANT_InterfaceMethodRef.
-    * @return the type descriptor.
-    * @see CONSTANT_Utf8_info
-    */
-   public static String getTypeDescr(cp_info constant_pool[],int i) {
-      cp_info c = constant_pool[i];
-      if (c instanceof CONSTANT_Utf8_info)
-         return c.toString(constant_pool);
-      if (c instanceof CONSTANT_NameAndType_info)
-         return getTypeDescr(constant_pool,
-                             ((CONSTANT_NameAndType_info)c).descriptor_index);
-      if (c instanceof CONSTANT_Methodref_info)
-         return getTypeDescr(constant_pool,
-                             ((CONSTANT_Methodref_info)c).name_and_type_index);
-      if (c instanceof CONSTANT_InterfaceMethodref_info)
-         return getTypeDescr(constant_pool,
-                             ((CONSTANT_InterfaceMethodref_info)c).name_and_type_index);
-      if (c instanceof CONSTANT_Fieldref_info)
-         return getTypeDescr(constant_pool,
-                             ((CONSTANT_Fieldref_info)c).name_and_type_index);
-      G.v().out.println("Invalid request for type descr!");
-      return "Invalid type descriptor request.";
-   }
-
-   /** Returns the name of the field type of the given constant pool object.
-    * @param constant_pool constant pool of ClassFile.
-    * @param i a constant pool index for an entry of type CONSTANT_Utf8,
-    * CONSTANT_NameAndType, or CONSTANT_FieldRef.
-    * @return the type of the field.
-    * @see CONSTANT_Utf8_info
-    * @see cp_info#getTypeDescr
-    */
-   public static String fieldType(cp_info constant_pool[],int i) {
-      return ClassFile.parseDesc(getTypeDescr(constant_pool,i),"");
-   }
-   
    /** Creates an appropriate jimple representation of this constant.
     * Field and method constants are assumed to point to static fields/methods.
     * */

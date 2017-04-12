@@ -31,9 +31,10 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.baf.Baf;
-import soot.baf.PlaceholderInst;
-import soot.jimple.*;
+import soot.jimple.IntConstant;
+import soot.jimple.Jimple;
+import soot.jimple.LookupSwitchStmt;
+import soot.jimple.StmtSwitch;
 import soot.util.Switch;
 
 import java.util.ArrayList;
@@ -175,22 +176,6 @@ public class JLookupSwitchStmt extends AbstractSwitchStmt
     {
       ((StmtSwitch) sw).caseLookupSwitchStmt(this);
     }
-    
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        List<PlaceholderInst> targetPlaceholders = new ArrayList<PlaceholderInst>();
 
-        ((ConvertToBaf)getKey()).convertToBaf(context, out);
-        
-        for (Unit target : getTargets()) {
-        	targetPlaceholders.add(Baf.v().newPlaceholderInst(target));
-        }
-        
-        Unit u = Baf.v().newLookupSwitchInst(
-        		Baf.v().newPlaceholderInst(getDefaultTarget()),
-                getLookupValues(), targetPlaceholders);
-        u.addAllTagsOf(this);
-        out.add(u);
-    }
 }
 

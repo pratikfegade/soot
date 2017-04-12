@@ -241,34 +241,6 @@ public class Singletons {
     	instance_soot_SourceLocator = null;
     }
 
-    private soot.coffi.CONSTANT_Utf8_collector instance_soot_coffi_CONSTANT_Utf8_collector;
-    public soot.coffi.CONSTANT_Utf8_collector soot_coffi_CONSTANT_Utf8_collector() {
-        if( instance_soot_coffi_CONSTANT_Utf8_collector == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_coffi_CONSTANT_Utf8_collector == null )
-	        		instance_soot_coffi_CONSTANT_Utf8_collector = new soot.coffi.CONSTANT_Utf8_collector( g );
-	       	}
-       	}
-        return instance_soot_coffi_CONSTANT_Utf8_collector;
-    }
-    protected void release_soot_coffi_CONSTANT_Utf8_collector() {
-    	instance_soot_coffi_CONSTANT_Utf8_collector = null;
-    }
-
-    private soot.dava.toolkits.base.finders.AbruptEdgeFinder instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder;
-    public soot.dava.toolkits.base.finders.AbruptEdgeFinder soot_dava_toolkits_base_finders_AbruptEdgeFinder() {
-        if( instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder = new soot.dava.toolkits.base.finders.AbruptEdgeFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_AbruptEdgeFinder() {
-    	instance_soot_dava_toolkits_base_finders_AbruptEdgeFinder = null;
-    }
-
     private soot.jimple.toolkits.base.Aggregator instance_soot_jimple_toolkits_base_Aggregator;
     public soot.jimple.toolkits.base.Aggregator soot_jimple_toolkits_base_Aggregator() {
         if( instance_soot_jimple_toolkits_base_Aggregator == null ) {
@@ -279,8 +251,47 @@ public class Singletons {
        	}
         return instance_soot_jimple_toolkits_base_Aggregator;
     }
-    protected void release_soot_jimple_toolkits_base_Aggregator() {
-    	instance_soot_jimple_toolkits_base_Aggregator = null;
+
+    private soot.dava.toolkits.base.misc.PackageNamer instance_soot_dava_toolkits_base_misc_PackageNamer;
+    public soot.dava.toolkits.base.misc.PackageNamer soot_dava_toolkits_base_misc_PackageNamer() {
+        if( instance_soot_dava_toolkits_base_misc_PackageNamer == null ) {
+            synchronized (this) {
+                if( instance_soot_dava_toolkits_base_misc_PackageNamer == null )
+                    instance_soot_dava_toolkits_base_misc_PackageNamer = new soot.dava.toolkits.base.misc.PackageNamer( g );
+            }
+        }
+        return instance_soot_dava_toolkits_base_misc_PackageNamer;
+    }
+    protected void release_soot_dava_toolkits_base_misc_PackageNamer() {
+        instance_soot_dava_toolkits_base_misc_PackageNamer = null;
+    }
+
+    private soot.dava.Dava instance_soot_dava_Dava;
+    public soot.dava.Dava soot_dava_Dava() {
+        if( instance_soot_dava_Dava == null ) {
+            synchronized (this) {
+                if( instance_soot_dava_Dava == null )
+                    instance_soot_dava_Dava = new soot.dava.Dava( g );
+            }
+        }
+        return instance_soot_dava_Dava;
+    }
+    protected void release_soot_dava_Dava() {
+        instance_soot_dava_Dava = null;
+    }
+
+    private soot.coffi.CONSTANT_Utf8_collector instance_soot_coffi_CONSTANT_Utf8_collector;
+    public soot.coffi.CONSTANT_Utf8_collector soot_coffi_CONSTANT_Utf8_collector() {
+        if( instance_soot_coffi_CONSTANT_Utf8_collector == null ) {
+            synchronized (this) {
+                if( instance_soot_coffi_CONSTANT_Utf8_collector == null )
+                    instance_soot_coffi_CONSTANT_Utf8_collector = new soot.coffi.CONSTANT_Utf8_collector( g );
+            }
+        }
+        return instance_soot_coffi_CONSTANT_Utf8_collector;
+    }
+    protected void release_soot_coffi_CONSTANT_Utf8_collector() {
+        instance_soot_coffi_CONSTANT_Utf8_collector = null;
     }
 
     private soot.jimple.toolkits.annotation.arraycheck.ArrayBoundsChecker instance_soot_jimple_toolkits_annotation_arraycheck_ArrayBoundsChecker;
@@ -309,48 +320,6 @@ public class Singletons {
     }
     protected void release_soot_jimple_spark_pag_ArrayElement() {
     	instance_soot_jimple_spark_pag_ArrayElement = null;
-    }
-
-    private soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator;
-    public soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator() {
-        if( instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator == null )
-	        		instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator = new soot.jimple.toolkits.annotation.tags.ArrayNullTagAggregator( g );
-	       	}
-       	}
-        return instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator;
-    }
-    protected void release_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator() {
-    	instance_soot_jimple_toolkits_annotation_tags_ArrayNullTagAggregator = null;
-    }
-
-    private soot.dava.toolkits.base.AST.ASTWalker instance_soot_dava_toolkits_base_AST_ASTWalker;
-    public soot.dava.toolkits.base.AST.ASTWalker soot_dava_toolkits_base_AST_ASTWalker() {
-        if( instance_soot_dava_toolkits_base_AST_ASTWalker == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_AST_ASTWalker == null )
-	        		instance_soot_dava_toolkits_base_AST_ASTWalker = new soot.dava.toolkits.base.AST.ASTWalker( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_AST_ASTWalker;
-    }
-    protected void release_soot_dava_toolkits_base_AST_ASTWalker() {
-    	instance_soot_dava_toolkits_base_AST_ASTWalker = null;
-    }
-
-    private soot.baf.Baf instance_soot_baf_Baf;
-    public soot.baf.Baf soot_baf_Baf() {
-        if( instance_soot_baf_Baf == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_baf_Baf == null )
-	        		instance_soot_baf_Baf = new soot.baf.Baf( g );
-	       	}
-       	}
-        return instance_soot_baf_Baf;
-    }
-    protected void release_soot_baf_Baf() {
-    	instance_soot_baf_Baf = null;
     }
 
     private soot.BooleanType instance_soot_BooleanType;
@@ -479,20 +448,6 @@ public class Singletons {
     	instance_soot_jimple_toolkits_scalar_ConstantPropagatorAndFolder = null;
     }
 
-    private soot.grimp.toolkits.base.ConstructorFolder instance_soot_grimp_toolkits_base_ConstructorFolder;
-    public soot.grimp.toolkits.base.ConstructorFolder soot_grimp_toolkits_base_ConstructorFolder() {
-        if( instance_soot_grimp_toolkits_base_ConstructorFolder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_grimp_toolkits_base_ConstructorFolder == null )
-	        		instance_soot_grimp_toolkits_base_ConstructorFolder = new soot.grimp.toolkits.base.ConstructorFolder( g );
-	       	}
-       	}
-        return instance_soot_grimp_toolkits_base_ConstructorFolder;
-    }
-    protected void release_soot_grimp_toolkits_base_ConstructorFolder() {
-    	instance_soot_grimp_toolkits_base_ConstructorFolder = null;
-    }
-
     private soot.jimple.toolkits.scalar.CopyPropagator instance_soot_jimple_toolkits_scalar_CopyPropagator;
     public soot.jimple.toolkits.scalar.CopyPropagator soot_jimple_toolkits_scalar_CopyPropagator() {
         if( instance_soot_jimple_toolkits_scalar_CopyPropagator == null ) {
@@ -521,47 +476,7 @@ public class Singletons {
     	instance_soot_jimple_toolkits_graph_CriticalEdgeRemover = null;
     }
 
-    private soot.dava.toolkits.base.finders.CycleFinder instance_soot_dava_toolkits_base_finders_CycleFinder;
-    public soot.dava.toolkits.base.finders.CycleFinder soot_dava_toolkits_base_finders_CycleFinder() {
-        if( instance_soot_dava_toolkits_base_finders_CycleFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_CycleFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_CycleFinder = new soot.dava.toolkits.base.finders.CycleFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_CycleFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_CycleFinder() {
-    	instance_soot_dava_toolkits_base_finders_CycleFinder = null;
-    }
 
-    private soot.dava.Dava instance_soot_dava_Dava;
-    public soot.dava.Dava soot_dava_Dava() {
-        if( instance_soot_dava_Dava == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_Dava == null )
-	        		instance_soot_dava_Dava = new soot.dava.Dava( g );
-	       	}
-       	}
-        return instance_soot_dava_Dava;
-    }
-    protected void release_soot_dava_Dava() {
-    	instance_soot_dava_Dava = null;
-    }
-
-    private soot.dava.DavaPrinter instance_soot_dava_DavaPrinter;
-    public soot.dava.DavaPrinter soot_dava_DavaPrinter() {
-        if( instance_soot_dava_DavaPrinter == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_DavaPrinter == null )
-	        		instance_soot_dava_DavaPrinter = new soot.dava.DavaPrinter( g );
-	       	}
-       	}
-        return instance_soot_dava_DavaPrinter;
-    }
-    protected void release_soot_dava_DavaPrinter() {
-    	instance_soot_dava_DavaPrinter = null;
-    }
 
     private soot.xml.XMLPrinter instance_soot_xml_XMLPrinter;
     public soot.xml.XMLPrinter soot_xml_XMLPrinter() {
@@ -605,33 +520,6 @@ public class Singletons {
     	instance_soot_jimple_toolkits_scalar_DeadAssignmentEliminator = null;
     }
 
-    private soot.jimple.toolkits.pointer.DependenceTagAggregator instance_soot_jimple_toolkits_pointer_DependenceTagAggregator;
-    public soot.jimple.toolkits.pointer.DependenceTagAggregator soot_jimple_toolkits_pointer_DependenceTagAggregator() {
-        if( instance_soot_jimple_toolkits_pointer_DependenceTagAggregator == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_jimple_toolkits_pointer_DependenceTagAggregator == null )
-	        		instance_soot_jimple_toolkits_pointer_DependenceTagAggregator = new soot.jimple.toolkits.pointer.DependenceTagAggregator( g );
-	       	}
-       	}
-        return instance_soot_jimple_toolkits_pointer_DependenceTagAggregator;
-    }
-    protected void release_soot_jimple_toolkits_pointer_DependenceTagAggregator() {
-    	instance_soot_jimple_toolkits_pointer_DependenceTagAggregator = null;
-    }
-
-    private soot.coffi.Double2ndHalfType instance_soot_coffi_Double2ndHalfType;
-    public soot.coffi.Double2ndHalfType soot_coffi_Double2ndHalfType() {
-        if( instance_soot_coffi_Double2ndHalfType == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_coffi_Double2ndHalfType == null )
-	        		instance_soot_coffi_Double2ndHalfType = new soot.coffi.Double2ndHalfType( g );
-	       	}
-       	}
-        return instance_soot_coffi_Double2ndHalfType;
-    }
-    protected void release_soot_coffi_Double2ndHalfType() {
-    	instance_soot_coffi_Double2ndHalfType = null;
-    }
 
     private soot.DoubleType instance_soot_DoubleType;
     public soot.DoubleType soot_DoubleType() {
@@ -645,20 +533,6 @@ public class Singletons {
     }
     protected void release_soot_DoubleType() {
     	instance_soot_DoubleType = null;
-    }
-
-    private soot.baf.DoubleWordType instance_soot_baf_DoubleWordType;
-    public soot.baf.DoubleWordType soot_baf_DoubleWordType() {
-        if( instance_soot_baf_DoubleWordType == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_baf_DoubleWordType == null )
-	        		instance_soot_baf_DoubleWordType = new soot.baf.DoubleWordType( g );
-	       	}
-       	}
-        return instance_soot_baf_DoubleWordType;
-    }
-    protected void release_soot_baf_DoubleWordType() {
-    	instance_soot_baf_DoubleWordType = null;
     }
 
     private soot.jimple.toolkits.pointer.DumbPointerAnalysis instance_soot_jimple_toolkits_pointer_DumbPointerAnalysis;
@@ -703,20 +577,6 @@ public class Singletons {
     	instance_soot_ErroneousType = null;
     }
 
-    private soot.dava.toolkits.base.finders.ExceptionFinder instance_soot_dava_toolkits_base_finders_ExceptionFinder;
-    public soot.dava.toolkits.base.finders.ExceptionFinder soot_dava_toolkits_base_finders_ExceptionFinder() {
-        if( instance_soot_dava_toolkits_base_finders_ExceptionFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_ExceptionFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_ExceptionFinder = new soot.dava.toolkits.base.finders.ExceptionFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_ExceptionFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_ExceptionFinder() {
-    	instance_soot_dava_toolkits_base_finders_ExceptionFinder = null;
-    }
-
     private soot.jimple.toolkits.pointer.FieldRWTagger instance_soot_jimple_toolkits_pointer_FieldRWTagger;
     public soot.jimple.toolkits.pointer.FieldRWTagger soot_jimple_toolkits_pointer_FieldRWTagger() {
         if( instance_soot_jimple_toolkits_pointer_FieldRWTagger == null ) {
@@ -759,34 +619,6 @@ public class Singletons {
     	instance_soot_jimple_toolkits_pointer_FullObjectSet = null;
     }
 
-    private soot.grimp.Grimp instance_soot_grimp_Grimp;
-    public soot.grimp.Grimp soot_grimp_Grimp() {
-        if( instance_soot_grimp_Grimp == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_grimp_Grimp == null )
-	        		instance_soot_grimp_Grimp = new soot.grimp.Grimp( g );
-	       	}
-       	}
-        return instance_soot_grimp_Grimp;
-    }
-    protected void release_soot_grimp_Grimp() {
-    	instance_soot_grimp_Grimp = null;
-    }
-
-    private soot.dava.toolkits.base.finders.IfFinder instance_soot_dava_toolkits_base_finders_IfFinder;
-    public soot.dava.toolkits.base.finders.IfFinder soot_dava_toolkits_base_finders_IfFinder() {
-        if( instance_soot_dava_toolkits_base_finders_IfFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_IfFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_IfFinder = new soot.dava.toolkits.base.finders.IfFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_IfFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_IfFinder() {
-    	instance_soot_dava_toolkits_base_finders_IfFinder = null;
-    }
-
     private soot.IntType instance_soot_IntType;
     public soot.IntType soot_IntType() {
         if( instance_soot_IntType == null ) {
@@ -815,19 +647,6 @@ public class Singletons {
     	instance_soot_jimple_Jimple = null;
     }
 
-    private soot.dava.toolkits.base.finders.LabeledBlockFinder instance_soot_dava_toolkits_base_finders_LabeledBlockFinder;
-    public soot.dava.toolkits.base.finders.LabeledBlockFinder soot_dava_toolkits_base_finders_LabeledBlockFinder() {
-        if( instance_soot_dava_toolkits_base_finders_LabeledBlockFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_LabeledBlockFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_LabeledBlockFinder = new soot.dava.toolkits.base.finders.LabeledBlockFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_LabeledBlockFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_LabeledBlockFinder() {
-    	instance_soot_dava_toolkits_base_finders_LabeledBlockFinder = null;
-    }
 
     private soot.jimple.toolkits.scalar.pre.LazyCodeMotion instance_soot_jimple_toolkits_scalar_pre_LazyCodeMotion;
     public soot.jimple.toolkits.scalar.pre.LazyCodeMotion soot_jimple_toolkits_scalar_pre_LazyCodeMotion() {
@@ -841,20 +660,6 @@ public class Singletons {
     }
     protected void release_soot_jimple_toolkits_scalar_pre_LazyCodeMotion() {
     	instance_soot_jimple_toolkits_scalar_pre_LazyCodeMotion = null;
-    }
-
-    private soot.tagkit.LineNumberTagAggregator instance_soot_tagkit_LineNumberTagAggregator;
-    public soot.tagkit.LineNumberTagAggregator soot_tagkit_LineNumberTagAggregator() {
-        if( instance_soot_tagkit_LineNumberTagAggregator == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_tagkit_LineNumberTagAggregator == null )
-	        		instance_soot_tagkit_LineNumberTagAggregator = new soot.tagkit.LineNumberTagAggregator( g );
-	       	}
-       	}
-        return instance_soot_tagkit_LineNumberTagAggregator;
-    }
-    protected void release_soot_tagkit_LineNumberTagAggregator() {
-    	instance_soot_tagkit_LineNumberTagAggregator = null;
     }
 
     private soot.tagkit.InnerClassTagAggregator instance_soot_tagkit_InnerClassTagAggregator;
@@ -885,34 +690,6 @@ public class Singletons {
     	instance_soot_jimple_toolkits_annotation_LineNumberAdder = null;
     }
 
-    private soot.baf.toolkits.base.LoadStoreOptimizer instance_soot_baf_toolkits_base_LoadStoreOptimizer;
-    public soot.baf.toolkits.base.LoadStoreOptimizer soot_baf_toolkits_base_LoadStoreOptimizer() {
-        if( instance_soot_baf_toolkits_base_LoadStoreOptimizer == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_baf_toolkits_base_LoadStoreOptimizer == null )
-	        		instance_soot_baf_toolkits_base_LoadStoreOptimizer = new soot.baf.toolkits.base.LoadStoreOptimizer( g );
-	       	}
-       	}
-        return instance_soot_baf_toolkits_base_LoadStoreOptimizer;
-    }
-    protected void release_soot_baf_toolkits_base_LoadStoreOptimizer() {
-    	instance_soot_baf_toolkits_base_LoadStoreOptimizer = null;
-    }
-
-    private soot.baf.toolkits.base.StoreChainOptimizer instance_soot_baf_toolkits_base_StoreChainOptimizer;
-    public soot.baf.toolkits.base.StoreChainOptimizer soot_baf_toolkits_base_StoreChainOptimizer() {
-        if( instance_soot_baf_toolkits_base_StoreChainOptimizer == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_baf_toolkits_base_StoreChainOptimizer == null )
-	        		instance_soot_baf_toolkits_base_StoreChainOptimizer = new soot.baf.toolkits.base.StoreChainOptimizer( g );
-	       	}
-       	}
-        return instance_soot_baf_toolkits_base_StoreChainOptimizer;
-    }
-    protected void release_soot_baf_toolkits_base_StoreChainOptimizer() {
-    	instance_soot_baf_toolkits_base_StoreChainOptimizer = null;
-    }
-
     private soot.jimple.toolkits.scalar.LocalNameStandardizer instance_soot_jimple_toolkits_scalar_LocalNameStandardizer;
     public soot.jimple.toolkits.scalar.LocalNameStandardizer soot_jimple_toolkits_scalar_LocalNameStandardizer() {
         if( instance_soot_jimple_toolkits_scalar_LocalNameStandardizer == null ) {
@@ -922,20 +699,6 @@ public class Singletons {
 	       	}
        	}
         return instance_soot_jimple_toolkits_scalar_LocalNameStandardizer;
-    }
-    protected void release_soot_jimple_toolkits_scalar_LocalNameStandardizer() {
-    	instance_soot_jimple_toolkits_scalar_LocalNameStandardizer = null;
-    }
-
-    private soot.jimple.toolkits.scalar.DoopRenamer instance_soot_jimple_toolkits_scalar_DoopRenamer;
-    public soot.jimple.toolkits.scalar.DoopRenamer soot_jimple_toolkits_scalar_DoopRenamer() {
-        if( instance_soot_jimple_toolkits_scalar_DoopRenamer == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_jimple_toolkits_scalar_DoopRenamer == null )
-	        		instance_soot_jimple_toolkits_scalar_DoopRenamer = new soot.jimple.toolkits.scalar.DoopRenamer( g );
-	       	}
-       	}
-        return instance_soot_jimple_toolkits_scalar_DoopRenamer;
     }
 
     private soot.toolkits.scalar.LocalPacker instance_soot_toolkits_scalar_LocalPacker;
@@ -948,10 +711,6 @@ public class Singletons {
        	}
         return instance_soot_toolkits_scalar_LocalPacker;
     }
-    protected void release_soot_toolkits_scalar_LocalPacker() {
-    	instance_soot_toolkits_scalar_LocalPacker = null;
-    }
-
     private soot.toolkits.scalar.LocalSplitter instance_soot_toolkits_scalar_LocalSplitter;
     public soot.toolkits.scalar.LocalSplitter soot_toolkits_scalar_LocalSplitter() {
         if( instance_soot_toolkits_scalar_LocalSplitter == null ) {
@@ -966,20 +725,6 @@ public class Singletons {
     	instance_soot_toolkits_scalar_LocalSplitter = null;
     }
 
-    private soot.coffi.Long2ndHalfType instance_soot_coffi_Long2ndHalfType;
-    public soot.coffi.Long2ndHalfType soot_coffi_Long2ndHalfType() {
-        if( instance_soot_coffi_Long2ndHalfType == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_coffi_Long2ndHalfType == null )
-	        		instance_soot_coffi_Long2ndHalfType = new soot.coffi.Long2ndHalfType( g );
-	       	}
-       	}
-        return instance_soot_coffi_Long2ndHalfType;
-    }
-    protected void release_soot_coffi_Long2ndHalfType() {
-    	instance_soot_coffi_Long2ndHalfType = null;
-    }
-
     private soot.LongType instance_soot_LongType;
     public soot.LongType soot_LongType() {
         if( instance_soot_LongType == null ) {
@@ -992,20 +737,6 @@ public class Singletons {
     }
     protected void release_soot_LongType() {
     	instance_soot_LongType = null;
-    }
-
-    private soot.dava.toolkits.base.misc.MonitorConverter instance_soot_dava_toolkits_base_misc_MonitorConverter;
-    public soot.dava.toolkits.base.misc.MonitorConverter soot_dava_toolkits_base_misc_MonitorConverter() {
-        if( instance_soot_dava_toolkits_base_misc_MonitorConverter == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_misc_MonitorConverter == null )
-	        		instance_soot_dava_toolkits_base_misc_MonitorConverter = new soot.dava.toolkits.base.misc.MonitorConverter( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_misc_MonitorConverter;
-    }
-    protected void release_soot_dava_toolkits_base_misc_MonitorConverter() {
-    	instance_soot_dava_toolkits_base_misc_MonitorConverter = null;
     }
 
     private soot.jimple.toolkits.scalar.NopEliminator instance_soot_jimple_toolkits_scalar_NopEliminator;
@@ -1064,20 +795,6 @@ public class Singletons {
     	instance_soot_NullType = null;
     }
 
-    private soot.dava.toolkits.base.misc.PackageNamer instance_soot_dava_toolkits_base_misc_PackageNamer;
-    public soot.dava.toolkits.base.misc.PackageNamer soot_dava_toolkits_base_misc_PackageNamer() {
-        if( instance_soot_dava_toolkits_base_misc_PackageNamer == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_misc_PackageNamer == null )
-	        		instance_soot_dava_toolkits_base_misc_PackageNamer = new soot.dava.toolkits.base.misc.PackageNamer( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_misc_PackageNamer;
-    }
-    protected void release_soot_dava_toolkits_base_misc_PackageNamer() {
-    	instance_soot_dava_toolkits_base_misc_PackageNamer = null;
-    }
-
     private soot.PackManager instance_soot_PackManager;
     public soot.PackManager soot_PackManager() {
         if( instance_soot_PackManager == null ) {
@@ -1092,19 +809,6 @@ public class Singletons {
     	instance_soot_PackManager = null;
     }
 
-    private soot.baf.toolkits.base.PeepholeOptimizer instance_soot_baf_toolkits_base_PeepholeOptimizer;
-    public soot.baf.toolkits.base.PeepholeOptimizer soot_baf_toolkits_base_PeepholeOptimizer() {
-        if( instance_soot_baf_toolkits_base_PeepholeOptimizer == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_baf_toolkits_base_PeepholeOptimizer == null )
-	        		instance_soot_baf_toolkits_base_PeepholeOptimizer = new soot.baf.toolkits.base.PeepholeOptimizer( g );
-	       	}
-       	}
-        return instance_soot_baf_toolkits_base_PeepholeOptimizer;
-    }
-    protected void release_soot_baf_toolkits_base_PeepholeOptimizer() {
-    	instance_soot_baf_toolkits_base_PeepholeOptimizer = null;
-    }
 
     private soot.jimple.toolkits.annotation.profiling.ProfilingGenerator instance_soot_jimple_toolkits_annotation_profiling_ProfilingGenerator;
     public soot.jimple.toolkits.annotation.profiling.ProfilingGenerator soot_jimple_toolkits_annotation_profiling_ProfilingGenerator() {
@@ -1160,20 +864,6 @@ public class Singletons {
     }
     protected void release_soot_Scene() {
     	instance_soot_Scene = null;
-    }
-
-    private soot.dava.toolkits.base.finders.SequenceFinder instance_soot_dava_toolkits_base_finders_SequenceFinder;
-    public soot.dava.toolkits.base.finders.SequenceFinder soot_dava_toolkits_base_finders_SequenceFinder() {
-        if( instance_soot_dava_toolkits_base_finders_SequenceFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_SequenceFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_SequenceFinder = new soot.dava.toolkits.base.finders.SequenceFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_SequenceFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_SequenceFinder() {
-    	instance_soot_dava_toolkits_base_finders_SequenceFinder = null;
     }
 
     private soot.shimple.Shimple instance_soot_shimple_Shimple;
@@ -1302,62 +992,6 @@ public class Singletons {
     	instance_soot_StmtAddressType = null;
     }
 
-    private soot.dava.toolkits.base.finders.SwitchFinder instance_soot_dava_toolkits_base_finders_SwitchFinder;
-    public soot.dava.toolkits.base.finders.SwitchFinder soot_dava_toolkits_base_finders_SwitchFinder() {
-        if( instance_soot_dava_toolkits_base_finders_SwitchFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_SwitchFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_SwitchFinder = new soot.dava.toolkits.base.finders.SwitchFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_SwitchFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_SwitchFinder() {
-    	instance_soot_dava_toolkits_base_finders_SwitchFinder = null;
-    }
-
-    private soot.dava.toolkits.base.finders.SynchronizedBlockFinder instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder;
-    public soot.dava.toolkits.base.finders.SynchronizedBlockFinder soot_dava_toolkits_base_finders_SynchronizedBlockFinder() {
-        if( instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder == null )
-	        		instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder = new soot.dava.toolkits.base.finders.SynchronizedBlockFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder;
-    }
-    protected void release_soot_dava_toolkits_base_finders_SynchronizedBlockFinder() {
-    	instance_soot_dava_toolkits_base_finders_SynchronizedBlockFinder = null;
-    }
-
-    private soot.dava.toolkits.base.misc.ThrowFinder instance_soot_dava_toolkits_base_misc_ThrowFinder;
-    public soot.dava.toolkits.base.misc.ThrowFinder soot_dava_toolkits_base_misc_ThrowFinder() {
-        if( instance_soot_dava_toolkits_base_misc_ThrowFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_misc_ThrowFinder == null )
-	        		instance_soot_dava_toolkits_base_misc_ThrowFinder = new soot.dava.toolkits.base.misc.ThrowFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_misc_ThrowFinder;
-    }
-    protected void release_soot_dava_toolkits_base_misc_ThrowFinder() {
-    	instance_soot_dava_toolkits_base_misc_ThrowFinder = null;
-    }
-
-    private soot.dava.toolkits.base.misc.ThrowNullConverter instance_soot_dava_toolkits_base_misc_ThrowNullConverter;
-    public soot.dava.toolkits.base.misc.ThrowNullConverter soot_dava_toolkits_base_misc_ThrowNullConverter() {
-        if( instance_soot_dava_toolkits_base_misc_ThrowNullConverter == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_misc_ThrowNullConverter == null )
-	        		instance_soot_dava_toolkits_base_misc_ThrowNullConverter = new soot.dava.toolkits.base.misc.ThrowNullConverter( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_misc_ThrowNullConverter;
-    }
-    protected void release_soot_dava_toolkits_base_misc_ThrowNullConverter() {
-    	instance_soot_dava_toolkits_base_misc_ThrowNullConverter = null;
-    }
-
     private soot.Timers instance_soot_Timers;
     public soot.Timers soot_Timers() {
         if( instance_soot_Timers == null ) {
@@ -1370,20 +1004,6 @@ public class Singletons {
     }
     protected void release_soot_Timers() {
     	instance_soot_Timers = null;
-    }
-
-    private soot.dava.toolkits.base.AST.TryContentsFinder instance_soot_dava_toolkits_base_AST_TryContentsFinder;
-    public soot.dava.toolkits.base.AST.TryContentsFinder soot_dava_toolkits_base_AST_TryContentsFinder() {
-        if( instance_soot_dava_toolkits_base_AST_TryContentsFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_AST_TryContentsFinder == null )
-	        		instance_soot_dava_toolkits_base_AST_TryContentsFinder = new soot.dava.toolkits.base.AST.TryContentsFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_AST_TryContentsFinder;
-    }
-    protected void release_soot_dava_toolkits_base_AST_TryContentsFinder() {
-    	instance_soot_dava_toolkits_base_AST_TryContentsFinder = null;
     }
 
     private soot.jimple.toolkits.typing.TypeAssigner instance_soot_jimple_toolkits_typing_TypeAssigner;
@@ -1512,34 +1132,6 @@ public class Singletons {
     	instance_soot_toolkits_scalar_UnusedLocalEliminator = null;
     }
 
-    private soot.coffi.UnusuableType instance_soot_coffi_UnusuableType;
-    public soot.coffi.UnusuableType soot_coffi_UnusuableType() {
-        if( instance_soot_coffi_UnusuableType == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_coffi_UnusuableType == null )
-	        		instance_soot_coffi_UnusuableType = new soot.coffi.UnusuableType( g );
-	       	}
-       	}
-        return instance_soot_coffi_UnusuableType;
-    }
-    protected void release_soot_coffi_UnusuableType() {
-    	instance_soot_coffi_UnusuableType = null;
-    }
-
-    private soot.dava.toolkits.base.AST.UselessTryRemover instance_soot_dava_toolkits_base_AST_UselessTryRemover;
-    public soot.dava.toolkits.base.AST.UselessTryRemover soot_dava_toolkits_base_AST_UselessTryRemover() {
-        if( instance_soot_dava_toolkits_base_AST_UselessTryRemover == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_AST_UselessTryRemover == null )
-	        		instance_soot_dava_toolkits_base_AST_UselessTryRemover = new soot.dava.toolkits.base.AST.UselessTryRemover( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_AST_UselessTryRemover;
-    }
-    protected void release_soot_dava_toolkits_base_AST_UselessTryRemover() {
-    	instance_soot_dava_toolkits_base_AST_UselessTryRemover = null;
-    }
-
     private soot.VoidType instance_soot_VoidType;
     public soot.VoidType soot_VoidType() {
         if( instance_soot_VoidType == null ) {
@@ -1554,61 +1146,6 @@ public class Singletons {
     	instance_soot_VoidType = null;
     }
 
-    private soot.baf.WordType instance_soot_baf_WordType;
-    public soot.baf.WordType soot_baf_WordType() {
-        if( instance_soot_baf_WordType == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_baf_WordType == null )
-	        		instance_soot_baf_WordType = new soot.baf.WordType( g );
-	       	}
-       	}
-        return instance_soot_baf_WordType;
-    }
-    protected void release_soot_baf_WordType() {
-    	instance_soot_baf_WordType = null;
-    }
-
-    private soot.jimple.spark.fieldrw.FieldReadTagAggregator instance_soot_jimple_spark_fieldrw_FieldReadTagAggregator;
-    public soot.jimple.spark.fieldrw.FieldReadTagAggregator soot_jimple_spark_fieldrw_FieldReadTagAggregator() {
-        if( instance_soot_jimple_spark_fieldrw_FieldReadTagAggregator == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_jimple_spark_fieldrw_FieldReadTagAggregator == null )
-	        		instance_soot_jimple_spark_fieldrw_FieldReadTagAggregator = new soot.jimple.spark.fieldrw.FieldReadTagAggregator( g );
-	       	}
-       	}
-        return instance_soot_jimple_spark_fieldrw_FieldReadTagAggregator;
-    }
-    protected void release_soot_jimple_spark_fieldrw_FieldReadTagAggregator() {
-    	instance_soot_jimple_spark_fieldrw_FieldReadTagAggregator = null;
-    }
-
-    private soot.jimple.spark.fieldrw.FieldWriteTagAggregator instance_soot_jimple_spark_fieldrw_FieldWriteTagAggregator;
-    public soot.jimple.spark.fieldrw.FieldWriteTagAggregator soot_jimple_spark_fieldrw_FieldWriteTagAggregator() {
-        if( instance_soot_jimple_spark_fieldrw_FieldWriteTagAggregator == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_jimple_spark_fieldrw_FieldWriteTagAggregator == null )
-	        		instance_soot_jimple_spark_fieldrw_FieldWriteTagAggregator = new soot.jimple.spark.fieldrw.FieldWriteTagAggregator( g );
-	       	}
-       	}
-        return instance_soot_jimple_spark_fieldrw_FieldWriteTagAggregator;
-    }
-    protected void release_soot_jimple_spark_fieldrw_FieldWriteTagAggregator() {
-    	instance_soot_jimple_spark_fieldrw_FieldWriteTagAggregator = null;
-    }
-
-    private soot.jimple.spark.fieldrw.FieldTagAggregator instance_soot_jimple_spark_fieldrw_FieldTagAggregator;
-    public soot.jimple.spark.fieldrw.FieldTagAggregator soot_jimple_spark_fieldrw_FieldTagAggregator() {
-        if( instance_soot_jimple_spark_fieldrw_FieldTagAggregator == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_jimple_spark_fieldrw_FieldTagAggregator == null )
-	        		instance_soot_jimple_spark_fieldrw_FieldTagAggregator = new soot.jimple.spark.fieldrw.FieldTagAggregator( g );
-	       	}
-       	}
-        return instance_soot_jimple_spark_fieldrw_FieldTagAggregator;
-    }
-    protected void release_soot_jimple_spark_fieldrw_FieldTagAggregator() {
-    	instance_soot_jimple_spark_fieldrw_FieldTagAggregator = null;
-    }
 
     private soot.EntryPoints instance_soot_EntryPoints;
     public soot.EntryPoints soot_EntryPoints() {
@@ -1932,20 +1469,6 @@ public class Singletons {
     	instance_soot_SootResolver = null;
     }
 
-    private soot.javaToJimple.InitialResolver instance_soot_javaToJimple_InitialResolver;
-    public soot.javaToJimple.InitialResolver soot_javaToJimple_InitialResolver() {
-        if( instance_soot_javaToJimple_InitialResolver == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_javaToJimple_InitialResolver == null )
-	        		instance_soot_javaToJimple_InitialResolver = new soot.javaToJimple.InitialResolver( g );
-	       	}
-       	}
-        return instance_soot_javaToJimple_InitialResolver;
-    }
-    protected void release_soot_javaToJimple_InitialResolver() {
-    	instance_soot_javaToJimple_InitialResolver = null;
-    }
-
     private soot.jimple.paddle.PaddleHook instance_soot_jimple_paddle_PaddleHook;
     public soot.jimple.paddle.PaddleHook soot_jimple_paddle_PaddleHook() {
         if( instance_soot_jimple_paddle_PaddleHook == null ) {
@@ -1986,62 +1509,6 @@ public class Singletons {
     }
     protected void release_soot_jimple_toolkits_annotation_purity_PurityAnalysis() {
     	instance_soot_jimple_toolkits_annotation_purity_PurityAnalysis = null;
-    }
-
-    private soot.javaToJimple.toolkits.CondTransformer instance_soot_javaToJimple_toolkits_CondTransformer;
-    public soot.javaToJimple.toolkits.CondTransformer soot_javaToJimple_toolkits_CondTransformer() {
-        if( instance_soot_javaToJimple_toolkits_CondTransformer == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_javaToJimple_toolkits_CondTransformer == null )
-	        		instance_soot_javaToJimple_toolkits_CondTransformer = new soot.javaToJimple.toolkits.CondTransformer( g );
-	       	}
-       	}
-        return instance_soot_javaToJimple_toolkits_CondTransformer;
-    }
-    protected void release_soot_javaToJimple_toolkits_CondTransformer() {
-    	instance_soot_javaToJimple_toolkits_CondTransformer = null;
-    }
-
-    private soot.dava.toolkits.base.AST.transformations.UselessLabelFinder instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder;
-    public soot.dava.toolkits.base.AST.transformations.UselessLabelFinder soot_dava_toolkits_base_AST_transformations_UselessLabelFinder() {
-        if( instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder == null )
-	        		instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder = new soot.dava.toolkits.base.AST.transformations.UselessLabelFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder;
-    }
-    protected void release_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder() {
-    	instance_soot_dava_toolkits_base_AST_transformations_UselessLabelFinder = null;
-    }
-
-    private soot.dava.DavaStaticBlockCleaner instance_soot_dava_DavaStaticBlockCleaner;
-    public soot.dava.DavaStaticBlockCleaner soot_dava_DavaStaticBlockCleaner() {
-        if( instance_soot_dava_DavaStaticBlockCleaner == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_DavaStaticBlockCleaner == null )
-	        		instance_soot_dava_DavaStaticBlockCleaner = new soot.dava.DavaStaticBlockCleaner( g );
-	       	}
-       	}
-        return instance_soot_dava_DavaStaticBlockCleaner;
-    }
-    protected void release_soot_dava_DavaStaticBlockCleaner() {
-    	instance_soot_dava_DavaStaticBlockCleaner = null;
-    }
-
-    private soot.dava.toolkits.base.AST.traversals.ClosestAbruptTargetFinder instance_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder;
-    public soot.dava.toolkits.base.AST.traversals.ClosestAbruptTargetFinder soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder() {
-        if( instance_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder == null )
-	        		instance_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder = new soot.dava.toolkits.base.AST.traversals.ClosestAbruptTargetFinder( g );
-	       	}
-       	}
-        return instance_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder;
-    }
-    protected void release_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder() {
-    	instance_soot_dava_toolkits_base_AST_traversals_ClosestAbruptTargetFinder = null;
     }
 
     private soot.jimple.spark.sets.AllSharedListNodes instance_soot_jimple_spark_sets_AllSharedListNodes;
@@ -2098,20 +1565,6 @@ public class Singletons {
     }
     protected void release_soot_jimple_toolkits_thread_mhp_MhpTransformer() {
     	instance_soot_jimple_toolkits_thread_mhp_MhpTransformer = null;
-    }
-
-    private soot.JastAddInitialResolver instance_soot_JastAddInitialResolver;
-    public soot.JastAddInitialResolver soot_JastAddInitialResolver() {
-        if( instance_soot_JastAddInitialResolver == null ) {
-	       	synchronized (this) {
-		        if( instance_soot_JastAddInitialResolver == null )
-	        		instance_soot_JastAddInitialResolver = new soot.JastAddInitialResolver( g );
-	       	}
-       	}
-        return instance_soot_JastAddInitialResolver;
-    }
-    protected void release_soot_JastAddInitialResolver() {
-    	instance_soot_JastAddInitialResolver = null;
     }
 
     private soot.jimple.toolkits.annotation.j5anno.AnnotationGenerator instance_soot_jimple_toolkits_annotation_j5anno_AnnotationGenerator;

@@ -29,27 +29,21 @@
 
 package soot.jimple;
 
-import soot.*;
-import soot.baf.Baf;
+import soot.Immediate;
+import soot.UnitPrinter;
+import soot.Value;
+import soot.ValueBox;
 
 import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public abstract class Constant implements Value, ConvertToBaf, Immediate
+public abstract class Constant implements Value, Immediate
 {
 	@Override
     public final List<ValueBox> getUseBoxes()
     {
         return Collections.emptyList();
-    }
-
-    /** Adds a Baf instruction pushing this constant to the stack onto <code>out</code>. */
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        Unit u = Baf.v().newPushInst(this);
-        u.addAllTagsOf(context.getCurrentUnit());
-        out.add(u);
     }
 
     /** Clones the current constant.  Not implemented here. */

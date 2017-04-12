@@ -31,58 +31,37 @@ package soot.jimple;
 
 import soot.Local;
 import soot.Unit;
-import soot.baf.BafBody;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class JimpleToBafContext
 {
-    private Map<Local, Local> jimpleLocalToBafLocal = new ConcurrentHashMap<Local, Local>();
-    private BafBody bafBody;
+    private Map<Local, Local> jimpleLocalToBafLocal = new ConcurrentHashMap<>();
     private Unit mCurrentUnit;
 
     /**
-       An approximation of the local count is required in order to allocate a reasonably sized hash map. 
+     An approximation of the local count is required in order to allocate a reasonably sized hash map.
      */
-     
     public JimpleToBafContext(int localCount)
     {
-       jimpleLocalToBafLocal = new ConcurrentHashMap<Local, Local>(localCount * 2 + 1, 0.7f);
+        jimpleLocalToBafLocal = new ConcurrentHashMap<>(localCount * 2 + 1, 0.7f);
     }
-
 
     public void setCurrentUnit(Unit u )
     {
-	mCurrentUnit = u;
+        mCurrentUnit = u;
     }
 
     public Unit getCurrentUnit()
     {
-	return mCurrentUnit;
+        return mCurrentUnit;
     }
 
-    
     public Local getBafLocalOfJimpleLocal(Local jimpleLocal)
     {
         return jimpleLocalToBafLocal.get(jimpleLocal);
     }
-    
-    public void setBafLocalOfJimpleLocal(Local jimpleLocal, Local bafLocal)
-    {
-        jimpleLocalToBafLocal.put(jimpleLocal, bafLocal);
-    }       
-    
-    public BafBody getBafBody()
-    {
-        return bafBody;
-    }
-    
-    public void setBafBody(BafBody bafBody)
-    {
-        this.bafBody = bafBody;
-    }
-    
 }
 
 

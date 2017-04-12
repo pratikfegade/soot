@@ -25,7 +25,6 @@
 
 package soot.toolkits.scalar;
 
-import soot.baf.GotoInst;
 import soot.jimple.GotoStmt;
 import soot.options.Options;
 import soot.toolkits.graph.DirectedGraph;
@@ -158,7 +157,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 						visitedNodes.add(current);
 
 						// only add 'goto' statements
-						if (current instanceof GotoInst || current instanceof GotoStmt) {
+						if (current instanceof GotoStmt) {
 							entries.add(current);
 						}
 

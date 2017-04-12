@@ -63,10 +63,10 @@ public class FastAvailableExpressions implements AvailableExpressions
 
         // Build unitToExprs map
         {
-            unitToPairsAfter = new ConcurrentHashMap<Unit, List<UnitValueBoxPair>>(b.getUnits().size() * 2 + 1, 0.7f);
-            unitToPairsBefore = new ConcurrentHashMap<Unit, List<UnitValueBoxPair>>(b.getUnits().size() * 2 + 1, 0.7f);
-            unitToEquivsAfter = new ConcurrentHashMap<Unit, Chain<EquivalentValue>>(b.getUnits().size() * 2 + 1, 0.7f);
-            unitToEquivsBefore = new ConcurrentHashMap<Unit, Chain<EquivalentValue>>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToPairsAfter = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToPairsBefore = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToEquivsAfter = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
+            unitToEquivsBefore = new ConcurrentHashMap<>(b.getUnits().size() * 2 + 1, 0.7f);
 
             for (Unit s : b.getUnits()) {
                 FlowSet<Value> set = analysis.getFlowBefore(s);

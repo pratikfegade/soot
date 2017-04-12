@@ -94,7 +94,7 @@ public class LocalNameStandardizer extends BodyTransformer
                 ArrayList<Local> sortedLocals = new ArrayList<Local>(locals);
                 
                 Collections.sort(sortedLocals, new Comparator<Local>(){
-                    private Map<Local, Integer> firstOccuranceCache = new ConcurrentHashMap<Local, Integer>();
+                    private Map<Local, Integer> firstOccuranceCache = new ConcurrentHashMap<>();
                     public int compare(Local arg0, Local arg1) {
                         int ret = arg0.getType().toString().compareTo(arg1.getType().toString());
                         if(ret == 0){

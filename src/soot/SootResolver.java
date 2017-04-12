@@ -26,13 +26,10 @@
 
 package soot;
 
-import jastadd.soot.JastAddJ.*;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
 import soot.singletons.Singletons;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 /** Loads symbols for SootClasses from either class files or jimple files. */
@@ -47,37 +44,10 @@ public class SootResolver {
 	@SuppressWarnings("unchecked")
 	private final Deque<SootClass>[] worklist = new Deque[4];
 
-	private Program program = null;
-
 	public SootResolver(Singletons.Global g) {
-		worklist[SootClass.HIERARCHY] = new ArrayDeque<SootClass>();
-		worklist[SootClass.SIGNATURES] = new ArrayDeque<SootClass>();
-		worklist[SootClass.BODIES] = new ArrayDeque<SootClass>();
-		
-		if (Options.v().src_prec() != Options.src_prec_apk_c_j) {
-			program = new Program();
-			program.state().reset();
-	
-			program.initBytecodeReader(new BytecodeParser());
-			program.initJavaParser(new JavaParser() {
-				public CompilationUnit parse(InputStream is, String fileName)
-						throws IOException, jastadd.beaver.Parser.Exception {
-					return new JastAddJavaParser().parse(is, fileName);
-				}
-			});
-	
-			program.options().initOptions();
-			program.options().addKeyValueOption("-classpath");
-			program.options().setValueForOption(Scene.v().getSootClassPath(),
-					"-classpath");
-			if (Options.v().src_prec() == Options.src_prec_java)
-				program.setSrcPrec(Program.SRC_PREC_JAVA);
-			else if (Options.v().src_prec() == Options.src_prec_class)
-				program.setSrcPrec(Program.SRC_PREC_CLASS);
-			else if (Options.v().src_prec() == Options.src_prec_only_class)
-				program.setSrcPrec(Program.SRC_PREC_CLASS);
-			program.initPaths();
-		}
+		worklist[SootClass.HIERARCHY] = new ArrayDeque<>();
+		worklist[SootClass.SIGNATURES] = new ArrayDeque<>();
+		worklist[SootClass.BODIES] = new ArrayDeque<>();
 	}
 
 	public static SootResolver v() {
@@ -341,14 +311,6 @@ public class SootResolver {
 		cl.setResolvingLevel(newResolvingLevel);
 		addToResolveWorklist(cl, resolvingLevel);
 		processResolveWorklist();
-	}
-
-	public void reResolve(SootClass cl) {
-		reResolve(cl, SootClass.HIERARCHY);
-	}
-
-	public Program getProgram() {
-		return program;
 	}
 
 	private class SootClassNotFoundException extends RuntimeException {

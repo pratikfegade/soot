@@ -31,13 +31,12 @@
 package soot.jimple;
 
 import soot.*;
-import soot.baf.Baf;
 import soot.util.Switch;
 
 import java.util.Collections;
 import java.util.List;
 
-public class StaticFieldRef implements FieldRef, ConvertToBaf
+public class StaticFieldRef implements FieldRef
 {
 
 
@@ -103,12 +102,5 @@ public class StaticFieldRef implements FieldRef, ConvertToBaf
     public int equivHashCode()
     {
         return getField().hashCode();
-    }
-
-    public void convertToBaf(JimpleToBafContext context, List<Unit> out)
-    {
-        Unit u = Baf.v().newStaticGetInst(fieldRef);
-        u.addAllTagsOf(context.getCurrentUnit());
-        out.add(u);
     }
 }

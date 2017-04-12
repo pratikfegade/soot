@@ -53,8 +53,8 @@ public class PhaseOptions {
 
     public Map<String, String> getPhaseOptions(HasPhaseOptions phase) {
         Map<String, String> ret = phaseToOptionMap.get(phase);
-        if( ret == null ) ret = new HashMap<String, String>();
-        else ret = new HashMap<String, String>( ret );
+        if( ret == null ) ret = new HashMap<>();
+        else ret = new HashMap<>(ret);
         StringTokenizer st = new StringTokenizer( phase.getDefaultOptions() );
         while( st.hasMoreTokens() ) {
             String opt = st.nextToken();

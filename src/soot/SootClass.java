@@ -908,22 +908,6 @@ public class SootClass extends AbstractHost implements Numberable {
 		return Modifier.isPublic(this.getModifiers());
 	}
 
-	/** Returns true if some method in this class has an active Baf body. */
-	public boolean containsBafBody() {
-		Iterator<SootMethod> methodIt = methodIterator();
-
-		while (methodIt.hasNext()) {
-			SootMethod m = methodIt.next();
-
-			if (m.hasActiveBody()
-					&& m.getActiveBody() instanceof soot.baf.BafBody) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	private RefType refType;
 
 	// made public for obfuscator..
