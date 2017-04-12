@@ -26,7 +26,6 @@
 
 package soot;
 
-import soot.jimple.toolkits.callgraph.VirtualCalls;
 import soot.options.Options;
 import soot.tagkit.AbstractHost;
 import soot.util.Numberable;
@@ -494,21 +493,6 @@ public class SootMethod
 
     /**
 	 *
-	 * @return yes if this is the main method
-	 */
-	public boolean isMain()
-	{
-		if ( isPublic() && isStatic() ) {
-			NumberedString main_sig = Scene.v().getSubSigNumberer().findOrAdd( "void main(java.lang.String[])" );
-			if ( main_sig.equals( subsignature ) )
-				return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 *
 	 * @return yes, if this function is a constructor. Please not that <clinit> methods are not treated as constructors in this method.
 	 */
 	public boolean isConstructor()
@@ -524,55 +508,6 @@ public class SootMethod
 	{
 		return name.equals(staticInitializerName);
 	}
-
-	/**
-	 * @return yes, if this is a class initializer or main function.
-	 */
-	public boolean isEntryMethod()
-	{
-		if ( isStatic() &&
-				subsignature.equals( VirtualCalls.v().sigClinit ) )
-			return true;
-
-		return isMain();
-	}
-
-	/**
-	 * We rely on the JDK class recognition to decide if a method is JDK method.
-	 */
-	public boolean isJavaLibraryMethod()
-	{
-		SootClass cl = getDeclaringClass();
-		return cl.isJavaLibraryClass();
-	}
-
-    /** Returns the parameters part of the signature in the format in which
-     * it appears in bytecode. */
-    public String getBytecodeParms() {
-        StringBuffer buffer = new StringBuffer();
-        for( Iterator<Type> typeIt = getParameterTypes().iterator(); typeIt.hasNext(); ) {
-            final Type type = typeIt.next();
-            buffer.append(AbstractJasminClass.jasminDescriptorOf(type));
-        }
-        return buffer.toString().intern();
-    }
-
-    /**
-        Returns the signature of this method in the format in which it appears
-        in bytecode (eg. [Ljava/lang/Object instead of java.lang.Object[]).
-     */
-    public String getBytecodeSignature() {
-        String name = getName();
-
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(
-            "<" + Scene.v().quotedNameOf(getDeclaringClass().getName()) + ": ");
-        buffer.append(name);
-        buffer.append(AbstractJasminClass.jasminDescriptorOf(makeRef()));
-        buffer.append(">");
-
-        return buffer.toString().intern();
-    }
 
     /**
         Returns the Soot signature of this method.  Used to refer to methods unambiguously.

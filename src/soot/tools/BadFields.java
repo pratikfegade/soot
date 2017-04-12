@@ -24,7 +24,6 @@ import soot.jimple.FieldRef;
 import soot.jimple.InvokeExpr;
 import soot.jimple.StaticFieldRef;
 import soot.jimple.Stmt;
-import soot.jimple.toolkits.callgraph.CallGraph;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -53,7 +52,6 @@ public class BadFields extends SceneTransformer {
                 handleMethod( it.next() );
             }
         }
-        Scene.v().setCallGraph( new CallGraph() );
     }
 
     private void handleClass( SootClass cl ) {

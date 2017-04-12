@@ -20,48 +20,14 @@
 package soot;
 
 import heros.solver.CountingThreadPoolExecutor;
-import soot.jimple.paddle.PaddleHook;
-import soot.jimple.spark.SparkTransformer;
-import soot.jimple.spark.fieldrw.FieldTagger;
-import soot.jimple.toolkits.annotation.AvailExprTagger;
-import soot.jimple.toolkits.annotation.DominatorsTagger;
 import soot.jimple.toolkits.annotation.LineNumberAdder;
-import soot.jimple.toolkits.annotation.arraycheck.ArrayBoundsChecker;
-import soot.jimple.toolkits.annotation.arraycheck.RectangularArrayFinder;
-import soot.jimple.toolkits.annotation.callgraph.CallGraphGrapher;
-import soot.jimple.toolkits.annotation.callgraph.CallGraphTagger;
-import soot.jimple.toolkits.annotation.defs.ReachingDefsTagger;
-import soot.jimple.toolkits.annotation.fields.UnreachableFieldsTagger;
-import soot.jimple.toolkits.annotation.liveness.LiveVarsTagger;
-import soot.jimple.toolkits.annotation.logic.LoopInvariantFinder;
-import soot.jimple.toolkits.annotation.methods.UnreachableMethodsTagger;
-import soot.jimple.toolkits.annotation.nullcheck.NullPointerChecker;
-import soot.jimple.toolkits.annotation.nullcheck.NullPointerColorer;
-import soot.jimple.toolkits.annotation.parity.ParityTagger;
-import soot.jimple.toolkits.annotation.profiling.ProfilingGenerator;
-import soot.jimple.toolkits.annotation.purity.PurityAnalysis;
-import soot.jimple.toolkits.annotation.qualifiers.TightestQualifiersTagger;
 import soot.jimple.toolkits.base.Aggregator;
-import soot.jimple.toolkits.base.RenameDuplicatedClasses;
-import soot.jimple.toolkits.callgraph.CHATransformer;
-import soot.jimple.toolkits.callgraph.CallGraphPack;
-import soot.jimple.toolkits.callgraph.UnreachableMethodTransformer;
-import soot.jimple.toolkits.invoke.StaticInliner;
-import soot.jimple.toolkits.invoke.StaticMethodBinder;
-import soot.jimple.toolkits.pointer.CastCheckEliminatorDumper;
-import soot.jimple.toolkits.pointer.ParameterAliasTagger;
-import soot.jimple.toolkits.pointer.SideEffectTagger;
 import soot.jimple.toolkits.scalar.*;
-import soot.jimple.toolkits.thread.mhp.MhpTransformer;
-import soot.jimple.toolkits.thread.synchronization.LockAllocator;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.options.Options;
 import soot.shimple.Shimple;
 import soot.shimple.ShimpleBody;
-import soot.shimple.ShimpleTransformer;
-import soot.shimple.toolkits.scalar.SConstantPropagatorAndFolder;
 import soot.singletons.Singletons;
-import soot.sootify.TemplatePrinter;
 import soot.tagkit.InnerClassTagAggregator;
 import soot.toDex.DexPrinter;
 import soot.toolkits.exceptions.DuplicateCatchAllTrapRemover;
@@ -69,11 +35,7 @@ import soot.toolkits.exceptions.TrapTightener;
 import soot.toolkits.graph.interaction.InteractionHandler;
 import soot.toolkits.scalar.*;
 import soot.util.EscapedWriter;
-import soot.util.JasminOutputStream;
 import soot.util.PhaseDumper;
-import soot.xml.TagCollector;
-import soot.xml.XMLPrinter;
-
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -112,58 +74,10 @@ public class PackManager {
             p.add(new Transform("jb.ulp", LocalPacker.v()));
             p.add(new Transform("jb.lns", LocalNameStandardizer.v()));
             p.add(new Transform("jb.cp", CopyPropagator.v()));
-            p.add(new Transform("jb.dae", DeadAssignmentEliminator.v()));
             p.add(new Transform("jb.cp-ule", UnusedLocalEliminator.v()));
             p.add(new Transform("jb.lp", LocalPacker.v()));
             p.add(new Transform("jb.ne", NopEliminator.v()));
             p.add(new Transform("jb.uce", UnreachableCodeEliminator.v()));
-        }
-
-        //Whole-Jimple Pre-processing Pack
-        addPack(p = new ScenePack("wjpp"));
-
-        //Whole-Shimple Pre-processing Pack
-        addPack(p = new ScenePack("wspp"));
-
-        // Call graph pack
-        addPack(p = new CallGraphPack("cg"));
-        {
-            p.add(new Transform("cg.cha", CHATransformer.v()));
-            p.add(new Transform("cg.spark", SparkTransformer.v()));
-            p.add(new Transform("cg.paddle", PaddleHook.v()));
-        }
-
-        // Whole-Shimple transformation pack
-        addPack(p = new ScenePack("wstp"));
-
-        // Whole-Shimple Optimization pack
-        addPack(p = new ScenePack("wsop"));
-
-        // Whole-Jimple transformation pack
-        addPack(p = new ScenePack("wjtp"));
-        {
-            p.add(new Transform("wjtp.mhp", MhpTransformer.v()));
-            p.add(new Transform("wjtp.tn", LockAllocator.v()));
-            p.add(new Transform("wjtp.rdc", RenameDuplicatedClasses.v()));
-        }
-
-        // Whole-Jimple Optimization pack
-        addPack(p = new ScenePack("wjop"));
-        {
-            p.add(new Transform("wjop.smb", StaticMethodBinder.v()));
-            p.add(new Transform("wjop.si", StaticInliner.v()));
-        }
-
-        // Give another chance to do Whole-Jimple transformation
-        // The RectangularArrayFinder will be put into this package.
-        addPack(p = new ScenePack("wjap"));
-        {
-            p.add(new Transform("wjap.ra", RectangularArrayFinder.v()));
-            p.add(new Transform("wjap.umt", UnreachableMethodsTagger.v()));
-            p.add(new Transform("wjap.uft", UnreachableFieldsTagger.v()));
-            p.add(new Transform("wjap.tqt", TightestQualifiersTagger.v()));
-            p.add(new Transform("wjap.cgg", CallGraphGrapher.v()));
-            p.add(new Transform("wjap.purity", PurityAnalysis.v())); // [AM]
         }
 
         // Shimple pack
@@ -172,36 +86,10 @@ public class PackManager {
         // Shimple transformation pack
         addPack(p = new BodyPack("stp"));
 
-        // Shimple optimization pack
-        addPack(p = new BodyPack("sop"));
-        {
-            p.add(new Transform("sop.cpf", SConstantPropagatorAndFolder.v()));
-        }
 
         // Jimple transformation pack
         addPack(p = new BodyPack("jtp"));
 
-        // Jimple annotation pack
-        addPack(p = new BodyPack("jap"));
-        {
-            p.add(new Transform("jap.npc", NullPointerChecker.v()));
-            p.add(new Transform("jap.npcolorer", NullPointerColorer.v()));
-            p.add(new Transform("jap.abc", ArrayBoundsChecker.v()));
-            p.add(new Transform("jap.profiling", ProfilingGenerator.v()));
-            p.add(new Transform("jap.sea", SideEffectTagger.v()));
-            p.add(new Transform("jap.fieldrw", FieldTagger.v()));
-            p.add(new Transform("jap.cgtagger", CallGraphTagger.v()));
-            p.add(new Transform("jap.parity", ParityTagger.v()));
-            p.add(new Transform("jap.pat", ParameterAliasTagger.v()));
-            p.add(new Transform("jap.rdtagger", ReachingDefsTagger.v()));
-            p.add(new Transform("jap.lvtagger", LiveVarsTagger.v()));
-            p.add(new Transform("jap.che", CastCheckEliminatorDumper.v()));
-            p.add(new Transform("jap.umt", new UnreachableMethodTransformer()));
-            p.add(new Transform("jap.lit", LoopInvariantFinder.v()));
-            p.add(new Transform("jap.aet", AvailExprTagger.v()));
-            p.add(new Transform("jap.dmt", DominatorsTagger.v()));
-
-        }
         onlyStandardPacks = true;
     }
 
@@ -250,66 +138,8 @@ public class PackManager {
     }
 
     public void runPacks() {
-        if(Options.v().oaat())
-            runPacksForOneClassAtATime();
-        else {
-            runPacksNormally();
-        }
-    }
+        runPacksNormally();
 
-    private void runPacksForOneClassAtATime() {
-
-        if (Options.v().src_prec() == Options.src_prec_class && Options.v().keep_line_number()){
-            LineNumberAdder lineNumAdder = LineNumberAdder.v();
-            lineNumAdder.internalTransform("", null);
-        }
-
-        setupJAR();
-        for( String path: Options.v().process_dir()) {
-            // hack1: resolve to signatures only
-            for (String cl : SourceLocator.v().getClassesUnder(path)) {
-                SootClass clazz = Scene.v().forceResolve(cl, SootClass.SIGNATURES);
-                clazz.setApplicationClass();
-            }
-            // hack2: for each class one after another:
-            //     a) resolve to bodies
-            //     b) run packs
-            //     c) write class
-            //     d) remove bodies
-            for (String cl : SourceLocator.v().getClassesUnder(path)) {
-                SootClass clazz;
-                ClassSource source = SourceLocator.v().getClassSource(cl);
-                try {
-                    if (source == null)
-                        throw new RuntimeException("Could not locate class source");
-                    clazz = Scene.v().getSootClass(cl);
-                    clazz.setResolvingLevel(SootClass.BODIES);
-                    source.resolve(clazz);
-                }
-                finally {
-                    if (source != null)
-                        source.close();
-                }
-
-                // Create tags from all values we only have in code assingments now
-                for (SootClass sc : Scene.v().getApplicationClasses()) {
-                    if( Options.v().validate() )
-                        sc.validate();
-                    if (!sc.isPhantom)
-                        ConstantInitializerToTagTransformer.v().transformClass(sc, true);
-                }
-
-                runBodyPacks(clazz);
-                //generate output
-                writeClass(clazz);
-
-                if (!Options.v().no_writeout_body_releasing())
-                    releaseBodies(clazz);
-            }
-        }
-        tearDownJAR();
-
-        handleInnerClasses();
     }
 
     private void runPacksNormally() {
@@ -319,9 +149,6 @@ public class PackManager {
             lineNumAdder.internalTransform("", null);
         }
 
-        if (Options.v().whole_program() || Options.v().whole_shimple()) {
-            runWholeProgramPacks();
-        }
         retrieveAllBodies();
 
         // Create tags from all values we only have in code assignments now
@@ -370,8 +197,6 @@ public class PackManager {
             writeOutput( reachableClasses() );
             tearDownJAR();
         }
-        postProcessXML( reachableClasses() );
-
         if (!Options.v().no_writeout_body_releasing())
             releaseBodies( reachableClasses() );
         if(Options.v().verbose())
@@ -391,24 +216,6 @@ public class PackManager {
         } else {
             jarFile = null;
         }
-    }
-
-    private void runWholeProgramPacks() {
-
-        if (Options.v().whole_shimple()) {
-            ShimpleTransformer.v().transform();
-            getPack("wspp").apply();
-            getPack("cg").apply();
-            getPack("wstp").apply();
-            getPack("wsop").apply();
-        } else {
-            getPack("wjpp").apply();
-            getPack("cg").apply();
-            getPack("wjtp").apply();
-            getPack("wjop").apply();
-            getPack("wjap").apply();
-        }
-        PaddleHook.v().finishPhases();
     }
 
     private void runBodyPacks( final Iterator<SootClass> classes ) {
@@ -533,8 +340,6 @@ public class PackManager {
                 throw new RuntimeException();
         }
 
-        soot.xml.TagCollector tc = new soot.xml.TagCollector();
-
         boolean wholeShimple = Options.v().whole_shimple();
         if( Options.v().via_shimple() ) produceShimple = true;
 
@@ -583,7 +388,6 @@ public class PackManager {
                 CopyPropagator.v().transform(body);
                 ConditionalBranchFolder.v().transform(body);
                 UnreachableCodeEliminator.v().transform(body);
-                DeadAssignmentEliminator.v().transform(body);
                 UnusedLocalEliminator.v().transform(body);
                 PackManager.v().getPack("jtp").apply(body);
                 if( Options.v().validate() ) {
@@ -591,17 +395,9 @@ public class PackManager {
                 }
                 PackManager.v().getPack("jop").apply(body);
                 PackManager.v().getPack("jap").apply(body);
-                if (Options.v().xml_attributes() && Options.v().output_format() != Options.output_format_jimple) {
-                    //System.out.println("collecting body tags");
-                    tc.collectBodyTags(body);
-                }
             }
         }
 
-        if (Options.v().xml_attributes() && Options.v().output_format() != Options.output_format_jimple) {
-            processXMLForClass(c, tc);
-            //System.out.println("processed xml for class");
-        }
     }
 
     public void writeClass(SootClass c) {
@@ -641,11 +437,6 @@ public class PackManager {
             if( Options.v().gzip() ) {
                 streamOut = new GZIPOutputStream(streamOut);
             }
-            if(format == Options.output_format_class) {
-                if(!Options.v().asm_backend()){
-                    streamOut = new JasminOutputStream(streamOut);
-                }
-            }
             writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
             //G.v().out.println( "Writing to "+fileName );
         } catch (IOException e) {
@@ -655,8 +446,6 @@ public class PackManager {
         if (Options.v().xml_attributes()) {
             Printer.v().setOption(Printer.ADD_JIMPLE_LN);
         }
-
-        int java_version = Options.v().java_version();
 
         switch (format) {
             case Options.output_format_jimp :
@@ -670,18 +459,6 @@ public class PackManager {
                         new PrintWriter(
                                 new EscapedWriter(new OutputStreamWriter(streamOut)));
                 Printer.v().printTo(c, writerOut);
-                break;
-            case Options.output_format_xml :
-                writerOut =
-                        new PrintWriter(
-                                new EscapedWriter(new OutputStreamWriter(streamOut)));
-                XMLPrinter.v().printJimpleStyleTo(c, writerOut);
-                break;
-            case Options.output_format_template :
-                writerOut =
-                        new PrintWriter(
-                                new OutputStreamWriter(streamOut));
-                TemplatePrinter.v().printTo(c, writerOut);
                 break;
             default :
                 throw new RuntimeException();
@@ -698,35 +475,6 @@ public class PackManager {
         } catch (IOException e) {
             throw new CompilationDeathException("Cannot close output file " + fileName);
         }
-    }
-
-    private void postProcessXML( Iterator<SootClass> classes ) {
-        if (!Options.v().xml_attributes()) return;
-        if (Options.v().output_format() != Options.output_format_jimple) return;
-        while( classes.hasNext() ) {
-            SootClass c = classes.next();
-            processXMLForClass(c);
-        }
-    }
-
-    private void processXMLForClass(SootClass c, TagCollector tc){
-        int ofmt = Options.v().output_format();
-        final int format = ofmt != Options.output_format_none ? ofmt : Options.output_format_jimple;
-        String fileName = SourceLocator.v().getFileNameFor(c, format);
-        XMLAttributesPrinter xap = new XMLAttributesPrinter(fileName,
-                SourceLocator.v().getOutputDir());
-        xap.printAttrs(c, tc);
-    }
-
-    /** assumption: only called when
-     * <code>Options.v().output_format() == Options.output_format_jimple</code>
-     */
-    private void processXMLForClass(SootClass c){
-        final int format = Options.v().output_format();
-        String fileName = SourceLocator.v().getFileNameFor(c, format);
-        XMLAttributesPrinter xap = new XMLAttributesPrinter(fileName,
-                SourceLocator.v().getOutputDir());
-        xap.printAttrs(c);
     }
 
     private void releaseBodies( SootClass cl ) {
@@ -786,7 +534,7 @@ public class PackManager {
 
     public void retrieveAllSceneClassesBodies() {
         // The old coffi front-end is not thread-safe
-        int threadNum = Options.v().coffi() ? 1 : Runtime.getRuntime().availableProcessors();
+        int threadNum = Runtime.getRuntime().availableProcessors();
         CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
                 threadNum, 30, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>());

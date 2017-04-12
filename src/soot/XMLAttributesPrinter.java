@@ -55,32 +55,6 @@ public class XMLAttributesPrinter {
 									
 	}
 
-	private void finishFile() {
-		  writerOut.println("</attributes>");
-		  writerOut.close();
-	}
-    
-	public void printAttrs(SootClass c, soot.xml.TagCollector tc) {
-		printAttrs(c, tc, false);
-	}
-    
-	public void printAttrs(SootClass c) {
-		printAttrs(c, new soot.xml.TagCollector(), true);
-	}
-
-	private void printAttrs(SootClass c, soot.xml.TagCollector tc, boolean includeBodyTags) {
-        tc.collectKeyTags(c);
-		tc.collectTags(c, includeBodyTags);
-
-	    // If there are no attributes, then the attribute file is not created.
-	    if (tc.isEmpty())
-			return;
-		initFile();
-        tc.printTags(writerOut);
-        tc.printKeys(writerOut);
-		finishFile();
-	}
-	 
 	FileOutputStream streamOut = null;
 	PrintWriter writerOut = null;
 	

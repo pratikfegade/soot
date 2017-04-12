@@ -22,7 +22,6 @@ package soot.shimple.internal;
 import soot.*;
 import soot.jimple.*;
 import soot.jimple.toolkits.scalar.CopyPropagator;
-import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.shimple.PiExpr;
 import soot.shimple.Shimple;
 import soot.shimple.ShimpleBody;
@@ -325,9 +324,7 @@ public class PiNodeManager
                     box.setValue(old);
             }
 
-            DeadAssignmentEliminator.v().transform(body);
             CopyPropagator.v().transform(body);
-            DeadAssignmentEliminator.v().transform(body);            
         }
         else{
             for (Unit u : body.getUnits()) {

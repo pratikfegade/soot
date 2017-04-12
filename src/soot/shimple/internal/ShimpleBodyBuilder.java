@@ -26,17 +26,13 @@ import soot.ValueBox;
 import soot.jimple.DefinitionStmt;
 import soot.jimple.internal.JimpleLocal;
 import soot.jimple.toolkits.base.Aggregator;
-import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
-import soot.jimple.toolkits.scalar.UnconditionalBranchFolder;
-import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.options.ShimpleOptions;
 import soot.shimple.*;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.BlockGraph;
 import soot.toolkits.graph.DominatorNode;
 import soot.toolkits.graph.DominatorTree;
-import soot.toolkits.scalar.UnusedLocalEliminator;
 
 import java.util.*;
 
@@ -142,11 +138,7 @@ public class ShimpleBodyBuilder
         boolean optElim = options.node_elim_opt();
         
         if(optElim){
-            DeadAssignmentEliminator.v().transform(body);
-            UnreachableCodeEliminator.v().transform(body);
-            UnconditionalBranchFolder.v().transform(body);
             Aggregator.v().transform(body);
-            UnusedLocalEliminator.v().transform(body);
         }
     }
     

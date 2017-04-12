@@ -30,14 +30,6 @@ package soot;
 import android.content.res.AXmlResourceParser;
 import org.xmlpull.v1.XmlPullParser;
 import soot.dexpler.DalvikThrowAnalysis;
-import soot.jimple.spark.internal.ClientAccessibilityOracle;
-import soot.jimple.spark.internal.PublicAndProtectedAccessibility;
-import soot.jimple.spark.pag.SparkField;
-import soot.jimple.toolkits.callgraph.CallGraph;
-import soot.jimple.toolkits.callgraph.ContextSensitiveCallGraph;
-import soot.jimple.toolkits.callgraph.ReachableMethods;
-import soot.jimple.toolkits.pointer.DumbPointerAnalysis;
-import soot.jimple.toolkits.pointer.SideEffectAnalysis;
 import soot.options.CGOptions;
 import soot.options.Options;
 import soot.singletons.Singletons;
@@ -122,21 +114,14 @@ public class Scene  //extends AbstractHost
     final ArrayNumberer<Kind> kindNumberer;
     ArrayNumberer<Type> typeNumberer = new ArrayNumberer<Type>();
     ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<SootMethod>();
-    Numberer<Unit> unitNumberer = new MapNumberer<Unit>();
-    Numberer<Context> contextNumberer = null;
-    Numberer<SparkField> fieldNumberer = new ArrayNumberer<SparkField>();
+	Numberer<SootField> fieldNumberer = new ArrayNumberer<>();
     ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<SootClass>();
     StringNumberer subSigNumberer = new StringNumberer();
     ArrayNumberer<Local> localNumberer = new ArrayNumberer<Local>();
 
     private Hierarchy activeHierarchy;
     private FastHierarchy activeFastHierarchy;
-    private CallGraph activeCallGraph;
-    private ReachableMethods reachableMethods;
-    private PointsToAnalysis activePointsToAnalysis;
-    private SideEffectAnalysis activeSideEffectAnalysis;
-    private List<SootMethod> entryPoints;
-    private ClientAccessibilityOracle accessibilityOracle;
+	private List<SootMethod> entryPoints;
 
     boolean allowsPhantomRefs = false;
 
@@ -657,8 +642,6 @@ public class Scene  //extends AbstractHost
         stateCount++;
         activeHierarchy = null;
         activeFastHierarchy = null;
-        activeSideEffectAnalysis = null;
-        activePointsToAnalysis = null;
     }
 
     /**
@@ -1040,97 +1023,6 @@ public class Scene  //extends AbstractHost
     }
 
     /****************************************************************************/
-    /**
-        Retrieves the active side-effect analysis
-     */
-
-    public SideEffectAnalysis getSideEffectAnalysis() 
-    {
-        if(!hasSideEffectAnalysis()) {
-        	setSideEffectAnalysis( new SideEffectAnalysis(
-        			getPointsToAnalysis(),
-        			getCallGraph() ) );
-        }
-            
-        return activeSideEffectAnalysis;
-    }
-    
-    /**
-        Sets the active side-effect analysis
-     */
-     
-    public void setSideEffectAnalysis(SideEffectAnalysis sea)
-    {
-        activeSideEffectAnalysis = sea;
-    }
-
-    public boolean hasSideEffectAnalysis()
-    {
-        return activeSideEffectAnalysis != null;
-    }
-    
-    public void releaseSideEffectAnalysis()
-    {
-        activeSideEffectAnalysis = null;
-    }
-
-    /****************************************************************************/
-    /**
-        Retrieves the active pointer analysis
-     */
-    
-    public PointsToAnalysis getPointsToAnalysis() 
-    {
-        if(!hasPointsToAnalysis()) {
-        	return DumbPointerAnalysis.v();
-        }
-            
-        return activePointsToAnalysis;
-    }
-    
-    /**
-        Sets the active pointer analysis
-     */
-     
-    public void setPointsToAnalysis(PointsToAnalysis pa)
-    {
-        activePointsToAnalysis = pa;
-    }
-
-    public boolean hasPointsToAnalysis()
-    {
-        return activePointsToAnalysis != null;
-    }
-    
-    public void releasePointsToAnalysis()
-    {
-        activePointsToAnalysis = null;
-    }
-
-    /****************************************************************************/
-    /**
-     * Retrieves the active client accessibility oracle
-     */
-    public ClientAccessibilityOracle getClientAccessibilityOracle() {
-    	if (!hasClientAccessibilityOracle()) {
-    		return PublicAndProtectedAccessibility.v();
-    	}
-    	
-    	return accessibilityOracle;
-    }
-    
-    public boolean hasClientAccessibilityOracle() {
-    	return accessibilityOracle != null;
-    }
-    
-    public void setClientAccessibilityOracle(ClientAccessibilityOracle oracle) {
-    	accessibilityOracle = oracle;
-    }
-    
-    public void releaseClientAccessibilityOracle() {
-    	accessibilityOracle = null;
-    }
-    /****************************************************************************/
     /** Makes a new fast hierarchy is none is active, and returns the active
      * fast hierarchy. */
     public FastHierarchy getOrMakeFastHierarchy() {
@@ -1197,13 +1089,8 @@ public class Scene  //extends AbstractHost
     {
         return activeHierarchy != null;
     }
-    
-    public void releaseActiveHierarchy()
-    {
-        activeHierarchy = null;
-    }
 
-    public boolean hasCustomEntryPoints() {
+	public boolean hasCustomEntryPoints() {
     	return entryPoints!=null;
     }
     
@@ -1213,64 +1100,6 @@ public class Scene  //extends AbstractHost
             entryPoints = EntryPoints.v().all();
         }
         return entryPoints;
-    }
-
-    /** Change the set of entry point methods used to build the call graph. */
-    public void setEntryPoints( List<SootMethod> entryPoints ) {
-        this.entryPoints = entryPoints;
-    }
-
-    private ContextSensitiveCallGraph cscg = null;
-    public ContextSensitiveCallGraph getContextSensitiveCallGraph() {
-        if(cscg == null) throw new RuntimeException("No context-sensitive call graph present in Scene. You can bulid one with Paddle.");
-        return cscg;
-    }
-
-    public void setContextSensitiveCallGraph(ContextSensitiveCallGraph cscg) {
-        this.cscg = cscg;
-    }
-
-    public CallGraph getCallGraph() 
-    {
-        if(!hasCallGraph()) {
-            throw new RuntimeException( "No call graph present in Scene. Maybe you want Whole Program mode (-w)." );
-        }
-            
-        return activeCallGraph;
-    }
-    
-    public void setCallGraph(CallGraph cg)
-    {
-        reachableMethods = null;
-        activeCallGraph = cg;
-    }
-
-    public boolean hasCallGraph()
-    {
-        return activeCallGraph != null;
-    }
-    
-    public void releaseCallGraph()
-    {
-        activeCallGraph = null;
-        reachableMethods = null;
-    }
-    public ReachableMethods getReachableMethods() {
-        if( reachableMethods == null ) {
-            reachableMethods = new ReachableMethods(
-                    getCallGraph(), new ArrayList<MethodOrMethodContext>(getEntryPoints()) );
-        }
-        reachableMethods.update();
-        return reachableMethods;
-    }
-    public void setReachableMethods( ReachableMethods rm ) {
-        reachableMethods = rm;
-    }
-    public boolean hasReachableMethods() {
-        return reachableMethods != null;
-    }
-    public void releaseReachableMethods() {
-        reachableMethods = null;
     }
    
     public boolean getPhantomRefs()
@@ -1289,22 +1118,14 @@ public class Scene  //extends AbstractHost
     {
         return getPhantomRefs();
     }
-    public Numberer<Kind> kindNumberer() { return kindNumberer; }
-    public ArrayNumberer<Type> getTypeNumberer() { return typeNumberer; }
+
+	public ArrayNumberer<Type> getTypeNumberer() { return typeNumberer; }
     public ArrayNumberer<SootMethod> getMethodNumberer() { return methodNumberer; }
-    public Numberer<Context> getContextNumberer() { return contextNumberer; }
-    public Numberer<Unit> getUnitNumberer() { return unitNumberer; }
-    public Numberer<SparkField> getFieldNumberer() { return fieldNumberer; }
+
+	public Numberer<SootField> getFieldNumberer() { return fieldNumberer; }
     public ArrayNumberer<SootClass> getClassNumberer() { return classNumberer; }
     public StringNumberer getSubSigNumberer() { return subSigNumberer; }
     public ArrayNumberer<Local> getLocalNumberer() { return localNumberer; }
-
-    public void setContextNumberer( Numberer<Context> n ) {
-        if( contextNumberer != null )
-            throw new RuntimeException(
-                    "Attempt to set context numberer when it is already set." );
-        contextNumberer = n;
-    }
 
 	/**
 	 * Returns the {@link ThrowAnalysis} to be used by default when constructing
@@ -1487,8 +1308,7 @@ public class Scene  //extends AbstractHost
      *  loadNecessaryClasses, though it will only waste time.
      */
     public void loadBasicClasses() {
-    	addReflectionTraceClasses();
-    	
+
 		for(int i=SootClass.BODIES;i>=SootClass.HIERARCHY;i--) {
 		    for(String name: basicclasses[i]){
 		    	tryLoadClass(name,i);
@@ -1506,51 +1326,7 @@ public class Scene  //extends AbstractHost
 		return all; 
 	}
 
-    private void addReflectionTraceClasses() {
-    	CGOptions options = new CGOptions( PhaseOptions.v().getPhaseOptions("cg") );
-    	String log = options.reflection_log();
-    	
-    	Set<String> classNames = new HashSet<String>();
-    	if(log!=null && log.length()>0) {
-			BufferedReader reader = null;
-			String line="";
-			try {
-				reader = new BufferedReader(new InputStreamReader(new FileInputStream(log)));
-				while((line=reader.readLine())!=null) {
-					if(line.length()==0) continue;
-					String[] portions = line.split(";",-1);
-					String kind = portions[0];
-					String target = portions[1];
-					String source = portions[2];
-					String sourceClassName = source.substring(0,source.lastIndexOf("."));
-					classNames.add(sourceClassName);
-					if(kind.equals("Class.forName")) {
-						classNames.add(target);
-					} else if(kind.equals("Class.newInstance")) {
-						classNames.add(target);
-					} else if(kind.equals("Method.invoke") || kind.equals("Constructor.newInstance")) {
-						classNames.add(signatureToClass(target));
-					} else if(kind.equals("Field.set*") || kind.equals("Field.get*")) {
-						classNames.add(signatureToClass(target));
-					} else throw new RuntimeException("Unknown entry kind: "+kind);
-				}
-			} catch (Exception e) {
-				throw new RuntimeException("Line: '"+line+"'", e);
-			}
-			finally {
-				if (reader != null)
-					try {
-						reader.close();
-					} catch (IOException e) {
-						throw new RuntimeException(e);
-					}
-			}
-    	}
-    	
-    	for (String c : classNames) {
-    		addBasicClass(c, SootClass.BODIES);
-		}
-	}
+
 
 	private List<SootClass> dynamicClasses = null;
     public Collection<SootClass> dynamicClasses() {

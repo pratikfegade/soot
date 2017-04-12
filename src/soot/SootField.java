@@ -29,15 +29,13 @@
 
 package soot;
 
-import soot.jimple.paddle.PaddleField;
-import soot.jimple.spark.pag.SparkField;
 import soot.tagkit.AbstractHost;
 import soot.util.Numberable;
 
 /**
     Soot representation of a Java field.  Can be declared to belong to a SootClass.
 */
-public class SootField extends AbstractHost implements ClassMember, SparkField, Numberable, PaddleField
+public class SootField extends AbstractHost implements ClassMember, Numberable
 {
     String name;
     Type type;

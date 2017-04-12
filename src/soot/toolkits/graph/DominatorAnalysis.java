@@ -58,7 +58,7 @@ public class DominatorAnalysis extends ForwardFlowAnalysis<Unit,FlowSet<Unit>> {
     }
 
     private void initAllNodes(){
-        allNodes = new ArraySparseSet<Unit>();
+        allNodes = new ArraySparseSet<>();
         for (Unit u : g){
             allNodes.add(u);
         } 

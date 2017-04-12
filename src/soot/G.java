@@ -27,16 +27,8 @@ package soot;
 
 import soot.coffi.Utf8_Enumeration;
 import soot.dexpler.DalvikThrowAnalysis;
-import soot.jimple.spark.pag.MethodPAG;
-import soot.jimple.spark.pag.Parm;
-import soot.jimple.spark.sets.P2SetFactory;
-import soot.jimple.toolkits.annotation.arraycheck.Array2ndDimensionSymbol;
-import soot.jimple.toolkits.pointer.UnionFactory;
-import soot.jimple.toolkits.pointer.util.NativeHelper;
 import soot.jimple.toolkits.typing.ClassHierarchy;
 import soot.singletons.Singletons;
-import soot.toolkits.astmetrics.ClassData;
-import soot.toolkits.scalar.Pair;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -77,17 +69,6 @@ public class G extends Singletons
     public class Global {
     }
 
-    public P2SetFactory newSetFactory;
-    public P2SetFactory oldSetFactory;
-    public Map<Pair<SootMethod, Integer>, Parm> Parm_pairToElement = new HashMap<Pair<SootMethod, Integer>, Parm>();
-    public int SparkNativeHelper_tempVar = 0;
-    public boolean PointsToSetInternal_warnedAlready = false;
-    public HashMap<SootMethod, MethodPAG> MethodPAG_methodToPag = new HashMap<SootMethod, MethodPAG>();
-    public Set MethodRWSet_allGlobals = new HashSet();
-    public Set MethodRWSet_allFields = new HashSet();
-    public int GeneralConstObject_counter = 0;
-    public UnionFactory Union_factory = null;
-    public HashMap<Object, Array2ndDimensionSymbol> Array2ndDimensionSymbol_pool = new HashMap<Object, Array2ndDimensionSymbol>();
     public List<Timer> Timer_outstandingTimers = new ArrayList<Timer>();
     public boolean Timer_isGarbageCollecting;
     public Timer Timer_forcedGarbageCollectionTimer = new Timer("gc");
@@ -125,7 +106,6 @@ public class G extends Singletons
     public boolean SootMethodAddedByDava;
 
     //ASTMetrics Data
-    public ArrayList<ClassData> ASTMetricsData = new ArrayList<ClassData>();
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e1 = new Utf8_Enumeration();
     public Utf8_Enumeration coffi_CONSTANT_Utf8_info_e2 = new Utf8_Enumeration();
 

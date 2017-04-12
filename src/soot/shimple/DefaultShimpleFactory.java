@@ -20,9 +20,6 @@
 package soot.shimple;
 
 import soot.Body;
-import soot.PointsToAnalysis;
-import soot.jimple.toolkits.callgraph.CallGraph;
-import soot.jimple.toolkits.pointer.SideEffectAnalysis;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.shimple.toolkits.graph.GlobalValueNumberer;
 import soot.shimple.toolkits.graph.SimpleGlobalValueNumberer;
@@ -39,9 +36,6 @@ public class DefaultShimpleFactory implements ShimpleFactory
     protected DominatorsFinder<Block> dFinder;
     protected DominatorTree<Block> dTree;
     protected DominanceFrontier<Block> dFrontier;
-    protected PointsToAnalysis pta;
-    protected CallGraph cg;
-    protected SideEffectAnalysis sea;
     protected GlobalValueNumberer gvn;
 
     protected ReversibleGraph<Block> rbg;
@@ -61,9 +55,6 @@ public class DefaultShimpleFactory implements ShimpleFactory
         dFinder = null;
         dTree = null;
         dFrontier = null;
-        pta = null;
-        cg = null;
-        sea = null;
         gvn = null;
         rbg = null;
         rdTree = null;

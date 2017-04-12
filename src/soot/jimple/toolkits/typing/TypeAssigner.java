@@ -31,8 +31,6 @@ package soot.jimple.toolkits.typing;
 
 import soot.*;
 import soot.jimple.*;
-import soot.jimple.toolkits.scalar.ConstantPropagatorAndFolder;
-import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
 import soot.options.JBTROptions;
 import soot.options.Options;
 import soot.singletons.Singletons;
@@ -187,11 +185,6 @@ public class TypeAssigner extends BodyTransformer {
 			soot.dexpler.Util.addExceptionAfterUnit(b, "java.lang.NullPointerException", u, "This statement would have triggered an Exception: "+ u);
 			b.getUnits().remove(u);
 		}
-
-		// should be done on a separate phase
-		DeadAssignmentEliminator.v().transform(b);
-		UnusedLocalEliminator.v().transform(b);
-
 	}
 	
 

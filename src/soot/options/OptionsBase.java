@@ -20,7 +20,6 @@
 package soot.options;
 
 import soot.*;
-import soot.plugins.internal.PluginLoader;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -95,16 +94,6 @@ abstract class OptionsBase {
 
     public boolean setPhaseOption( String phase, String option ) {
         return PhaseOptions.v().processPhaseOptions( phase, option );
-    }
-
-    /**
-     * Handles the value of a plugin parameter. 
-     * 
-     * @param file the plugin parameter value.
-     * @return {@code true} on success.
-     */
-    protected boolean loadPluginConfiguration(final String file) {
-    	return PluginLoader.load(file);
     }
 }
   

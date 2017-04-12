@@ -20,7 +20,6 @@
 package soot.toolkits.graph.interaction;
 
 import soot.*;
-import soot.jimple.toolkits.annotation.callgraph.CallGraphGrapher;
 import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.toolkits.graph.DirectedGraph;
@@ -107,67 +106,8 @@ public class InteractionHandler {
             doInteraction(new InteractionEvent(IInteractionConstants.DONE, null));
         }
     }
-   
-    public void handleCallGraphStart(Object info, CallGraphGrapher grapher){
-        setGrapher(grapher);
-        doInteraction(new InteractionEvent(IInteractionConstants.CALL_GRAPH_START, info));
-        if (!isCgReset()){
-            handleCallGraphNextMethod();
-        }
-        else {
-            setCgReset(false);
-            handleReset();
-        }
-    }
-   
-    public void handleCallGraphNextMethod(){
-        if (!cgDone()){
-            getGrapher().setNextMethod(getNextMethod());
-            getGrapher().handleNextMethod();
-        }
-    }
 
-    private boolean cgReset = false;
-    public void setCgReset(boolean v){
-        cgReset = v;
-    }
-    public boolean isCgReset(){
-        return cgReset;
-    }
-    
-    public void handleReset(){
-        if (!cgDone()){
-            getGrapher().reset();
-        }
-    }
 
-    public void handleCallGraphPart(Object info){
-        doInteraction(new InteractionEvent(IInteractionConstants.CALL_GRAPH_PART, info));
-        if (!isCgReset()){
-            handleCallGraphNextMethod();
-        }
-        else {
-            setCgReset(false);
-            handleReset();
-        }
-    }
-        
-    private CallGraphGrapher grapher;
-    private void setGrapher(CallGraphGrapher g){
-        grapher = g;
-    }
-    private CallGraphGrapher getGrapher(){
-        return grapher;
-    }
-
-    private SootMethod nextMethod;
-    public void setNextMethod(SootMethod m){
-        nextMethod = m;
-    }
-    private SootMethod getNextMethod(){
-        return nextMethod;
-    }
-    
     private synchronized void doInteraction(InteractionEvent event){
         getInteractionListener().setEvent(event);
         getInteractionListener().handleEvent();

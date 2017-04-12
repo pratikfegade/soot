@@ -51,9 +51,7 @@ import java.util.*;
  *   class. This class provides methods that are common to any IR, such as methods
  *   to get the body's units (statements), traps, and locals.
  *
- *  @see soot.grimp.GrimpBody
  *  @see soot.jimple.JimpleBody
- *  @see soot.baf.BafBody
  */
 @SuppressWarnings("serial")
 public abstract class Body extends AbstractHost implements Serializable
