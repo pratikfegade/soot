@@ -94,8 +94,6 @@ final class AsmMethodSource implements MethodSource {
 		if (l == null) {
 			String name;
 			String desc;
-			LabelNode startNode;
-			LabelNode endNode;
 			if (localVars != null) {
 				name = null;
 				desc = null;
@@ -103,7 +101,6 @@ final class AsmMethodSource implements MethodSource {
 					if (lvn.index == idx) {
 						name = lvn.name;
 						desc = lvn.desc;
-						LabelNode node = lvn.start;
 						break;
 					}
 				}
@@ -494,45 +491,6 @@ final class AsmMethodSource implements MethodSource {
 			frame.mergeIn(dword ? popDual() : pop(), pop(), pop());
 		}
 	}
-	
-	/*
-	 * Following version is more complex,
-	 * using stack frames as opposed to simply swapping
-	 */
-	/*StackFrame frame = getFrame(insn);
-	Operand[] out = frame.out();
-	Operand dup, dup2 = null, dupd, dupd2 = null;
-	if (out == null) {
-		dupd = popImmediate();
-		dup = new Operand(insn, dupd.stackOrValue());
-		if (dword) {
-			dupd2 = peek();
-			if (dupd2 == DWORD_DUMMY) {
-				pop();
-				dupd2 = dupd;
-			} else {
-				dupd2 = popImmediate();
-			}
-			dup2 = new Operand(insn, dupd2.stackOrValue());
-			frame.out(dup, dup2);
-			frame.in(dupd, dupd2);
-		} else {
-			frame.out(dup);
-			frame.in(dupd);
-		}
-	} else {
-		dupd = pop();
-		dup = out[0];
-		if (dword) {
-			dupd2 = pop();
-			if (dupd2 == DWORD_DUMMY)
-				dupd2 = dupd;
-			dup2 = out[1];
-			frame.mergeIn(dupd, dupd2);
-		} else {
-			frame.mergeIn(dupd);
-		}
-	}*/
 
 	private void convertDupInsn(InsnNode insn) {
 		int op = insn.getOpcode();
@@ -732,7 +690,7 @@ final class AsmMethodSource implements MethodSource {
 			else if (op == I2C)
 				totype = CharType.v();
 			else
-				throw new AssertionError("Unknonw prim cast op: " + op);
+				throw new AssertionError("Unknown prim cast op: " + op);
 			Operand val = fromd ? popImmediateDual() : popImmediate();
 			CastExpr cast = Jimple.v().newCastExpr(val.stackOrValue(), totype);
 			opr = new Operand(insn, cast);
@@ -1025,7 +983,7 @@ final class AsmMethodSource implements MethodSource {
 		Operand key = popImmediate();
 		UnitBox dflt = Jimple.v().newStmtBox(null);
 		
-		List<UnitBox> targets = new ArrayList<UnitBox>(insn.labels.size());
+		List<UnitBox> targets = new ArrayList<>(insn.labels.size());
 		labels.put(insn.dflt, dflt);
 		for (LabelNode ln : insn.labels) {
 			UnitBox box = Jimple.v().newStmtBox(null);
@@ -1033,7 +991,7 @@ final class AsmMethodSource implements MethodSource {
 			labels.put(ln, box);
 		}
 		
-		List<IntConstant> keys = new ArrayList<IntConstant>(insn.keys.size());
+		List<IntConstant> keys = new ArrayList<>(insn.keys.size());
 		for (Integer i : insn.keys)
 			keys.add(IntConstant.v(i));
 		
@@ -1067,11 +1025,11 @@ final class AsmMethodSource implements MethodSource {
 			if (!instance) {
 				args = nrArgs == 0 ? null : new Operand[nrArgs];
 				if (args != null)
-					argList = new ArrayList<Value>(nrArgs);
+					argList = new ArrayList<>(nrArgs);
 			} else {
 				args = new Operand[nrArgs + 1];
 				if (nrArgs != 0)
-					argList = new ArrayList<Value>(nrArgs);
+					argList = new ArrayList<>(nrArgs);
 			}
 			while (nrArgs-- != 0) {
 				args[nrArgs] = popImmediate(sigTypes.get(nrArgs));
@@ -1151,7 +1109,7 @@ final class AsmMethodSource implements MethodSource {
 		if (out == null) {
 			//convert info on bootstrap method
 			SootMethodRef bsmMethodRef = toSootMethodRef(insn.bsm);
-			List<Value> bsmMethodArgs = new ArrayList<Value>(insn.bsmArgs.length);
+			List<Value> bsmMethodArgs = new ArrayList<>(insn.bsmArgs.length);
 			for(Object bsmArg: insn.bsmArgs) {
 				bsmMethodArgs.add(toSootValue(bsmArg));
 			}
@@ -1161,8 +1119,8 @@ final class AsmMethodSource implements MethodSource {
 			
 			// Generate parameters & returnType & parameterTypes
 			Type[] types = Util.v().jimpleTypesOfFieldOrMethodDescriptor(insn.desc);
-			List<Type> parameterTypes = new ArrayList<Type>(types.length);
-			List<Value> methodArgs = new ArrayList<Value>(types.length);
+			List<Type> parameterTypes = new ArrayList<>(types.length);
+			List<Value> methodArgs = new ArrayList<>(types.length);
 
 			Operand[] args = new Operand[types.length - 1];
 			ValueBox[] boxes = new ValueBox[args.length];
@@ -1436,12 +1394,12 @@ final class AsmMethodSource implements MethodSource {
 		
 		Edge(AbstractInsnNode insn, ArrayList<Operand> stack) {
 			this.insn = insn;
-			this.prevStacks = new LinkedList<Operand[]>();
+			this.prevStacks = new LinkedList<>();
 			this.stack = stack;
 		}
 		
 		Edge(AbstractInsnNode insn) {
-			this(insn, new ArrayList<Operand>(AsmMethodSource.this.stack));
+			this(insn, new ArrayList<>(AsmMethodSource.this.stack));
 		}
 	}
 	
@@ -1451,7 +1409,7 @@ final class AsmMethodSource implements MethodSource {
 	private void addEdges(AbstractInsnNode cur,
 			AbstractInsnNode tgt1, List<LabelNode> tgts) {
 		int lastIdx = tgts == null ? -1 : tgts.size() - 1;
-		Operand[] stackss = (new ArrayList<Operand>(stack)).toArray(new Operand[stack.size()]);
+		Operand[] stackss = (new ArrayList<>(stack)).toArray(new Operand[stack.size()]);
 		AbstractInsnNode tgt = tgt1;
 		int i = 0;
 		tgt_loop:
@@ -1479,7 +1437,7 @@ final class AsmMethodSource implements MethodSource {
 				if (Arrays.equals(ps, stackss))
 					continue tgt_loop;
 			}
-			edge.stack = new ArrayList<Operand>(stack);
+			edge.stack = new ArrayList<>(stack);
 			edge.prevStacks.add(stackss);
 			conversionWorklist.add(edge);
 		} while (i <= lastIdx && (tgt = tgts.get(i++)) != null);
