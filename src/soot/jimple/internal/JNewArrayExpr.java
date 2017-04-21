@@ -38,7 +38,7 @@ public class JNewArrayExpr extends AbstractNewArrayExpr
 {
     public JNewArrayExpr(Type type, Value size)
     {
-        super(type, Jimple.v().newImmediateBox(size));
+        super(type, Jimple.newImmediateBox(size));
     }
 
     public Object clone() 

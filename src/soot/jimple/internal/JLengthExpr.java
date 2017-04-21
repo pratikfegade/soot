@@ -34,7 +34,7 @@ import soot.Value;
 import soot.jimple.Jimple;
 
 public class JLengthExpr extends AbstractLengthExpr {
-    public JLengthExpr(Value op) { super(Jimple.v().newImmediateBox(op)); }
+    public JLengthExpr(Value op) { super(Jimple.newImmediateBox(op)); }
 
     public Object clone()
   {

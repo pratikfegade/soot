@@ -18,7 +18,7 @@
  */
 
 /*
- * Modified by the Sable Research Group and others 1997-1999.  
+ * Modified by the Sable Research Group and others 1997-1999.
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
@@ -45,7 +45,7 @@ class TypeNode
   private final int id;
   private final Type type;
   private final ClassHierarchy hierarchy;
-  
+
   private TypeNode parentClass;
   private TypeNode element;
   private TypeNode array;
@@ -53,15 +53,15 @@ class TypeNode
   private List<TypeNode> parents = Collections.emptyList();
   private final BitVector ancestors = new BitVector(0);
   private final BitVector descendants = new BitVector(0);
-	
+
   public TypeNode(int id, Type type, ClassHierarchy hierarchy)
   {
     if(type == null || hierarchy == null)
       {
 	throw new InternalTypingException();
       }
-      
-    if(!((type instanceof PrimType) || (type instanceof RefType) || 
+
+    if(!((type instanceof PrimType) || (type instanceof RefType) ||
 	 (type instanceof ArrayType) || (type instanceof NullType)))
       {
 	G.v().out.println("Unhandled type: " + type);
@@ -77,34 +77,34 @@ class TypeNode
 	G.v().out.println("creating node " + this);
       }
   }
-  
+
   public TypeNode(int id, RefType type, ClassHierarchy hierarchy)
   {
     this(id, (Type) type, hierarchy);
-	
-    {    
+
+    {
       SootClass sClass = type.getSootClass();
       if( sClass == null ) throw new RuntimeException( "Oops, forgot to load "+type );
       if(sClass.isPhantomClass()) throw new RuntimeException("Jimplification requires "+sClass+", but it is a phantom ref.");
       List<TypeNode> plist = new LinkedList<TypeNode>();
-      
-      if(sClass.hasSuperclass() && 
+
+      if(sClass.hasSuperclass() &&
 	 !sClass.getName().equals("java.lang.Object"))
 	{
-	  TypeNode parent = hierarchy.typeNode(RefType.v(sClass.getSuperclass().getName()));
+	  TypeNode parent = hierarchy.typeNode(RefType.newInstance(sClass.getSuperclass().getName()));
 	  plist.add(parent);
 	  parentClass = parent;
 	}
 
       for(Iterator<SootClass> i = sClass.getInterfaces().iterator(); i.hasNext();)
 	{
-	  TypeNode parent = hierarchy.typeNode(RefType.v((i.next()).getName()));
+	  TypeNode parent = hierarchy.typeNode(RefType.newInstance((i.next()).getName()));
 	  plist.add(parent);
 	}
 
       parents = Collections.unmodifiableList(plist);
     }
-	    
+
     descendants.set(hierarchy.NULL.id);
     hierarchy.NULL.ancestors.set(id);
 
@@ -116,7 +116,7 @@ class TypeNode
 	parent.fixDescendants(id);
       }
   }
-	
+
   public TypeNode(int id, ArrayType type, ClassHierarchy hierarchy)
   {
     this(id, (Type) type, hierarchy);
@@ -132,7 +132,7 @@ class TypeNode
       }
     else
       {
-	element = hierarchy.typeNode(ArrayType.v(type.baseType, type.numDimensions - 1));
+	element = hierarchy.typeNode(ArrayType.getInstance(type.baseType, type.numDimensions - 1));
       }
 
     if(element != hierarchy.INT)
@@ -141,19 +141,19 @@ class TypeNode
 	  {
 	    throw new InternalTypingException();
 	  }
-	
+
 	element.array = this;
       }
-    
+
     {
-      List<TypeNode> plist = new LinkedList<TypeNode>();
+      List<TypeNode> plist = new LinkedList<>();
       if(type.baseType instanceof RefType)
 	{
 	  RefType baseType = (RefType) type.baseType;
 	  SootClass sClass = baseType.getSootClass();
 	  if(sClass.hasSuperclass() && !sClass.getName().equals("java.lang.Object"))
 	    {
-	      TypeNode parent = hierarchy.typeNode(ArrayType.v(RefType.v(sClass.getSuperclass().getName()), type.numDimensions));
+	      TypeNode parent = hierarchy.typeNode(ArrayType.getInstance(RefType.newInstance(sClass.getSuperclass().getName()), type.numDimensions));
 	      plist.add(parent);
 	      parentClass = parent;
 	    }
@@ -171,20 +171,20 @@ class TypeNode
 	    }
 	  else
 	    {
-	      plist.add(hierarchy.typeNode(ArrayType.v(hierarchy.OBJECT.type(), type.numDimensions - 1)));
+	      plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.OBJECT.type(), type.numDimensions - 1)));
 
 	      // hack for J2ME library, reported by Stephen Cheng
 	      if (!Options.v().j2me()) {
-		plist.add(hierarchy.typeNode(ArrayType.v(hierarchy.CLONEABLE.type(), type.numDimensions - 1)));
-		plist.add(hierarchy.typeNode(ArrayType.v(hierarchy.SERIALIZABLE.type(), type.numDimensions - 1)));
+		plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.CLONEABLE.type(), type.numDimensions - 1)));
+		plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.SERIALIZABLE.type(), type.numDimensions - 1)));
 	      }
 
-	      parentClass = hierarchy.typeNode(ArrayType.v(hierarchy.OBJECT.type(), type.numDimensions - 1));
+	      parentClass = hierarchy.typeNode(ArrayType.getInstance(hierarchy.OBJECT.type(), type.numDimensions - 1));
 	    }
 
 	  for(Iterator<SootClass> i = sClass.getInterfaces().iterator(); i.hasNext(); )
 	    {
-	      TypeNode parent = hierarchy.typeNode(ArrayType.v(RefType.v((i.next()).getName()), type.numDimensions));
+	      TypeNode parent = hierarchy.typeNode(ArrayType.getInstance(RefType.newInstance((i.next()).getName()), type.numDimensions));
 	      plist.add(parent);
 	    }
 	}
@@ -202,18 +202,18 @@ class TypeNode
 	}
       else
 	{
-	  plist.add(hierarchy.typeNode(ArrayType.v(hierarchy.OBJECT.type(), type.numDimensions - 1)));
+	  plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.OBJECT.type(), type.numDimensions - 1)));
 	  // hack for J2ME library, reported by Stephen Cheng
 	  if (!Options.v().j2me()) {
-	    plist.add(hierarchy.typeNode(ArrayType.v(hierarchy.CLONEABLE.type(), type.numDimensions - 1)));
-	    plist.add(hierarchy.typeNode(ArrayType.v(hierarchy.SERIALIZABLE.type(), type.numDimensions - 1)));
+	    plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.CLONEABLE.type(), type.numDimensions - 1)));
+	    plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.SERIALIZABLE.type(), type.numDimensions - 1)));
 	  }
 
-	  parentClass = hierarchy.typeNode(ArrayType.v(hierarchy.OBJECT.type(), type.numDimensions - 1));
+	  parentClass = hierarchy.typeNode(ArrayType.getInstance(hierarchy.OBJECT.type(), type.numDimensions - 1));
 	}
-      	    
+
       parents = Collections.unmodifiableList(plist);
-    }		    
+    }
 
     descendants.set(hierarchy.NULL.id);
     hierarchy.NULL.ancestors.set(id);
@@ -322,7 +322,7 @@ class TypeNode
     do
       {
 	type = type.parentClass;
-	
+
 	if(type == null)
 	  {
 	    try
@@ -400,7 +400,7 @@ class TypeNode
       {
 	throw new InternalTypingException();
       }
-    
+
     return element;
   }
 
@@ -414,13 +414,13 @@ class TypeNode
     if(type instanceof ArrayType)
       {
 	ArrayType atype = (ArrayType) type;
-	array = hierarchy.typeNode(ArrayType.v(atype.baseType, atype.numDimensions + 1));
+	array = hierarchy.typeNode(ArrayType.getInstance(atype.baseType, atype.numDimensions + 1));
 	return array;
       }
 
     if(type instanceof PrimType || type instanceof RefType)
       {
-	array = hierarchy.typeNode(ArrayType.v(type, 1));
+	array = hierarchy.typeNode(ArrayType.getInstance(type, 1));
 	return array;
       }
 

@@ -154,20 +154,20 @@ public class Timers
                 
         G.v().out.println("      Building graphs: " + toTimeString(graphTimer, totalTime));
         G.v().out.println("  Computing LocalDefs: " + toTimeString(defsTimer, totalTime));
-	//                G.v().out.println("                setup: " + toTimeString(defsSetupTimer, totalTime));
-	//                G.v().out.println("             analysis: " + toTimeString(defsAnalysisTimer, totalTime));
-	//                G.v().out.println("                 post: " + toTimeString(defsPostTimer, totalTime));
+	//                G.getInstance().out.println("                setup: " + toTimeString(defsSetupTimer, totalTime));
+	//                G.getInstance().out.println("             analysis: " + toTimeString(defsAnalysisTimer, totalTime));
+	//                G.getInstance().out.println("                 post: " + toTimeString(defsPostTimer, totalTime));
         G.v().out.println("  Computing LocalUses: " + toTimeString(usesTimer, totalTime));
-	//                G.v().out.println("            Use phase1: " + toTimeString(usePhase1Timer, totalTime));
-	//                G.v().out.println("            Use phase2: " + toTimeString(usePhase2Timer, totalTime));
-	//                G.v().out.println("            Use phase3: " + toTimeString(usePhase3Timer, totalTime));
+	//                G.getInstance().out.println("            Use phase1: " + toTimeString(usePhase1Timer, totalTime));
+	//                G.getInstance().out.println("            Use phase2: " + toTimeString(usePhase2Timer, totalTime));
+	//                G.getInstance().out.println("            Use phase3: " + toTimeString(usePhase3Timer, totalTime));
 
         G.v().out.println("     Cleaning up code: " + toTimeString(cleanupAlgorithmTimer, totalTime));
         G.v().out.println("Computing LocalCopies: " + toTimeString(copiesTimer, totalTime));
         G.v().out.println(" Computing LiveLocals: " + toTimeString(liveTimer, totalTime));
-	//                G.v().out.println("                setup: " + toTimeString(liveSetupTimer, totalTime));
-	//                G.v().out.println("             analysis: " + toTimeString(liveAnalysisTimer, totalTime));
-	//                G.v().out.println("                 post: " + toTimeString(livePostTimer, totalTime));
+	//                G.getInstance().out.println("                setup: " + toTimeString(liveSetupTimer, totalTime));
+	//                G.getInstance().out.println("             analysis: " + toTimeString(liveAnalysisTimer, totalTime));
+	//                G.getInstance().out.println("                 post: " + toTimeString(livePostTimer, totalTime));
                 
         G.v().out.println("Coading coffi structs: " + toTimeString(resolveTimer, totalTime));
 
@@ -190,14 +190,14 @@ public class Timers
             G.v().out.println("          .jasmin -> .class: " + toTimeString(assembleJasminTimer, totalTime));
             
                                             
-	    //                    G.v().out.println("           Cleaning up code: " + toTimeString(cleanup1Timer, totalTime) +
+	    //                    G.getInstance().out.println("           Cleaning up code: " + toTimeString(cleanup1Timer, totalTime) +
 	    //                        "\t" + cleanup1LocalCount + " locals  " + cleanup1StmtCount + " stmts");
                     
-	    //                    G.v().out.println("               Split phase1: " + toTimeString(splitPhase1Timer, totalTime));
-	    //                    G.v().out.println("               Split phase2: " + toTimeString(splitPhase2Timer, totalTime));
+	    //                    G.getInstance().out.println("               Split phase1: " + toTimeString(splitPhase1Timer, totalTime));
+	    //                    G.getInstance().out.println("               Split phase2: " + toTimeString(splitPhase2Timer, totalTime));
                 
 	    /*
-	      G.v().out.println("cleanup2Timer:   " + cleanup2Time +
+	      G.getInstance().out.println("cleanup2Timer:   " + cleanup2Time +
 	      "(" + (cleanup2Time * 100 / totalTime) + "%) " +
 	      cleanup2LocalCount + " locals  " + cleanup2StmtCount + " stmts");
 	    */

@@ -176,7 +176,7 @@ public class FloatConstant extends RealConstant
 
     public Type getType()
     {
-        return FloatType.v();
+        return FloatType.getInstance();
     }
 
     public void apply(Switch sw)

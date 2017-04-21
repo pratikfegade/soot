@@ -108,11 +108,11 @@ final class StackFrame {
 			if (stack != null) {
 				if (newOp.stack == null) {
 					newOp.stack = stack;
-					AssignStmt as = Jimple.v().newAssignStmt(stack, newOp.value);
+					AssignStmt as = Jimple.newAssignStmt(stack, newOp.value);
 					src.setUnit(newOp.insn, as);
 					newOp.updateBoxes();
 				} else {
-					AssignStmt as = Jimple.v().newAssignStmt(stack, newOp.stackOrValue());
+					AssignStmt as = Jimple.newAssignStmt(stack, newOp.stackOrValue());
 					src.mergeUnits(newOp.insn, as);
 					newOp.addBox(as.getRightOpBox());
 				}
@@ -136,7 +136,7 @@ final class StackFrame {
 					prevOp.removeBox(box);
 					if (prevOp.stack == null) {
 						prevOp.stack = stack;
-						AssignStmt as = Jimple.v().newAssignStmt(stack, prevOp.value);
+						AssignStmt as = Jimple.newAssignStmt(stack, prevOp.value);
 						src.setUnit(prevOp.insn, as);
 					} else {
 						Unit u = src.getUnit(prevOp.insn);
@@ -151,7 +151,7 @@ final class StackFrame {
 				if (newOp.stack != stack) {
 					if (newOp.stack == null) {
 						newOp.stack = stack;
-						AssignStmt as = Jimple.v().newAssignStmt(stack, newOp.value);
+						AssignStmt as = Jimple.newAssignStmt(stack, newOp.value);
 						src.setUnit(newOp.insn, as);
 					} else {
 						Unit u = src.getUnit(newOp.insn);

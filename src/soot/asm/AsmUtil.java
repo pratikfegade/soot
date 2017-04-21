@@ -65,28 +65,28 @@ class AsmUtil {
 				internal = internal.substring(1, internal.length());
 			}
 			internal = toQualifiedName(internal);
-			return RefType.v(internal);
+			return RefType.newInstance(internal);
 		}
 		switch (internal.charAt(0)) {
 		case 'Z':
-			return BooleanType.v();
+			return BooleanType.getInstance();
 		case 'B':
-			return ByteType.v();
+			return ByteType.getInstance();
 		case 'C':
-			return CharType.v();
+			return CharType.getInstance();
 		case 'S':
-			return ShortType.v();
+			return ShortType.getInstance();
 		case 'I':
-			return IntType.v();
+			return IntType.getInstance();
 		case 'F':
-			return FloatType.v();
+			return FloatType.getInstance();
 		case 'J':
-			return LongType.v();
+			return LongType.getInstance();
 		case 'D':
-			return DoubleType.v();
+			return DoubleType.getInstance();
 		default:
 			internal = toQualifiedName(internal);
-			return RefType.v(internal);
+			return RefType.newInstance(internal);
 		}
 	}
 	
@@ -124,7 +124,7 @@ class AsmUtil {
 	 */
 	public static Type toJimpleRefType(String desc) {
 		return desc.charAt(0) == '[' ?
-				toJimpleType(desc) : RefType.v(toQualifiedName(desc));
+				toJimpleType(desc) : RefType.newInstance(toQualifiedName(desc));
 	}
 	
 	/**
@@ -143,42 +143,42 @@ class AsmUtil {
 		Type baseType;
 		switch (desc.charAt(0)) {
 		case 'Z':
-			baseType = BooleanType.v();
+			baseType = BooleanType.getInstance();
 			break;
 		case 'B':
-			baseType = ByteType.v();
+			baseType = ByteType.getInstance();
 			break;
 		case 'C':
-			baseType = CharType.v();
+			baseType = CharType.getInstance();
 			break;
 		case 'S':
-			baseType = ShortType.v();
+			baseType = ShortType.getInstance();
 			break;
 		case 'I':
-			baseType = IntType.v();
+			baseType = IntType.getInstance();
 			break;
 		case 'F':
-			baseType = FloatType.v();
+			baseType = FloatType.getInstance();
 			break;
 		case 'J':
-			baseType = LongType.v();
+			baseType = LongType.getInstance();
 			break;
 		case 'D':
-			baseType = DoubleType.v();
+			baseType = DoubleType.getInstance();
 			break;
 		case 'L':
 			if (desc.charAt(desc.length() - 1) != ';')
 				throw new AssertionError("Invalid reference descriptor: " + desc);
 			String name = desc.substring(1, desc.length() - 1);
 			name = toQualifiedName(name);
-			baseType = RefType.v(name);
+			baseType = RefType.newInstance(name);
 			break;
 		default:
 			throw new AssertionError("Unknown descriptor: " + desc);	
 		}
 		if (!(baseType instanceof RefLikeType) && desc.length() > 1)
 			throw new AssertionError("Invalid primitive type descriptor: " + desc);
-		return nrDims > 0 ? ArrayType.v(baseType, nrDims) : baseType;
+		return nrDims > 0 ? ArrayType.getInstance(baseType, nrDims) : baseType;
 	}
 	
 	/**
@@ -188,7 +188,7 @@ class AsmUtil {
 	 * @return list of types.
 	 */
 	public static List<Type> toJimpleDesc(String desc) {
-		ArrayList<Type> types = new ArrayList<Type>(2);
+		ArrayList<Type> types = new ArrayList<>(2);
 		int len = desc.length();
 		int idx = 0;
 		all:
@@ -206,44 +206,44 @@ class AsmUtil {
 					++nrDims;
 					continue this_type;
 				case 'Z':
-					baseType = BooleanType.v();
+					baseType = BooleanType.getInstance();
 					break this_type;
 				case 'B':
-					baseType = ByteType.v();
+					baseType = ByteType.getInstance();
 					break this_type;
 				case 'C':
-					baseType = CharType.v();
+					baseType = CharType.getInstance();
 					break this_type;
 				case 'S':
-					baseType = ShortType.v();
+					baseType = ShortType.getInstance();
 					break this_type;
 				case 'I':
-					baseType = IntType.v();
+					baseType = IntType.getInstance();
 					break this_type;
 				case 'F':
-					baseType = FloatType.v();
+					baseType = FloatType.getInstance();
 					break this_type;
 				case 'J':
-					baseType = LongType.v();
+					baseType = LongType.getInstance();
 					break this_type;
 				case 'D':
-					baseType = DoubleType.v();
+					baseType = DoubleType.getInstance();
 					break this_type;
 				case 'V':
-					baseType = VoidType.v();
+					baseType = new VoidType();
 					break this_type;
 				case 'L':
 					int begin = idx;
 					while (desc.charAt(++idx) != ';');
 					String cls = desc.substring(begin, idx++);
-					baseType = RefType.v(toQualifiedName(cls));
+					baseType = RefType.newInstance(toQualifiedName(cls));
 					break this_type;
 				default:
 					throw new AssertionError("Unknown type: " + c);
 				}
 			}
 			if (baseType != null && nrDims > 0)
-				types.add(ArrayType.v(baseType, nrDims));
+				types.add(ArrayType.getInstance(baseType, nrDims));
 			else
 				types.add(baseType);
 		}

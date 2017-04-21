@@ -51,7 +51,7 @@ public class EquivalentValue implements Value {
     }
 
     /**
-     * compares the encapsulated value with <code>v</code>, using
+     * compares the encapsulated value with <code>newInstance</code>, using
      * <code>equivTo</code>
      **/
     public boolean equivToValue(Value v) {
@@ -59,7 +59,7 @@ public class EquivalentValue implements Value {
     }
 
     /**
-     * compares the encapsulated value with <code>v</code>, using
+     * compares the encapsulated value with <code>newInstance</code>, using
      * <code>equals</code>
      **/
     public boolean equalsToValue(Value v) {

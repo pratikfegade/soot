@@ -35,7 +35,7 @@ public class ShimpleMethodSource implements MethodSource
     public Body getBody(SootMethod m)
     {
         Body b = ms.getBody(m);
-        return b == null ? null : Shimple.v().newBody(b);
+        return b == null ? null : Shimple.getInstance().newBody(b);
     }
 }
 

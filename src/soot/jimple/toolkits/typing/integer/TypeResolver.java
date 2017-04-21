@@ -46,16 +46,16 @@ public class TypeResolver {
 
 	private final JimpleBody stmtBody;
 
-	final TypeVariable BOOLEAN = typeVariable(ClassHierarchy.v().BOOLEAN);
-	final TypeVariable BYTE = typeVariable(ClassHierarchy.v().BYTE);
-	final TypeVariable SHORT = typeVariable(ClassHierarchy.v().SHORT);
-	final TypeVariable CHAR = typeVariable(ClassHierarchy.v().CHAR);
-	final TypeVariable INT = typeVariable(ClassHierarchy.v().INT);
-	final TypeVariable TOP = typeVariable(ClassHierarchy.v().TOP);
-	final TypeVariable R0_1 = typeVariable(ClassHierarchy.v().R0_1);
-	final TypeVariable R0_127 = typeVariable(ClassHierarchy.v().R0_127);
-	final TypeVariable R0_32767 = typeVariable(ClassHierarchy.v().R0_32767);
-	final TypeVariable LONG = typeVariable(ClassHierarchy.v().LONG);
+	final TypeVariable BOOLEAN = typeVariable(ClassHierarchy.getInstance().BOOLEAN);
+	final TypeVariable BYTE = typeVariable(ClassHierarchy.getInstance().BYTE);
+	final TypeVariable SHORT = typeVariable(ClassHierarchy.getInstance().SHORT);
+	final TypeVariable CHAR = typeVariable(ClassHierarchy.getInstance().CHAR);
+	final TypeVariable INT = typeVariable(ClassHierarchy.getInstance().INT);
+	final TypeVariable TOP = typeVariable(ClassHierarchy.getInstance().TOP);
+	final TypeVariable R0_1 = typeVariable(ClassHierarchy.getInstance().R0_1);
+	final TypeVariable R0_127 = typeVariable(ClassHierarchy.getInstance().R0_127);
+	final TypeVariable R0_32767 = typeVariable(ClassHierarchy.getInstance().R0_32767);
+	final TypeVariable LONG = typeVariable(ClassHierarchy.getInstance().LONG);
 	private static final boolean DEBUG = false;
 
 	// categories for type variables (solved = hard, unsolved = soft)
@@ -103,7 +103,7 @@ public class TypeResolver {
 
 	/** Get type variable for the given type. **/
 	public TypeVariable typeVariable(Type type) {
-		return typeVariable(ClassHierarchy.v().typeNode(type));
+		return typeVariable(ClassHierarchy.getInstance().typeNode(type));
 	}
 
 	/** Get new type variable **/
@@ -263,7 +263,7 @@ public class TypeResolver {
 
 				if (lca != null) {
 					if (DEBUG) {
-						if (lca == ClassHierarchy.v().TOP) {
+						if (lca == ClassHierarchy.getInstance().TOP) {
 							G.v().out.println("*** TOP *** " + var);
 							for (TypeVariable typeVariable : children_to_remove) {
 								G.v().out.println("-- " + typeVariable);
@@ -365,7 +365,7 @@ public class TypeResolver {
 			if (!modified) {
 				for (TypeVariable var : unsolved) {
 					if (var.type() == null
-							&& var.approx() == ClassHierarchy.v().R0_32767) {
+							&& var.approx() == ClassHierarchy.getInstance().R0_32767) {
 						if (DEBUG) {
 							G.v().out.println("*** R->SHORT *** " + var);
 						}
@@ -379,7 +379,7 @@ public class TypeResolver {
 			if (!modified) {
 				for (TypeVariable var : unsolved) {
 					if (var.type() == null
-							&& var.approx() == ClassHierarchy.v().R0_127) {
+							&& var.approx() == ClassHierarchy.getInstance().R0_127) {
 						if (DEBUG) {
 							G.v().out.println("*** R->BYTE *** " + var);
 						}
@@ -393,7 +393,7 @@ public class TypeResolver {
 			if (!modified) {
 				for (TypeVariable var : R0_1.parents()) {
 					if (var.type() == null
-							&& var.approx() == ClassHierarchy.v().R0_1) {
+							&& var.approx() == ClassHierarchy.getInstance().R0_1) {
 						if (DEBUG) {
 							G.v().out.println("*** R->BOOLEAN *** " + var);
 						}
@@ -446,12 +446,12 @@ public class TypeResolver {
 					local.setType(var.inv_approx().type());
 				} else if (var.approx().type() != null) {
 					local.setType(var.approx().type());
-				} else if (var.approx() == ClassHierarchy.v().R0_1) {
-					local.setType(BooleanType.v());
-				} else if (var.approx() == ClassHierarchy.v().R0_127) {
-					local.setType(ByteType.v());
+				} else if (var.approx() == ClassHierarchy.getInstance().R0_1) {
+					local.setType(BooleanType.getInstance());
+				} else if (var.approx() == ClassHierarchy.getInstance().R0_127) {
+					local.setType(ByteType.getInstance());
 				} else {
-					local.setType(ShortType.v());
+					local.setType(ShortType.getInstance());
 				}
 			}
 		}

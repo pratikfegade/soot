@@ -61,52 +61,52 @@ public class CmpInstruction extends TaggedInstruction {
         //Expr cmpExpr;
         //Type type = null
         Opcode opcode = instruction.getOpcode();
-        Expr cmpExpr = null;
+        Expr cmpExpr;
         Type type = null;
         switch (opcode) {
-        case CMPL_DOUBLE:
-          setTag (new DoubleOpTag());
-          type = DoubleType.v();
-          cmpExpr = Jimple.v().newCmplExpr(first, second);
-          break;
-        case CMPL_FLOAT:
-          setTag (new FloatOpTag());
-          type = FloatType.v();
-            cmpExpr = Jimple.v().newCmplExpr(first, second);
-            break;
-        case CMPG_DOUBLE:
-          setTag (new DoubleOpTag());
-          type = DoubleType.v();
-          cmpExpr = Jimple.v().newCmpgExpr(first, second);
-          break;
-        case CMPG_FLOAT:
-          setTag (new FloatOpTag());
-          type = FloatType.v();
-            cmpExpr = Jimple.v().newCmpgExpr(first, second);
-            break;
-        case CMP_LONG:
-          setTag (new LongOpTag());
-          type = LongType.v();
-          cmpExpr = Jimple.v().newCmpExpr(first, second);
-          break;
-        default:
-            throw new RuntimeException("no opcode for CMP: " + opcode);
+            case CMPL_DOUBLE:
+                setTag (new DoubleOpTag());
+                type = DoubleType.getInstance();
+                cmpExpr = Jimple.newCmplExpr(first, second);
+                break;
+            case CMPL_FLOAT:
+                setTag (new FloatOpTag());
+                type = FloatType.getInstance();
+                cmpExpr = Jimple.newCmplExpr(first, second);
+                break;
+            case CMPG_DOUBLE:
+                setTag (new DoubleOpTag());
+                type = DoubleType.getInstance();
+                cmpExpr = Jimple.newCmpgExpr(first, second);
+                break;
+            case CMPG_FLOAT:
+                setTag (new FloatOpTag());
+                type = FloatType.getInstance();
+                cmpExpr = Jimple.newCmpgExpr(first, second);
+                break;
+            case CMP_LONG:
+                setTag (new LongOpTag());
+                type = LongType.getInstance();
+                cmpExpr = Jimple.newCmpExpr(first, second);
+                break;
+            default:
+                throw new RuntimeException("no opcode for CMP: " + opcode);
         }
 
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), cmpExpr);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), cmpExpr);
         assign.addTag(getTag());
 
         setUnit(assign);
         addTags(assign);
         body.add(assign);
-        
-		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          getTag().getName();
-          BinopExpr bexpr = (BinopExpr)cmpExpr;
-          DalvikTyper.v().setType(bexpr.getOp1Box(), type, true);
-          DalvikTyper.v().setType(bexpr.getOp2Box(), type, true);
-          DalvikTyper.v().setType(((JAssignStmt)assign).leftBox, IntType.v(), false);
+
+        if (IDalvikTyper.ENABLE_DVKTYPER) {
+            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
+            getTag().getName();
+            BinopExpr bexpr = (BinopExpr)cmpExpr;
+            DalvikTyper.v().setType(bexpr.getOp1Box(), type, true);
+            DalvikTyper.v().setType(bexpr.getOp2Box(), type, true);
+            DalvikTyper.v().setType(((JAssignStmt)assign).leftBox, IntType.getInstance(), false);
         }
     }
 

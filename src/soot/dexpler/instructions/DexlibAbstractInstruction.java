@@ -50,12 +50,12 @@ public abstract class DexlibAbstractInstruction {
 
     protected Instruction instruction;
     protected int codeAddress;
-//    protected Unit beginUnit;
+    //    protected Unit beginUnit;
 //    protected Unit endUnit;
     protected Unit unit;
 
     public Instruction getInstruction() {
-      return instruction;
+        return instruction;
     }
 
     /**
@@ -148,7 +148,7 @@ public abstract class DexlibAbstractInstruction {
     /**
      * Tag the passed host with: - this instructions line number (if one is set)
      * - the original bytecode offset
-     * 
+     *
      * @param host
      *            the host to tag
      */
@@ -158,10 +158,10 @@ public abstract class DexlibAbstractInstruction {
             host.addTag(new SourceLineNumberTag(lineNumber));
         }
         if (Options.v().keep_offset())
-        	host.addTag(new BytecodeOffsetTag(codeAddress));
+            host.addTag(new BytecodeOffsetTag(codeAddress));
     }
 
-//    /**
+    //    /**
 //     * Return the first of the jimple units that represent this instruction.
 //     *
 //     */
@@ -177,7 +177,7 @@ public abstract class DexlibAbstractInstruction {
 //        return endUnit;
 //    }
     public Unit getUnit() {
-      return unit;
+        return unit;
     }
 
     /**
@@ -186,7 +186,7 @@ public abstract class DexlibAbstractInstruction {
      * Does not override already set units.
      */
     protected void setUnit(Unit u) {
-      unit = u;
+        unit = u;
 //        defineBlock(stmt, stmt);
     }
 
@@ -204,193 +204,193 @@ public abstract class DexlibAbstractInstruction {
 
     //FT
     protected Type [] opUnType = {
-        IntType.v(),    // 0x7B neg-int vx, vy
-        IntType.v(),    // 0x7C
-        LongType.v(),   // 0x7D
-        LongType.v(),   // 0x7E
-        FloatType.v(),  // 0x7F
-        DoubleType.v(), // 0x80
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v()     // 0x8F int-to-short vx, vy
-      };
+            IntType.getInstance(),    // 0x7B neg-int vx, vy
+            IntType.getInstance(),    // 0x7C
+            LongType.getInstance(),   // 0x7D
+            LongType.getInstance(),   // 0x7E
+            FloatType.getInstance(),  // 0x7F
+            DoubleType.getInstance(), // 0x80
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance()     // 0x8F int-to-short vx, vy
+    };
 
-      protected Type [] resUnType = {
-          IntType.v(),  // 0x7B
-          IntType.v(),
-          LongType.v(),
-          LongType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          LongType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          IntType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          IntType.v(),
-          LongType.v(),
-          DoubleType.v(),
-          IntType.v(),
-          LongType.v(),
-          FloatType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v()     // 0x8F
-      };
+    protected Type [] resUnType = {
+            IntType.getInstance(),  // 0x7B
+            IntType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            LongType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            IntType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            IntType.getInstance(),
+            LongType.getInstance(),
+            DoubleType.getInstance(),
+            IntType.getInstance(),
+            LongType.getInstance(),
+            FloatType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance()     // 0x8F
+    };
 
-      protected Type []  resBinType = {
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v()
+    protected Type []  resBinType = {
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            new  IntType(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance()
+    };
+
+    protected Type []  op1BinType = {
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance()
+    };
+
+    protected Type []  op2BinType = {
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            LongType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            IntType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            FloatType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance(),
+            DoubleType.getInstance()
+    };
+
+    //public abstract void getConstraint(IDalvikTyper DalvikTyper.getInstance());
+
+    /**
+     * Return the indices used in the given instruction.
+     *
+     * @param instruction a range invocation instruction
+     * @return a list of register indices
+     */
+    protected List<Integer> getUsedRegistersNums(RegisterRangeInstruction instruction) {
+        List<Integer> regs = new ArrayList<Integer>();
+        int start = instruction.getStartRegister();
+        for (int i = start; i < start + instruction.getRegisterCount(); i++)
+            regs.add(i);
+
+        return regs;
+    }
+
+    /**
+     * Return the indices used in the given instruction.
+     *
+     * @param instruction a invocation instruction
+     * @return a list of register indices
+     */
+    protected List<Integer> getUsedRegistersNums(FiveRegisterInstruction instruction) {
+        int[] regs = {
+                instruction.getRegisterC(),
+                instruction.getRegisterD(),
+                instruction.getRegisterE(),
+                instruction.getRegisterF(),
+                instruction.getRegisterG(),
         };
-
-      protected Type []  op1BinType = {
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        IntType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        LongType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        FloatType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v(),
-        DoubleType.v()
-      };
-
-      protected Type []  op2BinType = {
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          LongType.v(),
-          IntType.v(),
-          IntType.v(),
-          IntType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          FloatType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v(),
-          DoubleType.v()
-        };
-
-      //public abstract void getConstraint(IDalvikTyper DalvikTyper.v());
-
-      /**
-       * Return the indices used in the given instruction.
-       *
-       * @param instruction a range invocation instruction
-       * @return a list of register indices
-       */
-      protected List<Integer> getUsedRegistersNums(RegisterRangeInstruction instruction) {
-          List<Integer> regs = new ArrayList<Integer>();
-          int start = instruction.getStartRegister();
-          for (int i = start; i < start + instruction.getRegisterCount(); i++)
-              regs.add(i);
-
-          return regs;
-      }
-      
-      /**
-       * Return the indices used in the given instruction.
-       *
-       * @param instruction a invocation instruction
-       * @return a list of register indices
-       */
-      protected List<Integer> getUsedRegistersNums(FiveRegisterInstruction instruction) {
-          int[] regs = {
-              instruction.getRegisterC(),
-              instruction.getRegisterD(),
-              instruction.getRegisterE(),
-              instruction.getRegisterF(),
-              instruction.getRegisterG(),
-          };
-          List<Integer> l = new ArrayList<Integer>();
-          for (int i = 0; i < instruction.getRegisterCount(); i++)
-              l.add(regs[i]);
-          return l;
-      }
+        List<Integer> l = new ArrayList<>();
+        for (int i = 0; i < instruction.getRegisterCount(); i++)
+            l.add(regs[i]);
+        return l;
+    }
 
 }

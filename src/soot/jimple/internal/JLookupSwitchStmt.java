@@ -53,7 +53,7 @@ public class JLookupSwitchStmt extends AbstractSwitchStmt
     {
         UnitBox[] targetBoxes = new UnitBox[targets.size()];
         for(int i = 0; i < targetBoxes.length; i++)
-            targetBoxes[i] = Jimple.v().newStmtBox(targets.get(i));
+            targetBoxes[i] = Jimple.newStmtBox(targets.get(i));
         return targetBoxes;
     }
 
@@ -72,15 +72,15 @@ public class JLookupSwitchStmt extends AbstractSwitchStmt
     /** Constructs a new JLookupSwitchStmt. lookupValues should be a list of IntConst s. */ 
     public JLookupSwitchStmt(Value key, List<IntConstant> lookupValues, List<? extends Unit> targets, Unit defaultTarget)
     {
-        this(Jimple.v().newImmediateBox(key),
+        this(Jimple.newImmediateBox(key),
              lookupValues, getTargetBoxesArray(targets),
-             Jimple.v().newStmtBox(defaultTarget));
+             Jimple.newStmtBox(defaultTarget));
     }
 
     /** Constructs a new JLookupSwitchStmt. lookupValues should be a list of IntConst s. */     
     public JLookupSwitchStmt(Value key, List<IntConstant> lookupValues, List<? extends UnitBox> targets, UnitBox defaultTarget)
     {
-        this(Jimple.v().newImmediateBox(key),
+        this(Jimple.newImmediateBox(key),
              lookupValues, targets.toArray(new UnitBox[targets.size()]),
              defaultTarget);
     }

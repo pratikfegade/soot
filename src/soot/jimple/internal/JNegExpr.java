@@ -37,7 +37,7 @@ public class JNegExpr extends AbstractNegExpr
 {
     public JNegExpr(Value op)
     {
-        super(Jimple.v().newImmediateBox(op));
+        super(Jimple.newImmediateBox(op));
     }
     
     public Object clone()  

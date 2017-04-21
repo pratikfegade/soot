@@ -62,7 +62,7 @@ public class FillArrayDataInstruction extends PseudoInstruction {
 
     ArrayPayload arrayTable = (ArrayPayload)referenceTable;
 
-    //        NopStmt nopStmtBeginning = Jimple.v().newNopStmt();
+    //        NopStmt nopStmtBeginning = Jimple.newInstance().newNopStmt();
     //        body.add(nopStmtBeginning);
 
     Local arrayReference = body.getRegisterLocal(destRegister);
@@ -71,11 +71,11 @@ public class FillArrayDataInstruction extends PseudoInstruction {
 
     Stmt firstAssign = null;
     for (int i = 0; i < numElements; i++) {
-      ArrayRef arrayRef = Jimple.v().newArrayRef(arrayReference, IntConstant.v(i));
+      ArrayRef arrayRef = Jimple.newArrayRef(arrayReference, IntConstant.v(i));
       NumericConstant element = getArrayElement(elements.get(i),body,destRegister);
       if (element == null) //array was not defined -> element type can not be found (obfuscated bytecode?)
         break;
-      AssignStmt assign = Jimple.v().newAssignStmt(arrayRef, element);
+      AssignStmt assign = Jimple.newAssignStmt(arrayRef, element);
       addTags(assign);
       body.add(assign);
       if (i == 0) {
@@ -83,11 +83,11 @@ public class FillArrayDataInstruction extends PseudoInstruction {
       }
     }
     if (firstAssign == null) { // if numElements == 0. Is it possible?
-        firstAssign = Jimple.v().newNopStmt();
+        firstAssign = Jimple.newNopStmt();
         body.add (firstAssign);
     }
 
-    //        NopStmt nopStmtEnd = Jimple.v().newNopStmt();
+    //        NopStmt nopStmtEnd = Jimple.newInstance().newNopStmt();
     //        body.add(nopStmtEnd);
 
     //        defineBlock(nopStmtBeginning, nopStmtEnd);

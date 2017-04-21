@@ -22,25 +22,22 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
  *   Soot representation used for not-yet-typed objects. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class UnknownType extends Type
 {
-    public UnknownType( Singletons.Global g ) {}
-    public static UnknownType v() { return G.v().soot_UnknownType(); }
+    private static UnknownType instance = null;
+    public static synchronized UnknownType getInstance() {
+        if (instance == null)
+            instance = new UnknownType();
+        return instance;
+    }
 
     public int hashCode()
     {
@@ -67,7 +64,6 @@ public class UnknownType extends Type
     {
         if (other instanceof RefType)
             return other;
-        throw new RuntimeException("illegal type merge: "
-                                   + this + " and " + other);
+        throw new RuntimeException("illegal type merge: " + this + " and " + other);
     }
 }

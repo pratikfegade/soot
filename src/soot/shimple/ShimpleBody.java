@@ -154,7 +154,7 @@ public class ShimpleBody extends StmtBody
         ShimpleBody sBody = (ShimpleBody) this.clone();
 
         sBody.eliminateNodes();
-        JimpleBody jBody = Jimple.v().newBody(sBody.getMethod());
+        JimpleBody jBody = Jimple.newBody(sBody.getMethod());
         jBody.importBodyContentsFrom(sBody);
         return jBody;
     }
@@ -200,7 +200,7 @@ public class ShimpleBody extends StmtBody
      **/
     public Object clone()
     {
-        Body b = Shimple.v().newBody(getMethod());
+        Body b = Shimple.getInstance().newBody(getMethod());
         b.importBodyContentsFrom(this);
         return b;
     }

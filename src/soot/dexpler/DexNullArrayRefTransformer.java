@@ -30,7 +30,6 @@ import soot.toolkits.scalar.LocalDefs;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * If Dalvik bytecode contains statements using a base array which is always
@@ -126,21 +125,21 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 	 * @param lc The object for creating new locals
 	 */
 	private void createThrowStmt(Body body, Unit oldStmt, LocalCreation lc) {
-		RefType tp = RefType.v("java.lang.NullPointerException");
+		RefType tp = RefType.newInstance("java.lang.NullPointerException");
 		Local lcEx = lc.newLocal(tp);
 		
 		SootMethodRef constructorRef = Scene.v().makeConstructorRef(tp.getSootClass(),
-				Collections.singletonList(RefType.v("java.lang.String")));
+				Collections.singletonList(RefType.newInstance("java.lang.String")));
 		
 		// Create the exception instance
-		Stmt newExStmt = Jimple.v().newAssignStmt(lcEx, Jimple.v().newNewExpr(tp));
+		Stmt newExStmt = Jimple.newAssignStmt(lcEx, Jimple.newNewExpr(tp));
 		body.getUnits().insertBefore(newExStmt, oldStmt);
-		Stmt invConsStmt = Jimple.v().newInvokeStmt(Jimple.v().newSpecialInvokeExpr(lcEx,
+		Stmt invConsStmt = Jimple.newInvokeStmt(Jimple.newSpecialInvokeExpr(lcEx,
 				constructorRef, Collections.singletonList(StringConstant.v(
 						"Invalid array reference replaced by Soot"))));
 		body.getUnits().insertBefore(invConsStmt, oldStmt);
 		
 		// Throw the exception
-		body.getUnits().swapWith(oldStmt, Jimple.v().newThrowStmt(lcEx));
+		body.getUnits().swapWith(oldStmt, Jimple.newThrowStmt(lcEx));
 	}
 }

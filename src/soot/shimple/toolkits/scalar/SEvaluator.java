@@ -224,7 +224,7 @@ public class SEvaluator
 
         public Type getType()
         {
-            return UnknownType.v();
+            return UnknownType.getInstance();
         }
 
         public void apply(Switch sw)
@@ -249,7 +249,7 @@ public class SEvaluator
         
         public Type getType()
         {
-        return UnknownType.v();
+        return UnknownType.getInstance();
         }
     
         public void apply(Switch sw)

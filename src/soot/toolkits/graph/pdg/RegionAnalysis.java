@@ -162,9 +162,9 @@ public class RegionAnalysis{
 
     /**
      * This algorithms assumes that the first time it's called with a tail of the CFG. Then for each 
-     * child node w of v in the post-dominator tree, it compares the parent of v in the dominator tree
-     * with w and if they are the same, that means w belongs to the same region as v, so  weakRegionDFS
-     * is recursively called with w and the same region id as v.
+     * child node w of getInstance in the post-dominator tree, it compares the parent of getInstance in the dominator tree
+     * with w and if they are the same, that means w belongs to the same region as newInstance, so  weakRegionDFS
+     * is recursively called with w and the same region id as newInstance.
      * If the comparison fails, then a new region is created and weakRegionDFS is called recursively with
      * w but this time with the newly created region id.
      * 
@@ -201,7 +201,7 @@ public class RegionAnalysis{
         catch(RuntimeException e)
         {
             G.v().out.println("[RegionAnalysis] Exception in weakRegionDFS: " + e);
-            G.v().out.println("v is  " + v.toShortString() + " in region " + r);
+            G.v().out.println("newInstance is  " + v.toShortString() + " in region " + r);
             G.v().out.flush();
         }
     }

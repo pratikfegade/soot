@@ -22,12 +22,6 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
-
 package soot.jimple.internal;
 
 import soot.*;
@@ -48,20 +42,18 @@ public class JUshrExpr extends AbstractJimpleIntLongBinopExpr implements UshrExp
         Value op2 = op2Box.getValue();
         
         if (!isIntLikeType(op2.getType()))
-        	return UnknownType.v();
+        	return UnknownType.getInstance();
         
         if (isIntLikeType(op1.getType()))
-        	return IntType.v();
-        if (op1.getType().equals(LongType.v()))
-        	return LongType.v();
+        	return IntType.getInstance();
+        if (op1.getType().equals(LongType.getInstance()))
+        	return LongType.getInstance();
         
-    	return UnknownType.v();
+    	return UnknownType.getInstance();
     }
     
     public Object clone() 
     {
         return new JUshrExpr(Jimple.cloneIfNecessary(getOp1()), Jimple.cloneIfNecessary(getOp2()));
     }
-
-
 }

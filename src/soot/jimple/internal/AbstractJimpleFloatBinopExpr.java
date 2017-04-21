@@ -40,8 +40,8 @@ abstract public class AbstractJimpleFloatBinopExpr
 {
     AbstractJimpleFloatBinopExpr(Value op1, Value op2)
     {
-        this(Jimple.v().newArgBox(op1),
-             Jimple.v().newArgBox(op2));
+        this(Jimple.newArgBox(op1),
+             Jimple.newArgBox(op2));
     }
 
     protected AbstractJimpleFloatBinopExpr(ValueBox op1Box, ValueBox op2Box)

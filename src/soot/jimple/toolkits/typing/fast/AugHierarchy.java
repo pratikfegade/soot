@@ -51,13 +51,13 @@ public class AugHierarchy implements IHierarchy
 				return Collections.singletonList(a);
 			else if ( a instanceof BooleanType || b instanceof BooleanType )
 				return Collections.emptyList();
-			else if ( (a instanceof ByteType && b instanceof Integer32767Type)
-				|| (b instanceof ByteType && a instanceof Integer32767Type) )
-				return Collections.singletonList(ShortType.v());
+			else if ( (a instanceof ByteType && b instanceof LongType)
+				|| (b instanceof ByteType && a instanceof LongType) )
+				return Collections.singletonList(ShortType.getInstance());
 			else if ( (a instanceof CharType && (b instanceof ShortType
 				|| b instanceof ByteType)) || (b instanceof CharType
 				&& (a instanceof ShortType || a instanceof ByteType)) )
-				return Collections.singletonList(IntType.v());
+				return Collections.singletonList(IntType.getInstance());
 			else if ( ancestor_(a, b) )
 				return Collections.singletonList(a);
 			else return Collections.singletonList(b);
@@ -91,7 +91,7 @@ public class AugHierarchy implements IHierarchy
                     || child instanceof Integer1Type;
 		}
 		else if ( ancestor instanceof ByteType
-			|| ancestor instanceof Integer32767Type )
+			|| ancestor instanceof LongType)
 		{
             return child instanceof BottomType
                     || child instanceof Integer1Type
@@ -102,14 +102,14 @@ public class AugHierarchy implements IHierarchy
             return child instanceof BottomType
                     || child instanceof Integer1Type
                     || child instanceof Integer127Type
-                    || child instanceof Integer32767Type;
+                    || child instanceof LongType;
 		}
 		else if ( ancestor instanceof ShortType )
 		{
             return child instanceof BottomType
                     || child instanceof Integer1Type
                     || child instanceof Integer127Type
-                    || child instanceof Integer32767Type
+                    || child instanceof LongType
                     || child instanceof ByteType;
 		}
 		else if ( ancestor instanceof IntType )
@@ -117,7 +117,7 @@ public class AugHierarchy implements IHierarchy
             return child instanceof BottomType
                     || child instanceof Integer1Type
                     || child instanceof Integer127Type
-                    || child instanceof Integer32767Type
+                    || child instanceof LongType
                     || child instanceof ByteType
                     || child instanceof CharType
                     || child instanceof ShortType;

@@ -56,10 +56,10 @@ public class AgetInstruction extends DexlibAbstractInstruction {
         Local arrayBase = body.getRegisterLocal(aGetInstr.getRegisterB());
         Local index = body.getRegisterLocal(aGetInstr.getRegisterC());
 
-        ArrayRef arrayRef = Jimple.v().newArrayRef(arrayBase, index);
+        ArrayRef arrayRef = Jimple.newArrayRef(arrayBase, index);
         Local l = body.getRegisterLocal(dest);
         
-        AssignStmt assign = Jimple.v().newAssignStmt(l, arrayRef);
+        AssignStmt assign = Jimple.newAssignStmt(l, arrayRef);
         if (aGetInstr.getOpcode() == Opcode.AGET_OBJECT)
           assign.addTag(new ObjectOpTag());
 
@@ -70,7 +70,7 @@ public class AgetInstruction extends DexlibAbstractInstruction {
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
           DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
-          DalvikTyper.v().setType(arrayRef.getIndexBox(), IntType.v(), true);
+          DalvikTyper.v().setType(arrayRef.getIndexBox(), IntType.getInstance(), true);
         }
     }
 

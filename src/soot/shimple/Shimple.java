@@ -53,17 +53,19 @@ import java.util.*;
 **/
 public class Shimple
 {
+    private static Shimple instance = null;
     public static final String IFALIAS = "IfAlias";
     public static final String MAYMODIFY = "MayModify";
     public static final String PHI = "Phi";
     public static final String PI = "Pi";
     public static final String PHASE = "shimple";
-    
-    public Shimple(Singletons.Global g) {}
 
-    public static Shimple v()
-    { return G.v().soot_shimple_Shimple(); }
 
+    public static Shimple getInstance() {
+        if (instance == null)
+            instance = new Shimple();
+        return instance;
+    }
     /**
      * Returns an empty ShimpleBody associated with method m, using
      * provided option map.

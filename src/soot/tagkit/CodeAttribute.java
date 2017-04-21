@@ -124,7 +124,7 @@ public class CodeAttribute extends JasminAttribute
 	Iterator<Unit> it = mUnits.iterator();
 	
 //	while(it.hasNext()) {
-//	    unitBoxes.add(Baf.v().newInstBox(it.next()));
+//	    unitBoxes.add(Baf.newInstance().newInstBox(it.next()));
 //	}
 
 	return unitBoxes;

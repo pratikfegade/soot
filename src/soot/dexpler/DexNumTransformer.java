@@ -30,7 +30,7 @@ import soot.jimple.*;
 import java.util.*;
 
 /**
- * BodyTransformer to find and change initialization type of Jimple variables.
+ * BodyTransformer to find and change initialization type of Jimpleariables.
  * Dalvik bytecode does not provide enough information regarding the type of
  * initialized variables. For instance, using the dexdump disassembler on some
  * Dalvik bytecode can produce the following (wrong) output:
@@ -58,11 +58,11 @@ import java.util.*;
  * equal to 32bits and "long" to registers whose size is 64bits. The problem is
  * that 32bits registers could be either "int" or "float" and 64bits registers
  * "long" or "double". If the analysis concludes that an "int" has to be changed
- * to a "float", rightValue has to change from IntConstant.v(literal) to
+ * to a "float", rightValue has to change from IntConstant.newInstance(literal) to
  * Float.intBitsToFloat((int) literal). If the analysis concludes that an "long"
  * has to be changed to a "double, rightValue has to change from
- * LongConstant.v(literal) to
- * DoubleConstant.v(Double.longBitsToDouble(literal)).
+ * LongConstant.newInstance(literal) to
+ * DoubleConstant.newInstance(Double.longBitsToDouble(literal)).
  */
 public class DexNumTransformer extends DexTransformer {
 	// Note: we need an instance variable for inner class access, treat this as

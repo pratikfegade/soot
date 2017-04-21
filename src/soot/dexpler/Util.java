@@ -100,52 +100,52 @@ public class Util {
 			case 'L':
 				String objectName = type.replaceAll("^[^L]*L", "").replaceAll(
 						";$", "");
-				returnType = RefType.v(objectName.replace("/", "."));
+				returnType = RefType.newInstance(objectName.replace("/", "."));
 				notFound = false;
 				break;
 
 			case 'J':
-				returnType = LongType.v();
+				returnType = LongType.getInstance();
 				notFound = false;
 				break;
 
 			case 'S':
-				returnType = ShortType.v();
+				returnType = ShortType.getInstance();
 				notFound = false;
 				break;
 
 			case 'D':
-				returnType = DoubleType.v();
+				returnType = DoubleType.getInstance();
 				notFound = false;
 				break;
 
 			case 'I':
-				returnType = IntType.v();
+				returnType = IntType.getInstance();
 				notFound = false;
 				break;
 
 			case 'F':
-				returnType = FloatType.v();
+				returnType = FloatType.getInstance();
 				notFound = false;
 				break;
 
 			case 'B':
-				returnType = ByteType.v();
+				returnType = ByteType.getInstance();
 				notFound = false;
 				break;
 
 			case 'C':
-				returnType = CharType.v();
+				returnType = CharType.getInstance();
 				notFound = false;
 				break;
 
 			case 'V':
-				returnType = VoidType.v();
+				returnType = new VoidType();
 				notFound = false;
 				break;
 
 			case 'Z':
-				returnType = BooleanType.v();
+				returnType = BooleanType.getInstance();
 				notFound = false;
 				break;
 
@@ -155,7 +155,7 @@ public class Util {
 			idx++;
 		}
 		if (returnType != null && arraySize > 0) {
-			returnType = ArrayType.v(returnType, arraySize);
+			returnType = ArrayType.getInstance(returnType, arraySize);
 		}
 		Debug.printDbg("casttype i:", returnType);
 		return returnType;
@@ -194,9 +194,9 @@ public class Util {
 	 *            the type to test
 	 */
 	public static boolean isFloatLike(Type t) {
-		return t.equals(FloatType.v()) || t.equals(DoubleType.v())
-				|| t.equals(RefType.v("java.lang.Float"))
-				|| t.equals(RefType.v("java.lang.Double"));
+		return t.equals(FloatType.getInstance()) || t.equals(DoubleType.getInstance())
+				|| t.equals(RefType.newInstance("java.lang.Float"))
+				|| t.equals(RefType.newInstance("java.lang.Double"));
 	}
 
 	/**
@@ -234,34 +234,34 @@ public class Util {
 		
 		Type rType = jBody.getMethod().getReturnType();
 
-		jBody.getUnits().add(Jimple.v().newNopStmt());
+		jBody.getUnits().add(Jimple.newNopStmt());
 
 		if (rType instanceof VoidType) {
-			jBody.getUnits().add(Jimple.v().newReturnVoidStmt());
+			jBody.getUnits().add(Jimple.newReturnVoidStmt());
 		} else {
 			Type t = jBody.getMethod().getReturnType();
 			Local l = lg.generateLocal(t);
 
 			AssignStmt ass = null;
 			if (t instanceof RefType || t instanceof ArrayType) {
-				ass = Jimple.v().newAssignStmt(l, NullConstant.v());
+				ass = Jimple.newAssignStmt(l, NullConstant.v());
 			} else if (t instanceof LongType) {
-				ass = Jimple.v().newAssignStmt(l, LongConstant.v(0));
+				ass = Jimple.newAssignStmt(l, LongConstant.v(0));
 			} else if (t instanceof FloatType) {
-				ass = Jimple.v().newAssignStmt(l, FloatConstant.v(0.0f));
+				ass = Jimple.newAssignStmt(l, FloatConstant.v(0.0f));
 			} else if (t instanceof IntType) {
-				ass = Jimple.v().newAssignStmt(l, IntConstant.v(0));
+				ass = Jimple.newAssignStmt(l, IntConstant.v(0));
 			} else if (t instanceof DoubleType) {
-				ass = Jimple.v().newAssignStmt(l, DoubleConstant.v(0));
+				ass = Jimple.newAssignStmt(l, DoubleConstant.v(0));
 			} else if (t instanceof BooleanType || t instanceof ByteType
 					|| t instanceof CharType || t instanceof ShortType) {
-				ass = Jimple.v().newAssignStmt(l, IntConstant.v(0));
+				ass = Jimple.newAssignStmt(l, IntConstant.v(0));
 			} else {
 				throw new RuntimeException("error: return type unknown: " + t
 						+ " class: " + t.getClass());
 			}
 			jBody.getUnits().add(ass);
-			jBody.getUnits().add(Jimple.v().newReturnStmt(l));
+			jBody.getUnits().add(Jimple.newReturnStmt(l));
 		}
 
 	}
@@ -274,21 +274,21 @@ public class Util {
 	public static void addExceptionAfterUnit(Body b, String exceptionType,
 			Unit u, String m) {
 		LocalCreation lc = new LocalCreation(b.getLocals());
-		Local l = lc.newLocal(RefType.v(exceptionType));
+		Local l = lc.newLocal(RefType.newInstance(exceptionType));
 
 		List<Unit> newUnits = new ArrayList<Unit>();
-		Unit u1 = Jimple.v().newAssignStmt(l,
-				Jimple.v().newNewExpr(RefType.v(exceptionType)));
-		Unit u2 = Jimple.v().newInvokeStmt(
-				Jimple.v().newSpecialInvokeExpr(
+		Unit u1 = Jimple.newAssignStmt(l,
+				Jimple.newNewExpr(RefType.newInstance(exceptionType)));
+		Unit u2 = Jimple.newInvokeStmt(
+				Jimple.newSpecialInvokeExpr(
 						l,
 						Scene.v().makeMethodRef(
 								Scene.v().getSootClass(exceptionType),
 								"<init>",
 								Collections.singletonList(RefType
-										.v("java.lang.String")), VoidType.v(),
+										.newInstance("java.lang.String")), new VoidType(),
 								false), StringConstant.v(m)));
-		Unit u3 = Jimple.v().newThrowStmt(l);
+		Unit u3 = Jimple.newThrowStmt(l);
 		newUnits.add(u1);
 		newUnits.add(u2);
 		newUnits.add(u3);

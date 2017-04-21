@@ -47,7 +47,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TypeResolver
 {
 	private JimpleBody jb;
-	
+
 	private final List<DefinitionStmt> assignments;
 	private final Map<Local, BitSet> depends;
 	
@@ -55,8 +55,8 @@ public class TypeResolver
 	{
 		this.jb = jb;
 
-		this.assignments = new ArrayList<DefinitionStmt>();
-		this.depends = new ConcurrentHashMap<Local, BitSet>();
+		this.assignments = new ArrayList<>();
+		this.depends = new ConcurrentHashMap<>();
 		for ( Local v : this.jb.getLocals() )
 			this.addLocal(v);
 		this.initAssignments();
@@ -138,11 +138,12 @@ public class TypeResolver
 		
 		for ( Local v : this.jb.getLocals() )
 		{
+			assert tg != null;
 			Type t = tg.get(v);
 			if ( t instanceof IntegerType )
 			{
-				t = IntType.v();
-				tg.set(v, IntType.v());
+				t = IntType.getInstance();
+				tg.set(v, IntType.getInstance());
 			}
 			v.setType(t);
 		}
@@ -211,25 +212,25 @@ public class TypeResolver
 					/* By the time we have countOnly == false, all variables
 					must by typed with concrete Jimple types, and never [0..1],
 					[0..127] or [0..32767]. */
-					vold = Jimple.v().newLocal("tmp", t);
+					vold = Jimple.newLocal("tmp", t);
 					vold.setName("tmp$" + System.identityHashCode(vold));
 					this.tg.set(vold, t);
 					this.jb.getLocals().add(vold);
 					Unit u = Util.findFirstNonIdentityUnit(jb, stmt);
 					this.jb.getUnits().insertBefore(
-						Jimple.v().newAssignStmt(vold, op), u);
+						Jimple.newAssignStmt(vold, op), u);
 				}
 				else
 					vold = (Local)op;
 				
-				Local vnew = Jimple.v().newLocal("tmp", useType);
+				Local vnew = Jimple.newLocal("tmp", useType);
 				vnew.setName("tmp$" + System.identityHashCode(vnew));
 				this.tg.set(vnew, useType);
 				this.jb.getLocals().add(vnew);
 				Unit u = Util.findFirstNonIdentityUnit(jb, stmt);
 				this.jb.getUnits().insertBefore(
-					Jimple.v().newAssignStmt(vnew,
-					Jimple.v().newCastExpr(vold, useType)), u);
+					Jimple.newAssignStmt(vnew,
+					Jimple.newCastExpr(vold, useType)), u);
 				return vnew;
 			}
 		}
@@ -261,33 +262,33 @@ public class TypeResolver
 			if ( tlow instanceof Integer1Type )
 			{
 				if ( thigh instanceof IntType )
-					return Integer127Type.v();
+					return Integer127Type.getInstance();
 				else if ( thigh instanceof ShortType )
-					return ByteType.v();
+					return ByteType.getInstance();
 				else if ( thigh instanceof BooleanType
 					|| thigh instanceof ByteType
 					|| thigh instanceof CharType
 					|| thigh instanceof Integer127Type
-					|| thigh instanceof Integer32767Type )
+					|| thigh instanceof LongType)
 					return thigh;
 				else throw new RuntimeException();
 			}
 			else if ( tlow instanceof Integer127Type )
 			{
 				if ( thigh instanceof ShortType )
-					return ByteType.v();
+					return ByteType.getInstance();
 				else if ( thigh instanceof IntType )
-					return Integer127Type.v();
+					return Integer127Type.getInstance();
 				else if ( thigh instanceof ByteType
 					|| thigh instanceof CharType
-					|| thigh instanceof Integer32767Type )
+					|| thigh instanceof LongType)
 					return thigh;
 				else throw new RuntimeException();
 			}
-			else if ( tlow instanceof Integer32767Type )
+			else if ( tlow instanceof LongType)
 			{
 				if ( thigh instanceof IntType )
-					return Integer32767Type.v();
+					return LongType.getInstance();
 				else if ( thigh instanceof ShortType
 					|| thigh instanceof CharType )
 					return thigh;
@@ -308,7 +309,7 @@ public class TypeResolver
 			else if ( op instanceof Local &&
 				(t instanceof Integer1Type
 				|| t instanceof Integer127Type
-				|| t instanceof Integer32767Type) )
+				|| t instanceof LongType) )
 			{
 				Local v = (Local)op;
 				if ( !typesEqual(t, useType) )
@@ -355,17 +356,17 @@ public class TypeResolver
 				Type t = tg.get(v);
 				if ( t instanceof Integer1Type )
 				{
-					tg.set(v, BooleanType.v());
+					tg.set(v, BooleanType.getInstance());
 					conversionDone = true;
 				}
 				else if ( t instanceof Integer127Type )
 				{
-					tg.set(v, ByteType.v());
+					tg.set(v, ByteType.getInstance());
 					conversionDone = true;
 				}
-				else if ( t instanceof Integer32767Type )
+				else if ( t instanceof LongType)
 				{
-					tg.set(v, ShortType.v());
+					tg.set(v, ShortType.getInstance());
 					conversionDone = true;
 				}
 			}
@@ -409,12 +410,12 @@ public class TypeResolver
 	{
 		final int numAssignments = this.assignments.size();
 		
-		LinkedList<Typing> sigma = new LinkedList<Typing>(),
-			r = new LinkedList<Typing>();
+		LinkedList<Typing> sigma = new LinkedList<>(),
+			r = new LinkedList<>();
 		if (numAssignments == 0)
 			return sigma;
 		
-		Map<Typing, BitSet> worklists = new ConcurrentHashMap<Typing, BitSet>();
+		Map<Typing, BitSet> worklists = new ConcurrentHashMap<>();
 		
 		sigma.add(tg);
 		BitSet wl = new BitSet(numAssignments - 1);
@@ -476,7 +477,7 @@ public class TypeResolver
 									((RefType) told).getSootClass().isPhantom()
 									|| ((RefType) t_).getSootClass().isPhantom())
 							&& (stmt.getRightOp() instanceof CaughtExceptionRef))
-						lcas = Collections.singleton(RefType.v("java.lang.Throwable"));
+						lcas = Collections.singleton(RefType.newInstance("java.lang.Throwable"));
 					else
 						lcas = h.lcas(told, t_);
 
@@ -572,7 +573,7 @@ public class TypeResolver
 								else if ( assign.getRightOp()
 									instanceof NewExpr )
 								{
-									Local newlocal = Jimple.v().newLocal(
+									Local newlocal = Jimple.newLocal(
 										"tmp", null);
 									newlocal.setName("tmp$" + System.identityHashCode(newlocal));
 									this.jb.getLocals().add(newlocal);
@@ -580,7 +581,7 @@ public class TypeResolver
 									special.setBase(newlocal);
 									
 									DefinitionStmt assignStmt
-										= Jimple.v().newAssignStmt(
+										= Jimple.newAssignStmt(
 										assign.getLeftOp(), newlocal);
 									Unit u = Util.findLastIdentityUnit(jb, assign);
 									units.insertAfter(assignStmt, u);

@@ -202,7 +202,7 @@ public class LongConstant extends ArithmeticConstant
 
     public Type getType()
     {
-        return LongType.v();
+        return LongType.getInstance();
     }
 
     public void apply(Switch sw)

@@ -39,8 +39,8 @@ public class Typing
 	public Typing(Collection<Local> vs)
 	{
 		this.map = new ConcurrentHashMap<>();
-		for ( Local v : vs )
-			this.map.put(v, BottomType.v());
+		for (Local v : vs)
+			this.map.put(v, BottomType.getInstance());
 	}
 
 	public Typing(Typing tg)

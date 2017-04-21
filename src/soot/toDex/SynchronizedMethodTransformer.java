@@ -65,12 +65,12 @@ public class SynchronizedMethodTransformer extends BodyTransformer
     		// This the first real statement. If it is not a MonitorEnter
     		// instruction, we generate one
     		if (!(u instanceof EnterMonitorStmt)) {
-    			b.getUnits().insertBeforeNoRedirect(Jimple.v().newEnterMonitorStmt(b.getThisLocal()), u);
+    			b.getUnits().insertBeforeNoRedirect(Jimple.newEnterMonitorStmt(b.getThisLocal()), u);
     			
     			// We also need to leave the monitor when the method terminates
     			UnitGraph graph = new ExceptionalUnitGraph(b);
     			for (Unit tail : graph.getTails())
-        			b.getUnits().insertBefore(Jimple.v().newExitMonitorStmt(b.getThisLocal()), tail);
+        			b.getUnits().insertBefore(Jimple.newExitMonitorStmt(b.getThisLocal()), tail);
     		}
     		break;
     	}

@@ -35,30 +35,30 @@ import soot.*;
 @SuppressWarnings("serial")
 public abstract class AbstractFloatBinopExpr extends AbstractBinopExpr
 {
-	public Type getType()
+    public Type getType()
     {
         Value op1 = op1Box.getValue();
         Value op2 = op2Box.getValue();
-		Type op1t = op1.getType();
-		Type op2t = op2.getType();
-        if((op1t.equals(IntType.v()) || 
-            op1t.equals(ByteType.v()) ||
-            op1t.equals(ShortType.v()) ||
-            op1t.equals(CharType.v()) ||
-            op1t.equals(BooleanType.v())) &&
-           (op2t.equals(IntType.v()) ||
-            op2t.equals(ByteType.v()) ||
-            op2t.equals(ShortType.v()) ||
-            op2t.equals(CharType.v()) ||
-            op2t.equals(BooleanType.v())))
-          return IntType.v();
-        else if(op1t.equals(LongType.v()) || op2t.equals(LongType.v()))
-          return LongType.v();
-        else if(op1t.equals(DoubleType.v()) || op2t.equals(DoubleType.v()))
-          return DoubleType.v();
-        else if(op1t.equals(FloatType.v()) || op2t.equals(FloatType.v()))
-          return FloatType.v();
+        Type op1t = op1.getType();
+        Type op2t = op2.getType();
+        if((op1t.toString().equals("int") ||
+                op1t.toString().equals("byte") ||
+                op1t.toString().equals("short") ||
+                op1t.toString().equals("char") ||
+                op1t.toString().equals("boolean")) &&
+                (op1t.toString().equals("int") ||
+                        op1t.toString().equals("byte") ||
+                        op1t.toString().equals("short") ||
+                        op1t.toString().equals("char") ||
+                        op1t.toString().equals("boolean")))
+            return IntType.getInstance();
+        else if(op1t.toString().equals("long") || op2t.toString().equals("long"))
+            return LongType.getInstance();
+        else if(op1t.toString().equals("double") || op2t.toString().equals("double"))
+            return DoubleType.getInstance();
+        else if(op1t.toString().equals("float") || op2t.toString().equals("float"))
+            return FloatType.getInstance();
         else
-          return UnknownType.v();
+            return UnknownType.getInstance();
     }
 }

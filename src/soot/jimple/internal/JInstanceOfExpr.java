@@ -38,7 +38,7 @@ public class JInstanceOfExpr extends AbstractInstanceOfExpr
 {
     public JInstanceOfExpr(Value op, Type checkType)
     {
-        super(Jimple.v().newImmediateBox(op), checkType);
+        super(Jimple.newImmediateBox(op), checkType);
     }
   
     public Object clone() 

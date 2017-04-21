@@ -35,7 +35,7 @@ public class JInstanceFieldRef extends AbstractInstanceFieldRef
 {
     public JInstanceFieldRef(Value base, SootFieldRef fieldRef)
     {
-        super(Jimple.v().newLocalBox(base), fieldRef);
+        super(Jimple.newLocalBox(base), fieldRef);
     }
    
     public Object clone() 

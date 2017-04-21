@@ -58,11 +58,11 @@ public class CheckCastInstruction extends DexlibAbstractInstruction {
         Local castValue = body.getRegisterLocal(checkCastInstr.getRegisterA());
         Type checkCastType = DexType.toSoot((TypeReference) checkCastInstr.getReference());
 
-        CastExpr castExpr =  Jimple.v().newCastExpr(castValue, checkCastType);
+        CastExpr castExpr =  Jimple.newCastExpr(castValue, checkCastType);
 
         //generate "x = (Type) x"
         //splitter will take care of the rest
-        AssignStmt assign = Jimple.v().newAssignStmt(castValue, castExpr);
+        AssignStmt assign = Jimple.newAssignStmt(castValue, castExpr);
 
         setUnit(assign);
         addTags(assign);

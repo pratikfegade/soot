@@ -36,7 +36,7 @@ import soot.util.Switch;
 public class JIdentityStmt extends AbstractDefinitionStmt implements
 		IdentityStmt {
 	public JIdentityStmt(Value local, Value identityValue) {
-		this(Jimple.v().newLocalBox(local), Jimple.v().newIdentityRefBox(
+		this(Jimple.newLocalBox(local), Jimple.newIdentityRefBox(
 				identityValue));
 	}
 

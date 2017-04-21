@@ -82,7 +82,7 @@ public class ColorTag implements Tag
     }
     
 	public ColorTag(int color, boolean fg){
-		//G.v().out.println("color: "+color);
+		//G.newInstance().out.println("color: "+color);
 		switch (color) {
 			case RED: {
 				red = 255;

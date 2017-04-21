@@ -66,18 +66,18 @@ public class AugEvalFunction implements IEvalFunction
 			if ( expr instanceof CmpExpr
 				|| expr instanceof CmpgExpr
 				|| expr instanceof CmplExpr )
-				return ByteType.v();
+				return ByteType.getInstance();
 			else if ( expr instanceof GeExpr
 				|| expr instanceof GtExpr
 				|| expr instanceof LeExpr
 				|| expr instanceof LtExpr
 				|| expr instanceof EqExpr
 				|| expr instanceof NeExpr )
-				return BooleanType.v();
+				return BooleanType.getInstance();
 			else if ( expr instanceof ShlExpr )
 			{
 				if ( tl instanceof IntegerType )
-					return IntType.v();
+					return IntType.getInstance();
 				else return tl;
 			}
 			else if ( expr instanceof ShrExpr
@@ -90,7 +90,7 @@ public class AugEvalFunction implements IEvalFunction
 				|| expr instanceof RemExpr )
 			{
 				if ( tl instanceof IntegerType )
-					return IntType.v();
+					return IntType.getInstance();
 				else return tl;
 			}
 			else if ( expr instanceof AndExpr
@@ -102,7 +102,7 @@ public class AugEvalFunction implements IEvalFunction
 					if ( tl instanceof BooleanType )
 					{
 						if ( tr instanceof BooleanType )
-							return BooleanType.v();
+							return BooleanType.getInstance();
 						else return tr;
 					}
 					else if ( tr instanceof BooleanType )
@@ -133,12 +133,12 @@ public class AugEvalFunction implements IEvalFunction
 					|| t instanceof BooleanType
 					|| t instanceof Integer127Type
 					|| t instanceof ByteType )
-					return ByteType.v();
+					return ByteType.getInstance();
 				else if ( t instanceof ShortType
-					|| t instanceof Integer32767Type )
-					return ShortType.v();
+					|| t instanceof LongType)
+					return ShortType.getInstance();
 				else
-					return IntType.v();
+					return IntType.getInstance();
 			}
 			else
 				return t;
@@ -181,7 +181,7 @@ public class AugEvalFunction implements IEvalFunction
 //						|| ref.getSootClass().getName().equals("java.lang.Cloneable"))
 //					return ref;
 //				else
-//					return BottomType.v();
+//					return BottomType.getInstance();
 				return ref;
 			}
 			else {
@@ -195,9 +195,9 @@ public class AugEvalFunction implements IEvalFunction
 		else if ( expr instanceof CastExpr )
 			return ((CastExpr)expr).getCastType();
 		else if ( expr instanceof InstanceOfExpr )
-			return BooleanType.v();
+			return BooleanType.getInstance();
 		else if ( expr instanceof LengthExpr )
-			return IntType.v();
+			return IntType.getInstance();
 		else if ( expr instanceof InvokeExpr )
 			return ((InvokeExpr)expr).getMethodRef().returnType();
 		else if ( expr instanceof NewExpr )
@@ -205,37 +205,37 @@ public class AugEvalFunction implements IEvalFunction
 		else if ( expr instanceof FieldRef )
 			return expr.getType();
 		else if ( expr instanceof DoubleConstant )
-			return DoubleType.v();
+			return DoubleType.getInstance();
 		else if ( expr instanceof FloatConstant )
-			return FloatType.v();
+			return FloatType.getInstance();
 		else if ( expr instanceof IntConstant )
 		{
 			int value = ((IntConstant)expr).value;
 		
 			if ( value >= 0 && value < 2 )
-				return Integer1Type.v();
+				return Integer1Type.getInstance();
 			else if ( value >= 2 && value < 128 )
-				return Integer127Type.v();
+				return Integer127Type.getInstance();
 			else if ( value >= -128 && value < 0 )
-				return ByteType.v();
+				return ByteType.getInstance();
 			else if ( value >= 128 && value < 32768 )
-				return Integer32767Type.v();
+				return LongType.getInstance();
 			else if ( value >= -32768 && value < -128 )
-				return ShortType.v();
+				return ShortType.getInstance();
 			else if ( value >= 32768 && value < 65536 )
-				return CharType.v();
-			else return IntType.v();
+				return CharType.getInstance();
+			else return IntType.getInstance();
 		}
 		else if ( expr instanceof LongConstant )
-			return LongType.v();
+			return new soot.LongType();
 		else if ( expr instanceof NullConstant )
-			return NullType.v();
+			return NullType.getInstance();
 		else if ( expr instanceof StringConstant )
-			return RefType.v("java.lang.String");
+			return RefType.newInstance("java.lang.String");
 		else if ( expr instanceof ClassConstant )
-			return RefType.v("java.lang.Class");
+			return RefType.newInstance("java.lang.Class");
 		else if ( expr instanceof MethodHandle) {
-			return RefType.v("java.lang.invoke.MethodHandle");
+			return RefType.newInstance("java.lang.invoke.MethodHandle");
 		} else {
 			throw new RuntimeException("Unhandled expression: " + expr);
 		}

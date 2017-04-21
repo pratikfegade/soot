@@ -21,7 +21,7 @@ import java.util.Map.Entry;
  */
 public class DexAnnotation {
     
-	private final Type ARRAY_TYPE = RefType.v("Array");
+	private final Type ARRAY_TYPE = RefType.newInstance("Array");
 	private final SootClass clazz;
     private final Dependencies deps;
     
@@ -157,14 +157,14 @@ public class DexAnnotation {
 					return ARRAY_TYPE;
 				
 				
-				return ArrayType.v(type, 1);
+				return ArrayType.getInstance(type, 1);
 			}
 			break;
 		case 's': //string
-			annotationType = RefType.v("java.lang.String");
+			annotationType = RefType.newInstance("java.lang.String");
 			break;
 		case 'c': //class
-			annotationType = RefType.v("java.lang.Class");
+			annotationType = RefType.newInstance("java.lang.Class");
 			break;
 		case 'e': //enum
 			AnnotationEnumElem enumElem = (AnnotationEnumElem) e;
@@ -375,7 +375,7 @@ public class DexAnnotation {
                 		}
                 	}
                 	
-                	deps.typesToSignature.add(RefType.v(outerClass));
+                	deps.typesToSignature.add(RefType.newInstance(outerClass));
                 	clazz.setOuterClass(SootResolver.v().makeClassRef(outerClass));
                 	assert clazz.getOuterClass() != clazz;
                 }
@@ -409,7 +409,7 @@ public class DexAnnotation {
                         methodSigString);       
 
                 String outerClass = classString.replace("/", ".");
-            	deps.typesToSignature.add(RefType.v(outerClass));
+            	deps.typesToSignature.add(RefType.newInstance(outerClass));
             	clazz.setOuterClass(SootResolver.v().makeClassRef(outerClass));
             	assert clazz.getOuterClass() != clazz;
 
@@ -460,7 +460,7 @@ public class DexAnnotation {
 				
                 if (outerClass != null && !clazz.hasOuterClass()) {
 	                String sootOuterClass = Util.dottedClassName(outerClass);
-	            	deps.typesToSignature.add(RefType.v(sootOuterClass));
+	            	deps.typesToSignature.add(RefType.newInstance(sootOuterClass));
 	            	clazz.setOuterClass(SootResolver.v().makeClassRef(sootOuterClass));
                 	assert clazz.getOuterClass() != clazz;
                 }
@@ -728,7 +728,7 @@ public class DexAnnotation {
     }
     
     /**
-     * Converts Dexlib visibility to Jimple visibility.
+     * Converts Dexlib visibility to Jimpleisibility.
      * 
      * In Dalvik:
      * VISIBILITY_BUILD   0x00 intended only to be visible at build time
@@ -740,7 +740,7 @@ public class DexAnnotation {
      *
      * @param visibility
      *            Dexlib visibility
-     * @return Jimple visibility
+     * @return Jimpleisibility
      */
     private int getVisibility(int visibility) {
         if ("runtime".equals(AnnotationVisibility.getVisibility(visibility)))

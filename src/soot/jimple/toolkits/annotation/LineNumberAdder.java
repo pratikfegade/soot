@@ -29,12 +29,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class LineNumberAdder extends SceneTransformer {
-
-    public LineNumberAdder( Singletons.Global g) {}
-    public static LineNumberAdder v() { return G.v().soot_jimple_toolkits_annotation_LineNumberAdder();}
-
-    public void internalTransform(String phaseName, Map opts){
+public class LineNumberAdder {
+    public void internalTransform(){
 
         Iterator it = Scene.v().getApplicationClasses().iterator();
         while (it.hasNext()){

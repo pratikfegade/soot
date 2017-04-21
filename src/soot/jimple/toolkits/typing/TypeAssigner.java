@@ -31,10 +31,10 @@ package soot.jimple.toolkits.typing;
 
 import soot.*;
 import soot.jimple.*;
-import soot.options.Options;
-import soot.singletons.Singletons;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This transformer assigns types to local variables.
@@ -49,6 +49,9 @@ public class TypeAssigner extends BodyTransformer {
 		if (b == null) {
 			throw new NullPointerException();
 		}
+
+		(new soot.jimple.toolkits.typing.fast.TypeResolver(
+				(JimpleBody) b)).inferTypes();
 
 		replaceNullType(b);
 
@@ -80,6 +83,7 @@ public class TypeAssigner extends BodyTransformer {
 		// No local with null_type
 		if (!hasNullType)
 			return;
+
 
 		List<Unit> unitToReplaceByException = new ArrayList<>();
 		for (Unit u: b.getUnits()) {
@@ -120,7 +124,6 @@ public class TypeAssigner extends BodyTransformer {
 		}
 	}
 
-
 	private boolean typingFailed(JimpleBody b) {
 		// Check to see if any locals are untyped
 		{
@@ -129,10 +132,10 @@ public class TypeAssigner extends BodyTransformer {
 			while (localIt.hasNext()) {
 				Local l = localIt.next();
 
-//				if (l.getType().equals(UnknownType.v())
-//						|| l.getType().equals(ErroneousType.v())) {
-//					return true;
-//				}
+				if (l.getType().equals(UnknownType.getInstance())
+						|| l.getType().equals(ErroneousType.v())) {
+					return true;
+				}
 			}
 		}
 

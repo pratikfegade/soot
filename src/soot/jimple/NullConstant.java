@@ -57,7 +57,7 @@ public class NullConstant extends Constant
 
     public Type getType()
     {
-        return NullType.v();
+        return NullType.getInstance();
     }
 
     public void apply(Switch sw)

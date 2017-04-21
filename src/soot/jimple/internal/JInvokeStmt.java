@@ -48,7 +48,7 @@ public class JInvokeStmt extends AbstractStmt implements InvokeStmt
 
     public JInvokeStmt(Value c)
     {
-        this(Jimple.v().newInvokeExprBox(c));
+        this(Jimple.newInvokeExprBox(c));
     }
 
     protected JInvokeStmt(ValueBox invokeExprBox)

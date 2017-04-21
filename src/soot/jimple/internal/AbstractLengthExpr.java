@@ -70,7 +70,7 @@ public abstract class AbstractLengthExpr extends AbstractUnopExpr implements Len
 
     public Type getType()
     {
-        return IntType.v();
+        return IntType.getInstance();
     }
 
     public void apply(Switch sw)

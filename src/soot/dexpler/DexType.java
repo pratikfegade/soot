@@ -91,7 +91,6 @@ public class DexType {
     /**
      * Return if the given TypeIdItem is wide (i.e. occupies 2 registers).
      *
-     * @param typeReference.getType() the TypeIdItem to analyze
      * @return if type is wide
      */
     public static boolean isWide(TypeReference typeReference) {
@@ -113,40 +112,40 @@ public class DexType {
         // see https://code.google.com/p/smali/wiki/TypesMethodsAndFields
         switch (typeDesignator) {
         case 'Z':               // boolean
-            type = BooleanType.v();
+            type = BooleanType.getInstance();
             break;
         case 'B':               // byte
-            type = ByteType.v();
+            type = ByteType.getInstance();
             break;
         case 'S':               // short
-            type = ShortType.v();
+            type = ShortType.getInstance();
             break;
         case 'C':               // char
-            type = CharType.v();
+            type = CharType.getInstance();
             break;
         case 'I':               // int
-            type = IntType.v();
+            type = IntType.getInstance();
             break;
         case 'J':               // long
-            type = LongType.v();
+            type = LongType.getInstance();
             break;
         case 'F':               // float
-            type = FloatType.v();
+            type = FloatType.getInstance();
             break;
         case 'D':               // double
-            type = DoubleType.v();
+            type = DoubleType.getInstance();
             break;
         case 'L':               // object
-            type = RefType.v(Util.dottedClassName(typeDescriptor));
+            type = RefType.newInstance(Util.dottedClassName(typeDescriptor));
             break;
         case 'V':               // void
-            type = VoidType.v();
+            type = new VoidType();
             break;
         case '[':               // array
             type = toSoot(typeDescriptor, pos + 1).makeArrayType();
             break;
         default:
-            type = UnknownType.v();
+            type = UnknownType.getInstance();
         }
 
         return type;
@@ -168,7 +167,6 @@ public class DexType {
      * java/lang/Class<java/lang/Enum<*>>
      *
      * @param type
-     * @param pos
      * @return
      */
     public static String toSootICAT(String type) {

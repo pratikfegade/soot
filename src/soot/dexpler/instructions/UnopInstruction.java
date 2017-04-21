@@ -58,7 +58,7 @@ public class UnopInstruction extends TaggedInstruction {
         Local source = body.getRegisterLocal(cmpInstr.getRegisterB());
         Value expr = getExpression(source);
 
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), expr);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), expr);
 		assign.addTag(getTag());
 
         setUnit(assign);
@@ -69,10 +69,10 @@ public class UnopInstruction extends TaggedInstruction {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
 			/*
           int op = (int)instruction.getOpcode().value;
-          //DalvikTyper.v().captureAssign((JAssignStmt)assign, op);
+          //DalvikTyper.getInstance().captureAssign((JAssignStmt)assign, op);
           JAssignStmt jass = (JAssignStmt)assign;
-          DalvikTyper.v().setType((expr instanceof JCastExpr) ? ((JCastExpr) expr).getOpBox() : ((UnopExpr) expr).getOpBox(), opUnType[op - 0x7b], true);
-          DalvikTyper.v().setType(jass.leftBox, resUnType[op - 0x7b], false);
+          DalvikTyper.getInstance().setType((expr instanceof JCastExpr) ? ((JCastExpr) expr).getOpBox() : ((UnopExpr) expr).getOpBox(), opUnType[op - 0x7b], true);
+          DalvikTyper.getInstance().setType(jass.leftBox, resUnType[op - 0x7b], false);
           */
         }
     }
@@ -85,16 +85,16 @@ public class UnopInstruction extends TaggedInstruction {
         switch(opcode) {
         case NEG_INT:
 			setTag(new IntOpTag());
-			return Jimple.v().newNegExpr(source);
+			return Jimple.newNegExpr(source);
         case NEG_LONG:
 			setTag(new LongOpTag());
-			return Jimple.v().newNegExpr(source);
+			return Jimple.newNegExpr(source);
         case NEG_FLOAT:
 			setTag(new FloatOpTag());
-			return Jimple.v().newNegExpr(source);
+			return Jimple.newNegExpr(source);
         case NEG_DOUBLE:
 			setTag(new DoubleOpTag());
-            return Jimple.v().newNegExpr(source);
+            return Jimple.newNegExpr(source);
         case NOT_LONG:
 			setTag(new LongOpTag());
             return getNotLongExpr(source);
@@ -112,7 +112,7 @@ public class UnopInstruction extends TaggedInstruction {
      * @return
      */
     private Value getNotIntExpr(Local source) {
-        return Jimple.v().newXorExpr(source, IntConstant.v(-1));
+        return Jimple.newXorExpr(source, IntConstant.v(-1));
 
     }
     /**
@@ -121,7 +121,7 @@ public class UnopInstruction extends TaggedInstruction {
      * @return
      */
     private Value getNotLongExpr(Local source) {
-        return Jimple.v().newXorExpr(source, LongConstant.v(-1l));
+        return Jimple.newXorExpr(source, LongConstant.v(-1l));
 
     }
 

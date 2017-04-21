@@ -174,9 +174,9 @@ public class SootResolver {
 		try {
 			boolean modelAsPhantomRef = is == null;
 			// || (
-			// Options.v().no_jrl() &&
-			// Scene.v().isExcluded(sc) &&
-			// !Scene.v().getBasicClasses().contains(sc.getName())
+			// Options.getInstance().no_jrl() &&
+			// Scene.getInstance().isExcluded(sc) &&
+			// !Scene.getInstance().getBasicClasses().contains(sc.getName())
 			// );
 			if (modelAsPhantomRef) {
 				if (!Scene.v().allowsPhantomRefs()) {

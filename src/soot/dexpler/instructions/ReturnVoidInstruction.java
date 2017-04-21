@@ -36,7 +36,7 @@ public class ReturnVoidInstruction extends DexlibAbstractInstruction {
     }
 
     public void jimplify (DexBody body) {
-        ReturnVoidStmt returnStmt = Jimple.v().newReturnVoidStmt();
+        ReturnVoidStmt returnStmt = Jimple.newReturnVoidStmt();
         setUnit(returnStmt);
         addTags(returnStmt);
         body.add(returnStmt);

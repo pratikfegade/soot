@@ -14,7 +14,7 @@ public class DefaultHandler implements IUnexpectedReflectiveCallHandler {
 	}
 
 	public void classNewInstance(Class<?> c) {
-		System.err.println("Unexpected reflective instantiation via Class.newInstance on class "+c);
+		System.err.println("Unexpected reflective instantiation via Class.getInstance on class "+c);
 	}
 
 	public void classForName(String typeName) {

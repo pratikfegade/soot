@@ -26,7 +26,6 @@
 package soot.jimple.internal;
 
 import soot.*;
-import soot.jimple.JimpleToBafContext;
 import soot.jimple.JimpleValueSwitch;
 import soot.util.Switch;
 

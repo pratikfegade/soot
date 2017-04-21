@@ -54,19 +54,19 @@ public abstract class ConditionalJumpInstruction extends JumpInstruction impleme
         } else {
           // set marker unit to swap real gotostmt with otherwise
           body.addDeferredJimplification(this);
-          markerUnit = Jimple.v().newNopStmt();
+          markerUnit = Jimple.newNopStmt();
           unit = markerUnit;
 //          beginUnit = markerUnit;
 //          endUnit = markerUnit;
 //          beginUnit = markerUnit;
           body.add(markerUnit);
-//          Unit end = Jimple.v().newNopStmt();
+//          Unit end = Jimple.newInstance().newNopStmt();
 //          body.add(end);
 //          endUnit = end;
         }
     }
     
-    // DalvikTyper.v() here?
+    // DalvikTyper.newInstance() here?
 
     public void deferredJimplify(DexBody body) {
         IfStmt s = ifStatement(body);
@@ -101,22 +101,22 @@ public abstract class ConditionalJumpInstruction extends JumpInstruction impleme
         switch(opcode) {
         case IF_EQ:
         case IF_EQZ:
-            return Jimple.v().newEqExpr(one, other);
+            return Jimple.newEqExpr(one, other);
         case IF_NE:
         case IF_NEZ:
-            return Jimple.v().newNeExpr(one, other);
+            return Jimple.newNeExpr(one, other);
         case IF_LT:
         case IF_LTZ:
-            return Jimple.v().newLtExpr(one, other);
+            return Jimple.newLtExpr(one, other);
         case IF_GE:
         case IF_GEZ:
-            return Jimple.v().newGeExpr(one, other);
+            return Jimple.newGeExpr(one, other);
         case IF_GT:
         case IF_GTZ:
-            return Jimple.v().newGtExpr(one, other);
+            return Jimple.newGtExpr(one, other);
         case IF_LE:
         case IF_LEZ:
-            return Jimple.v().newLeExpr(one, other);
+            return Jimple.newLeExpr(one, other);
         default:
             throw new RuntimeException("Instruction is not an IfTest(z) instruction.");
         }

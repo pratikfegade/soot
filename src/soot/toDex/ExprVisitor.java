@@ -237,7 +237,7 @@ class ExprVisitor implements ExprSwitch {
 		Register secondOpReg = regAlloc.asImmediate(secondOperand, constantV);
 		Register orgDestReg = destinationReg;
 		if (isSmallerThan(destRegType, PrimitiveType.INT)) {
-			destinationReg = regAlloc.asTmpReg(IntType.v());
+			destinationReg = regAlloc.asTmpReg(IntType.getInstance());
 		}
 		else {
 			// If the second register is not of the precise target type, we need to
@@ -348,7 +348,7 @@ class ExprVisitor implements ExprSwitch {
 
 			// We may need a temporary register if we need a typecast
 			if (isBiggerThan(PrimitiveType.getByName(secondOperand.getType().toString()), destRegType)) {
-				destinationReg = regAlloc.asTmpReg(IntType.v());
+				destinationReg = regAlloc.asTmpReg(IntType.getInstance());
 			}
 			
 			if (secondOperand.equals(IntConstant.v(-1))) {
@@ -610,7 +610,7 @@ class ExprVisitor implements ExprSwitch {
 			 */
 			Opcode castToIntOpc = getCastOpc(sourceType, PrimitiveType.INT);
 			Opcode castFromIntOpc = getCastOpc(PrimitiveType.INT, castType);
-			Register tmp = regAlloc.asTmpReg(IntType.v());
+			Register tmp = regAlloc.asTmpReg(IntType.getInstance());
             stmtV.addInsn(new Insn12x(castToIntOpc, tmp, sourceReg), origStmt);
             stmtV.addInsn(new Insn12x(castFromIntOpc, destinationReg, tmp.clone()), origStmt);
 		} else {
@@ -682,7 +682,7 @@ class ExprVisitor implements ExprSwitch {
 		}
 		short dimensions = (short) nmae.getSizeCount();
 		// get array base type
-		ArrayType arrayType = ArrayType.v(nmae.getBaseType().baseType, dimensions);
+		ArrayType arrayType = ArrayType.getInstance(nmae.getBaseType().baseType, dimensions);
 		BuilderReference arrayTypeItem = DexPrinter.toTypeReference
 				(arrayType, stmtV.getBelongingFile());
 		// get the dimension size registers

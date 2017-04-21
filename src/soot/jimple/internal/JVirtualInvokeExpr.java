@@ -42,7 +42,7 @@ public class JVirtualInvokeExpr extends AbstractVirtualInvokeExpr
 {
     public JVirtualInvokeExpr(Value base, SootMethodRef methodRef, List<? extends Value> args)
     {
-        super(Jimple.v().newLocalBox(base), methodRef, new ValueBox[args.size()]);
+        super(Jimple.newLocalBox(base), methodRef, new ValueBox[args.size()]);
 
         if (!Options.v().ignore_resolution_errors()) {
 	        //Check that the method's class is resolved enough
@@ -57,7 +57,7 @@ public class JVirtualInvokeExpr extends AbstractVirtualInvokeExpr
         }
 
         for(int i = 0; i < args.size(); i++)
-            this.argBoxes[i] = Jimple.v().newImmediateBox(args.get(i));
+            this.argBoxes[i] = Jimple.newImmediateBox(args.get(i));
     }
     
     public Object clone() 

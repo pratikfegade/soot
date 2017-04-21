@@ -22,31 +22,27 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
  *   Soot representation of the Java built-in type 'double'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class DoubleType extends PrimType
 {
-    public DoubleType( Singletons.Global g ) {}
-    public static DoubleType v() { return G.v().soot_DoubleType(); }
+    private static DoubleType instance = null;
+    public static synchronized DoubleType getInstance() {
+        if (instance == null)
+            instance = new DoubleType();
+        return instance;
+    }
 
     public boolean equals(Object t)
     {
         return this == t;
     }
-
     
     public int hashCode()
     {
@@ -65,6 +61,6 @@ public class DoubleType extends PrimType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Double");
+    	return RefType.newInstance("java.lang.Double");
     }
 }

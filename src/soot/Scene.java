@@ -105,20 +105,20 @@ public class Scene  //extends AbstractHost
 	}
     public static Scene  v() { return G.v().soot_Scene (); }
     
-    Chain<SootClass> classes = new HashChain<SootClass>();
-    Chain<SootClass> applicationClasses = new HashChain<SootClass>();
-    Chain<SootClass> libraryClasses = new HashChain<SootClass>();
-    Chain<SootClass> phantomClasses = new HashChain<SootClass>();
+    Chain<SootClass> classes = new HashChain<>();
+    Chain<SootClass> applicationClasses = new HashChain<>();
+    Chain<SootClass> libraryClasses = new HashChain<>();
+    Chain<SootClass> phantomClasses = new HashChain<>();
     
-    private final Map<String,RefType> nameToClass = new java.util.concurrent.ConcurrentHashMap<String,RefType>();
+    private final Map<String,RefType> nameToClass = new java.util.concurrent.ConcurrentHashMap<>();
 
     final ArrayNumberer<Kind> kindNumberer;
-    ArrayNumberer<Type> typeNumberer = new ArrayNumberer<Type>();
-    ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<SootMethod>();
+    ArrayNumberer<Type> typeNumberer = new ArrayNumberer<>();
+    ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<>();
 	Numberer<SootField> fieldNumberer = new ArrayNumberer<>();
-    ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<SootClass>();
+    ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<>();
     StringNumberer subSigNumberer = new StringNumberer();
-    ArrayNumberer<Local> localNumberer = new ArrayNumberer<Local>();
+    ArrayNumberer<Local> localNumberer = new ArrayNumberer<>();
 
     private Hierarchy activeHierarchy;
     private FastHierarchy activeFastHierarchy;
@@ -231,8 +231,8 @@ public class Scene  //extends AbstractHost
         }
         
         SootMethod mainMethod = mainClass.getMethodUnsafe("main",
-        		Collections.singletonList( ArrayType.v(RefType.v("java.lang.String"), 1) ),
-        		VoidType.v());
+        		Collections.singletonList( ArrayType.getInstance(RefType.newInstance("java.lang.String"), 1) ),
+        		new VoidType());
         if (mainMethod == null) {
             throw new RuntimeException("Main class declares no main method!");
         }
@@ -536,8 +536,7 @@ public class Scene  //extends AbstractHost
 			if (Options.v().android_api_version() > 0)
 				androidAPIVersion = Options.v().android_api_version();
 			else if (forceAndroidJar.contains("android-")) {
-				Pattern pt = Pattern.compile("\\" + File.separatorChar + "android-(\\d+)"
-						+ "\\" + File.separatorChar);
+				Pattern pt = Pattern.compile(String.format("\\%sandroid-(\\d+)\\%s", File.separatorChar, File.separatorChar));
 				Matcher m = pt.matcher(forceAndroidJar);
 				if (m.find())
 					androidAPIVersion = Integer.valueOf(m.group(1));
@@ -546,12 +545,12 @@ public class Scene  //extends AbstractHost
 				androidAPIVersion = defaultSdkVersion;
 		}
 		else if (androidJars != null && !androidJars.isEmpty()) {
-			List<String> classPathEntries = new LinkedList<String>(Arrays.asList(
-					Options.v().soot_classpath().split(File.pathSeparator)));
+			List<String> classPathEntries = new LinkedList<>(Arrays.asList(
+                    Options.v().soot_classpath().split(File.pathSeparator)));
 			classPathEntries.addAll(Options.v().process_dir());
 			
 			String targetApk = "";
-			Set<String> targetDexs = new HashSet<String>();
+			Set<String> targetDexs = new HashSet<>();
 			for (String entry : classPathEntries) {
 				if(entry.toLowerCase().endsWith(".apk")) {	// on Windows, file names are case-insensitive
 					// We cannot have multiple APKs, because this would give us multiple
@@ -613,13 +612,13 @@ public class Scene  //extends AbstractHost
 
         File rtJar = new File(System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar");
         if (rtJar.exists() && rtJar.isFile()) {
-            // G.v().out.println("Using JRE runtime: " + rtJar.getAbsolutePath());
+            // G.getInstance().out.println("Using JRE runtime: " + rtJar.getAbsolutePath());
             sb.append(rtJar.getAbsolutePath());
         } else {
             // in case we're not in JRE environment, try JDK
             rtJar = new File(System.getProperty("java.home") + File.separator + "jre" + File.separator + "lib" + File.separator + "rt.jar");
             if (rtJar.exists() && rtJar.isFile()) {
-                // G.v().out.println("Using JDK runtime: " + rtJar.getAbsolutePath());
+                // G.getInstance().out.println("Using JDK runtime: " + rtJar.getAbsolutePath());
                 sb.append(rtJar.getAbsolutePath());
             } else {
                 // not in JDK either
@@ -796,8 +795,8 @@ public class Scene  //extends AbstractHost
     public SootClass tryLoadClass(String className, int desiredLevel) 
     {   
         /*
-        if(Options.v().time())
-            Main.v().resolveTimer.start();
+        if(Options.getInstance().time())
+            Main.getInstance().resolveTimer.start();
         */
         
         setPhantomRefs(true);
@@ -819,8 +818,8 @@ public class Scene  //extends AbstractHost
         return toReturn;
         
         /*
-        if(Options.v().time())
-            Main.v().resolveTimer.end(); */
+        if(Options.getInstance().time())
+            Main.getInstance().resolveTimer.end(); */
     }
     
     /** 
@@ -837,8 +836,8 @@ public class Scene  //extends AbstractHost
     public SootClass loadClass(String className, int desiredLevel) 
     {   
         /*
-        if(Options.v().time())
-            Main.v().resolveTimer.start();
+        if(Options.getInstance().time())
+            Main.getInstance().resolveTimer.start();
         */
         
         setPhantomRefs(true);
@@ -850,8 +849,8 @@ public class Scene  //extends AbstractHost
         return toReturn;
         
         /*
-        if(Options.v().time())
-            Main.v().resolveTimer.end(); */
+        if(Options.getInstance().time())
+            Main.getInstance().resolveTimer.end(); */
     }
     
     /**
@@ -867,29 +866,29 @@ public class Scene  //extends AbstractHost
     	
     	if (result == null) {
     		if (type.equals("long"))
-              result = LongType.v();
+              result = LongType.getInstance();
     		else if (type.equals("short"))
-              result = ShortType.v();
+              result = ShortType.getInstance();
     		else if (type.equals("double"))
-              result = DoubleType.v();
+              result = DoubleType.getInstance();
     		else if (type.equals("int"))
-              result = IntType.v();
+              result = IntType.getInstance();
     		else if (type.equals("float"))
-              result = FloatType.v();
+              result = FloatType.getInstance();
     		else if (type.equals("byte"))
-              result = ByteType.v();
+              result = ByteType.getInstance();
     		else if (type.equals("char"))
-              result = CharType.v();
+              result = CharType.getInstance();
     		else if (type.equals("void"))
-              result = VoidType.v();
+              result = new VoidType();
     		else if (type.equals("boolean"))
-              result = BooleanType.v();
+              result = BooleanType.getInstance();
     		else
               throw new RuntimeException("unknown type: '" + type + "'");
     	}
     	
     	if (arrayCount != 0) {
-    		result = ArrayType.v(result, arrayCount);
+    		result = ArrayType.getInstance(result, arrayCount);
     	}
     	return result;
     }
@@ -1105,7 +1104,7 @@ public class Scene  //extends AbstractHost
    
     public boolean getPhantomRefs()
     {
-        //if( !Options.v().allow_phantom_refs() ) return false;
+        //if( !Options.getInstance().allow_phantom_refs() ) return false;
         //return allowsPhantomRefs;
     	return Options.v().allow_phantom_refs();
     }
@@ -1148,7 +1147,7 @@ public class Scene  //extends AbstractHost
 				defaultThrowAnalysis = DalvikThrowAnalysis.v();
 				break;
 			default:
-				throw new IllegalStateException("Options.v().throw_analysi() == " + Options.v().throw_analysis());
+				throw new IllegalStateException("Options.getInstance().throw_analysi() == " + Options.v().throw_analysis());
 			}
 		}
 		return defaultThrowAnalysis;
@@ -1489,7 +1488,7 @@ public class Scene  //extends AbstractHost
             SootClass declaringClass,
             List<Type> parameterTypes) {
         return makeMethodRef(declaringClass, SootMethod.constructorName, 
-                                         parameterTypes, VoidType.v(), false );
+                                         parameterTypes, new VoidType(), false );
     }
 
 
@@ -1512,7 +1511,6 @@ public class Scene  //extends AbstractHost
         return ret;
     }
     private boolean doneResolving = false;
-	private boolean incrementalBuild;
 	protected LinkedList<String> excludedPackages;
     public boolean doneResolving() { return doneResolving; }
     public void setDoneResolving() { doneResolving = true; }
@@ -1525,7 +1523,8 @@ public class Scene  //extends AbstractHost
         	// try to infer a main class from the command line if none is given 
         	for (Iterator<String> classIter = Options.v().classes().iterator(); classIter.hasNext();) {
                     SootClass c = getSootClass(classIter.next());
-                    if (c.declaresMethod ("main", Collections.singletonList( ArrayType.v(RefType.v("java.lang.String"), 1) ), VoidType.v()))
+                    if (c.declaresMethod ("main", Collections.singletonList( ArrayType.getInstance(RefType.newInstance("java.lang" +
+							".String"), 1) ), new VoidType()))
                     {
                         G.v().out.println("No main class given. Inferred '"+c.getName()+"' as main class.");					
                         setMainClass(c);
@@ -1536,7 +1535,8 @@ public class Scene  //extends AbstractHost
         	// try to infer a main class from the usual classpath if none is given 
         	for (Iterator<SootClass> classIter = getApplicationClasses().iterator(); classIter.hasNext();) {
                     SootClass c = classIter.next();
-                    if (c.declaresMethod ("main", Collections.singletonList( ArrayType.v(RefType.v("java.lang.String"), 1) ), VoidType.v()))
+                    if (c.declaresMethod ("main", Collections.singletonList( ArrayType.getInstance(RefType.newInstance("java.lang" +
+                            ".String"), 1) ), new VoidType()))
                     {
                         G.v().out.println("No main class given. Inferred '"+c.getName()+"' as main class.");					
                         setMainClass(c);
@@ -1544,39 +1544,6 @@ public class Scene  //extends AbstractHost
                     }
             }
         }
-    }
-    
-    /**
-     * This method returns true when in incremental build mode.
-     * Other classes can query this flag and change the way in which they use the Scene,
-     * depending on the flag's value.
-     */
-    public boolean isIncrementalBuild() {
-    	return incrementalBuild;
-    }
-    
-    public void initiateIncrementalBuild() {
-    	this.incrementalBuild = true;
-    }
-
-    public void incrementalBuildFinished() {
-    	this.incrementalBuild = false;
-    }
-    
-    /*
-     * Forces Soot to resolve the class with the given name to the given level,
-     * even if resolving has actually already finished.
-     */
-    public SootClass forceResolve(String className, int level) {
-    	boolean tmp = doneResolving;
-    	doneResolving = false;
-    	SootClass c;
-    	try {
-			c = SootResolver.v().resolveClass(className, level);
-    	} finally {
-    		doneResolving = tmp;
-    	}    	    	
-    	return c;
     }
 }
 

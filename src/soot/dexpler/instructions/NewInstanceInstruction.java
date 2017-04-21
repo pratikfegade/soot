@@ -55,16 +55,16 @@ public class NewInstanceInstruction extends DexlibAbstractInstruction {
         Instruction21c i = (Instruction21c)instruction;
         int dest = i.getRegisterA();
         String className = dottedClassName(i.getReference().toString());
-        RefType type = RefType.v(className);
-        NewExpr n = Jimple.v().newNewExpr(type);
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), n);
+        RefType type = RefType.newInstance(className);
+        NewExpr n = Jimple.newNewExpr(type);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), n);
         setUnit(assign);
         addTags(assign);
         body.add(assign);
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          //DalvikTyper.v().captureAssign((JAssignStmt)assign, op); // TODO: ref. type may be null!
+          //DalvikTyper.getInstance().captureAssign((JAssignStmt)assign, op); // TODO: ref. type may be null!
           DalvikTyper.v().setType(assign.getLeftOpBox(), type, false);
         }
     }

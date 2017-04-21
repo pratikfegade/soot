@@ -45,11 +45,8 @@ public abstract class Type implements Switchable, Serializable, Numberable
     /** Converts the int-like types (short, byte, boolean and char) to IntType. */
     public static Type toMachineType(Type t)
     {
-        if(t.equals(ShortType.v()) || t.equals(ByteType.v()) ||
-            t.equals(BooleanType.v()) || t.equals(CharType.v()))
-        {
-            return IntType.v();
-        }
+        if(t instanceof  IntegerType)
+            return IntType.getInstance();
         else
             return t;
     }
@@ -64,9 +61,7 @@ public abstract class Type implements Switchable, Serializable, Numberable
     }
 
     /** Method required for use of Switchable. */
-    public void apply(Switch sw)
-    {
-    }
+    public void apply(Switch sw) {}
 
     public void setArrayType( ArrayType at ) {
         arrayType = at;
@@ -75,7 +70,7 @@ public abstract class Type implements Switchable, Serializable, Numberable
         return arrayType;
     }
     public ArrayType makeArrayType() {
-        return ArrayType.v( this, 1 );
+        return ArrayType.getInstance( this, 1 );
     }
     
     /**
@@ -86,7 +81,7 @@ public abstract class Type implements Switchable, Serializable, Numberable
     public boolean isAllowedInFinalCode() {
     	return false;
     }
-    
+
     /**
      * Gets the escaped name of this type. If the type name is a reserved word, this
      * method makes sure to properly escape it.

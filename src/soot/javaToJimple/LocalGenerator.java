@@ -20,6 +20,9 @@
 package soot.javaToJimple;
 
 import soot.Body;
+import soot.CharType;
+import soot.ShortType;
+import soot.VoidType;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,87 +32,87 @@ public class LocalGenerator{
 
     private final soot.Body body;
     public LocalGenerator(Body b){
-          body = b;
+        body = b;
     }
-    
-    private transient Set<String> localNames = null; 
-    
+
+    private transient Set<String> localNames = null;
+
     private boolean bodyContainsLocal(String name){
-        return localNames.contains(name);       
+        return localNames.contains(name);
     }
-    
+
     private void initLocalNames() {
-    	localNames = new HashSet<String>();
+        localNames = new HashSet<>();
         Iterator it = body.getLocals().iterator();
         while (it.hasNext()){
             localNames.add(((soot.Local)it.next()).getName());
-        }    	
+        }
     }
-    
+
     /**
      * generates a new soot local given the type
      */
     public soot.Local generateLocal(soot.Type type){
-        
-    	//store local names for enhanced performance
-    	initLocalNames();
-    	
-		String name = "v";
-		if (type instanceof soot.IntType) {
+
+        //store local names for enhanced performance
+        initLocalNames();
+
+        String name = "getInstance";
+        if (type instanceof soot.IntType) {
             while (true){
-			    name = nextIntName();
+                name = nextIntName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
+        }
         else if (type instanceof soot.ByteType) {
             while (true){
-			    name = nextByteName();
+                name = nextByteName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
-        else if (type instanceof soot.ShortType) {
+        }
+        else if (type instanceof ShortType) {
             while (true){
-			    name = nextShortName();
+                name = nextShortName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
+        }
         else if (type instanceof soot.BooleanType) {
             while (true){
-			    name = nextBooleanName();
+                name = nextBooleanName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
-        else if (type instanceof soot.VoidType) {
+        }
+        else if (type instanceof VoidType) {
             while (true){
-			    name = nextVoidName();
+                name = nextVoidName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
-        else if (type instanceof soot.CharType) {
+        }
+        else if (type instanceof CharType) {
             while (true){
                 name = nextCharName();
                 if (!bodyContainsLocal(name)) break;
             }
-            type = soot.CharType.v();
+            type = CharType.getInstance();
         }
-		else if (type instanceof soot.DoubleType) {
+        else if (type instanceof soot.DoubleType) {
             while (true){
-			    name = nextDoubleName();
+                name = nextDoubleName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
-		else if (type instanceof soot.FloatType) {
+        }
+        else if (type instanceof soot.FloatType) {
             while (true){
-			    name = nextFloatName();
+                name = nextFloatName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
-		else if (type instanceof soot.LongType) {
+        }
+        else if (type instanceof soot.LongType) {
             while (true){
-			    name = nextLongName();
+                name = nextLongName();
                 if (!bodyContainsLocal(name)) break;
             }
-		}
+        }
         else if (type instanceof soot.RefLikeType) {
             while (true){
                 name = nextRefLikeTypeName();
@@ -123,70 +126,70 @@ public class LocalGenerator{
             }
         }
         else {
-        	localNames = null;
+            localNames = null;
             throw new RuntimeException("Unhandled Type of Local variable to Generate - Not Implemented");
         }
-		
-    	localNames = null;
-		return createLocal(name, type);
-	}
 
-	private int tempInt = -1;
-	private int tempVoid = -1;
-	private int tempBoolean = -1;
-	private int tempLong = -1;
-	private int tempDouble = -1;
-	private int tempFloat = -1;
+        localNames = null;
+        return createLocal(name, type);
+    }
+
+    private int tempInt = -1;
+    private int tempVoid = -1;
+    private int tempBoolean = -1;
+    private int tempLong = -1;
+    private int tempDouble = -1;
+    private int tempFloat = -1;
     private int tempRefLikeType = -1;
     private int tempByte = -1;
     private int tempShort = -1;
     private int tempChar = -1;
     private int tempUnknownType = -1;
-	
+
     private String nextIntName(){
-		tempInt++;
-		return "$i"+tempInt;
-	}
+        tempInt++;
+        return "$i"+tempInt;
+    }
 
     private String nextCharName(){
-		tempChar++;
-		return "$c"+tempChar;
-	}
+        tempChar++;
+        return "$c"+tempChar;
+    }
 
-	private String nextVoidName(){
-		tempVoid++;
-		return "$v"+tempVoid;
-	}
+    private String nextVoidName(){
+        tempVoid++;
+        return "$getInstance"+tempVoid;
+    }
 
-	private String nextByteName(){
-		tempByte++;
-		return "$b"+tempByte;
-	}
+    private String nextByteName(){
+        tempByte++;
+        return "$b"+tempByte;
+    }
 
-	private String nextShortName(){
-		tempShort++;
-		return "$s"+tempShort;
-	}
+    private String nextShortName(){
+        tempShort++;
+        return "$s"+tempShort;
+    }
 
-	private String nextBooleanName(){
-		tempBoolean++;
-		return "$z"+tempBoolean;
-	}
+    private String nextBooleanName(){
+        tempBoolean++;
+        return "$z"+tempBoolean;
+    }
 
-	private String nextDoubleName(){
-		tempDouble++;
-		return "$d"+tempDouble;
-	}
-    
-	private String nextFloatName(){
-		tempFloat++;
-		return "$f"+tempFloat;
-	}
+    private String nextDoubleName(){
+        tempDouble++;
+        return "$d"+tempDouble;
+    }
 
-	private String nextLongName(){
-		tempLong++;
-		return "$l"+tempLong;
-	}
+    private String nextFloatName(){
+        tempFloat++;
+        return "$f"+tempFloat;
+    }
+
+    private String nextLongName(){
+        tempLong++;
+        return "$l"+tempLong;
+    }
 
     private String nextRefLikeTypeName(){
         tempRefLikeType++;
@@ -194,14 +197,14 @@ public class LocalGenerator{
     }
 
     private String nextUnknownTypeName(){
-    	tempUnknownType++;
+        tempUnknownType++;
         return "$u"+tempUnknownType;
     }
 
     // this should be used for generated locals only
     private soot.Local createLocal(String name, soot.Type sootType) {
-        soot.Local sootLocal = soot.jimple.Jimple.v().newLocal(name, sootType);
+        soot.Local sootLocal = soot.jimple.Jimple.newLocal(name, sootType);
         body.getLocals().add(sootLocal);
-		return sootLocal;
-	}
+        return sootLocal;
+    }
 }

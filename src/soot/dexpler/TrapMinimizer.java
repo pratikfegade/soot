@@ -101,14 +101,14 @@ public class TrapMinimizer extends TrapTransformer {
 					updateTrap = true;
 					if (firstTrapStmt == u) // do not add an empty trap, but set updateTrap to true
 						continue;
-					Trap t = Jimple.v().newTrap(tr.getException(), firstTrapStmt, u, tr.getHandlerUnit());
+					Trap t = Jimple.newTrap(tr.getException(), firstTrapStmt, u, tr.getHandlerUnit());
 					newTraps.add(t);
 				} else {
 					// if the current unit has an edge to the current trap's handler,
 					// add a trap if the current trap has been updated before and if the
 					// next unit is outside the current trap.
 					if (b.getUnits().getSuccOf(u) == tr.getEndUnit() && updateTrap) {
-						Trap t = Jimple.v().newTrap(tr.getException(), firstTrapStmt, tr.getEndUnit(), tr.getHandlerUnit());
+						Trap t = Jimple.newTrap(tr.getException(), firstTrapStmt, tr.getEndUnit(), tr.getHandlerUnit());
 						newTraps.add(t);
 					}
 				}

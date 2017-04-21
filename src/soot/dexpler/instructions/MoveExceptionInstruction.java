@@ -49,14 +49,14 @@ public class MoveExceptionInstruction extends DexlibAbstractInstruction implemen
     public void jimplify (DexBody body) {
         int dest = ((OneRegisterInstruction)instruction).getRegisterA();
         Local l = body.getRegisterLocal(dest);
-        stmtToRetype = Jimple.v().newIdentityStmt(l, Jimple.v().newCaughtExceptionRef());
+        stmtToRetype = Jimple.newIdentityStmt(l, Jimple.newCaughtExceptionRef());
         setUnit(stmtToRetype);
         addTags(stmtToRetype);
         body.add(stmtToRetype);
         
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ stmtToRetype);
-            DalvikTyper.v().setType(stmtToRetype.getLeftOpBox(), RefType.v("java.lang.Throwable"), false);
+            DalvikTyper.v().setType(stmtToRetype.getLeftOpBox(), RefType.newInstance("java.lang.Throwable"), false);
         }
     }
 

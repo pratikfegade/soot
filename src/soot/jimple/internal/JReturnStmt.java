@@ -42,7 +42,7 @@ public class JReturnStmt extends AbstractOpStmt implements ReturnStmt
 {
     public JReturnStmt(Value returnValue)
     {
-        this(Jimple.v().newImmediateBox(returnValue));
+        this(Jimple.newImmediateBox(returnValue));
     }
 
     protected JReturnStmt(ValueBox returnValueBox)

@@ -194,7 +194,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		if (isStatic())
 			modifiers |= Modifier.STATIC;
 		m.setModifiers(modifiers);
-		JimpleBody body = Jimple.v().newBody(m);
+		JimpleBody body = Jimple.newBody(m);
 		m.setActiveBody(body);
 
 		final LocalGenerator lg = new LocalGenerator(body);
@@ -202,33 +202,33 @@ class SootMethodRefImpl implements SootMethodRef {
 		// For producing valid Jimple code, we need to access all parameters.
 		// Otherwise, methods like "getThisLocal()" will fail.
 		if (!isStatic) {
-			RefType thisType = RefType.v(declaringClass);
+			RefType thisType = RefType.newInstance(declaringClass);
 			Local lThis = lg.generateLocal(thisType);
-			body.getUnits().add(Jimple.v().newIdentityStmt(lThis, Jimple.v().newThisRef(thisType)));
+			body.getUnits().add(Jimple.newIdentityStmt(lThis, Jimple.newThisRef(thisType)));
 		}
 		for (int i = 0; i < m.getParameterCount(); i++) {
 			Type paramType = m.getParameterType(i);
 			Local lParam = lg.generateLocal(paramType);
-			body.getUnits().add(Jimple.v().newIdentityStmt(lParam, Jimple.v().newParameterRef(paramType, i)));
+			body.getUnits().add(Jimple.newIdentityStmt(lParam, Jimple.newParameterRef(paramType, i)));
 		}
 		
 		//exc = new Error
-		RefType runtimeExceptionType = RefType.v("java.lang.Error");
-		NewExpr newExpr = Jimple.v().newNewExpr(runtimeExceptionType);
+		RefType runtimeExceptionType = RefType.newInstance("java.lang.Error");
+		NewExpr newExpr = Jimple.newNewExpr(runtimeExceptionType);
 		Local exceptionLocal = lg.generateLocal(runtimeExceptionType);
-		AssignStmt assignStmt = Jimple.v().newAssignStmt(exceptionLocal, newExpr);
+		AssignStmt assignStmt = Jimple.newAssignStmt(exceptionLocal, newExpr);
 		body.getUnits().add(assignStmt);
 		
 		//exc.<init>(message)
 		SootMethodRef cref = Scene.v().makeConstructorRef(runtimeExceptionType.getSootClass(),
-				Collections.singletonList(RefType.v("java.lang.String")));
-		SpecialInvokeExpr constructorInvokeExpr = Jimple.v().newSpecialInvokeExpr(exceptionLocal, cref,
+				Collections.singletonList(RefType.newInstance("java.lang.String")));
+		SpecialInvokeExpr constructorInvokeExpr = Jimple.newSpecialInvokeExpr(exceptionLocal, cref,
 				StringConstant.v("Unresolved compilation error: Method "+getSignature()+" does not exist!"));
-		InvokeStmt initStmt = Jimple.v().newInvokeStmt(constructorInvokeExpr);
+		InvokeStmt initStmt = Jimple.newInvokeStmt(constructorInvokeExpr);
 		body.getUnits().insertAfter(initStmt, assignStmt);
 		
 		//throw exc
-		body.getUnits().insertAfter(Jimple.v().newThrowStmt(exceptionLocal), initStmt);
+		body.getUnits().insertAfter(Jimple.newThrowStmt(exceptionLocal), initStmt);
 
 		return declaringClass.getOrAddMethod(m);
 	}

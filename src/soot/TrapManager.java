@@ -152,7 +152,7 @@ public class TrapManager
         
          for (Trap trap : body.getTraps()) {
              if (trap.getHandlerUnit() == u) {
-                 possibleTypes.add(RefType.v(trap.getException().getName()));
+                 possibleTypes.add(RefType.newInstance(trap.getException().getName()));
              }
          }
         

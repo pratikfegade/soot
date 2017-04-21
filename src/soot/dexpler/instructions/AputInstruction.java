@@ -52,7 +52,7 @@ public class AputInstruction extends FieldInstruction {
 
         Local arrayBase = body.getRegisterLocal(aPutInstr.getRegisterB());
         Local index = body.getRegisterLocal(aPutInstr.getRegisterC());
-        ArrayRef arrayRef = Jimple.v().newArrayRef(arrayBase, index);
+        ArrayRef arrayRef = Jimple.newArrayRef(arrayBase, index);
 
         Local sourceValue = body.getRegisterLocal(source);
         AssignStmt assign = getAssignStmt(sourceValue, arrayRef);
@@ -66,7 +66,7 @@ public class AputInstruction extends FieldInstruction {
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
           DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
-          DalvikTyper.v().setType(arrayRef.getIndexBox(), IntType.v(), true);
+          DalvikTyper.v().setType(arrayRef.getIndexBox(), IntType.getInstance(), true);
         }
     }
 
@@ -77,6 +77,6 @@ public class AputInstruction extends FieldInstruction {
         if (t instanceof ArrayType)
             return ((ArrayType) t).getElementType();
         else
-            return UnknownType.v();
+            return UnknownType.getInstance();
     }
 }

@@ -55,10 +55,10 @@ public class JDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInv
 		this.tag = tag;
 
 		for (int i = 0; i < bootstrapArgs.size(); i++) {
-			this.bsmArgBoxes[i] = Jimple.v().newImmediateBox(bootstrapArgs.get(i));
+			this.bsmArgBoxes[i] = Jimple.newImmediateBox(bootstrapArgs.get(i));
 		}
 		for (int i = 0; i < methodArgs.size(); i++) {
-			this.argBoxes[i] = Jimple.v().newImmediateBox(methodArgs.get(i));
+			this.argBoxes[i] = Jimple.newImmediateBox(methodArgs.get(i));
 		}
 	}
 

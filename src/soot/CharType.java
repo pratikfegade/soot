@@ -22,14 +22,8 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
@@ -39,8 +33,12 @@ import soot.util.Switch;
 @SuppressWarnings("serial")
 public class CharType extends PrimType implements IntegerType
 {
-    public CharType( Singletons.Global g ) {}
-    public static CharType v() { return G.v().soot_CharType(); }
+    private static CharType instance = null;
+    public static synchronized CharType getInstance() {
+        if (instance == null)
+            instance = new CharType();
+        return instance;
+    }
 
     public boolean equals(Object t)
     {
@@ -64,6 +62,6 @@ public class CharType extends PrimType implements IntegerType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Character");
+    	return RefType.newInstance("java.lang.Character");
     }
 }

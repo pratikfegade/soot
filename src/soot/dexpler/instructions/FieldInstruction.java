@@ -86,7 +86,7 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     protected AssignStmt getAssignStmt(Local sourceValue, ConcreteRef instanceField) {
         AssignStmt assign;
 
-        assign = Jimple.v().newAssignStmt(instanceField, sourceValue);
+        assign = Jimple.newAssignStmt(instanceField, sourceValue);
         return assign;
     }
 
@@ -118,7 +118,7 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
      * @param body the body containing this instruction
      */
     protected Type getTargetType(DexBody body) {
-        return UnknownType.v();
+        return UnknownType.getInstance();
     }
 
     @Override

@@ -43,7 +43,7 @@ public class ReturnInstruction extends DexlibAbstractInstruction {
     public void jimplify (DexBody body) {
         Instruction11x returnInstruction = (Instruction11x) this.instruction;
         Local l = body.getRegisterLocal(returnInstruction.getRegisterA());
-        ReturnStmt returnStmt = Jimple.v().newReturnStmt(l);
+        ReturnStmt returnStmt = Jimple.newReturnStmt(l);
         setUnit(returnStmt);
         addTags(returnStmt);
         body.add(returnStmt);
@@ -51,7 +51,7 @@ public class ReturnInstruction extends DexlibAbstractInstruction {
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 
 			Debug.printDbg(IDalvikTyper.DEBUG, "return constraint: " + returnStmt);
-			//DalvikTyper.v().addConstraint(returnStmt.getOpBox(), new ImmediateBox(Jimple.body.getBody().getMethod().getReturnType()));
+			//DalvikTyper.getInstance().addConstraint(returnStmt.getOpBox(), new ImmediateBox(Jimple.body.getBody().getMethod().getReturnType()));
 			DalvikTyper.v().setType(returnStmt.getOpBox(), body.getBody().getMethod().getReturnType(), true);
         }
     }

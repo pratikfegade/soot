@@ -46,7 +46,7 @@ public class JStaticInvokeExpr extends AbstractStaticInvokeExpr
         super(methodRef, new ValueBox[args.size()]);
 
         for(int i = 0; i < args.size(); i++)
-            this.argBoxes[i] = Jimple.v().newImmediateBox(args.get(i));
+            this.argBoxes[i] = Jimple.newImmediateBox(args.get(i));
         
     }
 

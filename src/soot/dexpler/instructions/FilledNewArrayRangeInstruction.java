@@ -51,26 +51,26 @@ public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
 
         Instruction3rc filledNewArrayInstr = (Instruction3rc)instruction;
 
-//        NopStmt nopStmtBeginning = Jimple.v().newNopStmt();
+//        NopStmt nopStmtBeginning = Jimple.newInstance().newNopStmt();
 //        body.add(nopStmtBeginning);
 
         int usedRegister = filledNewArrayInstr.getRegisterCount();
         Type t = DexType.toSoot((TypeReference) filledNewArrayInstr.getReference());
         // NewArrayExpr needs the ElementType as it increases the array dimension by 1
         Type arrayType = ((ArrayType) t).getElementType();
-        NewArrayExpr arrayExpr = Jimple.v().newNewArrayExpr(arrayType, IntConstant.v(usedRegister));
+        NewArrayExpr arrayExpr = Jimple.newNewArrayExpr(arrayType, IntConstant.v(usedRegister));
         Local arrayLocal = body.getStoreResultLocal();
-        AssignStmt assignStmt = Jimple.v().newAssignStmt(arrayLocal, arrayExpr);
+        AssignStmt assignStmt = Jimple.newAssignStmt(arrayLocal, arrayExpr);
         body.add (assignStmt);
 
         for (int i = 0; i < usedRegister; i++) {
-            ArrayRef arrayRef = Jimple.v().newArrayRef(arrayLocal, IntConstant.v(i));
+            ArrayRef arrayRef = Jimple.newArrayRef(arrayLocal, IntConstant.v(i));
 
-            AssignStmt assign = Jimple.v().newAssignStmt(arrayRef, body.getRegisterLocal(i + filledNewArrayInstr.getStartRegister()));
+            AssignStmt assign = Jimple.newAssignStmt(arrayRef, body.getRegisterLocal(i + filledNewArrayInstr.getStartRegister()));
             addTags(assign);
             body.add(assign);
         }
-//        NopStmt nopStmtEnd = Jimple.v().newNopStmt();
+//        NopStmt nopStmtEnd = Jimple.newInstance().newNopStmt();
 //        body.add(nopStmtEnd);
 
 //        defineBlock(nopStmtBeginning,nopStmtEnd);
@@ -81,7 +81,7 @@ public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
         if (IDalvikTyper.ENABLE_DVKTYPER) {
             Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assignStmt);
           DalvikTyper.v().setType(assignStmt.getLeftOpBox(), arrayExpr.getType(), false);
-          //DalvikTyper.v().addConstraint(assignStmt.getLeftOpBox(), assignStmt.getRightOpBox());
+          //DalvikTyper.newInstance().addConstraint(assignStmt.getLeftOpBox(), assignStmt.getRightOpBox());
         }
 
     }

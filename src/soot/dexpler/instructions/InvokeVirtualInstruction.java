@@ -35,7 +35,7 @@ public class InvokeVirtualInstruction extends MethodInvocationInstruction {
 
     public void jimplify (DexBody body) {
         // use Nop as begin marker
-//        NopStmt nop = Jimple.v().newNopStmt();
+//        NopStmt nop = Jimple.getInstance().newNopStmt();
 //        defineBlock(nop);
 //        tagWithLineNumber(nop);
 //        body.add(nop);

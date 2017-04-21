@@ -115,7 +115,7 @@ class CONSTANT_Methodref_info extends cp_info implements ICONSTANT_Methodref_inf
 			returnType = types[types.length - 1];
 		}
 
-	    return Jimple.v().newStaticInvokeExpr(Scene.v().makeMethodRef(Scene.v().getSootClass(className), name, parameterTypes, returnType, true));
+	    return Jimple.newStaticInvokeExpr(Scene.v().makeMethodRef(Scene.v().getSootClass(className), name, parameterTypes, returnType, true));
 	}
 
 	public int getClassIndex() {

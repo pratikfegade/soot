@@ -298,13 +298,13 @@ public class Aggregator extends BodyTransformer
             }
           else
             {/*
-            if(Options.v().verbose())
+            if(Options.getInstance().verbose())
             {
-                G.v().out.println("[debug] failed aggregation");
-                  G.v().out.println("[debug] tried to put "+aggregatee+
+                G.getInstance().out.println("[debug] failed aggregation");
+                  G.getInstance().out.println("[debug] tried to put "+aggregatee+
                                  " into "+usepair.stmt + 
                                  ": in particular, "+usepair.valueBox);
-                  G.v().out.println("[debug] aggregatee instanceof Expr: "
+                  G.getInstance().out.println("[debug] aggregatee instanceof Expr: "
                                  +(aggregatee instanceof Expr));
             }*/
             }

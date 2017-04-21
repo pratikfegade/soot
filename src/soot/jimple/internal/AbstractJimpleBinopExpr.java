@@ -38,7 +38,7 @@ abstract public class AbstractJimpleBinopExpr extends AbstractBinopExpr
 {
     protected AbstractJimpleBinopExpr (Value op1, Value op2)
     {
-        op1Box = Jimple.v().newArgBox(op1); 
-        op2Box = Jimple.v().newArgBox(op2);
+        op1Box = Jimple.newArgBox(op1);
+        op2Box = Jimple.newArgBox(op2);
     }
 }

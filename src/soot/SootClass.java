@@ -88,7 +88,7 @@ public class SootClass extends AbstractHost implements Numberable {
 					"Attempt to make a class whose name starts with [");
 		setName(name);
 		this.modifiers = modifiers;
-		refType = RefType.v(name);
+		refType = RefType.newInstance(name);
 		refType.setSootClass(this);
 		if (Options.v().debug_resolver())
 			G.v().out.println("created " + name + " with modifiers "
@@ -156,7 +156,7 @@ public class SootClass extends AbstractHost implements Numberable {
 	public void checkLevelIgnoreResolving(int level) {
 		if (resolvingLevel < level) {
 			String hint = "\nIf you are extending Soot, try to add the following call before calling soot.Main.main(..):\n"
-					+ "Scene.v().addBasicClass("
+					+ "Scene.getInstance().addBasicClass("
 					+ getName()
 					+ ","
 					+ levelToString(level)
@@ -1100,7 +1100,7 @@ public class SootClass extends AbstractHost implements Numberable {
 		if (this.refType != null) {
 			refType.setClassName(name);
 		} else {
-			refType = RefType.v(name);
+			refType = RefType.newInstance(name);
 		}
 		Scene.v().addRefType(refType);
 

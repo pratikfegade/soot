@@ -357,7 +357,7 @@ public class DexPrinter {
 			return new ImmutableFloatEncodedValue(f.getFloatValue());
 		} else if (t instanceof StringConstantValueTag) {
 			StringConstantValueTag s = (StringConstantValueTag) t;
-			if (sf.getType().equals(RefType.v("java.lang.String")))
+			if (sf.getType().equals(RefType.newInstance("java.lang.String")))
 				return new ImmutableStringEncodedValue(s.getStringValue());
 			else
 				//Not supported in Dalvik
@@ -843,10 +843,10 @@ public class DexPrinter {
 	}
 
 	/**
-	 * Converts Jimple visibility to Dexlib visibility
+	 * Converts Jimpleisibility to Dexlib visibility
 	 *
 	 * @param visibility
-	 *            Jimple visibility
+	 *            Jimpleisibility
 	 * @return Dexlib visibility
 	 */
 	private static int getVisibility(int visibility) {
@@ -1204,7 +1204,7 @@ public class DexPrinter {
 		} while (true);
 
 		// Create a jump instruction from the middle to the end
-		NopStmt nop = Jimple.v().newNopStmt();
+		NopStmt nop = Jimple.newNopStmt();
 		Insn30t newJump = new Insn30t(Opcode.GOTO_32);
 		newJump.setTarget(stmtV.getStmtForInstruction(instructions.get(targetInsPos)));
 		BuilderInstruction newJumpInstruction = newJump.getRealInsn(labelAssigner);
@@ -1234,7 +1234,7 @@ public class DexPrinter {
 		jumpAround.setTarget(afterNewJump);
 		BuilderInstruction jumpAroundInstruction = jumpAround.getRealInsn(labelAssigner);
 		instructions.add(newJumpIdx, jumpAroundInstruction);
-		stmtV.fakeNewInsn(Jimple.v().newNopStmt(), jumpAround, jumpAroundInstruction);
+		stmtV.fakeNewInsn(Jimple.newNopStmt(), jumpAround, jumpAroundInstruction);
 	}
 
 	private void addRegisterAssignmentDebugInfo(

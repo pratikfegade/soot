@@ -41,9 +41,9 @@ public class JTrap extends AbstractTrap
 
     public JTrap(SootClass exception, Unit beginStmt, Unit endStmt, Unit handlerStmt)
     {
-        super(exception, Jimple.v().newStmtBox(beginStmt),
-              Jimple.v().newStmtBox(endStmt),
-              Jimple.v().newStmtBox(handlerStmt));
+        super(exception, Jimple.newStmtBox(beginStmt),
+              Jimple.newStmtBox(endStmt),
+              Jimple.newStmtBox(handlerStmt));
     }
 
     public JTrap(SootClass exception, UnitBox beginStmt, UnitBox endStmt, UnitBox handlerStmt)

@@ -27,9 +27,9 @@ public class FieldStaticnessCorrector extends BodyTransformer {
 					if (s instanceof AssignStmt) {
 						AssignStmt assignStmt = (AssignStmt) s;
 						if (assignStmt.getLeftOp() == ref)
-							assignStmt.setLeftOp(Jimple.v().newStaticFieldRef(ref.getField().makeRef()));
+							assignStmt.setLeftOp(Jimple.newStaticFieldRef(ref.getField().makeRef()));
 						else if (assignStmt.getRightOp() == ref)
-							assignStmt.setRightOp(Jimple.v().newStaticFieldRef(ref.getField().makeRef()));
+							assignStmt.setRightOp(Jimple.newStaticFieldRef(ref.getField().makeRef()));
 					}
 				}
 			}

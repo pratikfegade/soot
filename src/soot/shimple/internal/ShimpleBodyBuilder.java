@@ -126,7 +126,7 @@ public class ShimpleBodyBuilder
 
         // *** FIXME: 89e9a0470601091906j26489960j65290849dbe0481f@mail.gmail.com
         //if(optElim)
-        //DeadAssignmentEliminator.v().transform(body);
+        //DeadAssignmentEliminator.newInstance().transform(body);
     }
 
     public void postElimOpt()
@@ -204,7 +204,7 @@ public class ShimpleBodyBuilder
     public void renameLocalsSearch(Block block)
     {
         // accumulated in Step 1 to be re-processed in Step 4
-        List<Local> lhsLocals = new ArrayList<Local>();
+        List<Local> lhsLocals = new ArrayList<>();
         
         // Step 1 of 4 -- Rename block's uses (ordinary) and defs
         {

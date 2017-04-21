@@ -77,7 +77,7 @@ public class Printer {
     }
     public void incJimpleLnNum() {
         jimpleLnNum++;
-	//G.v().out.println("jimple Ln Num: "+jimpleLnNum);
+	//G.getInstance().out.println("jimple Ln Num: "+jimpleLnNum);
     }
 
     public void printTo(SootClass cl, PrintWriter out) {
@@ -283,7 +283,7 @@ public class Printer {
        
         if (addJimpleLn()) {
             setJimpleLnNum(addJimpleLnTags(getJimpleLnNum(), b.getMethod()));		
-            //G.v().out.println("added jimple ln tag for method: "+b.getMethod().toString()+" "+b.getMethod().getDeclaringClass().getName());
+            //G.getInstance().out.println("added jimple ln tag for method: "+b.getMethod().toString()+" "+b.getMethod().getDeclaringClass().getName());
         }
 
         out.println("    {");

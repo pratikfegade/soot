@@ -29,7 +29,6 @@
 
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 
@@ -37,17 +36,20 @@ import soot.util.Switch;
  *   Soot representation of the Java built-in type 'byte'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class ByteType extends PrimType implements IntegerType
 {
-    public ByteType( Singletons.Global g ) {}
-    public static ByteType v() { return G.v().soot_ByteType(); }
+    private static ByteType instance = null;
+    public static synchronized ByteType getInstance() {
+        if (instance == null)
+            instance = new ByteType();
+        return instance;
+    }
 
     public int hashCode()
     {
         return 0x813D1329;
     }
-    
+
     public boolean equals(Object t)
     {
         return this == t;
@@ -65,6 +67,6 @@ public class ByteType extends PrimType implements IntegerType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Byte");
+        return RefType.newInstance("java.lang.Byte");
     }
 }

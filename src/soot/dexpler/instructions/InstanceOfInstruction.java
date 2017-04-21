@@ -54,15 +54,15 @@ public class InstanceOfInstruction extends DexlibAbstractInstruction {
 
         Type t = DexType.toSoot((TypeReference)(i.getReference()));
 
-        InstanceOfExpr e = Jimple.v().newInstanceOfExpr(body.getRegisterLocal(source), t);
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), e);
+        InstanceOfExpr e = Jimple.newInstanceOfExpr(body.getRegisterLocal(source), t);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), e);
         setUnit(assign);
         addTags(assign);
         body.add(assign);
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          //DalvikTyper.v().?
+          //DalvikTyper.getInstance().?
         }
     }
 

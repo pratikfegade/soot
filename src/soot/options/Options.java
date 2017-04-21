@@ -168,7 +168,7 @@ public class Options extends OptionsBase {
                 version = true;
     	
             else if( false 
-            || option.equals( "v" )
+            || option.equals( "getInstance" )
             || option.equals( "verbose" )
             )
                 verbose = true;
@@ -1695,7 +1695,7 @@ public class Options extends OptionsBase {
 +padOpt(" -pl -phase-list", "Print list of available phases" )
 +padOpt(" -ph PHASE -phase-help PHASE", "Print help for specified PHASE" )
 +padOpt(" -version", "Display version information and exit" )
-+padOpt(" -v -verbose", "Verbose mode" )
++padOpt(" -getInstance -verbose", "Verbose mode" )
 +padOpt(" -interactive-mode", "Run in interactive mode" )
 +padOpt(" -unfriendly-mode", "Allow Soot to run with no command-line options" )
 +padOpt(" -app", "Run in application mode" )
@@ -2159,7 +2159,7 @@ public class Options extends OptionsBase {
                 +"\n\nRecognized options (with default values):\n"
                 +padOpt( "enabled (true)", "" )
                 +padOpt( "safe-forname (false)", "Handle Class.forName() calls conservatively" )
-                +padOpt( "safe-newinstance (false)", "Handle Class.newInstance() calls conservatively" )
+                +padOpt( "safe-newinstance (false)", "Handle Class.getInstance() calls conservatively" )
                 +padOpt( "library", " 										Specifies whether the target classes should be treated as an application or a library. 									" )
                 +padVal( "disabled (default)", " 											Call(and pointer assignment) graph construction treat the target classes as application starting from the entry points. 										" )
                 
@@ -2379,7 +2379,7 @@ public class Options extends OptionsBase {
                 +padOpt( "global-nodes-in-natives (false)", "Use global node to model variables in simulations of native methods" )
                 +padOpt( "simple-edges-bidirectional (false)", "Equality-based analysis between variable nodes" )
                 +padOpt( "this-edges (false)", "Use pointer assignment edges to model this parameters" )
-                +padOpt( "precise-newinstance (true)", "Make newInstance only allocate objects of dynamic classes" )
+                +padOpt( "precise-newinstance (true)", "Make getInstance only allocate objects of dynamic classes" )
                 +padOpt( "propagator", "Select propagation algorithm" )
                 +padVal( "auto (default)", "Select propagation algorithm based on bdd option" )
                 

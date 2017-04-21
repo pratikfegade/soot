@@ -25,7 +25,6 @@
 
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 import java.util.LinkedList;
@@ -38,13 +37,6 @@ import java.util.LinkedList;
 
 @SuppressWarnings("serial")
 public class RefType extends RefLikeType implements Comparable<RefType> {
-	public RefType(Singletons.Global g) {
-		className = "";
-	}
-
-	public static RefType v() {
-		return G.v().soot_RefType();
-	}
 
 	/** the class name that parameterizes this RefType */
 	private String className;
@@ -77,7 +69,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 *            The name of the class used to parametrize the created RefType.
 	 * @return a RefType for the given class name.
 	 */
-	public static RefType v(String className) {
+	public static RefType newInstance(String className) {
 		RefType rt = Scene.v().getRefTypeUnsafe(className);
 		if (rt == null) {
 			rt = new RefType(className);
@@ -97,8 +89,8 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 *            A SootClass for which to create a RefType.
 	 * @return a RefType for the given SootClass..
 	 */
-	public static RefType v(SootClass c) {
-		return v(c.getName());
+	public static RefType newInstance(SootClass c) {
+		return newInstance(c.getName());
 	}
 
 	/**
@@ -159,7 +151,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 
 	/** Returns the least common superclass of this type and other. */
 	public Type merge(Type other, Scene cm) {
-		if (other.equals(UnknownType.v()) || this.equals(other))
+		if (other instanceof UnknownType || this.equals(other))
 			return this;
 
 		if (!(other instanceof RefType))
@@ -173,8 +165,8 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 			SootClass otherClass = cm.getSootClass(((RefType) other).className);
 			SootClass javalangObject = cm.getObjectType().getSootClass();
 
-			LinkedList<SootClass> thisHierarchy = new LinkedList<SootClass>();
-			LinkedList<SootClass> otherHierarchy = new LinkedList<SootClass>();
+			LinkedList<SootClass> thisHierarchy = new LinkedList<>();
+			LinkedList<SootClass> otherHierarchy = new LinkedList<>();
 
 			// Build thisHierarchy
 			{
@@ -237,7 +229,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 		if (className.equals("java.lang.Object")
 				|| className.equals("java.io.Serializable")
 				|| className.equals("java.lang.Cloneable")) {
-			return RefType.v("java.lang.Object");
+			return RefType.newInstance("java.lang.Object");
 		}
 		throw new RuntimeException(
 				"Attempt to get array base type of a non-array");

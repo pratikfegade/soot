@@ -295,7 +295,7 @@ Improvements in version 2.2 (Fri, Dec 17, 2004)
    * attribute management (for turning sets of attributes on/off)
    * interactive cfgs see:
    * growable graphical callgraph (experimental)
-7. jimple validator does partial type checking (-validate switch)
+7. Jimplealidator does partial type checking (-validate switch)
 8. testsuite
 9. minor bug fixes
 10. extended set of options
@@ -515,7 +515,7 @@ the missing classfile before quitting.
 
 3. Added more documentation comments.  (Thanks patrice!)
 
-4. Added EquivTo interface, made all Jimple Values implement 
+4. Added EquivTo interface, made all Jimplealues implement
 EquivTo, and provided EquivalentValue wrapper objects.  Using an
 EquivalentValue allows Collections to see structurally equal 
 Values as satisfying .equals().  This is not universally useful;

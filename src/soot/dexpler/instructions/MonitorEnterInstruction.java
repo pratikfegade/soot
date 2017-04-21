@@ -44,14 +44,14 @@ public class MonitorEnterInstruction extends DexlibAbstractInstruction {
     public void jimplify (DexBody body) {
         int reg = ((OneRegisterInstruction) instruction).getRegisterA();
         Local object = body.getRegisterLocal(reg);
-        EnterMonitorStmt enterMonitorStmt = Jimple.v().newEnterMonitorStmt(object);
+        EnterMonitorStmt enterMonitorStmt = Jimple.newEnterMonitorStmt(object);
         setUnit(enterMonitorStmt);
         addTags(enterMonitorStmt);
         body.add(enterMonitorStmt);
         
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ enterMonitorStmt);
-			DalvikTyper.v().setType(enterMonitorStmt.getOpBox(), RefType.v("java.lang.Object"), true);
+			DalvikTyper.v().setType(enterMonitorStmt.getOpBox(), RefType.newInstance("java.lang.Object"), true);
         }
     }
 }

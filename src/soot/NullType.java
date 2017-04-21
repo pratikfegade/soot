@@ -22,26 +22,21 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
-
-
 /**
  *   Soot representation of the Java type 'null'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class NullType extends RefLikeType
 {
-    public NullType( Singletons.Global g ) {}
-    public static NullType v() { return G.v().soot_NullType(); }
+    private static NullType instance = null;
+    public static synchronized NullType getInstance() {
+        if (instance == null)
+            instance = new NullType();
+        return instance;
+    }
 
     public int hashCode()
     {

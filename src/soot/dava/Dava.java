@@ -65,7 +65,7 @@ public class Dava
 
     public Local newLocal(String name, Type t)
     {
-        return Jimple.v().newLocal(name, t);
+        return Jimple.newLocal(name, t);
     }
 
     public void log( String s)

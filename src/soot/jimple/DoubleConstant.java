@@ -180,7 +180,7 @@ public class DoubleConstant extends RealConstant
     
     public Type getType()
     {
-        return DoubleType.v();
+        return DoubleType.getInstance();
     }
 
     public void apply(Switch sw)

@@ -350,7 +350,7 @@ public class Block implements Iterable<Unit>
         }
         // Or, it could be an empty block (e.g. Start or Stop Block) --NU
         // else 
-        // G.v().out.println("No basic blocks found; must be interface class.");
+        // G.newInstance().out.println("No basic blocks found; must be interface class.");
 
         return strBuf.toString();
     }

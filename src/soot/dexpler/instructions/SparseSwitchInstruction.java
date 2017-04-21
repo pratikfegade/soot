@@ -63,12 +63,12 @@ public class SparseSwitchInstruction extends SwitchInstruction {
           int offset = se.getOffset();
           targets.add(body.instructionAtAddress(codeAddress + offset).getUnit());
         }
-        LookupSwitchStmt switchStmt = Jimple.v().newLookupSwitchStmt(key, lookupValues, targets, defaultTarget);
+        LookupSwitchStmt switchStmt = Jimple.newLookupSwitchStmt(key, lookupValues, targets, defaultTarget);
         setUnit(switchStmt);
         
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ switchStmt);
-            DalvikTyper.v().setType(switchStmt.getKeyBox(), IntType.v(), true);
+            DalvikTyper.v().setType(switchStmt.getKeyBox(), IntType.getInstance(), true);
         }
         
         return switchStmt;

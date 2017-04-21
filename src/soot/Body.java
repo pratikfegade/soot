@@ -86,7 +86,7 @@ public abstract class Body extends AbstractHost implements Serializable
 				UnitBoxesValidator.v(),
 				UsesValidator.v(),
 				ValueBoxesValidator.v(),
-				//CheckInitValidator.v(),
+				//CheckInitValidator.getInstance(),
 				CheckTypesValidator.v(),
 				CheckVoidLocalesValidator.v(),
 				CheckEscapingValidator.v()
@@ -96,7 +96,7 @@ public abstract class Body extends AbstractHost implements Serializable
 	}
 
     /** Creates a Body associated to the given method.  Used by subclasses during initialization.
-     *  Creation of a Body is triggered by e.g. Jimple.v().newBody(options).
+     *  Creation of a Body is triggered by e.g. Jimple.getInstance().newBody(options).
      */
     protected Body(SootMethod m)
     {

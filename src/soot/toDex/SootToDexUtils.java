@@ -73,7 +73,7 @@ public class SootToDexUtils {
 	public static String getArrayTypeDescriptor(ArrayType type) {
 		Type baseType;
 		if (type.numDimensions > 1) {
-			baseType = ArrayType.v(type.baseType, 1);
+			baseType = ArrayType.getInstance(type.baseType, 1);
 		} else {
 			baseType = type.baseType;
 		}

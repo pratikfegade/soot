@@ -7,10 +7,10 @@
  * To add a class, use, for example, the following:
  * <pre>
  * //before calling soot.Main.main
- * Scene.v().addBasicClass(SootSig.class.getName(),SootClass.BODIES);
+ * Scene.getInstance().addBasicClass(SootSig.class.getName(),SootClass.BODIES);
  * 
  * //then at some point
- * Scene.v().getSootClass(SootSig.class.getName()).setApplicationClass();
+ * Scene.getInstance().getSootClass(SootSig.class.getName()).setApplicationClass();
  * </pre>
  * 
  * This will cause Soot to emit the class SootSig along with the analyzed program.

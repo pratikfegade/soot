@@ -467,7 +467,7 @@ public class ValueGraph
         SootClass sc = Scene.v().getSootClass(args[0]);
         SootMethod sm = sc.getMethod(args[1]);
         Body b = sm.retrieveActiveBody();
-        ShimpleBody sb = Shimple.v().newBody(b);
+        ShimpleBody sb = Shimple.getInstance().newBody(b);
         CompleteBlockGraph cfg = new CompleteBlockGraph(sb);
         ValueGraph vg = new ValueGraph(cfg);
         System.out.println(vg);

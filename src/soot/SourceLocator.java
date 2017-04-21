@@ -40,20 +40,20 @@ public class SourceLocator
     public static SourceLocator v() { return G.v().soot_SourceLocator(); }
 
     protected Set<ClassLoader> additionalClassLoaders = new HashSet<ClassLoader>();
-	protected Set<String> classesToLoad;
+    protected Set<String> classesToLoad;
 
-	private enum ClassSourceType { jar, zip, apk, dex, directory, unknown }
+    private enum ClassSourceType { jar, zip, apk, dex, directory, unknown }
 
     /** Given a class name, uses the soot-class-path to return a ClassSource for the given class. */
-	public ClassSource getClassSource(String className)
+    public ClassSource getClassSource(String className)
     {
-		if(classesToLoad==null) {
-			classesToLoad = new HashSet<String>();
-			classesToLoad.addAll(Scene.v().getBasicClasses());
-			for(SootClass c: Scene.v().getApplicationClasses()) {
-				classesToLoad.add(c.getName());
-			}
-		}
+        if(classesToLoad==null) {
+            classesToLoad = new HashSet<String>();
+            classesToLoad.addAll(Scene.v().getBasicClasses());
+            for(SootClass c: Scene.v().getApplicationClasses()) {
+                classesToLoad.add(c.getName());
+            }
+        }
 
         if( classPath == null ) {
             classPath = explodeClassPath(Scene.v().getSootClassPath());
@@ -62,8 +62,8 @@ public class SourceLocator
             setupClassProviders();
         }
         for (ClassProvider cp : classProviders) {
-	        	ClassSource ret = cp.find(className);
-	            if( ret != null ) return ret;
+            ClassSource ret = cp.find(className);
+            if( ret != null ) return ret;
 
         }
 //        for(final ClassLoader cl: additionalClassLoaders) {
@@ -92,48 +92,23 @@ public class SourceLocator
         return null;
     }
 
-    public void additionalClassLoader(ClassLoader c) {
-    	additionalClassLoaders.add(c);
-    }
-
     private void setupClassProviders() {
         classProviders = new LinkedList<>();
         ClassProvider classFileClassProvider = new AsmClassProvider();
-		switch( Options.v().src_prec() ) {
+        switch( Options.v().src_prec() ) {
             case Options.src_prec_class:
-                classProviders.add(classFileClassProvider);
-                classProviders.add(new JimpleClassProvider());
-                break;
-            case Options.src_prec_only_class:
-                classProviders.add(classFileClassProvider);
-                break;
-            case Options.src_prec_java:
-                classProviders.add(classFileClassProvider);
-                classProviders.add(new JimpleClassProvider());
-                break;
-            case Options.src_prec_jimple:
-                classProviders.add(new JimpleClassProvider());
                 classProviders.add(classFileClassProvider);
                 break;
             case Options.src_prec_apk:
                 classProviders.add(new DexClassProvider());
-				classProviders.add(classFileClassProvider);
-				classProviders.add(new JimpleClassProvider());
-                break;
-            case Options.src_prec_apk_c_j:
-                classProviders.add(new DexClassProvider());
-				classProviders.add(classFileClassProvider);
-				classProviders.add(new JimpleClassProvider());
+                classProviders.add(classFileClassProvider);
                 break;
             default:
                 throw new RuntimeException("Other source precedences are not currently supported.");
         }
     }
 
-	private List<ClassProvider> classProviders;
-    public void setClassProviders( List<ClassProvider> classProviders ) {
-        this.classProviders = classProviders;
-    }
+    private List<ClassProvider> classProviders;
 
     private List<String> classPath;
     public List<String> classPath() { return classPath; }
@@ -142,180 +117,165 @@ public class SourceLocator
         dexClassIndex = null;
     }
 
-    private List<String> sourcePath;
-    public List<String> sourcePath() {
-        if( sourcePath == null ) {
-            sourcePath = new ArrayList<String>();
-            for (String dir : classPath) {
-            	ClassSourceType cst = getClassSourceType(dir);
-                if( cst != ClassSourceType.apk
-                		&& cst != ClassSourceType.jar
-                		&& cst != ClassSourceType.zip)
-                	sourcePath.add(dir);
-            }
-        }
-        return sourcePath;
-    }
-
     private LoadingCache<String, ClassSourceType> pathToSourceType = CacheBuilder.newBuilder()
-    		.initialCapacity(60)
-    		.maximumSize(500)
-    		.softValues()
-    		.concurrencyLevel(Runtime.getRuntime().availableProcessors())
-    		.build(
-    				new CacheLoader<String, ClassSourceType>(){
-						@Override
-						public ClassSourceType load(String path) throws Exception {
-							File f = new File(path);
-							if(!f.exists() && !Options.v().ignore_classpath_errors())
-								throw new Exception("Error: The path '" + path + "' does not exist.");
-							if(!f.canRead() && !Options.v().ignore_classpath_errors())
-								throw new Exception("Error: The path '" + path + "' exists but is not readable.");
-							if(f.isFile()) {
-								if (path.endsWith(".zip"))
-					                return ClassSourceType.zip;
-					            else if (path.endsWith(".jar"))
-					                return ClassSourceType.jar;
-					            else if (path.endsWith(".apk"))
-					                return ClassSourceType.apk;
-					            else if (path.endsWith(".dex"))
-					                return ClassSourceType.dex;
-					            else
-					                return ClassSourceType.unknown;
-							}
-							return ClassSourceType.directory;
-						}
-    				}
-    );
+            .initialCapacity(60)
+            .maximumSize(500)
+            .softValues()
+            .concurrencyLevel(Runtime.getRuntime().availableProcessors())
+            .build(
+                    new CacheLoader<String, ClassSourceType>(){
+                        @Override
+                        public ClassSourceType load(String path) throws Exception {
+                            File f = new File(path);
+                            if(!f.exists() && !Options.v().ignore_classpath_errors())
+                                throw new Exception("Error: The path '" + path + "' does not exist.");
+                            if(!f.canRead() && !Options.v().ignore_classpath_errors())
+                                throw new Exception("Error: The path '" + path + "' exists but is not readable.");
+                            if(f.isFile()) {
+                                if (path.endsWith(".zip"))
+                                    return ClassSourceType.zip;
+                                else if (path.endsWith(".jar"))
+                                    return ClassSourceType.jar;
+                                else if (path.endsWith(".apk"))
+                                    return ClassSourceType.apk;
+                                else if (path.endsWith(".dex"))
+                                    return ClassSourceType.dex;
+                                else
+                                    return ClassSourceType.unknown;
+                            }
+                            return ClassSourceType.directory;
+                        }
+                    }
+            );
 
     private ClassSourceType getClassSourceType(String path) {
-    	try {
-			return pathToSourceType.get(path);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+        try {
+            return pathToSourceType.get(path);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<String> getClassesUnder(String aPath) {
-    	return getClassesUnder(aPath, "");
+        return getClassesUnder(aPath, "");
     }
 
     private List<String> getClassesUnder(String aPath, String prefix) {
-		List<String> classes = new ArrayList<String>();
-		ClassSourceType cst = getClassSourceType(aPath);
+        List<String> classes = new ArrayList<String>();
+        ClassSourceType cst = getClassSourceType(aPath);
 
-		// Get the dex file from an apk
-		if (cst == ClassSourceType.apk) {
-			ZipFile archive = null;
-			try {
-				archive = new ZipFile(aPath);
-				for (Enumeration<? extends ZipEntry> entries = archive.entries(); entries.hasMoreElements();) {
-					ZipEntry entry = entries.nextElement();
-					String entryName = entry.getName();
-					// We are dealing with an apk file
-					if (entryName.endsWith(".dex"))
-						if (Options.v().process_multiple_dex() || entryName.equals("classes.dex"))
-							classes.addAll(DexClassProvider.classesOfDex(new File(aPath), entryName));
-				}
-			} catch (IOException e) {
-				throw new CompilationDeathException("Error reasing archive '" + aPath + "'",e);
-			}finally{
-				try{
-					if(archive != null)
-						archive.close();
-				}catch(Throwable t) {}
-			}
-		}
-		// Directly load a dex file
-		else if (cst == ClassSourceType.dex) {
-			try {
-				classes.addAll(DexClassProvider.classesOfDex(new File(aPath)));
-			} catch (IOException e) {
-				throw new CompilationDeathException("Error reasing '" + aPath + "'",e);
-			}
-		}
-		// load Java class files from ZIP and JAR
-		else if (cst == ClassSourceType.jar || cst == ClassSourceType.zip) {
-			Set<String> dexEntryNames = new HashSet<String>();
-			ZipFile archive = null;
-			try {
-				archive = new ZipFile(aPath);
-				for (Enumeration<? extends ZipEntry> entries = archive.entries(); entries.hasMoreElements();) {
-					ZipEntry entry = entries.nextElement();
-					String entryName = entry.getName();
-					if(entryName.endsWith(".class") || entryName.endsWith(".jimple")){
-						int extensionIndex = entryName.lastIndexOf('.');
-						entryName = entryName.substring(0, extensionIndex);
-						entryName = entryName.replace('/', '.');
-						classes.add(prefix + entryName);
-					}
-					else if(entryName.endsWith(".dex")){
-						dexEntryNames.add(entryName);
-					}
-				}
-			} catch (Throwable e) {
-				throw new CompilationDeathException("Error reading archive '" + aPath + "'", e);
-			}finally{
-				try{
-					if(archive != null)
-						archive.close();
-				}catch(Throwable t) {}
-			}
+        // Get the dex file from an apk
+        if (cst == ClassSourceType.apk) {
+            ZipFile archive = null;
+            try {
+                archive = new ZipFile(aPath);
+                for (Enumeration<? extends ZipEntry> entries = archive.entries(); entries.hasMoreElements();) {
+                    ZipEntry entry = entries.nextElement();
+                    String entryName = entry.getName();
+                    // We are dealing with an apk file
+                    if (entryName.endsWith(".dex"))
+                        if (Options.v().process_multiple_dex() || entryName.equals("classes.dex"))
+                            classes.addAll(DexClassProvider.classesOfDex(new File(aPath), entryName));
+                }
+            } catch (IOException e) {
+                throw new CompilationDeathException("Error reasing archive '" + aPath + "'",e);
+            }finally{
+                try{
+                    if(archive != null)
+                        archive.close();
+                }catch(Throwable t) {}
+            }
+        }
+        // Directly load a dex file
+        else if (cst == ClassSourceType.dex) {
+            try {
+                classes.addAll(DexClassProvider.classesOfDex(new File(aPath)));
+            } catch (IOException e) {
+                throw new CompilationDeathException("Error reasing '" + aPath + "'",e);
+            }
+        }
+        // load Java class files from ZIP and JAR
+        else if (cst == ClassSourceType.jar || cst == ClassSourceType.zip) {
+            Set<String> dexEntryNames = new HashSet<String>();
+            ZipFile archive = null;
+            try {
+                archive = new ZipFile(aPath);
+                for (Enumeration<? extends ZipEntry> entries = archive.entries(); entries.hasMoreElements();) {
+                    ZipEntry entry = entries.nextElement();
+                    String entryName = entry.getName();
+                    if(entryName.endsWith(".class") || entryName.endsWith(".jimple")){
+                        int extensionIndex = entryName.lastIndexOf('.');
+                        entryName = entryName.substring(0, extensionIndex);
+                        entryName = entryName.replace('/', '.');
+                        classes.add(prefix + entryName);
+                    }
+                    else if(entryName.endsWith(".dex")){
+                        dexEntryNames.add(entryName);
+                    }
+                }
+            } catch (Throwable e) {
+                throw new CompilationDeathException("Error reading archive '" + aPath + "'", e);
+            }finally{
+                try{
+                    if(archive != null)
+                        archive.close();
+                }catch(Throwable t) {}
+            }
 
-			if(!dexEntryNames.isEmpty()){
-				File file = new File(aPath);
-				if(Options.v().process_multiple_dex()){
-					for(String dexEntryName : dexEntryNames){
-						try {
-							classes.addAll(DexClassProvider.classesOfDex(
-									file,dexEntryName));
-						} catch (Throwable e) {} /* Ignore unreadable files */
-					}
-				}else{
-					try {
-						classes.addAll(DexClassProvider.classesOfDex(file));
-					} catch (Throwable e) {} /* Ignore unreadable files */
-				}
-			}
-		}
-		else if (cst == ClassSourceType.directory) {
-			File file = new File(aPath);
+            if(!dexEntryNames.isEmpty()){
+                File file = new File(aPath);
+                if(Options.v().process_multiple_dex()){
+                    for(String dexEntryName : dexEntryNames){
+                        try {
+                            classes.addAll(DexClassProvider.classesOfDex(
+                                    file,dexEntryName));
+                        } catch (Throwable e) {} /* Ignore unreadable files */
+                    }
+                }else{
+                    try {
+                        classes.addAll(DexClassProvider.classesOfDex(file));
+                    } catch (Throwable e) {} /* Ignore unreadable files */
+                }
+            }
+        }
+        else if (cst == ClassSourceType.directory) {
+            File file = new File(aPath);
 
-			File[] files = file.listFiles();
-			if (files == null) {
-				files = new File[1];
-				files[0] = file;
-			}
+            File[] files = file.listFiles();
+            if (files == null) {
+                files = new File[1];
+                files[0] = file;
+            }
 
-			for (File element : files) {
-				if (element.isDirectory()) {
-					classes.addAll(getClassesUnder(aPath + File.separatorChar + element.getName(),
-							prefix + element.getName() + "."));
-				} else {
-					String fileName = element.getName();
+            for (File element : files) {
+                if (element.isDirectory()) {
+                    classes.addAll(getClassesUnder(aPath + File.separatorChar + element.getName(),
+                            prefix + element.getName() + "."));
+                } else {
+                    String fileName = element.getName();
 
-					if (fileName.endsWith(".class")) {
-						int index = fileName.lastIndexOf(".class");
-						classes.add(prefix + fileName.substring(0, index));
-					}else if (fileName.endsWith(".jimple")) {
-						int index = fileName.lastIndexOf(".jimple");
-						classes.add(prefix + fileName.substring(0, index));
-					}else if (fileName.endsWith(".java")) {
-						int index = fileName.lastIndexOf(".java");
-						classes.add(prefix + fileName.substring(0, index));
-					}else if (fileName.endsWith(".dex")) {
-						try {
-							classes.addAll(DexClassProvider.classesOfDex(element));
-						} catch (IOException e) { /* Ignore unreadable files */
-						}
-					}
-				}
-			}
-		}
-		else
-			throw new RuntimeException("Invalid class source type");
-		return classes;
-	}
+                    if (fileName.endsWith(".class")) {
+                        int index = fileName.lastIndexOf(".class");
+                        classes.add(prefix + fileName.substring(0, index));
+                    }else if (fileName.endsWith(".jimple")) {
+                        int index = fileName.lastIndexOf(".jimple");
+                        classes.add(prefix + fileName.substring(0, index));
+                    }else if (fileName.endsWith(".java")) {
+                        int index = fileName.lastIndexOf(".java");
+                        classes.add(prefix + fileName.substring(0, index));
+                    }else if (fileName.endsWith(".dex")) {
+                        try {
+                            classes.addAll(DexClassProvider.classesOfDex(element));
+                        } catch (IOException e) { /* Ignore unreadable files */
+                        }
+                    }
+                }
+            }
+        }
+        else
+            throw new RuntimeException("Invalid class source type");
+        return classes;
+    }
 
     public String getFileNameFor(SootClass c, int rep) {
         if (rep == Options.output_format_none)
@@ -379,7 +339,7 @@ public class SourceLocator
         while (strtok.hasMoreTokens()) {
             String path = strtok.nextToken();
             if(getClassSourceType(path) != ClassSourceType.directory) {
-            	continue;
+                continue;
             }
             // For jimple files
             List<String> l = getClassesUnder(path);
@@ -398,7 +358,7 @@ public class SourceLocator
             }
             l = getClassesUnder(path);
             for (String string : l)
-				set.add(str + "." + string);
+                set.add(str + "." + string);
         }
         return set;
     }
@@ -502,7 +462,7 @@ public class SourceLocator
         List<String> ret = new ArrayList<String>();
 
         StringTokenizer tokenizer =
-            new StringTokenizer(classPath, File.pathSeparator);
+                new StringTokenizer(classPath, File.pathSeparator);
         while( tokenizer.hasMoreTokens() ) {
             String originalDir = tokenizer.nextToken();
             String canonicalDir;
@@ -517,161 +477,161 @@ public class SourceLocator
     }
 
     public static class FoundFile {
-    	private File file;
+        private File file;
         private String entryName;
         private ZipFile zipFile;
         private ZipEntry zipEntry;
         private List<InputStream> openedInputStreams;
 
         public FoundFile(String archivePath, String entryName) {
-        	this();
-        	if(archivePath == null || entryName == null)
-        		throw new IllegalArgumentException("Error: The archive path and entry name cannot be null.");
-        	this.file = new File(archivePath);
-        	this.entryName = entryName;
+            this();
+            if(archivePath == null || entryName == null)
+                throw new IllegalArgumentException("Error: The archive path and entry name cannot be null.");
+            this.file = new File(archivePath);
+            this.entryName = entryName;
         }
 
         public FoundFile(File file) {
-        	this();
-        	if(file == null)
-        		throw new IllegalArgumentException("Error: The file cannot be null.");
+            this();
+            if(file == null)
+                throw new IllegalArgumentException("Error: The file cannot be null.");
             this.file = file;
             this.entryName = null;
         }
 
         private FoundFile() {
-        	this.zipFile = null;
-        	this.zipEntry = null;
-        	this.openedInputStreams = new ArrayList<InputStream>();
+            this.zipFile = null;
+            this.zipEntry = null;
+            this.openedInputStreams = new ArrayList<InputStream>();
         }
 
         public String getFilePath() {
-        	return file.getPath();
+            return file.getPath();
         }
 
         public boolean isZipFile() {
-        	return entryName != null;
+            return entryName != null;
         }
 
         public File getFile() {
-        	return file;
+            return file;
         }
 
         public InputStream inputStream() {
-        	InputStream ret = null;
-        	if(!isZipFile()) {
-        		try{
-        			ret = new FileInputStream(file);
-        		} catch(Exception e) {
-        			throw new RuntimeException("Error: Failed to open a InputStream for the file at path '" + file.getPath() + "'.",e);
-        		}
-        	} else {
-        		if(zipFile == null) {
-        			try {
-        				zipFile = new ZipFile(file);
-        				zipEntry = zipFile.getEntry(entryName);
-        				if(zipEntry == null) {
-        					silentClose();
-        					throw new RuntimeException("Error: Failed to find entry '" + entryName + "' in the archive file at path '" +
-        							file.getPath() + "'.");
-        				}
-        			} catch(Exception e) {
-        				silentClose();
-        				throw new RuntimeException("Error: Failed to open the archive file at path '" + file.getPath() + "' for entry '" +
-        						entryName + "'.",e);
-        			}
-        		}
+            InputStream ret = null;
+            if(!isZipFile()) {
+                try{
+                    ret = new FileInputStream(file);
+                } catch(Exception e) {
+                    throw new RuntimeException("Error: Failed to open a InputStream for the file at path '" + file.getPath() + "'.",e);
+                }
+            } else {
+                if(zipFile == null) {
+                    try {
+                        zipFile = new ZipFile(file);
+                        zipEntry = zipFile.getEntry(entryName);
+                        if(zipEntry == null) {
+                            silentClose();
+                            throw new RuntimeException("Error: Failed to find entry '" + entryName + "' in the archive file at path '" +
+                                    file.getPath() + "'.");
+                        }
+                    } catch(Exception e) {
+                        silentClose();
+                        throw new RuntimeException("Error: Failed to open the archive file at path '" + file.getPath() + "' for entry '" +
+                                entryName + "'.",e);
+                    }
+                }
 
-        		InputStream stream = null;
-        		try{
-        			stream = zipFile.getInputStream(zipEntry);
-        			ret = doJDKBugWorkaround(stream, zipEntry.getSize());
-        		} catch(Exception e){
-        			throw new RuntimeException("Error: Failed to open a InputStream for the entry '" + zipEntry.getName() +
-        					"' of the archive at path '" + zipFile.getName() + "'.",e);
-        		}
-        		finally {
-        			if (stream != null) {
-						try {
-							stream.close();
-						}
-        				catch (IOException e) {
-							// There's not much we can do here
-						}
-        			}
-        		}
-        	}
+                InputStream stream = null;
+                try{
+                    stream = zipFile.getInputStream(zipEntry);
+                    ret = doJDKBugWorkaround(stream, zipEntry.getSize());
+                } catch(Exception e){
+                    throw new RuntimeException("Error: Failed to open a InputStream for the entry '" + zipEntry.getName() +
+                            "' of the archive at path '" + zipFile.getName() + "'.",e);
+                }
+                finally {
+                    if (stream != null) {
+                        try {
+                            stream.close();
+                        }
+                        catch (IOException e) {
+                            // There's not much we can do here
+                        }
+                    }
+                }
+            }
 
-        	openedInputStreams.add(ret);
-        	return ret;
+            openedInputStreams.add(ret);
+            return ret;
         }
 
         public void silentClose() {
-        	try {
-        		close();
-        	} catch(Exception e) {}
+            try {
+                close();
+            } catch(Exception e) {}
         }
 
         public void close(){
-        	//Try to close all opened input streams
-        	List<Exception> errs = new ArrayList<Exception>();
-        	for(Iterator<InputStream> it = openedInputStreams.iterator(); it.hasNext();){
-        		InputStream is = it.next();
-        		try {
-        			is.close();
-        		} catch(Exception e) {
-        			errs.add(e);//record errors for later
-        		}
-        		it.remove();//remove the stream no matter what
-        	}
-        	//Try to close the opened zip file if it exists
-        	if(zipFile != null) {
-        		try {
-        			zipFile.close();
-        			errs.clear();//Successfully closed the archive so all input streams were closed successfully also
-        		} catch(Exception e) {
-        			errs.add(e);
-        		}
-        		zipFile = null;//set to null no matter what
-        		zipEntry = null;//set to null no matter what
-        	}
-        	//Throw single exception combining all errors
-        	if(!errs.isEmpty()) {
-        		String msg = null;
-    			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    			PrintStream ps = null;
-    			try {
-    				ps = new PrintStream(baos,true,"utf-8");
-    				ps.println("Error: Failed to close all opened resources. The following exceptions were thrown in the process: ");
-    				int i = 0;
-    				for(Throwable t : errs){
-    					ps.print("Exception ");
-    					ps.print(i++);
-    					ps.print(": ");
-    					t.printStackTrace(ps);
-    				}
-    				msg = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-    			} catch(Exception e) {
-    				//Do nothing as this will never occur
-    			} finally {
-    				ps.close();
-    			}
-    			throw new RuntimeException(msg);
-        	}
+            //Try to close all opened input streams
+            List<Exception> errs = new ArrayList<Exception>();
+            for(Iterator<InputStream> it = openedInputStreams.iterator(); it.hasNext();){
+                InputStream is = it.next();
+                try {
+                    is.close();
+                } catch(Exception e) {
+                    errs.add(e);//record errors for later
+                }
+                it.remove();//remove the stream no matter what
+            }
+            //Try to close the opened zip file if it exists
+            if(zipFile != null) {
+                try {
+                    zipFile.close();
+                    errs.clear();//Successfully closed the archive so all input streams were closed successfully also
+                } catch(Exception e) {
+                    errs.add(e);
+                }
+                zipFile = null;//set to null no matter what
+                zipEntry = null;//set to null no matter what
+            }
+            //Throw single exception combining all errors
+            if(!errs.isEmpty()) {
+                String msg = null;
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                PrintStream ps = null;
+                try {
+                    ps = new PrintStream(baos,true,"utf-8");
+                    ps.println("Error: Failed to close all opened resources. The following exceptions were thrown in the process: ");
+                    int i = 0;
+                    for(Throwable t : errs){
+                        ps.print("Exception ");
+                        ps.print(i++);
+                        ps.print(": ");
+                        t.printStackTrace(ps);
+                    }
+                    msg = new String(baos.toByteArray(), StandardCharsets.UTF_8);
+                } catch(Exception e) {
+                    //Do nothing as this will never occur
+                } finally {
+                    ps.close();
+                }
+                throw new RuntimeException(msg);
+            }
         }
 
         private InputStream doJDKBugWorkaround(InputStream is, long size) throws IOException {
-    		int sz = (int) size;
-    		byte[] buf = new byte[sz];
-    		final int N = 1024;
-    		int ln = 0;
-    		int count = 0;
-    		while (sz > 0 && (ln = is.read(buf, count, Math.min(N, sz))) != -1) {
-    			count += ln;
-    			sz -= ln;
-    		}
-    		return  new ByteArrayInputStream(buf);
-    	}
+            int sz = (int) size;
+            byte[] buf = new byte[sz];
+            final int N = 1024;
+            int ln = 0;
+            int count = 0;
+            while (sz > 0 && (ln = is.read(buf, count, Math.min(N, sz))) != -1) {
+                count += ln;
+                sz -= ln;
+            }
+            return  new ByteArrayInputStream(buf);
+        }
     }
 
     /** Searches for a file with the given name in the exploded classPath. */
@@ -686,7 +646,7 @@ public class SourceLocator
                 ret = lookupInDir(dir, fileName);
             }
             if( ret != null )
-            	return ret;
+                return ret;
         }
         return null;
     }
@@ -699,42 +659,42 @@ public class SourceLocator
     }
 
     private LoadingCache<String, Set<String>> archivePathsToEntriesCache = CacheBuilder.newBuilder()
-    		.initialCapacity(60)
-    		.maximumSize(500)
-    		.softValues()
-    		.concurrencyLevel(Runtime.getRuntime().availableProcessors())
-    		.build(
-    				new CacheLoader<String, Set<String>>(){
-						@Override
-						public Set<String> load(String archivePath) throws Exception {
-							ZipFile archive = null;
-							try {
-								archive = new ZipFile(archivePath);
-								Set<String> ret = new HashSet<String>();
-								Enumeration<? extends ZipEntry> it = archive.entries();
-								while(it.hasMoreElements()){
-									ret.add(it.nextElement().getName());
-								}
-								return ret;
-							} finally {
-								if(archive != null)
-									archive.close();
-							}
-						}
-    				}
-    );
+            .initialCapacity(60)
+            .maximumSize(500)
+            .softValues()
+            .concurrencyLevel(Runtime.getRuntime().availableProcessors())
+            .build(
+                    new CacheLoader<String, Set<String>>(){
+                        @Override
+                        public Set<String> load(String archivePath) throws Exception {
+                            ZipFile archive = null;
+                            try {
+                                archive = new ZipFile(archivePath);
+                                Set<String> ret = new HashSet<String>();
+                                Enumeration<? extends ZipEntry> it = archive.entries();
+                                while(it.hasMoreElements()){
+                                    ret.add(it.nextElement().getName());
+                                }
+                                return ret;
+                            } finally {
+                                if(archive != null)
+                                    archive.close();
+                            }
+                        }
+                    }
+            );
 
     private FoundFile lookupInArchive(String archivePath, String fileName) {
-    	Set<String> entryNames = null;
-    	try {
-    		entryNames = archivePathsToEntriesCache.get(archivePath);
-    	} catch(Exception e) {
-    		throw new RuntimeException("Error: Failed to retrieve the archive entries list for the archive at path '" + archivePath + "'.",e);
-    	}
-    	if(entryNames.contains(fileName)){
-    		return new FoundFile(archivePath, fileName);
-    	}
-    	return null;
+        Set<String> entryNames = null;
+        try {
+            entryNames = archivePathsToEntriesCache.get(archivePath);
+        } catch(Exception e) {
+            throw new RuntimeException("Error: Failed to retrieve the archive entries list for the archive at path '" + archivePath + "'.",e);
+        }
+        if(entryNames.contains(fileName)){
+            return new FoundFile(archivePath, fileName);
+        }
+        return null;
     }
 
     /** Returns the name of the class in which the (possibly inner) class
@@ -778,32 +738,32 @@ public class SourceLocator
      * @param index the index
      */
     public void setDexClassIndex(Map<String, File> index) {
-    	dexClassIndex = index;
+        dexClassIndex = index;
     }
 
-	public void extendClassPath(String newPathElement) {
-		classPath = null;
-		if (newPathElement.endsWith(".dex") || newPathElement.endsWith(".apk")) {
-			if (dexClassPathExtensions == null)
-				dexClassPathExtensions = new HashSet<String>();
-			dexClassPathExtensions.add(newPathElement);
-		}
-	}
+    public void extendClassPath(String newPathElement) {
+        classPath = null;
+        if (newPathElement.endsWith(".dex") || newPathElement.endsWith(".apk")) {
+            if (dexClassPathExtensions == null)
+                dexClassPathExtensions = new HashSet<String>();
+            dexClassPathExtensions.add(newPathElement);
+        }
+    }
 
-	/**
-	 * Gets all files that were added to the classpath later on and that have
-	 * not yet been processed for the dexClassIndex mapping
-	 * @return The set of dex or apk files that still need to be indexed
-	 */
-	public Set<String> getDexClassPathExtensions() {
-		return this.dexClassPathExtensions;
-	}
+    /**
+     * Gets all files that were added to the classpath later on and that have
+     * not yet been processed for the dexClassIndex mapping
+     * @return The set of dex or apk files that still need to be indexed
+     */
+    public Set<String> getDexClassPathExtensions() {
+        return this.dexClassPathExtensions;
+    }
 
-	/**
-	 * Clears the set of dex or apk files that still need to be indexed
-	 */
-	public void clearDexClassPathExtensions() {
-		this.dexClassPathExtensions = null;
-	}
+    /**
+     * Clears the set of dex or apk files that still need to be indexed
+     */
+    public void clearDexClassPathExtensions() {
+        this.dexClassPathExtensions = null;
+    }
 }
 

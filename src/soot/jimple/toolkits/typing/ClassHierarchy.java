@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClassHierarchy
 {
   /** Map: Scene -> ClassHierarchy **/
-  
+
   public final TypeNode OBJECT;
   public final TypeNode CLONEABLE;
   public final TypeNode SERIALIZABLE;
@@ -52,82 +52,82 @@ public class ClassHierarchy
   //public final TypeNode ERROR;
 
   /** All type node instances **/
-  private final List<TypeNode> typeNodeList = new ArrayList<TypeNode>();
-  
+  private final List<TypeNode> typeNodeList = new ArrayList<>();
+
   /** Map: Type -> TypeNode **/
-  private final Map<Type, TypeNode> typeNodeMap = new ConcurrentHashMap<Type, TypeNode>();
-  
+  private final Map<Type, TypeNode> typeNodeMap = new ConcurrentHashMap<>();
+
   /** Used to transform boolean, byte, short and char to int **/
   private final ToInt transform = new ToInt();
-  
+
   /** Used to create TypeNode instances **/
   private final ConstructorChooser make = new ConstructorChooser();
-  
+
   private ClassHierarchy(Scene scene)
   {
     if(scene == null)
-      {
-	throw new InternalTypingException();
-      }
+    {
+      throw new InternalTypingException();
+    }
 
     G.v().ClassHierarchy_classHierarchyMap.put(scene, this);
 
-    NULL = typeNode(NullType.v());
-    OBJECT = typeNode(RefType.v("java.lang.Object"));
+    NULL = typeNode(NullType.getInstance());
+    OBJECT = typeNode(RefType.newInstance("java.lang.Object"));
 
     // hack for J2ME library which does not have Cloneable and Serializable
     // reported by Stephen Chen
     if (!Options.v().j2me()) {
-      CLONEABLE = typeNode(RefType.v("java.lang.Cloneable"));
-      SERIALIZABLE = typeNode(RefType.v("java.io.Serializable"));
+      CLONEABLE = typeNode(RefType.newInstance("java.lang.Cloneable"));
+      SERIALIZABLE = typeNode(RefType.newInstance("java.io.Serializable"));
     } else {
       CLONEABLE = null;
       SERIALIZABLE = null;
     }
 
-    INT = typeNode(IntType.v());
+    INT = typeNode(IntType.getInstance());
   }
 
   /** Get the class hierarchy for the given scene. **/
   public static ClassHierarchy classHierarchy(Scene scene)
   {
     if(scene == null)
-      {
-	throw new InternalTypingException();
-      }
-    
+    {
+      throw new InternalTypingException();
+    }
+
     ClassHierarchy classHierarchy =
-      G.v().ClassHierarchy_classHierarchyMap.get(scene);
+            G.v().ClassHierarchy_classHierarchyMap.get(scene);
 
     if(classHierarchy == null)
-      {
-	classHierarchy = new ClassHierarchy(scene);
-      }
-    
+    {
+      classHierarchy = new ClassHierarchy(scene);
+    }
+
     return classHierarchy;
   }
 
   /** Get the type node for the given type. **/
   public TypeNode typeNode(Type type)
   {
-    if(type == null) 
-      {
-	throw new InternalTypingException();
-      }
-    
+    if(type == null)
+    {
+      throw new InternalTypingException();
+    }
+
     type = transform.toInt(type);
     TypeNode typeNode = typeNodeMap.get(type);
 
     if(typeNode == null)
-      {
-	int id = typeNodeList.size();
-	typeNodeList.add(null);
+    {
+      int id = typeNodeList.size();
+      typeNodeList.add(null);
 
-	typeNode = make.typeNode(id, type, this);
+      typeNode = make.typeNode(id, type, this);
 
-	typeNodeList.set(id, typeNode);
-	typeNodeMap.put(type, typeNode);
-      }
+      typeNodeList.set(id, typeNode);
+      typeNodeMap.put(type, typeNode);
+    }
 
     return typeNode;
   }
@@ -140,17 +140,17 @@ public class ClassHierarchy
 
     s.append("ClassHierarchy:{");
     for (TypeNode typeNode : typeNodeList) {
-	if(colon)
-	  {
-	    s.append(",");
-	  }
-	else
-	  {
-	    colon = true;
-	  }
-
-	s.append(typeNode);
+      if(colon)
+      {
+        s.append(",");
       }
+      else
+      {
+        colon = true;
+      }
+
+      s.append(typeNode);
+    }
     s.append("}");
 
     return s.toString();
@@ -162,7 +162,7 @@ public class ClassHierarchy
   private static class ToInt extends TypeSwitch
   {
     private Type result;
-    private final Type intType = IntType.v();
+    private final Type intType = IntType.getInstance();
 
     private ToInt()
     {
@@ -210,24 +210,24 @@ public class ClassHierarchy
     private ClassHierarchy hierarchy;
 
     private TypeNode result;
-    
+
     ConstructorChooser()
     {
     }
-    
+
     /** Create a new TypeNode instance for the type parameter. **/
     TypeNode typeNode(int id, Type type, ClassHierarchy hierarchy)
     {
       if(type == null || hierarchy == null)
-	{
-	  throw new InternalTypingException();
-	}
-      
+      {
+        throw new InternalTypingException();
+      }
+
       this.id = id;
       this.hierarchy = hierarchy;
-      
+
       type.apply(this);
-      
+
       return result;
     }
 

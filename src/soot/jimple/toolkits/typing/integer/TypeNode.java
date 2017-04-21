@@ -67,7 +67,7 @@ class TypeNode
     if(typeNode == this)
       return true;
 
-    return ClassHierarchy.v().hasAncestor_1(id, typeNode.id);
+    return ClassHierarchy.getInstance().hasAncestor_1(id, typeNode.id);
   }
 
   public boolean hasAncestor_2(TypeNode typeNode)
@@ -75,17 +75,17 @@ class TypeNode
     if(typeNode == this)
       return true;
     
-    return ClassHierarchy.v().hasAncestor_2(id, typeNode.id);
+    return ClassHierarchy.getInstance().hasAncestor_2(id, typeNode.id);
   }
 
   /*  public boolean hasDescendant_1(TypeNode typeNode)
   {
-    return ClassHierarchy.v().hasDescendant_1(id, typeNode.id);
+    return ClassHierarchy.getInstance().hasDescendant_1(id, typeNode.id);
   }
 
   public boolean hasDescendant_2(TypeNode typeNode)
   {
-    return ClassHierarchy.v().hasDescendant_2(id, typeNode.id);
+    return ClassHierarchy.getInstance().hasDescendant_2(id, typeNode.id);
   }
 
   public boolean hasDescendantOrSelf_1(TypeNode typeNode)
@@ -106,22 +106,22 @@ class TypeNode
 
   public TypeNode lca_1(TypeNode typeNode)
   {
-    return ClassHierarchy.v().lca_1(id, typeNode.id);
+    return ClassHierarchy.getInstance().lca_1(id, typeNode.id);
   }
 
   public TypeNode lca_2(TypeNode typeNode)
   {
-    return ClassHierarchy.v().lca_2(id, typeNode.id);
+    return ClassHierarchy.getInstance().lca_2(id, typeNode.id);
   }
 
   public TypeNode gcd_1(TypeNode typeNode)
   {
-    return ClassHierarchy.v().gcd_1(id, typeNode.id);
+    return ClassHierarchy.getInstance().gcd_1(id, typeNode.id);
   }
 
   public TypeNode gcd_2(TypeNode typeNode)
   {
-    return ClassHierarchy.v().gcd_2(id, typeNode.id);
+    return ClassHierarchy.getInstance().gcd_2(id, typeNode.id);
   }
 
   public String toString()
@@ -131,22 +131,22 @@ class TypeNode
 	return type + "(" + id + ")";
       }
 
-    if(this == ClassHierarchy.v().TOP)
+    if(this == ClassHierarchy.getInstance().TOP)
       {
 	return "TOP" + "(" + id + ")";
       }
 
-    if(this == ClassHierarchy.v().R0_1)
+    if(this == ClassHierarchy.getInstance().R0_1)
       {
 	return "R0_1" + "(" + id + ")";
       }
 
-    if(this == ClassHierarchy.v().R0_127)
+    if(this == ClassHierarchy.getInstance().R0_127)
       {
 	return "R0_127" + "(" + id + ")";
       }
 
-    if(this == ClassHierarchy.v().R0_32767)
+    if(this == ClassHierarchy.getInstance().R0_32767)
       {
 	return "R0_32767" + "(" + id + ")";
       }

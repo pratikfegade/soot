@@ -44,7 +44,7 @@ public class JEnterMonitorStmt extends AbstractOpStmt
 {
     public JEnterMonitorStmt(Value op)
     {
-        this(Jimple.v().newImmediateBox(op));
+        this(Jimple.newImmediateBox(op));
     }
 
     protected JEnterMonitorStmt(ValueBox opBox)

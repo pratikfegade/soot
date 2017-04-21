@@ -62,10 +62,10 @@ public class NewArrayInstruction extends DexlibAbstractInstruction {
         // NewArrayExpr needs the ElementType as it increases the array dimension by 1
         Type arrayType = ((ArrayType) t).getElementType();
         
-        NewArrayExpr newArrayExpr = Jimple.v().newNewArrayExpr(arrayType, size);
+        NewArrayExpr newArrayExpr = Jimple.newNewArrayExpr(arrayType, size);
 
         Local l = body.getRegisterLocal(dest);
-        AssignStmt assign = Jimple.v().newAssignStmt(l, newArrayExpr);
+        AssignStmt assign = Jimple.newAssignStmt(l, newArrayExpr);
 
         setUnit(assign);
         addTags(assign);
@@ -73,7 +73,7 @@ public class NewArrayInstruction extends DexlibAbstractInstruction {
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          DalvikTyper.v().setType(newArrayExpr.getSizeBox(), IntType.v(), true);
+          DalvikTyper.v().setType(newArrayExpr.getSizeBox(), IntType.getInstance(), true);
           DalvikTyper.v().setType(assign.getLeftOpBox(), newArrayExpr.getType(), false);
         }
     }

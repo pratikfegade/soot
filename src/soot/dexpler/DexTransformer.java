@@ -92,20 +92,17 @@ public abstract class DexTransformer extends BodyTransformer {
 	 *            the local whose definitions are to collect
 	 * @param localDefs
 	 *            the LocalDefs object
-	 * @param body
-	 *            the body that contains the local
 	 */
 	private List<Unit> collectDefinitions(Local l, LocalDefs localDefs) {
 		return localDefs.getDefsOf(l);
 	}
 
-	protected Type findArrayType(LocalDefs localDefs,
-			Stmt arrayStmt, int depth, Set<Unit> alreadyVisitedDefs) {
+	protected Type findArrayType(LocalDefs localDefs, Stmt arrayStmt, int depth, Set<Unit> alreadyVisitedDefs) {
 		ArrayRef aRef = null;
 		if (arrayStmt.containsArrayRef()) {
 			aRef = arrayStmt.getArrayRef();
 		}
-		Local aBase = null;
+		Local aBase;
 
 		if (null == aRef) {
 			if (arrayStmt instanceof AssignStmt) {
@@ -133,7 +130,7 @@ public abstract class DexTransformer extends BodyTransformer {
 			Debug.printDbg("dextransformer: ", baseDef);
 			if (alreadyVisitedDefs.contains(baseDef))
 				continue;
-			Set<Unit> newVisitedDefs = new HashSet<Unit>(alreadyVisitedDefs);
+			Set<Unit> newVisitedDefs = new HashSet<>(alreadyVisitedDefs);
 			newVisitedDefs.add(baseDef);
 
 			// baseDef is either an assignment statement or an identity
@@ -249,8 +246,7 @@ public abstract class DexTransformer extends BodyTransformer {
 					nullDefCount++;
 				}
 				else {
-					throw new RuntimeException(
-							"ERROR: def statement not possible! " + stmt);
+					throw new RuntimeException("ERROR: def statement not possible! " + stmt);
 				}
 
 			} else if (baseDef instanceof IdentityStmt) {
@@ -275,7 +271,7 @@ public abstract class DexTransformer extends BodyTransformer {
 		
 		if (depth == 0 && aType == null) {
 			if (nullDefCount == defsOfaBaseList.size()) {
-				return NullType.v();
+				return NullType.getInstance();
 			}
 			else {
 				throw new RuntimeException(

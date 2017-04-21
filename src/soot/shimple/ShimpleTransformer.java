@@ -21,10 +21,8 @@ package soot.shimple;
 
 import soot.*;
 import soot.options.Options;
-import soot.singletons.Singletons;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Traverses all methods, in all classes from the Scene, and
@@ -35,10 +33,7 @@ import java.util.Map;
  **/
 public class ShimpleTransformer extends SceneTransformer
 {
-    public ShimpleTransformer( Singletons.Global g ) {}
-    public static ShimpleTransformer v() { return G.v().soot_shimple_ShimpleTransformer(); }
-
-    protected void internalTransform(String phaseName, Map options)
+    public void internalTransform()
     {
         if(Options.v().verbose())
             G.v().out.println("Transforming all classes in the Scene to Shimple...");
@@ -46,12 +41,12 @@ public class ShimpleTransformer extends SceneTransformer
         // *** FIXME: Add debug output to indicate which class/method is being shimplified.
         // *** FIXME: Is ShimpleTransformer the right solution?  The call graph may deem
         //            some classes unreachable.
-        
+
         Iterator classesIt = Scene.v().getClasses().iterator();
         while(classesIt.hasNext()){
             SootClass sClass = (SootClass) classesIt.next();
             if(sClass.isPhantom()) continue;
-            
+
             Iterator methodsIt = sClass.getMethods().iterator();
             while(methodsIt.hasNext()){
                 SootMethod method = (SootMethod) methodsIt.next();
@@ -59,7 +54,7 @@ public class ShimpleTransformer extends SceneTransformer
 
                 if(method.hasActiveBody()){
                     Body body = method.getActiveBody();
-                    ShimpleBody sBody = null;
+                    ShimpleBody sBody;
 
                     if(body instanceof ShimpleBody){
                         sBody = (ShimpleBody) body;
@@ -67,7 +62,7 @@ public class ShimpleTransformer extends SceneTransformer
                             sBody.rebuild();
                     }
                     else{
-                        sBody = Shimple.v().newBody(body);
+                        sBody = Shimple.getInstance().newBody(body);
                     }
 
                     method.setActiveBody(sBody);

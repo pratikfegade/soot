@@ -135,30 +135,30 @@ public class LocalNameStandardizer extends BodyTransformer
                         continue;
                 }
                     
-                if(l.getType().equals(BooleanType.v()))
+                if(l.getType().equals(BooleanType.getInstance()))
                     l.setName(prefix + "z" + intCount++);
-                else if(l.getType().equals(ByteType.v()))
+                else if(l.getType().equals(ByteType.getInstance()))
                     l.setName(prefix + "b" + longCount++);
-                else if(l.getType().equals(ShortType.v()))
+                else if(l.getType().equals(ShortType.getInstance()))
                     l.setName(prefix + "s" + longCount++);
-                else if(l.getType().equals(CharType.v()))
+                else if(l.getType().equals(CharType.getInstance()))
                     l.setName(prefix + "c" + longCount++);
-                else if(l.getType().equals(IntType.v()))
+                else if(l.getType().equals(IntType.getInstance()))
                     l.setName(prefix + "i" + longCount++);
-                else if(l.getType().equals(LongType.v()))
+                else if(l.getType().equals(LongType.getInstance()))
                     l.setName(prefix + "l" + longCount++);
-                else if(l.getType().equals(DoubleType.v()))
+                else if(l.getType().equals(DoubleType.getInstance()))
                     l.setName(prefix + "d" + doubleCount++);
-                else if(l.getType().equals(FloatType.v()))
+                else if(l.getType().equals(FloatType.getInstance()))
                     l.setName(prefix + "f" + floatCount++);
                 else if(l.getType().equals(StmtAddressType.v()))
                     l.setName(prefix + "a" + addressCount++);
                 else if(l.getType().equals(ErroneousType.v()) ||
-                    l.getType().equals(UnknownType.v()))
+                    l.getType().equals(UnknownType.getInstance()))
                 {
                     l.setName(prefix + "e" + errorCount++);
                 }
-                else if(l.getType().equals(NullType.v()))
+                else if(l.getType().equals(NullType.getInstance()))
                     l.setName(prefix + "n" + nullCount++);
                 else
                     l.setName(prefix + "r" + objectCount++);

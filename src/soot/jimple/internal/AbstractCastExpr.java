@@ -41,7 +41,7 @@ abstract public class AbstractCastExpr implements CastExpr
 
     AbstractCastExpr(Value op, Type type)
     {
-        this(Jimple.v().newImmediateBox(op), type);
+        this(Jimple.newImmediateBox(op), type);
     }
 
     public abstract Object clone();

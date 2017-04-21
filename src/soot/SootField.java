@@ -190,9 +190,9 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
 
     public void setModifiers(int modifiers)
     {
-        if (!declaringClass.isApplicationClass())
-            throw new RuntimeException("Cannot set modifiers of a field from a non-app class!");
-            
+//        if (!declaringClass.isApplicationClass())
+//            throw new RuntimeException("Cannot set modifiers of a field from a non-app class!");
+//
         this.modifiers = modifiers;
     }
 

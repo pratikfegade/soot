@@ -22,25 +22,22 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
  *   Soot representation of the Java built-in type 'short'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class ShortType extends PrimType implements IntegerType
 {
-    public ShortType( Singletons.Global g ) {}
-    public static ShortType v() { return G.v().soot_ShortType(); }
+    private static ShortType instance = null;
+    public static synchronized Type getInstance() {
+        if (instance == null)
+            instance = new ShortType();
+        return instance;
+    }
 
     public int hashCode()
     {
@@ -64,6 +61,6 @@ public class ShortType extends PrimType implements IntegerType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Short");
+    	return RefType.newInstance("java.lang.Short");
     }
 }

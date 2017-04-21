@@ -34,13 +34,11 @@ import soot.util.NumberedString;
 import java.util.*;
 
 /**
-    Soot representation of a Java method.  Can be declared to belong to a SootClass.
-    Does not contain the actual code, which belongs to a Body.
-    The getActiveBody() method points to the currently-active body.
-*/
-public class SootMethod
-    extends AbstractHost
-    implements ClassMember, Numberable, MethodOrMethodContext {
+ Soot representation of a Java method.  Can be declared to belong to a SootClass.
+ Does not contain the actual code, which belongs to a Body.
+ The getActiveBody() method points to the currently-active body.
+ */
+public class SootMethod extends AbstractHost implements ClassMember, Numberable, MethodOrMethodContext {
     public static final String constructorName = "<init>";
     public static final String staticInitializerName = "<clinit>";
     public static boolean DEBUG=false;
@@ -48,7 +46,7 @@ public class SootMethod
     private String name;
 
     /** A list of parameter types taken by this <code>SootMethod</code> object,
-      * in declaration order. */
+     * in declaration order. */
     private List<Type> parameterTypes;
 
     /** The return type of this object. */
@@ -77,34 +75,33 @@ public class SootMethod
 
     /** Uses methodSource to retrieve the method body in question; does not set it
      * to be the active body.
-     *
-     * @param phaseName       Phase name for body loading. */
-    private Body getBodyFromMethodSource(String phaseName) {
+     *  */
+    private Body getBodyFromMethodSource() {
 
-    	// We get a copy of the field value just in case another thread
-    	// overwrites the method source in the meantime. We then check
-    	// again whether we really need to load anything.
-    	//
-    	// The loader does something like this:
-    	//		(1) <a lot of stuff>
-    	// 		(2) activeBody = ...;
-    	//		(3) ms = null;
-    	//
-    	// We need to avoid the situation in which we don't have a body yet,
-    	// trigger the loader, and then another thread triggers
-    	// retrieveActiveBody() again. If the first loader is between
-    	// statements (2) and (3), we would pass the check on the body, but
-    	// but then find that the method source is already gone when the other
-    	// thread finally passes statement (3) before we attempt to use the
-    	// method source here.
-
+        // We get a copy of the field value just in case another thread
+        // overwrites the method source in the meantime. We then check
+        // again whether we really need to load anything.
+        //
+        // The loader does something like this:
+        //		(1) <a lot of stuff>
+        // 		(2) activeBody = ...;
+        //		(3) ms = null;
+        //
+        // We need to avoid the situation in which we don't have a body yet,
+        // trigger the loader, and then another thread triggers
+        // retrieveActiveBody() again. If the first loader is between
+        // statements (2) and (3), we would pass the check on the body, but
+        // but then find that the method source is already gone when the other
+        // thread finally passes statement (3) before we attempt to use the
+        // method source here.
 
 
-    	if (ms == null) {
+
+        if (ms == null) {
             System.out.println("No method source set for method " + this.getSignature());
             return null;
         }
-    	return ms.getBody(this);
+        return ms.getBody(this);
     }
 
     /** Sets the MethodSource of the current SootMethod. */
@@ -129,21 +126,21 @@ public class SootMethod
 
     /** Constructs a SootMethod with the given name, parameter types, return type and modifiers. */
     public SootMethod(
-        String name,
-        List<Type> parameterTypes,
-        Type returnType,
-        int modifiers) {
+            String name,
+            List<Type> parameterTypes,
+            Type returnType,
+            int modifiers) {
         this(name, parameterTypes, returnType, modifiers, Collections.emptyList());
     }
 
     /** Constructs a SootMethod with the given name, parameter types, return type,
-      * and list of thrown exceptions. */
+     * and list of thrown exceptions. */
     public SootMethod(
-        String name,
-        List<Type> parameterTypes,
-        Type returnType,
-        int modifiers,
-        List<SootClass> thrownExceptions) {
+            String name,
+            List<Type> parameterTypes,
+            Type returnType,
+            int modifiers,
+            List<SootClass> thrownExceptions) {
         this.name = name;
         this.parameterTypes = new ArrayList<Type>();
         this.parameterTypes.addAll(parameterTypes);
@@ -163,7 +160,7 @@ public class SootMethod
         }
         Scene.v().getMethodNumberer().add(this);
         subsignature =
-            Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+                Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
 
 
     }
@@ -182,10 +179,10 @@ public class SootMethod
      * that the method is not set to declared (isDeclared).
      */
     public void setDeclaringClass(SootClass declClass){
-	if(declClass != null){
-	    declaringClass=declClass;
-	    //setDeclared(true);
-	}
+        if(declClass != null){
+            declaringClass=declClass;
+            //setDeclared(true);
+        }
     }
 
     /** Returns the class which declares the current <code>SootMethod</code>. */
@@ -238,7 +235,7 @@ public class SootMethod
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
         this.name = name;
         subsignature =
-            Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+                Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
     }
 
@@ -267,8 +264,7 @@ public class SootMethod
         SootClass oldDeclaringClass = declaringClass;
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
         returnType = t;
-        subsignature =
-            Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+        subsignature = Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
     }
 
@@ -298,17 +294,17 @@ public class SootMethod
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
         this.parameterTypes = Collections.unmodifiableList(new ArrayList<Type>(l));
         subsignature =
-            Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+                Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
     }
 
     /**
-        Retrieves the active body for this method.
+     Retrieves the active body for this method.
      */
     public Body getActiveBody() {
         if (declaringClass!=null && declaringClass.isPhantomClass())
             throw new RuntimeException(
-                "cannot get active body for phantom class: " + getSignature());
+                    "cannot get active body for phantom class: " + getSignature());
 
         return activeBody;
     }
@@ -316,42 +312,42 @@ public class SootMethod
     /**
      * Returns the active body if present, else constructs an active body and returns that.
      *
-     * If you called Scene.v().loadClassAndSupport() for a class yourself, it will
+     * If you called Scene.getInstance().loadClassAndSupport() for a class yourself, it will
      * not be an application class, so you cannot get retrieve its active body.
      * Please call setApplicationClass() on the relevant class.
      */
 
     public Body retrieveActiveBody() {
-    	// If we already have a body for some reason, we just take it. In this case,
-    	// we don't care about resolving levels or whatever.
-    	if (hasActiveBody())
-    		return getActiveBody();
+        // If we already have a body for some reason, we just take it. In this case,
+        // we don't care about resolving levels or whatever.
+        if (hasActiveBody())
+            return getActiveBody();
 
         declaringClass.checkLevel(SootClass.BODIES);
         if (declaringClass.isPhantomClass())
             throw new RuntimeException(
-                "cannot get resident body for phantom class : "
-                    + getSignature()
-                    + "; maybe you want to call c.setApplicationClass() on this class!");
+                    "cannot get resident body for phantom class : "
+                            + getSignature()
+                            + "; maybe you want to call c.setApplicationClass() on this class!");
 
-        Body b = this.getBodyFromMethodSource("jb");
+        Body b = this.getBodyFromMethodSource();
         setActiveBody(b);
 
         // If configured, we drop the method source to save memory
         if (Options.v().drop_bodies_after_load())
-        	ms = null;
+            ms = null;
 
         return b;
     }
 
     /**
-        Sets the active body for this method.
+     Sets the active body for this method.
      */
     public void setActiveBody(Body body) {
         if ((declaringClass != null)
-            && declaringClass.isPhantomClass())
+                && declaringClass.isPhantomClass())
             throw new RuntimeException(
-                "cannot set active body for phantom class! " + this);
+                    "cannot set active body for phantom class! " + this);
 
         // If someone sets a body for a phantom method, this method then is no
         // longer phantom
@@ -359,7 +355,7 @@ public class SootMethod
 
         if (!isConcrete())
             throw new RuntimeException(
-                "cannot set body for non-concrete method! " + this);
+                    "cannot set body for non-concrete method! " + this);
 
         if (body!= null && body.getMethod() != this)
             body.setMethod(this);
@@ -384,29 +380,29 @@ public class SootMethod
     }
     /** Adds the given exception to the list of exceptions thrown by this method. */
     public void addException(SootClass e) {
-    	if(DEBUG)
-    		System.out.println("Adding exception "+e);
+        if(DEBUG)
+            System.out.println("Adding exception "+e);
 
         if (exceptions == null)
             exceptions = new ArrayList<SootClass>();
         else if (exceptions.contains(e))
             throw new RuntimeException(
-                "already throws exception " + e.getName());
+                    "already throws exception " + e.getName());
 
         exceptions.add(e);
     }
 
     /** Removes the given exception from the list of exceptions thrown by this method. */
     public void removeException(SootClass e) {
-    	if(DEBUG)
-    		System.out.println("Removing exception "+e);
+        if(DEBUG)
+            System.out.println("Removing exception "+e);
 
         if (exceptions == null)
             exceptions = new ArrayList<SootClass>();
 
         if (!exceptions.contains(e))
             throw new RuntimeException(
-                "does not throw exception " + e.getName());
+                    "does not throw exception " + e.getName());
 
         exceptions.remove(e);
     }
@@ -417,11 +413,11 @@ public class SootMethod
     }
 
     public void setExceptions(List<SootClass> exceptions) {
-    	if (exceptions != null && !exceptions.isEmpty()) {
-	        this.exceptions = new ArrayList<SootClass>(exceptions);
-	    }
-    	else
-    		this.exceptions = null;
+        if (exceptions != null && !exceptions.isEmpty()) {
+            this.exceptions = new ArrayList<SootClass>(exceptions);
+        }
+        else
+            this.exceptions = null;
     }
 
     /**
@@ -492,25 +488,25 @@ public class SootMethod
     }
 
     /**
-	 *
-	 * @return yes, if this function is a constructor. Please not that <clinit> methods are not treated as constructors in this method.
-	 */
-	public boolean isConstructor()
-	{
-		return name.equals(constructorName);
-	}
-
-	/**
-	 *
-	 * @return yes, if this function is a static initializer.
-	 */
-	public boolean isStaticInitializer()
-	{
-		return name.equals(staticInitializerName);
-	}
+     *
+     * @return yes, if this function is a constructor. Please not that <clinit> methods are not treated as constructors in this method.
+     */
+    public boolean isConstructor()
+    {
+        return name.equals(constructorName);
+    }
 
     /**
-        Returns the Soot signature of this method.  Used to refer to methods unambiguously.
+     *
+     * @return yes, if this function is a static initializer.
+     */
+    public boolean isStaticInitializer()
+    {
+        return name.equals(staticInitializerName);
+    }
+
+    /**
+     Returns the Soot signature of this method.  Used to refer to methods unambiguously.
      */
     public String getSignature() {
         return getSignature(getDeclaringClass(), getName(), getParameterTypes(), getReturnType());
@@ -530,7 +526,7 @@ public class SootMethod
     }
 
     /**
-        Returns the Soot subsignature of this method.  Used to refer to methods unambiguously.
+     Returns the Soot subsignature of this method.  Used to refer to methods unambiguously.
      */
     public String getSubSignature() {
         String name = getName();
@@ -541,16 +537,16 @@ public class SootMethod
     }
 
     public static String getSubSignature(
-        String name,
-        List<Type> params,
-        Type returnType) {
+            String name,
+            List<Type> params,
+            Type returnType) {
         return getSubSignatureImpl(name, params, returnType);
     }
 
     private static String getSubSignatureImpl(
-        String name,
-        List<Type> params,
-        Type returnType) {
+            String name,
+            List<Type> params,
+            Type returnType) {
         StringBuilder buffer = new StringBuilder();
 
         buffer.append(returnType.getEscapedName());
@@ -588,7 +584,7 @@ public class SootMethod
 
         // modifiers
         StringTokenizer st =
-            new StringTokenizer(Modifier.toString(this.getModifiers()));
+                new StringTokenizer(Modifier.toString(this.getModifiers()));
         if (st.hasMoreTokens())
             buffer.append(st.nextToken());
 
@@ -626,11 +622,11 @@ public class SootMethod
 
             if (exceptionIt.hasNext()) {
                 buffer.append(
-                    " throws " + exceptionIt.next().getName());
+                        " throws " + exceptionIt.next().getName());
 
                 while (exceptionIt.hasNext()) {
                     buffer.append(
-                        ", " + exceptionIt.next().getName());
+                            ", " + exceptionIt.next().getName());
                 }
             }
         }
@@ -652,20 +648,20 @@ public class SootMethod
 
     @Override
     public int getJavaSourceStartLineNumber() {
-    	super.getJavaSourceStartLineNumber();
-    	//search statements for first line number
-    	if(line==-1 && hasActiveBody()) {
-    		PatchingChain<Unit> unit = getActiveBody().getUnits();
-    		for (Unit u : unit) {
-    			int l = u.getJavaSourceStartLineNumber();
-    			if(l>-1) {
-    				//store l-1, as method header is usually one line before 1st statement
-    				line = l-1;
-    				break;
-    			}
-			}
-    	}
-    	return line;
+        super.getJavaSourceStartLineNumber();
+        //search statements for first line number
+        if(line==-1 && hasActiveBody()) {
+            PatchingChain<Unit> unit = getActiveBody().getUnits();
+            for (Unit u : unit) {
+                int l = u.getJavaSourceStartLineNumber();
+                if(l>-1) {
+                    //store l-1, as method header is usually one line before 1st statement
+                    line = l-1;
+                    break;
+                }
+            }
+        }
+        return line;
     }
 
 }

@@ -51,8 +51,8 @@ public class CastInstruction extends TaggedInstruction {
         int dest = i.getRegisterA();
         int source = i.getRegisterB();
         Type targetType = getTargetType();
-        CastExpr cast = Jimple.v().newCastExpr(body.getRegisterLocal(source), targetType);
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), cast);
+        CastExpr cast = Jimple.newCastExpr(body.getRegisterLocal(source), targetType);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), cast);
         assign.addTag (getTag());
         setUnit(assign);
         addTags(assign);
@@ -61,7 +61,7 @@ public class CastInstruction extends TaggedInstruction {
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint cast: "+ assign +" castexpr type: "+ cast.getType()+" cast type: "+ cast.getCastType());
           DalvikTyper.v().setType(assign.getLeftOpBox(), cast.getType(), false);
-          //DalvikTyper.v().captureAssign((JAssignStmt)assign, op);
+          //DalvikTyper.getInstance().captureAssign((JAssignStmt)assign, op);
         }
     }
 
@@ -77,53 +77,53 @@ public class CastInstruction extends TaggedInstruction {
         switch(opcode) {
         case INT_TO_BYTE:
             setTag (new IntOpTag());
-            return ByteType.v();
+            return ByteType.getInstance();
         case INT_TO_CHAR:
           setTag (new IntOpTag());
-            return CharType.v();
+            return CharType.getInstance();
         case INT_TO_SHORT:
           setTag (new IntOpTag());
-            return ShortType.v();
+            return ShortType.getInstance();
             
         case LONG_TO_INT:
           setTag (new LongOpTag());
-          return IntType.v();
+          return IntType.getInstance();
         case DOUBLE_TO_INT:
           setTag (new DoubleOpTag());
-          return IntType.v();
+          return IntType.getInstance();
         case FLOAT_TO_INT:
           setTag (new FloatOpTag());
-            return IntType.v();
+            return IntType.getInstance();
             
         case INT_TO_LONG:
           setTag (new IntOpTag());
-          return LongType.v();
+          return LongType.getInstance();
         case DOUBLE_TO_LONG:
           setTag (new DoubleOpTag());
-          return LongType.v();
+          return LongType.getInstance();
         case FLOAT_TO_LONG:
           setTag (new FloatOpTag());
-            return LongType.v();
+            return LongType.getInstance();
             
         case LONG_TO_FLOAT:
           setTag (new LongOpTag());
-          return FloatType.v();
+          return FloatType.getInstance();
         case DOUBLE_TO_FLOAT:
           setTag (new DoubleOpTag());
-          return FloatType.v();
+          return FloatType.getInstance();
         case INT_TO_FLOAT:
           setTag (new IntOpTag());
-            return FloatType.v();
+            return FloatType.getInstance();
             
         case INT_TO_DOUBLE:
           setTag (new IntOpTag());
-          return DoubleType.v();
+          return DoubleType.getInstance();
         case FLOAT_TO_DOUBLE:
           setTag (new FloatOpTag());
-          return DoubleType.v();
+          return DoubleType.getInstance();
         case LONG_TO_DOUBLE:
           setTag (new LongOpTag());
-            return DoubleType.v();
+            return DoubleType.getInstance();
 
         default:
             throw new RuntimeException("Invalid Opcode: " + opcode);

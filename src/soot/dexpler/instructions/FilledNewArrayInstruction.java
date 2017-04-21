@@ -56,7 +56,7 @@ public class FilledNewArrayInstruction extends FilledArrayInstruction {
                       filledNewArrayInstr.getRegisterF(),
                       filledNewArrayInstr.getRegisterG(),
                      };
-//        NopStmt nopStmtBeginning = Jimple.v().newNopStmt();
+//        NopStmt nopStmtBeginning = Jimple.getInstance().newNopStmt();
 //        body.add(nopStmtBeginning);
 
         int usedRegister = filledNewArrayInstr.getRegisterCount();
@@ -64,19 +64,19 @@ public class FilledNewArrayInstruction extends FilledArrayInstruction {
         Type t = DexType.toSoot((TypeReference) filledNewArrayInstr.getReference());
         // NewArrayExpr needs the ElementType as it increases the array dimension by 1
         Type arrayType = ((ArrayType) t).getElementType();
-        NewArrayExpr arrayExpr = Jimple.v().newNewArrayExpr(arrayType, IntConstant.v(usedRegister));
+        NewArrayExpr arrayExpr = Jimple.newNewArrayExpr(arrayType, IntConstant.v(usedRegister));
         // new local generated intentional, will be moved to real register by MoveResult
         Local arrayLocal = body.getStoreResultLocal();
-        AssignStmt assign = Jimple.v().newAssignStmt(arrayLocal, arrayExpr);
+        AssignStmt assign = Jimple.newAssignStmt(arrayLocal, arrayExpr);
         body.add (assign);
         for (int i = 0; i < usedRegister; i++) {
-          ArrayRef arrayRef = Jimple.v().newArrayRef(arrayLocal, IntConstant.v(i));
+          ArrayRef arrayRef = Jimple.newArrayRef(arrayLocal, IntConstant.v(i));
 
-          AssignStmt assign2 = Jimple.v().newAssignStmt(arrayRef, body.getRegisterLocal(regs[i]));
+          AssignStmt assign2 = Jimple.newAssignStmt(arrayRef, body.getRegisterLocal(regs[i]));
           addTags(assign2);
           body.add(assign2);
         }
-//      NopStmt nopStmtEnd = Jimple.v().newNopStmt();
+//      NopStmt nopStmtEnd = Jimple.getInstance().newNopStmt();
 //      body.add(nopStmtEnd);
 //      defineBlock(nopStmtBeginning, nopStmtEnd);
         setUnit (assign);
@@ -86,8 +86,8 @@ public class FilledNewArrayInstruction extends FilledArrayInstruction {
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
           DalvikTyper.v().setType(assign.getLeftOpBox(), arrayExpr.getType(), false);
-          //DalvikTyper.v().setType(array, arrayType, isUse)
-          //DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
+          //DalvikTyper.getInstance().setType(array, arrayType, isUse)
+          //DalvikTyper.getInstance().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
         }
 
 

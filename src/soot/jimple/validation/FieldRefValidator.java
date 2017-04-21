@@ -13,8 +13,8 @@ import soot.validation.ValidationException;
 import java.util.List;
 
 public enum FieldRefValidator implements BodyValidator {
-	INSTANCE;	
-	
+	INSTANCE;
+
 	public static FieldRefValidator v() {
 		return INSTANCE;
 	}
@@ -28,7 +28,7 @@ public enum FieldRefValidator implements BodyValidator {
 		SootMethod method = body.getMethod();
 		if (method.isAbstract())
 			return;
-		
+
 		Chain<Unit> units = body.getUnits().getNonPatchingChain();
 
 		for (Unit unit : units) {
@@ -63,7 +63,7 @@ public enum FieldRefValidator implements BodyValidator {
 				throw new RuntimeException("unknown field ref");
 			}
 		}
-    }
+	}
 
 
 	@Override

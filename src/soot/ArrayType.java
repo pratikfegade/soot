@@ -56,10 +56,10 @@ public class ArrayType extends RefLikeType
    
     private ArrayType(Type baseType, int numDimensions)
     {
-        if( !( baseType instanceof PrimType || baseType instanceof RefType
-        		|| baseType instanceof NullType ) )
+        if( !( baseType instanceof PrimType || baseType instanceof RefType || baseType instanceof NullType ) )
             throw new RuntimeException( "oops,  base type must be PrimType or RefType but not '"+ baseType +"'" );
-        if( numDimensions < 1 ) throw new RuntimeException( "attempt to create array with "+numDimensions+" dimensions" );
+        if( numDimensions < 1 )
+            throw new RuntimeException( "attempt to create array with "+numDimensions+" dimensions" );
         this.baseType = baseType;
         this.numDimensions = numDimensions;
     }
@@ -70,7 +70,7 @@ public class ArrayType extends RefLikeType
      *  @param numDimensions the dimension count to parametrize the ArrayType.
      *  @return an ArrayType parametrized accrodingly.
      */
-    public static ArrayType v(Type baseType, int numDimensions)
+    public static ArrayType getInstance(Type baseType, int numDimensions)
     {
     	if (numDimensions < 0)
         	throw new RuntimeException("Invalid number of array dimensions: " + numDimensions);
@@ -98,8 +98,6 @@ public class ArrayType extends RefLikeType
      */
     public boolean equals(Object t)
     {
-        return t == this;
-        /*
         if(t instanceof ArrayType)
         {
             ArrayType arrayType = (ArrayType) t;
@@ -109,7 +107,6 @@ public class ArrayType extends RefLikeType
         }
         else
             return false;
-            */
     }
 
     public void toString(UnitPrinter up)
@@ -162,13 +159,13 @@ public class ArrayType extends RefLikeType
      */
     public Type getElementType() {
 	if( numDimensions > 1 ) {
-	    return ArrayType.v( baseType, numDimensions-1 );
+	    return ArrayType.getInstance( baseType, numDimensions-1 );
 	} else {
 	    return baseType;
 	}
     }
     public ArrayType makeArrayType() {
-        return ArrayType.v( baseType, numDimensions+1 );
+        return ArrayType.getInstance( baseType, numDimensions+1 );
     }
     
     public boolean isAllowedInFinalCode() {

@@ -26,8 +26,7 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
     }
     
     @Override
-	protected void internalTransform(String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform() {
 		for (SootClass sc : Scene.v().getClasses()) {
 			transformClass(sc);
 		}
@@ -35,7 +34,7 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
     
 	public void transformClass(SootClass sc) {
 		SootMethod smInit = null;
-		Set<SootField> alreadyInitialized = new HashSet<SootField>();
+		Set<SootField> alreadyInitialized = new HashSet<>();
 				
 		for (SootField sf : sc.getFields()) {
 			// We can only create an initializer for static final fields that
@@ -54,27 +53,27 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
 				Stmt initStmt = null;
 				if (t instanceof DoubleConstantValueTag) {
 					double value = ((DoubleConstantValueTag) t).getDoubleValue();
-					initStmt = Jimple.v().newAssignStmt(Jimple.v().newStaticFieldRef(sf.makeRef()),
+					initStmt = Jimple.newAssignStmt(Jimple.newStaticFieldRef(sf.makeRef()),
 							DoubleConstant.v(value));
 				}
 				else if (t instanceof FloatConstantValueTag) {
 					float value = ((FloatConstantValueTag) t).getFloatValue();
-					initStmt = Jimple.v().newAssignStmt(Jimple.v().newStaticFieldRef(sf.makeRef()),
+					initStmt = Jimple.newAssignStmt(Jimple.newStaticFieldRef(sf.makeRef()),
 							FloatConstant.v(value));
 				}
 				else if (t instanceof IntegerConstantValueTag) {
 					int value = ((IntegerConstantValueTag) t).getIntValue();
-					initStmt = Jimple.v().newAssignStmt(Jimple.v().newStaticFieldRef(sf.makeRef()),
+					initStmt = Jimple.newAssignStmt(Jimple.newStaticFieldRef(sf.makeRef()),
 							IntConstant.v(value));
 				}
 				else if (t instanceof LongConstantValueTag) {
 					long value = ((LongConstantValueTag) t).getLongValue();
-					initStmt = Jimple.v().newAssignStmt(Jimple.v().newStaticFieldRef(sf.makeRef()),
+					initStmt = Jimple.newAssignStmt(Jimple.newStaticFieldRef(sf.makeRef()),
 							LongConstant.v(value));
 				}
 				else if (t instanceof StringConstantValueTag) {
 					String value = ((StringConstantValueTag) t).getStringValue();
-					initStmt = Jimple.v().newAssignStmt(Jimple.v().newStaticFieldRef(sf.makeRef()),
+					initStmt = Jimple.newAssignStmt(Jimple.newStaticFieldRef(sf.makeRef()),
 							StringConstant.v(value));
 				}
 				
@@ -89,7 +88,7 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
 		if (smInit != null) {
 			Chain<Unit> units = smInit.getActiveBody().getUnits();
 			if (units.isEmpty() || !(units.getLast() instanceof ReturnVoidStmt))
-				units.add(Jimple.v().newReturnVoidStmt());
+				units.add(Jimple.newReturnVoidStmt());
 		}
 	}
 
@@ -99,8 +98,8 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
 		// Create a static initializer if we don't already have one
 		smInit = sc.getMethodByNameUnsafe("<clinit>");
 		if (smInit == null) {
-			smInit = new SootMethod("<clinit>", Collections.emptyList(), VoidType.v());
-			smInit.setActiveBody(Jimple.v().newBody(smInit));
+			smInit = new SootMethod("<clinit>", Collections.emptyList(), new VoidType());
+			smInit.setActiveBody(Jimple.newBody(smInit));
 			sc.addMethod(smInit);
 			smInit.setModifiers(Modifier.PUBLIC | Modifier.STATIC);
 		}

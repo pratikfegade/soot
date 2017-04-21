@@ -52,9 +52,9 @@ public class ArrayLengthInstruction extends DexlibAbstractInstruction {
 
         Local arrayReference = body.getRegisterLocal(lengthOfArrayInstruction.getRegisterB());
 
-        LengthExpr lengthExpr = Jimple.v().newLengthExpr(arrayReference);
+        LengthExpr lengthExpr = Jimple.newLengthExpr(arrayReference);
 
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), lengthExpr);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), lengthExpr);
 
         setUnit(assign);
         addTags(assign);
@@ -62,7 +62,7 @@ public class ArrayLengthInstruction extends DexlibAbstractInstruction {
         
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
-          DalvikTyper.v().setType(assign.getLeftOpBox(), IntType.v(), false);      
+          DalvikTyper.v().setType(assign.getLeftOpBox(), IntType.getInstance(), false);
         }
     }
 

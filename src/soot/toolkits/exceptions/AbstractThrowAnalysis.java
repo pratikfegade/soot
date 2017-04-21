@@ -52,7 +52,7 @@ public abstract class AbstractThrowAnalysis implements ThrowAnalysis {
 			// not a
 			// RefType!");
 			ThrowableSet result = ThrowableSet.Manager.v().EMPTY;
-			return result.add(RefType.v("java.io.IOException"));
+			return result.add(RefType.newInstance("java.io.IOException"));
 		} else {
 			ThrowableSet result = ThrowableSet.Manager.v().EMPTY;
 

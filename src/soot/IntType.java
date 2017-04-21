@@ -22,25 +22,22 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
  *   Soot representation of the Java built-in type 'int'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class IntType extends PrimType implements IntegerType
 {
-    public IntType( Singletons.Global g ) {}
-    public static IntType v() { return G.v().soot_IntType(); }
+    private static IntType instance = null;
+    public static synchronized Type getInstance() {
+        if (instance == null)
+            instance = new IntType();
+        return instance;
+    }
 
     /** Returns true if the given object is equal to this one.
      * Since IntType is a singleton, object equality is fine. */
@@ -48,12 +45,12 @@ public class IntType extends PrimType implements IntegerType
     {
         return this == t;
     }
-    
+
     public int hashCode()
     {
         return 0xB747239F;
     }
-    
+
     public String toString()
     {
         return "int";
@@ -66,6 +63,6 @@ public class IntType extends PrimType implements IntegerType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Integer");
+        return RefType.newInstance("java.lang.Integer");
     }
 }

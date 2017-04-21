@@ -112,7 +112,7 @@ public class DexMethod {
 
         // sets the method source by adding its body as the active body
         sm.setSource(m -> {
-            Body b = Jimple.v().newBody(m);
+            Body b = Jimple.newBody(m);
             try {
                 //add the body of this code item
                 DexBody dexBody = new DexBody(dexFile, method, declaringClass.getType());

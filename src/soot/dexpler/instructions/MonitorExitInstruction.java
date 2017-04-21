@@ -44,14 +44,14 @@ public class MonitorExitInstruction extends DexlibAbstractInstruction {
     public void jimplify (DexBody body) {
         int reg = ((OneRegisterInstruction) instruction).getRegisterA();
         Local object = body.getRegisterLocal(reg);
-        ExitMonitorStmt exitMonitorStmt = Jimple.v().newExitMonitorStmt(object);
+        ExitMonitorStmt exitMonitorStmt = Jimple.newExitMonitorStmt(object);
         setUnit(exitMonitorStmt);
         addTags(exitMonitorStmt);
         body.add(exitMonitorStmt);
         
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ exitMonitorStmt);
-		    DalvikTyper.v().setType(exitMonitorStmt.getOpBox(), RefType.v("java.lang.Object"), true);
+		    DalvikTyper.v().setType(exitMonitorStmt.getOpBox(), RefType.newInstance("java.lang.Object"), true);
 		}
     }
 }

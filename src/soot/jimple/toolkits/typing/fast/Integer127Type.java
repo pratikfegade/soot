@@ -20,22 +20,20 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import soot.G;
 import soot.IntegerType;
 import soot.PrimType;
 import soot.RefType;
-import soot.singletons.Singletons;
 
 /**
  * @author Ben Bellamy
  */
 public class Integer127Type extends PrimType implements IntegerType {
+    private static Integer127Type instance = null;
 
-    public static Integer127Type v() {
-        return G.v().soot_jimple_toolkits_typing_fast_Integer127Type();
-    }
-
-    public Integer127Type(Singletons.Global g) {
+    public static synchronized Integer127Type getInstance() {
+        if (instance == null)
+            instance = new Integer127Type();
+        return instance;
     }
 
     public String toString() {
@@ -48,11 +46,11 @@ public class Integer127Type extends PrimType implements IntegerType {
 
     @Override
     public RefType boxedType() {
-        return RefType.v("java.lang.Integer");
+        return RefType.newInstance("java.lang.Integer");
     }
 
     @Override
-	public boolean isAllowedInFinalCode() {
-		return false;
-	}
+    public boolean isAllowedInFinalCode() {
+        return false;
+    }
 }

@@ -58,7 +58,7 @@ public class TrapSplitter extends BodyTransformer {
 				// We need to split off t1.start - predOf(t2.splitUnit). If both traps
 				// start at the same statement, this range is empty, so we have checked
 				// that.
-				Trap newTrap = Jimple.v().newTrap(to.t1.getException(), to.t1.getBeginUnit(),
+				Trap newTrap = Jimple.newTrap(to.t1.getException(), to.t1.getBeginUnit(),
 						to.t2Start, to.t1.getHandlerUnit());
 				safeAddTrap(b, newTrap, to.t1);
 				to.t1.setBeginUnit(to.t2Start);
@@ -71,7 +71,7 @@ public class TrapSplitter extends BodyTransformer {
 
 				if (firstEndUnit == to.t1.getEndUnit()) {
 					if (to.t1.getException() != to.t2.getException()) {
-						Trap newTrap = Jimple.v().newTrap(to.t2.getException(), to.t1.getBeginUnit(), firstEndUnit, to.t2.getHandlerUnit());
+						Trap newTrap = Jimple.newTrap(to.t2.getException(), to.t1.getBeginUnit(), firstEndUnit, to.t2.getHandlerUnit());
 						safeAddTrap(b, newTrap, to.t2);
 					} else if (to.t1.getHandlerUnit() != to.t2.getHandlerUnit()) {
 						// Traps t1 and t2 catch the same exception, but have different handlers
@@ -95,14 +95,14 @@ public class TrapSplitter extends BodyTransformer {
 						//
 						// t1 is first, so it stays the same.
 						// t2 is reduced
-						Trap newTrap = Jimple.v().newTrap(to.t1.getException(), to.t1.getBeginUnit(), firstEndUnit, to.t1.getHandlerUnit());
+						Trap newTrap = Jimple.newTrap(to.t1.getException(), to.t1.getBeginUnit(), firstEndUnit, to.t1.getHandlerUnit());
 						safeAddTrap(b, newTrap, to.t1);
 					}
 					to.t2.setBeginUnit(firstEndUnit);
 				}
 				else if (firstEndUnit == to.t2.getEndUnit()) {
 					if (to.t1.getException() != to.t2.getException()) {
-						Trap newTrap2 = Jimple.v().newTrap(to.t1.getException(), to.t1.getBeginUnit(), firstEndUnit, to.t1.getHandlerUnit());
+						Trap newTrap2 = Jimple.newTrap(to.t1.getException(), to.t1.getBeginUnit(), firstEndUnit, to.t1.getHandlerUnit());
 						safeAddTrap(b, newTrap2, to.t1);
 						to.t1.setBeginUnit(firstEndUnit);
 					} else if (to.t1.getHandlerUnit() != to.t2.getHandlerUnit()) {

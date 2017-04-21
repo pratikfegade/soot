@@ -46,8 +46,8 @@ public class JArrayRef implements ArrayRef
 
     public JArrayRef(Value base, Value index)
     {
-        this(Jimple.v().newLocalBox(base),
-             Jimple.v().newImmediateBox(index));
+        this(Jimple.newLocalBox(base),
+                Jimple.newImmediateBox(index));
     }
 
     protected JArrayRef(ValueBox baseBox, ValueBox indexBox)
@@ -55,8 +55,8 @@ public class JArrayRef implements ArrayRef
         this.baseBox = baseBox;
         this.indexBox = indexBox;
     }
-    
-    public Object clone() 
+
+    public Object clone()
     {
         return new JArrayRef(Jimple.cloneIfNecessary(getBase()), Jimple.cloneIfNecessary(getIndex()));
     }
@@ -64,15 +64,15 @@ public class JArrayRef implements ArrayRef
     public boolean equivTo(Object o)
     {
         if (o instanceof ArrayRef)
-          {
+        {
             return (getBase().equivTo(((ArrayRef)o).getBase())
                     && getIndex().equivTo(((ArrayRef)o).getIndex()));
-          }
+        }
         return false;
     }
 
     /** Returns a hash code for this object, consistent with structural equality. */
-    public int equivHashCode() 
+    public int equivHashCode()
     {
         return getBase().equivHashCode() * 101 + getIndex().equivHashCode() + 17;
     }
@@ -81,7 +81,7 @@ public class JArrayRef implements ArrayRef
     {
         return baseBox.getValue().toString() + "[" + indexBox.getValue().toString() + "]";
     }
-    
+
     public void toString(UnitPrinter up) {
         baseBox.toString(up);
         up.literal("[");
@@ -137,25 +137,21 @@ public class JArrayRef implements ArrayRef
         Value base = baseBox.getValue();
         Type type = base.getType();
 
-        if(type.equals(UnknownType.v()))
-            return UnknownType.v();
-        else if(type.equals(NullType.v()))
-            return NullType.v();
+        if(type.toString().equals("unknown"))
+            return UnknownType.getInstance();
+        else if(type.toString().equals("null_type"))
+            return NullType.getInstance();
         else {
-        	//use makeArrayType on non-array type references when they propagate to this point.
-        	//kludge, most likely not correct.
-        	//may stop spark from complaining when it gets passed phantoms.
-        	// ideally I'd want to find out just how they manage to get this far.
-        	ArrayType arrayType;
-        	if (type instanceof ArrayType)
-        		arrayType = (ArrayType) type;
-        	else
-        		arrayType = type.makeArrayType();
+            ArrayType arrayType;
+            if (type instanceof ArrayType)
+                arrayType = (ArrayType) type;
+            else
+                arrayType = type.makeArrayType();
 
             if(arrayType.numDimensions == 1)
                 return arrayType.baseType;
             else
-                return ArrayType.v(arrayType.baseType, arrayType.numDimensions - 1);
+                return ArrayType.getInstance(arrayType.baseType, arrayType.numDimensions - 1);
         }
     }
 

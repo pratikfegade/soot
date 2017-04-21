@@ -22,25 +22,22 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
  *   Soot representation of the Java built-in type 'long'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class LongType extends PrimType
 {
-    public LongType( Singletons.Global g ) {}
-    public static LongType v() { return G.v().soot_LongType(); }
+    private static LongType instance = null;
+    public static synchronized Type getInstance() {
+        if (instance == null)
+            instance = new LongType();
+        return instance;
+    }
 
     public boolean equals(Object t)
     {
@@ -64,6 +61,6 @@ public class LongType extends PrimType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Long");
+    	return RefType.newInstance("java.lang.Long");
     }
 }

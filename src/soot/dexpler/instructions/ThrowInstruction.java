@@ -42,14 +42,14 @@ public class ThrowInstruction extends DexlibAbstractInstruction {
 
     public void jimplify (DexBody body) {
         Instruction11x throwInstruction = (Instruction11x)instruction;
-        ThrowStmt throwStmt = Jimple.v().newThrowStmt(body.getRegisterLocal(throwInstruction.getRegisterA()));
+        ThrowStmt throwStmt = Jimple.newThrowStmt(body.getRegisterLocal(throwInstruction.getRegisterA()));
         setUnit(throwStmt);
         addTags(throwStmt);
         body.add(throwStmt);
 		
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ throwStmt);
-          DalvikTyper.v().setType(throwStmt.getOpBox(), RefType.v("java.lang.Throwable"), true);
+          DalvikTyper.v().setType(throwStmt.getOpBox(), RefType.newInstance("java.lang.Throwable"), true);
         }
     }
 }

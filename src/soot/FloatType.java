@@ -22,18 +22,9 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
-
-
-
 /**
  *   Soot representation of the Java built-in type 'float'. Implemented as
  *   a singleton.
@@ -41,8 +32,12 @@ import soot.util.Switch;
 @SuppressWarnings("serial")
 public class FloatType extends PrimType
 {
-    public FloatType( Singletons.Global g ) {}
-    public static FloatType v() { return G.v().soot_FloatType(); }
+    private static FloatType instance = null;
+    public static synchronized Type getInstance() {
+        if (instance == null)
+            instance = new FloatType();
+        return instance;
+    }
 
     public boolean equals(Object t)
     {
@@ -67,6 +62,6 @@ public class FloatType extends PrimType
 
     @Override
     public RefType boxedType() {
-    	return RefType.v("java.lang.Float");
+    	return RefType.newInstance("java.lang.Float");
     }
 }

@@ -52,8 +52,8 @@ public class DotGraphUtility {
     }
 
     /*
-    G.v().out.println("before "+original);
-    G.v().out.println("after  "+(new String(newsrc)));
+    G.getInstance().out.println("before "+original);
+    G.getInstance().out.println("after  "+(new String(newsrc)));
     */
 
     return new String(newsrc);
@@ -80,8 +80,8 @@ public class DotGraphUtility {
     }
 
     /*
-    G.v().out.println("before "+original);
-    G.v().out.println("after  "+(new String(newsrc)));
+    G.getInstance().out.println("before "+original);
+    G.getInstance().out.println("after  "+(new String(newsrc)));
     */
 
     return new String(newsrc);    

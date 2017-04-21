@@ -63,7 +63,7 @@ public class ConditionalBranchFolder  extends BodyTransformer
 
                     if (((IntConstant) cond).value == 1) {
                         // if condition always true, convert if to goto
-                        Stmt newStmt = Jimple.v().newGotoStmt(ifs.getTarget());                        
+                        Stmt newStmt = Jimple.newGotoStmt(ifs.getTarget());
                         units.insertAfter(newStmt, stmt);                        
                         numTrue++;
                     }

@@ -24,6 +24,8 @@ import soot.jimple.toolkits.base.Aggregator;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.options.Options;
+import soot.shimple.Shimple;
+import soot.shimple.ShimpleTransformer;
 import soot.toolkits.scalar.ConstantValueToInitializerTransformer;
 import soot.util.EscapedWriter;
 
@@ -48,9 +50,12 @@ public class JimplePackManager {
     }
 
     public void runPacks(Body b) {
-        for (Transform t : _pack.opts) {
+        // Apply the three Jimple body transformations
+        for (Transform t : _pack.opts)
             t.apply(b);
-        }
+
+        // Transform the method bodies of all classes in Scene to Shimple
+        //new ShimpleTransformer().internalTransform();
     }
 
     private Iterator<SootClass> classes() {
@@ -74,10 +79,6 @@ public class JimplePackManager {
             streamOut = new FileOutputStream(fileName);
         } catch (IOException e) {
             throw new CompilationDeathException("Cannot output file " + fileName,e);
-        }
-
-        if (Options.v().xml_attributes()) {
-            Printer.v().setOption(Printer.ADD_JIMPLE_LN);
         }
 
         switch (format) {

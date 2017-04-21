@@ -20,22 +20,19 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import soot.G;
 import soot.Type;
-import soot.singletons.Singletons;
 
 /**
  * @author Ben Bellamy
  */
 public class BottomType extends Type {
 
-    public static BottomType v() {
-        return G.v().soot_jimple_toolkits_typing_fast_BottomType();
+    private static BottomType instance = null;
+    public static synchronized BottomType getInstance() {
+        if (instance == null)
+            instance = new BottomType();
+        return instance;
     }
-
-    public BottomType(Singletons.Global g) {
-    }
-
     public String toString() {
         return "bottom_type";
     }

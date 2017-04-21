@@ -60,7 +60,7 @@ public class BinopLitInstruction extends TaggedInstruction {
 
         Value expr = getExpression(source1, constant);
 
-        AssignStmt assign = Jimple.v().newAssignStmt(body.getRegisterLocal(dest), expr);
+        AssignStmt assign = Jimple.newAssignStmt(body.getRegisterLocal(dest), expr);
         assign.addTag(getTag());
 
         setUnit(assign);
@@ -78,7 +78,7 @@ public class BinopLitInstruction extends TaggedInstruction {
           }
           BinopExpr bexpr = (BinopExpr)expr;
           //body.dvkTyper.setType((op == 1) ? bexpr.getOp2Box() : bexpr.getOp1Box(), op1BinType[op]);
-          DalvikTyper.v().setType(((JAssignStmt)assign).leftBox, op1BinType[op], false);
+          DalvikTyper.newInstance().setType(((JAssignStmt)assign).leftBox, op1BinType[op], false);
           */
         }
     }
@@ -91,61 +91,61 @@ public class BinopLitInstruction extends TaggedInstruction {
           setTag (new IntOpTag());
         case ADD_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newAddExpr(source1, source2);
+            return Jimple.newAddExpr(source1, source2);
 
         case RSUB_INT:
           setTag (new IntOpTag());
         case RSUB_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newSubExpr(source2, source1);
+            return Jimple.newSubExpr(source2, source1);
 
         case MUL_INT_LIT16:
           setTag (new IntOpTag());
         case MUL_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newMulExpr(source1, source2);
+            return Jimple.newMulExpr(source1, source2);
 
         case DIV_INT_LIT16:
           setTag (new IntOpTag());
         case DIV_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newDivExpr(source1, source2);
+            return Jimple.newDivExpr(source1, source2);
 
         case REM_INT_LIT16:
           setTag (new IntOpTag());
         case REM_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newRemExpr(source1, source2);
+            return Jimple.newRemExpr(source1, source2);
 
         case AND_INT_LIT8:
           setTag (new IntOpTag());
         case AND_INT_LIT16:
           setTag (new IntOpTag());
-            return Jimple.v().newAndExpr(source1, source2);
+            return Jimple.newAndExpr(source1, source2);
 
         case OR_INT_LIT16:
           setTag (new IntOpTag());
         case OR_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newOrExpr(source1, source2);
+            return Jimple.newOrExpr(source1, source2);
 
         case XOR_INT_LIT16:
           setTag (new IntOpTag());
         case XOR_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newXorExpr(source1, source2);
+            return Jimple.newXorExpr(source1, source2);
 
         case SHL_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newShlExpr(source1, source2);
+            return Jimple.newShlExpr(source1, source2);
 
         case SHR_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newShrExpr(source1, source2);
+            return Jimple.newShrExpr(source1, source2);
 
         case USHR_INT_LIT8:
           setTag (new IntOpTag());
-            return Jimple.v().newUshrExpr(source1, source2);
+            return Jimple.newUshrExpr(source1, source2);
 
         default :
             throw new RuntimeException("Invalid Opcode: " + opcode);

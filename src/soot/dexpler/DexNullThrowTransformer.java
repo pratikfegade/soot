@@ -6,7 +6,6 @@ import soot.jimple.toolkits.scalar.LocalCreation;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Some Android applications throw null references, e.g.,
@@ -53,22 +52,22 @@ public class DexNullThrowTransformer extends BodyTransformer {
 	 * @param lc The object for creating new locals
 	 */
 	private void createThrowStmt(Body body, Unit oldStmt, LocalCreation lc) {
-		RefType tp = RefType.v("java.lang.NullPointerException");
+		RefType tp = RefType.newInstance("java.lang.NullPointerException");
 		Local lcEx = lc.newLocal(tp);
 		
 		SootMethodRef constructorRef = Scene.v().makeConstructorRef(tp.getSootClass(),
-				Collections.singletonList(RefType.v("java.lang.String")));
+				Collections.singletonList(RefType.newInstance("java.lang.String")));
 		
 		// Create the exception instance
-		Stmt newExStmt = Jimple.v().newAssignStmt(lcEx, Jimple.v().newNewExpr(tp));
+		Stmt newExStmt = Jimple.newAssignStmt(lcEx, Jimple.newNewExpr(tp));
 		body.getUnits().insertBefore(newExStmt, oldStmt);
-		Stmt invConsStmt = Jimple.v().newInvokeStmt(Jimple.v().newVirtualInvokeExpr(lcEx,
+		Stmt invConsStmt = Jimple.newInvokeStmt(Jimple.newVirtualInvokeExpr(lcEx,
 				constructorRef, Collections.singletonList(StringConstant.v(
 						"Null throw statement replaced by Soot"))));
 		body.getUnits().insertBefore(invConsStmt, oldStmt);
 		
 		// Throw the exception
-		body.getUnits().swapWith(oldStmt, Jimple.v().newThrowStmt(lcEx));
+		body.getUnits().swapWith(oldStmt, Jimple.newThrowStmt(lcEx));
 	}
 	
 }

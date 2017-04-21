@@ -38,6 +38,6 @@ abstract public class AbstractIntBinopExpr extends AbstractBinopExpr
 {
     public Type getType()
     {
-        return IntType.v();
+        return IntType.getInstance();
     }
 }
