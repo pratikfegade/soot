@@ -35,7 +35,7 @@ public class DexNullThrowTransformer extends BodyTransformer {
 			// Check for a null exception
 			if (u instanceof ThrowStmt) {
 				ThrowStmt throwStmt = (ThrowStmt) u;
-				if (throwStmt.getOp() == NullConstant.v()
+				if (throwStmt.getOp() == NullConstant.getInstance()
 						|| throwStmt.getOp().equals(IntConstant.v(0))
 						|| throwStmt.getOp().equals(LongConstant.v(0))) {
 					createThrowStmt(b, throwStmt, lc);
@@ -55,7 +55,7 @@ public class DexNullThrowTransformer extends BodyTransformer {
 		RefType tp = RefType.newInstance("java.lang.NullPointerException");
 		Local lcEx = lc.newLocal(tp);
 		
-		SootMethodRef constructorRef = Scene.v().makeConstructorRef(tp.getSootClass(),
+		SootMethodRef constructorRef = Scene.getInstance().makeConstructorRef(tp.getSootClass(),
 				Collections.singletonList(RefType.newInstance("java.lang.String")));
 		
 		// Create the exception instance

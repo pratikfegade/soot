@@ -24,7 +24,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import soot.asm.AsmClassProvider;
 import soot.options.Options;
-import soot.singletons.Singletons;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -36,8 +35,13 @@ import java.util.zip.ZipFile;
  * a classfile, or jimple or baf output files. */
 public class SourceLocator
 {
-    public SourceLocator( Singletons.Global g ) {}
-    public static SourceLocator v() { return G.v().soot_SourceLocator(); }
+    private static SourceLocator instance = null;
+
+    public synchronized static SourceLocator v() {
+        if (instance == null)
+            instance = new SourceLocator();
+        return instance;
+    }
 
     protected Set<ClassLoader> additionalClassLoaders = new HashSet<ClassLoader>();
     protected Set<String> classesToLoad;
@@ -48,15 +52,15 @@ public class SourceLocator
     public ClassSource getClassSource(String className)
     {
         if(classesToLoad==null) {
-            classesToLoad = new HashSet<String>();
-            classesToLoad.addAll(Scene.v().getBasicClasses());
-            for(SootClass c: Scene.v().getApplicationClasses()) {
+            classesToLoad = new HashSet<>();
+            classesToLoad.addAll(Scene.getInstance().getBasicClasses());
+            for(SootClass c: Scene.getInstance().getApplicationClasses()) {
                 classesToLoad.add(c.getName());
             }
         }
 
         if( classPath == null ) {
-            classPath = explodeClassPath(Scene.v().getSootClassPath());
+            classPath = explodeClassPath(Scene.getInstance().getSootClassPath());
         }
         if( classProviders == null ) {
             setupClassProviders();
@@ -95,7 +99,7 @@ public class SourceLocator
     private void setupClassProviders() {
         classProviders = new LinkedList<>();
         ClassProvider classFileClassProvider = new AsmClassProvider();
-        switch( Options.v().src_prec() ) {
+        switch( Options.getInstance().src_prec() ) {
             case Options.src_prec_class:
                 classProviders.add(classFileClassProvider);
                 break;
@@ -127,9 +131,9 @@ public class SourceLocator
                         @Override
                         public ClassSourceType load(String path) throws Exception {
                             File f = new File(path);
-                            if(!f.exists() && !Options.v().ignore_classpath_errors())
+                            if(!f.exists() && !Options.getInstance().ignore_classpath_errors())
                                 throw new Exception("Error: The path '" + path + "' does not exist.");
-                            if(!f.canRead() && !Options.v().ignore_classpath_errors())
+                            if(!f.canRead() && !Options.getInstance().ignore_classpath_errors())
                                 throw new Exception("Error: The path '" + path + "' exists but is not readable.");
                             if(f.isFile()) {
                                 if (path.endsWith(".zip"))
@@ -174,7 +178,7 @@ public class SourceLocator
                     String entryName = entry.getName();
                     // We are dealing with an apk file
                     if (entryName.endsWith(".dex"))
-                        if (Options.v().process_multiple_dex() || entryName.equals("classes.dex"))
+                        if (Options.getInstance().process_multiple_dex() || entryName.equals("classes.dex"))
                             classes.addAll(DexClassProvider.classesOfDex(new File(aPath), entryName));
                 }
             } catch (IOException e) {
@@ -224,7 +228,7 @@ public class SourceLocator
 
             if(!dexEntryNames.isEmpty()){
                 File file = new File(aPath);
-                if(Options.v().process_multiple_dex()){
+                if(Options.getInstance().process_multiple_dex()){
                     for(String dexEntryName : dexEntryNames){
                         try {
                             classes.addAll(DexClassProvider.classesOfDex(
@@ -283,7 +287,7 @@ public class SourceLocator
 
         StringBuffer b = new StringBuffer();
 
-        if( !Options.v().output_jar() ) {
+        if( !Options.getInstance().output_jar() ) {
             b.append(getOutputDir());
 
             if (rep == Options.output_format_jimple || rep == Options.output_format_shimple)
@@ -335,7 +339,7 @@ public class SourceLocator
     public Set<String> classesInDynamicPackage(String str) {
         HashSet<String> set = new HashSet<String>(0);
         StringTokenizer strtok = new StringTokenizer(
-                Scene.v().getSootClassPath(), String.valueOf(File.pathSeparatorChar));
+                Scene.getInstance().getSootClassPath(), String.valueOf(File.pathSeparatorChar));
         while (strtok.hasMoreTokens()) {
             String path = strtok.nextToken();
             if(getClassSourceType(path) != ClassSourceType.directory) {
@@ -395,7 +399,7 @@ public class SourceLocator
             try {
                 dir.mkdirs();
             } catch (SecurityException se) {
-                G.v().out.println("Unable to create " + dir);
+                System.out.println("Unable to create " + dir);
                 throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
             }
         }
@@ -409,11 +413,11 @@ public class SourceLocator
      */
     public String getOutputDir() {
         File dir;
-        if (Options.v().output_dir().length() == 0) {
+        if (Options.getInstance().output_dir().length() == 0) {
             //Default if -output-dir was not set
             dir = new File("sootOutput");
         } else {
-            dir = new File(Options.v().output_dir());
+            dir = new File(Options.getInstance().output_dir());
             //If a Jar name was given as the output dir
             //  get its parent path (possibly empty)
             if (dir.getPath().endsWith(".jar")) {
@@ -429,7 +433,7 @@ public class SourceLocator
     }
 
     /**
-     * If {@link Options#v()#output_jar()} is set, returns the name of the jar
+     * If {@link Options#getInstance()#output_jar()} is set, returns the name of the jar
      * file to which the output will be written. The name of the jar file can be
      * given with the -output-dir option or a default will be used. Also ensures
      * that all directories in the path exist.
@@ -437,16 +441,16 @@ public class SourceLocator
      * @return the name of the Jar file to which outputs are written
      */
     public String getOutputJarName() {
-        if (!Options.v().output_jar()) {
+        if (!Options.getInstance().output_jar()) {
             return "";
         }
 
         File dir;
-        if (Options.v().output_dir().length() == 0) {
+        if (Options.getInstance().output_dir().length() == 0) {
             //Default if -output-dir was not set
             dir = new File("sootOutput/out.jar");
         } else {
-            dir = new File(Options.v().output_dir());
+            dir = new File(Options.getInstance().output_dir());
             //If a Jar name was not given, then supply default
             if (!dir.getPath().endsWith(".jar")) {
                 dir = new File(dir.getPath(), "out.jar");

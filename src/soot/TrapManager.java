@@ -40,7 +40,7 @@ public class TrapManager
          *  - caught exception is e;
          *  - and, unit lies between t.beginUnit and t.endUnit */
 
-        Hierarchy h = Scene.v().getActiveHierarchy();
+        Hierarchy h = Scene.getInstance().getActiveHierarchy();
         Chain<Unit> units = b.getUnits();
         
         for (Trap t : b.getTraps()) {

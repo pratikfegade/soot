@@ -40,22 +40,26 @@ public abstract class AbstractThrowAnalysis implements ThrowAnalysis {
 		Value thrownExpression = t.getOp();
 		Type thrownType = thrownExpression.getType();
 		if (thrownType == null || thrownType instanceof UnknownType) {
+
 			// We can't identify the type of thrownExpression, so...
-			return ThrowableSet.Manager.v().ALL_THROWABLES;
-		} else if (thrownType instanceof NullType) {
-			ThrowableSet result = ThrowableSet.Manager.v().EMPTY;
-			result = result.add(ThrowableSet.Manager.v().NULL_POINTER_EXCEPTION);
+			return ThrowableSet.Manager.ALL_THROWABLES;
+		}
+		else if (thrownType instanceof NullType) {
+
+			ThrowableSet result = ThrowableSet.Manager.EMPTY;
+			result = result.add(ThrowableSet.Manager.NULL_POINTER_EXCEPTION);
 			return result;
 		} else if (! (thrownType instanceof RefType)) {
-			//BAD HACK for a particular library class: throw new IllegalStateException("UnitThrowAnalysis StmtSwitch: type
+
+		    //BAD HACK for a particular library class: throw new IllegalStateException("UnitThrowAnalysis StmtSwitch: type
 			// of throw argument is
 			// not a
 			// RefType!");
-			ThrowableSet result = ThrowableSet.Manager.v().EMPTY;
+			ThrowableSet result = ThrowableSet.Manager.EMPTY;
 			return result.add(RefType.newInstance("java.io.IOException"));
 		} else {
-			ThrowableSet result = ThrowableSet.Manager.v().EMPTY;
 
+			ThrowableSet result = ThrowableSet.Manager.EMPTY;
 			result = result.add(AnySubType.v((RefType) thrownType));
 			return result;
 		}

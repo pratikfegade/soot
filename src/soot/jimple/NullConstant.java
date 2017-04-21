@@ -22,27 +22,20 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
-
-
 package soot.jimple;
 
-import soot.G;
 import soot.NullType;
 import soot.Type;
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 public class NullConstant extends Constant
 {
-    public NullConstant( Singletons.Global g ) {}
-    public static NullConstant v() { return G.v().soot_jimple_NullConstant(); }
+    private static NullConstant instance = null;
 
-    public boolean equals(Object c)
-    {
-        return c == G.v().soot_jimple_NullConstant();
+    public static NullConstant getInstance() {
+        if (instance == null)
+            instance = new NullConstant();
+        return instance;
     }
 
     public int hashCode() 

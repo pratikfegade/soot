@@ -70,14 +70,14 @@ public class ClassHierarchy
       throw new InternalTypingException();
     }
 
-    G.v().ClassHierarchy_classHierarchyMap.put(scene, this);
+    G.classHierarchyMap.put(scene, this);
 
     NULL = typeNode(NullType.getInstance());
     OBJECT = typeNode(RefType.newInstance("java.lang.Object"));
 
     // hack for J2ME library which does not have Cloneable and Serializable
     // reported by Stephen Chen
-    if (!Options.v().j2me()) {
+    if (!Options.getInstance().j2me()) {
       CLONEABLE = typeNode(RefType.newInstance("java.lang.Cloneable"));
       SERIALIZABLE = typeNode(RefType.newInstance("java.io.Serializable"));
     } else {
@@ -96,8 +96,7 @@ public class ClassHierarchy
       throw new InternalTypingException();
     }
 
-    ClassHierarchy classHierarchy =
-            G.v().ClassHierarchy_classHierarchyMap.get(scene);
+    ClassHierarchy classHierarchy = G.classHierarchyMap.get(scene);
 
     if(classHierarchy == null)
     {

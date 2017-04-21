@@ -344,7 +344,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 					// Case a = 0 with a being an object
 					if (isObject(stmt.getLeftOp().getType())
 							&& isConstZero(stmt.getRightOp())) {
-						stmt.setRightOp(NullConstant.v());
+						stmt.setRightOp(NullConstant.getInstance());
 						return;
 					}
 					
@@ -352,7 +352,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 					if (stmt.getRightOp() instanceof CastExpr) {
 						CastExpr ce = (CastExpr) stmt.getRightOp();
 						if (isObject(ce.getCastType()) && isConstZero(ce.getOp())) {
-							stmt.setRightOp(NullConstant.v());
+							stmt.setRightOp(NullConstant.getInstance());
 						}
 					}
 					
@@ -362,7 +362,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 						ArrayRef ar = (ArrayRef) stmt.getLeftOp();
 						if (isObjectArray(ar.getBase(), body)
 								|| stmt.hasTag("ObjectOpTag")) {
-							stmt.setRightOp(NullConstant.v());
+							stmt.setRightOp(NullConstant.getInstance());
 						}
 					}
 				}
@@ -379,20 +379,20 @@ public class DexNullTransformer extends AbstractNullTransformer {
 							&& isObject(body.getMethod().getReturnType())) {
 						IntConstant iconst = (IntConstant) stmt.getOp();
 						assert iconst.value == 0;
-						stmt.setOp(NullConstant.v());
+						stmt.setOp(NullConstant.getInstance());
 					}
 				}
 				
 				@Override
 				public void caseEnterMonitorStmt(EnterMonitorStmt stmt) {
 					if (stmt.getOp() instanceof IntConstant && ((IntConstant) stmt.getOp()).value == 0)
-						stmt.setOp(NullConstant.v());
+						stmt.setOp(NullConstant.getInstance());
 				}
 				
 				@Override
 				public void caseExitMonitorStmt(ExitMonitorStmt stmt) {
 					if (stmt.getOp() instanceof IntConstant && ((IntConstant) stmt.getOp()).value == 0)
-						stmt.setOp(NullConstant.v());
+						stmt.setOp(NullConstant.getInstance());
 				}
 				
 			});
@@ -406,7 +406,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 								IntConstant iconst = (IntConstant) invExpr
 										.getArg(i);
 								assert iconst.value == 0;
-								invExpr.setArg(i, NullConstant.v());
+								invExpr.setArg(i, NullConstant.getInstance());
 							}
 				}
 			}

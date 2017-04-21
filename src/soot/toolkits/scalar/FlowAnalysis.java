@@ -522,7 +522,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 		assert gv != null;
 		assert ifh != null;
 
-		ifh = Options.v().interactive_mode() ? ifh : InteractionFlowHandler.NONE;
+		ifh = Options.getInstance().interactive_mode() ? ifh : InteractionFlowHandler.NONE;
 
 		final List<Entry<N, A>> universe = Orderer.INSTANCE.newUniverse(graph, gv, entryInitialFlow(), isForward());
 		initFlow(universe, inFlow, outFlow);

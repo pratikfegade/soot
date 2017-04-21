@@ -34,7 +34,6 @@ import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.immutable.debug.ImmutableLineNumber;
 import org.jf.dexlib2.util.MethodUtil;
 import soot.*;
-import soot.Timer;
 import soot.dexpler.instructions.*;
 import soot.dexpler.typing.DalvikTyper;
 import soot.jimple.*;
@@ -225,14 +224,6 @@ public class DexBody  {
     }
 
     /**
-     * Return the Locals that are associated with the current register state.
-     *
-     */
-    public Local[] getRegisterLocals() {
-        return registerLocals;
-    }
-
-    /**
      * Return the Local that are associated with the number in the current
      * register state.
      *
@@ -284,12 +275,6 @@ public class DexBody  {
      * @param m the SootMethod that contains this body
      */
     public Body jimplify(Body b, SootMethod m) {
-
-        Timer t_whole_jimplification = new Timer();
-        Timer t_num = new Timer();
-        Timer t_null = new Timer();
-
-        t_whole_jimplification.start();
 
         jBody = (JimpleBody)b;
         deferredInstructions = new ArrayList<>();
@@ -370,7 +355,7 @@ public class DexBody  {
 
         ClassPath cp = null;
         if (isOdex) {
-            String[] sootClasspath = Options.v().soot_classpath().split(File.pathSeparator);
+            String[] sootClasspath = Options.getInstance().soot_classpath().split(File.pathSeparator);
             List<String> classpathList = new ArrayList<>();
             for (String str : sootClasspath)
                 classpathList.add(str);
@@ -455,7 +440,7 @@ public class DexBody  {
 
         // Remove dead code and the corresponding locals before assigning types
         getUnreachableCodeEliminator().transform(jBody);
-        UnusedLocalEliminator.v().transform(jBody);
+        new UnusedLocalEliminator().transform(jBody);
 
         Debug.printDbg("\nafter splitting");
         Debug.printDbg("",(Body)jBody);
@@ -481,7 +466,7 @@ public class DexBody  {
             getCopyPopagator().transform(jBody);
             DexNullThrowTransformer.v().transform(jBody);
             DalvikTyper.v().typeUntypedConstrantInDiv(jBody);
-            UnusedLocalEliminator.v().transform(jBody);
+            new UnusedLocalEliminator().transform(jBody);
 
             Debug.printDbg("[DalvikTyper] resolving typing constraints...");
             DalvikTyper.v().assignType(jBody);
@@ -496,18 +481,14 @@ public class DexBody  {
             Debug.printDbg("\nafter Dalvik Typer");
 
         } else {
-            t_num.start();
             DexNumTransformer.v().transform (jBody);
-            t_num.end();
 
             DexReturnValuePropagator.v().transform(jBody);
             //getCopyPopagator().transform(jBody);
 
             DexNullThrowTransformer.v().transform(jBody);
 
-            t_null.start();
             DexNullTransformer.v().transform(jBody);
-            t_null.end();
 
             DexIfTransformer.v().transform(jBody);
 
@@ -550,7 +531,7 @@ public class DexBody  {
                             int val = icst.value;
                             if (val != 0)
                                 continue;
-                            expr.setOp1(NullConstant.v());
+                            expr.setOp1(NullConstant.getInstance());
                         } else if (op1 instanceof Local && op2 instanceof Constant) {
                             Local l = (Local)op1;
                             Type ltype = l.getType();
@@ -562,7 +543,7 @@ public class DexBody  {
                             int val = icst.value;
                             if (val != 0)
                                 continue;
-                            expr.setOp2(NullConstant.v());
+                            expr.setOp2(NullConstant.getInstance());
                         } else if (op1 instanceof Local && op2 instanceof Local) {
                             // nothing to do
                         } else if (op1 instanceof Constant && op2 instanceof Constant) {
@@ -571,12 +552,12 @@ public class DexBody  {
                                 IntConstant nc = (IntConstant) op2;
                                 if (nc.value != 0)
                                     throw new RuntimeException("expected value 0 for int constant. Got " + expr);
-                                expr.setOp2(NullConstant.v());
+                                expr.setOp2(NullConstant.getInstance());
                             } else if (op2 instanceof NullConstant && op1 instanceof NumericConstant) {
                                 IntConstant nc = (IntConstant) op1;
                                 if (nc.value != 0)
                                     throw new RuntimeException("expected value 0 for int constant. Got " + expr);
-                                expr.setOp1(NullConstant.v());
+                                expr.setOp1(NullConstant.getInstance());
                             }
                         } else {
                             throw new RuntimeException("error: do not handle if: "+ u);
@@ -604,7 +585,7 @@ public class DexBody  {
             }
             for (ValueBox vb: toNullConstantify) {
                 System.out.println("replace valuebox '"+ vb +" with null constant");
-                vb.setValue(NullConstant.v());
+                vb.setValue(NullConstant.getInstance());
             }
             for (Local l: toRemove) {
                 System.out.println("removing null_type local "+ l);
@@ -616,13 +597,13 @@ public class DexBody  {
 
         // We pack locals that are not used in overlapping regions. This may
         // again lead to unused locals which we have to remove.
-        UnusedLocalEliminator.v().transform(jBody);
+        new UnusedLocalEliminator().transform(jBody);
         new LocalNameStandardizer().transform(jBody);
 
         // Some apps reference static fields as instance fields. We fix this
         // on the fly.
-        if (Options.v().wrong_staticness() == Options.wrong_staticness_fix)
-            FieldStaticnessCorrector.v().transform(jBody);
+        if (Options.getInstance().wrong_staticness() == Options.wrong_staticness_fix)
+            new FieldStaticnessCorrector().transform(jBody);
 
         Debug.printDbg("\nafter type assigner localpacker and name standardizer");
         Debug.printDbg("",(Body)jBody);
@@ -630,8 +611,8 @@ public class DexBody  {
         // Inline PackManager.getInstance().getPack("jb").apply(jBody);
         // Keep only transformations that have not been done
         // at this point.
-        TrapTightener.v().transform(jBody);
-        TrapMinimizer.v().transform(jBody);
+        new TrapTightener().transform(jBody);
+        new TrapMinimizer().transform(jBody);
         //LocalSplitter.getInstance().transform(jBody);
         new Aggregator().transform(jBody);
         //UnusedLocalEliminator.getInstance().transform(jBody);
@@ -642,19 +623,19 @@ public class DexBody  {
         // Remove if (null == null) goto x else <madness>. We can only do this
         // after we have run the constant propagation as we might not be able
         // to statically decide the conditions earlier.
-        ConditionalBranchFolder.v().transform(jBody);
+        new ConditionalBranchFolder().transform(jBody);
 
         // Remove unnecessary typecasts
-        ConstantCastEliminator.v().transform(jBody);
-        IdentityCastEliminator.v().transform(jBody);
+        new ConstantCastEliminator().transform(jBody);
+        new IdentityCastEliminator().transform(jBody);
 
         // Remove unnecessary logic operations
-        IdentityOperationEliminator.v().transform(jBody);
+        new IdentityOperationEliminator().transform(jBody);
 
         // We need to run this transformer since the conditional branch folder
         // might have rendered some code unreachable (well, it was unreachable
         // before as well, but we didn't know).
-        UnreachableCodeEliminator.v().transform(jBody);
+        new UnreachableCodeEliminator(null).transform(jBody);
 
         // Not sure whether we need this even though we do it earlier on as
         // the earlier pass does not have type information
@@ -663,8 +644,8 @@ public class DexBody  {
         // we might have gotten new dead assignments and unused locals through
         // copy propagation and unreachable code elimination, so we have to do
         // this again
-        UnusedLocalEliminator.v().transform(jBody);
-        NopEliminator.v().transform(jBody);
+        new UnusedLocalEliminator().transform(jBody);
+        new NopEliminator().transform(jBody);
 
         // Remove unnecessary chains of return statements
         DexReturnPacker.v().transform(jBody);
@@ -676,7 +657,7 @@ public class DexBody  {
                     CastExpr c = (CastExpr)ass.getRightOp();
                     if (c.getType() instanceof NullType) {
                         Debug.printDbg("replacing cast to null_type by nullConstant assignment in ", u);
-                        ass.setRightOp(NullConstant.v());
+                        ass.setRightOp(NullConstant.getInstance());
                     }
                 }
             }
@@ -692,7 +673,7 @@ public class DexBody  {
                         if (rt.getSootClass().isPhantom()
                                 && !rt.getSootClass().hasSuperclass()
                                 && !rt.getSootClass().getName().equals("java.lang.Throwable"))
-                            rt.getSootClass().setSuperclass(Scene.v().getSootClass("java.lang.Throwable"));
+                            rt.getSootClass().setSuperclass(Scene.getInstance().getSootClass("java.lang.Throwable"));
                     }
                 }
             }
@@ -717,11 +698,6 @@ public class DexBody  {
             }
         }
 
-        t_whole_jimplification.end();
-        Debug.printDbg("timer whole jimlification: ", t_whole_jimplification.getTime());
-        Debug.printDbg("timer num: ", t_num.getTime());
-        Debug.printDbg("timer null: ", t_null.getTime());
-
         return jBody;
     }
 
@@ -729,14 +705,14 @@ public class DexBody  {
     protected UnreachableCodeEliminator getUnreachableCodeEliminator() {
         if (this.unreachableCodeEliminator == null)
             this.unreachableCodeEliminator =
-                    new UnreachableCodeEliminator(DalvikThrowAnalysis.v());
+                    new UnreachableCodeEliminator(new DalvikThrowAnalysis());
         return this.unreachableCodeEliminator;
     }
 
     private CopyPropagator copyPropagator = null;
     protected CopyPropagator getCopyPopagator() {
         if (this.copyPropagator == null)
-            this.copyPropagator = new CopyPropagator(DalvikThrowAnalysis.v(), false);
+            this.copyPropagator = new CopyPropagator(new DalvikThrowAnalysis(), false);
         return this.copyPropagator;
     }
 

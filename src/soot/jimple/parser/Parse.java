@@ -31,7 +31,6 @@ import sablecc.soot.jimple.parser.lexer.LexerException;
 import sablecc.soot.jimple.parser.node.Start;
 import sablecc.soot.jimple.parser.parser.Parser;
 import sablecc.soot.jimple.parser.parser.ParserException;
-import soot.G;
 import soot.Scene;
 import soot.SootClass;
 import soot.SootMethod;
@@ -59,7 +58,7 @@ public class Parse
     */
     static public SootClass parse(InputStream istream, SootClass sc) 
     {  
-        Start tree = null;
+        Start tree;
         
         Parser p = 
                 new Parser(new Lexer(
@@ -98,12 +97,12 @@ public class Parse
         
         // check arguments
         if (args.length < 1) {
-            G.v().out.println(USAGE);
+            System.out.println(USAGE);
             System.exit(0);
         }
 
 
-        Scene.v().setPhantomRefs(true);
+        Scene.getInstance().setPhantomRefs(true);
 
         for (String arg : args) {
             if (arg.startsWith("-")) {
@@ -117,20 +116,20 @@ public class Parse
                
                 try {
                     if (verbose)
-                        G.v().out.println(" ... looking for " + arg);
+                        System.out.println(" ... looking for " + arg);
                     inFile = new FileInputStream(arg);
                 } catch (FileNotFoundException e) {
                     if (arg.endsWith(EXT)) {
-                        G.v().out.println(" *** can't find " + arg);
+                        System.out.println(" *** can't find " + arg);
                         continue;
                     }
                     arg = arg + EXT;
                     try {
                         if (verbose)
-                            G.v().out.println(" ... looking for " + arg);
+                            System.out.println(" ... looking for " + arg);
                         inFile = new BufferedInputStream(new FileInputStream(arg));
                     } catch (FileNotFoundException ee) {
-                        G.v().out.println(" *** can't find " + arg);
+                        System.out.println(" *** can't find " + arg);
                         continue;
                     }
                 }

@@ -26,7 +26,6 @@
 package soot;
 
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.tagkit.JimpleLineNumberTag;
 import soot.tagkit.Tag;
 import soot.toolkits.graph.UnitGraph;
@@ -40,47 +39,41 @@ import java.util.*;
 * Prints out a class and all its methods.
 */
 public class Printer {
-    public Printer(Singletons.Global g) {
-    }
-    public static Printer v() {
-        return G.v().soot_Printer();
-    }
-
     final private static char fileSeparator =
         System.getProperty("file.separator").charAt(0);
 
     public static final int USE_ABBREVIATIONS = 0x0001, ADD_JIMPLE_LN = 0x0010;
 
-    public boolean useAbbreviations() {
+    public static boolean useAbbreviations() {
         return (options & USE_ABBREVIATIONS) != 0;
     }
 
-    public boolean addJimpleLn() {
+    public static boolean addJimpleLn() {
         return (options & ADD_JIMPLE_LN) != 0;
     }
 
-    int options = 0;
-    public void setOption(int opt) {
+    static int options = 0;
+    public static void setOption(int opt) {
         options |= opt;
     }
     public void clearOption(int opt) {
         options &= ~opt;
     }
 
-    int jimpleLnNum = 0; // actual line number
+    static int jimpleLnNum = 0; // actual line number
 
-    public int getJimpleLnNum() {
+    public static int getJimpleLnNum() {
         return jimpleLnNum;
     }
-    public void setJimpleLnNum(int newVal) {
+    public  static void setJimpleLnNum(int newVal) {
         jimpleLnNum = newVal;
     }
-    public void incJimpleLnNum() {
+    public static void incJimpleLnNum() {
         jimpleLnNum++;
 	//G.getInstance().out.println("jimple Ln Num: "+jimpleLnNum);
     }
 
-    public void printTo(SootClass cl, PrintWriter out) {
+    public static void printTo(SootClass cl, PrintWriter out) {
         // add jimple line number tags
         setJimpleLnNum(1);
 
@@ -102,7 +95,7 @@ public class Printer {
             }
 
             out.print(
-                classPrefix + " " + Scene.v().quotedNameOf(cl.getName()) + "");
+                classPrefix + " " + Scene.getInstance().quotedNameOf(cl.getName()) + "");
         }
 
         // Print extension
@@ -110,7 +103,7 @@ public class Printer {
             if (cl.hasSuperclass())
                 out.print(
                     " extends "
-                        + Scene.v().quotedNameOf(cl.getSuperclass().getName())
+                        + Scene.getInstance().quotedNameOf(cl.getSuperclass().getName())
                         + "");
         }
 
@@ -123,7 +116,7 @@ public class Printer {
 
                 out.print(
                     ""
-                        + Scene.v().quotedNameOf(
+                        + Scene.getInstance().quotedNameOf(
                             interfaceIt.next().getName())
                         + "");
 
@@ -131,7 +124,7 @@ public class Printer {
                     out.print(",");
                     out.print(
                         " "
-                            + Scene.v().quotedNameOf(
+                            + Scene.getInstance().quotedNameOf(
                                 interfaceIt.next().getName())
                             + "");
                 }
@@ -149,7 +142,7 @@ public class Printer {
         }*/
         out.println("{");
         incJimpleLnNum();
-        if (Options.v().print_tags_in_output()){
+        if (Options.getInstance().print_tags_in_output()){
             Iterator<Tag> cTagIterator = cl.getTags().iterator();
             while (cTagIterator.hasNext()) {
                 Tag t = cTagIterator.next();
@@ -170,7 +163,7 @@ public class Printer {
                     if (f.isPhantom())
                         continue;
 
-                    if (Options.v().print_tags_in_output()){
+                    if (Options.getInstance().print_tags_in_output()){
                         Iterator<Tag> fTagIterator = f.getTags().iterator();
                         while (fTagIterator.hasNext()) {
                             Tag t = fTagIterator.next();
@@ -213,7 +206,7 @@ public class Printer {
                                 throw new RuntimeException("method "+ method.getName() + " has no active body!");
                         }
                         else
-                            if (Options.v().print_tags_in_output()){
+                            if (Options.getInstance().print_tags_in_output()){
                                 Iterator<Tag> mTagIterator = method.getTags().iterator();
                                 while (mTagIterator.hasNext()) {
                                     Tag t = mTagIterator.next();
@@ -230,7 +223,7 @@ public class Printer {
                         }
                     } else {
                            
-                        if (Options.v().print_tags_in_output()){
+                        if (Options.getInstance().print_tags_in_output()){
                             Iterator<Tag> mTagIterator = method.getTags().iterator();
                             while (mTagIterator.hasNext()) {
                                 Tag t = mTagIterator.next();
@@ -262,7 +255,7 @@ public class Printer {
      *
      *   @param out a PrintWriter instance to print to.
      */
-    public void printTo(Body b, PrintWriter out) {
+    public static void printTo(Body b, PrintWriter out) {
 //        b.validate();
 
         boolean isPrecise = !useAbbreviations();
@@ -309,7 +302,7 @@ public class Printer {
     }
 
     /** Prints the given <code>JimpleBody</code> to the specified <code>PrintWriter</code>. */
-    private void printStatementsInBody(Body body, java.io.PrintWriter out, LabeledUnitPrinter up, UnitGraph unitGraph ) {
+    private static void printStatementsInBody(Body body, java.io.PrintWriter out, LabeledUnitPrinter up, UnitGraph unitGraph) {
     	Chain<Unit> units = body.getUnits();
         Unit previousStmt;
 
@@ -359,7 +352,7 @@ public class Printer {
             // only print them if not generating attributes files 
             // because they mess up line number
             //if (!addJimpleLn()) {
-            if (Options.v().print_tags_in_output()){
+            if (Options.getInstance().print_tags_in_output()){
                 Iterator<Tag> tagIterator = currentStmt.getTags().iterator();
                 while (tagIterator.hasNext()) {
                     Tag t = tagIterator.next();
@@ -403,7 +396,7 @@ public class Printer {
 
                 out.println(
                     "        catch "
-                        + Scene.v().quotedNameOf(trap.getException().getName())
+                        + Scene.getInstance().quotedNameOf(trap.getException().getName())
                         + " from "
                         + up.labels().get(trap.getBeginUnit())
                         + " to "
@@ -419,22 +412,22 @@ public class Printer {
 
     }
 
-    private int addJimpleLnTags(int lnNum, SootMethod meth) {
+    private static int addJimpleLnTags(int lnNum, SootMethod meth) {
     	meth.addTag(new JimpleLineNumberTag(lnNum));
 	lnNum++;
 	return lnNum;
     }
     
-    private int addJimpleLnTags(int lnNum, SootField f) {
+    private static int addJimpleLnTags(int lnNum, SootField f) {
     	f.addTag(new JimpleLineNumberTag(lnNum));
 	lnNum++;
 	return lnNum;
     }
 
     /** Prints the given <code>JimpleBody</code> to the specified <code>PrintWriter</code>. */
-    private void printLocalsInBody(
-        Body body,
-        UnitPrinter up) {
+    private static void printLocalsInBody(
+            Body body,
+            UnitPrinter up) {
         // Print out local variables
         {
             Map<Type, List<Local>> typeToLocals =

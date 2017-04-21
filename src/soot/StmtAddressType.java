@@ -26,7 +26,6 @@
 
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
@@ -36,14 +35,17 @@ import soot.util.Switch;
 @SuppressWarnings("serial")
 public class StmtAddressType extends Type
 {
-    public StmtAddressType( Singletons.Global g ) {}
-    public static StmtAddressType v() { return G.v().soot_StmtAddressType(); }
+    private static StmtAddressType instance = null;
+    public static synchronized Type getInstance() {
+        if (instance == null)
+            instance = new StmtAddressType();
+        return instance;
+    }
 
     public boolean equals(Object t)
     {
         return this == t;
     }
-
     
     public int hashCode()
     {

@@ -70,10 +70,10 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 * @return a RefType for the given class name.
 	 */
 	public static RefType newInstance(String className) {
-		RefType rt = Scene.v().getRefTypeUnsafe(className);
+		RefType rt = Scene.getInstance().getRefTypeUnsafe(className);
 		if (rt == null) {
 			rt = new RefType(className);
-			Scene.v().addRefType(rt);
+			Scene.getInstance().addRefType(rt);
 		}
 		return rt;
 	}
@@ -101,7 +101,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	public SootClass getSootClass() {
 		if (sootClass == null) {
 			// System.out.println( "wrning: "+this+" has no sootclass" );
-			sootClass = SootResolver.v().makeClassRef(className);
+			sootClass = SootResolver.getInstance().makeClassRef(className);
 		}
 		return sootClass;
 	}
@@ -250,7 +250,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	
 	@Override
     public String getEscapedName() {
-    	return Scene.v().quotedNameOf(getClassName());
+    	return Scene.getInstance().quotedNameOf(getClassName());
     }
 
 }

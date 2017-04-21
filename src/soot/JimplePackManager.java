@@ -24,8 +24,6 @@ import soot.jimple.toolkits.base.Aggregator;
 import soot.jimple.toolkits.scalar.LocalNameStandardizer;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.options.Options;
-import soot.shimple.Shimple;
-import soot.shimple.ShimpleTransformer;
 import soot.toolkits.scalar.ConstantValueToInitializerTransformer;
 import soot.util.EscapedWriter;
 
@@ -59,7 +57,7 @@ public class JimplePackManager {
     }
 
     private Iterator<SootClass> classes() {
-        return Scene.v().getClasses().snapshotIterator();
+        return Scene.getInstance().getClasses().snapshotIterator();
     }
 
     public static void writeClass(SootClass c) {
@@ -67,7 +65,7 @@ public class JimplePackManager {
         if (!c.isPhantom)
            ConstantValueToInitializerTransformer.v().transformClass(c);
 
-        final int format = Options.v().output_format();
+        final int format = Options.getInstance().output_format();
 
         OutputStream streamOut;
         PrintWriter writerOut;
@@ -87,7 +85,7 @@ public class JimplePackManager {
                 writerOut =
                         new PrintWriter(
                                 new EscapedWriter(new OutputStreamWriter(streamOut)));
-                Printer.v().printTo(c, writerOut);
+                Printer.printTo(c, writerOut);
                 break;
             default :
                 throw new RuntimeException();

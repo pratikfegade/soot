@@ -53,7 +53,7 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
         this.type = type;
         this.modifiers = modifiers;
         this.initialValueString = initialValueString;
-        if( type instanceof RefLikeType ) Scene.v().getFieldNumberer().add(this);
+        if( type instanceof RefLikeType ) Scene.getInstance().getFieldNumberer().add(this);
     }
 
     /** Constructs a Soot field with the given name, type and modifiers. */
@@ -85,8 +85,8 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
     {
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("<" + Scene.v().quotedNameOf(cl.getName()) + ": ");
-        buffer.append(type + " " + Scene.v().quotedNameOf(name) + ">");
+        buffer.append("<" + Scene.getInstance().quotedNameOf(cl.getName()) + ": ");
+        buffer.append(type + " " + Scene.getInstance().quotedNameOf(name) + ">");
 
         return buffer.toString().intern();
 
@@ -95,7 +95,7 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
     public String getSubSignature()
     {
         StringBuffer buffer = new StringBuffer();
-        buffer.append(getType() + " " + Scene.v().quotedNameOf(getName()));
+        buffer.append(getType() + " " + Scene.getInstance().quotedNameOf(getName()));
         return buffer.toString().intern();
     }
 
@@ -117,7 +117,7 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
     public void setPhantom(boolean value)
     {
         if( value ) {
-            if( !Scene.v().allowsPhantomRefs() ) 
+            if( !Scene.getInstance().allowsPhantomRefs() )
                 throw new RuntimeException( "Phantom refs not allowed" );
             if( declaringClass != null && !declaringClass.isPhantom() )
                 throw new 
@@ -215,9 +215,9 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
         qualifiers = qualifiers.trim();
 
         if(qualifiers.equals(""))
-            return Scene.v().quotedNameOf(name);
+            return Scene.getInstance().quotedNameOf(name);
         else
-            return qualifiers + " " + Scene.v().quotedNameOf(name) + "";
+            return qualifiers + " " + Scene.getInstance().quotedNameOf(name) + "";
 
     }
 
@@ -234,7 +234,7 @@ public class SootField extends AbstractHost implements ClassMember, Numberable
     }
     private int number = 0;
     public SootFieldRef makeRef() {
-        return Scene.v().makeFieldRef(declaringClass, name, type, isStatic());
+        return Scene.getInstance().makeFieldRef(declaringClass, name, type, isStatic());
     }
 }
 

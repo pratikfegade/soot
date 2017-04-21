@@ -76,7 +76,7 @@ public class DexMethod {
                             TypeEncodedValue valueType = (TypeEncodedValue) evSub;
                             String exceptionName = valueType.getValue();
                             String dottedName = Util.dottedClassName(exceptionName);
-                            thrownExceptions.add(SootResolver.v().makeClassRef(dottedName));
+                            thrownExceptions.add(SootResolver.getInstance().makeClassRef(dottedName));
                         }
                     }
                 }
@@ -107,7 +107,7 @@ public class DexMethod {
         if (Modifier.isAbstract(flags)|| Modifier.isNative(flags))
             return sm;
 
-        if (Options.v().oaat() && declaringClass.resolvingLevel() <= SootClass.SIGNATURES)
+        if (Options.getInstance().oaat() && declaringClass.resolvingLevel() <= SootClass.SIGNATURES)
             return sm;
 
         // sets the method source by adding its body as the active body
@@ -119,7 +119,7 @@ public class DexMethod {
                 dexBody.jimplify(b, m);
             } catch (InvalidDalvikBytecodeException e) {
                 String msg = "Warning: Invalid bytecode in method "+ m +": "+ e;
-                G.v().out.println(msg);
+                System.out.println(msg);
                 Util.emptyBody(b);
                 Util.addExceptionAfterUnit(b, "java.lang.RuntimeException", b.getUnits().getLast(), "Soot has detected that this method contains invalid Dalvik bytecode which would have throw an exception at runtime. ["+ msg +"]");
                 new TypeAssigner().transform(b);

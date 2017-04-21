@@ -30,16 +30,12 @@ import soot.*;
 import soot.jimple.JimpleBody;
 import soot.jimple.NopStmt;
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.util.Chain;
 
 import java.util.Iterator;
-import java.util.Map;
 
 public class NopEliminator extends BodyTransformer
 {
-    public NopEliminator( Singletons.Global g ) {}
-    public static NopEliminator v() { return G.v().soot_jimple_toolkits_scalar_NopEliminator(); }
 
     /** Removes {@link NopStmt}s from the passed body (which must be
 	a {@link JimpleBody}).  Complexity is linear 
@@ -50,8 +46,8 @@ public class NopEliminator extends BodyTransformer
     {
         JimpleBody body = (JimpleBody)b;
         
-        if(Options.v().verbose())
-            G.v().out.println("[" + body.getMethod().getName() +
+        if(Options.getInstance().verbose())
+            System.out.println("[" + body.getMethod().getName() +
                 "] Removing nops...");
                 
         Chain<Unit> units = body.getUnits();

@@ -5,7 +5,6 @@ import soot.Trap;
 import soot.Unit;
 import soot.jimple.Jimple;
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.toolkits.exceptions.TrapTransformer;
 import soot.toolkits.graph.ExceptionalGraph.ExceptionDest;
 import soot.toolkits.graph.ExceptionalUnitGraph;
@@ -41,20 +40,14 @@ import java.util.*;
  */
 public class TrapMinimizer extends TrapTransformer {
 
-    public TrapMinimizer( Singletons.Global g ) {}
-
-	public static TrapMinimizer v() {
-		return soot.G.v().soot_dexpler_TrapMinimizer();
-	}
-
 	@Override
 	protected void internalTransform(Body b) {
 		// If we have less then two traps, there's nothing to do here
 		if (b.getTraps().size() == 0)
 			return;
 		
-		ExceptionalUnitGraph eug = new ExceptionalUnitGraph(b, DalvikThrowAnalysis.v(),
-				Options.v().omit_excepting_unit_edges());
+		ExceptionalUnitGraph eug = new ExceptionalUnitGraph(b, new DalvikThrowAnalysis(),
+				Options.getInstance().omit_excepting_unit_edges());
 		Set<Unit> unitsWithMonitor = getUnitsWithMonitor(eug);
 
 		Map<Trap, List<Trap>> replaceTrapBy = new HashMap<Trap, List<Trap>>(b.getTraps().size());
@@ -81,7 +74,7 @@ public class TrapMinimizer extends TrapTransformer {
 				
 				// check if the current unit has an edge to the current trap's handler
 				if (!goesToHandler)
-					if (DalvikThrowAnalysis.v().mightThrow(u).catchableAs(tr.getException().getType())) {
+					if (new DalvikThrowAnalysis().mightThrow(u).catchableAs(tr.getException().getType())) {
 						// We need to be careful here. The ExceptionalUnitGraph will
 						// always give us an edge from the predecessor of the excepting
 						// unit to the handler. This predecessor, however, does not need

@@ -234,7 +234,7 @@ public abstract class Body extends AbstractHost implements Serializable
      * @param exceptionList the list of validation errors
      */
     public void validate(List<ValidationException> exceptionList) {
-        final boolean runAllValidators = Options.v().debug() || Options.v().validate();
+        final boolean runAllValidators = Options.getInstance().debug() || Options.getInstance().validate();
     	for (BodyValidator validator : getValidators()) {
     		if (!validator.isBasicValidator() && !runAllValidators)
     			continue;
@@ -554,11 +554,7 @@ public abstract class Body extends AbstractHost implements Serializable
         }
         return useAndDefBoxList;
     }
-    
-	public void checkInit() {
-    	runValidation(CheckInitValidator.v());    
-    }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -567,17 +563,13 @@ public abstract class Body extends AbstractHost implements Serializable
         ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
         PrintWriter writerOut = new PrintWriter(new EscapedWriter(new OutputStreamWriter(streamOut)));
         try { 
-            Printer.v().printTo(this, writerOut);
+            Printer.printTo(this, writerOut);
         } catch (RuntimeException e) {
             e.printStackTrace(writerOut);
         }
         writerOut.flush();
         writerOut.close();
         return streamOut.toString();
-    }
-    
-    public long getModificationCount() {
-    	return localChain.getModificationCount() + unitChain.getModificationCount() + trapChain.getModificationCount();
     }
 
 }

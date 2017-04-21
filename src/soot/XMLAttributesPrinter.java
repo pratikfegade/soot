@@ -50,7 +50,7 @@ public class XMLAttributesPrinter {
 		  writerOut.println("<attributes>");
 		}
 		catch(IOException e1) {
-		  G.v().out.println(e1.getMessage());
+		  System.out.println(e1.getMessage());
 		}
 									
 	}
@@ -74,7 +74,7 @@ public class XMLAttributesPrinter {
 				dir.mkdirs();
 			} 
 			catch (SecurityException se) {
-			        G.v().out.println("Unable to create " + attrDir);
+			        System.out.println("Unable to create " + attrDir);
 		                //System.exit(0);
 		        }
 		}

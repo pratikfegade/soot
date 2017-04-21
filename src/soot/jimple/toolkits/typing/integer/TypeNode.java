@@ -26,7 +26,6 @@
 
 package soot.jimple.toolkits.typing.integer;
 
-import soot.G;
 import soot.Type;
 
 /**
@@ -46,7 +45,7 @@ class TypeNode
 
     if(DEBUG)
       {
-	G.v().out.println("creating node " + this);
+	System.out.println("creating node " + this);
       }
   }
   

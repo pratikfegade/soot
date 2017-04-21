@@ -29,7 +29,6 @@ package soot.jimple.toolkits.scalar;
 
 import soot.*;
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.toolkits.exceptions.PedanticThrowAnalysis;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.DirectedGraph;
@@ -42,18 +41,14 @@ import java.util.*;
 public class UnreachableCodeEliminator extends BodyTransformer
 {
 	protected ThrowAnalysis throwAnalysis = null;
-
-	public UnreachableCodeEliminator( Singletons.Global g ) {}
-	public static UnreachableCodeEliminator v() { return G.v().soot_jimple_toolkits_scalar_UnreachableCodeEliminator(); }
-
 	public UnreachableCodeEliminator( ThrowAnalysis ta ) {
 		this.throwAnalysis = ta;
 	}
 
 	protected void internalTransform(Body body)
 	{		
-		if (Options.v().verbose()) {
-			G.v().out.println("[" + body.getMethod().getName() + "] Eliminating unreachable code...");
+		if (Options.getInstance().verbose()) {
+			System.out.println("[" + body.getMethod().getName() + "] Eliminating unreachable code...");
 		}
 		
 		// Force a conservative ExceptionalUnitGraph() which
@@ -62,7 +57,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		// trapped units remain, but the default ThrowAnalysis
 		// says that none of them can throw the caught exception.
 		if (this.throwAnalysis == null)
-			this.throwAnalysis = PedanticThrowAnalysis.v();
+			this.throwAnalysis = new PedanticThrowAnalysis();
 		ExceptionalUnitGraph graph =  new ExceptionalUnitGraph(body, throwAnalysis, false);
 
 		Chain<Unit> units = body.getUnits();
@@ -86,12 +81,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		// though it no longer trapped any units (though such code is unlikely
 		// to occur in practice, and certainly no in code generated from Java
 		// source.		
-		for ( Iterator<Trap> it = body.getTraps().iterator(); it.hasNext(); ) {
-			Trap trap = it.next();
-			if ( (trap.getBeginUnit() == trap.getEndUnit()) || !reachable.contains(trap.getHandlerUnit()) ) {
-				it.remove();
-			}
-		}
+		body.getTraps().removeIf(trap -> (trap.getBeginUnit() == trap.getEndUnit()) || !reachable.contains(trap.getHandlerUnit()));
 		
 		// We must make sure that the end units of all traps which are still
 		// alive are kept in the code
@@ -99,8 +89,8 @@ public class UnreachableCodeEliminator extends BodyTransformer
 			if (t.getEndUnit() == body.getUnits().getLast())
 				reachable.add(t.getEndUnit());
 
-		Set<Unit> notReachable = new HashSet<Unit>();
-		if (Options.v().verbose()) {
+		Set<Unit> notReachable = new HashSet<>();
+		if (Options.getInstance().verbose()) {
 			for (Unit u : units) {
 				if (!reachable.contains(u))
 					notReachable.add(u);
@@ -111,10 +101,10 @@ public class UnreachableCodeEliminator extends BodyTransformer
 	  	
 		numPruned -= units.size();
 		
-		if (Options.v().verbose()) {
-			G.v().out.println("[" + body.getMethod().getName() + "]	 Removed " + numPruned + " statements: ");
+		if (Options.getInstance().verbose()) {
+			System.out.println("[" + body.getMethod().getName() + "]	 Removed " + numPruned + " statements: ");
 			for (Unit u : notReachable) {
-				G.v().out.println("[" + body.getMethod().getName() + "]	         " + u);
+				System.out.println("[" + body.getMethod().getName() + "]	         " + u);
 			}
 
 		}

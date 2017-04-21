@@ -122,7 +122,7 @@ public class ShimpleLocalUses implements LocalUses
                 return Collections.EMPTY_LIST;
             return getUsesOf((Local) local);
         default:
-            G.v().out.println("Warning: Unit has multiple definition boxes?");
+            System.out.println("Warning: Unit has multiple definition boxes?");
             List usesList = new ArrayList();
             Iterator defBoxesIt = defBoxes.iterator();
             while(defBoxesIt.hasNext()){

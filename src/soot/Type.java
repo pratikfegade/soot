@@ -37,7 +37,7 @@ import java.io.Serializable;
 public abstract class Type implements Switchable, Serializable, Numberable
 {
     public Type() {
-        Scene.v().getTypeNumberer().add( this );
+        Scene.getInstance().getTypeNumberer().add( this );
     }
     /** Returns a textual representation of this type. */
     public abstract String toString();

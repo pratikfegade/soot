@@ -82,7 +82,7 @@ class AbstractSootFieldRef implements SootFieldRef {
     }
     
     private SootField checkStatic(SootField ret) {
-    	if(Options.v().wrong_staticness() == Options.wrong_staticness_fail) {
+    	if(Options.getInstance().wrong_staticness() == Options.wrong_staticness_fail) {
     		if( ret.isStatic() != isStatic() && !ret.isPhantom()) {
         		throw new ResolutionFailedException( "Resolved "+this+" to "+ret+" which has wrong static-ness" );
         	}
@@ -103,7 +103,7 @@ class AbstractSootFieldRef implements SootFieldRef {
             }
             // If we have a phantom class, we directly construct a phantom field
             // in it and don't care about superclasses.
-            else if (Scene.v().allowsPhantomRefs() && cl.isPhantom()) {
+            else if (Scene.getInstance().allowsPhantomRefs() && cl.isPhantom()) {
                 synchronized (cl) {
                 	// Check that no other thread has created the field in the meantime
     	            clField = cl.getFieldUnsafe(name, type);
@@ -141,7 +141,7 @@ class AbstractSootFieldRef implements SootFieldRef {
         }
 
         // If we allow phantom refs, we construct phantom fields
-        if(Options.v().allow_phantom_refs()) {
+        if(Options.getInstance().allow_phantom_refs()) {
         	SootField sf = new SootField(name, type, isStatic ? Modifier.STATIC : 0);
         	sf.setPhantom(true);
         	synchronized (declaringClass) {
@@ -159,8 +159,8 @@ class AbstractSootFieldRef implements SootFieldRef {
 
         if( trace == null ) {
         	FieldResolutionFailedException e = new FieldResolutionFailedException();
-        	if(Options.v().ignore_resolution_errors())
-        		G.v().out.println(e.getMessage());
+        	if(Options.getInstance().ignore_resolution_errors())
+        		System.out.println(e.getMessage());
         	else
         		throw e;
         }

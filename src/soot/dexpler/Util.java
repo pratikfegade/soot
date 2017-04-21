@@ -244,7 +244,7 @@ public class Util {
 
 			AssignStmt ass = null;
 			if (t instanceof RefType || t instanceof ArrayType) {
-				ass = Jimple.newAssignStmt(l, NullConstant.v());
+				ass = Jimple.newAssignStmt(l, NullConstant.getInstance());
 			} else if (t instanceof LongType) {
 				ass = Jimple.newAssignStmt(l, LongConstant.v(0));
 			} else if (t instanceof FloatType) {
@@ -282,8 +282,8 @@ public class Util {
 		Unit u2 = Jimple.newInvokeStmt(
 				Jimple.newSpecialInvokeExpr(
 						l,
-						Scene.v().makeMethodRef(
-								Scene.v().getSootClass(exceptionType),
+						Scene.getInstance().makeMethodRef(
+								Scene.getInstance().getSootClass(exceptionType),
 								"<init>",
 								Collections.singletonList(RefType
 										.newInstance("java.lang.String")), new VoidType(),

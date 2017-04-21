@@ -21,21 +21,12 @@ package soot.toolkits.graph.interaction;
 
 import soot.*;
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.toolkits.graph.DirectedGraph;
 
 import java.util.ArrayList;
 
 public class InteractionHandler {
 
-
-    public InteractionHandler() {
-        this(null, null);
-    }
-
-    public InteractionHandler(Singletons.Global g, ArrayList<Object> stopUnitList){
-        this.stopUnitList = stopUnitList;
-    }
     public static InteractionHandler v() { return new InteractionHandler();}
 
     private ArrayList<Object> stopUnitList;
@@ -45,7 +36,7 @@ public class InteractionHandler {
 
     public void handleCfgEvent(DirectedGraph<?> g){
         if (currentPhaseEnabled()){
-            G.v().out.println("Analyzing: "+currentPhaseName());
+            System.out.println("Analyzing: "+currentPhaseName());
             doInteraction(new InteractionEvent(IInteractionConstants.NEW_ANALYSIS, currentPhaseName()));
         }
         if (isInteractThisAnalysis()){
@@ -168,7 +159,7 @@ public class InteractionHandler {
     }
 
     public void stopInteraction(boolean b){
-        Options.v().set_interactive_mode(false);
+        Options.getInstance().set_interactive_mode(false);
     }
 
 }

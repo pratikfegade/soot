@@ -2,10 +2,8 @@ package soot.jimple.toolkits.scalar;
 
 import soot.*;
 import soot.jimple.*;
-import soot.singletons.Singletons;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Transformer that eliminates unnecessary logic operations such as
@@ -20,9 +18,6 @@ import java.util.Map;
  *
  */
 public class IdentityOperationEliminator extends BodyTransformer {
-
-	public IdentityOperationEliminator( Singletons.Global g ) {}
-	public static IdentityOperationEliminator v() { return G.v().soot_jimple_toolkits_scalar_IdentityOperationEliminator(); }
 
 	@Override
 	protected void internalTransform(Body b) {

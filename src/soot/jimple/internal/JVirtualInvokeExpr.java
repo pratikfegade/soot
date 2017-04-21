@@ -44,7 +44,7 @@ public class JVirtualInvokeExpr extends AbstractVirtualInvokeExpr
     {
         super(Jimple.newLocalBox(base), methodRef, new ValueBox[args.size()]);
 
-        if (!Options.v().ignore_resolution_errors()) {
+        if (!Options.getInstance().ignore_resolution_errors()) {
 	        //Check that the method's class is resolved enough
 	        methodRef.declaringClass().checkLevelIgnoreResolving(SootClass.HIERARCHY);
 	        //now check if the class is valid

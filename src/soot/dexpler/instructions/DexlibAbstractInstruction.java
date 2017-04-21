@@ -153,11 +153,11 @@ public abstract class DexlibAbstractInstruction {
      *            the host to tag
      */
     protected void addTags(Host host) {
-        if (Options.v().keep_line_number() && lineNumber != -1) {
+        if (Options.getInstance().keep_line_number() && lineNumber != -1) {
             host.addTag(new LineNumberTag(lineNumber));
             host.addTag(new SourceLineNumberTag(lineNumber));
         }
-        if (Options.v().keep_offset())
+        if (Options.getInstance().keep_offset())
             host.addTag(new BytecodeOffsetTag(codeAddress));
     }
 

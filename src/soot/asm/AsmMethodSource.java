@@ -232,7 +232,7 @@ final class AsmMethodSource implements MethodSource {
     }
 
     void setUnit(AbstractInsnNode insn, Unit u) {
-        if (Options.v().keep_line_number() && lastLineNumber >= 0) {
+        if (Options.getInstance().keep_line_number() && lastLineNumber >= 0) {
             Tag lineTag = u.getTag("LineNumberTag");
             if (lineTag == null) {
                 lineTag = new LineNumberTag(lastLineNumber);
@@ -306,17 +306,17 @@ final class AsmMethodSource implements MethodSource {
         Operand opr;
         Type type;
         if (out == null) {
-            SootClass declClass = Scene.v().getSootClass(
+            SootClass declClass = Scene.getInstance().getSootClass(
                     AsmUtil.toQualifiedName(insn.owner));
             type = AsmUtil.toJimpleType(insn.desc);
             Value val;
             SootFieldRef ref;
             if (insn.getOpcode() == GETSTATIC) {
-                ref = Scene.v().makeFieldRef(declClass, insn.name, type, true);
+                ref = Scene.getInstance().makeFieldRef(declClass, insn.name, type, true);
                 val = Jimple.newStaticFieldRef(ref);
             } else {
                 Operand base = popLocal();
-                ref = Scene.v().makeFieldRef(declClass, insn.name, type, false);
+                ref = Scene.getInstance().makeFieldRef(declClass, insn.name, type, false);
                 InstanceFieldRef ifr =
                         Jimple.newInstanceFieldRef(
                                 base.stackOrValue(), ref);
@@ -343,19 +343,19 @@ final class AsmMethodSource implements MethodSource {
         Operand opr, rvalue;
         Type type;
         if (out == null) {
-            SootClass declClass = Scene.v().getSootClass(
+            SootClass declClass = Scene.getInstance().getSootClass(
                     AsmUtil.toQualifiedName(insn.owner));
             type = AsmUtil.toJimpleType(insn.desc);
             Value val;
             SootFieldRef ref;
             rvalue = popImmediate(type);
             if (!instance) {
-                ref = Scene.v().makeFieldRef(declClass, insn.name, type, true);
+                ref = Scene.getInstance().makeFieldRef(declClass, insn.name, type, true);
                 val = Jimple.newStaticFieldRef(ref);
                 frame.in(rvalue);
             } else {
                 Operand base = popLocal();
-                ref = Scene.v().makeFieldRef(declClass, insn.name, type, false);
+                ref = Scene.getInstance().makeFieldRef(declClass, insn.name, type, false);
                 InstanceFieldRef ifr =
                         Jimple.newInstanceFieldRef(
                                 base.stackOrValue(), ref);
@@ -419,7 +419,7 @@ final class AsmMethodSource implements MethodSource {
         if (out == null) {
             Value v;
             if (op == ACONST_NULL)
-                v = NullConstant.v();
+                v = NullConstant.getInstance();
             else if (op >= ICONST_M1 && op <= ICONST_5)
                 v = IntConstant.v(op - ICONST_0);
             else if (op == LCONST_0 || op == LCONST_1)
@@ -914,9 +914,9 @@ final class AsmMethodSource implements MethodSource {
                 else if (op == IFLE)
                     cond = Jimple.newLeExpr(v, IntConstant.v(0));
                 else if (op == IFNULL)
-                    cond = Jimple.newEqExpr(v, NullConstant.v());
+                    cond = Jimple.newEqExpr(v, NullConstant.getInstance());
                 else if (op == IFNONNULL)
-                    cond = Jimple.newNeExpr(v, NullConstant.v());
+                    cond = Jimple.newNeExpr(v, NullConstant.getInstance());
                 else
                     throw new AssertionError("Unknown if op: " + op);
                 val.addBox(cond.getOp1Box());
@@ -995,8 +995,7 @@ final class AsmMethodSource implements MethodSource {
         for (Integer i : insn.keys)
             keys.add(IntConstant.v(i));
 
-        LookupSwitchStmt lss = Jimple.newLookupSwitchStmt(key.stackOrValue(),
-                keys, targets, dflt);
+        LookupSwitchStmt lss = Jimple.newLookupSwitchStmt(key.stackOrValue(), keys, targets, dflt);
         key.addBox(lss.getKeyBox());
         frame.in(key);
         frame.boxes(lss.getKeyBox());
@@ -1014,11 +1013,11 @@ final class AsmMethodSource implements MethodSource {
             String clsName = AsmUtil.toQualifiedName(insn.owner);
             if (clsName.charAt(0) == '[')
                 clsName = "java.lang.Object";
-            SootClass cls = Scene.v().getSootClass(clsName);
+            SootClass cls = Scene.getInstance().getSootClass(clsName);
             List<Type> sigTypes = AsmUtil.toJimpleDesc(insn.desc);
             returnType = sigTypes.remove(sigTypes.size() - 1);
             SootMethodRef ref =
-                    Scene.v().makeMethodRef(cls, insn.name, sigTypes, returnType, !instance);
+                    Scene.getInstance().makeMethodRef(cls, insn.name, sigTypes, returnType, !instance);
             int nrArgs = sigTypes.size();
             final Operand[] args;
             List<Value> argList = Collections.emptyList();
@@ -1115,10 +1114,10 @@ final class AsmMethodSource implements MethodSource {
             }
 
             // create ref to actual method
-            SootClass bclass = Scene.v().getSootClass(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME);
+            SootClass bclass = Scene.getInstance().getSootClass(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME);
 
             // Generate parameters & returnType & parameterTypes
-            Type[] types = Util.v().jimpleTypesOfFieldOrMethodDescriptor(insn.desc);
+            Type[] types = Util.jimpleTypesOfFieldOrMethodDescriptor(insn.desc);
             List<Type> parameterTypes = new ArrayList<>(types.length);
             List<Value> methodArgs = new ArrayList<>(types.length);
 
@@ -1139,7 +1138,7 @@ final class AsmMethodSource implements MethodSource {
 
             // we always model invokeDynamic method refs as static method references
             // of methods on the type SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME
-            SootMethodRef methodRef = Scene.v().makeMethodRef(bclass, insn.name, parameterTypes, returnType, true);
+            SootMethodRef methodRef = Scene.getInstance().makeMethodRef(bclass, insn.name, parameterTypes, returnType, true);
 
             DynamicInvokeExpr indy = Jimple.newDynamicInvokeExpr(bsmMethodRef,
                     bsmMethodArgs, methodRef, insn.bsm.getTag(), methodArgs);
@@ -1188,10 +1187,10 @@ final class AsmMethodSource implements MethodSource {
 
     private SootMethodRef toSootMethodRef(Handle methodHandle) {
         String bsmClsName = AsmUtil.toQualifiedName(methodHandle.getOwner());
-        SootClass bsmCls = Scene.v().getSootClass(bsmClsName);
+        SootClass bsmCls = Scene.getInstance().getSootClass(bsmClsName);
         List<Type> bsmSigTypes = AsmUtil.toJimpleDesc(methodHandle.getDesc());
         Type returnType = bsmSigTypes.remove(bsmSigTypes.size() - 1);
-        return Scene.v().makeMethodRef(bsmCls, methodHandle.getName(), bsmSigTypes, returnType, true /*always static*/);
+        return Scene.getInstance().makeMethodRef(bsmCls, methodHandle.getName(), bsmSigTypes, returnType, true /*always static*/);
     }
 
     private void convertMultiANewArrayInsn(MultiANewArrayInsnNode insn) {
@@ -1237,15 +1236,14 @@ final class AsmMethodSource implements MethodSource {
         }
         Operand key = popImmediate();
         UnitBox dflt = Jimple.newStmtBox(null);
-        List<UnitBox> targets = new ArrayList<UnitBox>(insn.labels.size());
+        List<UnitBox> targets = new ArrayList<>(insn.labels.size());
         labels.put(insn.dflt, dflt);
         for (LabelNode ln : insn.labels) {
             UnitBox box = Jimple.newStmtBox(null);
             targets.add(box);
             labels.put(ln, box);
         }
-        TableSwitchStmt tss = Jimple.newTableSwitchStmt(key.stackOrValue(),
-                insn.min, insn.max, targets, dflt);
+        TableSwitchStmt tss = Jimple.newTableSwitchStmt(key.stackOrValue(), insn.min, insn.max, targets, dflt);
         key.addBox(tss.getKeyBox());
         frame.in(key);
         frame.boxes(tss.getKeyBox());
@@ -1406,8 +1404,7 @@ final class AsmMethodSource implements MethodSource {
     private Table<AbstractInsnNode, AbstractInsnNode, Edge> edges;
     private ArrayDeque<Edge> conversionWorklist;
 
-    private void addEdges(AbstractInsnNode cur,
-                          AbstractInsnNode tgt1, List<LabelNode> tgts) {
+    private void addEdges(AbstractInsnNode cur, AbstractInsnNode tgt1, List<LabelNode> tgts) {
         int lastIdx = tgts == null ? -1 : tgts.size() - 1;
         Operand[] stackss = (new ArrayList<>(stack)).toArray(new Operand[stack.size()]);
         AbstractInsnNode tgt = tgt1;
@@ -1444,14 +1441,14 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private void convert() {
-        ArrayDeque<Edge> worklist = new ArrayDeque<Edge>();
+        ArrayDeque<Edge> worklist = new ArrayDeque<>();
         for (LabelNode ln : trapHandlers.keySet()) {
             if (checkInlineExceptionHandler(ln))
                 handleInlineExceptionHandler(ln, worklist);
             else
-                worklist.add(new Edge(ln, new ArrayList<Operand>()));
+                worklist.add(new Edge(ln, new ArrayList<>()));
         }
-        worklist.add(new Edge(instructions.getFirst(), new ArrayList<Operand>()));
+        worklist.add(new Edge(instructions.getFirst(), new ArrayList<>()));
         conversionWorklist = worklist;
         edges = HashBasedTable.create(1,1);
 
@@ -1469,8 +1466,7 @@ final class AsmMethodSource implements MethodSource {
                 } else if (type == INSN) {
                     convertInsn((InsnNode) insn);
                     int op = insn.getOpcode();
-                    if ((op >= IRETURN && op <= RETURN) ||
-                            op == ATHROW) {
+                    if ((op >= IRETURN && op <= RETURN) || op == ATHROW) {
                         break;
                     }
                 } else if (type == INT_INSN) {
@@ -1538,7 +1534,7 @@ final class AsmMethodSource implements MethodSource {
         Operand opr = new Operand(ln, ref);
         opr.stack = local;
 
-        ArrayList<Operand> stack = new ArrayList<Operand>();
+        ArrayList<Operand> stack = new ArrayList<>();
         stack.add(opr);
         worklist.add(new Edge(ln, stack));
 
@@ -1581,17 +1577,16 @@ final class AsmMethodSource implements MethodSource {
         Collection<Local> jbl = jb.getLocals();
         Collection<Unit> jbu = jb.getUnits();
         int iloc = 0;
+
         if (!m.isStatic()) {
             Local l = getLocal(iloc++);
-            jbu.add(Jimple.newIdentityStmt(l,
-                    Jimple.newThisRef(m.getDeclaringClass().getType())));
+            jbu.add(Jimple.newIdentityStmt(l, Jimple.newThisRef(m.getDeclaringClass().getType())));
         }
         int nrp = 0;
         for (Object ot : m.getParameterTypes()) {
             Type t = (Type) ot;
             Local l = getLocal(iloc);
-            jbu.add(Jimple.newIdentityStmt(l,
-                    Jimple.newParameterRef(t, nrp++)));
+            jbu.add(Jimple.newIdentityStmt(l, Jimple.newParameterRef(t, nrp++)));
             if (AsmUtil.isDWord(t))
                 iloc += 2;
             else
@@ -1604,19 +1599,16 @@ final class AsmMethodSource implements MethodSource {
 
     private void emitTraps() {
         Chain<Trap> traps = body.getTraps();
-        SootClass throwable = Scene.v().getSootClass("java.lang.Throwable");
+        SootClass throwable = Scene.getInstance().getSootClass("java.lang.Throwable");
         Map<LabelNode, Iterator<UnitBox>> handlers = new ConcurrentHashMap<>(tryCatchBlocks.size());
+
         for (TryCatchBlockNode tc : tryCatchBlocks) {
             UnitBox start = Jimple.newStmtBox(null);
             UnitBox end = Jimple.newStmtBox(null);
-            Iterator<UnitBox> hitr = handlers.get(tc.handler);
-            if (hitr == null) {
-                hitr = trapHandlers.get(tc.handler).iterator();
-                handlers.put(tc.handler, hitr);
-            }
+            Iterator<UnitBox> hitr = handlers.computeIfAbsent(tc.handler, k -> trapHandlers.get(tc.handler).iterator());
             UnitBox handler = hitr.next();
             SootClass cls = tc.type == null ? throwable :
-                    Scene.v().getSootClass(AsmUtil.toQualifiedName(tc.type));
+                    Scene.getInstance().getSootClass(AsmUtil.toQualifiedName(tc.type));
             Trap trap = Jimple.newTrap(cls, start, end, handler);
             traps.add(trap);
             labels.put(tc.start, start);

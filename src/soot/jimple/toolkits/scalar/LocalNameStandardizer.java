@@ -31,7 +31,6 @@
 package soot.jimple.toolkits.scalar;
 
 import soot.*;
-import soot.singletons.Singletons;
 import soot.util.Chain;
 
 import java.util.*;
@@ -90,7 +89,7 @@ public class LocalNameStandardizer extends BodyTransformer
                 Chain<Local> locals = body.getLocals();
                 final List<ValueBox> defs = body.getDefBoxes();
                 ArrayList<Local> sortedLocals = new ArrayList<Local>(locals);
-                
+
                 Collections.sort(sortedLocals, new Comparator<Local>(){
                     private Map<Local, Integer> firstOccuranceCache = new ConcurrentHashMap<>();
                     public int compare(Local arg0, Local arg1) {
@@ -123,18 +122,18 @@ public class LocalNameStandardizer extends BodyTransformer
                 locals.clear();
                 locals.addAll(sortedLocals);
             }
-            
+
             for (Local l : body.getLocals()) {
                 String prefix = "";
-                
+
                 if(l.getName().startsWith("$"))
                     prefix = "$";
-                else 
+                else
                 {
                     if (onlyStackName)
                         continue;
                 }
-                    
+
                 if(l.getType().equals(BooleanType.getInstance()))
                     l.setName(prefix + "z" + intCount++);
                 else if(l.getType().equals(ByteType.getInstance()))
@@ -151,10 +150,10 @@ public class LocalNameStandardizer extends BodyTransformer
                     l.setName(prefix + "d" + doubleCount++);
                 else if(l.getType().equals(FloatType.getInstance()))
                     l.setName(prefix + "f" + floatCount++);
-                else if(l.getType().equals(StmtAddressType.v()))
+                else if(l.getType().equals(StmtAddressType.getInstance()))
                     l.setName(prefix + "a" + addressCount++);
-                else if(l.getType().equals(ErroneousType.v()) ||
-                    l.getType().equals(UnknownType.getInstance()))
+                else if(l.getType().equals(ErroneousType.getInstance()) ||
+                        l.getType().equals(UnknownType.getInstance()))
                 {
                     l.setName(prefix + "e" + errorCount++);
                 }

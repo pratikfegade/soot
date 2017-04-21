@@ -72,8 +72,8 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
      */
     private SootFieldRef getSootFieldRef(FieldReference fref, boolean isStatic) {
         String className = dottedClassName(fref.getDefiningClass());
-        SootClass sc = SootResolver.v().makeClassRef(className);
-        return Scene.v().makeFieldRef(sc,
+        SootClass sc = SootResolver.getInstance().makeClassRef(className);
+        return Scene.getInstance().makeFieldRef(sc,
                 fref.getName(),
                 DexType.toSoot(fref.getType()),
                 isStatic);

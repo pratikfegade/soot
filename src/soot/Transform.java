@@ -27,9 +27,6 @@
 package soot;
 
 import soot.options.Options;
-import soot.util.PhaseDumper;
-
-import java.util.Map;
 
 /** Maintains the pair (phaseName, singleton) needed for a
  * transformation. */
@@ -41,7 +38,7 @@ public class Transform
 
     public Transform(String phaseName, Transformer t)
     {
-        this.DEBUG = Options.v().dump_body().contains(phaseName);
+        this.DEBUG = Options.getInstance().dump_body().contains(phaseName);
         this.phaseName = phaseName;
         this.t = t;
     }

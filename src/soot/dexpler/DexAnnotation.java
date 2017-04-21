@@ -376,7 +376,7 @@ public class DexAnnotation {
                 	}
                 	
                 	deps.typesToSignature.add(RefType.newInstance(outerClass));
-                	clazz.setOuterClass(SootResolver.v().makeClassRef(outerClass));
+                	clazz.setOuterClass(SootResolver.getInstance().makeClassRef(outerClass));
                 	assert clazz.getOuterClass() != clazz;
                 }
                 
@@ -410,7 +410,7 @@ public class DexAnnotation {
 
                 String outerClass = classString.replace("/", ".");
             	deps.typesToSignature.add(RefType.newInstance(outerClass));
-            	clazz.setOuterClass(SootResolver.v().makeClassRef(outerClass));
+            	clazz.setOuterClass(SootResolver.getInstance().makeClassRef(outerClass));
             	assert clazz.getOuterClass() != clazz;
 
             } else if (atypes.equals("dalvik.annotation.InnerClass")) {
@@ -461,7 +461,7 @@ public class DexAnnotation {
                 if (outerClass != null && !clazz.hasOuterClass()) {
 	                String sootOuterClass = Util.dottedClassName(outerClass);
 	            	deps.typesToSignature.add(RefType.newInstance(sootOuterClass));
-	            	clazz.setOuterClass(SootResolver.v().makeClassRef(sootOuterClass));
+	            	clazz.setOuterClass(SootResolver.getInstance().makeClassRef(sootOuterClass));
                 	assert clazz.getOuterClass() != clazz;
                 }
 

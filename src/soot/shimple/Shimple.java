@@ -25,7 +25,6 @@ import soot.jimple.JimpleBody;
 import soot.options.Options;
 import soot.shimple.internal.SPhiExpr;
 import soot.shimple.internal.SPiExpr;
-import soot.singletons.Singletons;
 import soot.toolkits.graph.Block;
 import soot.toolkits.scalar.ValueUnitPair;
 import soot.util.Chain;
@@ -209,7 +208,7 @@ public class Shimple
      **/
     public static void redirectToPreds(Body body, Unit remove)
     {
-        boolean debug = Options.v().debug();
+        boolean debug = Options.getInstance().debug();
         Chain<Unit> units = body.getUnits();
 
         /* Determine whether we should continue processing or not. */
@@ -256,24 +255,24 @@ public class Shimple
         
         if(phis.size() == 0){
             if(debug)
-                G.v().out.println("Warning: Orphaned UnitBoxes to " + remove + "? Shimple.redirectToPreds is giving up.");
+                System.out.println("Warning: Orphaned UnitBoxes to " + remove + "? Shimple.redirectToPreds is giving up.");
             return;
         }
 
         if(preds.size() == 0){
             if(debug)
-                G.v().out.println("Warning: Shimple.redirectToPreds couldn't find any predecessors for " + remove + " in " + body.getMethod() + ".");
+                System.out.println("Warning: Shimple.redirectToPreds couldn't find any predecessors for " + remove + " in " + body.getMethod() + ".");
 
             if(!remove.equals(units.getFirst())){
                 Unit pred = units.getPredOf(remove);
                 if(debug)
-                    G.v().out.println("Warning: Falling back to immediate chain predecessor: " + pred + ".");
+                    System.out.println("Warning: Falling back to immediate chain predecessor: " + pred + ".");
                 preds.add(pred);
             }
             else if(!remove.equals(units.getLast())){
                 Unit succ = units.getSuccOf(remove);
                 if(debug)
-                    G.v().out.println("Warning: Falling back to immediate chain successor: " + succ + ".");
+                    System.out.println("Warning: Falling back to immediate chain successor: " + succ + ".");
                 preds.add(succ);
             }
             else

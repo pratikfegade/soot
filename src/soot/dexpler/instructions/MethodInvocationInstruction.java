@@ -217,7 +217,7 @@ public abstract class MethodInvocationInstruction extends DexlibAbstractInstruct
             className = dottedClassName (tItem);
           }
 
-        SootClass sc = SootResolver.v().makeClassRef(className);
+        SootClass sc = SootResolver.getInstance().makeClassRef(className);
         if (invType == InvocationType.Interface && sc.isPhantom())
         	sc.setModifiers(sc.getModifiers() | Modifier.INTERFACE);
         String methodName = mItem.getName();
@@ -236,7 +236,7 @@ public abstract class MethodInvocationInstruction extends DexlibAbstractInstruct
           Debug.printDbg(" t: ", t);
         Debug.printDbg("returnType: ", returnType);
         Debug.printDbg("isStatic: ", invType == InvocationType.Static);
-        methodRef = Scene.v().makeMethodRef(sc, methodName, parameterTypes, returnType,
+        methodRef = Scene.getInstance().makeMethodRef(sc, methodName, parameterTypes, returnType,
         		invType == InvocationType.Static);
         
         return methodRef;

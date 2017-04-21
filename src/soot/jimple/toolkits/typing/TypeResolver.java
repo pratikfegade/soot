@@ -100,7 +100,7 @@ public class TypeResolver
 
 			if(DEBUG)
 			{
-				G.v().out.println("[LOCAL VARIABLE \"" + local + "\" -> " + id + "]");
+				System.out.println("[LOCAL VARIABLE \"" + local + "\" -> " + id + "]");
 			}
 		}
 
@@ -162,7 +162,7 @@ public class TypeResolver
 		typeVariable(NULL);
 
 		// hack for J2ME library, reported by Stephen Cheng
-		if (!Options.v().j2me()) {
+		if (!Options.getInstance().j2me()) {
 			typeVariable(hierarchy.CLONEABLE);
 			typeVariable(hierarchy.SERIALIZABLE);
 		}
@@ -170,7 +170,7 @@ public class TypeResolver
 
 	public static void resolve(JimpleBody stmtBody, Scene scene) {
 		if (DEBUG) {
-			G.v().out.println(stmtBody.getMethod());
+			System.out.println(stmtBody.getMethod());
 		}
 
 		try {
@@ -179,7 +179,7 @@ public class TypeResolver
 		} catch (TypeException e1) {
 			if (DEBUG) {
 				e1.printStackTrace();
-				G.v().out.println("Step 1 Exception-->" + e1.getMessage());
+				System.out.println("Step 1 Exception-->" + e1.getMessage());
 			}
 
 			try {
@@ -188,7 +188,7 @@ public class TypeResolver
 			} catch (TypeException e2) {
 				if (DEBUG) {
 					e2.printStackTrace();
-					G.v().out.println("Step 2 Exception-->" + e2.getMessage());
+					System.out.println("Step 2 Exception-->" + e2.getMessage());
 				}
 
 				try {
@@ -211,11 +211,11 @@ public class TypeResolver
 		if(DEBUG)
 		{
 			int count = 0;
-			G.v().out.println("**** START:" + message);
+			System.out.println("**** START:" + message);
 			for (TypeVariable var : typeVariableList) {
-				G.v().out.println(count++ + " " + var);
+				System.out.println(count++ + " " + var);
 			}
-			G.v().out.println("**** END:" + message);
+			System.out.println("**** END:" + message);
 		}
 	}
 
@@ -223,12 +223,12 @@ public class TypeResolver
 	{
 		if(DEBUG)
 		{
-			G.v().out.println("-- Body Start --");
+			System.out.println("-- Body Start --");
 			for( Iterator<Unit> stmtIt = stmtBody.getUnits().iterator(); stmtIt.hasNext(); ) {
 				final Stmt stmt = (Stmt) stmtIt.next();
-				G.v().out.println(stmt);
+				System.out.println(stmt);
 			}
-			G.v().out.println("-- Body End --");
+			System.out.println("-- Body End --");
 		}
 	}
 
@@ -309,12 +309,12 @@ public class TypeResolver
 			final Stmt stmt = (Stmt) stmtIt.next();
 			if(DEBUG)
 			{
-				G.v().out.print("stmt: ");
+				System.out.print("stmt: ");
 			}
 			collector.collect(stmt, stmtBody);
 			if(DEBUG)
 			{
-				G.v().out.println(stmt);
+				System.out.println(stmt);
 			}
 		}
 	}
@@ -328,12 +328,12 @@ public class TypeResolver
 			final Stmt stmt = (Stmt) stmtIt.next();
 			if(DEBUG)
 			{
-				G.v().out.print("stmt: ");
+				System.out.print("stmt: ");
 			}
 			collector.collect(stmt, stmtBody);
 			if(DEBUG)
 			{
-				G.v().out.println(stmt);
+				System.out.println(stmt);
 			}
 		}
 	}
@@ -365,7 +365,7 @@ public class TypeResolver
 
 		if(max > 1) {
 			// hack for J2ME library, reported by Stephen Cheng
-			if (!Options.v().j2me()) {
+			if (!Options.getInstance().j2me()) {
 				typeVariable(ArrayType.getInstance(RefType.newInstance("java.lang.Cloneable"), max - 1));
 				typeVariable(ArrayType.getInstance(RefType.newInstance("java.io.Serializable"), max - 1));
 			}
@@ -423,7 +423,7 @@ public class TypeResolver
 						for (TypeVariable parent : parents) {
 							if(DEBUG)
 							{
-								G.v().out.print(".");
+								System.out.print(".");
 							}
 
 							var = var.union(parent);
@@ -437,7 +437,7 @@ public class TypeResolver
 						for (TypeVariable child : children) {
 							if(DEBUG)
 							{
-								G.v().out.print(".");
+								System.out.print(".");
 							}
 
 							var = var.union(child);
@@ -602,7 +602,7 @@ public class TypeResolver
 							{
 								if(DEBUG)
 								{
-									G.v().out.println
+									System.out.println
 											("==++==" +
 													stmtBody.getMethod().getDeclaringClass().getName() + "." +
 													stmtBody.getMethod().getName());
@@ -726,7 +726,7 @@ public class TypeResolver
 						(local.getType() != null) &&
 						!local.getType().equals(var.approx().type()))
 				{
-					G.v().out.println("local: " + local + ", type: " + local.getType() + ", approx: " + var.approx().type());
+					System.out.println("local: " + local + ", type: " + local.getType() + ", approx: " + var.approx().type());
 				}
 			}
 		}
@@ -776,7 +776,7 @@ public class TypeResolver
 			{
 				if(DEBUG)
 				{
-					G.v().out.println(s);
+					System.out.println(s);
 				}
 				throw e;
 			}
@@ -809,7 +809,7 @@ public class TypeResolver
 			{
 				if(DEBUG)
 				{
-					G.v().out.println(s);
+					System.out.println(s);
 				}
 				throw e;
 			}

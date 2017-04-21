@@ -30,32 +30,26 @@ package soot.jimple.toolkits.scalar;
 import soot.*;
 import soot.jimple.*;
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.util.Chain;
-
-import java.util.Map;
 
 
 public class ConditionalBranchFolder  extends BodyTransformer
 {
-    public ConditionalBranchFolder ( Singletons.Global g ) {}
-    public static ConditionalBranchFolder  v() { return G.v().soot_jimple_toolkits_scalar_ConditionalBranchFolder (); }
-
     protected void internalTransform(Body body)
     {
         StmtBody stmtBody = (StmtBody)body;
 
         int numTrue = 0, numFalse = 0;
 
-        if (Options.v().verbose())
-            G.v().out.println("[" + stmtBody.getMethod().getName() +
-                               "] Folding conditional branches...");
+        if (Options.getInstance().verbose())
+            System.out.println("[" + stmtBody.getMethod().getName() +
+                    "] Folding conditional branches...");
 
         Chain<Unit> units = stmtBody.getUnits();
-        		
+
         for (Unit stmt : units.toArray(new Unit[units.size()])) {
             if (stmt instanceof IfStmt) {
-            	IfStmt ifs = (IfStmt) stmt;
+                IfStmt ifs = (IfStmt) stmt;
                 // check for constant-valued conditions
                 Value cond = ifs.getCondition();
                 if (Evaluator.isValueConstantValued(cond)) {
@@ -64,22 +58,22 @@ public class ConditionalBranchFolder  extends BodyTransformer
                     if (((IntConstant) cond).value == 1) {
                         // if condition always true, convert if to goto
                         Stmt newStmt = Jimple.newGotoStmt(ifs.getTarget());
-                        units.insertAfter(newStmt, stmt);                        
+                        units.insertAfter(newStmt, stmt);
                         numTrue++;
                     }
                     else
                         numFalse++;
-                        
+
                     // remove if
                     units.remove(stmt);
                 }
             }
         }
 
-       if (Options.v().verbose())
-            G.v().out.println("[" + stmtBody.getMethod().getName() +
-                "]     Folded " + numTrue + " true, " + numFalse +
-                               " conditional branches");
+        if (Options.getInstance().verbose())
+            System.out.println("[" + stmtBody.getMethod().getName() +
+                    "]     Folded " + numTrue + " true, " + numFalse +
+                    " conditional branches");
 
     } // foldBranches
 

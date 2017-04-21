@@ -8,7 +8,6 @@ import soot.options.Options;
 import soot.toolkits.scalar.UnusedLocalEliminator;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Transformer that simplifies array initializations. It converts
@@ -111,8 +110,8 @@ public class DexArrayInitReducer extends BodyTransformer {
 						// only remove constant assignment if the left value is Local
 						if (u1val instanceof Local) {
 							b.getUnits().remove(u1);
-							if (Options.v().verbose()) {
-								G.v().out.println("[" + b.getMethod().getName() + "]    remove 1 " + u1);
+							if (Options.getInstance().verbose()) {
+								System.out.println("[" + b.getMethod().getName() + "]    remove 1 " + u1);
 							}
 						}
 					}
@@ -120,8 +119,8 @@ public class DexArrayInitReducer extends BodyTransformer {
 						// only remove constant assignment if the left value is Local
 						if (u2val instanceof Local) {
 							b.getUnits().remove(u2);
-							if (Options.v().verbose()) {
-								G.v().out.println("[" + b.getMethod().getName() + "]    remove 2 " + u2);
+							if (Options.getInstance().verbose()) {
+								System.out.println("[" + b.getMethod().getName() + "]    remove 2 " + u2);
 							}
 						}
 					}
@@ -167,7 +166,7 @@ public class DexArrayInitReducer extends BodyTransformer {
 		}
 		
 		// Remove all locals that are no longer necessary
-		UnusedLocalEliminator.v().transform(b);
+		new UnusedLocalEliminator().transform(b);
 	}
 
 }

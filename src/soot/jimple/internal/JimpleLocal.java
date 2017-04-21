@@ -40,7 +40,7 @@ public class JimpleLocal implements Local {
 	public JimpleLocal(String name, Type type) {
 		setName(name);
 		setType(type);
-		Scene.v().getLocalNumberer().add(this);
+		Scene.getInstance().getLocalNumberer().add(this);
 	}
 
 	/** Returns true if the given object is structurally equal to this one. */

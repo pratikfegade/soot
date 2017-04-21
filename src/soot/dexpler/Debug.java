@@ -26,7 +26,7 @@ public class Debug {
   public static boolean DEXPLER_DEBUG;
   
   public static void printDbg (String s, Object...objects) {
-    DEXPLER_DEBUG = Options.v().verbose();
+    DEXPLER_DEBUG = Options.getInstance().verbose();
     if (DEXPLER_DEBUG) {
       for (Object o: objects) {
           if (o == null)

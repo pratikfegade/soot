@@ -58,7 +58,7 @@ public class Walker extends DepthFirstAdapter {
                 public Object removeLast() {
                     Object o = super.removeLast();
                     if (debug)
-                        G.v().out.println("popped: " + o);
+                        System.out.println("popped: " + o);
                     return o;
                 }
             };
@@ -87,7 +87,7 @@ public class Walker extends DepthFirstAdapter {
      */
     public void inAFile(AFile node) {
         if (debug)
-            G.v().out.println("reading class " + node.getClassName());
+            System.out.println("reading class " + node.getClassName());
     }
 
     public void caseAFile(AFile node) {
@@ -860,7 +860,7 @@ public class Walker extends DepthFirstAdapter {
 	 */
 
     public void outANullConstant(ANullConstant node) {
-        mProductions.addLast(NullConstant.v());
+        mProductions.addLast(NullConstant.getInstance());
     }
 
     public void outAIntegerConstant(AIntegerConstant node) {
@@ -1129,7 +1129,7 @@ public class Walker extends DepthFirstAdapter {
 
     public void outASigFieldRef(ASigFieldRef node) {
         SootFieldRef field = (SootFieldRef) mProductions.removeLast();
-        field = Scene.v().makeFieldRef(field.declaringClass(), field.name(),
+        field = Scene.getInstance().makeFieldRef(field.declaringClass(), field.name(),
                 field.type(), true);
         mProductions.addLast(Jimple.newStaticFieldRef(field));
     }
@@ -1148,7 +1148,7 @@ public class Walker extends DepthFirstAdapter {
         className = (String) mProductions.removeLast();
 
         SootClass cl = mResolver.makeClassRef(className);
-        SootFieldRef field = Scene.v().makeFieldRef(cl, fieldName, t, false);
+        SootFieldRef field = Scene.getInstance().makeFieldRef(cl, fieldName, t, false);
 
         mProductions.addLast(field);
     }
@@ -1246,7 +1246,7 @@ public class Walker extends DepthFirstAdapter {
             args = new ArrayList();
 
         SootMethodRef method = (SootMethodRef) mProductions.removeLast();
-        method = Scene.v().makeMethodRef(method.declaringClass(),
+        method = Scene.getInstance().makeMethodRef(method.declaringClass(),
                 method.name(), method.parameterTypes(), method.returnType(),
                 true);
 
@@ -1285,7 +1285,7 @@ public class Walker extends DepthFirstAdapter {
 
         SootClass sootClass = mResolver
                 .makeClassRef(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME);
-        SootMethodRef sootMethod = Scene.v().makeMethodRef(sootClass, name,
+        SootMethodRef sootMethod = Scene.getInstance().makeMethodRef(sootClass, name,
                 parameterList, type, false);
 
         mProductions.addLast(sootMethod);
@@ -1306,7 +1306,7 @@ public class Walker extends DepthFirstAdapter {
         className = (String) mProductions.removeLast();
 
         SootClass sootClass = mResolver.makeClassRef(className);
-        SootMethodRef sootMethod = Scene.v().makeMethodRef(sootClass,
+        SootMethodRef sootMethod = Scene.getInstance().makeMethodRef(sootClass,
                 methodName, parameterList, type, false);
 
         mProductions.addLast(sootMethod);
@@ -1361,7 +1361,7 @@ public class Walker extends DepthFirstAdapter {
 
                 ) {
             if (debug)
-                G.v().out.println("Default case -pushing token:"
+                System.out.println("Default case -pushing token:"
                         + ((Token) node).getText());
             String tokenString = ((Token) node).getText();
             if (node instanceof TStringConstant || node instanceof TQuotedName) {
@@ -1376,7 +1376,7 @@ public class Walker extends DepthFirstAdapter {
                     tokenString = StringTools.getUnEscapedStringOf(tokenString);
 
                 } catch (RuntimeException e) {
-                    G.v().out.println("Invalid escaped string: " + tokenString);
+                    System.out.println("Invalid escaped string: " + tokenString);
                     // just used the unescaped string, better than nothing
                 }
             }

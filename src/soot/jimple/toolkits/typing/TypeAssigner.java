@@ -133,7 +133,7 @@ public class TypeAssigner extends BodyTransformer {
 				Local l = localIt.next();
 
 				if (l.getType().equals(UnknownType.getInstance())
-						|| l.getType().equals(ErroneousType.v())) {
+						|| l.getType().equals(ErroneousType.getInstance())) {
 					return true;
 				}
 			}

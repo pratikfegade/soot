@@ -27,10 +27,9 @@
 package soot.toolkits.graph;
 
 import soot.Body;
-import soot.Timers;
 import soot.Trap;
 import soot.Unit;
-import soot.options.Options;
+import soot.util.PhaseDumper;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,62 +82,57 @@ import java.util.Map;
  */
 public class TrapUnitGraph extends UnitGraph
 {
-    /**
-     *  Constructs the graph from a given Body instance.
-     *  @param the Body instance from which the graph is built.
-     */
-    public TrapUnitGraph(Body body)
-    {
-        super(body);
-	int size = unitChain.size();
+	/**
+	 *  Constructs the graph from a given Body instance.
+	 *  @param the Body instance from which the graph is built.
+	 */
+	public TrapUnitGraph(Body body)
+	{
+		super(body);
+		int size = unitChain.size();
 
-        if(Options.v().time())
-            Timers.v().graphTimer.start();
+		unitToSuccs = new HashMap<>(size * 2 + 1, 0.7f);
+		unitToPreds = new HashMap<>(size * 2 + 1, 0.7f);
+		buildUnexceptionalEdges(unitToSuccs, unitToPreds);
+		buildExceptionalEdges(unitToSuccs, unitToPreds);
 
-	unitToSuccs = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	unitToPreds = new HashMap<Unit, List<Unit>>(size * 2 + 1, 0.7f);
-	buildUnexceptionalEdges(unitToSuccs, unitToPreds);
-	buildExceptionalEdges(unitToSuccs, unitToPreds);
-
-	buildHeadsAndTails();
-
-        if(Options.v().time())
-            Timers.v().graphTimer.end();
-
-	soot.util.PhaseDumper.v().dumpGraph(this, body);
-    }
+		buildHeadsAndTails();
 
 
-    /**
-     * Method to compute the edges corresponding to exceptional
-     * control flow. 
-     *
-     * @param unitToSuccs A <code>Map</code> from {@link Unit}s to {@link
-     *                    List}s of <code>Unit</code>s. This is an &ldquo;out
-     *                    parameter&rdquo;; <code>buildExceptionalEdges</code>
-     *                    will add a mapping for every <code>Unit</code>
-     *                    within the scope of one or more {@link
-     *                    Trap}s to a <code>List</code> of the handler
-     *                    units of those <code>Trap</code>s.
-     *
-     * @param unitToPreds A <code>Map</code> from <code>Unit</code>s to 
-     *                    <code>List</code>s of <code>Unit</code>s. This is an
-     *                    &ldquo;out parameter&rdquo;;
-     *                    <code>buildExceptionalEdges</code> will add a
-     *                    mapping for every <code>Trap</code> handler to
-     *                    all the <code>Unit</code>s within the scope of
-     *                    that <code>Trap</code>.
-     */
-    protected void buildExceptionalEdges(Map<Unit, List<Unit>> unitToSuccs, Map<Unit, List<Unit>> unitToPreds) {
-    	for (Trap trap : body.getTraps()) {
-		    Unit first = trap.getBeginUnit();
-		    Unit last =  unitChain.getPredOf(trap.getEndUnit());
-		    Unit catcher = trap.getHandlerUnit();	
-		    
-		    for (Iterator<Unit> unitIt = unitChain.iterator(first, last); unitIt.hasNext(); ) {
-		    	Unit trapped = unitIt.next();
-		    	addEdge(unitToSuccs, unitToPreds, trapped, catcher);
-		    }
-    	}
-    }
+		new PhaseDumper().dumpGraph(this, body);
+	}
+
+
+	/**
+	 * Method to compute the edges corresponding to exceptional
+	 * control flow.
+	 *
+	 * @param unitToSuccs A <code>Map</code> from {@link Unit}s to {@link
+	 *                    List}s of <code>Unit</code>s. This is an &ldquo;out
+	 *                    parameter&rdquo;; <code>buildExceptionalEdges</code>
+	 *                    will add a mapping for every <code>Unit</code>
+	 *                    within the scope of one or more {@link
+	 *                    Trap}s to a <code>List</code> of the handler
+	 *                    units of those <code>Trap</code>s.
+	 *
+	 * @param unitToPreds A <code>Map</code> from <code>Unit</code>s to
+	 *                    <code>List</code>s of <code>Unit</code>s. This is an
+	 *                    &ldquo;out parameter&rdquo;;
+	 *                    <code>buildExceptionalEdges</code> will add a
+	 *                    mapping for every <code>Trap</code> handler to
+	 *                    all the <code>Unit</code>s within the scope of
+	 *                    that <code>Trap</code>.
+	 */
+	protected void buildExceptionalEdges(Map<Unit, List<Unit>> unitToSuccs, Map<Unit, List<Unit>> unitToPreds) {
+		for (Trap trap : body.getTraps()) {
+			Unit first = trap.getBeginUnit();
+			Unit last =  unitChain.getPredOf(trap.getEndUnit());
+			Unit catcher = trap.getHandlerUnit();
+
+			for (Iterator<Unit> unitIt = unitChain.iterator(first, last); unitIt.hasNext(); ) {
+				Unit trapped = unitIt.next();
+				addEdge(unitToSuccs, unitToPreds, trapped, catcher);
+			}
+		}
+	}
 }

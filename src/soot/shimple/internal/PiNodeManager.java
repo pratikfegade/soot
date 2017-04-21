@@ -90,7 +90,7 @@ public class PiNodeManager
         update();
         boolean change = false;
         MultiMap<Local, Block> localsToUsePoints = new SHashMultiMap<Local, Block>();
-        varToBlocks = new HashMultiMap<Local, Block>();    
+        varToBlocks = new HashMultiMap<>();
         
         // compute localsToUsePoints and varToBlocks
         for (Block block : cfg) {
@@ -301,8 +301,8 @@ public class PiNodeManager
     public void eliminatePiNodes(boolean smart)
     {
         if(smart){
-            Map<Local, Value> newToOld = new HashMap<Local, Value>();
-            List<ValueBox> boxes = new ArrayList<ValueBox>();
+            Map<Local, Value> newToOld = new HashMap<>();
+            List<ValueBox> boxes = new ArrayList<>();
             
             for(Iterator<Unit> unitsIt = body.getUnits().iterator(); unitsIt.hasNext();){
                 Unit u = unitsIt.next();
@@ -324,7 +324,7 @@ public class PiNodeManager
                     box.setValue(old);
             }
 
-            CopyPropagator.v().transform(body);
+            new CopyPropagator().transform(body);
         }
         else{
             for (Unit u : body.getUnits()) {
@@ -334,16 +334,5 @@ public class PiNodeManager
             }
         }
     }
-    
-    public static List<ValueBox> getUseBoxesFromBlock(Block block)
-    {
-        Iterator<Unit> unitsIt = block.iterator();
-        
-        List<ValueBox> useBoxesList = new ArrayList<ValueBox>();
-    
-        while(unitsIt.hasNext())
-            useBoxesList.addAll(unitsIt.next().getUseBoxes());
-        
-        return useBoxesList;
-    }
+
 }

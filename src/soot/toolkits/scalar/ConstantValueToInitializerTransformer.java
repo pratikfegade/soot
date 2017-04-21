@@ -8,7 +8,6 @@ import soot.util.Chain;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -27,7 +26,7 @@ public class ConstantValueToInitializerTransformer extends SceneTransformer {
     
     @Override
 	protected void internalTransform() {
-		for (SootClass sc : Scene.v().getClasses()) {
+		for (SootClass sc : Scene.getInstance().getClasses()) {
 			transformClass(sc);
 		}
 	}

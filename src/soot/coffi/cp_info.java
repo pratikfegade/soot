@@ -31,7 +31,6 @@
 
 package soot.coffi;
 
-import soot.G;
 import soot.Value;
 
 /** Base abstract class for constant pool entries; includes some utility methods.
@@ -182,7 +181,7 @@ abstract class cp_info {
          return getClassname(constant_pool,
                              ((CONSTANT_InterfaceMethodref_info)c).class_index);
       }
-      G.v().out.println("Request for classname for non-class object!");
+      System.out.println("Request for classname for non-class object!");
       return "Can't find classname. Sorry.";
    }
 
@@ -208,7 +207,7 @@ abstract class cp_info {
          return getName(constant_pool,
                         ((CONSTANT_InterfaceMethodref_info)c).name_and_type_index);
       }
-      G.v().out.println("Request for name for non-named object!");
+      System.out.println("Request for name for non-named object!");
       return "Can't find name of that object. Sorry.";
    }
 

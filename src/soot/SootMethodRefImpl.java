@@ -71,7 +71,7 @@ class SootMethodRefImpl implements SootMethodRef {
 
     public NumberedString getSubSignature() {
         if( subsig == null ) {
-            subsig = Scene.v().getSubSigNumberer().findOrAdd(
+            subsig = Scene.getInstance().getSubSigNumberer().findOrAdd(
                 SootMethod.getSubSignature( name, parameterTypes, returnType ));
         }
         return subsig;
@@ -131,7 +131,7 @@ class SootMethodRefImpl implements SootMethodRef {
             SootMethod sm = cl.getMethodUnsafe(getSubSignature());
             if( sm != null )
                 return checkStatic(sm);
-            if(Scene.v().allowsPhantomRefs() && (cl.isPhantom() || Options.v().ignore_resolution_errors()))
+            if(Scene.getInstance().allowsPhantomRefs() && (cl.isPhantom() || Options.getInstance().ignore_resolution_errors()))
             {
                 SootMethod m = new SootMethod(name, parameterTypes, returnType, isStatic()?Modifier.STATIC:0);
                 m.setPhantom(true);
@@ -168,13 +168,13 @@ class SootMethodRefImpl implements SootMethodRef {
         //when allowing phantom refs we also allow for references to non-existing methods;
         //we simply create the methods on the fly; the method body will throw an appropriate
         //error just in case the code *is* actually reached at runtime
-        if(Options.v().allow_phantom_refs())
+        if(Options.getInstance().allow_phantom_refs())
         	return createUnresolvedErrorMethod(declaringClass);
         
         if( trace == null ) {
         	ClassResolutionFailedException e = new ClassResolutionFailedException();
-        	if(Options.v().ignore_resolution_errors())
-        		G.v().out.println(e.getMessage());
+        	if(Options.getInstance().ignore_resolution_errors())
+        		System.out.println(e.getMessage());
         	else
         		throw e;
         }
@@ -220,7 +220,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		body.getUnits().add(assignStmt);
 		
 		//exc.<init>(message)
-		SootMethodRef cref = Scene.v().makeConstructorRef(runtimeExceptionType.getSootClass(),
+		SootMethodRef cref = Scene.getInstance().makeConstructorRef(runtimeExceptionType.getSootClass(),
 				Collections.singletonList(RefType.newInstance("java.lang.String")));
 		SpecialInvokeExpr constructorInvokeExpr = Jimple.newSpecialInvokeExpr(exceptionLocal, cref,
 				StringConstant.v("Unresolved compilation error: Method "+getSignature()+" does not exist!"));

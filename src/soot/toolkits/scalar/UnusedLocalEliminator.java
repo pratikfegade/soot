@@ -27,11 +27,9 @@ package soot.toolkits.scalar;
 
 import soot.*;
 import soot.options.Options;
-import soot.singletons.Singletons;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * A BodyTransformer that removes all unused local variables from a given Body.
@@ -41,16 +39,10 @@ import java.util.Map;
  * @see Body
  */
 public class UnusedLocalEliminator extends BodyTransformer {
-	public UnusedLocalEliminator(Singletons.Global g) {
-	}
-
-	public static UnusedLocalEliminator v() {
-		return G.v().soot_toolkits_scalar_UnusedLocalEliminator();
-	}
 
 	protected void internalTransform(Body body) {
-		if (Options.v().verbose())
-			G.v().out.println("[" + body.getMethod().getName()
+		if (Options.getInstance().verbose())
+			System.out.println("[" + body.getMethod().getName()
 					+ "] Eliminating unused locals...");
 
 		

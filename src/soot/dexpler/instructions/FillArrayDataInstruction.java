@@ -139,7 +139,7 @@ public class FillArrayDataInstruction extends PseudoInstruction {
 
     if(elementType==null) {
       //throw new InternalError("Unable to find array type to type array elements!");
-      G.v().out.println("Warning: Unable to find array type to type array elements! Array was not defined! (obfuscated bytecode?)");
+      System.out.println("Warning: Unable to find array type to type array elements! Array was not defined! (obfuscated bytecode?)");
       return null;
     }
 

@@ -25,10 +25,6 @@ public class InteractionEvent {
     private int type;
     private Object info;
 
-    public InteractionEvent (int type){
-        type(type);
-    }
-    
     public InteractionEvent (int type, Object info){
         type(type);
         info(info);

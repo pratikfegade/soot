@@ -20,7 +20,6 @@
 package soot.shimple;
 
 import soot.Body;
-import soot.G;
 import soot.SootMethod;
 import soot.jimple.Jimple;
 import soot.jimple.JimpleBody;
@@ -85,8 +84,8 @@ public class ShimpleBody extends StmtBody
         if (!(body instanceof JimpleBody || body instanceof ShimpleBody))
             throw new RuntimeException("Cannot construct ShimpleBody from given Body type.");
 
-        if(Options.v().verbose())
-            G.v().out.println("[" + getMethod().getName() + "] Constructing ShimpleBody...");
+        if(Options.getInstance().verbose())
+            System.out.println("[" + getMethod().getName() + "] Constructing ShimpleBody...");
 
         // must happen before SPatchingChain gets created
 

@@ -87,8 +87,8 @@ public class DexlibWrapper {
 	public void initialize() {
 		ZipFile archive = null;
 		try {
-			int api = Scene.v().getAndroidAPIVersion(); // TODO: this matters now so it should be a soot option
-			if(Options.v().process_multiple_dex() && (inputDexFile.getName().endsWith(".apk") || 
+			int api = Scene.getInstance().getAndroidAPIVersion(); // TODO: this matters now so it should be a soot option
+			if(Options.getInstance().process_multiple_dex() && (inputDexFile.getName().endsWith(".apk") ||
 					inputDexFile.getName().endsWith(".zip") || inputDexFile.getName().endsWith(".jar"))){
 	            archive = new ZipFile(inputDexFile);
 				for (Enumeration<? extends ZipEntry> entries = archive.entries(); entries.hasMoreElements();) {
@@ -131,7 +131,7 @@ public class DexlibWrapper {
 					}
 					Debug.printDbg("Type: ", t, " soot type:", st);
 					String sootTypeName = st.toString();
-					if (!Scene.v().containsClass(sootTypeName)) {
+					if (!Scene.getInstance().containsClass(sootTypeName)) {
 						if (st instanceof PrimType || st instanceof VoidType
 								|| systemAnnotationNames.contains(sootTypeName)) {
 							// dex files contain references to the Type IDs of void
@@ -146,9 +146,9 @@ public class DexlibWrapper {
 							 */
 							continue;
 						}
-						SootResolver.v().makeClassRef(sootTypeName);
+						SootResolver.getInstance().makeClassRef(sootTypeName);
 					}
-					SootResolver.v().resolveClass(sootTypeName,
+					SootResolver.getInstance().resolveClass(sootTypeName,
 							SootClass.SIGNATURES);
 				}
 			} else {

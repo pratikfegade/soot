@@ -123,7 +123,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(ug != null)
             return ug;
         
-        UnreachableCodeEliminator.v().transform(getBody());
+        new UnreachableCodeEliminator(null).transform(getBody());
 
         ug = new ExceptionalUnitGraph(getBody());
         return ug;

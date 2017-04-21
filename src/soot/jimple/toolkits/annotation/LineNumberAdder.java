@@ -22,7 +22,6 @@ package soot.jimple.toolkits.annotation;
 import soot.*;
 import soot.jimple.IdentityStmt;
 import soot.jimple.Stmt;
-import soot.singletons.Singletons;
 import soot.tagkit.LineNumberTag;
 
 import java.util.Iterator;
@@ -32,7 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LineNumberAdder {
     public void internalTransform(){
 
-        Iterator it = Scene.v().getApplicationClasses().iterator();
+        Iterator it = Scene.getInstance().getApplicationClasses().iterator();
         while (it.hasNext()){
             SootClass sc = (SootClass)it.next();
             // make map of first line to each method

@@ -7,10 +7,8 @@ import soot.Unit;
 import soot.jimple.IdentityStmt;
 import soot.jimple.ParameterRef;
 import soot.jimple.ThisRef;
-import soot.singletons.Singletons;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Tries may not start or end at units which have no corresponding Dalvik
@@ -21,9 +19,6 @@ import java.util.Map;
  * @author Steven Arzt
  */
 public class FastDexTrapTightener extends BodyTransformer {
-
-    public FastDexTrapTightener( Singletons.Global g ) {}
-    public static FastDexTrapTightener v() { return soot.G.v().soot_toDex_FastDexTrapTightener(); }
     
     @Override
 	protected void internalTransform(Body b) {

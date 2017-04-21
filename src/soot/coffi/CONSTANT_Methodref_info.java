@@ -37,6 +37,7 @@ import soot.Value;
 import soot.jimple.Jimple;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /** A constant pool entry of type CONSTANT_Methodref
@@ -47,11 +48,11 @@ class CONSTANT_Methodref_info extends cp_info implements ICONSTANT_Methodref_inf
    /** Constant pool index of a CONSTANT_Class object.
     * @see CONSTANT_Class_info
     */
-   public int class_index;
+   int class_index;
    /** Constant pool index of a CONSTANT_NameAndType object.
     * @see CONSTANT_NameAndType_info
     */
-   public int name_and_type_index;
+   int name_and_type_index;
    /** Returns the size of this cp_info object.
     * @return number of bytes occupied by this object.
     * @see cp_info#size
@@ -106,16 +107,14 @@ class CONSTANT_Methodref_info extends cp_info implements ICONSTANT_Methodref_inf
 
 		// Generate parameters & returnType & parameterTypes
 		{
-			Type[] types = Util.v().jimpleTypesOfFieldOrMethodDescriptor(
+			Type[] types = Util.jimpleTypesOfFieldOrMethodDescriptor(
 					typeName);
 			parameterTypes = new ArrayList();
-			for (int k = 0; k < types.length - 1; k++) {
-				parameterTypes.add(types[k]);
-			}
+			parameterTypes.addAll(Arrays.asList(types).subList(0, types.length - 1));
 			returnType = types[types.length - 1];
 		}
 
-	    return Jimple.newStaticInvokeExpr(Scene.v().makeMethodRef(Scene.v().getSootClass(className), name, parameterTypes, returnType, true));
+	    return Jimple.newStaticInvokeExpr(Scene.getInstance().makeMethodRef(Scene.getInstance().getSootClass(className), name, parameterTypes, returnType, true));
 	}
 
 	public int getClassIndex() {

@@ -62,23 +62,23 @@ public class DexPrinter {
 	private File originalApk;
 
 	public DexPrinter() {
-		int api = Scene.v().getAndroidAPIVersion();
+		int api = Scene.getInstance().getAndroidAPIVersion();
 		dexFile = new DexBuilder(Opcodes.forApi(api));
 	}
 
 	private void printApk(String outputDir, File originalApk) throws IOException {
-		ZipOutputStream outputApk = null;
+		ZipOutputStream outputApk;
 
 		String outputFileName = outputDir + File.separatorChar + originalApk.getName();
 
 		File outputFile = new File(outputFileName);
-		if(outputFile.exists() && !Options.v().force_overwrite()) {
+		if(outputFile.exists() && !Options.getInstance().force_overwrite()) {
 			throw new CompilationDeathException("Output file "+outputFile+" exists. Not overwriting.");
 		}
 		outputApk = new ZipOutputStream(new FileOutputStream(outputFile));
-		G.v().out.println("Writing APK to: " + outputFileName);
+		System.out.println("Writing APK to: " + outputFileName);
 
-		G.v().out.println("do not forget to sign the .apk file with jarsigner and to align it with zipalign");
+		System.out.println("do not forget to sign the .apk file with jarsigner and to align it with zipalign");
 
 		// Copy over additional resources from original APK
 		ZipFile original = null;
@@ -397,7 +397,7 @@ public class DexPrinter {
 				for (Tag t : f.getTags()) {
 					if (t instanceof ConstantValueTag) {
 						if (staticInit != null) {
-							G.v().out.println("warning: more than one constant tag for field: " + f + ": "
+							System.out.println("warning: more than one constant tag for field: " + f + ": "
 									+ t);
 						} else {
 							staticInit = makeConstantItem(f, t);
@@ -614,7 +614,7 @@ public class DexPrinter {
 				elements.add(valueElement);
 			}
 			else
-				G.v().out.println("Signature annotation without value detected");
+				System.out.println("Signature annotation without value detected");
 
 			ImmutableAnnotation ann = new ImmutableAnnotation
 					(AnnotationVisibility.SYSTEM,
@@ -947,19 +947,19 @@ public class DexPrinter {
 				throw new RuntimeException("Invalid method name: " + m.getName());
 
 		// Switch statements may not be empty in dex, so we have to fix this first
-		EmptySwitchEliminator.v().transform(activeBody);
+		new EmptySwitchEliminator().transform(activeBody);
 
 		// Dalvik requires synchronized methods to have explicit monitor calls,
 		// so we insert them here. See http://milk.com/kodebase/dalvik-docs-mirror/docs/debugger.html
 		// We cannot place this upon the developer since it is only required
 		// for Dalvik, but not for other targets.
-		SynchronizedMethodTransformer.v().transform(activeBody);
+		new SynchronizedMethodTransformer().transform(activeBody);
 
 		// Tries may not start or end at units which have no corresponding Dalvik
 		// instructions such as IdentityStmts. We reduce the traps to start at the
 		// first "real" instruction. We could also use a TrapTigthener, but that
 		// would be too expensive for what we need here.
-		FastDexTrapTightener.v().transform(activeBody);
+		new FastDexTrapTightener().transform(activeBody);
 
 		// Look for sequences of array element assignments that we can collapse
 		// into bulk initializations
@@ -968,7 +968,7 @@ public class DexPrinter {
 		initDetector.fixTraps(activeBody);
 
 		// Split the tries since Dalvik does not supported nested try/catch blocks
-		TrapSplitter.v().transform(activeBody);
+		new TrapSplitter().transform(activeBody);
 
 		// word count of incoming parameters
 		int inWords = SootToDexUtils.getDexWords(m.getParameterTypes());
@@ -988,7 +988,7 @@ public class DexPrinter {
 			 * as the Dalvik VM moves the parameters into the last registers, the "in" word count must be at least equal to the register count.
 			 * a smaller register count could occur if soot generated the method body, see e.g. the handling of phantom refs in SootMethodRefImpl.resolve(StringBuffer):
 			 * the body has no locals for the ParameterRefs, it just throws an error.
-			 * 
+			 *
 			 * we satisfy the verifier by just increasing the register count, since calling phantom refs will lead to an error anyway.
 			 */
 			registerCount = inWords;
@@ -1003,7 +1003,7 @@ public class DexPrinter {
 		Map<Local, Integer> seenRegisters = new HashMap<Local, Integer>();
 		Map<Instruction, LocalRegisterAssignmentInformation> instructionRegisterMap = stmtV.getInstructionRegisterMap();
 
-		if (Options.v().write_local_annotations()) {
+		if (Options.getInstance().write_local_annotations()) {
 			for (LocalRegisterAssignmentInformation assignment : stmtV.getParameterInstructionsList()) {
 				//The "this" local gets added automatically, so we do not need to add it explicitly
 				//(at least not if it exists with exactly this name)
@@ -1469,11 +1469,11 @@ public class DexPrinter {
 		String outputDir = SourceLocator.v().getOutputDir();
 		try {
 			if (originalApk != null
-					&& Options.v().output_format() != Options.output_format_force_dex) {
+					&& Options.getInstance().output_format() != Options.output_format_force_dex) {
 				printApk(outputDir, originalApk);
 			} else {
 				String fileName = outputDir + File.separatorChar + CLASSES_DEX;
-				G.v().out.println("Writing dex to: " + fileName);
+				System.out.println("Writing dex to: " + fileName);
 				writeTo(fileName);
 			}
 		} catch (IOException e) {

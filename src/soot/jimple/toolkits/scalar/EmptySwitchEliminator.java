@@ -28,14 +28,11 @@ package soot.jimple.toolkits.scalar;
 
 import soot.Body;
 import soot.BodyTransformer;
-import soot.G;
 import soot.Unit;
 import soot.jimple.Jimple;
 import soot.jimple.LookupSwitchStmt;
-import soot.singletons.Singletons;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Removes empty switch statements which always take the default action from a
@@ -46,9 +43,6 @@ import java.util.Map;
  */
 public class EmptySwitchEliminator extends BodyTransformer
 {
-    public EmptySwitchEliminator( Singletons.Global g ) {}
-    public static EmptySwitchEliminator v() { return G.v().soot_jimple_toolkits_scalar_EmptySwitchEliminator(); }
-
     protected void internalTransform(Body b)
     {
     	Iterator<Unit> it = b.getUnits().snapshotIterator();

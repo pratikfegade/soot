@@ -24,10 +24,8 @@
 
 package soot.dexpler;
 
-import soot.G;
 import soot.SootClass;
 import soot.javaToJimple.IInitialResolver.Dependencies;
-import soot.singletons.Singletons;
 
 import java.io.File;
 import java.util.Map;
@@ -36,10 +34,6 @@ import java.util.TreeMap;
 public class DexResolver {
 
 	private Map<File,DexlibWrapper> cache = new TreeMap<File, DexlibWrapper>();
-
-    public DexResolver(Singletons.Global g) {}
-
-    public static DexResolver v() { return G.v().soot_dexpler_DexResolver(); }
 
     /**
      * Resolve the class contained in file into the passed soot class.

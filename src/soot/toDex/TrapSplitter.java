@@ -5,9 +5,6 @@ import soot.BodyTransformer;
 import soot.Trap;
 import soot.Unit;
 import soot.jimple.Jimple;
-import soot.singletons.Singletons;
-
-import java.util.Map;
 
 /**
  * Transformer that splits nested traps for Dalvik which does not support
@@ -19,10 +16,7 @@ import java.util.Map;
  */
 public class TrapSplitter extends BodyTransformer {
 
-    public TrapSplitter( Singletons.Global g ) {}
-    public static TrapSplitter v() { return soot.G.v().soot_toDex_TrapSplitter(); }
-
-    private class TrapOverlap {
+	private class TrapOverlap {
 		private Trap t1;
 		private Trap t2;
 		private Unit t2Start;
@@ -39,7 +33,7 @@ public class TrapSplitter extends BodyTransformer {
 		// If we have less then two traps, there's nothing to do here
 		if (b.getTraps().size() < 2)
 			return;
-		
+
 		// Look for overlapping traps
 		TrapOverlap to;
 		while ((to = getNextOverlap(b)) != null) {
@@ -52,7 +46,7 @@ public class TrapSplitter extends BodyTransformer {
 				b.getTraps().remove(to.t2);
 				continue;
 			}
-			
+
 			// t1start..t2start -> t1'start...t1'end,t2start...
 			if (to.t1.getBeginUnit() != to.t2Start) {
 				// We need to split off t1.start - predOf(t2.splitUnit). If both traps
@@ -145,7 +139,7 @@ public class TrapSplitter extends BodyTransformer {
 					if (t1 != t2 && (t1.getEndUnit() != t2.getEndUnit() || t1.getException() == t2.getException()) && t2.getBeginUnit() == splitUnit) {
 						return new TrapOverlap(t1, t2, t2.getBeginUnit());
 					}
-				}
+			}
 		}
 		return null;
 	}

@@ -32,7 +32,6 @@ package soot.toolkits.scalar;
 
 import soot.*;
 import soot.options.Options;
-import soot.toolkits.graph.UnitGraph;
 
 import java.util.*;
 
@@ -49,19 +48,6 @@ public class SimpleLocalUses implements LocalUses
     private Map<Unit, List<UnitValueBoxPair>> unitToUses;
 
     /**
-     * Construct the analysis from a UnitGraph representation
-     * of a method body and a LocalDefs interface. This supposes that
-     * a LocalDefs analysis must have been computed prior.
-     *
-     * <p> Note: If you do not already have a UnitGraph, it may be
-     * cheaper to use the constructor which only requires a Body.
-     */
-    public SimpleLocalUses(UnitGraph graph, LocalDefs localDefs)
-    {
-        this(graph.getBody(), localDefs);
-    }
-
-    /**
      * Construct the analysis from a method body and a LocalDefs
      * interface. This supposes that a LocalDefs analysis must have
      * been computed prior.
@@ -69,25 +55,14 @@ public class SimpleLocalUses implements LocalUses
     public SimpleLocalUses(Body body, LocalDefs localDefs)
     {
     	this.body = body;
-        if(Options.v().time())
-           Timers.v().usesTimer.start();
-    
-        if(Options.v().time())
-           Timers.v().usePhase1Timer.start();
         
-        if(Options.v().verbose())
-            G.v().out.println("[" + body.getMethod().getName() +
+        if(Options.getInstance().verbose())
+            System.out.println("[" + body.getMethod().getName() +
                 "]     Constructing SimpleLocalUses...");
         
-        unitToUses = new HashMap<Unit, List<UnitValueBoxPair>>(body.getUnits().size() * 2 + 1, 0.7f);
+        unitToUses = new HashMap<>(body.getUnits().size() * 2 + 1, 0.7f);
     
         // Initialize this map to empty sets
-
-        if(Options.v().time())
-           Timers.v().usePhase1Timer.end();
-    
-        if(Options.v().time())
-           Timers.v().usePhase2Timer.start();
     
         // Traverse units and associate uses with definitions
         for (Unit unit : body.getUnits()) {
@@ -112,16 +87,9 @@ public class SimpleLocalUses implements LocalUses
             	}
             }
         }
-        
 
-        if(Options.v().time())
-           Timers.v().usePhase2Timer.end();
-        
-        if(Options.v().time())
-            Timers.v().usesTimer.end();
-
-        if(Options.v().verbose())
-            G.v().out.println("[" + body.getMethod().getName() +
+        if(Options.getInstance().verbose())
+            System.out.println("[" + body.getMethod().getName() +
                 "]     finished SimpleLocalUses...");
     }
 

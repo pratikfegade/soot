@@ -76,7 +76,7 @@ public class TypeResolver {
 			typeVariableMap.put(local, result);
 
 			if (DEBUG) {
-				G.v().out.println("[LOCAL VARIABLE \"" + local + "\" -> " + id
+				System.out.println("[LOCAL VARIABLE \"" + local + "\" -> " + id
 						+ "]");
 			}
 		}
@@ -124,7 +124,7 @@ public class TypeResolver {
 
 	public static void resolve(JimpleBody stmtBody) {
 		if (DEBUG) {
-			G.v().out.println(stmtBody.getMethod());
+			System.out.println(stmtBody.getMethod());
 		}
 
 		try {
@@ -132,7 +132,7 @@ public class TypeResolver {
 			resolver.resolve_step_1();
 		} catch (TypeException e1) {
 			if (DEBUG) {
-				G.v().out.println("[integer] Step 1 Exception-->"
+				System.out.println("[integer] Step 1 Exception-->"
 						+ e1.getMessage());
 			}
 
@@ -152,11 +152,11 @@ public class TypeResolver {
 	private void debug_vars(String message) {
 		if (DEBUG) {
 			int count = 0;
-			G.v().out.println("**** START:" + message);
+			System.out.println("**** START:" + message);
 			for (TypeVariable var : typeVariableList) {
-				G.v().out.println(count++ + " " + var);
+				System.out.println(count++ + " " + var);
 			}
-			G.v().out.println("**** END:" + message);
+			System.out.println("**** END:" + message);
 		}
 	}
 
@@ -178,7 +178,7 @@ public class TypeResolver {
 			check_constraints();
 		} catch (TypeException e) {
 			if (DEBUG) {
-				G.v().out.println("[integer] Step 1(check) Exception ["
+				System.out.println("[integer] Step 1(check) Exception ["
 						+ stmtBody.getMethod() + "]-->" + e.getMessage());
 			}
 
@@ -199,11 +199,11 @@ public class TypeResolver {
 		for (Unit u : stmtBody.getUnits()) {
 			final Stmt stmt = (Stmt) u;
 			if (DEBUG) {
-				G.v().out.print("stmt: ");
+				System.out.print("stmt: ");
 			}
 			collector.collect(stmt, stmtBody);
 			if (DEBUG) {
-				G.v().out.println(stmt);
+				System.out.println(stmt);
 			}
 		}
 	}
@@ -214,11 +214,11 @@ public class TypeResolver {
 		for (Unit u : stmtBody.getUnits()) {
 			final Stmt stmt = (Stmt) u;
 			if (DEBUG) {
-				G.v().out.print("stmt: ");
+				System.out.print("stmt: ");
 			}
 			collector.collect(stmt, stmtBody);
 			if (DEBUG) {
-				G.v().out.println(stmt);
+				System.out.println(stmt);
 			}
 		}
 	}
@@ -264,9 +264,9 @@ public class TypeResolver {
 				if (lca != null) {
 					if (DEBUG) {
 						if (lca == ClassHierarchy.getInstance().TOP) {
-							G.v().out.println("*** TOP *** " + var);
+							System.out.println("*** TOP *** " + var);
 							for (TypeVariable typeVariable : children_to_remove) {
-								G.v().out.println("-- " + typeVariable);
+								System.out.println("-- " + typeVariable);
 							}
 						}
 					}
@@ -337,7 +337,7 @@ public class TypeResolver {
 					if (var.type() == null && var.inv_approx() != null
 							&& var.inv_approx().type() != null) {
 						if (DEBUG) {
-							G.v().out.println("*** I->"
+							System.out.println("*** I->"
 									+ var.inv_approx().type() + " *** " + var);
 						}
 
@@ -352,7 +352,7 @@ public class TypeResolver {
 					if (var.type() == null && var.approx() != null
 							&& var.approx().type() != null) {
 						if (DEBUG) {
-							G.v().out.println("*** A->" + var.approx().type()
+							System.out.println("*** A->" + var.approx().type()
 									+ " *** " + var);
 						}
 
@@ -367,7 +367,7 @@ public class TypeResolver {
 					if (var.type() == null
 							&& var.approx() == ClassHierarchy.getInstance().R0_32767) {
 						if (DEBUG) {
-							G.v().out.println("*** R->SHORT *** " + var);
+							System.out.println("*** R->SHORT *** " + var);
 						}
 
 						var.union(SHORT);
@@ -381,7 +381,7 @@ public class TypeResolver {
 					if (var.type() == null
 							&& var.approx() == ClassHierarchy.getInstance().R0_127) {
 						if (DEBUG) {
-							G.v().out.println("*** R->BYTE *** " + var);
+							System.out.println("*** R->BYTE *** " + var);
 						}
 
 						var.union(BYTE);
@@ -395,7 +395,7 @@ public class TypeResolver {
 					if (var.type() == null
 							&& var.approx() == ClassHierarchy.getInstance().R0_1) {
 						if (DEBUG) {
-							G.v().out.println("*** R->BOOLEAN *** " + var);
+							System.out.println("*** R->BOOLEAN *** " + var);
 						}
 						var.union(BOOLEAN);
 						modified = true;
@@ -425,7 +425,7 @@ public class TypeResolver {
 							&& (var.approx().type() != null) && (local != null)
 							&& (local.getType() != null)
 							&& !local.getType().equals(var.approx().type())) {
-						G.v().out.println("local: " + local + ", type: "
+						System.out.println("local: " + local + ", type: "
 								+ local.getType() + ", approx: "
 								+ var.approx().type());
 					}
@@ -476,7 +476,7 @@ public class TypeResolver {
 				checker.check(stmt, stmtBody);
 			} catch (TypeException e) {
 				if (DEBUG) {
-					G.v().out.println(s);
+					System.out.println(s);
 				}
 				throw e;
 			}
@@ -502,7 +502,7 @@ public class TypeResolver {
 				checker.check(stmt, stmtBody);
 			} catch (TypeException e) {
 				if (DEBUG) {
-					G.v().out.println(s);
+					System.out.println(s);
 				}
 				throw e;
 			}

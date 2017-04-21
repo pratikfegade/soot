@@ -115,7 +115,7 @@ public class DexClassProvider implements ClassProvider {
 								ZipEntry entry = entries.nextElement();
 		    					String entryName = entry.getName();
 		    					if(entryName.endsWith(".dex")) {
-		    						if (Options.v().process_multiple_dex() || entryName.equals("classes.dex"))
+		    						if (Options.getInstance().process_multiple_dex() || entryName.equals("classes.dex"))
 		    							entryNames.add(entryName);
 		    					}
 							}
@@ -130,7 +130,7 @@ public class DexClassProvider implements ClassProvider {
 							}catch(Throwable e) {}
 						}
 						if(!entryNames.isEmpty()){
-							if(Options.v().process_multiple_dex()){
+							if(Options.getInstance().process_multiple_dex()){
 								for(String entryName : entryNames){
 									readDexFile(index, file, entryName);
 								}
@@ -153,11 +153,11 @@ public class DexClassProvider implements ClassProvider {
                 index.put(className, dex);
             }
         } catch (IOException e) { 
-          G.v().out.println("Warning: IO error while processing dex file '"+ dex +"'");
-          G.v().out.println("Exception: "+ e);
+          System.out.println("Warning: IO error while processing dex file '"+ dex +"'");
+          System.out.println("Exception: "+ e);
         } catch (Exception e) {
-          G.v().out.println("Warning: exception while processing dex file '"+ dex +"'");
-          G.v().out.println("Exception: "+ e);
+          System.out.println("Warning: exception while processing dex file '"+ dex +"'");
+          System.out.println("Exception: "+ e);
         }
     }
     
@@ -170,11 +170,11 @@ public class DexClassProvider implements ClassProvider {
                 index.put(className, dex);
             }
         } catch (IOException e) { 
-          G.v().out.println("Warning: IO error while processing dex file '"+ dex +"'");
-          G.v().out.println("Exception: "+ e);
+          System.out.println("Warning: IO error while processing dex file '"+ dex +"'");
+          System.out.println("Exception: "+ e);
         } catch (Exception e) {
-          G.v().out.println("Warning: exception while processing dex file '"+ dex +"'");
-          G.v().out.println("Exception: "+ e);
+          System.out.println("Warning: exception while processing dex file '"+ dex +"'");
+          System.out.println("Exception: "+ e);
         }
     }
     
@@ -204,7 +204,7 @@ public class DexClassProvider implements ClassProvider {
 	 */
 	public static Set<String> classesOfDex(File file, String dexName) throws IOException {
 		Set<String> classes = new HashSet<String>();
-		int api = Scene.v().getAndroidAPIVersion();
+		int api = Scene.getInstance().getAndroidAPIVersion();
 		DexBackedDexFile d = dexName != null  
 				? DexFileFactory.loadDexEntry(file, dexName, true, Opcodes.forApi(api))  
 				: DexFileFactory.loadDexFile(file, Opcodes.forApi(api));  

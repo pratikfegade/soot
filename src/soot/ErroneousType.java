@@ -29,7 +29,6 @@
 
 package soot;
 
-import soot.singletons.Singletons;
 import soot.util.Switch;
 
 /**
@@ -39,14 +38,18 @@ import soot.util.Switch;
 @SuppressWarnings("serial")
 public class ErroneousType extends Type
 {
-    public ErroneousType( Singletons.Global g ) {}
-    public static ErroneousType v() { return G.v().soot_ErroneousType(); }
+    private static ErroneousType instance = null;
+    public static synchronized Type getInstance() {
+        if (instance == null)
+            instance = new ErroneousType();
+        return instance;
+    }
 
     public int hashCode()
     {
         return 0x92473FFF;
     }
-    
+
     public boolean equals(Object t)
     {
         return this == t;

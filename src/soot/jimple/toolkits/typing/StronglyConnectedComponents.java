@@ -26,8 +26,6 @@
 
 package soot.jimple.toolkits.typing;
 
-import soot.G;
-
 import java.util.*;
 
 class StronglyConnectedComponents
@@ -106,7 +104,7 @@ class StronglyConnectedComponents
 		  {
 		    if(DEBUG)
 		      {
-			G.v().out.println(s);
+			System.out.println(s);
 		      }
 		    throw e;
 		  }

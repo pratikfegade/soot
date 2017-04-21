@@ -32,7 +32,6 @@
 package soot.coffi;
 
 import soot.*;
-import soot.singletons.Singletons;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,17 +40,13 @@ import java.util.Map;
 
 public class Util
 {
-    public Util( Singletons.Global g ) {}
-    public static Util v() { return G.v().soot_coffi_Util(); }
+    private static final ArrayList<Type> conversionTypes = new ArrayList<>();
 
-
-    private final ArrayList<Type> conversionTypes = new ArrayList<>();
-
-    private final Map<String, Type[]> cache = new HashMap<>();
+    private static final Map<String, Type[]> cache = new HashMap<>();
     /* Concurrent modification of 'cache' and 'conversionTypes' leads
      * to errors but these are only used by this method, so we make it
      * synchronized. */
-    public synchronized Type[] jimpleTypesOfFieldOrMethodDescriptor(String descriptor)
+    public static synchronized Type[] jimpleTypesOfFieldOrMethodDescriptor(String descriptor)
     {
         Type[] ret = cache.get(descriptor);
         if( ret != null ) return ret;
@@ -148,7 +143,7 @@ public class Util
         return ret;
     }
 
-    public Type jimpleTypeOfFieldDescriptor(String descriptor)
+    public static Type jimpleTypeOfFieldDescriptor(String descriptor)
     {
         boolean isArray = false;
         int numDimensions = 0;

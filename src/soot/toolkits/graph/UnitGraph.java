@@ -65,8 +65,8 @@ public abstract class UnitGraph implements DirectedGraph<Unit> {
 		this.body = body;
 		unitChain = body.getUnits();
 		method = body.getMethod();
-		if (Options.v().verbose())
-			G.v().out.println("[" + method.getName() + "]     Constructing "
+		if (Options.getInstance().verbose())
+			System.out.println("[" + method.getName() + "]     Constructing "
 					+ this.getClass().getName() + "...");
 
 	}

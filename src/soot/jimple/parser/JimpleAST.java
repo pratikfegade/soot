@@ -65,7 +65,7 @@ public class JimpleAST
      * returns it. */
     public SootClass createSootClass()
     {        
-        Walker w = new Walker(SootResolver.v());        
+        Walker w = new Walker(SootResolver.getInstance());
         mTree.apply(w);  
         return w.getSootClass();
     }
@@ -78,7 +78,7 @@ public class JimpleAST
      */
     public void getSkeleton(SootClass sc)
     {
-        Walker w = new SkeletonExtractorWalker(SootResolver.v(), sc);        
+        Walker w = new SkeletonExtractorWalker(SootResolver.getInstance(), sc);
         mTree.apply(w);          
     }
     
@@ -111,7 +111,7 @@ public class JimpleAST
     /** Returns the SootResolver currently in use. */
     public SootResolver getResolver()
     {
-        return SootResolver.v();
+        return SootResolver.getInstance();
     }
 
     /* Runs a Walker on the InputStream associated to this object.
@@ -121,13 +121,13 @@ public class JimpleAST
     {
     	Map<SootMethod, JimpleBody> methodToBodyMap = new ConcurrentHashMap<SootMethod, JimpleBody>();
 
-        Walker w = new BodyExtractorWalker(sc, SootResolver.v(), methodToBodyMap);
+        Walker w = new BodyExtractorWalker(sc, SootResolver.getInstance(), methodToBodyMap);
 
-        boolean oldPhantomValue = Scene.v().getPhantomRefs();
+        boolean oldPhantomValue = Scene.getInstance().getPhantomRefs();
 
-        Scene.v().setPhantomRefs(true);
+        Scene.getInstance().setPhantomRefs(true);
         mTree.apply(w);
-        Scene.v().setPhantomRefs(oldPhantomValue);
+        Scene.getInstance().setPhantomRefs(oldPhantomValue);
         
         methodToParsedBodyMap = methodToBodyMap;
     }    

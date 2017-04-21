@@ -158,9 +158,9 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
             DEBUG=false;
             */
         }
-        Scene.v().getMethodNumberer().add(this);
+        Scene.getInstance().getMethodNumberer().add(this);
         subsignature =
-                Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+                Scene.getInstance().getSubSigNumberer().findOrAdd(getSubSignature());
 
 
     }
@@ -220,7 +220,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     @Override
     public void setPhantom(boolean value) {
         if (value) {
-            if (!Scene.v().allowsPhantomRefs())
+            if (!Scene.getInstance().allowsPhantomRefs())
                 throw new RuntimeException("Phantom refs not allowed");
             if (declaringClass != null && !declaringClass.isPhantom())
                 throw new RuntimeException("Declaring class would have to be phantom");
@@ -235,7 +235,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
         this.name = name;
         subsignature =
-                Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+                Scene.getInstance().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
     }
 
@@ -264,7 +264,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         SootClass oldDeclaringClass = declaringClass;
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
         returnType = t;
-        subsignature = Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+        subsignature = Scene.getInstance().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
     }
 
@@ -294,7 +294,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         if( wasDeclared ) oldDeclaringClass.removeMethod(this);
         this.parameterTypes = Collections.unmodifiableList(new ArrayList<Type>(l));
         subsignature =
-                Scene.v().getSubSigNumberer().findOrAdd(getSubSignature());
+                Scene.getInstance().getSubSigNumberer().findOrAdd(getSubSignature());
         if( wasDeclared) oldDeclaringClass.addMethod(this);
     }
 
@@ -334,7 +334,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         setActiveBody(b);
 
         // If configured, we drop the method source to save memory
-        if (Options.v().drop_bodies_after_load())
+        if (Options.getInstance().drop_bodies_after_load())
             ms = null;
 
         return b;
@@ -515,7 +515,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     public static String getSignature(SootClass cl, String name, List<Type> params, Type returnType) {
         StringBuilder buffer = new StringBuilder();
         buffer.append("<");
-        buffer.append(Scene.v().quotedNameOf(cl.getName()));
+        buffer.append(Scene.getInstance().quotedNameOf(cl.getName()));
         buffer.append(": ");
         buffer.append(getSubSignatureImpl(name, params, returnType));
         buffer.append(">");
@@ -552,7 +552,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         buffer.append(returnType.getEscapedName());
 
         buffer.append(" ");
-        buffer.append(Scene.v().quotedNameOf(name));
+        buffer.append(Scene.getInstance().quotedNameOf(name));
         buffer.append("(");
 
         for (int i = 0; i < params.size(); i++) {
@@ -597,7 +597,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         // return type + name
 
         buffer.append(this.getReturnType() + " ");
-        buffer.append(Scene.v().quotedNameOf(this.getName()));
+        buffer.append(Scene.getInstance().quotedNameOf(this.getName()));
 
         buffer.append("(");
 
@@ -643,7 +643,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     public SootMethod method() { return this; }
     public Context context() { return null; }
     public SootMethodRef makeRef() {
-        return Scene.v().makeMethodRef( declaringClass, name, parameterTypes, returnType, isStatic() );
+        return Scene.getInstance().makeMethodRef( declaringClass, name, parameterTypes, returnType, isStatic() );
     }
 
     @Override

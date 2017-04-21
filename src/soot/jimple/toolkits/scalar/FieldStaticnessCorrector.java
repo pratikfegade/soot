@@ -2,22 +2,16 @@ package soot.jimple.toolkits.scalar;
 
 import soot.Body;
 import soot.BodyTransformer;
-import soot.G;
 import soot.Unit;
 import soot.jimple.*;
-import soot.singletons.Singletons;
 
 import java.util.Iterator;
-import java.util.Map;
 
 public class FieldStaticnessCorrector extends BodyTransformer {
 
-    public FieldStaticnessCorrector( Singletons.Global g ) {}
-    public static FieldStaticnessCorrector v() { return G.v().soot_jimple_toolkits_scalar_FieldStaticnessCorrector(); }
-
-    @Override
+	@Override
 	protected void internalTransform(Body b) {
-        // Some apps reference static fields as instance fields. We need to fix
+		// Some apps reference static fields as instance fields. We need to fix
 		// this for not breaking the client analysis.
 		for (Iterator<Unit> unitIt = b.getUnits().iterator(); unitIt.hasNext(); ) {
 			Stmt s = (Stmt) unitIt.next();
@@ -35,5 +29,4 @@ public class FieldStaticnessCorrector extends BodyTransformer {
 			}
 		}
 	}
-
 }

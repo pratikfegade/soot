@@ -64,7 +64,7 @@ class TypeNode
     if(!((type instanceof PrimType) || (type instanceof RefType) ||
 	 (type instanceof ArrayType) || (type instanceof NullType)))
       {
-	G.v().out.println("Unhandled type: " + type);
+	System.out.println("Unhandled type: " + type);
 	throw new InternalTypingException();
       }
 
@@ -74,7 +74,7 @@ class TypeNode
 
     if(DEBUG)
       {
-	G.v().out.println("creating node " + this);
+	System.out.println("creating node " + this);
       }
   }
 
@@ -162,7 +162,7 @@ class TypeNode
 	      plist.add(hierarchy.OBJECT);
 
 	      // hack for J2ME library, reported by Stephen Cheng
-	      if (!Options.v().j2me()) {
+	      if (!Options.getInstance().j2me()) {
 		plist.add(hierarchy.CLONEABLE);
 		plist.add(hierarchy.SERIALIZABLE);
 	      }
@@ -174,7 +174,7 @@ class TypeNode
 	      plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.OBJECT.type(), type.numDimensions - 1)));
 
 	      // hack for J2ME library, reported by Stephen Cheng
-	      if (!Options.v().j2me()) {
+	      if (!Options.getInstance().j2me()) {
 		plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.CLONEABLE.type(), type.numDimensions - 1)));
 		plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.SERIALIZABLE.type(), type.numDimensions - 1)));
 	      }
@@ -193,7 +193,7 @@ class TypeNode
 	  plist.add(hierarchy.OBJECT);
 
 	  // hack for J2ME library, reported by Stephen Cheng
-	  if (!Options.v().j2me()) {
+	  if (!Options.getInstance().j2me()) {
 	    plist.add(hierarchy.CLONEABLE);
 	    plist.add(hierarchy.SERIALIZABLE);
 	  }
@@ -204,7 +204,7 @@ class TypeNode
 	{
 	  plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.OBJECT.type(), type.numDimensions - 1)));
 	  // hack for J2ME library, reported by Stephen Cheng
-	  if (!Options.v().j2me()) {
+	  if (!Options.getInstance().j2me()) {
 	    plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.CLONEABLE.type(), type.numDimensions - 1)));
 	    plist.add(hierarchy.typeNode(ArrayType.getInstance(hierarchy.SERIALIZABLE.type(), type.numDimensions - 1)));
 	  }
@@ -375,10 +375,10 @@ class TypeNode
 	  {
 	    if(DEBUG)
 	      {
-		G.v().out.println("lca " + initial + " (" + type + ") & " + this + " =");
+		System.out.println("lca " + initial + " (" + type + ") & " + this + " =");
 		for(Iterator<TypeNode> i = type.parents.iterator(); i.hasNext(); )
 		  {
-		    G.v().out.println("  " + i.next());
+		    System.out.println("  " + i.next());
 		  }
 	      }
 	    return null;

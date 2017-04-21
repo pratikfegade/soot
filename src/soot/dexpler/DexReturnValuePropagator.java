@@ -18,7 +18,7 @@ public class DexReturnValuePropagator extends BodyTransformer {
 
 	@Override
 	protected void internalTransform(Body body) {
-        ExceptionalUnitGraph graph = new ExceptionalUnitGraph(body, DalvikThrowAnalysis.v(), true);
+        ExceptionalUnitGraph graph = new ExceptionalUnitGraph(body, new DalvikThrowAnalysis(), true);
         LocalDefs localDefs = LocalDefs.Factory.newLocalDefs(graph);
         LocalUses localUses = null;
         LocalCreation localCreation = null;

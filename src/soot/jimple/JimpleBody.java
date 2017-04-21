@@ -32,7 +32,6 @@ import soot.validation.BodyValidator;
 import soot.validation.ValidationException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /** Implementation of the Body class for the Jimple IR. */
@@ -106,7 +105,7 @@ public class JimpleBody extends StmtBody
      */
     public void validate(List<ValidationException> exceptionList) {
         super.validate(exceptionList);
-        final boolean runAllValidators = Options.v().debug() || Options.v().validate();
+        final boolean runAllValidators = Options.getInstance().debug() || Options.getInstance().validate();
         for (BodyValidator validator : getValidators()) {
             if (!validator.isBasicValidator() && !runAllValidators)
                 continue;

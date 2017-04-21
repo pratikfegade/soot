@@ -22,13 +22,11 @@ package soot.toolkits.exceptions;
 import soot.*;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.options.Options;
-import soot.singletons.Singletons;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph.ExceptionDest;
 import soot.util.Chain;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -51,23 +49,12 @@ public final class TrapTightener extends TrapTransformer {
 
 	protected ThrowAnalysis throwAnalysis = null;
 
-	public TrapTightener(Singletons.Global g) {
-	}
-
-	public static TrapTightener v() {
-		return soot.G.v().soot_toolkits_exceptions_TrapTightener();
-	}
-
-	public TrapTightener(ThrowAnalysis ta) {
-		this.throwAnalysis = ta;
-	}
-
 	protected void internalTransform(Body body) {
 		if (this.throwAnalysis == null)
-			this.throwAnalysis = Scene.v().getDefaultThrowAnalysis();
+			this.throwAnalysis = Scene.getInstance().getDefaultThrowAnalysis();
 
-		if (Options.v().verbose())
-			G.v().out.println("[" + body.getMethod().getName() + "] Tightening trap boundaries...");
+		if (Options.getInstance().verbose())
+			System.out.println("[" + body.getMethod().getName() + "] Tightening trap boundaries...");
 
 		Chain<Trap> trapChain = body.getTraps();
 		Chain<Unit> unitChain = body.getUnits();

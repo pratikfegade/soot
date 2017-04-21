@@ -51,7 +51,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 	}
 
 	protected void internalTransform(final Body body) {
-		final ExceptionalUnitGraph g = new ExceptionalUnitGraph(body, DalvikThrowAnalysis.v());
+		final ExceptionalUnitGraph g = new ExceptionalUnitGraph(body, new DalvikThrowAnalysis());
 		final LocalDefs defs = LocalDefs.Factory.newLocalDefs(g);
 		final LocalCreation lc = new LocalCreation(body.getLocals(), "ex");
 		
@@ -80,7 +80,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 							changed = true;
 						}
 					}
-					else if (base == NullConstant.v()
+					else if (base == NullConstant.getInstance()
 							|| isAlwaysNullBefore(s, (Local) base, defs)) {
 						createThrowStmt(body, s, lc);
 						changed = true;
@@ -90,7 +90,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 		}
 		
 		if (changed)
-			UnreachableCodeEliminator.v().transform(body);
+			new UnreachableCodeEliminator(null).transform(body);
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 			if (!(u instanceof DefinitionStmt))
 				return false;
 			DefinitionStmt defStmt = (DefinitionStmt) u;
-			if (defStmt.getRightOp() != NullConstant.v())
+			if (defStmt.getRightOp() != NullConstant.getInstance())
 				return false;
 		}
 		return true;
@@ -128,7 +128,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 		RefType tp = RefType.newInstance("java.lang.NullPointerException");
 		Local lcEx = lc.newLocal(tp);
 		
-		SootMethodRef constructorRef = Scene.v().makeConstructorRef(tp.getSootClass(),
+		SootMethodRef constructorRef = Scene.getInstance().makeConstructorRef(tp.getSootClass(),
 				Collections.singletonList(RefType.newInstance("java.lang.String")));
 		
 		// Create the exception instance

@@ -3,25 +3,20 @@ package soot.jimple.toolkits.scalar;
 import soot.*;
 import soot.jimple.AssignStmt;
 import soot.jimple.CastExpr;
-import soot.singletons.Singletons;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Transformer that removes unnecessary identity casts such as
- * 
+ *
  * 		$i3 = (int) $i3
- * 
+ *
  * when $i3 is already of type "int".
- * 
+ *
  * @author Steven Arzt
  *
  */
 public class IdentityCastEliminator extends BodyTransformer {
-
-	public IdentityCastEliminator( Singletons.Global g ) {}
-	public static IdentityCastEliminator v() { return G.v().soot_jimple_toolkits_scalar_IdentityCastEliminator(); }
 
 	@Override
 	protected void internalTransform(Body b) {
@@ -32,10 +27,10 @@ public class IdentityCastEliminator extends BodyTransformer {
 				if (assignStmt.getLeftOp() instanceof Local
 						&& assignStmt.getRightOp() instanceof CastExpr) {
 					CastExpr ce = (CastExpr) assignStmt.getRightOp();
-					
+
 					Type orgType = ce.getOp().getType();
 					Type newType = ce.getCastType();
-					
+
 					// If this a cast such as  a = (X) a, we can remove the whole line.
 					// Otherwise, if only the types match, we can replace the typecast
 					// with a normal assignment.

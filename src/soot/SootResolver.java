@@ -28,12 +28,12 @@ package soot;
 
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
-import soot.singletons.Singletons;
 
 import java.util.*;
 
 /** Loads symbols for SootClasses from either class files or jimple files. */
 public class SootResolver {
+	private static SootResolver instance = null;
 	/** Maps each resolved class to a list of all references in it. */
 	private final Map<SootClass, Collection<Type>> classToTypesSignature = new HashMap<SootClass, Collection<Type>>();
 
@@ -44,22 +44,24 @@ public class SootResolver {
 	@SuppressWarnings("unchecked")
 	private final Deque<SootClass>[] worklist = new Deque[4];
 
-	public SootResolver(Singletons.Global g) {
+	public SootResolver() {
 		worklist[SootClass.HIERARCHY] = new ArrayDeque<>();
 		worklist[SootClass.SIGNATURES] = new ArrayDeque<>();
 		worklist[SootClass.BODIES] = new ArrayDeque<>();
 	}
 
-	public static SootResolver v() {
-		return G.v().soot_SootResolver();
+	public synchronized static SootResolver getInstance() {
+		if (instance == null)
+			instance = new SootResolver();
+		return instance;
 	}
 
 	/** Returns true if we are resolving all class refs recursively. */
 	private boolean resolveEverything() {
-		if (Options.v().on_the_fly())
+		if (Options.getInstance().on_the_fly())
 			return false;
-		return (Options.v().whole_program() || Options.v().whole_shimple()
-				|| Options.v().full_resolver() || Options.v().output_format() == Options.output_format_dava);
+		return (Options.getInstance().whole_program() || Options.getInstance().whole_shimple()
+				|| Options.getInstance().full_resolver() || Options.getInstance().output_format() == Options.output_format_dava);
 	}
 
 	/**
@@ -69,15 +71,15 @@ public class SootResolver {
 	 * */
 	public SootClass makeClassRef(String className) {
 		// If this class name is escaped, we need to un-escape it
-		className = Scene.v().unescapeName(className);
+		className = Scene.getInstance().unescapeName(className);
 		
-		if (Scene.v().containsClass(className))
-			return Scene.v().getSootClass(className);
+		if (Scene.getInstance().containsClass(className))
+			return Scene.getInstance().getSootClass(className);
 
 		SootClass newClass;
 		newClass = new SootClass(className);
 		newClass.setResolvingLevel(SootClass.DANGLING);
-		Scene.v().addClass(newClass);
+		Scene.getInstance().addClass(newClass);
 
 		return newClass;
 	}
@@ -98,7 +100,7 @@ public class SootResolver {
 			// remove unresolved class and rethrow
 			if (resolvedClass != null) {
 				assert resolvedClass.resolvingLevel() == SootClass.DANGLING;
-				Scene.v().removeClass(resolvedClass);
+				Scene.getInstance().removeClass(resolvedClass);
 			}
 			throw e;
 		}
@@ -111,8 +113,8 @@ public class SootResolver {
 				SootClass sc = worklist[i].pop();
 				if (resolveEverything()) { // Whole program mode
 					boolean onlySignatures = sc.isPhantom()
-							|| (Options.v().no_bodies_for_excluded()
-									&& Scene.v().isExcluded(sc) && !Scene.v()
+							|| (Options.getInstance().no_bodies_for_excluded()
+									&& Scene.getInstance().isExcluded(sc) && !Scene.getInstance()
 									.getBasicClasses().contains(sc.getName()));
 					if (onlySignatures) {
 						bringToSignatures(sc);
@@ -165,8 +167,8 @@ public class SootResolver {
 	private void bringToHierarchy(SootClass sc) {
 		if (sc.resolvingLevel() >= SootClass.HIERARCHY)
 			return;
-		if (Options.v().debug_resolver())
-			G.v().out.println("bringing to HIERARCHY: " + sc);
+		if (Options.getInstance().debug_resolver())
+			System.out.println("bringing to HIERARCHY: " + sc);
 		sc.setResolvingLevel(SootClass.HIERARCHY);
 
 		String className = sc.getName();
@@ -179,7 +181,7 @@ public class SootResolver {
 			// !Scene.getInstance().getBasicClasses().contains(sc.getName())
 			// );
 			if (modelAsPhantomRef) {
-				if (!Scene.v().allowsPhantomRefs()) {
+				if (!Scene.getInstance().allowsPhantomRefs()) {
 					String suffix = "";
 					if (className.equals("java.lang.Object")) {
 						suffix = " Try adding rt.jar to Soot's classpath, e.g.:\n"
@@ -194,7 +196,7 @@ public class SootResolver {
 							+ className
 							+ " (is your soot-class-path set properly?)" + suffix);
 				} else {
-					G.v().out.println("Warning: " + className
+					System.out.println("Warning: " + className
 							+ " is a phantom class!");
 					sc.setPhantomClass();
 					classToTypesSignature.put(sc, Collections.emptyList());
@@ -234,8 +236,8 @@ public class SootResolver {
 		if (sc.resolvingLevel() >= SootClass.SIGNATURES)
 			return;
 		bringToHierarchy(sc);
-		if (Options.v().debug_resolver())
-			G.v().out.println("bringing to SIGNATURES: " + sc);
+		if (Options.getInstance().debug_resolver())
+			System.out.println("bringing to SIGNATURES: " + sc);
 		sc.setResolvingLevel(SootClass.SIGNATURES);
 
 		for (SootField f : sc.getFields()) {
@@ -272,8 +274,8 @@ public class SootResolver {
 		if (sc.resolvingLevel() >= SootClass.BODIES)
 			return;
 		bringToSignatures(sc);
-		if (Options.v().debug_resolver())
-			G.v().out.println("bringing to BODIES: " + sc);
+		if (Options.getInstance().debug_resolver())
+			System.out.println("bringing to BODIES: " + sc);
 		sc.setResolvingLevel(SootClass.BODIES);
 
 		{
@@ -301,16 +303,6 @@ public class SootResolver {
 				}
 			}
 		}
-	}
-
-	public void reResolve(SootClass cl, int newResolvingLevel) {
-		int resolvingLevel = cl.resolvingLevel();
-		if (resolvingLevel >= newResolvingLevel)
-			return;
-		reResolveHierarchy(cl);
-		cl.setResolvingLevel(newResolvingLevel);
-		addToResolveWorklist(cl, resolvingLevel);
-		processResolveWorklist();
 	}
 
 	private class SootClassNotFoundException extends RuntimeException {

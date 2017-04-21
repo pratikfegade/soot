@@ -23,7 +23,6 @@ package soot.dava;
 
 import soot.*;
 import soot.jimple.Jimple;
-import soot.singletons.Singletons;
 import soot.util.IterableSet;
 
 import java.io.*;
@@ -32,35 +31,32 @@ import java.io.*;
 
 public class Dava
 {
-    public Dava( Singletons.Global g ) {}
-    public static Dava v() { return G.v().soot_dava_Dava(); }
     private static final String LOG_TO_FILE = null;
     private static final PrintStream LOG_TO_SCREEN = null;
 
     private Writer iOut = null;
-    private IterableSet currentPackageContext = null;
-    private String currentPackage;
+    private static IterableSet currentPackageContext = null;
+    private static String currentPackage;
     
-    public void set_CurrentPackage( String cp)
+    public static void set_CurrentPackage( String cp)
     {
 	currentPackage = cp;
     }
 
-    public String get_CurrentPackage()
+    public static String get_CurrentPackage()
     {
 	return currentPackage;
     }
 
-    public void set_CurrentPackageContext( IterableSet cpc)
+    public static void set_CurrentPackageContext( IterableSet cpc)
     {
 	currentPackageContext = cpc;
     }
 
-    public IterableSet get_CurrentPackageContext()
+    public static IterableSet get_CurrentPackageContext()
     {
 	return currentPackageContext;
     }
-
 
 
     public Local newLocal(String name, Type t)
@@ -81,12 +77,12 @@ public class Dava
 		    iOut = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( LOG_TO_FILE), "US-ASCII"));
 		}
 		catch (FileNotFoundException fnfe) {
-		    G.v().out.println( "Unable to open " + LOG_TO_FILE);
+		    System.out.println( "Unable to open " + LOG_TO_FILE);
 		    fnfe.printStackTrace();
                     throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
 		}
 		catch (UnsupportedEncodingException uee) {
-		    G.v().out.println( "This system doesn't support US-ASCII encoding!!");
+		    System.out.println( "This system doesn't support US-ASCII encoding!!");
 		    uee.printStackTrace();
                     throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
 		}
@@ -97,7 +93,7 @@ public class Dava
 		iOut.flush();
 	    }
 	    catch (IOException ioe) {
-		G.v().out.println( "Unable to write to " + LOG_TO_FILE);
+		System.out.println( "Unable to write to " + LOG_TO_FILE);
 		ioe.printStackTrace();
                 throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
 	    }

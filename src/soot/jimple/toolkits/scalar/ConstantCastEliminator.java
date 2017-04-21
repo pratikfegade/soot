@@ -27,9 +27,6 @@ package soot.jimple.toolkits.scalar;
 
 import soot.*;
 import soot.jimple.*;
-import soot.singletons.Singletons;
-
-import java.util.Map;
 
 /**
  * Transformer for removing unnecessary casts on primitive values. An assignment
@@ -39,9 +36,6 @@ import java.util.Map;
  *
  */
 public class ConstantCastEliminator extends BodyTransformer {
-	
-	public ConstantCastEliminator( Singletons.Global g ) {}
-	public static ConstantCastEliminator v() { return G.v().soot_jimple_toolkits_scalar_ConstantCastEliminator(); }
 
 	@Override
 	protected void internalTransform(Body b) {

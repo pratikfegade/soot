@@ -98,8 +98,8 @@ class CONSTANT_Fieldref_info extends cp_info {
 	    String nameAndType = cn.toString(constant_pool);
 	    String name = nameAndType.substring(0, nameAndType.indexOf(":"));
 	    String typeName = nameAndType.substring(nameAndType.indexOf(":")+1);
-	    Type type = Util.v().jimpleTypeOfFieldDescriptor(typeName);
-	    return Jimple.newStaticFieldRef(Scene.v().makeFieldRef(Scene.v().getSootClass(className), name, type, true));
+	    Type type = Util.jimpleTypeOfFieldDescriptor(typeName);
+	    return Jimple.newStaticFieldRef(Scene.getInstance().makeFieldRef(Scene.getInstance().getSootClass(className), name, type, true));
 	}
 
 }

@@ -107,7 +107,7 @@ public class FastHierarchy
     /** Constructs a hierarchy from the current scene. */
     public FastHierarchy()
     {
-        this.sc = Scene.v();
+        this.sc = Scene.getInstance();
 
         /* First build the inverse maps. */
         for (SootClass cl : sc.getClasses().getElementsUnsorted()) {
@@ -125,12 +125,12 @@ public class FastHierarchy
         }
 
         /* Now do a dfs traversal to get the Interval numbers. */
-        dfsVisit( 0, Scene.v().getSootClass( "java.lang.Object" ) );
+        dfsVisit( 0, Scene.getInstance().getSootClass( "java.lang.Object" ) );
         /* also have to traverse for all phantom classes because they also
          * can be roots of the type hierarchy
          */
-        for (final Iterator<SootClass> phantomClassIt = Scene.v().getPhantomClasses().snapshotIterator();
-        		phantomClassIt.hasNext(); ) {
+        for (final Iterator<SootClass> phantomClassIt = Scene.getInstance().getPhantomClasses().snapshotIterator();
+             phantomClassIt.hasNext(); ) {
         	SootClass phantomClass = phantomClassIt.next();
         	if(!phantomClass.isInterface())
         		dfsVisit( 0, phantomClass );
@@ -196,7 +196,7 @@ public class FastHierarchy
         	return parent instanceof RefLikeType;
         }
         if( child instanceof RefType ) {
-        	if (parent.equals(Scene.v().getObjectType()))
+        	if (parent.equals(Scene.getInstance().getObjectType()))
         		return true;
             if( parent instanceof RefType) {
                 return canStoreClass( ((RefType) child).getSootClass(),
@@ -274,7 +274,7 @@ public class FastHierarchy
         }
         if( childInterval == null ) { // child is interface
             if( parentInterval != null ) { // parent is not interface
-                return parent.equals( Scene.v().getObjectType().getSootClass());
+                return parent.equals( Scene.getInstance().getObjectType().getSootClass());
             } else {
                 return getAllSubinterfaces( parent ).contains( child );
             }

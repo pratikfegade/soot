@@ -20,12 +20,10 @@
 
 package soot.dexpler;
 
-import soot.G;
 import soot.jimple.AssignStmt;
 import soot.jimple.ClassConstant;
 import soot.jimple.EnterMonitorStmt;
 import soot.jimple.StringConstant;
-import soot.singletons.Singletons;
 import soot.toolkits.exceptions.ThrowableSet;
 import soot.toolkits.exceptions.UnitThrowAnalysis;
 
@@ -173,36 +171,6 @@ op   fe +sput-object-volatile       21c  n field-ref     optimized|continue|thro
  */
 
 public class DalvikThrowAnalysis extends UnitThrowAnalysis {
- 
-    /**
-     * Constructs a <code>DalvikThrowAnalysis</code> for inclusion in 
-     * Soot's global variable manager, {@link G}.
-     *
-     * @param g guarantees that the constructor may only be called 
-     * from {@link Singletons}.
-     */
-    public DalvikThrowAnalysis(Singletons.Global g) {}
-
-    /**
-     * Returns the single instance of <code>DalvikThrowAnalysis</code>.
-     *
-     * @return Soot's <code>UnitThrowAnalysis</code>.
-     */
-    public static DalvikThrowAnalysis v() { return G.v().soot_dexpler_DalvikThrowAnalysis(); }
-
-    protected DalvikThrowAnalysis(boolean isInterproc) {
-    	super(isInterproc);
-    }
-    
-    public DalvikThrowAnalysis(Singletons.Global g, boolean isInterproc) {
-    	super(isInterproc);
-    }
-    
-    public static DalvikThrowAnalysis interproceduralAnalysis = null;
-    
-    public static DalvikThrowAnalysis interproc() {
-    	return G.v().interproceduralDalvikThrowAnalysis();
-    }
     
     @Override
 	protected ThrowableSet defaultResult() {

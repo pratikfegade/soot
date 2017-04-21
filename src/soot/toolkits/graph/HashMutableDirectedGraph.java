@@ -27,8 +27,6 @@
 package soot.toolkits.graph;
 
 
-import soot.G;
-
 import java.util.*;
 
 /**
@@ -250,16 +248,16 @@ public class HashMutableDirectedGraph<N> implements MutableDirectedGraph<N> {
 
     public void printGraph() {
     	for (N node : this ) {
-		    G.v().out.println("Node = "+node);
-		    G.v().out.println("Preds:");
+		    System.out.println("Node = "+node);
+		    System.out.println("Preds:");
 		    for (N p : getPredsOf(node)) {
-				G.v().out.print("     ");
-				G.v().out.println(p);
+				System.out.print("     ");
+				System.out.println(p);
 		    }
-		    G.v().out.println("Succs:");
+		    System.out.println("Succs:");
 		    for (N s : getSuccsOf(node)) {
-				G.v().out.print("     ");
-				G.v().out.println(s);
+				System.out.print("     ");
+				System.out.println(s);
 		    }
 		}
     }

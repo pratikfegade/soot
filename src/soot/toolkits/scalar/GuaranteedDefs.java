@@ -19,7 +19,6 @@
 
 package soot.toolkits.scalar;
 
-import soot.G;
 import soot.Local;
 import soot.Unit;
 import soot.ValueBox;
@@ -42,15 +41,15 @@ public class GuaranteedDefs
 
     public GuaranteedDefs(UnitGraph graph)
     {
-        if(Options.v().verbose())
-            G.v().out.println("[" + graph.getBody().getMethod().getName() +
+        if(Options.getInstance().verbose())
+            System.out.println("[" + graph.getBody().getMethod().getName() +
                                "]     Constructing GuaranteedDefs...");
 
         GuaranteedDefsAnalysis analysis = new GuaranteedDefsAnalysis(graph);
 
         // build map
         {
-            unitToGuaranteedDefs = new HashMap<Unit, List>(graph.size() * 2 + 1, 0.7f);
+            unitToGuaranteedDefs = new HashMap<>(graph.size() * 2 + 1, 0.7f);
             Iterator<Unit> unitIt = graph.iterator();
 
             while(unitIt.hasNext()){

@@ -30,7 +30,6 @@ import soot.jimple.Stmt;
 
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -73,9 +72,9 @@ public class DexRefsChecker extends DexTransformer {
             SootClass sc = null;
             String frStr = fr.toString();
             if (frStr.contains(".<")) {
-             sc = Scene.v().getSootClass(frStr.split(".<")[1].split(" ")[0].split(":")[0]);
+             sc = Scene.getInstance().getSootClass(frStr.split(".<")[1].split(" ")[0].split(":")[0]);
             } else {
-             sc = Scene.v().getSootClass(frStr.split(":")[0].replaceAll("^<", ""));
+             sc = Scene.getInstance().getSootClass(frStr.split(":")[0].replaceAll("^<", ""));
             }
             String fname = fr.toString().split(">")[0].split(" ")[2];
             int modifiers = soot.Modifier.PUBLIC;

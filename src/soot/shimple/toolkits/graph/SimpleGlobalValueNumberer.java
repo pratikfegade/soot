@@ -54,8 +54,8 @@ public class SimpleGlobalValueNumberer implements GlobalValueNumberer
     {
         // assumes 2 args:  Class + Method
 
-        Scene.v().loadClassAndSupport(args[0]);
-        SootClass sc = Scene.v().getSootClass(args[0]);
+        Scene.getInstance().loadClassAndSupport(args[0]);
+        SootClass sc = Scene.getInstance().getSootClass(args[0]);
         SootMethod sm = sc.getMethod(args[1]);
         Body b = sm.retrieveActiveBody();
         ShimpleBody sb = Shimple.getInstance().newBody(b);

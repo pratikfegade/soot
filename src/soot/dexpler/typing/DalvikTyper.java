@@ -568,7 +568,7 @@ public class DalvikTyper implements IDalvikTyper {
 		                newValue = ud.toLongConstant();
 		            } else {
 		                if (cst instanceof UntypedIntOrFloatConstant && ((UntypedIntOrFloatConstant)cst).value == 0) {
-		                    newValue = NullConstant.v();
+		                    newValue = NullConstant.getInstance();
 							Debug.printDbg("new null constant for constraint ", c, " with l type: ", localTyped.get(l));
 		                } else {
 							throw new RuntimeException("unknow type for constance: " + lt);
@@ -706,7 +706,7 @@ public class DalvikTyper implements IDalvikTyper {
                                         AssignStmt a = (AssignStmt)u;
                                         Value right = a.getRightOp();
                                         if (right instanceof CastExpr) {
-                                            newValue = NullConstant.v();
+                                            newValue = NullConstant.getInstance();
                                         } else {
                                             newValue = cst.toIntConstant();
                                         }

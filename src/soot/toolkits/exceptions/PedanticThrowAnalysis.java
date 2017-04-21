@@ -19,10 +19,8 @@
 
 package soot.toolkits.exceptions;
 
-import soot.G;
 import soot.Unit;
 import soot.jimple.ThrowStmt;
-import soot.singletons.Singletons;
 
 /**
  * A {@link ThrowAnalysis} that says that every unit can throw every
@@ -35,25 +33,6 @@ import soot.singletons.Singletons;
 public class PedanticThrowAnalysis extends AbstractThrowAnalysis {
 
     /**
-     * Constructs a <code>PedanticThrowAnalysis</code> for inclusion in 
-     * Soot's global variable manager, {@link G}.
-     *
-     * @param g guarantees that the constructor may only be called 
-     * from {@link Singletons}.
-     */
-    public PedanticThrowAnalysis(Singletons.Global g) {}
-
-    /**
-     * Returns the single instance of <code>PedanticThrowAnalysis</code>.
-     *
-     * @return Soot's <code>PedanticThrowAnalysis</code>.
-     */
-    public static PedanticThrowAnalysis v() { 
-	return G.v().soot_toolkits_exceptions_PedanticThrowAnalysis(); 
-    }
-
-
-    /**
      * Returns the set of all <code>Throwable</code>s as the set
      * of types that the specified unit might throw, regardless of the
      * unit's identity.
@@ -63,7 +42,7 @@ public class PedanticThrowAnalysis extends AbstractThrowAnalysis {
      * @return the set of all <code>Throwable</code>s.
      */
     public ThrowableSet mightThrow(Unit u) {
-	return ThrowableSet.Manager.v().ALL_THROWABLES;
+        return ThrowableSet.Manager.ALL_THROWABLES;
     }
 
 
@@ -79,7 +58,7 @@ public class PedanticThrowAnalysis extends AbstractThrowAnalysis {
      * @return the set of all <code>Throwable</code>s.
      */
     public ThrowableSet mightThrowImplicitly(ThrowStmt t) {
-	return ThrowableSet.Manager.v().ALL_THROWABLES;
+        return ThrowableSet.Manager.ALL_THROWABLES;
     }
 }
 
