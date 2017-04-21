@@ -63,7 +63,7 @@ public class DexReturnInliner extends DexTransformer {
     }
 
 	@Override
-	protected void internalTransform(final Body body, String phaseName, Map<String, String> options) {
+	protected void internalTransform(final Body body) {
     	Set<Unit> duplicateIfTargets = getFallThroughReturns(body);
     	
 		Iterator<Unit> it = body.getUnits().snapshotIterator();

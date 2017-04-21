@@ -54,7 +54,7 @@ public abstract class AbstractFlowAnalysis<N,A>
     /** Constructs a flow analysis on the given <code>DirectedGraph</code>. */
     public AbstractFlowAnalysis(DirectedGraph<N> graph)
     {
-        unitToBeforeFlow = new IdentityHashMap<N,A>(graph.size() * 2 + 1);
+        unitToBeforeFlow = new IdentityHashMap<>(graph.size() * 2 + 1);
         this.graph = graph;
         if (Options.v().interactive_mode()){
             InteractionHandler.v().handleCfgEvent(graph);
@@ -75,12 +75,6 @@ public abstract class AbstractFlowAnalysis<N,A>
     protected A entryInitialFlow() {
     	return newInitialFlow();
     }
-
-    /**
-     * Determines whether <code>entryInitialFlow()</code>
-     * is applied to trap handlers.
-     */
-    protected boolean treatTrapHandlersAsEntries() { return false; }
 
     /** Returns true if this analysis is forwards. */
     protected abstract boolean isForward();

@@ -52,7 +52,7 @@ public class DuplicateCatchAllTrapRemover extends BodyTransformer {
 	}
 
 	@Override
-	protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		// Find two traps that use java.lang.Throwable as their type and that
 		// span the same code region
 		for (Iterator<Trap> t1It = b.getTraps().snapshotIterator(); t1It.hasNext(); ) {

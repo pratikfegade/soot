@@ -39,13 +39,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalNameStandardizer extends BodyTransformer
 {
-    public LocalNameStandardizer( Singletons.Global g ) {}
-    public static LocalNameStandardizer v() { return G.v().soot_jimple_toolkits_scalar_LocalNameStandardizer(); }
 
-    protected void internalTransform(Body body, String phaseName, Map<String,String> options)
+    protected void internalTransform(Body body)
     {
-        boolean onlyStackName = PhaseOptions.getBoolean(options, "only-stack-locals");
-        boolean sortLocals = PhaseOptions.getBoolean(options, "sort-locals");
+        boolean onlyStackName = true;
+        boolean sortLocals = false;
 
         // Change the names to the standard forms now.
         {

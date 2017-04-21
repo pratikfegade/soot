@@ -48,7 +48,7 @@ public class TrapMinimizer extends TrapTransformer {
 	}
 
 	@Override
-	protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		// If we have less then two traps, there's nothing to do here
 		if (b.getTraps().size() == 0)
 			return;

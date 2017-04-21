@@ -27,7 +27,6 @@ package soot.jimple.toolkits.scalar;
 
 import soot.*;
 import soot.jimple.*;
-import soot.options.CPOptions;
 import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.toolkits.exceptions.ThrowAnalysis;
@@ -79,8 +78,7 @@ public class CopyPropagator extends BodyTransformer {
 	 * Does not propagate stack locals when the "only-regular-locals" option is
 	 * true.
 	 */
-	protected void internalTransform(Body b, String phaseName, Map<String, String> opts) {
-		CPOptions options = new CPOptions(opts);
+	protected void internalTransform(Body b) {
 		StmtBody stmtBody = (StmtBody) b;
 		int fastCopyPropagationCount = 0;
 		int slowCopyPropagationCount = 0;
@@ -132,10 +130,7 @@ public class CopyPropagator extends BodyTransformer {
 						// We force propagating nulls. If a target can only be
 						// null due to typing, we always inline that constant.
 						if (!(l.getType() instanceof NullType)) {
-							if (options.only_regular_locals() && l.getName().startsWith("$"))
-								continue;
-
-							if (options.only_stack_locals() && !l.getName().startsWith("$"))
+							if (!l.getName().startsWith("$"))
 								continue;
 						}
 

@@ -86,7 +86,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(rdFinder != null)
             return rdFinder;
 
-        rdFinder = new SimpleDominatorsFinder<Block>(getReverseBlockGraph());
+        rdFinder = new SimpleDominatorsFinder<>(getReverseBlockGraph());
         return rdFinder;
     }
 
@@ -95,7 +95,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(rdTree != null)
             return rdTree;
 
-        rdTree = new DominatorTree<Block>(getReverseDominatorsFinder());
+        rdTree = new DominatorTree<>(getReverseDominatorsFinder());
         return rdTree;
     }
 
@@ -104,7 +104,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(rdFrontier != null)
             return rdFrontier;
 
-        rdFrontier = new CytronDominanceFrontier<Block>(getReverseDominatorTree());
+        rdFrontier = new CytronDominanceFrontier<>(getReverseDominatorTree());
         return rdFrontier;
     }
     

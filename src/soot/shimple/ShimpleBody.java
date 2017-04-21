@@ -26,12 +26,9 @@ import soot.jimple.Jimple;
 import soot.jimple.JimpleBody;
 import soot.jimple.StmtBody;
 import soot.options.Options;
-import soot.options.ShimpleOptions;
 import soot.shimple.internal.SPatchingChain;
 import soot.shimple.internal.ShimpleBodyBuilder;
 import soot.util.HashChain;
-
-import java.util.Map;
 
 // * <p> We decided to hide all the intelligence in
 // * internal.ShimpleBodyBuilder for clarity of API.  Eventually we will
@@ -54,7 +51,6 @@ public class ShimpleBody extends StmtBody
     /**
      * Holds our options map...
      **/
-    protected ShimpleOptions options;
 
     protected ShimpleBodyBuilder sbb;
     
@@ -63,15 +59,13 @@ public class ShimpleBody extends StmtBody
     /**
      * Construct an empty ShimpleBody associated with m.
      **/
-    ShimpleBody(SootMethod m, Map options)
+    ShimpleBody(SootMethod m)
     {
         super(m);
 
         // must happen before SPatchingChain gets created
-        this.options = new ShimpleOptions(options);
         setSSA(true);
-        isExtendedSSA = this.options.extended();
-        
+
         unitChain = new SPatchingChain(this, new HashChain());
         sbb = new ShimpleBodyBuilder(this);
     }
@@ -84,7 +78,7 @@ public class ShimpleBody extends StmtBody
      * naive-phi-elimination) which can be useful for understanding
      * the effect of analyses.
      **/
-    ShimpleBody(Body body, Map options)
+    ShimpleBody(Body body)
     {
         super(body.getMethod());
 
@@ -95,7 +89,6 @@ public class ShimpleBody extends StmtBody
             G.v().out.println("[" + getMethod().getName() + "] Constructing ShimpleBody...");
 
         // must happen before SPatchingChain gets created
-        this.options = new ShimpleOptions(options);
 
         unitChain = new SPatchingChain(this, new HashChain());
         importBodyContentsFrom(body);
@@ -136,7 +129,7 @@ public class ShimpleBody extends StmtBody
      **/
     public void rebuild(boolean hasPhiNodes)
     {
-        isExtendedSSA = options.extended();
+        isExtendedSSA = false;
         sbb.transform();
         setSSA(true);
     }
@@ -241,14 +234,6 @@ public class ShimpleBody extends StmtBody
     public boolean isExtendedSSA()
     {
         return isExtendedSSA;
-    }
-    
-    /**
-     * Returns the Shimple options applicable to this body.
-     **/
-    public ShimpleOptions getOptions()
-    {
-        return options;
     }
 
     /**

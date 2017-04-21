@@ -29,8 +29,7 @@ public class DexTrapStackFixer extends BodyTransformer {
 	}
 	
 	@Override
-	protected void internalTransform(Body b, String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		for (Trap t : b.getTraps()) {
 			// If the first statement already catches the exception, we're fine
 			if (isCaughtExceptionRef(t.getHandlerUnit()))

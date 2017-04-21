@@ -44,8 +44,7 @@ public class ConstantCastEliminator extends BodyTransformer {
 	public static ConstantCastEliminator v() { return G.v().soot_jimple_toolkits_scalar_ConstantCastEliminator(); }
 
 	@Override
-	protected void internalTransform(Body b, String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		// Check for all assignments that perform casts on primitive constants
 		for (Unit u : b.getUnits()) {
 			if (u instanceof AssignStmt) {

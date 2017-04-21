@@ -41,7 +41,7 @@ public class ConditionalBranchFolder  extends BodyTransformer
     public ConditionalBranchFolder ( Singletons.Global g ) {}
     public static ConditionalBranchFolder  v() { return G.v().soot_jimple_toolkits_scalar_ConditionalBranchFolder (); }
 
-    protected void internalTransform(Body body, String phaseName, Map<String,String> options)
+    protected void internalTransform(Body body)
     {
         StmtBody stmtBody = (StmtBody)body;
 

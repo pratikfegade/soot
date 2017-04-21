@@ -24,7 +24,7 @@ public class IdentityCastEliminator extends BodyTransformer {
 	public static IdentityCastEliminator v() { return G.v().soot_jimple_toolkits_scalar_IdentityCastEliminator(); }
 
 	@Override
-	protected void internalTransform(Body b, String phaseName, Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		for (Iterator<Unit> unitIt = b.getUnits().iterator(); unitIt.hasNext(); ) {
 			Unit curUnit = unitIt.next();
 			if (curUnit instanceof AssignStmt) {

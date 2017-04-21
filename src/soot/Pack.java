@@ -25,18 +25,16 @@
 
 package soot;
 
-import soot.options.Options;
 import soot.util.Chain;
 import soot.util.HashChain;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * A wrapper object for a pack of optimizations. Provides chain-like operations,
  * except that the key is the phase name.
  */
-public abstract class Pack implements HasPhaseOptions, Iterable<Transform> {
+public abstract class Pack implements Iterable<Transform> {
 	private String name;
 
 	public String getPhaseName() {
@@ -54,57 +52,7 @@ public abstract class Pack implements HasPhaseOptions, Iterable<Transform> {
 	}
 
 	public void add(Transform t) {
-		if (!t.getPhaseName().startsWith(getPhaseName() + ".")) {
-			throw new RuntimeException("Transforms in pack '" + getPhaseName()
-					+ "' must have a phase name " + "that starts with '"
-					+ getPhaseName() + ".'.");
-		}
-		PhaseOptions.v().getPM().notifyAddPack();
-		if (get(t.getPhaseName()) != null) {
-			throw new RuntimeException("Phase " + t.getPhaseName()
-					+ " already " + "in pack");
-		}
 		opts.add(t);
-	}
-
-	public void insertAfter(Transform t, String phaseName) {
-		PhaseOptions.v().getPM().notifyAddPack();
-		for (Transform tr : opts) {
-			if (tr.getPhaseName().equals(phaseName)) {
-				opts.insertAfter(t, tr);
-				return;
-			}
-		}
-		throw new RuntimeException("phase " + phaseName + " not found!");
-	}
-
-	public void insertBefore(Transform t, String phaseName) {
-		PhaseOptions.v().getPM().notifyAddPack();
-		for (Transform tr : opts) {
-			if (tr.getPhaseName().equals(phaseName)) {
-				opts.insertBefore(t, tr);
-				return;
-			}
-		}
-		throw new RuntimeException("phase " + phaseName + " not found!");
-	}
-
-	public Transform get(String phaseName) {
-		for (Transform tr : opts) {
-			if (tr.getPhaseName().equals(phaseName)) {
-				return tr;
-			}
-		}
-		return null;
-	}
-
-	public boolean remove(String phaseName) {
-		for (Transform tr : opts)
-			if (tr.getPhaseName().equals(phaseName)) {
-				opts.remove(tr);
-				return true;
-			}
-		return false;
 	}
 
 	protected void internalApply() {
@@ -116,24 +64,10 @@ public abstract class Pack implements HasPhaseOptions, Iterable<Transform> {
 	}
 
 	public final void apply() {
-		Map<String, String> options = PhaseOptions.v().getPhaseOptions(this);
-		if (!PhaseOptions.getBoolean(options, "enabled"))
-			return;
 		internalApply();
 	}
 
 	public final void apply(Body b) {
-		Map<String, String> options = PhaseOptions.v().getPhaseOptions(this);
-		if (!PhaseOptions.getBoolean(options, "enabled"))
-			return;
 		internalApply(b);
-	}
-
-	public String getDeclaredOptions() {
-		return Options.getDeclaredOptionsForPhase(getPhaseName());
-	}
-
-	public String getDefaultOptions() {
-		return Options.getDefaultOptionsForPhase(getPhaseName());
 	}
 }

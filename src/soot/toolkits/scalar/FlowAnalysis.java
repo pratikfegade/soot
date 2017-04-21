@@ -58,7 +58,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 
 		abstract <F> F getFlow(Entry<?, F> e);
 	}
-	
+
 	static class Entry<D, F> implements Numberable {
 		final D data;
 		int number;
@@ -67,7 +67,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 		 * This Entry is part of a real scc.
 		 */
 		boolean isRealStronglyConnected;
-		
+
 		Entry<D, F>[] in;
 		Entry<D, F>[] out;
 		F inFlow;
@@ -96,7 +96,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			return number;
 		}
 	}
-	
+
 
 	enum Orderer {
 		INSTANCE;
@@ -124,7 +124,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			List<D> actualEntries = gv.getEntries(g);
 
 			if (!actualEntries.isEmpty()) {
-				// normal cases: there is at least 
+				// normal cases: there is at least
 				// one return statement for a backward analysis
 				// or one entry statement for a forward analysis
 				entries = actualEntries;
@@ -132,12 +132,12 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 				// cases without any entry statement
 
 				if (isForward) {
-					// case of a forward flow analysis on 
+					// case of a forward flow analysis on
 					// a method without any entry point
 					throw new RuntimeException("error: no entry point for method in forward analysis");
 				} else {
-					// case of backward analysis on 
-					// a method which potentially has 
+					// case of backward analysis on
+					// a method which potentially has
 					// an infinite loop and no return statement
 					entries = new ArrayList<D>();
 
@@ -182,31 +182,31 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			superEntry.inFlow = entryFlow;
 			superEntry.outFlow = entryFlow;
 
-			
+
 			@SuppressWarnings("unchecked")
 			Entry<D, F>[] sv = new Entry[g.size()];
 			int[] si = new int[g.size()];
 			int index = 0;
-			
+
 			int i = 0;
 			Entry<D, F> v = superEntry;
-		
+
 			for (;;) {
 				if (i < v.out.length) {
 					Entry<D, F> w = v.out[i++];
-					
+
 					// an unvisited child node
 					if (w.number == Integer.MIN_VALUE) {
 						w.number = s.size();
 						s.add(w);
-						
+
 						visitEntry(visited, w, gv.getOut(g, w.data));
-						
+
 						// save old
 						si[index] = i;
 						sv[index] = v;
 						index++;
-						
+
 						i = 0;
 						v = w;
 					}
@@ -216,10 +216,10 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 						Collections.reverse(universe);
 						return universe;
 					}
-					
+
 					universe.add(v);
 					sccPop(s, v);
-					
+
 					// restore old
 					index--;
 					v = sv[index];
@@ -227,7 +227,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 				}
 			}
 		}
-		
+
 
 		@SuppressWarnings("unchecked")
 		private <D, F> Entry<D, F>[] visitEntry(Map<D, Entry<D, F>> visited, Entry<D, F> v, List<D> out) {
@@ -235,7 +235,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			Entry<D, F>[] a = new Entry[n];
 
 			assert (out instanceof RandomAccess);
-			
+
 			for (int i = 0; i < n; i++) {
 				a[i] = getEntryOf(visited, out.get(i), v);
 			}
@@ -247,26 +247,26 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			// either we reach a new node or a merge node, the latter one is rare
 			// so put and restore should be better that a lookup
 			// putIfAbsent would be the ideal strategy
-			
+
 			// add and restore if required
 			Entry<D, F> newEntry = new Entry<D, F>(d, v);
 			Entry<D, F> oldEntry = visited.put(d, newEntry);
-			
+
 			// no restore required
 			if (oldEntry == null)
 				return newEntry;
-			
+
 			// false prediction, restore the entry
 			visited.put(d, oldEntry);
-			
+
 			// adding self ref (real strongly connected with itself)
 			if (oldEntry == v)
 				oldEntry.isRealStronglyConnected = true;
-			
+
 			// merge nodes are rare, so this is ok
 			int l = oldEntry.in.length;
 			oldEntry.in = Arrays.copyOf(oldEntry.in, l + 1);
-			oldEntry.in[l] = v;		
+			oldEntry.in[l] = v;
 			return oldEntry;
 		}
 
@@ -276,20 +276,20 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 				assert e.number > Integer.MIN_VALUE;
 				min = Math.min(min, e.number);
 			}
-			
+
 			// not our SCC
 			if (min != v.number) {
 				v.number = min;
 				return;
 			}
-			
+
 			// we only want real SCCs (size > 1)
 			Entry<D, F> w = s.removeLast();
 			w.number = Integer.MAX_VALUE;
 			if (w == v) {
 				return;
 			}
-			
+
 			w.isRealStronglyConnected = true;
 			for (;;) {
 				w = s.removeLast();
@@ -305,7 +305,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 	}
 
 	enum InteractionFlowHandler {
-		NONE, 
+		NONE,
 		FORWARD {
 			@Override
 			public <A, N> void handleFlowIn(FlowAnalysis<N, A> a, N s) {
@@ -450,7 +450,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			boolean omit = true;
 			if (n.in.length > 1) {
 				n.inFlow = newInitialFlow();
-				
+
 				// no merge points in loops
 				omit = !n.isRealStronglyConnected;
 			} else {
@@ -477,16 +477,16 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 	 * If a flow node can be omitted return <code>true</code>, otherwise
 	 * <code>false</code>. There is no guarantee a node will be omitted. A
 	 * omissible node does not influence the result of an analysis.
-	 * 
+	 *
 	 * If you are unsure, don't overwrite this method
-	 * 
+	 *
 	 * @param n the node to check
 	 * @return <code>false</code>
 	 */
 	protected boolean omissible(N n) {
 		return false;
 	}
-	
+
 	/**
 	 * You can specify which flow set you would like to use of node {@code from}
 	 * @param from
@@ -496,11 +496,11 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 	protected Flow getFlow(N from, N mergeNode) {
 		return Flow.OUT;
 	}
-	
+
 	private A getFlow(Entry<N, A> o, Entry<N, A> e) {
 		return (o.inFlow == o.outFlow) ? o.outFlow : getFlow(o.data, e.data).getFlow(o);
 	}
-	
+
 	private void meetFlows(Entry<N, A> e) {
 		assert e.in.length >= 1;
 
@@ -517,7 +517,7 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			}
 		}
 	}
-	
+
 	final int doAnalysis(GraphView gv, InteractionFlowHandler ifh, Map<N, A> inFlow, Map<N, A> outFlow) {
 		assert gv != null;
 		assert ifh != null;
@@ -555,14 +555,14 @@ public abstract class FlowAnalysis<N, A> extends AbstractFlowAnalysis<N, A> {
 			assert !d.isRealStronglyConnected || d.in.length == 1;
 			return true;
 		}
-		
+
 		if (d.isRealStronglyConnected) {
 			// A flow node that is influenced by at least one back-reference.
 			// It's essential to check if "flowThrough" changes the result.
 			// This requires the calculation of "equals", which itself
 			// can be really expensive - depending on the used flow-model.
 			// Depending on the "merge"+"flowThrough" costs, it can be cheaper
-			// to fall through. Only nodes with real back-references always 
+			// to fall through. Only nodes with real back-references always
 			// need to be checked for changes
 			A out = newInitialFlow();
 			flowThrough(d.inFlow, d.data, out);

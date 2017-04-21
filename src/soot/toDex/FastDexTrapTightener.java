@@ -26,8 +26,7 @@ public class FastDexTrapTightener extends BodyTransformer {
     public static FastDexTrapTightener v() { return soot.G.v().soot_toDex_FastDexTrapTightener(); }
     
     @Override
-	protected void internalTransform(Body b, String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		for (Iterator<Trap> trapIt = b.getTraps().snapshotIterator(); trapIt.hasNext(); ) {
 			Trap t = trapIt.next();
 			

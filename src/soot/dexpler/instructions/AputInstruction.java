@@ -55,7 +55,7 @@ public class AputInstruction extends FieldInstruction {
         ArrayRef arrayRef = Jimple.v().newArrayRef(arrayBase, index);
 
         Local sourceValue = body.getRegisterLocal(source);
-        AssignStmt assign = getAssignStmt(body, sourceValue, arrayRef);
+        AssignStmt assign = getAssignStmt(sourceValue, arrayRef);
         if (aPutInstr.getOpcode() == Opcode.APUT_OBJECT)
           assign.addTag(new ObjectOpTag());
         

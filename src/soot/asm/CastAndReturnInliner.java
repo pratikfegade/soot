@@ -7,7 +7,6 @@ import soot.jimple.GotoStmt;
 import soot.jimple.ReturnStmt;
 
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Transformers that inlines returns that cast and return an object. We take
@@ -32,8 +31,7 @@ import java.util.Map;
 public class CastAndReturnInliner extends BodyTransformer {
 
 	@Override
-	protected void internalTransform(Body body, String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform(Body body) {
 		Iterator<Unit> it = body.getUnits().snapshotIterator();
 		while (it.hasNext()) {
 			Unit u = it.next();

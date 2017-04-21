@@ -30,7 +30,6 @@ package soot;
 import android.content.res.AXmlResourceParser;
 import org.xmlpull.v1.XmlPullParser;
 import soot.dexpler.DalvikThrowAnalysis;
-import soot.options.CGOptions;
 import soot.options.Options;
 import soot.singletons.Singletons;
 import soot.toolkits.exceptions.PedanticThrowAnalysis;
@@ -39,7 +38,9 @@ import soot.toolkits.exceptions.UnitThrowAnalysis;
 import soot.util.*;
 import test.AXMLPrinter;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

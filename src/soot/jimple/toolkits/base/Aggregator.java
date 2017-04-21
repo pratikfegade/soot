@@ -46,8 +46,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Aggregator extends BodyTransformer
 {
-    public Aggregator( Singletons.Global g ) {}
-    public static Aggregator v() { return G.v().soot_jimple_toolkits_base_Aggregator(); }
 
     /** Traverse the statements in the given body, looking for
       *  aggregation possibilities; that is, given a def d and a use u,
@@ -55,20 +53,17 @@ public class Aggregator extends BodyTransformer
       * 
       * option: only-stack-locals; if this is true, only aggregate variables
                         starting with $ */
-    protected void internalTransform(Body b, String phaseName, Map<String, String> options)
+    protected void internalTransform(Body b)
     {
         StmtBody body = (StmtBody)b;
-        //boolean onlyStackVars = PhaseOptions.getBoolean(options, "only-stack-locals");
         boolean onlyStackVars = true;
 
-		if (Options.v().time())
-			Timers.v().aggregationTimer.start();
 		
         int aggregateCount = 1;
 
-        boolean changed = false;
+        boolean changed;
 
-        Map<ValueBox, Zone> boxToZone = new ConcurrentHashMap<ValueBox, Zone>(body.getUnits().size() * 2 + 1, 0.7f);
+        Map<ValueBox, Zone> boxToZone = new ConcurrentHashMap<>(body.getUnits().size() * 2 + 1, 0.7f);
 
         // Determine the zone of every box
         {
@@ -89,11 +84,6 @@ public class Aggregator extends BodyTransformer
         
                      
         do {
-            if(Options.v().verbose())
-                G.v().out.println("[" + body.getMethod().getName() + "] Aggregating iteration " + aggregateCount + "...");
-        
-            // body.printTo(new java.io.PrintWriter(G.v().out, true));
-            
             changed = internalAggregate(body, boxToZone, onlyStackVars);
             
             aggregateCount++;
@@ -157,9 +147,9 @@ public class Aggregator extends BodyTransformer
           boolean propagatingInvokeExpr = false;
           boolean propagatingFieldRef = false;
           boolean propagatingArrayRef = false;
-          List<FieldRef> fieldRefList = new ArrayList<FieldRef>();
+          List<FieldRef> fieldRefList = new ArrayList<>();
       
-          List<Value> localsUsed = new ArrayList<Value>();
+          List<Value> localsUsed = new ArrayList<>();
           for (ValueBox vb : s.getUseBoxes()) {
               Value v = vb.getValue();
                 if (v instanceof Local) {

@@ -23,7 +23,6 @@ import soot.*;
 import soot.options.Options;
 import soot.shimple.PhiExpr;
 import soot.shimple.Shimple;
-import soot.shimple.ShimpleBody;
 import soot.util.Chain;
 import soot.util.HashMultiMap;
 import soot.util.MultiMap;
@@ -49,8 +48,6 @@ public class SPatchingChain extends PatchingChain<Unit>
         super(aChain);
         this.body = aBody;
         this.debug = Options.v().debug();
-        if(aBody instanceof ShimpleBody)
-            debug |= ((ShimpleBody)aBody).getOptions().debug();
     }
 
     public boolean add(Unit o)

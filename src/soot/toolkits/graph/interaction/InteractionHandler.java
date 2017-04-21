@@ -27,39 +27,20 @@ import soot.toolkits.graph.DirectedGraph;
 import java.util.ArrayList;
 
 public class InteractionHandler {
-   
-    public InteractionHandler(Singletons.Global g){}
-    public static InteractionHandler v() { return G.v().soot_toolkits_graph_interaction_InteractionHandler();}
+
+
+    public InteractionHandler() {
+        this(null, null);
+    }
+
+    public InteractionHandler(Singletons.Global g, ArrayList<Object> stopUnitList){
+        this.stopUnitList = stopUnitList;
+    }
+    public static InteractionHandler v() { return new InteractionHandler();}
 
     private ArrayList<Object> stopUnitList;
     public ArrayList<Object> getStopUnitList(){
         return stopUnitList;
-    }
-    public void addToStopUnitList(Object elem){
-        if (stopUnitList == null){
-            stopUnitList = new ArrayList<Object>();
-        }
-        stopUnitList.add(elem);
-    }
-    
-    public void removeFromStopUnitList(Object elem){
-        if (stopUnitList.contains(elem)){
-            stopUnitList.remove(elem);
-        }
-    }
-
-    public void handleNewAnalysis(Transform t, Body b){
-        // here save current phase name and only send if actual data flow analysis exists
-        if (PhaseOptions.getBoolean(PhaseOptions.v().getPhaseOptions( t.getPhaseName()), "enabled")){
-            String name = t.getPhaseName()+" for method: "+b.getMethod().getName();
-            currentPhaseName(name);
-            currentPhaseEnabled(true);
-            doneCurrent(false);
-        }
-        else {
-            currentPhaseEnabled(false);
-            setInteractThisAnalysis(false);
-        }
     }
 
     public void handleCfgEvent(DirectedGraph<?> g){
@@ -77,7 +58,7 @@ public class InteractionHandler {
             doInteraction(new InteractionEvent(IInteractionConstants.STOP_AT_NODE, u));
         }
     }
-    
+
     public void handleBeforeAnalysisEvent(Object beforeFlow){
         if (isInteractThisAnalysis()){
             if (autoCon()){
@@ -111,7 +92,7 @@ public class InteractionHandler {
     private synchronized void doInteraction(InteractionEvent event){
         getInteractionListener().setEvent(event);
         getInteractionListener().handleEvent();
-    
+
     }
 
     public synchronized void waitForContinue(){
@@ -120,9 +101,9 @@ public class InteractionHandler {
         }
         catch (InterruptedException e){
         }
-        
+
     }
-    
+
     private boolean interactThisAnalysis;
     public void setInteractThisAnalysis(boolean b){
         interactThisAnalysis = b;
@@ -145,7 +126,7 @@ public class InteractionHandler {
     public IInteractionListener getInteractionListener(){
         return interactionListener;
     }
-    
+
     private String currentPhaseName;
     public void currentPhaseName(String name){
         currentPhaseName = name;
@@ -154,7 +135,7 @@ public class InteractionHandler {
         return currentPhaseName;
     }
 
-    private boolean currentPhaseEnabled;    
+    private boolean currentPhaseEnabled;
     public void currentPhaseEnabled(boolean b){
         currentPhaseEnabled = b;
     }
@@ -189,6 +170,6 @@ public class InteractionHandler {
     public void stopInteraction(boolean b){
         Options.v().set_interactive_mode(false);
     }
-    
+
 }
 

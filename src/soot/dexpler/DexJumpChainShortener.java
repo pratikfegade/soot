@@ -24,8 +24,7 @@ public class DexJumpChainShortener extends BodyTransformer {
 	}
 	
 	@Override
-	protected void internalTransform(Body b, String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		
 		for (Iterator<Unit> unitIt = b.getUnits().snapshotIterator(); unitIt.hasNext(); ) {
 			Unit u = unitIt.next();

@@ -23,8 +23,7 @@ public class DexReturnPacker extends BodyTransformer {
 	}
 	
 	@Override
-	protected void internalTransform(Body b, String phaseName,
-			Map<String, String> options) {
+	protected void internalTransform(Body b) {
 		// Look for consecutive return statements
 		Unit lastUnit = null;
 		for (Iterator<Unit> unitIt = b.getUnits().iterator(); unitIt.hasNext(); ) {

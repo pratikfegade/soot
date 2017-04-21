@@ -104,7 +104,7 @@ public class SootMethod
             System.out.println("No method source set for method " + this.getSignature());
             return null;
         }
-    	return ms.getBody(this, phaseName);
+    	return ms.getBody(this);
     }
 
     /** Sets the MethodSource of the current SootMethod. */
@@ -251,8 +251,8 @@ public class SootMethod
     /** Sets the modifiers of this method.
      * @see soot.Modifier */
     public void setModifiers(int modifiers) {
-        if ((declaringClass != null) && (!declaringClass.isApplicationClass()))
-            throw new RuntimeException("Cannot set modifiers of a method from a non-app class!");
+//        if ((declaringClass != null) && (!declaringClass.isApplicationClass()))
+//            throw new RuntimeException("Cannot set modifiers of a method from a non-app class!");
         this.modifiers = modifiers;
     }
 

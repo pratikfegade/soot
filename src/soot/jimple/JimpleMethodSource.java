@@ -39,17 +39,15 @@ public class JimpleMethodSource implements MethodSource
         mJimpleAST = aJimpleAST;
     }
 
-    public Body getBody(SootMethod m, String phaseName)
-    {  
+    public Body getBody(SootMethod m)
+    {
         JimpleBody jb = (JimpleBody)mJimpleAST.getBody(m);
         if (jb == null)
-        	throw new RuntimeException("Could not load body for method " + m.getSignature());
+            throw new RuntimeException("Could not load body for method " + m.getSignature());
 
-        if(Options.v().verbose())
-            G.v().out.println("[" + m.getName() + "] Retrieving JimpleBody from AST...");
-    
 
-        PackManager.v().getPack("jb").apply(jb);
+        JimplePackManager jimplePackManager = new JimplePackManager();
+        jimplePackManager.runPacks(jb);
         return jb;
     }
 }

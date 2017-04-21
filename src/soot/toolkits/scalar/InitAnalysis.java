@@ -37,7 +37,7 @@ public class InitAnalysis extends ForwardFlowAnalysis<Unit, FlowSet<Local>> {
 
     public InitAnalysis(UnitGraph g) {
         super(g);
-        allLocals = new ArraySparseSet<Local>();        
+        allLocals = new ArraySparseSet<>();
         for (Local loc : g.getBody().getLocals()) {
             allLocals.add(loc);
         }

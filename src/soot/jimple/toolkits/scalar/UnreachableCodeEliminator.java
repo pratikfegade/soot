@@ -50,7 +50,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		this.throwAnalysis = ta;
 	}
 
-	protected void internalTransform(Body body, String phaseName, Map<String,String> options) 
+	protected void internalTransform(Body body)
 	{		
 		if (Options.v().verbose()) {
 			G.v().out.println("[" + body.getMethod().getName() + "] Eliminating unreachable code...");
@@ -62,8 +62,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		// trapped units remain, but the default ThrowAnalysis
 		// says that none of them can throw the caught exception.
 		if (this.throwAnalysis == null)
-			this.throwAnalysis = PhaseOptions.getBoolean(options, "remove-unreachable-traps", true)
-				? Scene.v().getDefaultThrowAnalysis() : PedanticThrowAnalysis.v();
+			this.throwAnalysis = PedanticThrowAnalysis.v();
 		ExceptionalUnitGraph graph =  new ExceptionalUnitGraph(body, throwAnalysis, false);
 
 		Chain<Unit> units = body.getUnits();

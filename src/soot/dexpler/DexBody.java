@@ -44,8 +44,6 @@ import soot.jimple.toolkits.scalar.*;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.options.Options;
 import soot.toolkits.exceptions.TrapTightener;
-import soot.toolkits.scalar.LocalPacker;
-import soot.toolkits.scalar.LocalSplitter;
 import soot.toolkits.scalar.UnusedLocalEliminator;
 
 import java.io.File;
@@ -100,7 +98,6 @@ public class DexBody  {
     }
 
     /**
-     * @param code the codeitem that is contained in this body
      * @param method the method that is associated with this body
      */
     DexBody(DexFile dexFile, Method method, RefType declaringClassType) {
@@ -454,8 +451,6 @@ public class DexBody  {
         // Shortcut: Reduce array initializations
         DexArrayInitReducer.v().transform(jBody);
 
-        // split first to find undefined uses
-        getLocalSplitter().transform(jBody);
 
         // Remove dead code and the corresponding locals before assigning types
         getUnreachableCodeEliminator().transform(jBody);
@@ -534,7 +529,7 @@ public class DexBody  {
         // Remove "instanceof" checks on the null constant
         DexNullInstanceofTransformer.v().transform(jBody);
 
-        TypeAssigner.v().transform(jBody);
+        new TypeAssigner().transform(jBody);
 
         if (IDalvikTyper.ENABLE_DVKTYPER) {
             for (Unit u: jBody.getUnits()) {
@@ -620,9 +615,8 @@ public class DexBody  {
 
         // We pack locals that are not used in overlapping regions. This may
         // again lead to unused locals which we have to remove.
-        LocalPacker.v().transform(jBody);
         UnusedLocalEliminator.v().transform(jBody);
-        LocalNameStandardizer.v().transform(jBody);
+        new LocalNameStandardizer().transform(jBody);
 
         // Some apps reference static fields as instance fields. We fix this
         // on the fly.
@@ -638,7 +632,7 @@ public class DexBody  {
         TrapTightener.v().transform(jBody);
         TrapMinimizer.v().transform(jBody);
         //LocalSplitter.v().transform(jBody);
-        Aggregator.v().transform(jBody);
+        new Aggregator().transform(jBody);
         //UnusedLocalEliminator.v().transform(jBody);
         //TypeAssigner.v().transform(jBody);
         //LocalPacker.v().transform(jBody);
@@ -728,13 +722,6 @@ public class DexBody  {
         Debug.printDbg("timer null: ", t_null.getTime());
 
         return jBody;
-    }
-
-    private LocalSplitter localSplitter = null;
-    protected LocalSplitter getLocalSplitter() {
-        if (this.localSplitter == null)
-            this.localSplitter = new LocalSplitter(DalvikThrowAnalysis.v());
-        return this.localSplitter;
     }
 
     private UnreachableCodeEliminator unreachableCodeEliminator = null;

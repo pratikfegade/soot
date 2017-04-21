@@ -52,7 +52,6 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     /**
      * Return a static SootFieldRef for a dexlib FieldReference.
      *
-     * @param item the dexlib FieldReference.
      */
     protected SootFieldRef getStaticSootFieldRef(FieldReference fref) {
         return getSootFieldRef(fref, true);
@@ -61,7 +60,6 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     /**
      * Return a SootFieldRef for a dexlib FieldReference.
      *
-     * @param item the dexlib FieldReference.
      */
     protected SootFieldRef getSootFieldRef(FieldReference fref) {
         return getSootFieldRef(fref, false);
@@ -70,37 +68,26 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
     /**
      * Return a SootFieldRef for a dexlib FieldReference.
      *
-     * @param item the dexlib FieldReference.
      * @param isStatic if the FieldRef should be static
      */
     private SootFieldRef getSootFieldRef(FieldReference fref, boolean isStatic) {
         String className = dottedClassName(fref.getDefiningClass());
         SootClass sc = SootResolver.v().makeClassRef(className);
         return Scene.v().makeFieldRef(sc,
-                                      fref.getName(),
-                                      DexType.toSoot(fref.getType()),
-                                      isStatic);
+                fref.getName(),
+                DexType.toSoot(fref.getType()),
+                isStatic);
     }
 
     /**
      * Check if the field type equals the type of the value that will be stored in the field. A cast expression has to be introduced for the unequal case.
      * @return assignment statement which hold a cast or not depending on the types of the operation
      */
-    protected AssignStmt getAssignStmt(DexBody body, Local sourceValue, ConcreteRef instanceField) {
-    	AssignStmt assign;
-//		Type targetType = getTargetType(body);
-//		if(targetType != UnknownType.v() && targetType != sourceValue.getType() && ! (targetType instanceof RefType)) {
-//			CastExpr castExpr = Jimple.v().newCastExpr(sourceValue, targetType);
-//			Local local = body.generateLocal(targetType);
-//			assign = Jimple.v().newAssignStmt(local, castExpr);
-//			body.add(assign);
-//			beginUnit = assign;
-//			assign = Jimple.v().newAssignStmt(instanceField, local);
-//		}
-//		else {
-			assign = Jimple.v().newAssignStmt(instanceField, sourceValue);
-//		}
-		return assign;
+    protected AssignStmt getAssignStmt(Local sourceValue, ConcreteRef instanceField) {
+        AssignStmt assign;
+
+        assign = Jimple.v().newAssignStmt(instanceField, sourceValue);
+        return assign;
     }
 
     @Override
@@ -136,7 +123,7 @@ public abstract class FieldInstruction extends DexlibAbstractInstruction {
 
     @Override
     public Set<Type> introducedTypes() {
-        Set<Type> types = new HashSet<Type>();
+        Set<Type> types = new HashSet<>();
         // Aput instructions don't have references
         if (!(instruction instanceof ReferenceInstruction))
             return types;

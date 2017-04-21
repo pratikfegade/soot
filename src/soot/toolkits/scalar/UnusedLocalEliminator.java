@@ -48,7 +48,7 @@ public class UnusedLocalEliminator extends BodyTransformer {
 		return G.v().soot_toolkits_scalar_UnusedLocalEliminator();
 	}
 
-	protected void internalTransform(Body body, String phaseName, Map<String,String> options) {
+	protected void internalTransform(Body body) {
 		if (Options.v().verbose())
 			G.v().out.println("[" + body.getMethod().getName()
 					+ "] Eliminating unused locals...");

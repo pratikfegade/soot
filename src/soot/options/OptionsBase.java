@@ -19,9 +19,6 @@
 
 package soot.options;
 
-import soot.*;
-
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 
@@ -68,19 +65,6 @@ abstract class OptionsBase {
         return pad( 4, vals, 32, desc );
     }
 
-    protected String getPhaseUsage() {
-        StringBuffer b = new StringBuffer();
-        b.append( "\nPhases and phase options:\n" );
-        for (Pack p : PackManager.v().allPacks()) {
-            b.append( padOpt( p.getPhaseName(), p.getDeclaredOptions() ) );
-            for( Iterator<Transform> phIt = p.iterator(); phIt.hasNext(); ) {
-                final HasPhaseOptions ph = phIt.next();
-                b.append( padVal( ph.getPhaseName(), ph.getDeclaredOptions() ) );
-            }
-        }
-        return b.toString();
-    }
-
     private final LinkedList<String> options = new LinkedList<String>();
     protected void pushOptions( String s ) {
         options.addFirst( s );
@@ -92,8 +76,5 @@ abstract class OptionsBase {
     protected LinkedList<String> classes = new LinkedList<String>();
     public LinkedList<String> classes() { return classes; }
 
-    public boolean setPhaseOption( String phase, String option ) {
-        return PhaseOptions.v().processPhaseOptions( phase, option );
-    }
 }
   

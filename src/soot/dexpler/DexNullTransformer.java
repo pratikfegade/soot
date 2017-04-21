@@ -50,7 +50,7 @@ public class DexNullTransformer extends AbstractNullTransformer {
 
 	private Local l = null;
 
-	protected void internalTransform(final Body body, String phaseName, Map<String,String> options) {
+	protected void internalTransform(final Body body) {
 		final DexDefUseAnalysis localDefs = new DexDefUseAnalysis(body);
 		
 		for (Local loc : getNullCandidates(body)) {

@@ -51,7 +51,7 @@ public class DexNullArrayRefTransformer extends BodyTransformer {
 		return new DexNullArrayRefTransformer();
 	}
 
-	protected void internalTransform(final Body body, String phaseName, Map<String, String> options) {		
+	protected void internalTransform(final Body body) {
 		final ExceptionalUnitGraph g = new ExceptionalUnitGraph(body, DalvikThrowAnalysis.v());
 		final LocalDefs defs = LocalDefs.Factory.newLocalDefs(g);
 		final LocalCreation lc = new LocalCreation(body.getLocals(), "ex");

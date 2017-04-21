@@ -53,16 +53,16 @@ public class DexMethod {
      * @return the SootMethod of this method
      */
     public static SootMethod makeSootMethod(final DexFile dexFile,
-    		final Method method, final SootClass declaringClass) {
+                                            final Method method, final SootClass declaringClass) {
         int accessFlags = method.getAccessFlags();
-        List<Type> parameterTypes = new ArrayList<Type>();
+        List<Type> parameterTypes = new ArrayList<>();
 
         // get the name of the method
         String name = method.getName();
         Debug.printDbg("processing method '", method.getDefiningClass() ,": ", method.getReturnType(), " ", method.getName(), " p: ", method.getParameters(), "'");
 
         // the following snippet retrieves all exceptions that this method throws by analyzing its annotations
-        List<SootClass> thrownExceptions = new ArrayList<SootClass>();
+        List<SootClass> thrownExceptions = new ArrayList<>();
         for (Annotation a : method.getAnnotations()) {
             Type atype = DexType.toSoot(a.getType());
             String atypes = atype.toString();
@@ -110,38 +110,23 @@ public class DexMethod {
         if (Options.v().oaat() && declaringClass.resolvingLevel() <= SootClass.SIGNATURES)
             return sm;
 
-//        // retrieve all local types of the method
-//        DebugInfoItem debugInfo = method.g.codeItem.getDebugInfo();
-//        if(debugInfo!=null) {
-//			for(Item<?> item : debugInfo.getReferencedItems()) {
-//	            if (item instanceof TypeIdItem) {
-//	                Type type = DexType.toSoot((TypeIdItem) item);
-//	                dexClass.types.add(type);
-//	            }
-//
-//	        }
-//        }
-
         // sets the method source by adding its body as the active body
-        sm.setSource(new MethodSource() {
-            
-            public Body getBody(SootMethod m, String phaseName) {
-                Body b = Jimple.v().newBody(m);
-                try {
-                    //add the body of this code item
-                	DexBody dexBody = new DexBody(dexFile, method, declaringClass.getType());
-					dexBody.jimplify(b, m);
-                } catch (InvalidDalvikBytecodeException e) {
-                    String msg = "Warning: Invalid bytecode in method "+ m +": "+ e;
-                    G.v().out.println(msg);
-                    Util.emptyBody(b);
-                    Util.addExceptionAfterUnit(b, "java.lang.RuntimeException", b.getUnits().getLast(), "Soot has detected that this method contains invalid Dalvik bytecode which would have throw an exception at runtime. ["+ msg +"]");
-                    TypeAssigner.v().transform(b);
-                }
-                m.setActiveBody(b);
-                
-                return m.getActiveBody();
+        sm.setSource(m -> {
+            Body b = Jimple.v().newBody(m);
+            try {
+                //add the body of this code item
+                DexBody dexBody = new DexBody(dexFile, method, declaringClass.getType());
+                dexBody.jimplify(b, m);
+            } catch (InvalidDalvikBytecodeException e) {
+                String msg = "Warning: Invalid bytecode in method "+ m +": "+ e;
+                G.v().out.println(msg);
+                Util.emptyBody(b);
+                Util.addExceptionAfterUnit(b, "java.lang.RuntimeException", b.getUnits().getLast(), "Soot has detected that this method contains invalid Dalvik bytecode which would have throw an exception at runtime. ["+ msg +"]");
+                new TypeAssigner().transform(b);
             }
+            m.setActiveBody(b);
+
+            return m.getActiveBody();
         });
 
         return sm;

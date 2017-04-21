@@ -62,7 +62,7 @@ public final class TrapTightener extends TrapTransformer {
 		this.throwAnalysis = ta;
 	}
 
-	protected void internalTransform(Body body, String phaseName, Map<String, String> options) {
+	protected void internalTransform(Body body) {
 		if (this.throwAnalysis == null)
 			this.throwAnalysis = Scene.v().getDefaultThrowAnalysis();
 

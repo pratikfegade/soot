@@ -26,8 +26,6 @@ import soot.ValueBox;
 import soot.jimple.DefinitionStmt;
 import soot.jimple.internal.JimpleLocal;
 import soot.jimple.toolkits.base.Aggregator;
-import soot.jimple.toolkits.scalar.LocalNameStandardizer;
-import soot.options.ShimpleOptions;
 import soot.shimple.*;
 import soot.toolkits.graph.Block;
 import soot.toolkits.graph.BlockGraph;
@@ -76,7 +74,6 @@ public class ShimpleBodyBuilder
     public PhiNodeManager phi;
     public PiNodeManager pi;
 
-    ShimpleOptions options;
 
     final String ssaSeparator = "_$$A_";
 
@@ -90,7 +87,6 @@ public class ShimpleBodyBuilder
         sf.clearCache();
         phi = new PhiNodeManager(body, sf);
         pi = new PiNodeManager(body, false, sf);
-        options = body.getOptions();
         makeUniqueLocalNames();
     }
     
@@ -98,7 +94,7 @@ public class ShimpleBodyBuilder
     {
         cfg = sf.getBlockGraph();
         dt = sf.getDominatorTree();
-        origLocals = new ArrayList<Local>(body.getLocals());
+        origLocals = new ArrayList<>(body.getLocals());
     }
 
     public void transform()
@@ -106,7 +102,7 @@ public class ShimpleBodyBuilder
         phi.insertTrivialPhiNodes();
 
         boolean change = false;
-        if(options.extended()){
+        if(false){
             change = pi.insertTrivialPiNodes();
         
             while(change){
@@ -135,11 +131,7 @@ public class ShimpleBodyBuilder
 
     public void postElimOpt()
     {
-        boolean optElim = options.node_elim_opt();
-        
-        if(optElim){
-            Aggregator.v().transform(body);
-        }
+            new Aggregator().transform(body);
     }
     
     /**
@@ -150,18 +142,17 @@ public class ShimpleBodyBuilder
      * as recommended by Cytron.  The Aggregator looks like it could
      * use some improvements.
      *
-     * @see soot.options.ShimpleOptions
      **/
     public void eliminatePhiNodes()
     {
-        if(phi.doEliminatePhiNodes())
+        if(false)
             makeUniqueLocalNames();
 
     }
 
     public void eliminatePiNodes()
     {
-        boolean optElim = options.node_elim_opt();
+        boolean optElim = false;
         pi.eliminatePiNodes(optElim);
     }
     
@@ -408,11 +399,6 @@ public class ShimpleBodyBuilder
      **/
     public void makeUniqueLocalNames()
     {
-        if(options.standard_local_names()){
-            LocalNameStandardizer.v().transform(body);
-            return;
-        }
-
         Set<String> localNames = new HashSet<String>();
         Iterator<Local> localsIt = body.getLocals().iterator();
 

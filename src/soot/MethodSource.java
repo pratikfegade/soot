@@ -31,5 +31,5 @@ package soot;
 public interface MethodSource
 {
     /** Returns a filled-out body for the given SootMethod. */
-    Body getBody(SootMethod m, String phaseName);
+    Body getBody(SootMethod m);
 }
