@@ -19,10 +19,7 @@
 
 package soot.javaToJimple;
 
-import soot.Body;
-import soot.CharType;
-import soot.ShortType;
-import soot.VoidType;
+import soot.*;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -43,9 +40,8 @@ public class LocalGenerator{
 
     private void initLocalNames() {
         localNames = new HashSet<>();
-        Iterator it = body.getLocals().iterator();
-        while (it.hasNext()){
-            localNames.add(((soot.Local)it.next()).getName());
+        for (Local o : body.getLocals()) {
+            localNames.add((o).getName());
         }
     }
 
@@ -57,7 +53,7 @@ public class LocalGenerator{
         //store local names for enhanced performance
         initLocalNames();
 
-        String name = "getInstance";
+        String name;
         if (type instanceof soot.IntType) {
             while (true){
                 name = nextIntName();

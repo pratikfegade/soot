@@ -51,9 +51,6 @@ public class JimplePackManager {
         // Apply the three Jimple body transformations
         for (Transform t : _pack.opts)
             t.apply(b);
-
-        // Transform the method bodies of all classes in Scene to Shimple
-        //new ShimpleTransformer().internalTransform();
     }
 
     private Iterator<SootClass> classes() {
@@ -107,11 +104,9 @@ public class JimplePackManager {
             //note: the following is a snapshot iterator;
             //this is necessary because it can happen that phantom methods
             //are added during resolution
-            Iterator<SootMethod> methodIt = cl.getMethods().iterator();
-            while (methodIt.hasNext()) {
-                final SootMethod m = methodIt.next();
-                if( m.isConcrete() ) {
-                    executor.execute(() -> m.retrieveActiveBody());
+            for (SootMethod m : cl.getMethods()) {
+                if (m.isConcrete()) {
+                    executor.execute(m::retrieveActiveBody);
                 }
             }
         }

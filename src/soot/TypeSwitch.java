@@ -29,7 +29,7 @@ package soot;
 /** Implements Switchable on base Java types. */
 public class TypeSwitch implements ITypeSwitch 
 {
-    Object result;
+    private Object result;
 
     public void caseArrayType(ArrayType t)
     {

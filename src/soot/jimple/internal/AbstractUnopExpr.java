@@ -42,7 +42,7 @@ abstract public class AbstractUnopExpr implements UnopExpr
 {
     final ValueBox opBox;
 
-    protected AbstractUnopExpr(ValueBox opBox) { 
+    AbstractUnopExpr(ValueBox opBox) {
     	this.opBox = opBox; 
     }
 

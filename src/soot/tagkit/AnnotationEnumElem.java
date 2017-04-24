@@ -37,8 +37,8 @@ import soot.util.Switch;
 public class AnnotationEnumElem extends AnnotationElem
 {
 
-    String typeName;
-    String constantName;
+    private String typeName;
+    private String constantName;
 
     public AnnotationEnumElem(String t, String c, char kind, String name){
         super(kind, name);
@@ -54,20 +54,12 @@ public class AnnotationEnumElem extends AnnotationElem
     public String getTypeName(){
         return typeName;
     }
-    
-    public void setTypeName(String newValue) {
-    	typeName = newValue;
-    }
-    
+
     public String getConstantName(){
         return constantName;
     }
-    
-    public void setConstantName(String newValue) {
-    	constantName = newValue;
-    }
-    
-	@Override
+
+    @Override
 	public void apply(Switch sw) {
 		((IAnnotationElemTypeSwitch) sw).caseAnnotationEnumElem(this);
 	}

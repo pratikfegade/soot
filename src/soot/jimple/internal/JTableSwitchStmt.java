@@ -41,8 +41,8 @@ import java.util.List;
 public class JTableSwitchStmt extends AbstractSwitchStmt 
     implements TableSwitchStmt
 {
-    int lowIndex;
-    int highIndex;
+    private int lowIndex;
+    private int highIndex;
     
     // This method is necessary to deal with constructor-must-be-first-ism.
     private static UnitBox[] getTargetBoxesArray(List<? extends Unit> targets)
@@ -74,8 +74,8 @@ public class JTableSwitchStmt extends AbstractSwitchStmt
              );
     }
 
-    protected JTableSwitchStmt(ValueBox keyBox, int lowIndex, int highIndex, 
-    		UnitBox[] targetBoxes, UnitBox defaultTargetBox )
+    private JTableSwitchStmt(ValueBox keyBox, int lowIndex, int highIndex,
+                             UnitBox[] targetBoxes, UnitBox defaultTargetBox)
     {
     	super(keyBox, defaultTargetBox, targetBoxes);
 
@@ -89,32 +89,24 @@ public class JTableSwitchStmt extends AbstractSwitchStmt
 
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String endOfLine = " ";
         
-        buffer.append(Jimple.TABLESWITCH + "(" +
-            keyBox.getValue().toString() + ")" + endOfLine);
+        buffer.append(Jimple.TABLESWITCH + "(").append(keyBox.getValue().toString()).append(")").append(endOfLine);
             
-        buffer.append("{" + endOfLine);
+        buffer.append("{").append(endOfLine);
         
         // In this for-loop, we cannot use "<=" since 'i' would wrap around.
         // The case for "i == highIndex" is handled separately after the loop.
         for (int i = lowIndex; i < highIndex; i++) {
           Unit target = getTarget(i - lowIndex);
-          buffer.append("    " + Jimple.CASE + " " + i + ": " +
-              Jimple.GOTO + " " + (target == this ? "self" : target) + ";" +
-              endOfLine);
+          buffer.append("    " + Jimple.CASE + " ").append(i).append(": ").append(Jimple.GOTO).append(" ").append(target == this ? "self" : target).append(";").append(endOfLine);
         }
         Unit target = getTarget(highIndex - lowIndex);
-        buffer.append("    " + Jimple.CASE + " " + highIndex + ": " +
-            Jimple.GOTO + " " + (target == this ? "self" : target) + ";" +
-            endOfLine);
+        buffer.append("    " + Jimple.CASE + " ").append(highIndex).append(": ").append(Jimple.GOTO).append(" ").append(target == this ? "self" : target).append(";").append(endOfLine);
 
         target = getDefaultTarget();
-        buffer.append("    " +  Jimple.DEFAULT + ": " + Jimple.GOTO + " " +
-            (target == this ? "self" : target) + ";" + endOfLine);
-
-        buffer.append("}");
+        buffer.append("    " + Jimple.DEFAULT + ": " + Jimple.GOTO + " ").append(target == this ? "self" : target).append(";").append(endOfLine).append("}");
 
         return buffer.toString();
     }

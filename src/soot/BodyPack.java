@@ -26,21 +26,17 @@
 
 package soot;
 
-import java.util.Iterator;
-
 /** A wrapper object for a pack of optimizations.
  * Provides chain-like operations, except that the key is the phase name. */
 public class BodyPack extends Pack
 {
-    public BodyPack(String name) {
+    BodyPack(String name) {
         super(name);
     }
 
     protected void internalApply(Body b)
     {
-        for( Iterator<Transform> tIt = this.iterator(); tIt.hasNext(); ) {
-            final Transform t = tIt.next();
-
+        for (final Transform t : this) {
             t.apply(b);
         }
     }

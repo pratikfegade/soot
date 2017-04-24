@@ -46,7 +46,7 @@ public class JThrowStmt extends AbstractOpStmt implements ThrowStmt
         this(Jimple.newImmediateBox(op));
     }
 
-    protected JThrowStmt(ValueBox opBox)
+    private JThrowStmt(ValueBox opBox)
     {
         super(opBox);
     }

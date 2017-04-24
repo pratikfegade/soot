@@ -71,7 +71,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     private volatile Body activeBody;
 
     /** Tells this method how to find out where its body lives. */
-    protected volatile MethodSource ms;
+    private volatile MethodSource ms;
 
     /** Uses methodSource to retrieve the method body in question; does not set it
      * to be the active body.
@@ -373,48 +373,9 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         activeBody = null;
     }
 
-    /** Adds the given exception to the list of exceptions thrown by this method
-     * unless the exception is already in the list. */
-    public void addExceptionIfAbsent(SootClass e) {
-        if( !throwsException(e) ) addException(e);
-    }
-    /** Adds the given exception to the list of exceptions thrown by this method. */
-    public void addException(SootClass e) {
-        if(DEBUG)
-            System.out.println("Adding exception "+e);
-
-        if (exceptions == null)
-            exceptions = new ArrayList<SootClass>();
-        else if (exceptions.contains(e))
-            throw new RuntimeException(
-                    "already throws exception " + e.getName());
-
-        exceptions.add(e);
-    }
-
-    /** Removes the given exception from the list of exceptions thrown by this method. */
-    public void removeException(SootClass e) {
-        if(DEBUG)
-            System.out.println("Removing exception "+e);
-
-        if (exceptions == null)
-            exceptions = new ArrayList<SootClass>();
-
-        if (!exceptions.contains(e))
-            throw new RuntimeException(
-                    "does not throw exception " + e.getName());
-
-        exceptions.remove(e);
-    }
-
-    /** Returns true if this method throws exception <code>e</code>. */
-    public boolean throwsException(SootClass e) {
-        return exceptions != null && exceptions.contains(e);
-    }
-
     public void setExceptions(List<SootClass> exceptions) {
         if (exceptions != null && !exceptions.isEmpty()) {
-            this.exceptions = new ArrayList<SootClass>(exceptions);
+            this.exceptions = new ArrayList<>(exceptions);
         }
         else
             this.exceptions = null;
@@ -426,7 +387,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
 
     public List<SootClass> getExceptions() {
         if (exceptions == null)
-            exceptions = new ArrayList<SootClass>();
+            exceptions = new ArrayList<>();
 
         return exceptions;
     }
@@ -497,15 +458,6 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     }
 
     /**
-     *
-     * @return yes, if this function is a static initializer.
-     */
-    public boolean isStaticInitializer()
-    {
-        return name.equals(staticInitializerName);
-    }
-
-    /**
      Returns the Soot signature of this method.  Used to refer to methods unambiguously.
      */
     public String getSignature() {
@@ -513,16 +465,15 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     }
 
     public static String getSignature(SootClass cl, String name, List<Type> params, Type returnType) {
-        StringBuilder buffer = new StringBuilder();
-        buffer.append("<");
-        buffer.append(Scene.getInstance().quotedNameOf(cl.getName()));
-        buffer.append(": ");
-        buffer.append(getSubSignatureImpl(name, params, returnType));
-        buffer.append(">");
+        String buffer = "<" +
+                Scene.getInstance().quotedNameOf(cl.getName()) +
+                ": " +
+                getSubSignatureImpl(name, params, returnType) +
+                ">";
 
         // Again, memory-usage tweak depending on JDK implementation due
         // to Michael Pan.
-        return buffer.toString().intern();
+        return buffer.intern();
     }
 
     /**
@@ -566,7 +517,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
     }
 
     private NumberedString subsignature;
-    public NumberedString getNumberedSubSignature() {
+    NumberedString getNumberedSubSignature() {
         return subsignature;
     }
 
@@ -580,7 +531,7 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
      *  (before the {}'s containing the code for representation.)
      */
     public String getDeclaration() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         // modifiers
         StringTokenizer st =
@@ -589,14 +540,14 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
             buffer.append(st.nextToken());
 
         while (st.hasMoreTokens())
-            buffer.append(" " + st.nextToken());
+            buffer.append(" ").append(st.nextToken());
 
         if (buffer.length() != 0)
             buffer.append(" ");
 
         // return type + name
 
-        buffer.append(this.getReturnType() + " ");
+        buffer.append(this.getReturnType()).append(" ");
         buffer.append(Scene.getInstance().quotedNameOf(this.getName()));
 
         buffer.append("(");
@@ -621,12 +572,10 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
             Iterator<SootClass> exceptionIt = this.getExceptions().iterator();
 
             if (exceptionIt.hasNext()) {
-                buffer.append(
-                        " throws " + exceptionIt.next().getName());
+                buffer.append(" throws ").append(exceptionIt.next().getName());
 
                 while (exceptionIt.hasNext()) {
-                    buffer.append(
-                            ", " + exceptionIt.next().getName());
+                    buffer.append(", ").append(exceptionIt.next().getName());
                 }
             }
         }

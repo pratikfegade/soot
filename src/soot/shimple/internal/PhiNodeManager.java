@@ -78,8 +78,8 @@ public class PhiNodeManager
     {
 		update();
 		boolean change = false;
-		varToBlocks = new HashMultiMap<Local, Block>();
-		Map<Local, List<Block>> localsToDefPoints = new HashMap<Local, List<Block>>();
+		varToBlocks = new HashMultiMap<>();
+		Map<Local, List<Block>> localsToDefPoints = new HashMap<>();
 
 		// compute localsToDefPoints and varToBlocks
 		for (Block block : cfg) {
@@ -89,11 +89,11 @@ public class PhiNodeManager
 					Value def = vb.getValue();
 					if (def instanceof Local) {
 						Local local = (Local) def;
-						List<Block> def_points = null;
+						List<Block> def_points;
 						if (localsToDefPoints.containsKey(local)) {
 							def_points = localsToDefPoints.get(local);
 						} else {
-							def_points = new ArrayList<Block>();
+							def_points = new ArrayList<>();
 							localsToDefPoints.put(local, def_points);
 						}
 						def_points.add(block);
@@ -109,12 +109,11 @@ public class PhiNodeManager
         
         int[] workFlags = new int[cfg.size()];
         int iterCount = 0;
-        Stack<Block> workList = new Stack<Block>();
+        Stack<Block> workList = new Stack<>();
 
-        Map<Integer, Integer> has_already = new HashMap<Integer, Integer>();
-        for(Iterator<Block> blocksIt = cfg.iterator(); blocksIt.hasNext(); ){
-          Block block = blocksIt.next();
-          has_already.put(block.getIndexInMethod(), 0);
+        Map<Integer, Integer> has_already = new HashMap<>();
+        for (Block block : cfg) {
+            has_already.put(block.getIndexInMethod(), 0);
         }
 
         /* Main Cytron algorithm. */
@@ -139,28 +138,26 @@ public class PhiNodeManager
                 while(!workList.empty()){
                     Block block = workList.pop();
                     DominatorNode<Block> node = dt.getDode(block);
-                    Iterator<DominatorNode<Block>> frontierNodes = df.getDominanceFrontierOf(node).iterator();
 
-                    while(frontierNodes.hasNext()){
-                        Block frontierBlock = frontierNodes.next().getGode();
+                    for (DominatorNode<Block> blockDominatorNode : df.getDominanceFrontierOf(node)) {
+                        Block frontierBlock = blockDominatorNode.getGode();
                         int fBIndex = frontierBlock.getIndexInMethod();
 
                         Iterator<Unit> unitsIt = frontierBlock.iterator();
-                        if(!unitsIt.hasNext()){
-                          continue;
+                        if (!unitsIt.hasNext()) {
+                            continue;
                         }
-                        
-                        if(has_already.get(frontierBlock.getIndexInMethod()) < iterCount)
-                        {
+
+                        if (has_already.get(frontierBlock.getIndexInMethod()) < iterCount) {
                             has_already.put(frontierBlock.getIndexInMethod(), iterCount);
                             prependTrivialPhiNode(local, frontierBlock);
                             change = true;
 
-                            if(workFlags[fBIndex] < iterCount){
+                            if (workFlags[fBIndex] < iterCount) {
                                 workFlags[fBIndex] = iterCount;
                                 workList.push(frontierBlock);
                             }
-                        } 
+                        }
                     }
                 }
             }
@@ -173,7 +170,7 @@ public class PhiNodeManager
      * Inserts a trivial Phi node with the appropriate number of
      * arguments.
      **/
-    public void prependTrivialPhiNode(Local local, Block frontierBlock)
+    private void prependTrivialPhiNode(Local local, Block frontierBlock)
     {
         List<Block> preds = frontierBlock.getPreds();
         PhiExpr pe = Shimple.getInstance().newPhiExpr(local, preds);
@@ -198,13 +195,11 @@ public class PhiNodeManager
      * a huge number of copy statements when we get out of SSA form in
      * the process.
      **/
-    public void trimExceptionalPhiNodes()
+    void trimExceptionalPhiNodes()
     {
-        Set<Unit> handlerUnits = new HashSet<Unit>();
-        Iterator<Trap> trapsIt = body.getTraps().iterator();
+        Set<Unit> handlerUnits = new HashSet<>();
 
-        while(trapsIt.hasNext()) {
-            Trap trap = trapsIt.next();
+        for (Trap trap : body.getTraps()) {
             handlerUnits.add(trap.getHandlerUnit());
         }
 
@@ -227,7 +222,7 @@ public class PhiNodeManager
     /**
      * @see #trimExceptionalPhiNodes()
      **/
-    public void trimPhiNode(PhiExpr phiExpr)
+    private void trimPhiNode(PhiExpr phiExpr)
     {
         /* A value may appear many times in an exceptional Phi. Hence,
            the same value may be associated with many UnitBoxes. We
@@ -243,18 +238,15 @@ public class PhiNodeManager
            UnitBoxes.  Once we have found all the dominating
            UnitBoxes, the rest of the redundant arguments can be
            trimmed.  */
-        
-        Iterator<Value> valuesIt = valueToPairs.keySet().iterator();
-        while(valuesIt.hasNext()){
-            Value value = valuesIt.next();
 
+        for (Value value : valueToPairs.keySet()) {
             // although the champs list constantly shrinks, guaranteeing
             // termination, the challengers list never does.  This could
             // be optimised.
             Set<ValueUnitPair> pairsSet = valueToPairs.get(value);
             List<ValueUnitPair> champs = new LinkedList<ValueUnitPair>(pairsSet);
             List<ValueUnitPair> challengers = new LinkedList<ValueUnitPair>(pairsSet);
-            
+
             // champ is the currently assumed dominator
             ValueUnitPair champ = champs.remove(0);
             Unit champU = champ.getUnit();
@@ -263,7 +255,7 @@ public class PhiNodeManager
             // if not, we will have to try a new champion just in case
             // there is more that can be trimmed.
             boolean retry = true;
-            while(retry){
+            while (retry) {
                 retry = false;
 
                 // go through each challenger and see if we dominate them
@@ -295,55 +287,23 @@ public class PhiNodeManager
                         retry = true;
                 }
 
-                if(retry) {
-                    if(champs.isEmpty())
+                if (retry) {
+                    if (champs.isEmpty())
                         break;
                     champ = champs.remove(0);
                     champU = champ.getUnit();
                 }
             }
         }
-
-        /*
-        {
-            List preds = phiExpr.getPreds();
-
-            for(int i = 0; i < phiExpr.getArgCount(); i++){
-                ValueUnitPair vup = phiExpr.getArgBox(i);
-                Value value = vup.getValue();
-                Unit unit = vup.getUnit();
-
-                PhiExpr innerPhi = Shimple.getPhiExpr(unit);
-                if(innerPhi == null)
-                    continue;
-                
-                Value innerValue = Shimple.getLhsLocal(unit);
-                if(!innerValue.equals(value))
-                    continue;
-
-                boolean canRemove = true;
-                for(int j = 0; j < innerPhi.getArgCount(); j++){
-                    Unit innerPred = innerPhi.getPred(j);
-                    if(!preds.contains(innerPred)){
-                        canRemove = false;
-                        break;
-                    }
-                }
-
-                if(canRemove)
-                    phiExpr.removeArg(vup);
-            }
-        }
-        */
     }
     
-    protected Map<Unit, Block> unitToBlock;
+    private Map<Unit, Block> unitToBlock;
 
     /**
      * Returns true if champ dominates challenger.  Note that false
      * doesn't necessarily mean that challenger dominates champ.
      **/
-    public boolean dominates(Unit champ, Unit challenger)
+    private boolean dominates(Unit champ, Unit challenger)
     {
         if(champ == null || challenger == null)
             throw new RuntimeException("Assertion failed.");
@@ -359,13 +319,11 @@ public class PhiNodeManager
         Block challengerBlock = unitToBlock.get(challenger);
 
         if(champBlock.equals(challengerBlock)){
-            Iterator<Unit> unitsIt = champBlock.iterator();
 
-            while(unitsIt.hasNext()){
-                Unit unit = unitsIt.next();
-                if(unit.equals(champ))
+            for (Unit unit : champBlock) {
+                if (unit.equals(champ))
                     return true;
-                if(unit.equals(challenger))
+                if (unit.equals(challenger))
                     return false;
             }
 
@@ -374,133 +332,20 @@ public class PhiNodeManager
 
         DominatorNode<Block> champNode = dt.getDode(champBlock);
         DominatorNode<Block> challengerNode = dt.getDode(challengerBlock);
-
-        // *** FIXME: System.out.println("champ: " + champNode);
-        // System.out.println("chall: " + challengerNode);
         
         return(dt.isDominatorOf(champNode, challengerNode));
-    }
-    
-    /**
-     * Eliminate Phi nodes in block by naively replacing them with
-     * shimple assignment statements in the control flow predecessors.
-     * Returns true if new locals were added to the body during the
-     * process, false otherwise.
-     **/
-    public boolean doEliminatePhiNodes()
-    {
-        // flag that indicates whether we created new locals during the
-        // elimination process
-        boolean addedNewLocals = false;
-        
-        // List of Phi nodes to be deleted.
-        List<Unit> phiNodes = new ArrayList<Unit>();
-
-        // This stores the assignment statements equivalent to each
-        // (and every) Phi.  We use lists instead of a Map of
-        // non-determinate order since we prefer to preserve the order
-        // of the assignment statements, i.e. if a block has more than
-        // one Phi expression, we prefer that the equivalent
-        // assignments be placed in the same order as the Phi expressions.
-        List<AssignStmt> equivStmts = new ArrayList<AssignStmt>();
-
-        // Similarly, to preserve order, instead of directly storing
-        // the pred, we store the pred box so that we follow the
-        // pointers when SPatchingChain moves them.
-        List<ValueUnitPair> predBoxes = new ArrayList<ValueUnitPair>();
-        
-        Chain<Unit> units = body.getUnits();
-        for (Unit unit : units) {
-            PhiExpr phi = Shimple.getPhiExpr(unit);
-
-            if(phi == null)
-                continue;
-
-            Local lhsLocal = Shimple.getLhsLocal(unit);
-
-            for(int i = 0; i < phi.getArgCount(); i++){
-                Value phiValue = phi.getValue(i);
-                AssignStmt convertedPhi =
-                    Jimple.newAssignStmt(lhsLocal, phiValue);
-
-                equivStmts.add(convertedPhi);
-                predBoxes.add(phi.getArgBox(i));
-            }
-
-            phiNodes.add(unit);
-        }
-
-        if(equivStmts.size() != predBoxes.size())
-            throw new RuntimeException("Assertion failed.");
-        
-        /* Avoid Concurrent Modification exceptions. */
-
-        for(int i = 0; i < equivStmts.size(); i++){
-            AssignStmt stmt = equivStmts.get(i);
-            Unit pred = predBoxes.get(i).getUnit();
-
-            if(pred == null)
-                throw new RuntimeException("Assertion failed.");
-
-            // if we need to insert the copy statement *before* an
-            // instruction that happens to be *using* the Local being
-            // defined, we need to do some extra work to make sure we
-            // don't overwrite the old value of the local
-            if(pred.branches()){
-                boolean needPriming = false;
-                Local lhsLocal = (Local) stmt.getLeftOp();
-                Local savedLocal = Jimple.newLocal(lhsLocal.getName()+"_",
-                                                       lhsLocal.getType());
-                Iterator<ValueBox> useBoxesIt = pred.getUseBoxes().iterator();
-
-                while(useBoxesIt.hasNext()){
-                    ValueBox useBox = useBoxesIt.next();
-                    if(lhsLocal.equals(useBox.getValue())){
-                        needPriming = true;
-                        addedNewLocals = true;
-                        useBox.setValue(savedLocal);
-                    }
-                }
-
-                if(needPriming){
-                    body.getLocals().add(savedLocal);
-                    AssignStmt copyStmt = Jimple.newAssignStmt(savedLocal, lhsLocal);
-                    units.insertBefore(copyStmt, pred);
-                }
-
-                // this is all we really wanted to do!
-                units.insertBefore(stmt, pred);
-            }
-            else
-                units.insertAfter(stmt, pred);
-        }
-        
-        Iterator<Unit> phiNodesIt = phiNodes.iterator();
-
-        while(phiNodesIt.hasNext()){
-            Unit removeMe = phiNodesIt.next();
-            units.remove(removeMe);
-            removeMe.clearUnitBoxes();
-        }
-
-        return addedNewLocals;
     }
 
     /**
      * Convenience function that maps units to blocks.  Should
      * probably be in BlockGraph.
      **/
-    public Map<Unit, Block> getUnitToBlockMap(BlockGraph blocks)
+    private Map<Unit, Block> getUnitToBlockMap(BlockGraph blocks)
     {
-        Map<Unit, Block> unitToBlock = new HashMap<Unit, Block>();
+        Map<Unit, Block> unitToBlock = new HashMap<>();
 
-        Iterator<Block> blocksIt = blocks.iterator();
-        while(blocksIt.hasNext()){
-            Block block = blocksIt.next();
-            Iterator<Unit> unitsIt = block.iterator();
-
-            while(unitsIt.hasNext()){
-                Unit unit = unitsIt.next();
+        for (Block block : blocks) {
+            for (Unit unit : block) {
                 unitToBlock.put(unit, block);
             }
         }

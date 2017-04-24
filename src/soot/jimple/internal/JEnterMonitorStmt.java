@@ -47,7 +47,7 @@ public class JEnterMonitorStmt extends AbstractOpStmt
         this(Jimple.newImmediateBox(op));
     }
 
-    protected JEnterMonitorStmt(ValueBox opBox)
+    private JEnterMonitorStmt(ValueBox opBox)
     {
         super(opBox);
     }
@@ -74,8 +74,6 @@ public class JEnterMonitorStmt extends AbstractOpStmt
 
     }
 
-
     public boolean fallsThrough(){return true;}
     public boolean branches() { return false;}
-
 }

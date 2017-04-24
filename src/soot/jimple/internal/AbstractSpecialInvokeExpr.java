@@ -37,7 +37,7 @@ import soot.util.Switch;
 @SuppressWarnings("serial")
 public abstract class AbstractSpecialInvokeExpr extends AbstractInstanceInvokeExpr
 		implements SpecialInvokeExpr {
-	protected AbstractSpecialInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {
+	AbstractSpecialInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {
 		super(methodRef, baseBox, argBoxes);
 		if (methodRef.isStatic())
 			throw new RuntimeException("wrong static-ness");
@@ -70,10 +70,9 @@ public abstract class AbstractSpecialInvokeExpr extends AbstractInstanceInvokeEx
 	public abstract Object clone();
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
-		buffer.append(
-				Jimple.SPECIALINVOKE + " " + baseBox.getValue().toString() + "." + methodRef.getSignature() + "(");
+		buffer.append(Jimple.SPECIALINVOKE + " ").append(baseBox.getValue().toString()).append(".").append(methodRef.getSignature()).append("(");
 
 		if (argBoxes != null) {
 			for (int i = 0; i < argBoxes.length; i++) {

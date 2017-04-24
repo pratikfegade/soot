@@ -35,7 +35,7 @@ import soot.util.Switch;
 @SuppressWarnings("serial")
 public abstract class AbstractInterfaceInvokeExpr extends AbstractInstanceInvokeExpr
 		implements InterfaceInvokeExpr {
-	protected AbstractInterfaceInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {
+	AbstractInterfaceInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {
 		super(methodRef, baseBox, argBoxes);
 		if (methodRef.isStatic())
 			throw new RuntimeException("wrong static-ness");
@@ -68,10 +68,9 @@ public abstract class AbstractInterfaceInvokeExpr extends AbstractInstanceInvoke
 	public abstract Object clone();
 
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 
-		buffer.append(
-				Jimple.INTERFACEINVOKE + " " + baseBox.getValue().toString() + "." + methodRef.getSignature() + "(");
+		buffer.append(Jimple.INTERFACEINVOKE + " ").append(baseBox.getValue().toString()).append(".").append(methodRef.getSignature()).append("(");
 
 		if (argBoxes != null) {
 			for (int i = 0; i < argBoxes.length; i++) {
@@ -111,21 +110,4 @@ public abstract class AbstractInterfaceInvokeExpr extends AbstractInstanceInvoke
 		((ExprSwitch) sw).caseInterfaceInvokeExpr(this);
 	}
 
-	private static int sizeOfType(Type t) {
-		if (t instanceof DoubleType || t instanceof LongType)
-			return 2;
-		else if (t instanceof VoidType)
-			return 0;
-		else
-			return 1;
-	}
-
-	private static int argCountOf(SootMethodRef m) {
-		int argCount = 0;
-		for (Type t : m.parameterTypes()) {
-			argCount += sizeOfType(t);
-		}
-
-		return argCount;
-	}
 }

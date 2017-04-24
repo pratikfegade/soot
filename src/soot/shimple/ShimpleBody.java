@@ -51,9 +51,9 @@ public class ShimpleBody extends StmtBody
      * Holds our options map...
      **/
 
-    protected ShimpleBodyBuilder sbb;
+    private ShimpleBodyBuilder sbb;
     
-    protected boolean isExtendedSSA = false;
+    private boolean isExtendedSSA = false;
     
     /**
      * Construct an empty ShimpleBody associated with m.
@@ -65,7 +65,7 @@ public class ShimpleBody extends StmtBody
         // must happen before SPatchingChain gets created
         setSSA(true);
 
-        unitChain = new SPatchingChain(this, new HashChain());
+        unitChain = new SPatchingChain(this, new HashChain<>());
         sbb = new ShimpleBodyBuilder(this);
     }
 
@@ -89,7 +89,7 @@ public class ShimpleBody extends StmtBody
 
         // must happen before SPatchingChain gets created
 
-        unitChain = new SPatchingChain(this, new HashChain());
+        unitChain = new SPatchingChain(this, new HashChain<>());
         importBodyContentsFrom(body);
 
         /* Shimplise body */
@@ -109,7 +109,7 @@ public class ShimpleBody extends StmtBody
      * you may prefer to use rebuild(false) in order to skip some
      * transformations during the Phi elimination process.
      **/
-    public void rebuild()
+    void rebuild()
     {
         rebuild(true);
     }
@@ -126,7 +126,7 @@ public class ShimpleBody extends StmtBody
      * transformations involved in eliminating Phi nodes, use
      * rebuild(false).
      **/
-    public void rebuild(boolean hasPhiNodes)
+    private void rebuild(boolean hasPhiNodes)
     {
         isExtendedSSA = false;
         sbb.transform();
@@ -146,9 +146,8 @@ public class ShimpleBody extends StmtBody
      * <p> Remember to setActiveBody() if necessary in your
      * SootMethod.
      *
-     * @see #eliminatePhiNodes()
      **/
-    public JimpleBody toJimpleBody()
+    JimpleBody toJimpleBody()
     {
         ShimpleBody sBody = (ShimpleBody) this.clone();
 
@@ -158,32 +157,7 @@ public class ShimpleBody extends StmtBody
         return jBody;
     }
 
-    /**
-     * Remove Phi nodes from body. SSA form is no longer a given
-     * once done.
-     *
-     * <p> Currently available option is "naive-phi-elimination",
-     * typically specified in the "shimple" phase (eg, -p shimple
-     * naive-phi-elimination) which skips the dead code elimination
-     * and register allocation phase before eliminating Phi nodes.
-     * This can be useful for understanding the effect of analyses.
-     *
-     * @see #toJimpleBody()
-     **/
-    public void eliminatePhiNodes()
-    {
-        sbb.preElimOpt();
-        sbb.eliminatePhiNodes();
-        sbb.postElimOpt();
-        setSSA(false);
-    }
-
-    public void eliminatePiNodes()
-    {
-        sbb.eliminatePiNodes();
-    }
-    
-    public void eliminateNodes()
+    private void eliminateNodes()
     {
         sbb.preElimOpt();
         sbb.eliminatePhiNodes();
@@ -208,7 +182,7 @@ public class ShimpleBody extends StmtBody
      * Set isSSA boolean to indicate whether a ShimpleBody is still in SSA
      * form or not.   Could be useful for book-keeping purposes.
      **/
-    protected boolean isSSA = false;
+    private boolean isSSA = false;
 
     /**
      * Sets a flag that indicates whether ShimpleBody is still in SSA
@@ -230,23 +204,4 @@ public class ShimpleBody extends StmtBody
         return isSSA;
     }
 
-    public boolean isExtendedSSA()
-    {
-        return isExtendedSSA;
-    }
-
-    /**
-     * Make sure the locals in this body all have unique String names.
-     * If the standard-local-names option is specified to Shimple,
-     * this results in the LocalNameStandardizer being applied.
-     * Otherwise, renaming is kept to a minimum and an underscore
-     * notation is used to differentiate locals previously of the same
-     * name.
-     *
-     * @see soot.jimple.toolkits.scalar.LocalNameStandardizer
-     **/
-    public void makeUniqueLocalNames()
-    {
-        sbb.makeUniqueLocalNames();
-    }
 }

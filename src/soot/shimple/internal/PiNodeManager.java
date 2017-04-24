@@ -61,15 +61,15 @@ public class PiNodeManager
 {
     protected ShimpleBody body;
     protected ShimpleFactory sf;
-    protected DominatorTree<Block> dt;
-    protected DominanceFrontier<Block> df;
+    private DominatorTree<Block> dt;
+    private DominanceFrontier<Block> df;
     protected ReversibleGraph<Block> cfg;
-    protected boolean trimmed;
+    private boolean trimmed;
     
     /**
      * Transforms the provided body to pure SSA form.
      **/
-    public PiNodeManager(ShimpleBody body, boolean trimmed, ShimpleFactory sf)
+    PiNodeManager(ShimpleBody body, boolean trimmed, ShimpleFactory sf)
     {
         this.body = body;
         this.trimmed = trimmed;
@@ -83,9 +83,9 @@ public class PiNodeManager
         df = sf.getReverseDominanceFrontier();
     }
     
-    protected MultiMap<Local, Block> varToBlocks;
+    private MultiMap<Local, Block> varToBlocks;
     
-    public boolean insertTrivialPiNodes()
+    boolean insertTrivialPiNodes()
     {
         update();
         boolean change = false;
@@ -96,10 +96,10 @@ public class PiNodeManager
         for (Block block : cfg) {
             for(Unit unit : block) {
                 List<ValueBox> useBoxes = unit.getUseBoxes();
-                for(Iterator<ValueBox> useBoxesIt = useBoxes.iterator(); useBoxesIt.hasNext();){
-                    Value use = useBoxesIt.next().getValue();
-                    if(use instanceof Local)
-                        localsToUsePoints.put((Local)use, block);
+                for (ValueBox useBoxe : useBoxes) {
+                    Value use = useBoxe.getValue();
+                    if (use instanceof Local)
+                        localsToUsePoints.put((Local) use, block);
                 }
 
                 if(Shimple.isPiNode(unit))
@@ -113,7 +113,7 @@ public class PiNodeManager
         int[] hasAlreadyFlags = new int[cfg.size()];
         
         int iterCount = 0;
-        Stack<Block> workList = new Stack<Block>();
+        Stack<Block> workList = new Stack<>();
 
         /* Main Cytron algorithm. */
         
@@ -158,7 +158,7 @@ public class PiNodeManager
         return change;
     }
 
-    public void insertPiNodes(Local local, Block frontierBlock)
+    private void insertPiNodes(Local local, Block frontierBlock)
     {
         if(varToBlocks.get(local).contains(frontierBlock.getSuccs().get(0)))
             return;
@@ -184,7 +184,7 @@ public class PiNodeManager
             throw new RuntimeException("Assertion failed: Unhandled stmt: " + u);
     }
 
-    public void piHandleIfStmt(Local local, IfStmt u)
+    private void piHandleIfStmt(Local local, IfStmt u)
     {
         Unit target = u.getTarget();
         
@@ -207,7 +207,7 @@ public class PiNodeManager
         // *** FIXME: Does SPatchingChain do the right thing?
         PREDFALLSTHROUGH:
         {
-            Unit predOfTarget = null;
+            Unit predOfTarget;
             try{
                 predOfTarget = units.getPredOf(target);
             }
@@ -229,10 +229,10 @@ public class PiNodeManager
         u.setTarget(addt);
     }
 
-    public void piHandleSwitchStmt(Local local, Unit u)
+    private void piHandleSwitchStmt(Local local, Unit u)
     {
-        List<UnitBox> targetBoxes = new ArrayList<UnitBox>();
-        List<Object> targetKeys = new ArrayList<Object>();
+        List<UnitBox> targetBoxes = new ArrayList<>();
+        List<Object> targetKeys = new ArrayList<>();
 
         if(u instanceof LookupSwitchStmt){
             LookupSwitchStmt lss = (LookupSwitchStmt) u;
@@ -298,7 +298,7 @@ public class PiNodeManager
         }
     }
 
-    public void eliminatePiNodes(boolean smart)
+    void eliminatePiNodes(boolean smart)
     {
         if(smart){
             Map<Local, Value> newToOld = new HashMap<>();
@@ -316,11 +316,10 @@ public class PiNodeManager
                 }
             }
 
-            for(Iterator<ValueBox> boxesIt = boxes.iterator(); boxesIt.hasNext();){
-                ValueBox box = boxesIt.next();
+            for (ValueBox box : boxes) {
                 Value value = box.getValue();
                 Value old = newToOld.get(value);
-                if(old != null)
+                if (old != null)
                     box.setValue(old);
             }
 

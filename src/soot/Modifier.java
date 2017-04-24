@@ -58,7 +58,7 @@ public class Modifier
     public static final int ENUM =         0x4000; 
 
     // dex specifific modifiers
-    public static final int SYNTHETIC = 0x1000;
+    private static final int SYNTHETIC = 0x1000;
     public static final int CONSTRUCTOR = 0x10000;
     public static final int DECLARED_SYNCHRONIZED = 0x20000;
     // add
@@ -122,33 +122,20 @@ public class Modifier
         return (m & VOLATILE) != 0;
     }
 
-    public static boolean isStrictFP(int m)
+    private static boolean isStrictFP(int m)
     {
         return (m & STRICTFP) != 0;
     }
     
-    public static boolean isAnnotation(int m)
+    private static boolean isAnnotation(int m)
     {
         return (m & ANNOTATION) != 0;
     }
     
-    public static boolean isEnum(int m)
+    private static boolean isEnum(int m)
     {
         return (m & ENUM) != 0;
     }
-
-    public static boolean isSynthetic(int m) {
-        return (m & SYNTHETIC) != 0;
-    }
-
-    public static boolean isConstructor(int m) {
-        return (m & CONSTRUCTOR) != 0;
-    }
-
-    public static boolean isDeclaredSynchronized(int m) {
-        return (m & DECLARED_SYNCHRONIZED) != 0;
-    }
-
     /**
      *  Converts the given modifiers to their string representation, in canonical form.
      *   @param m  a modifier set
@@ -156,7 +143,7 @@ public class Modifier
      */
     public static String toString(int m)
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         if(isPublic(m))
             buffer.append("public ");

@@ -40,8 +40,8 @@ public class SPatchingChain extends PatchingChain<Unit>
     /**
      * Needed to find non-trapped Units of the body.
      **/
-    Body body = null;
-    boolean debug;
+    private Body body = null;
+    private boolean debug;
     
     public SPatchingChain(Body aBody, Chain<Unit> aChain)
     {
@@ -77,35 +77,33 @@ public class SPatchingChain extends PatchingChain<Unit>
         processPhiNode(toInsert);
         super.insertAfter(toInsert, point);
 
-        Unit unit = point;
-
         // update any pointers from Phi nodes only if the unit
         // being inserted is in the same basic block as point, or if
         // control flows through to the Phi node
         patchpointers:
         {
             // no need to move the pointers
-            if(!unit.fallsThrough())
+            if(!point.fallsThrough())
                 break patchpointers;
 
             // move pointers unconditionally, needed as a special case
-            if(!unit.branches()){
+            if(!point.branches()){
                 Set<Unit> trappedUnits = Collections.emptySet();
                 if(body != null)
                     trappedUnits = TrapManager.getTrappedUnitsOf(body);
-                if(!trappedUnits.contains(unit)){
-                    Shimple.redirectPointers(unit, toInsert);
+                if(!trappedUnits.contains(point)){
+                    Shimple.redirectPointers(point, toInsert);
                     break patchpointers;
                 }
             }
             
             /* handle each UnitBox individually */
 
-            UnitBox[] boxes = unit.getBoxesPointingToThis().toArray(new UnitBox[0]);
+            UnitBox[] boxes = point.getBoxesPointingToThis().toArray(new UnitBox[0]);
 
             for (UnitBox ub : boxes) {
 
-                if(ub.getUnit() != unit)
+                if(ub.getUnit() != point)
                     throw new RuntimeException("Assertion failed.");
                 if(ub.isBranchTarget())
                     continue;
@@ -140,7 +138,7 @@ public class SPatchingChain extends PatchingChain<Unit>
                         // when removing a Phi node, or the user removed
                         // a Phi node and hasn't put it back yet
                         if(debug)
-                            System.out.println("Warning: Orphaned UnitBox to " + unit + "?  SPatchingChain will not move the pointer.");
+                            System.out.println("Warning: Orphaned UnitBox to " + point + "?  SPatchingChain will not move the pointer.");
                         continue;
                     }
                 }
@@ -199,49 +197,46 @@ public class SPatchingChain extends PatchingChain<Unit>
     /**
      * Map from UnitBox to the Phi node owning it.
      **/
-    protected Map<UnitBox, Unit> boxToPhiNode = new HashMap<UnitBox, Unit>();
+    private Map<UnitBox, Unit> boxToPhiNode = new HashMap<>();
     /**
      * Set of the values of boxToPhiNode. Used to allow O(1) contains() on the values.
      **/
-    protected Set<Unit> phiNodeSet = new HashSet<Unit>();
+    private Set<Unit> phiNodeSet = new HashSet<>();
 
     /**
      * Flag that indicates whether control flow falls through from the
      * box to the Phi node.  null indicates we probably need a call to
      * computeInternal().
      **/
-    protected Map<SUnitBox, Boolean> boxToNeedsPatching = new HashMap<SUnitBox, Boolean>();
+    private Map<SUnitBox, Boolean> boxToNeedsPatching = new HashMap<>();
 
     
-    protected void processPhiNode(Unit o)
+    private void processPhiNode(Unit o)
     {
-        Unit phiNode = o;
-        PhiExpr phi = Shimple.getPhiExpr(phiNode);
+        PhiExpr phi = Shimple.getPhiExpr(o);
 
         // not a Phi node
         if(phi == null)
             return;
 
         // already processed previously, unit chain manipulations?
-        if(phiNodeSet.contains(phiNode))
+        if(phiNodeSet.contains(o))
             return;
 
         for (UnitBox box : phi.getUnitBoxes()) {
-            boxToPhiNode.put(box, phiNode);
-            phiNodeSet.add(phiNode);
+            boxToPhiNode.put(box, o);
+            phiNodeSet.add(o);
         }
     }
 
-    protected void reprocessPhiNodes()
+    private void reprocessPhiNodes()
     {
-        Set<Unit> phiNodes = new HashSet<Unit>(boxToPhiNode.values());
-        boxToPhiNode = new HashMap<UnitBox, Unit>();
-        phiNodeSet = new HashSet<Unit>();
-        boxToNeedsPatching = new HashMap<SUnitBox, Boolean>();
+        Set<Unit> phiNodes = new HashSet<>(boxToPhiNode.values());
+        boxToPhiNode = new HashMap<>();
+        phiNodeSet = new HashSet<>();
+        boxToNeedsPatching = new HashMap<>();
 
-        Iterator<Unit> phiNodesIt = phiNodes.iterator();
-        while(phiNodesIt.hasNext())
-            processPhiNode(phiNodesIt.next());
+        for (Unit phiNode : phiNodes) processPhiNode(phiNode);
     }
     
     /**
@@ -250,7 +245,7 @@ public class SPatchingChain extends PatchingChain<Unit>
      * from a chain and don't put it back or call clearUnitBoxes() on
      * it.
      **/
-    protected void computeNeedsPatching()
+    private void computeNeedsPatching()
     {
         {
             Set<UnitBox> boxes = boxToPhiNode.keySet();
@@ -262,7 +257,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         // we track the fallthrough control flow from boxes to the
         // corresponding Phi statements.  trackedPhi provides a
         // mapping from the Phi being tracked to its relevant boxes.
-        MultiMap<Unit, UnitBox> trackedPhiToBoxes = new HashMultiMap<Unit, UnitBox>();
+        MultiMap<Unit, UnitBox> trackedPhiToBoxes = new HashMultiMap<>();
 
         // consider:
         //
@@ -272,7 +267,7 @@ public class SPatchingChain extends PatchingChain<Unit>
         // Here control flow both fallsthrough and branches to label1.
         // If such an if statement is encountered, we do not want to
         // move any UnitBox pointers beyond the if statement.
-        Set<UnitBox> trackedBranchTargets = new HashSet<UnitBox>();
+        Set<UnitBox> trackedBranchTargets = new HashSet<>();
         for (Unit u : this) {
             // update trackedPhiToBoxes
             List<UnitBox> boxesToTrack = u.getBoxesPointingToThis();
@@ -293,14 +288,13 @@ public class SPatchingChain extends PatchingChain<Unit>
             // this is not triggered since u would fall through in that
             // case.)
             if(!u.fallsThrough() || trackedBranchTargets.contains(u)){
-                Iterator<UnitBox> boxesIt = trackedPhiToBoxes.values().iterator();
-                while(boxesIt.hasNext()){
-                    SUnitBox box = getSBox(boxesIt.next());
+                for (UnitBox unitBox : trackedPhiToBoxes.values()) {
+                    SUnitBox box = getSBox(unitBox);
                     boxToNeedsPatching.put(box, Boolean.FALSE);
                     box.setUnitChanged(false);
                 }
 
-                trackedPhiToBoxes = new HashMultiMap<Unit, UnitBox>();
+                trackedPhiToBoxes = new HashMultiMap<>();
                 continue;
             }
 
@@ -320,15 +314,14 @@ public class SPatchingChain extends PatchingChain<Unit>
         }
 
         // after the iteration, the rest do not fall through
-        Iterator<UnitBox> boxesIt = trackedPhiToBoxes.values().iterator();
-        while(boxesIt.hasNext()){
-            SUnitBox box = getSBox(boxesIt.next());
+        for (UnitBox unitBox : trackedPhiToBoxes.values()) {
+            SUnitBox box = getSBox(unitBox);
             boxToNeedsPatching.put(box, Boolean.FALSE);
             box.setUnitChanged(false);
         }
     }
 
-    protected SUnitBox getSBox(UnitBox box)
+    private SUnitBox getSBox(UnitBox box)
     {
         if(!(box instanceof SUnitBox))
             throw new RuntimeException("Shimple box not an SUnitBox?");

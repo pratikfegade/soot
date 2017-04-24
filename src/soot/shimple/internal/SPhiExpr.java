@@ -37,8 +37,8 @@ import java.util.*;
  **/
 public class SPhiExpr implements PhiExpr
 {
-    protected List<ValueUnitPair> argPairs = new ArrayList<ValueUnitPair>();
-    protected Map<Unit, ValueUnitPair> predToPair = new HashMap<Unit, ValueUnitPair>();  // cache
+    private List<ValueUnitPair> argPairs = new ArrayList<>();
+    private Map<Unit, ValueUnitPair> predToPair = new HashMap<>();  // cache
     protected Type type;
     
     /**
@@ -91,7 +91,7 @@ public class SPhiExpr implements PhiExpr
 
     public List<Value> getValues()
     {
-        List<Value> args = new ArrayList<Value>();
+        List<Value> args = new ArrayList<>();
         for (ValueUnitPair vup : argPairs) {
             Value arg = vup.getValue();
             args.add(arg);
@@ -102,7 +102,7 @@ public class SPhiExpr implements PhiExpr
 
     public List<Unit> getPreds()
     {
-        List<Unit> preds = new ArrayList<Unit>();
+        List<Unit> preds = new ArrayList<>();
         for (ValueUnitPair up : argPairs) {
             Unit arg = up.getUnit();
             preds.add(arg);
@@ -318,7 +318,7 @@ public class SPhiExpr implements PhiExpr
         return true;
     }
 
-    int blockId = -1;
+    private int blockId = -1;
 
     public void setBlockId(int blockId)
     {
@@ -338,10 +338,10 @@ public class SPhiExpr implements PhiExpr
      * Update predToPair cache map which could be out-of-sync due to
      * external setUnit or clone operations on the UnitBoxes.
      **/
-    protected void updateCache()
+    private void updateCache()
     {
         int needed = argPairs.size();
-        predToPair = new HashMap<Unit, ValueUnitPair>(needed << 1, 1.0F); //Always attempt to allocate the next power of 2 sized map
+        predToPair = new HashMap<>(needed << 1, 1.0F); //Always attempt to allocate the next power of 2 sized map
         for (ValueUnitPair vup : argPairs) {
             predToPair.put(vup.getUnit(), vup);
         }
@@ -380,10 +380,9 @@ public class SPhiExpr implements PhiExpr
     @Override
     public List<UnitBox> getUnitBoxes()
     {
-    	Set<UnitBox> boxes = new HashSet<UnitBox>(argPairs.size());
-    	for (ValueUnitPair up : argPairs)
-    		boxes.add(up);
-        return new ArrayList<UnitBox>(boxes);
+    	Set<UnitBox> boxes = new HashSet<>(argPairs.size());
+        boxes.addAll(argPairs);
+        return new ArrayList<>(boxes);
     }
 
     public void clearUnitBoxes()
@@ -395,14 +394,14 @@ public class SPhiExpr implements PhiExpr
     
     public List<ValueBox> getUseBoxes()
     {
-        Set<ValueBox> set = new HashSet<ValueBox>();
+        Set<ValueBox> set = new HashSet<>();
 
         for (ValueUnitPair argPair : argPairs) {
             set.addAll(argPair.getValue().getUseBoxes());
             set.add(argPair);
         }
 
-        return new ArrayList<ValueBox>(set);
+        return new ArrayList<>(set);
     }
 
     public Type getType()
@@ -412,7 +411,7 @@ public class SPhiExpr implements PhiExpr
 
     public String toString()
     {
-        StringBuffer expr = new StringBuffer(Shimple.PHI + "(");
+        StringBuilder expr = new StringBuilder(Shimple.PHI + "(");
         boolean isFirst = true;
         for (ValueUnitPair vuPair : argPairs) {
             if(!isFirst)

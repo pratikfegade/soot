@@ -86,8 +86,6 @@ public class JimpleBody extends StmtBody
         return b;
     }
 
-
-
     /** Make sure that the JimpleBody is well formed.  If not, throw
      *  an exception.  Right now, performs only a handful of checks.  
      */

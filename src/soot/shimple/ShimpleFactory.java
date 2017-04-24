@@ -41,7 +41,6 @@ public interface ShimpleFactory
     DominatorTree<Block> getDominatorTree();
     DominanceFrontier<Block> getDominanceFrontier();
 
-    GlobalValueNumberer getGlobalValueNumberer();
     ReversibleGraph<Block> getReverseBlockGraph();
     DominatorsFinder<Block> getReverseDominatorsFinder();
     DominatorTree<Block> getReverseDominatorTree();

@@ -20,7 +20,6 @@
 package soot.shimple.internal;
 
 import soot.util.HashMultiMap;
-import soot.util.MultiMap;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -32,14 +31,9 @@ import java.util.Set;
  **/
 public class SHashMultiMap<K,V> extends HashMultiMap<K,V>
 {
-    public SHashMultiMap()
+    SHashMultiMap()
     {
         super();
-    }
-
-    public SHashMultiMap(MultiMap<K,V> m)
-    {
-	super( m );
     }
 
     protected Set<V> newSet()

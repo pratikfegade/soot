@@ -33,8 +33,8 @@ import java.util.List;
  **/
 public class SPiExpr implements PiExpr
 {
-    protected ValueUnitPair argBox;
-    protected Object targetKey;
+    private ValueUnitPair argBox;
+    private Object targetKey;
 
     public SPiExpr(Value v, Unit u, Object o)
     {
@@ -88,12 +88,9 @@ public class SPiExpr implements PiExpr
         argBox.setUnit(null);
     }
     
-    public boolean equivTo(Object o)
-    {
-        if(!(o instanceof SPiExpr))
-            return false;
+    public boolean equivTo(Object o) {
+        return o instanceof SPiExpr && getArgBox().equivTo(((SPiExpr) o).getArgBox());
 
-        return getArgBox().equivTo(((SPiExpr)o).getArgBox());
     }
 
     public int equivHashCode()

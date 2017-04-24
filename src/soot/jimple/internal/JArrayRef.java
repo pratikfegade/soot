@@ -41,8 +41,8 @@ import java.util.List;
 
 public class JArrayRef implements ArrayRef
 {
-    protected ValueBox baseBox;
-    protected ValueBox indexBox;
+    private ValueBox baseBox;
+    private ValueBox indexBox;
 
     public JArrayRef(Value base, Value index)
     {
@@ -50,7 +50,7 @@ public class JArrayRef implements ArrayRef
                 Jimple.newImmediateBox(index));
     }
 
-    protected JArrayRef(ValueBox baseBox, ValueBox indexBox)
+    private JArrayRef(ValueBox baseBox, ValueBox indexBox)
     {
         this.baseBox = baseBox;
         this.indexBox = indexBox;

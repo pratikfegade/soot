@@ -56,7 +56,7 @@ public class JBreakpointStmt extends AbstractStmt implements BreakpointStmt
         ((StmtSwitch) sw).caseBreakpointStmt(this);
     }
     
-    public    Object clone() 
+    public Object clone()
     {
         return new JBreakpointStmt();
     }

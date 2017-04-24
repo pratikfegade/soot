@@ -22,7 +22,6 @@ package soot.shimple;
 import soot.Body;
 import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
 import soot.shimple.toolkits.graph.GlobalValueNumberer;
-import soot.shimple.toolkits.graph.SimpleGlobalValueNumberer;
 import soot.toolkits.graph.*;
 
 /**
@@ -31,17 +30,17 @@ import soot.toolkits.graph.*;
 public class DefaultShimpleFactory implements ShimpleFactory
 {
     protected final Body body;
-    protected BlockGraph bg;
-    protected UnitGraph ug;
-    protected DominatorsFinder<Block> dFinder;
-    protected DominatorTree<Block> dTree;
-    protected DominanceFrontier<Block> dFrontier;
-    protected GlobalValueNumberer gvn;
+    private BlockGraph bg;
+    private UnitGraph ug;
+    private DominatorsFinder<Block> dFinder;
+    private DominatorTree<Block> dTree;
+    private DominanceFrontier<Block> dFrontier;
+    private GlobalValueNumberer gvn;
 
-    protected ReversibleGraph<Block> rbg;
-    protected DominatorTree<Block> rdTree;
-    protected DominanceFrontier<Block> rdFrontier;
-    protected DominatorsFinder<Block> rdFinder;
+    private ReversibleGraph<Block> rbg;
+    private DominatorTree<Block> rdTree;
+    private DominanceFrontier<Block> rdFrontier;
+    private DominatorsFinder<Block> rdFinder;
     
     public DefaultShimpleFactory(Body body)
     {
@@ -76,7 +75,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
             return rbg;
         
         BlockGraph bg = getBlockGraph();
-        rbg = new HashReversibleGraph<Block>(bg);
+        rbg = new HashReversibleGraph<>(bg);
         rbg.reverse();
         return rbg;
     }
@@ -134,7 +133,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(dFinder != null)
             return dFinder;
 
-        dFinder = new SimpleDominatorsFinder<Block>(getBlockGraph());
+        dFinder = new SimpleDominatorsFinder<>(getBlockGraph());
         return dFinder;
     }
 
@@ -143,7 +142,7 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(dTree != null)
             return dTree;
 
-        dTree = new DominatorTree<Block>(getDominatorsFinder());
+        dTree = new DominatorTree<>(getDominatorsFinder());
         return dTree;
     }
     
@@ -152,16 +151,8 @@ public class DefaultShimpleFactory implements ShimpleFactory
         if(dFrontier != null)
             return dFrontier;
 
-        dFrontier = new CytronDominanceFrontier<Block>(getDominatorTree());
+        dFrontier = new CytronDominanceFrontier<>(getDominatorTree());
         return dFrontier;
     }
 
-    public GlobalValueNumberer getGlobalValueNumberer()
-    {
-        if(gvn != null)
-            return gvn;
-        
-        gvn = new SimpleGlobalValueNumberer(getBlockGraph());
-        return gvn;
-    }
 }

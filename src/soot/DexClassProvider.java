@@ -69,9 +69,9 @@ public class DexClassProvider implements ClassProvider {
 	}
 
 	private List<File> getAllDexFiles(String path){
-		Queue<File> toVisit = new ArrayDeque<File>();
-		Set<File> visited = new HashSet<File>();
-		List<File> ret = new ArrayList<File>();
+		Queue<File> toVisit = new ArrayDeque<>();
+		Set<File> visited = new HashSet<>();
+		List<File> ret = new ArrayList<>();
 		toVisit.add(new File(path));
 		while(!toVisit.isEmpty()){
 			File cur = toVisit.poll();
@@ -107,7 +107,7 @@ public class DexClassProvider implements ClassProvider {
 				if(file.isFile()){
 					if(file.getName().endsWith(".apk") || file.getName().endsWith(".jar") || file.getName().endsWith(".zip")){
 						//check if the archive contains dex files and record the names if there are multiple
-						Set<String> entryNames = new HashSet<String>();
+						Set<String> entryNames = new HashSet<>();
 						ZipFile archive = null;
 						try{
 							archive = new ZipFile(file);
@@ -127,7 +127,8 @@ public class DexClassProvider implements ClassProvider {
 									archive.close();
 									archive = null;
 								}
-							}catch(Throwable e) {}
+							}
+							catch(Throwable e) {}
 						}
 						if(!entryNames.isEmpty()){
 							if(Options.getInstance().process_multiple_dex()){

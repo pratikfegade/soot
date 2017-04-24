@@ -22,9 +22,6 @@
  * See the 'credits' file distributed with Soot for the complete list of
  * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
  */
-
-
-
 package soot.jimple.toolkits.scalar;
 
 import soot.*;
@@ -34,9 +31,7 @@ import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.DirectedGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.Chain;
-
 import java.util.*;
-
 
 public class UnreachableCodeEliminator extends BodyTransformer
 {
@@ -47,9 +42,6 @@ public class UnreachableCodeEliminator extends BodyTransformer
 
 	protected void internalTransform(Body body)
 	{
-		if (Options.getInstance().verbose()) {
-			System.out.println("[" + body.getMethod().getName() + "] Eliminating unreachable code...");
-		}
 
 		// Force a conservative ExceptionalUnitGraph() which
 		// necessarily includes an edge from every trapped Unit to
@@ -61,8 +53,6 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		ExceptionalUnitGraph graph =  new ExceptionalUnitGraph(body, throwAnalysis, false);
 
 		Chain<Unit> units = body.getUnits();
-		int numPruned = units.size();
-
 		Set<Unit> reachable = units.isEmpty()
 				? Collections.emptySet()
 				: reachable(units.getFirst(), graph)
@@ -98,16 +88,6 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		}
 
 		units.retainAll(reachable);
-
-		numPruned -= units.size();
-
-		if (Options.getInstance().verbose()) {
-			System.out.println("[" + body.getMethod().getName() + "]	 Removed " + numPruned + " statements: ");
-			for (Unit u : notReachable) {
-				System.out.println("[" + body.getMethod().getName() + "]	         " + u);
-			}
-
-		}
 	}
 
 	// Used to be: "mark first statement and all its successors, recursively"
@@ -117,8 +97,8 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		if ( first == null || g == null ) {
 			return Collections.emptySet();
 		}
-		Set<T> visited = new HashSet<T>(g.size());
-		Deque<T> q = new ArrayDeque<T>();
+		Set<T> visited = new HashSet<>(g.size());
+		Deque<T> q = new ArrayDeque<>();
 		q.addFirst(first);
 		do {
 			T t = q.removeFirst();

@@ -78,7 +78,7 @@ public abstract class AbstractUnitPrinter implements UnitPrinter {
         if( quotableLocals == null )
             initializeQuotableLocals();
         if( quotableLocals.contains(l.getName()) )
-            output.append ( "'" + l.getName() + "'");
+            output.append("'").append(l.getName()).append("'");
         else
             output.append( l.getName() );
     }
@@ -95,20 +95,20 @@ public abstract class AbstractUnitPrinter implements UnitPrinter {
         return output;
     }
 
-    protected void handleIndent() {
+    void handleIndent() {
         if( startOfLine ) output.append( indent );
         startOfLine = false;
     }
 
-    protected void initializeQuotableLocals() {
-        quotableLocals = new HashSet<String>();
+    private void initializeQuotableLocals() {
+        quotableLocals = new HashSet<>();
         quotableLocals.addAll (Jimple.jimpleKeywordList());
     }
 
-    protected boolean startOfLine = true;
-    protected String indent = "        ";
+    boolean startOfLine = true;
+    String indent = "        ";
     protected StringBuffer output = new StringBuffer();
-    protected AttributesUnitPrinter pt;
-    protected HashSet<String> quotableLocals;
+    private AttributesUnitPrinter pt;
+    private HashSet<String> quotableLocals;
 }
 

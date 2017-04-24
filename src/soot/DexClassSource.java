@@ -34,7 +34,7 @@ public class DexClassSource extends ClassSource {
      * @param className the class which dependencies are to be resolved.
      * @param path to the file that defines the class.
      */
-    public DexClassSource(String className, File path) {
+    DexClassSource(String className, File path) {
         super(className);
         this.path = path;
     }

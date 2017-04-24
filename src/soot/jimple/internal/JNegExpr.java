@@ -39,11 +39,8 @@ public class JNegExpr extends AbstractNegExpr
     {
         super(Jimple.newImmediateBox(op));
     }
-    
-    public Object clone()  
+    public Object clone()
     {
         return new JNegExpr(Jimple.cloneIfNecessary(getOp()));
     }
-    
-
 }

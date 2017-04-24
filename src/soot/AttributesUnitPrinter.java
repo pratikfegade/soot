@@ -46,9 +46,7 @@ public class AttributesUnitPrinter {
 	}
 	public void endUnit( Unit u ) {
 		int endStmtOffset = output().length() - lastNewline;
-        //G.getInstance().out.println("u: "+u.toString());
 		if (hasTag(u)){
-            //G.getInstance().out.println("u: "+u.toString()+" has tag");
 			u.addTag( new JimpleLineNumberTag( startLn, currentLn ));
 		}
 		if (hasColorTag(u)) {
@@ -57,22 +55,21 @@ public class AttributesUnitPrinter {
 	}
     public void startValueBox( ValueBox u ) {
 		if (startOffsets == null) {
-			startOffsets = new Stack<Integer>();
+			startOffsets = new Stack<>();
 		}
-        startOffsets.push(new Integer(output().length() - lastNewline));
+        startOffsets.push(output().length() - lastNewline);
     }
     public void endValueBox( ValueBox u ) {
         endOffset = output().length() - lastNewline;
         if (hasColorTag(u)) {
-			u.addTag(new PositionTag(startOffsets.pop().intValue(), endOffset));
+			u.addTag(new PositionTag(startOffsets.pop(), endOffset));
 		}
     }
 
 	private boolean hasTag(Host h) {
         if (h instanceof Unit) {
-            Iterator<ValueBox> usesAndDefsIt = ((Unit)h).getUseAndDefBoxes().iterator();
-            while (usesAndDefsIt.hasNext()){
-                if (hasTag(usesAndDefsIt.next())) return true;
+            for (ValueBox valueBox : ((Unit) h).getUseAndDefBoxes()) {
+                if (hasTag(valueBox)) return true;
             }
         }
         return !h.getTags().isEmpty();

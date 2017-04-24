@@ -39,9 +39,9 @@ import java.util.List;
 public abstract class AbstractInstanceInvokeExpr extends AbstractInvokeExpr 
                       implements InstanceInvokeExpr
 {
-    final protected ValueBox baseBox;    
+    final ValueBox baseBox;
     
-    protected AbstractInstanceInvokeExpr(SootMethodRef methodRef, ValueBox baseBox, ValueBox[] argBoxes) {
+    AbstractInstanceInvokeExpr(SootMethodRef methodRef, ValueBox baseBox, ValueBox[] argBoxes) {
     	super(methodRef, argBoxes);
     	this.baseBox = baseBox;
     }

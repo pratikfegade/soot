@@ -28,7 +28,7 @@ import soot.jimple.ThisRef;
 * UnitPrinter implementation for normal (full) Jimple, Grimp, and Baf
 */
 public class NormalUnitPrinter extends LabeledUnitPrinter {
-    public NormalUnitPrinter( Body body ) {
+    NormalUnitPrinter(Body body) {
         super(body);
     }
 

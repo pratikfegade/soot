@@ -26,29 +26,21 @@
 
 package soot;
 
-import soot.options.Options;
-
 /** Maintains the pair (phaseName, singleton) needed for a
  * transformation. */
 public class Transform
 {
-    final private boolean DEBUG;
-    final String phaseName;
+    private final String phaseName;
     final Transformer t;
 
-    public Transform(String phaseName, Transformer t)
+    Transform(String phaseName, Transformer t)
     {
-        this.DEBUG = Options.getInstance().dump_body().contains(phaseName);
         this.phaseName = phaseName;
         this.t = t;
     }
 
-
-
     public void apply(Body b) {
         ((BodyTransformer) t).transform( b);
-
-
     }
 
     @Override

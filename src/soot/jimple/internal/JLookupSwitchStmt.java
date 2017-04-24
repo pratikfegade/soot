@@ -46,7 +46,7 @@ public class JLookupSwitchStmt extends AbstractSwitchStmt
 {
     /** List of lookup values from the corresponding bytecode instruction,
      * represented as IntConstants. */
-    List<IntConstant> lookupValues;
+    private List<IntConstant> lookupValues;
 
     // This method is necessary to deal with constructor-must-be-first-ism.
     private static UnitBox[] getTargetBoxesArray(List<? extends Unit> targets)
@@ -85,9 +85,9 @@ public class JLookupSwitchStmt extends AbstractSwitchStmt
              defaultTarget);
     }
 
-    protected JLookupSwitchStmt(ValueBox keyBox, List<IntConstant> lookupValues, 
-                                UnitBox[] targetBoxes, 
-                                UnitBox defaultTargetBox)
+    private JLookupSwitchStmt(ValueBox keyBox, List<IntConstant> lookupValues,
+                              UnitBox[] targetBoxes,
+                              UnitBox defaultTargetBox)
     {
     	super(keyBox, defaultTargetBox, targetBoxes);
     	setLookupValues(lookupValues);
@@ -95,23 +95,20 @@ public class JLookupSwitchStmt extends AbstractSwitchStmt
 
     public String toString()
     {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         String endOfLine = " ";
         
-        buffer.append(Jimple.LOOKUPSWITCH + "(" + 
-            keyBox.getValue().toString() + ")" + endOfLine);
+        buffer.append(Jimple.LOOKUPSWITCH + "(").append(keyBox.getValue().toString()).append(")").append(endOfLine);
             
         buffer.append("{" + endOfLine);
         
         for (int i = 0; i < lookupValues.size(); i++) {
           Unit target = getTarget(i);
-          buffer.append("    " +  Jimple.CASE + " " + lookupValues.get(i) + ": " +
-              Jimple.GOTO + " " + (target == this ? "self" : target) + ";" + endOfLine);
+          buffer.append("    " + Jimple.CASE + " ").append(lookupValues.get(i)).append(": ").append(Jimple.GOTO).append(" ").append(target == this ? "self" : target).append(";").append(endOfLine);
         }
 
         Unit target = getDefaultTarget();
-        buffer.append("    " +  Jimple.DEFAULT + ": " +  Jimple.GOTO + " " +
-            (target == this ? "self" : target) + ";" + endOfLine);
+        buffer.append("    " + Jimple.DEFAULT + ": " + Jimple.GOTO + " ").append(target == this ? "self" : target).append(";").append(endOfLine);
 
         buffer.append("}");
 

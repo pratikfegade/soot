@@ -47,7 +47,7 @@ public class JExitMonitorStmt extends AbstractOpStmt
         this(Jimple.newImmediateBox(op));
     }
 
-    protected JExitMonitorStmt(ValueBox opBox)
+    private JExitMonitorStmt(ValueBox opBox)
     {
         super(opBox);
     }

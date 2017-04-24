@@ -31,7 +31,7 @@ import soot.toolkits.scalar.ValueUnitPair;
  **/
 public class SValueUnitPair extends ValueUnitPair implements SUnitBox
 {
-    public SValueUnitPair(Value value, Unit unit)
+    SValueUnitPair(Value value, Unit unit)
     {
         super(value, unit);
         setUnitChanged(true);
@@ -48,7 +48,7 @@ public class SValueUnitPair extends ValueUnitPair implements SUnitBox
         setUnitChanged(true);
     }
 
-    protected boolean unitChanged = false;
+    private boolean unitChanged = false;
 
     /**
      * @see SUnitBox#isUnitChanged()

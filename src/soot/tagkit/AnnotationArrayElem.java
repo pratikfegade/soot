@@ -38,7 +38,7 @@ import java.util.ArrayList;
 public class AnnotationArrayElem extends AnnotationElem
 {
 
-    ArrayList<AnnotationElem> values;
+    private ArrayList<AnnotationElem> values;
 
     public AnnotationArrayElem(ArrayList<AnnotationElem> t, char kind, String name){
         super(kind, name);

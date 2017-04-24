@@ -43,7 +43,6 @@ public class SourceLocator
         return instance;
     }
 
-    protected Set<ClassLoader> additionalClassLoaders = new HashSet<ClassLoader>();
     protected Set<String> classesToLoad;
 
     private enum ClassSourceType { jar, zip, apk, dex, directory, unknown }
@@ -70,29 +69,7 @@ public class SourceLocator
             if( ret != null ) return ret;
 
         }
-//        for(final ClassLoader cl: additionalClassLoaders) {
-//            	ClassSource ret = new ClassProvider() {
-//
-//					public ClassSource find(String className) {
-//				        String fileName = className.replace('.', '/') + ".class";
-//						InputStream stream = cl.getResourceAsStream(fileName);
-//						if(stream==null) return null;
-//						return new AsmClassSource(className, stream, fileName);
-//					}
-//
-//            	}.find(className);
-//	            if( ret != null ) return ret;
-//        }
-//        if(className.startsWith("soot.rtlib.tamiflex.")) {
-//	        String fileName = className.replace('.', '/') + ".class";
-//	        ClassLoader cl = getClass().getClassLoader();
-//	        if (cl == null)
-//	        	return null;
-//        	InputStream stream = cl.getResourceAsStream(fileName);
-//        	if(stream!=null) {
-//				return new AsmClassSource(className, stream, fileName);
-//        	}
-//        }
+
         return null;
     }
 
@@ -187,7 +164,7 @@ public class SourceLocator
                 try{
                     if(archive != null)
                         archive.close();
-                }catch(Throwable t) {}
+                }catch(Throwable ignored) {}
             }
         }
         // Directly load a dex file
@@ -200,7 +177,7 @@ public class SourceLocator
         }
         // load Java class files from ZIP and JAR
         else if (cst == ClassSourceType.jar || cst == ClassSourceType.zip) {
-            Set<String> dexEntryNames = new HashSet<String>();
+            Set<String> dexEntryNames = new HashSet<>();
             ZipFile archive = null;
             try {
                 archive = new ZipFile(aPath);
@@ -223,7 +200,7 @@ public class SourceLocator
                 try{
                     if(archive != null)
                         archive.close();
-                }catch(Throwable t) {}
+                }catch(Throwable ignored) {}
             }
 
             if(!dexEntryNames.isEmpty()){
@@ -281,7 +258,7 @@ public class SourceLocator
         return classes;
     }
 
-    public String getFileNameFor(SootClass c, int rep) {
+    String getFileNameFor(SootClass c, int rep) {
         if (rep == Options.output_format_none)
             return null;
 
@@ -291,7 +268,7 @@ public class SourceLocator
             b.append(getOutputDir());
 
             if (rep == Options.output_format_jimple || rep == Options.output_format_shimple)
-                b.append(File.separatorChar + "jimple");
+                b.append(File.separatorChar).append("jimple");
         }
 
         if ((b.length() > 0) && (b.charAt(b.length() - 1) != File.separatorChar))
@@ -336,7 +313,7 @@ public class SourceLocator
     }
 
     /* This is called after sootClassPath has been defined. */
-    public Set<String> classesInDynamicPackage(String str) {
+    Set<String> classesInDynamicPackage(String str) {
         HashSet<String> set = new HashSet<String>(0);
         StringTokenizer strtok = new StringTokenizer(
                 Scene.getInstance().getSootClassPath(), String.valueOf(File.pathSeparatorChar));
@@ -367,7 +344,7 @@ public class SourceLocator
         return set;
     }
 
-    public String getExtensionFor(int rep) {
+    private String getExtensionFor(int rep) {
         switch (rep) {
             case Options.output_format_baf:      return ".baf";
             case Options.output_format_b:        return ".b";
@@ -394,7 +371,7 @@ public class SourceLocator
      *
      * @param dir
      */
-    public static void ensureDirectoryExists(File dir) {
+    private static void ensureDirectoryExists(File dir) {
         if (dir != null && !dir.exists()) {
             try {
                 dir.mkdirs();
@@ -429,35 +406,6 @@ public class SourceLocator
         }
 
         ensureDirectoryExists(dir);
-        return dir.getPath();
-    }
-
-    /**
-     * If {@link Options#getInstance()#output_jar()} is set, returns the name of the jar
-     * file to which the output will be written. The name of the jar file can be
-     * given with the -output-dir option or a default will be used. Also ensures
-     * that all directories in the path exist.
-     *
-     * @return the name of the Jar file to which outputs are written
-     */
-    public String getOutputJarName() {
-        if (!Options.getInstance().output_jar()) {
-            return "";
-        }
-
-        File dir;
-        if (Options.getInstance().output_dir().length() == 0) {
-            //Default if -output-dir was not set
-            dir = new File("sootOutput/out.jar");
-        } else {
-            dir = new File(Options.getInstance().output_dir());
-            //If a Jar name was not given, then supply default
-            if (!dir.getPath().endsWith(".jar")) {
-                dir = new File(dir.getPath(), "out.jar");
-            }
-        }
-
-        ensureDirectoryExists(dir.getParentFile());
         return dir.getPath();
     }
 
@@ -603,22 +551,18 @@ public class SourceLocator
             if(!errs.isEmpty()) {
                 String msg = null;
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                PrintStream ps = null;
-                try {
-                    ps = new PrintStream(baos,true,"utf-8");
+                try (PrintStream ps = new PrintStream(baos, true, "utf-8")) {
                     ps.println("Error: Failed to close all opened resources. The following exceptions were thrown in the process: ");
                     int i = 0;
-                    for(Throwable t : errs){
+                    for (Throwable t : errs) {
                         ps.print("Exception ");
                         ps.print(i++);
                         ps.print(": ");
                         t.printStackTrace(ps);
                     }
                     msg = new String(baos.toByteArray(), StandardCharsets.UTF_8);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     //Do nothing as this will never occur
-                } finally {
-                    ps.close();
                 }
                 throw new RuntimeException(msg);
             }
@@ -699,19 +643,6 @@ public class SourceLocator
             return new FoundFile(archivePath, fileName);
         }
         return null;
-    }
-
-    /** Returns the name of the class in which the (possibly inner) class
-     * className appears. */
-    public String getSourceForClass(String className) {
-        String javaClassName = className;
-        int i = className.indexOf("$");
-        if (i > -1) {
-            // class is an inner class and will be in
-            // Outer of Outer$Inner
-            javaClassName = className.substring(0, i);
-        }
-        return javaClassName;
     }
 
     /**

@@ -9,11 +9,6 @@ public final class AAbstractModifier extends PModifier
 {
     private TAbstract _abstract_;
 
-    public AAbstractModifier()
-    {
-        // Constructor
-    }
-
     public AAbstractModifier(
         @SuppressWarnings("hiding") TAbstract _abstract_)
     {

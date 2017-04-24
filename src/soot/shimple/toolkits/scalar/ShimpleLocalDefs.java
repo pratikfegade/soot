@@ -50,7 +50,7 @@ import java.util.*;
  **/
 public class ShimpleLocalDefs implements LocalDefs
 {
-    protected  Map<Value, List<Unit>> localToDefs;
+    private Map<Value, List<Unit>> localToDefs;
 
     /**
      * Build a LocalDefs interface from a ShimpleBody.  Proper SSA
@@ -70,18 +70,17 @@ public class ShimpleLocalDefs implements LocalDefs
         {
             Chain<Unit> unitsChain = sb.getUnits();
             Iterator<Unit> unitsIt = unitsChain.iterator();
-            localToDefs = new HashMap<Value, List<Unit>>(unitsChain.size() * 2 + 1, 0.7f);
+            localToDefs = new HashMap<>(unitsChain.size() * 2 + 1, 0.7f);
         
             while(unitsIt.hasNext()){
                 Unit unit = unitsIt.next();
-                Iterator<ValueBox> defBoxesIt = unit.getDefBoxes().iterator();
-                while(defBoxesIt.hasNext()){
-                    Value value = defBoxesIt.next().getValue();
+                for (ValueBox valueBox : unit.getDefBoxes()) {
+                    Value value = valueBox.getValue();
 
                     // only map locals
-                    if(!(value instanceof Local))
+                    if (!(value instanceof Local))
                         continue;
-                        
+
                     localToDefs.put(value, Collections.singletonList(unit));
                 }
             }

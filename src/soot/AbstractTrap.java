@@ -36,23 +36,22 @@ import java.util.List;
 
 /** Partial implementation of trap (exception catcher), used within Body
  * classes.  */
-@SuppressWarnings("serial")
 public class AbstractTrap implements Trap, Serializable
 {
     /** The exception being caught. */
     protected transient SootClass exception;
 
     /** The first unit being trapped. */
-    protected UnitBox beginUnitBox;
+    private UnitBox beginUnitBox;
 
     /** The unit just before the last unit being trapped. */
-    protected UnitBox endUnitBox;
+    private UnitBox endUnitBox;
 
     /** The unit to which execution flows after the caught exception is triggered. */
-    protected UnitBox handlerUnitBox;
+    private UnitBox handlerUnitBox;
 
     /** The list of unitBoxes referred to in this Trap (begin, end and handler. */
-    protected List<UnitBox> unitBoxes;
+    private List<UnitBox> unitBoxes;
 
     private void readObject( ObjectInputStream in) throws IOException, ClassNotFoundException
     {

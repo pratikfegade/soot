@@ -36,11 +36,11 @@ import java.io.PrintWriter;
 import java.util.*;
 
 /**
-* Prints out a class and all its methods.
-*/
+ * Prints out a class and all its methods.
+ */
 public class Printer {
     final private static char fileSeparator =
-        System.getProperty("file.separator").charAt(0);
+            System.getProperty("file.separator").charAt(0);
 
     public static final int USE_ABBREVIATIONS = 0x0001, ADD_JIMPLE_LN = 0x0010;
 
@@ -55,32 +55,29 @@ public class Printer {
     static int options = 0;
     public static void setOption(int opt) {
         options |= opt;
-    }
-    public void clearOption(int opt) {
-        options &= ~opt;
-    }
+    }zz
 
-    static int jimpleLnNum = 0; // actual line number
+    private static int jimpleLnNum = 0; // actual line number
 
-    public static int getJimpleLnNum() {
+    private static int getJimpleLnNum() {
         return jimpleLnNum;
     }
-    public  static void setJimpleLnNum(int newVal) {
+    private static void setJimpleLnNum(int newVal) {
         jimpleLnNum = newVal;
     }
-    public static void incJimpleLnNum() {
+    private static void incJimpleLnNum() {
         jimpleLnNum++;
-	//G.getInstance().out.println("jimple Ln Num: "+jimpleLnNum);
+        //G.getInstance().out.println("jimple Ln Num: "+jimpleLnNum);
     }
 
-    public static void printTo(SootClass cl, PrintWriter out) {
+    static void printTo(SootClass cl, PrintWriter out) {
         // add jimple line number tags
         setJimpleLnNum(1);
 
         // Print class name + modifiers
         {
             StringTokenizer st =
-                new StringTokenizer(Modifier.toString(cl.getModifiers()));
+                    new StringTokenizer(Modifier.toString(cl.getModifiers()));
             while (st.hasMoreTokens()) {
                 String tok = st.nextToken();
                 if( cl.isInterface() && tok.equals("abstract") ) continue;
@@ -95,16 +92,13 @@ public class Printer {
             }
 
             out.print(
-                classPrefix + " " + Scene.getInstance().quotedNameOf(cl.getName()) + "");
+                    classPrefix + " " + Scene.getInstance().quotedNameOf(cl.getName()) + "");
         }
 
         // Print extension
         {
             if (cl.hasSuperclass())
-                out.print(
-                    " extends "
-                        + Scene.getInstance().quotedNameOf(cl.getSuperclass().getName())
-                        + "");
+                out.print(" extends " + Scene.getInstance().quotedNameOf(cl.getSuperclass().getName()) + "");
         }
 
         // Print interfaces
@@ -115,18 +109,18 @@ public class Printer {
                 out.print(" implements ");
 
                 out.print(
-                    ""
-                        + Scene.getInstance().quotedNameOf(
-                            interfaceIt.next().getName())
-                        + "");
+                        ""
+                                + Scene.getInstance().quotedNameOf(
+                                interfaceIt.next().getName())
+                                + "");
 
                 while (interfaceIt.hasNext()) {
                     out.print(",");
                     out.print(
-                        " "
-                            + Scene.getInstance().quotedNameOf(
-                                interfaceIt.next().getName())
-                            + "");
+                            " "
+                                    + Scene.getInstance().quotedNameOf(
+                                    interfaceIt.next().getName())
+                                    + "");
                 }
             }
         }
@@ -174,7 +168,7 @@ public class Printer {
                     }
                     out.println("    " + f.getDeclaration() + ";");
                     if (addJimpleLn()) {
-                        setJimpleLnNum(addJimpleLnTags(getJimpleLnNum(), f));		
+                        setJimpleLnNum(addJimpleLnTags(getJimpleLnNum(), f));
                     }
 
                     //incJimpleLnNum();
@@ -199,30 +193,13 @@ public class Printer {
                         continue;
 
                     if (!Modifier.isAbstract(method.getModifiers())
-                        && !Modifier.isNative(method.getModifiers())) {
+                            && !Modifier.isNative(method.getModifiers())) {
                         if (!method.hasActiveBody()){
                             method.retrieveActiveBody(); //force loading the body
                             if (!method.hasActiveBody()) //in case we really don't have it
                                 throw new RuntimeException("method "+ method.getName() + " has no active body!");
                         }
                         else
-                            if (Options.getInstance().print_tags_in_output()){
-                                Iterator<Tag> mTagIterator = method.getTags().iterator();
-                                while (mTagIterator.hasNext()) {
-                                    Tag t = mTagIterator.next();
-                                    out.print("/*");
-                                    out.print(t.toString());
-                                    out.println("*/");
-                                }
-                            }
-                            printTo(method.getActiveBody(), out);
-
-                        if (methodIt.hasNext()) {
-                            out.println();
-                            incJimpleLnNum();
-                        }
-                    } else {
-                           
                         if (Options.getInstance().print_tags_in_output()){
                             Iterator<Tag> mTagIterator = method.getTags().iterator();
                             while (mTagIterator.hasNext()) {
@@ -232,7 +209,24 @@ public class Printer {
                                 out.println("*/");
                             }
                         }
-                        
+                        printTo(method.getActiveBody(), out);
+
+                        if (methodIt.hasNext()) {
+                            out.println();
+                            incJimpleLnNum();
+                        }
+                    } else {
+
+                        if (Options.getInstance().print_tags_in_output()){
+                            Iterator<Tag> mTagIterator = method.getTags().iterator();
+                            while (mTagIterator.hasNext()) {
+                                Tag t = mTagIterator.next();
+                                out.print("/*");
+                                out.print(t.toString());
+                                out.println("*/");
+                            }
+                        }
+
                         out.print("    ");
                         out.print(method.getDeclaration());
                         out.println(";");
@@ -248,7 +242,7 @@ public class Printer {
         out.println("}");
         incJimpleLnNum();
     }
-    
+
     /**
      *   Prints out the method corresponding to b Body, (declaration and body),
      *   in the textual format corresponding to the IR used to encode b body.
@@ -264,7 +258,7 @@ public class Printer {
 
         out.println("    " + decl);
         //incJimpleLnNum();
-    
+
         // only print tags if not printing attributes in a file 
         if (!addJimpleLn()) {
             /*for( Iterator tIt = b.getMethod().getTags().iterator(); tIt.hasNext(); ) {    final Tag t = (Tag) tIt.next();
@@ -273,15 +267,15 @@ public class Printer {
 
             }*/
         }
-       
+
         if (addJimpleLn()) {
-            setJimpleLnNum(addJimpleLnTags(getJimpleLnNum(), b.getMethod()));		
+            setJimpleLnNum(addJimpleLnTags(getJimpleLnNum(), b.getMethod()));
             //G.getInstance().out.println("added jimple ln tag for method: "+b.getMethod().toString()+" "+b.getMethod().getDeclaringClass().getName());
         }
 
         out.println("    {");
         incJimpleLnNum();
-        
+
         UnitGraph unitGraph = new soot.toolkits.graph.BriefUnitGraph(b);
 
         LabeledUnitPrinter up;
@@ -291,7 +285,7 @@ public class Printer {
         if (addJimpleLn()) {
             up.setPositionTagger( new AttributesUnitPrinter(getJimpleLnNum()) );
         }
-	
+
         printLocalsInBody(b, up);
 
         printStatementsInBody(b, out, up, unitGraph);
@@ -303,12 +297,12 @@ public class Printer {
 
     /** Prints the given <code>JimpleBody</code> to the specified <code>PrintWriter</code>. */
     private static void printStatementsInBody(Body body, java.io.PrintWriter out, LabeledUnitPrinter up, UnitGraph unitGraph) {
-    	Chain<Unit> units = body.getUnits();
+        Chain<Unit> units = body.getUnits();
         Unit previousStmt;
 
         for (Unit currentStmt : units) {
             previousStmt = currentStmt;
-            
+
             // Print appropriate header.
             {
                 // Put an empty line if the previous node was a branch node, the current node is a join node
@@ -317,8 +311,8 @@ public class Printer {
 
                 if (currentStmt != units.getFirst()) {
                     if (unitGraph.getSuccsOf(previousStmt).size() != 1
-                        || unitGraph.getPredsOf(currentStmt).size() != 1
-                        || up.labels().containsKey(currentStmt)) {
+                            || unitGraph.getPredsOf(currentStmt).size() != 1
+                            || up.labels().containsKey(currentStmt)) {
                         up.newline();
                     } else {
                         // Or if the previous node does not have body statement as a successor.
@@ -377,9 +371,9 @@ public class Printer {
         }
 
         out.print(up.toString());
-		if (addJimpleLn()){
-			setJimpleLnNum(up.getPositionTagger().getEndLn());
-		}
+        if (addJimpleLn()){
+            setJimpleLnNum(up.getPositionTagger().getEndLn());
+        }
 
 
         // Print out exceptions
@@ -395,15 +389,15 @@ public class Printer {
                 Trap trap = trapIt.next();
 
                 out.println(
-                    "        catch "
-                        + Scene.getInstance().quotedNameOf(trap.getException().getName())
-                        + " from "
-                        + up.labels().get(trap.getBeginUnit())
-                        + " to "
-                        + up.labels().get(trap.getEndUnit())
-                        + " with "
-                        + up.labels().get(trap.getHandlerUnit())
-                        + ";");
+                        "        catch "
+                                + Scene.getInstance().quotedNameOf(trap.getException().getName())
+                                + " from "
+                                + up.labels().get(trap.getBeginUnit())
+                                + " to "
+                                + up.labels().get(trap.getEndUnit())
+                                + " with "
+                                + up.labels().get(trap.getHandlerUnit())
+                                + ";");
 
                 incJimpleLnNum();
 
@@ -413,15 +407,15 @@ public class Printer {
     }
 
     private static int addJimpleLnTags(int lnNum, SootMethod meth) {
-    	meth.addTag(new JimpleLineNumberTag(lnNum));
-	lnNum++;
-	return lnNum;
+        meth.addTag(new JimpleLineNumberTag(lnNum));
+        lnNum++;
+        return lnNum;
     }
-    
+
     private static int addJimpleLnTags(int lnNum, SootField f) {
-    	f.addTag(new JimpleLineNumberTag(lnNum));
-	lnNum++;
-	return lnNum;
+        f.addTag(new JimpleLineNumberTag(lnNum));
+        lnNum++;
+        return lnNum;
     }
 
     /** Prints the given <code>JimpleBody</code> to the specified <code>PrintWriter</code>. */
@@ -431,7 +425,7 @@ public class Printer {
         // Print out local variables
         {
             Map<Type, List<Local>> typeToLocals =
-                new DeterministicHashMap<Type, List<Local>>(body.getLocalCount() * 2 + 1, 0.7f);
+                    new DeterministicHashMap<Type, List<Local>>(body.getLocalCount() * 2 + 1, 0.7f);
 
             // Collect locals
             {

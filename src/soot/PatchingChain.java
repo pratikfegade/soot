@@ -92,17 +92,12 @@ public class PatchingChain<E extends Unit> extends AbstractCollection<E> impleme
         LinkedList<E> backwardList = new LinkedList<E>();
         // Insert toInsert backwards into the list
         {
-            Iterator<E> it = toInsert.iterator();
-            
-            while(it.hasNext())
-                backwardList.addFirst(it.next());
+
+            for (E aToInsert : toInsert) backwardList.addFirst(aToInsert);
         }
                 
         E previousPoint = point;
-        Iterator<E> it = backwardList.iterator();
-        while (it.hasNext())
-        {
-            E o = it.next();
+        for (E o : backwardList) {
             insertBeforeNoRedirect(o, previousPoint);
             previousPoint = o;
         }
@@ -115,17 +110,12 @@ public class PatchingChain<E extends Unit> extends AbstractCollection<E> impleme
         LinkedList<E> backwardList = new LinkedList<E>();
         // Insert toInsert backwards into the list
         {
-            Iterator<E> it = toInsert.iterator();
-            
-            while(it.hasNext())
-                backwardList.addFirst(it.next());
+
+            for (E aToInsert : toInsert) backwardList.addFirst(aToInsert);
         }
                 
         E previousPoint = point;
-        Iterator<E> it = backwardList.iterator();
-        while (it.hasNext())
-        {
-            E o = it.next();
+        for (E o : backwardList) {
             insertBefore(o, previousPoint);
             previousPoint = o;
         }
@@ -322,7 +312,7 @@ public class PatchingChain<E extends Unit> extends AbstractCollection<E> impleme
     public int size(){return innerChain.size(); }
     
     @Override
-    /** Returns the number of times this chain has been modified. */
+    /* Returns the number of times this chain has been modified. */
     public long getModificationCount() {
     	return innerChain.getModificationCount();
     }

@@ -27,7 +27,7 @@ public class ShimpleMethodSource implements MethodSource
 {
     MethodSource ms;
 
-    public ShimpleMethodSource(MethodSource ms)
+    ShimpleMethodSource(MethodSource ms)
     {
         this.ms = ms;
     }
