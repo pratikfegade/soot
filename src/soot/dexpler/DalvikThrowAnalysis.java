@@ -174,7 +174,7 @@ public class DalvikThrowAnalysis extends UnitThrowAnalysis {
     
     @Override
 	protected ThrowableSet defaultResult() {
-		return mgr.EMPTY;
+		return ThrowableSet.Manager.EMPTY;
 	}
 	
 	@Override
@@ -183,8 +183,8 @@ public class DalvikThrowAnalysis extends UnitThrowAnalysis {
 
 			@Override
 			public void caseEnterMonitorStmt(EnterMonitorStmt s) {
-			    result = result.add(mgr.NULL_POINTER_EXCEPTION);
-			    result = result.add(mgr.ILLEGAL_MONITOR_STATE_EXCEPTION);
+			    result = result.add(ThrowableSet.Manager.NULL_POINTER_EXCEPTION);
+			    result = result.add(ThrowableSet.Manager.ILLEGAL_MONITOR_STATE_EXCEPTION);
 			    result = result.add(mightThrow(s.getOp()));
 			}
 		

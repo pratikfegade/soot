@@ -102,7 +102,7 @@ public class Parse
         }
 
 
-        Scene.getInstance().setPhantomRefs(true);
+        Scene.getInstance().setPhantomRefs();
 
         for (String arg : args) {
             if (arg.startsWith("-")) {

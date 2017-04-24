@@ -40,17 +40,17 @@ import java.util.*;
 
 public class UnreachableCodeEliminator extends BodyTransformer
 {
-	protected ThrowAnalysis throwAnalysis = null;
+	private ThrowAnalysis throwAnalysis = null;
 	public UnreachableCodeEliminator( ThrowAnalysis ta ) {
 		this.throwAnalysis = ta;
 	}
 
 	protected void internalTransform(Body body)
-	{		
+	{
 		if (Options.getInstance().verbose()) {
 			System.out.println("[" + body.getMethod().getName() + "] Eliminating unreachable code...");
 		}
-		
+
 		// Force a conservative ExceptionalUnitGraph() which
 		// necessarily includes an edge from every trapped Unit to
 		// its handler, so that we retain Traps in the case where
@@ -62,12 +62,12 @@ public class UnreachableCodeEliminator extends BodyTransformer
 
 		Chain<Unit> units = body.getUnits();
 		int numPruned = units.size();
-		
+
 		Set<Unit> reachable = units.isEmpty()
-			? Collections.emptySet()
-			: reachable(units.getFirst(), graph)
-			;
-		
+				? Collections.emptySet()
+				: reachable(units.getFirst(), graph)
+				;
+
 		// Now eliminate empty traps. (and unreachable handlers)
 		//
 		// For the most part, this is an atavism, an an artifact of
@@ -82,7 +82,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		// to occur in practice, and certainly no in code generated from Java
 		// source.		
 		body.getTraps().removeIf(trap -> (trap.getBeginUnit() == trap.getEndUnit()) || !reachable.contains(trap.getHandlerUnit()));
-		
+
 		// We must make sure that the end units of all traps which are still
 		// alive are kept in the code
 		for (Trap t : body.getTraps())
@@ -96,11 +96,11 @@ public class UnreachableCodeEliminator extends BodyTransformer
 					notReachable.add(u);
 			}
 		}
-			
-		units.retainAll(reachable);   
-	  	
+
+		units.retainAll(reachable);
+
 		numPruned -= units.size();
-		
+
 		if (Options.getInstance().verbose()) {
 			System.out.println("[" + body.getMethod().getName() + "]	 Removed " + numPruned + " statements: ");
 			for (Unit u : notReachable) {
@@ -109,7 +109,7 @@ public class UnreachableCodeEliminator extends BodyTransformer
 
 		}
 	}
-	
+
 	// Used to be: "mark first statement and all its successors, recursively"
 	// Bad idea! Some methods are extremely long. It broke because the recursion reached the
 	// 3799th level.
@@ -122,12 +122,12 @@ public class UnreachableCodeEliminator extends BodyTransformer
 		q.addFirst(first);
 		do {
 			T t = q.removeFirst();
-			if ( visited.add(t) ) {				
+			if ( visited.add(t) ) {
 				q.addAll(g.getSuccsOf(t));
 			}
 		}
 		while (!q.isEmpty());
-		
+
 		return visited;
 	}
 }

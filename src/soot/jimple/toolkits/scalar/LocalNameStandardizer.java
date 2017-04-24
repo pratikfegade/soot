@@ -39,6 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalNameStandardizer extends BodyTransformer
 {
 
+    @Override
     protected void internalTransform(Body body)
     {
         boolean onlyStackName = true;
@@ -88,10 +89,10 @@ public class LocalNameStandardizer extends BodyTransformer
             if(sortLocals){
                 Chain<Local> locals = body.getLocals();
                 final List<ValueBox> defs = body.getDefBoxes();
-                ArrayList<Local> sortedLocals = new ArrayList<Local>(locals);
+                ArrayList<Local> sortedLocals = new ArrayList<>(locals);
 
                 Collections.sort(sortedLocals, new Comparator<Local>(){
-                    private Map<Local, Integer> firstOccuranceCache = new ConcurrentHashMap<>();
+                    private Map<Local, Integer> firstOccurrenceCache = new ConcurrentHashMap<>();
                     public int compare(Local arg0, Local arg1) {
                         int ret = arg0.getType().toString().compareTo(arg1.getType().toString());
                         if(ret == 0){
@@ -100,7 +101,7 @@ public class LocalNameStandardizer extends BodyTransformer
                         return ret;
                     }
                     private int getFirstOccurance(Local l){
-                        Integer cur = firstOccuranceCache.get(l);
+                        Integer cur = firstOccurrenceCache.get(l);
                         if(cur != null){
                             return cur;
                         }else{
@@ -114,7 +115,7 @@ public class LocalNameStandardizer extends BodyTransformer
                                 }
                                 count++;
                             }
-                            firstOccuranceCache.put(l,first);
+                            firstOccurrenceCache.put(l,first);
                             return first;
                         }
                     }
@@ -128,11 +129,8 @@ public class LocalNameStandardizer extends BodyTransformer
 
                 if(l.getName().startsWith("$"))
                     prefix = "$";
-                else
-                {
-                    if (onlyStackName)
-                        continue;
-                }
+                else if (onlyStackName)
+                    continue;
 
                 if(l.getType().equals(BooleanType.getInstance()))
                     l.setName(prefix + "z" + intCount++);
@@ -154,9 +152,7 @@ public class LocalNameStandardizer extends BodyTransformer
                     l.setName(prefix + "a" + addressCount++);
                 else if(l.getType().equals(ErroneousType.getInstance()) ||
                         l.getType().equals(UnknownType.getInstance()))
-                {
                     l.setName(prefix + "e" + errorCount++);
-                }
                 else if(l.getType().equals(NullType.getInstance()))
                     l.setName(prefix + "n" + nullCount++);
                 else

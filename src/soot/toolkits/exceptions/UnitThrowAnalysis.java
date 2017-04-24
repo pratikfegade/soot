@@ -62,7 +62,7 @@ public class UnitThrowAnalysis extends AbstractThrowAnalysis {
 
     private final boolean isInterproc;
 
-    protected UnitThrowAnalysis(boolean isInterproc) {
+    private UnitThrowAnalysis(boolean isInterproc) {
         this.isInterproc = isInterproc;
     }
 
