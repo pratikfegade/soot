@@ -60,13 +60,13 @@ public abstract class ConditionalJumpInstruction extends JumpInstruction impleme
 //          endUnit = markerUnit;
 //          beginUnit = markerUnit;
           body.add(markerUnit);
-//          Unit end = Jimple.newInstance().newNopStmt();
+//          Unit end = Jimple.getInstance().newNopStmt();
 //          body.add(end);
 //          endUnit = end;
         }
     }
     
-    // DalvikTyper.newInstance() here?
+    // DalvikTyper.getInstance() here?
 
     public void deferredJimplify(DexBody body) {
         IfStmt s = ifStatement(body);

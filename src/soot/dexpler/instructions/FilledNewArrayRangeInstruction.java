@@ -51,7 +51,7 @@ public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
 
         Instruction3rc filledNewArrayInstr = (Instruction3rc)instruction;
 
-//        NopStmt nopStmtBeginning = Jimple.newInstance().newNopStmt();
+//        NopStmt nopStmtBeginning = Jimple.getInstance().newNopStmt();
 //        body.add(nopStmtBeginning);
 
         int usedRegister = filledNewArrayInstr.getRegisterCount();
@@ -70,7 +70,7 @@ public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
             addTags(assign);
             body.add(assign);
         }
-//        NopStmt nopStmtEnd = Jimple.newInstance().newNopStmt();
+//        NopStmt nopStmtEnd = Jimple.getInstance().newNopStmt();
 //        body.add(nopStmtEnd);
 
 //        defineBlock(nopStmtBeginning,nopStmtEnd);
@@ -81,7 +81,7 @@ public class FilledNewArrayRangeInstruction extends FilledArrayInstruction {
         if (IDalvikTyper.ENABLE_DVKTYPER) {
             Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assignStmt);
           DalvikTyper.v().setType(assignStmt.getLeftOpBox(), arrayExpr.getType(), false);
-          //DalvikTyper.newInstance().addConstraint(assignStmt.getLeftOpBox(), assignStmt.getRightOpBox());
+          //DalvikTyper.getInstance().addConstraint(assignStmt.getLeftOpBox(), assignStmt.getRightOpBox());
         }
 
     }

@@ -52,11 +52,11 @@ public class DexNullThrowTransformer extends BodyTransformer {
 	 * @param lc The object for creating new locals
 	 */
 	private void createThrowStmt(Body body, Unit oldStmt, LocalCreation lc) {
-		RefType tp = RefType.newInstance("java.lang.NullPointerException");
+		RefType tp = RefType.getInstance("java.lang.NullPointerException");
 		Local lcEx = lc.newLocal(tp);
 		
 		SootMethodRef constructorRef = Scene.getInstance().makeConstructorRef(tp.getSootClass(),
-				Collections.singletonList(RefType.newInstance("java.lang.String")));
+				Collections.singletonList(RefType.getInstance("java.lang.String")));
 		
 		// Create the exception instance
 		Stmt newExStmt = Jimple.newAssignStmt(lcEx, Jimple.newNewExpr(tp));

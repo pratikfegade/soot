@@ -126,7 +126,7 @@ public class ShimpleBodyBuilder
 
         // *** FIXME: 89e9a0470601091906j26489960j65290849dbe0481f@mail.gmail.com
         //if(optElim)
-        //DeadAssignmentEliminator.newInstance().transform(body);
+        //DeadAssignmentEliminator.getInstance().transform(body);
     }
 
     public void postElimOpt()

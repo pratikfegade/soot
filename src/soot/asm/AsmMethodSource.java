@@ -1808,7 +1808,7 @@ final class AsmMethodSource implements MethodSource {
 
             String className = descriptor.substring(1, descriptor.length() - 1);
 
-            baseType = RefType.newInstance(className.replace('/', '.'));
+            baseType = RefType.getInstance(className.replace('/', '.'));
         }
         else if(descriptor.equals("S"))
             baseType = ShortType.getInstance();

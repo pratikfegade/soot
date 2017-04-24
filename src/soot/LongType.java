@@ -61,6 +61,6 @@ public class LongType extends PrimType
 
     @Override
     public RefType boxedType() {
-    	return RefType.newInstance("java.lang.Long");
+    	return RefType.getInstance("java.lang.Long");
     }
 }

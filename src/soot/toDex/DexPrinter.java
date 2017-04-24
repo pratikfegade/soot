@@ -357,7 +357,7 @@ public class DexPrinter {
 			return new ImmutableFloatEncodedValue(f.getFloatValue());
 		} else if (t instanceof StringConstantValueTag) {
 			StringConstantValueTag s = (StringConstantValueTag) t;
-			if (sf.getType().equals(RefType.newInstance("java.lang.String")))
+			if (sf.getType().equals(RefType.getInstance("java.lang.String")))
 				return new ImmutableStringEncodedValue(s.getStringValue());
 			else
 				//Not supported in Dalvik

@@ -67,6 +67,6 @@ public class ByteType extends PrimType implements IntegerType
 
     @Override
     public RefType boxedType() {
-        return RefType.newInstance("java.lang.Byte");
+        return RefType.getInstance("java.lang.Byte");
     }
 }

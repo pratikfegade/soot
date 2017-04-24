@@ -83,7 +83,7 @@ public class XMLAttributesPrinter {
 
 	private void createUseFilename() {
 		String tmp = getInFilename();
-		//G.newInstance().out.println("attribute file name: "+tmp);
+		//G.getInstance().out.println("attribute file name: "+tmp);
 		tmp = tmp.substring(0, tmp.lastIndexOf('.'));
 		int slash = tmp.lastIndexOf(System.getProperty("file.separator"));
 		if (slash != -1) {

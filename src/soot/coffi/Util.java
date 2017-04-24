@@ -107,7 +107,7 @@ public class Util
                         if( index >= d.length )
                             throw new RuntimeException("Class reference has no ending ;");
                         String className = new String(d, p+1, index - p - 1);
-                        baseType = RefType.newInstance(className);
+                        baseType = RefType.getInstance(className);
                         p = index+1;
                         break swtch;
                     case 'S':
@@ -179,7 +179,7 @@ public class Util
 
             String className = descriptor.substring(1, descriptor.length() - 1);
 
-            baseType = RefType.newInstance(className.replace('/', '.'));
+            baseType = RefType.getInstance(className.replace('/', '.'));
         }
         else if(descriptor.equals("S"))
             baseType = ShortType.getInstance();

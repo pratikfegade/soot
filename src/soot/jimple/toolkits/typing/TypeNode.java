@@ -91,14 +91,14 @@ class TypeNode
       if(sClass.hasSuperclass() &&
 	 !sClass.getName().equals("java.lang.Object"))
 	{
-	  TypeNode parent = hierarchy.typeNode(RefType.newInstance(sClass.getSuperclass().getName()));
+	  TypeNode parent = hierarchy.typeNode(RefType.getInstance(sClass.getSuperclass().getName()));
 	  plist.add(parent);
 	  parentClass = parent;
 	}
 
       for(Iterator<SootClass> i = sClass.getInterfaces().iterator(); i.hasNext();)
 	{
-	  TypeNode parent = hierarchy.typeNode(RefType.newInstance((i.next()).getName()));
+	  TypeNode parent = hierarchy.typeNode(RefType.getInstance((i.next()).getName()));
 	  plist.add(parent);
 	}
 
@@ -153,7 +153,7 @@ class TypeNode
 	  SootClass sClass = baseType.getSootClass();
 	  if(sClass.hasSuperclass() && !sClass.getName().equals("java.lang.Object"))
 	    {
-	      TypeNode parent = hierarchy.typeNode(ArrayType.getInstance(RefType.newInstance(sClass.getSuperclass().getName()), type.numDimensions));
+	      TypeNode parent = hierarchy.typeNode(ArrayType.getInstance(RefType.getInstance(sClass.getSuperclass().getName()), type.numDimensions));
 	      plist.add(parent);
 	      parentClass = parent;
 	    }
@@ -184,7 +184,7 @@ class TypeNode
 
 	  for(Iterator<SootClass> i = sClass.getInterfaces().iterator(); i.hasNext(); )
 	    {
-	      TypeNode parent = hierarchy.typeNode(ArrayType.getInstance(RefType.newInstance((i.next()).getName()), type.numDimensions));
+	      TypeNode parent = hierarchy.typeNode(ArrayType.getInstance(RefType.getInstance((i.next()).getName()), type.numDimensions));
 	      plist.add(parent);
 	    }
 	}

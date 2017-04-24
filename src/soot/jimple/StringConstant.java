@@ -67,7 +67,7 @@ public class StringConstant extends Constant
 
     public Type getType()
     {
-        return RefType.newInstance("java.lang.String");
+        return RefType.getInstance("java.lang.String");
     }
 
     public void apply(Switch sw)

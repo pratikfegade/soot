@@ -72,7 +72,7 @@ public class ClassConstant extends Constant
     
     public Type getType()
     {
-        return RefType.newInstance("java.lang.Class");
+        return RefType.getInstance("java.lang.Class");
     }
 
     public void apply(Switch sw)

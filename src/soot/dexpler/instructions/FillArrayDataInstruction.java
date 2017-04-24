@@ -62,7 +62,7 @@ public class FillArrayDataInstruction extends PseudoInstruction {
 
     ArrayPayload arrayTable = (ArrayPayload)referenceTable;
 
-    //        NopStmt nopStmtBeginning = Jimple.newInstance().newNopStmt();
+    //        NopStmt nopStmtBeginning = Jimple.getInstance().newNopStmt();
     //        body.add(nopStmtBeginning);
 
     Local arrayReference = body.getRegisterLocal(destRegister);
@@ -87,7 +87,7 @@ public class FillArrayDataInstruction extends PseudoInstruction {
         body.add (firstAssign);
     }
 
-    //        NopStmt nopStmtEnd = Jimple.newInstance().newNopStmt();
+    //        NopStmt nopStmtEnd = Jimple.getInstance().newNopStmt();
     //        body.add(nopStmtEnd);
 
     //        defineBlock(nopStmtBeginning, nopStmtEnd);

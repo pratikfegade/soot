@@ -202,7 +202,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		// For producing valid Jimple code, we need to access all parameters.
 		// Otherwise, methods like "getThisLocal()" will fail.
 		if (!isStatic) {
-			RefType thisType = RefType.newInstance(declaringClass);
+			RefType thisType = RefType.getInstance(declaringClass);
 			Local lThis = lg.generateLocal(thisType);
 			body.getUnits().add(Jimple.newIdentityStmt(lThis, Jimple.newThisRef(thisType)));
 		}
@@ -213,7 +213,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		}
 		
 		//exc = new Error
-		RefType runtimeExceptionType = RefType.newInstance("java.lang.Error");
+		RefType runtimeExceptionType = RefType.getInstance("java.lang.Error");
 		NewExpr newExpr = Jimple.newNewExpr(runtimeExceptionType);
 		Local exceptionLocal = lg.generateLocal(runtimeExceptionType);
 		AssignStmt assignStmt = Jimple.newAssignStmt(exceptionLocal, newExpr);
@@ -221,7 +221,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		
 		//exc.<init>(message)
 		SootMethodRef cref = Scene.getInstance().makeConstructorRef(runtimeExceptionType.getSootClass(),
-				Collections.singletonList(RefType.newInstance("java.lang.String")));
+				Collections.singletonList(RefType.getInstance("java.lang.String")));
 		SpecialInvokeExpr constructorInvokeExpr = Jimple.newSpecialInvokeExpr(exceptionLocal, cref,
 				StringConstant.v("Unresolved compilation error: Method "+getSignature()+" does not exist!"));
 		InvokeStmt initStmt = Jimple.newInvokeStmt(constructorInvokeExpr);

@@ -269,11 +269,11 @@ class ConstraintChecker extends AbstractStmtSwitch {
 				error("Type Error(25)");
 			}
 		} else if (r instanceof StringConstant) {
-			if (!left.hasDescendantOrSelf(hierarchy.typeNode(RefType.newInstance("java.lang.String")))) {
+			if (!left.hasDescendantOrSelf(hierarchy.typeNode(RefType.getInstance("java.lang.String")))) {
 				error("Type Error(26)");
 			}
 		} else if (r instanceof ClassConstant) {
-			if (!left.hasDescendantOrSelf(hierarchy.typeNode(RefType.newInstance("java.lang.Class")))) {
+			if (!left.hasDescendantOrSelf(hierarchy.typeNode(RefType.getInstance("java.lang.Class")))) {
 				error("Type Error(27)");
 			}
 		} else if (r instanceof BinopExpr) {
@@ -301,9 +301,9 @@ class ConstraintChecker extends AbstractStmtSwitch {
 			} else if (lv instanceof NullConstant) {
 				lop = hierarchy.typeNode(NullType.getInstance());
 			} else if (lv instanceof StringConstant) {
-				lop = hierarchy.typeNode(RefType.newInstance("java.lang.String"));
+				lop = hierarchy.typeNode(RefType.getInstance("java.lang.String"));
 			} else if (lv instanceof ClassConstant) {
-				lop = hierarchy.typeNode(RefType.newInstance("java.lang.Class"));
+				lop = hierarchy.typeNode(RefType.getInstance("java.lang.Class"));
 			} else {
 				throw new RuntimeException("Unhandled binary expression left operand type: " + lv.getClass());
 			}
@@ -322,9 +322,9 @@ class ConstraintChecker extends AbstractStmtSwitch {
 			} else if (rv instanceof NullConstant) {
 				rop = hierarchy.typeNode(NullType.getInstance());
 			} else if (rv instanceof StringConstant) {
-				rop = hierarchy.typeNode(RefType.newInstance("java.lang.String"));
+				rop = hierarchy.typeNode(RefType.getInstance("java.lang.String"));
 			} else if (rv instanceof ClassConstant) {
-				rop = hierarchy.typeNode(RefType.newInstance("java.lang.Class"));
+				rop = hierarchy.typeNode(RefType.getInstance("java.lang.Class"));
 			} else {
 				throw new RuntimeException("Unhandled binary expression right operand type: " + rv.getClass());
 			}
@@ -535,7 +535,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 				}
 			}
 
-			if (!left.hasAncestorOrSelf(hierarchy.typeNode(RefType.newInstance("java.lang.Throwable")))) {
+			if (!left.hasAncestorOrSelf(hierarchy.typeNode(RefType.getInstance("java.lang.Throwable")))) {
 				error("Type Error(48)");
 			}
 		}
@@ -545,7 +545,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		if (stmt.getOp() instanceof Local) {
 			TypeNode op = hierarchy.typeNode(stmt.getOp().getType());
 
-			if (!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.newInstance("java.lang.Object")))) {
+			if (!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.getInstance("java.lang.Object")))) {
 				error("Type Error(49)");
 			}
 		}
@@ -555,7 +555,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		if (stmt.getOp() instanceof Local) {
 			TypeNode op = hierarchy.typeNode(stmt.getOp().getType());
 
-			if (!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.newInstance("java.lang.Object")))) {
+			if (!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.getInstance("java.lang.Object")))) {
 				error("Type Error(49)");
 			}
 		}
@@ -588,9 +588,9 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		} else if (lv instanceof NullConstant) {
 			lop = hierarchy.typeNode(NullType.getInstance());
 		} else if (lv instanceof StringConstant) {
-			lop = hierarchy.typeNode(RefType.newInstance("java.lang.String"));
+			lop = hierarchy.typeNode(RefType.getInstance("java.lang.String"));
 		} else if (lv instanceof ClassConstant) {
-			lop = hierarchy.typeNode(RefType.newInstance("java.lang.Class"));
+			lop = hierarchy.typeNode(RefType.getInstance("java.lang.Class"));
 		} else {
 			throw new RuntimeException("Unhandled binary expression left operand type: " + lv.getClass());
 		}
@@ -609,9 +609,9 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		} else if (rv instanceof NullConstant) {
 			rop = hierarchy.typeNode(NullType.getInstance());
 		} else if (rv instanceof StringConstant) {
-			rop = hierarchy.typeNode(RefType.newInstance("java.lang.String"));
+			rop = hierarchy.typeNode(RefType.getInstance("java.lang.String"));
 		} else if (rv instanceof ClassConstant) {
-			rop = hierarchy.typeNode(RefType.newInstance("java.lang.Class"));
+			rop = hierarchy.typeNode(RefType.getInstance("java.lang.Class"));
 		} else {
 			throw new RuntimeException("Unhandled binary expression right operand type: " + rv.getClass());
 		}
@@ -666,9 +666,9 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		if (stmt.getOp() instanceof Local) {
 			TypeNode op = hierarchy.typeNode(stmt.getOp().getType());
 
-			if (!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.newInstance("java.lang.Throwable")))) {
+			if (!op.hasAncestorOrSelf(hierarchy.typeNode(RefType.getInstance("java.lang.Throwable")))) {
 				if (fix) {
-					stmt.setOp(insertCast((Local) stmt.getOp(), RefType.newInstance("java.lang.Throwable"), stmt));
+					stmt.setOp(insertCast((Local) stmt.getOp(), RefType.getInstance("java.lang.Throwable"), stmt));
 				} else {
 					error("Type Error(53)");
 				}

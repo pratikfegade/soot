@@ -49,13 +49,13 @@ public final class Kind implements Numberable
     public static final Kind INVOKE_FINALIZE = new Kind( "INVOKE_FINALIZE" );
     /** Implicit call to run() through AccessController.doPrivileged(). */
     public static final Kind PRIVILEGED = new Kind( "PRIVILEGED" );
-    /** Implicit call to constructor from java.lang.Class.newInstance(). */
+    /** Implicit call to constructor from java.lang.Class.getInstance(). */
     public static final Kind NEWINSTANCE = new Kind( "NEWINSTANCE" );
     /** Due to call to Method.invoke(..). */
     public static final Kind REFL_INVOKE = new Kind( "REFL_METHOD_INVOKE" );
-    /** Due to call to Constructor.newInstance(..). */
+    /** Due to call to Constructor.getInstance(..). */
     public static final Kind REFL_CONSTR_NEWINSTANCE = new Kind( "REFL_CONSTRUCTOR_NEWINSTANCE" );
-    /** Due to call to Class.newInstance(..) when reflection log is enabled. */
+    /** Due to call to Class.getInstance(..) when reflection log is enabled. */
     public static final Kind REFL_CLASS_NEWINSTANCE = new Kind( "REFL_CLASS_NEWINSTANCE" );
 
     private Kind( String name ) {

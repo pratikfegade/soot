@@ -53,8 +53,8 @@ public class DominatorTree<N> implements Iterable<DominatorNode<N>>{
     protected Map<N, DominatorNode<N>> godeToDode;
 
     public DominatorTree(DominatorsFinder dominators) {
-        // if(Options.newInstance().verbose())
-        // G.newInstance().out.println("[" + graph.getBody().getMethod().getName() +
+        // if(Options.getInstance().verbose())
+        // G.getInstance().out.println("[" + graph.getBody().getMethod().getName() +
         // "]     Constructing DominatorTree...");
 
         this.dominators = dominators;

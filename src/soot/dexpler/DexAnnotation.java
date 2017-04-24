@@ -21,7 +21,7 @@ import java.util.Map.Entry;
  */
 public class DexAnnotation {
     
-	private final Type ARRAY_TYPE = RefType.newInstance("Array");
+	private final Type ARRAY_TYPE = RefType.getInstance("Array");
 	private final SootClass clazz;
     private final Dependencies deps;
     
@@ -161,10 +161,10 @@ public class DexAnnotation {
 			}
 			break;
 		case 's': //string
-			annotationType = RefType.newInstance("java.lang.String");
+			annotationType = RefType.getInstance("java.lang.String");
 			break;
 		case 'c': //class
-			annotationType = RefType.newInstance("java.lang.Class");
+			annotationType = RefType.getInstance("java.lang.Class");
 			break;
 		case 'e': //enum
 			AnnotationEnumElem enumElem = (AnnotationEnumElem) e;
@@ -375,7 +375,7 @@ public class DexAnnotation {
                 		}
                 	}
                 	
-                	deps.typesToSignature.add(RefType.newInstance(outerClass));
+                	deps.typesToSignature.add(RefType.getInstance(outerClass));
                 	clazz.setOuterClass(SootResolver.getInstance().makeClassRef(outerClass));
                 	assert clazz.getOuterClass() != clazz;
                 }
@@ -409,7 +409,7 @@ public class DexAnnotation {
                         methodSigString);       
 
                 String outerClass = classString.replace("/", ".");
-            	deps.typesToSignature.add(RefType.newInstance(outerClass));
+            	deps.typesToSignature.add(RefType.getInstance(outerClass));
             	clazz.setOuterClass(SootResolver.getInstance().makeClassRef(outerClass));
             	assert clazz.getOuterClass() != clazz;
 
@@ -460,7 +460,7 @@ public class DexAnnotation {
 				
                 if (outerClass != null && !clazz.hasOuterClass()) {
 	                String sootOuterClass = Util.dottedClassName(outerClass);
-	            	deps.typesToSignature.add(RefType.newInstance(sootOuterClass));
+	            	deps.typesToSignature.add(RefType.getInstance(sootOuterClass));
 	            	clazz.setOuterClass(SootResolver.getInstance().makeClassRef(sootOuterClass));
                 	assert clazz.getOuterClass() != clazz;
                 }

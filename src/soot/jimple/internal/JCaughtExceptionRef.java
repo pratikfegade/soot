@@ -76,7 +76,7 @@ public class JCaughtExceptionRef implements CaughtExceptionRef
 
     public Type getType()
     {
-        return RefType.newInstance("java.lang.Throwable");
+        return RefType.getInstance("java.lang.Throwable");
     }
 
     public void apply(Switch sw)

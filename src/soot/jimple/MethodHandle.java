@@ -57,7 +57,7 @@ public class MethodHandle extends Constant
 
     public Type getType()
     {
-        return RefType.newInstance("java.lang.invoke.MethodHandle");
+        return RefType.getInstance("java.lang.invoke.MethodHandle");
     }
     
     public SootMethodRef getMethodRef() {

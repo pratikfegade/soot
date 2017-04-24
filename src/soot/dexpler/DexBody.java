@@ -589,7 +589,7 @@ public class DexBody  {
             }
             for (Local l: toRemove) {
                 System.out.println("removing null_type local "+ l);
-                l.setType(RefType.newInstance("java.lang.Object"));
+                l.setType(RefType.getInstance("java.lang.Object"));
             }
 
 
@@ -694,7 +694,7 @@ public class DexBody  {
             Type t = l.getType();
             if (t instanceof NullType) {
                 Debug.printDbg("replacing null_type by java.lang.Object for local ", l);
-                l.setType(RefType.newInstance("java.lang.Object"));
+                l.setType(RefType.getInstance("java.lang.Object"));
             }
         }
 

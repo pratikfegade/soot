@@ -108,7 +108,7 @@ public class Parse
             if (arg.startsWith("-")) {
                 arg = arg.substring(1);
                 if (arg.equals("d")) {
-				} else if (arg.equals("newInstance"))
+				} else if (arg.equals("getInstance"))
                     verbose = true;
             }
             else {

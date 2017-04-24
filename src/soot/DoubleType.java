@@ -61,6 +61,6 @@ public class DoubleType extends PrimType
 
     @Override
     public RefType boxedType() {
-    	return RefType.newInstance("java.lang.Double");
+    	return RefType.getInstance("java.lang.Double");
     }
 }

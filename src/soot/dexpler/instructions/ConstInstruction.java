@@ -97,7 +97,7 @@ public class ConstInstruction extends DexlibAbstractInstruction {
         case CONST_HIGH16:
             if (IDalvikTyper.ENABLE_DVKTYPER) {
                 //
-                //return UntypedIntOrFloatConstant.newInstance((int)literal<<16).toFloatConstant();
+                //return UntypedIntOrFloatConstant.getInstance((int)literal<<16).toFloatConstant();
                 // seems that dexlib correctly puts the 16bits into the topmost bits.
                 //
                 return UntypedIntOrFloatConstant.v((int)literal);//.toFloatConstant();
@@ -107,7 +107,7 @@ public class ConstInstruction extends DexlibAbstractInstruction {
 
         case CONST_WIDE_HIGH16:
             if (IDalvikTyper.ENABLE_DVKTYPER) {
-                //return UntypedLongOrDoubleConstant.newInstance((long)literal<<48).toDoubleConstant();
+                //return UntypedLongOrDoubleConstant.getInstance((long)literal<<48).toDoubleConstant();
                 // seems that dexlib correctly puts the 16bits into the topmost bits.
                 //
                 return UntypedLongOrDoubleConstant.v(literal);//.toDoubleConstant();

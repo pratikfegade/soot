@@ -58,11 +58,11 @@ import java.util.*;
  * equal to 32bits and "long" to registers whose size is 64bits. The problem is
  * that 32bits registers could be either "int" or "float" and 64bits registers
  * "long" or "double". If the analysis concludes that an "int" has to be changed
- * to a "float", rightValue has to change from IntConstant.newInstance(literal) to
+ * to a "float", rightValue has to change from IntConstant.getInstance(literal) to
  * Float.intBitsToFloat((int) literal). If the analysis concludes that an "long"
  * has to be changed to a "double, rightValue has to change from
- * LongConstant.newInstance(literal) to
- * DoubleConstant.newInstance(Double.longBitsToDouble(literal)).
+ * LongConstant.getInstance(literal) to
+ * DoubleConstant.getInstance(Double.longBitsToDouble(literal)).
  */
 public class DexNumTransformer extends DexTransformer {
 	// Note: we need an instance variable for inner class access, treat this as

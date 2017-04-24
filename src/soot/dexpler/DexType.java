@@ -136,7 +136,7 @@ public class DexType {
             type = DoubleType.getInstance();
             break;
         case 'L':               // object
-            type = RefType.newInstance(Util.dottedClassName(typeDescriptor));
+            type = RefType.getInstance(Util.dottedClassName(typeDescriptor));
             break;
         case 'V':               // void
             type = new VoidType();

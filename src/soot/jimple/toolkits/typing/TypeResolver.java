@@ -366,8 +366,8 @@ public class TypeResolver
 		if(max > 1) {
 			// hack for J2ME library, reported by Stephen Cheng
 			if (!Options.getInstance().j2me()) {
-				typeVariable(ArrayType.getInstance(RefType.newInstance("java.lang.Cloneable"), max - 1));
-				typeVariable(ArrayType.getInstance(RefType.newInstance("java.io.Serializable"), max - 1));
+				typeVariable(ArrayType.getInstance(RefType.getInstance("java.lang.Cloneable"), max - 1));
+				typeVariable(ArrayType.getInstance(RefType.getInstance("java.io.Serializable"), max - 1));
 			}
 		}
 
@@ -673,7 +673,7 @@ public class TypeResolver
 
 			if(var == null)
 			{
-				local.setType(RefType.newInstance("java.lang.Object"));
+				local.setType(RefType.getInstance("java.lang.Object"));
 			}
 			else if (var.depth() == 0)
 			{
@@ -742,7 +742,7 @@ public class TypeResolver
 					var.approx() == null ||
 					var.approx().type() == null)
 			{
-				local.setType(RefType.newInstance("java.lang.Object"));
+				local.setType(RefType.getInstance("java.lang.Object"));
 			}
 			else
 			{

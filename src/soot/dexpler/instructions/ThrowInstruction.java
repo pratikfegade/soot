@@ -49,7 +49,7 @@ public class ThrowInstruction extends DexlibAbstractInstruction {
 		
         if (IDalvikTyper.ENABLE_DVKTYPER) {
 			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ throwStmt);
-          DalvikTyper.v().setType(throwStmt.getOpBox(), RefType.newInstance("java.lang.Throwable"), true);
+          DalvikTyper.v().setType(throwStmt.getOpBox(), RefType.getInstance("java.lang.Throwable"), true);
         }
     }
 }

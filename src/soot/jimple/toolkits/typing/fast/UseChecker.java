@@ -255,7 +255,7 @@ public class UseChecker extends AbstractStmtSwitch
 		{
 			InstanceOfExpr ioe = (InstanceOfExpr)rhs;
 			ioe.setOp(this.uv.visit(
-				ioe.getOp(), RefType.newInstance("java.lang.Object"), stmt));
+				ioe.getOp(), RefType.getInstance("java.lang.Object"), stmt));
 			stmt.setRightOp(this.uv.visit(rhs, tlhs, stmt));
 		}
 		else if ( rhs instanceof NewArrayExpr )
@@ -291,13 +291,13 @@ public class UseChecker extends AbstractStmtSwitch
 	public void caseEnterMonitorStmt(EnterMonitorStmt stmt)
 	{
 		stmt.setOp(this.uv.visit(
-			stmt.getOp(), RefType.newInstance("java.lang.Object"), stmt));
+			stmt.getOp(), RefType.getInstance("java.lang.Object"), stmt));
 	}
 
 	public void caseExitMonitorStmt(ExitMonitorStmt stmt)
 	{
 		stmt.setOp(this.uv.visit(
-			stmt.getOp(), RefType.newInstance("java.lang.Object"), stmt));
+			stmt.getOp(), RefType.getInstance("java.lang.Object"), stmt));
 	}
 
 	public void caseGotoStmt(GotoStmt stmt) { }
@@ -331,7 +331,7 @@ public class UseChecker extends AbstractStmtSwitch
 	public void caseThrowStmt(ThrowStmt stmt)
 	{
 		stmt.setOp(this.uv.visit(
-			stmt.getOp(), RefType.newInstance("java.lang.Throwable"), stmt));
+			stmt.getOp(), RefType.getInstance("java.lang.Throwable"), stmt));
 	}
 
 	public void defaultCase(Stmt stmt)

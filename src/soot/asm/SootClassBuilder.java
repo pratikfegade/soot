@@ -56,7 +56,7 @@ class SootClassBuilder extends ClassVisitor {
 	}
 	
 	void addDep(String s) {
-		addDep(RefType.newInstance(AsmUtil.baseTypeName(s)));
+		addDep(RefType.getInstance(AsmUtil.baseTypeName(s)));
 	}
 	
 	/**
@@ -77,12 +77,12 @@ class SootClassBuilder extends ClassVisitor {
 		klass.setModifiers(access & ~Opcodes.ACC_SUPER);
 		if (superName != null) {
 			superName = AsmUtil.toQualifiedName(superName);			
-			addDep(RefType.newInstance(superName));
+			addDep(RefType.getInstance(superName));
 			klass.setSuperclass(SootResolver.getInstance().makeClassRef(superName));
 		}
 		for (String intrf : interfaces) {
 			intrf = AsmUtil.toQualifiedName(intrf);
-			addDep(RefType.newInstance(intrf));
+			addDep(RefType.getInstance(intrf));
 			
 			SootClass interfaceClass = SootResolver.getInstance().makeClassRef(intrf);
             interfaceClass.setModifiers(interfaceClass.getModifiers() | Modifier.INTERFACE);
@@ -130,7 +130,7 @@ class SootClassBuilder extends ClassVisitor {
 			thrownExceptions = new ArrayList<SootClass>(len);
 			for (int i = 0; i != len; i++) {
 				String ex = AsmUtil.toQualifiedName(exceptions[i]);
-				addDep(RefType.newInstance(ex));
+				addDep(RefType.getInstance(ex));
 				thrownExceptions.add(SootResolver.getInstance().makeClassRef(ex));
 			}
 		}
@@ -164,7 +164,7 @@ class SootClassBuilder extends ClassVisitor {
 			klass.addTag(new EnclosingMethodTag(owner, name, desc));
 
 		owner = AsmUtil.toQualifiedName(owner);
-		deps.add(RefType.newInstance(owner));
+		deps.add(RefType.getInstance(owner));
 		klass.setOuterClass(SootResolver.getInstance().makeClassRef(owner));
 	}
 	

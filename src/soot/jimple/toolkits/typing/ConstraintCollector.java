@@ -184,9 +184,9 @@ class ConstraintCollector extends AbstractStmtSwitch {
 		} else if (r instanceof NullConstant) {
 			right = resolver.typeVariable(NullType.getInstance());
 		} else if (r instanceof StringConstant) {
-			right = resolver.typeVariable(RefType.newInstance("java.lang.String"));
+			right = resolver.typeVariable(RefType.getInstance("java.lang.String"));
 		} else if (r instanceof ClassConstant) {
-			right = resolver.typeVariable(RefType.newInstance("java.lang.Class"));
+			right = resolver.typeVariable(RefType.getInstance("java.lang.Class"));
 		} else if (r instanceof BinopExpr) {
 			// ******** BINOP EXPR ********
 
@@ -212,9 +212,9 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			} else if (lv instanceof NullConstant) {
 				lop = resolver.typeVariable(NullType.getInstance());
 			} else if (lv instanceof StringConstant) {
-				lop = resolver.typeVariable(RefType.newInstance("java.lang.String"));
+				lop = resolver.typeVariable(RefType.getInstance("java.lang.String"));
 			} else if (lv instanceof ClassConstant) {
-				lop = resolver.typeVariable(RefType.newInstance("java.lang.Class"));
+				lop = resolver.typeVariable(RefType.getInstance("java.lang.Class"));
 			} else {
 				throw new RuntimeException("Unhandled binary expression left operand type: " + lv.getClass());
 			}
@@ -233,9 +233,9 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			} else if (rv instanceof NullConstant) {
 				rop = resolver.typeVariable(NullType.getInstance());
 			} else if (rv instanceof StringConstant) {
-				rop = resolver.typeVariable(RefType.newInstance("java.lang.String"));
+				rop = resolver.typeVariable(RefType.getInstance("java.lang.String"));
 			} else if (rv instanceof ClassConstant) {
-				rop = resolver.typeVariable(RefType.newInstance("java.lang.Class"));
+				rop = resolver.typeVariable(RefType.getInstance("java.lang.Class"));
 			} else {
 				throw new RuntimeException("Unhandled binary expression right operand type: " + rv.getClass());
 			}
@@ -392,7 +392,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 				}
 
 				if (uses) {
-					left.addParent(resolver.typeVariable(RefType.newInstance("java.lang.Throwable")));
+					left.addParent(resolver.typeVariable(RefType.getInstance("java.lang.Throwable")));
 				}
 			}
 		}
@@ -403,7 +403,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			if (stmt.getOp() instanceof Local) {
 				TypeVariable op = resolver.typeVariable((Local) stmt.getOp());
 
-				op.addParent(resolver.typeVariable(RefType.newInstance("java.lang.Object")));
+				op.addParent(resolver.typeVariable(RefType.getInstance("java.lang.Object")));
 			}
 		}
 	}
@@ -413,7 +413,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			if (stmt.getOp() instanceof Local) {
 				TypeVariable op = resolver.typeVariable((Local) stmt.getOp());
 
-				op.addParent(resolver.typeVariable(RefType.newInstance("java.lang.Object")));
+				op.addParent(resolver.typeVariable(RefType.getInstance("java.lang.Object")));
 			}
 		}
 	}
@@ -446,9 +446,9 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			} else if (lv instanceof NullConstant) {
 				lop = resolver.typeVariable(NullType.getInstance());
 			} else if (lv instanceof StringConstant) {
-				lop = resolver.typeVariable(RefType.newInstance("java.lang.String"));
+				lop = resolver.typeVariable(RefType.getInstance("java.lang.String"));
 			} else if (lv instanceof ClassConstant) {
-				lop = resolver.typeVariable(RefType.newInstance("java.lang.Class"));
+				lop = resolver.typeVariable(RefType.getInstance("java.lang.Class"));
 			} else {
 				throw new RuntimeException("Unhandled binary expression left operand type: " + lv.getClass());
 			}
@@ -467,9 +467,9 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			} else if (rv instanceof NullConstant) {
 				rop = resolver.typeVariable(NullType.getInstance());
 			} else if (rv instanceof StringConstant) {
-				rop = resolver.typeVariable(RefType.newInstance("java.lang.String"));
+				rop = resolver.typeVariable(RefType.getInstance("java.lang.String"));
 			} else if (rv instanceof ClassConstant) {
-				rop = resolver.typeVariable(RefType.newInstance("java.lang.Class"));
+				rop = resolver.typeVariable(RefType.getInstance("java.lang.Class"));
 			} else {
 				throw new RuntimeException("Unhandled binary expression right operand type: " + rv.getClass());
 			}
@@ -520,7 +520,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			if (stmt.getOp() instanceof Local) {
 				TypeVariable op = resolver.typeVariable((Local) stmt.getOp());
 
-				op.addParent(resolver.typeVariable(RefType.newInstance("java.lang.Throwable")));
+				op.addParent(resolver.typeVariable(RefType.getInstance("java.lang.Throwable")));
 			}
 		}
 	}

@@ -73,13 +73,13 @@ public class ClassHierarchy
     G.classHierarchyMap.put(scene, this);
 
     NULL = typeNode(NullType.getInstance());
-    OBJECT = typeNode(RefType.newInstance("java.lang.Object"));
+    OBJECT = typeNode(RefType.getInstance("java.lang.Object"));
 
     // hack for J2ME library which does not have Cloneable and Serializable
     // reported by Stephen Chen
     if (!Options.getInstance().j2me()) {
-      CLONEABLE = typeNode(RefType.newInstance("java.lang.Cloneable"));
-      SERIALIZABLE = typeNode(RefType.newInstance("java.io.Serializable"));
+      CLONEABLE = typeNode(RefType.getInstance("java.lang.Cloneable"));
+      SERIALIZABLE = typeNode(RefType.getInstance("java.io.Serializable"));
     } else {
       CLONEABLE = null;
       SERIALIZABLE = null;

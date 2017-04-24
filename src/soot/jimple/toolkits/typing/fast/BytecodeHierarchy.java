@@ -52,7 +52,7 @@ public class BytecodeHierarchy implements IHierarchy
 		leafs.add(new AncestryTreeNode(null, root));
 		
 		LinkedList<AncestryTreeNode> r = new LinkedList<AncestryTreeNode>();
-		final RefType objectType = RefType.newInstance("java.lang.Object");
+		final RefType objectType = RefType.getInstance("java.lang.Object");
 		while ( !leafs.isEmpty() )
 		{
 			AncestryTreeNode node = leafs.remove();
@@ -138,9 +138,9 @@ public class BytecodeHierarchy implements IHierarchy
 			if ( ts.isEmpty() )
 			{
 				// From Java Language Spec 2nd ed., Chapter 10, Arrays
-				r.add(RefType.newInstance("java.lang.Object"));
-				r.add(RefType.newInstance("java.io.Serializable"));
-				r.add(RefType.newInstance("java.lang.Cloneable"));
+				r.add(RefType.getInstance("java.lang.Object"));
+				r.add(RefType.getInstance("java.io.Serializable"));
+				r.add(RefType.getInstance("java.lang.Cloneable"));
 			}
 			else
 				for ( Type t : ts )
@@ -163,15 +163,15 @@ public class BytecodeHierarchy implements IHierarchy
 			/* Do not consider Object to be a subtype of Serializable or Cloneable
 			(it can appear this way if phantom-refs is enabled and rt.jar is not
 			available) otherwise an infinite loop can result. */
-			if (!TypeResolver.typesEqual(RefType.newInstance("java.lang.Object"), rt)) {
-			    if ( ancestor_(RefType.newInstance("java.io.Serializable"), rt) )
-			        r.add(RefType.newInstance("java.io.Serializable"));
-			    if ( ancestor_(RefType.newInstance("java.lang.Cloneable"), rt) )
-			        r.add(RefType.newInstance("java.lang.Cloneable"));
+			if (!TypeResolver.typesEqual(RefType.getInstance("java.lang.Object"), rt)) {
+			    if ( ancestor_(RefType.getInstance("java.io.Serializable"), rt) )
+			        r.add(RefType.getInstance("java.io.Serializable"));
+			    if ( ancestor_(RefType.getInstance("java.lang.Cloneable"), rt) )
+			        r.add(RefType.getInstance("java.lang.Cloneable"));
 			}
 			
 			if ( r.isEmpty() )
-				r.add(RefType.newInstance("java.lang.Object"));
+				r.add(RefType.getInstance("java.lang.Object"));
 			return r;
 		}
 		// a and b are both RefType
@@ -210,7 +210,7 @@ public class BytecodeHierarchy implements IHierarchy
 			//kludge on a kludge on a kludge...
 			//syed - 05/06/2009
 			if ( r.isEmpty() )
-				r.add(RefType.newInstance("java.lang.Object"));
+				r.add(RefType.getInstance("java.lang.Object"));
 			return r;
 		}
 	}

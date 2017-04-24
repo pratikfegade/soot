@@ -214,7 +214,7 @@ public class DalvikThrowAnalysis extends UnitThrowAnalysis {
 //
 //	        vdst = INST_AA(inst);
 //	        ref = FETCH(1);
-//	        ILOGV("|const-string newInstance%d string@0x%04x", vdst, ref);
+//	        ILOGV("|const-string getInstance%d string@0x%04x", vdst, ref);
 //	        strObj = dvmDexGetResolvedString(methodClassDex, ref);
 //	        if (strObj == NULL) {
 //	            EXPORT_PC();
@@ -246,7 +246,7 @@ public class DalvikThrowAnalysis extends UnitThrowAnalysis {
 //
 //          vdst = INST_AA(inst);
 //          ref = FETCH(1);
-//          ILOGV("|const-class newInstance%d class@0x%04x", vdst, ref);
+//          ILOGV("|const-class getInstance%d class@0x%04x", vdst, ref);
 //          clazz = dvmDexGetResolvedClass(methodClassDex, ref);
 //          if (clazz == NULL) {
 //              EXPORT_PC();

@@ -93,9 +93,9 @@ public enum CheckTypesValidator implements BodyValidator {
 			// it is legal to assign arrays to variables of type Serializable,
 			// Cloneable or Object
 			if (rightType instanceof ArrayType) {
-				if (leftType.equals(RefType.newInstance("java.io.Serializable"))
-						|| leftType.equals(RefType.newInstance("java.lang.Cloneable"))
-						|| leftType.equals(RefType.newInstance("java.lang.Object")))
+				if (leftType.equals(RefType.getInstance("java.io.Serializable"))
+						|| leftType.equals(RefType.getInstance("java.lang.Cloneable"))
+						|| leftType.equals(RefType.getInstance("java.lang.Object")))
 					return;
 			}
 

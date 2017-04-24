@@ -78,7 +78,7 @@ public class BinopLitInstruction extends TaggedInstruction {
           }
           BinopExpr bexpr = (BinopExpr)expr;
           //body.dvkTyper.setType((op == 1) ? bexpr.getOp2Box() : bexpr.getOp1Box(), op1BinType[op]);
-          DalvikTyper.newInstance().setType(((JAssignStmt)assign).leftBox, op1BinType[op], false);
+          DalvikTyper.getInstance().setType(((JAssignStmt)assign).leftBox, op1BinType[op], false);
           */
         }
     }

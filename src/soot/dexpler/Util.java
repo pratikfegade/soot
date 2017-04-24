@@ -100,7 +100,7 @@ public class Util {
 			case 'L':
 				String objectName = type.replaceAll("^[^L]*L", "").replaceAll(
 						";$", "");
-				returnType = RefType.newInstance(objectName.replace("/", "."));
+				returnType = RefType.getInstance(objectName.replace("/", "."));
 				notFound = false;
 				break;
 
@@ -195,8 +195,8 @@ public class Util {
 	 */
 	public static boolean isFloatLike(Type t) {
 		return t.equals(FloatType.getInstance()) || t.equals(DoubleType.getInstance())
-				|| t.equals(RefType.newInstance("java.lang.Float"))
-				|| t.equals(RefType.newInstance("java.lang.Double"));
+				|| t.equals(RefType.getInstance("java.lang.Float"))
+				|| t.equals(RefType.getInstance("java.lang.Double"));
 	}
 
 	/**
@@ -274,11 +274,11 @@ public class Util {
 	public static void addExceptionAfterUnit(Body b, String exceptionType,
 			Unit u, String m) {
 		LocalCreation lc = new LocalCreation(b.getLocals());
-		Local l = lc.newLocal(RefType.newInstance(exceptionType));
+		Local l = lc.newLocal(RefType.getInstance(exceptionType));
 
 		List<Unit> newUnits = new ArrayList<Unit>();
 		Unit u1 = Jimple.newAssignStmt(l,
-				Jimple.newNewExpr(RefType.newInstance(exceptionType)));
+				Jimple.newNewExpr(RefType.getInstance(exceptionType)));
 		Unit u2 = Jimple.newInvokeStmt(
 				Jimple.newSpecialInvokeExpr(
 						l,
@@ -286,7 +286,7 @@ public class Util {
 								Scene.getInstance().getSootClass(exceptionType),
 								"<init>",
 								Collections.singletonList(RefType
-										.newInstance("java.lang.String")), new VoidType(),
+										.getInstance("java.lang.String")), new VoidType(),
 								false), StringConstant.v(m)));
 		Unit u3 = Jimple.newThrowStmt(l);
 		newUnits.add(u1);

@@ -88,7 +88,7 @@ public class SootClass extends AbstractHost implements Numberable {
                     "Attempt to make a class whose name starts with [");
         setName(name);
         this.modifiers = modifiers;
-        refType = RefType.newInstance(name);
+        refType = RefType.getInstance(name);
         refType.setSootClass(this);
         if (Options.getInstance().debug_resolver())
             System.out.println("created " + name + " with modifiers "

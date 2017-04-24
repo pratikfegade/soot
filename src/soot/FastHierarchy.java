@@ -210,9 +210,9 @@ public class FastHierarchy
             } else if(parent instanceof ArrayType) {
                 Type base = ((AnySubType)child).getBase();
                 // From Java Language Spec 2nd ed., Chapter 10, Arrays
-                return base.equals( RefType.newInstance( "java.lang.Object" ) )
-                || base.equals( RefType.newInstance( "java.io.Serializable" ) )
-                || base.equals( RefType.newInstance( "java.lang.Cloneable" ) );
+                return base.equals( RefType.getInstance( "java.lang.Object" ) )
+                || base.equals( RefType.getInstance( "java.io.Serializable" ) )
+                || base.equals( RefType.getInstance( "java.lang.Cloneable" ) );
             } else {
                 SootClass base = ((AnySubType)child).getBase().getSootClass();
                 SootClass parentClass = ((RefType) parent).getSootClass();
@@ -233,9 +233,9 @@ public class FastHierarchy
             ArrayType achild = (ArrayType) child;
             if( parent instanceof RefType ) {
                 // From Java Language Spec 2nd ed., Chapter 10, Arrays
-                return parent.equals( RefType.newInstance( "java.lang.Object" ) )
-                || parent.equals( RefType.newInstance( "java.io.Serializable" ) )
-                || parent.equals( RefType.newInstance( "java.lang.Cloneable" ) );
+                return parent.equals( RefType.getInstance( "java.lang.Object" ) )
+                || parent.equals( RefType.getInstance( "java.io.Serializable" ) )
+                || parent.equals( RefType.getInstance( "java.lang.Cloneable" ) );
             }
             if (!(parent instanceof ArrayType))
             	return false;
@@ -249,11 +249,11 @@ public class FastHierarchy
                 if( !(aparent.baseType instanceof RefType ) ) return false;
                 return canStoreType( achild.baseType, aparent.baseType );
             } else if( achild.numDimensions > aparent.numDimensions ) {
-                if( aparent.baseType.equals( RefType.newInstance( "java.lang.Object" ) ) )
+                if( aparent.baseType.equals( RefType.getInstance( "java.lang.Object" ) ) )
                     return true;
-                if( aparent.baseType.equals( RefType.newInstance( "java.io.Serializable" ) ) )
+                if( aparent.baseType.equals( RefType.getInstance( "java.io.Serializable" ) ) )
                     return true;
-                return aparent.baseType.equals(RefType.newInstance("java.lang.Cloneable"));
+                return aparent.baseType.equals(RefType.getInstance("java.lang.Cloneable"));
             } else return false;
         } else
         	return false;
@@ -336,7 +336,7 @@ public class FastHierarchy
                 SootMethod concreteM = null;
                 try {
                     concreteM = resolveConcreteDispatch( 
-                        RefType.newInstance( "java.lang.Object" ).getSootClass(), m );
+                        RefType.getInstance( "java.lang.Object" ).getSootClass(), m );
                 } catch( Exception e ) {
                     concreteM = null;
                 }
@@ -385,7 +385,7 @@ public class FastHierarchy
                 if( concreteM != null ) ret.add( concreteM );
             } else if( t instanceof ArrayType ) {
                 SootMethod concreteM = resolveConcreteDispatch( 
-                        RefType.newInstance( "java.lang.Object" ).getSootClass(), m );
+                        RefType.getInstance( "java.lang.Object" ).getSootClass(), m );
                 if( concreteM != null ) ret.add( concreteM );
             } else throw new RuntimeException( "Unrecognized reaching type "+t );
         }

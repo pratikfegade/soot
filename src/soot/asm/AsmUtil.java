@@ -65,7 +65,7 @@ class AsmUtil {
 				internal = internal.substring(1, internal.length());
 			}
 			internal = toQualifiedName(internal);
-			return RefType.newInstance(internal);
+			return RefType.getInstance(internal);
 		}
 		switch (internal.charAt(0)) {
 		case 'Z':
@@ -86,7 +86,7 @@ class AsmUtil {
 			return DoubleType.getInstance();
 		default:
 			internal = toQualifiedName(internal);
-			return RefType.newInstance(internal);
+			return RefType.getInstance(internal);
 		}
 	}
 	
@@ -124,7 +124,7 @@ class AsmUtil {
 	 */
 	public static Type toJimpleRefType(String desc) {
 		return desc.charAt(0) == '[' ?
-				toJimpleType(desc) : RefType.newInstance(toQualifiedName(desc));
+				toJimpleType(desc) : RefType.getInstance(toQualifiedName(desc));
 	}
 	
 	/**
@@ -171,7 +171,7 @@ class AsmUtil {
 				throw new AssertionError("Invalid reference descriptor: " + desc);
 			String name = desc.substring(1, desc.length() - 1);
 			name = toQualifiedName(name);
-			baseType = RefType.newInstance(name);
+			baseType = RefType.getInstance(name);
 			break;
 		default:
 			throw new AssertionError("Unknown descriptor: " + desc);	
@@ -236,7 +236,7 @@ class AsmUtil {
 					int begin = idx;
 					while (desc.charAt(++idx) != ';');
 					String cls = desc.substring(begin, idx++);
-					baseType = RefType.newInstance(toQualifiedName(cls));
+					baseType = RefType.getInstance(toQualifiedName(cls));
 					break this_type;
 				default:
 					throw new AssertionError("Unknown type: " + c);

@@ -69,7 +69,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 *            The name of the class used to parametrize the created RefType.
 	 * @return a RefType for the given class name.
 	 */
-	public static RefType newInstance(String className) {
+	public static RefType getInstance(String className) {
 		RefType rt = Scene.getInstance().getRefTypeUnsafe(className);
 		if (rt == null) {
 			rt = new RefType(className);
@@ -89,8 +89,8 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 *            A SootClass for which to create a RefType.
 	 * @return a RefType for the given SootClass..
 	 */
-	public static RefType newInstance(SootClass c) {
-		return newInstance(c.getName());
+	public static RefType getInstance(SootClass c) {
+		return getInstance(c.getName());
 	}
 
 	/**
@@ -229,7 +229,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 		if (className.equals("java.lang.Object")
 				|| className.equals("java.io.Serializable")
 				|| className.equals("java.lang.Cloneable")) {
-			return RefType.newInstance("java.lang.Object");
+			return RefType.getInstance("java.lang.Object");
 		}
 		throw new RuntimeException(
 				"Attempt to get array base type of a non-array");

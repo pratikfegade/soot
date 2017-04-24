@@ -62,6 +62,6 @@ public class CharType extends PrimType implements IntegerType
 
     @Override
     public RefType boxedType() {
-    	return RefType.newInstance("java.lang.Character");
+    	return RefType.getInstance("java.lang.Character");
     }
 }

@@ -30,10 +30,10 @@ public abstract class PointerStmtSwitch extends AbstractStmtSwitch {
     /** A statement of the form l = constant; */
     protected abstract void caseAssignConstStmt( Value dest, Constant c );
 
-    /** A statement of the form l = newInstance; */
+    /** A statement of the form l = getInstance; */
     protected abstract void caseCopyStmt( Local dest, Local src );
 
-    /** A statement of the form l = (cl) newInstance; */
+    /** A statement of the form l = (cl) getInstance; */
     protected void caseCastStmt( Local dest, Local src, CastExpr c ) {
 	// default is to just ignore the cast
 	caseCopyStmt( dest, src );

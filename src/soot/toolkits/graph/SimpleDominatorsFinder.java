@@ -40,8 +40,8 @@ public class SimpleDominatorsFinder<N> implements DominatorsFinder<N>
      **/
     public SimpleDominatorsFinder(DirectedGraph<N> graph)
     {
-        //if(Options.newInstance().verbose())
-        //G.newInstance().out.println("[" + graph.getBody().getMethod().getName() +
+        //if(Options.getInstance().verbose())
+        //G.getInstance().out.println("[" + graph.getBody().getMethod().getName() +
         //"]     Finding Dominators...");
 
         this.graph = graph;

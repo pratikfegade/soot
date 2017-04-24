@@ -235,7 +235,7 @@ public class Scene  //extends AbstractHost
         }
 
         SootMethod mainMethod = mainClass.getMethodUnsafe("main",
-                Collections.singletonList( ArrayType.getInstance(RefType.newInstance("java.lang.String"), 1) ),
+                Collections.singletonList( ArrayType.getInstance(RefType.getInstance("java.lang.String"), 1) ),
                 new VoidType());
         if (mainMethod == null) {
             throw new RuntimeException("Main class declares no main method!");
@@ -1514,7 +1514,7 @@ public class Scene  //extends AbstractHost
             // try to infer a main class from the command line if none is given
             for (Iterator<String> classIter = Options.getInstance().classes().iterator(); classIter.hasNext();) {
                 SootClass c = getSootClass(classIter.next());
-                if (c.declaresMethod ("main", Collections.singletonList( ArrayType.getInstance(RefType.newInstance("java.lang" +
+                if (c.declaresMethod ("main", Collections.singletonList( ArrayType.getInstance(RefType.getInstance("java.lang" +
                         ".String"), 1) ), new VoidType()))
                 {
                     System.out.println("No main class given. Inferred '"+c.getName()+"' as main class.");
@@ -1526,7 +1526,7 @@ public class Scene  //extends AbstractHost
             // try to infer a main class from the usual classpath if none is given
             for (Iterator<SootClass> classIter = getApplicationClasses().iterator(); classIter.hasNext();) {
                 SootClass c = classIter.next();
-                if (c.declaresMethod ("main", Collections.singletonList( ArrayType.getInstance(RefType.newInstance("java.lang" +
+                if (c.declaresMethod ("main", Collections.singletonList( ArrayType.getInstance(RefType.getInstance("java.lang" +
                         ".String"), 1) ), new VoidType()))
                 {
                     System.out.println("No main class given. Inferred '"+c.getName()+"' as main class.");

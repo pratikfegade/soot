@@ -258,7 +258,7 @@ public class Walker extends DepthFirstAdapter {
 
     public void outAQuotedNonvoidType(AQuotedNonvoidType node) {
         String typeName = (String) mProductions.removeLast();
-        Type t = RefType.newInstance(typeName);
+        Type t = RefType.getInstance(typeName);
 
         int dim = node.getArrayBrackets().size();
         if (dim > 0)
@@ -268,7 +268,7 @@ public class Walker extends DepthFirstAdapter {
 
     public void outAIdentNonvoidType(AIdentNonvoidType node) {
         String typeName = (String) mProductions.removeLast();
-        Type t = RefType.newInstance(typeName);
+        Type t = RefType.getInstance(typeName);
         int dim = node.getArrayBrackets().size();
         if (dim > 0)
             t = ArrayType.getInstance(t, dim);
@@ -277,7 +277,7 @@ public class Walker extends DepthFirstAdapter {
 
     public void outAFullIdentNonvoidType(AFullIdentNonvoidType node) {
         String typeName = (String) mProductions.removeLast();
-        Type t = RefType.newInstance(typeName);
+        Type t = RefType.getInstance(typeName);
         int dim = node.getArrayBrackets().size();
         if (dim > 0)
             t = ArrayType.getInstance(t, dim);
@@ -372,7 +372,7 @@ public class Walker extends DepthFirstAdapter {
         String type = (String) mProductions.removeLast();
         if (type.equals("int"))
             throw new RuntimeException();
-        mProductions.addLast(RefType.newInstance(type));
+        mProductions.addLast(RefType.getInstance(type));
     }
 
 	/*
