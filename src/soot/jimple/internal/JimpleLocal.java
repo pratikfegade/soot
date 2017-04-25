@@ -34,84 +34,85 @@ import java.util.Collections;
 import java.util.List;
 
 public class JimpleLocal implements Local {
-	private String name;
-	private Type type;
+    private String name;
+    private Type type;
 
-	/** Constructs a JimpleLocal of the given name and type. */
-	public JimpleLocal(String name, Type type) {
-		this.name = name;
-		this.type = type;
-		Scene.getInstance().getLocalNumberer().add(this);
-	}
+    /** Constructs a JimpleLocal of the given name and type. */
+    public JimpleLocal(String name, Type type) {
+        this.name = name;
+        this.type = type;
+        Scene.getInstance().getLocalNumberer().add(this);
+    }
 
-	/** Returns true if the given object is structurally equal to this one. */
-	public boolean equivTo(Object o) {
-		return this.equals(o);
-	}
+    /** Returns true if the given object is structurally equal to this one. */
+    public boolean equivTo(Object o) {
+        return this.equals(o);
+    }
 
-	/**
-	 * Returns a hash code for this object, consistent with structural equality.
-	 */
-	public int equivHashCode() {
+    /**
+     * Returns a hash code for this object, consistent with structural equality.
+     */
+    public int equivHashCode() {
         return this.hashCode();
-	}
+    }
 
-	/** Returns a clone of the current JimpleLocal. */
-	public Object clone() {
-		// do not intern the name again
-		JimpleLocal local = new JimpleLocal(null, type);
-		local.setName(name);
-		return local;
-	}
+    /** Returns a clone of the current JimpleLocal. */
+    public Object clone() {
+        // do not intern the name again
+        JimpleLocal local = new JimpleLocal(null, type);
+        local.setName(name);
+        return local;
+    }
 
-	/** Returns the name of this object. */
-	public String getName() {
-		return name;
-	}
+    /** Returns the name of this object. */
+    public String getName() {
+        return name;
+    }
 
-	/** Sets the name of this object as given. */
-	public void setName(String name) {
-		this.name = (name == null) ? null : name.intern();
-	}
+    /** Sets the name of this object as given. */
+    public void setName(String name) {
+        this.name = (name == null) ? null : name.intern();
+    }
 
-	/** Returns the type of this local. */
-	public Type getType() {
-		return type;
-	}
+    /** Returns the type of this local. */
+    public Type getType() {
+        return type;
+    }
 
-	/** Sets the type of this local. */
-	public void setType(Type t) {
-	    if (this.type instanceof UnknownType || !(this.type instanceof RefType))
-		    this.type = t;
-	    else {
-	        System.out.println("Keeping existing type " + this.type + "  provided by debugging information instead of inferred: " + t);
-        }
-	}
+    /** Sets the type of this local. */
+    public void setType(Type t) {
+        if (this.type instanceof UnknownType || !(this.type instanceof RefType))
+            this.type = t;
+//  TODO: Avoid this hack
+//	    else {
+//	        System.out.println("Keeping existing type " + this.type + "  provided by debugging information instead of inferred: " + t);
+//        }
+    }
 
-	public String toString() {
-		return getName();
-	}
+    public String toString() {
+        return getName();
+    }
 
-	public void toString(UnitPrinter up) {
-		up.local(this);
-	}
+    public void toString(UnitPrinter up) {
+        up.local(this);
+    }
 
-	@Override
-	public final List<ValueBox> getUseBoxes() {
-		return Collections.emptyList();
-	}
+    @Override
+    public final List<ValueBox> getUseBoxes() {
+        return Collections.emptyList();
+    }
 
-	public void apply(Switch sw) {
-		((JimpleValueSwitch) sw).caseLocal(this);
-	}
+    public void apply(Switch sw) {
+        ((JimpleValueSwitch) sw).caseLocal(this);
+    }
 
-	public final int getNumber() {
-		return number;
-	}
+    public final int getNumber() {
+        return number;
+    }
 
-	public final void setNumber(int number) {
-		this.number = number;
-	}
+    public final void setNumber(int number) {
+        this.number = number;
+    }
 
-	private int number = 0;
+    private int number = 0;
 }

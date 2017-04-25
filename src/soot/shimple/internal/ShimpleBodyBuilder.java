@@ -188,7 +188,7 @@ public class ShimpleBodyBuilder
         	for (Unit unit : block) {
                 // Step 1/2 of 1
                 {
-                    List<ValueBox> useBoxes = new ArrayList<ValueBox>();
+                    List<ValueBox> useBoxes = new ArrayList<>();
 
                     if(!Shimple.isPhiNode(unit))
                         useBoxes.addAll(unit.getUseBoxes());
