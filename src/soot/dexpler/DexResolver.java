@@ -25,7 +25,7 @@
 package soot.dexpler;
 
 import soot.SootClass;
-import soot.javaToJimple.IInitialResolver.Dependencies;
+import soot.IInitialResolver.Dependencies;
 
 import java.io.File;
 import java.util.Map;

@@ -31,12 +31,12 @@ package soot;
  * This is a specific one for the very messy jb phase. */
 public class JimpleBodyPack extends BodyPack
 {
-    public JimpleBodyPack(JimplePackManager jimplePackManager) {
+    JimpleBodyPack(JimplePackManager jimplePackManager) {
         super();
         _jimplePackManager = jimplePackManager;
     }
 
-    JimplePackManager _jimplePackManager;
+    private JimplePackManager _jimplePackManager;
 
     protected void internalApply(Body b)
     {

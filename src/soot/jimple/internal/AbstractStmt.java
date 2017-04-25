@@ -37,7 +37,7 @@ import soot.jimple.FieldRef;
 import soot.jimple.InvokeExpr;
 import soot.jimple.Stmt;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractStmt extends AbstractUnit implements Stmt
 {
     public boolean containsInvokeExpr()

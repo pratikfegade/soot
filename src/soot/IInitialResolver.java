@@ -1,5 +1,5 @@
 /* Soot - a J*va Optimization Framework
- * Copyright (C) 1997-1999 Raja Vallee-Rai and Patrick Lam
+ * Copyright (C) 2008 Eric Bodden
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,28 +16,22 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-
-/*
- * Modified by the Sable Research Group and others 1997-1999.  
- * See the 'credits' file distributed with Soot for the complete list of
- * contributors.  (Soot is distributed at http://www.sable.mcgill.ca/soot)
- */
-
-
 package soot;
 
-/** A wrapper object for a pack of optimizations.
- * Provides chain-like operations, except that the key is the phase name. */
-public class BodyPack extends Pack
-{
-    BodyPack() {
-        super();
-    }
+import soot.Type;
 
-    protected void internalApply(Body b)
-    {
-        for (final Transform t : this) {
-            t.apply(b);
-        }
-    }
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public interface IInitialResolver {
+
+	class Dependencies {
+		public final Set<Type> typesToHierarchy, typesToSignature;
+		public Dependencies() {
+			typesToHierarchy = new HashSet<>();
+			typesToSignature = new HashSet<>();
+		}
+	}
+
 }

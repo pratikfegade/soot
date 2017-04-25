@@ -35,7 +35,7 @@ import soot.jimple.PrecedenceTest;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractBinopExpr implements Expr
 {	
 	protected ValueBox op1Box;

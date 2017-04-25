@@ -30,7 +30,7 @@ import soot.tagkit.AbstractHost;
 
 /** Reference implementation for ValueBox; just
  * add a canContainValue method. */
-@SuppressWarnings("serial")
+
 public abstract class AbstractValueBox extends AbstractHost implements ValueBox
 {
     Value value;

@@ -29,7 +29,7 @@ package soot;
 import soot.util.Switch;
 
 /** Represents the Java void type. */
-@SuppressWarnings("serial")
+
 public class VoidType extends Type
 {
     public int hashCode()

@@ -20,6 +20,7 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
+import soot.ErroneousType;
 import soot.Local;
 import soot.Type;
 import soot.UnknownType;
@@ -45,7 +46,7 @@ public class Typing
               Originally, all the values on this map where the BottomType instance. My understanding is that this
               that the information obtained from the debugging in bytecode was completely discarded.
              */
-            if (v.getType() == null || v.getType() instanceof UnknownType)
+            if (v.getType() == null || v.getType() instanceof UnknownType || v.getType() instanceof ErroneousType)
                 this.map.put(v, BottomType.getInstance());
             else
                 this.map.put(v, v.getType());

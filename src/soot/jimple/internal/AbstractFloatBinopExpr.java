@@ -32,7 +32,7 @@ package soot.jimple.internal;
 
 import soot.*;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractFloatBinopExpr extends AbstractBinopExpr
 {
     public Type getType()

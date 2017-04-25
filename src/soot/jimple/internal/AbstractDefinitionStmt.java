@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractDefinitionStmt extends AbstractStmt 
     implements DefinitionStmt
 {	

@@ -95,8 +95,6 @@ public class SootMethod extends AbstractHost implements ClassMember, Numberable,
         // thread finally passes statement (3) before we attempt to use the
         // method source here.
 
-
-
         if (ms == null) {
             System.out.println("No method source set for method " + this.getSignature());
             return null;

@@ -32,20 +32,21 @@ import java.util.List;
 
 // extended by SootClass, SootField, SootMethod, Scene
 
-/** 
+/**
  * This class is the reference implementation for
  * the Host interface, which allows arbitrary taggable
  * data to be stored with Soot objects. 
  */
-public class AbstractHost implements Host 
+public class AbstractHost implements Host
 {
-	
-	protected int line, col;	
+
+    protected int line;
+    private int col;
 
     // avoid creating an empty list for each element, when it is not used
     // use lazy instantiation (in addTag) instead
     private List<Tag> mTagList = null;
-    
+
     /** get the list of tags. This list should not be modified! */
     public List<Tag> getTags()
     {
@@ -62,16 +63,14 @@ public class AbstractHost implements Host
     }
 
     /** search for tag named <code>aName</code> */
-    private int searchForTag(String aName) 
+    private int searchForTag(String aName)
     {
-    	if (mTagList == null)
-    		return -1;
-    	
+        if (mTagList == null)
+            return -1;
+
         int i = 0;
-        Iterator<Tag> it = mTagList.iterator();
-        while(it.hasNext()) {
-            Tag tag = it.next();
-            if(tag.getName().equals(aName))
+        for (Tag tag : mTagList) {
+            if (tag.getName().equals(aName))
                 return i;
             i++;
         }
@@ -79,27 +78,26 @@ public class AbstractHost implements Host
     }
 
     /** get the Tag object named <code>aName</code> */
-   public Tag getTag(String aName)
-    {      
+    public Tag getTag(String aName)
+    {
         int tagIndex;
         if((tagIndex = searchForTag(aName)) != -1) {
             return mTagList.get(tagIndex);
         }
-        
-				return null;
+        return null;
     }
 
-    /** look if this host has a tag named <code>aName</code> */ 
+    /** look if this host has a tag named <code>aName</code> */
     public boolean hasTag(String aName)
     {
         return (searchForTag(aName) != -1);
     }
-    
+
     /** add tag <code>t</code> to this host */
     public void addTag(Tag t)
     {
-        if (mTagList == null) 
-            mTagList = new ArrayList<Tag>(1);
+        if (mTagList == null)
+            mTagList = new ArrayList<>(1);
         mTagList.add(t);
     }
 
@@ -110,45 +108,45 @@ public class AbstractHost implements Host
 
     /** Adds all the tags from h to this host. */
     public void addAllTagsOf( Host h ) {
-    	List<Tag> tags = h.getTags();
-    	if ( tags.isEmpty() )
-    		return;    	
-    	
+        List<Tag> tags = h.getTags();
+        if ( tags.isEmpty() )
+            return;
+
         if (mTagList == null) {
-            mTagList = new ArrayList<Tag>(tags.size());
-        } 
-        
+            mTagList = new ArrayList<>(tags.size());
+        }
+
         mTagList.addAll(tags);
     }
-    
+
     public int getJavaSourceStartLineNumber() {
-    	if(line==0) {
-    		//get line from source
-	    	SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
-	    	if(tag!=null) {
-	    		line = tag.startLn();
-	    	} else {
-	    		//get line from bytecode
-	    		LineNumberTag tag2 = (LineNumberTag) getTag("LineNumberTag");
-		    	if(tag2!=null) {
-		    		line = tag2.getLineNumber();
-		    	}
-		    	else line = -1;
-	    	}
-    	}
-    	return line;    		
+        if(line==0) {
+            //get line from source
+            SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
+            if(tag!=null) {
+                line = tag.startLn();
+            } else {
+                //get line from bytecode
+                LineNumberTag tag2 = (LineNumberTag) getTag("LineNumberTag");
+                if(tag2!=null) {
+                    line = tag2.getLineNumber();
+                }
+                else line = -1;
+            }
+        }
+        return line;
     }
-    
+
     public int getJavaSourceStartColumnNumber() {
-    	if(col==0) {
-    		//get line from source
-	    	SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
-	    	if(tag!=null) {
-	    		col = tag.startPos();
-	    	} 
-		    else col = -1;
-    	}
-    	return col;    		
+        if(col==0) {
+            //get line from source
+            SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
+            if(tag!=null) {
+                col = tag.startPos();
+            }
+            else col = -1;
+        }
+        return col;
     }
 }
 

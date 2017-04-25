@@ -33,7 +33,7 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 abstract public class AbstractCastExpr implements CastExpr
 {	    
 	final ValueBox opBox;

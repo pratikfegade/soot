@@ -432,7 +432,7 @@ public class CFGToDotGraph {
    * to strings identifying the corresponding nodes in generated dot
    * source.
    */
-  @SuppressWarnings("serial")
+
   private static class DotNamer<N> extends HashMap<N,Integer> {
     private int nodecount = 0;
 

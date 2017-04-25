@@ -45,6 +45,7 @@ public class JimplePackManager {
         _pack.add(new Transform("jb.lns", new LocalNameStandardizer()));
         _pack.add(new Transform("jb.a", new Aggregator()));
         _pack.add(new Transform("jb.tr", new TypeAssigner()));
+        _pack.add(new Transform("jb.lns", new LocalNameStandardizer()));
     }
 
     public void runPacks(Body b) {
@@ -80,8 +81,7 @@ public class JimplePackManager {
             case Options.output_format_jimple :
             case Options.output_format_shimple :
                 writerOut =
-                        new PrintWriter(
-                                new EscapedWriter(new OutputStreamWriter(streamOut)));
+                        new PrintWriter(new EscapedWriter(new OutputStreamWriter(streamOut)));
                 Printer.printTo(c, writerOut);
                 break;
             default :
@@ -92,7 +92,6 @@ public class JimplePackManager {
     }
 
     public void retrieveAllSceneClassesBodies() {
-        // The old coffi front-end is not thread-safe
         int threadNum = Runtime.getRuntime().availableProcessors();
         CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
                 threadNum, 30, TimeUnit.SECONDS,
@@ -117,8 +116,7 @@ public class JimplePackManager {
             executor.shutdown();
         } catch (InterruptedException e) {
             // Something went horribly wrong
-            throw new RuntimeException("Could not wait for loader threads to "
-                    + "finish: " + e.getMessage(), e);
+            throw new RuntimeException("Could not wait for loader threads to " + "finish: " + e.getMessage(), e);
         }
 
         // If something went wrong, we tell the world

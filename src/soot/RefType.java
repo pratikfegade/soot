@@ -35,7 +35,7 @@ import java.util.LinkedList;
  * name as a String.
  */
 
-@SuppressWarnings("serial")
+
 public class RefType extends RefLikeType implements Comparable<RefType> {
 
 	/** the class name that parameterizes this RefType */
@@ -53,10 +53,10 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 			throw new RuntimeException(
 					"Attempt to create RefType whose name starts with [ --> "
 							+ className);
-		if (className.indexOf("/") >= 0)
+		if (className.contains("/"))
 			throw new RuntimeException(
 					"Attempt to create RefType containing a / --> " + className);
-		if (className.indexOf(";") >= 0)
+		if (className.contains(";"))
 			throw new RuntimeException(
 					"Attempt to create RefType containing a ; --> " + className);
 		this.className = className;
@@ -100,13 +100,12 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 */
 	public SootClass getSootClass() {
 		if (sootClass == null) {
-			// System.out.println( "wrning: "+this+" has no sootclass" );
 			sootClass = SootResolver.getInstance().makeClassRef(className);
 		}
 		return sootClass;
 	}
 
-	public boolean hasSootClass() {
+	boolean hasSootClass() {
 		return sootClass != null;
 	}
 
@@ -120,7 +119,7 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 	 * @param sootClass
 	 *            The SootClass corresponding to this RefType.
 	 */
-	public void setSootClass(SootClass sootClass) {
+	void setSootClass(SootClass sootClass) {
 		this.sootClass = sootClass;
 	}
 
@@ -236,11 +235,11 @@ public class RefType extends RefLikeType implements Comparable<RefType> {
 
 	}
 
-	public AnySubType getAnySubType() {
+	AnySubType getAnySubType() {
 		return anySubType;
 	}
 
-	public void setAnySubType(AnySubType anySubType) {
+	void setAnySubType(AnySubType anySubType) {
 		this.anySubType = anySubType;
 	}
 

@@ -37,7 +37,7 @@ import soot.ValueBox;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class Constant implements Value, Immediate
 {
 	@Override

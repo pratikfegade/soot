@@ -25,7 +25,7 @@
 package soot.dexpler;
 
 import soot.*;
-import soot.javaToJimple.LocalGenerator;
+import soot.LocalGenerator;
 import soot.jimple.*;
 import soot.jimple.toolkits.scalar.LocalCreation;
 

@@ -84,23 +84,22 @@ public class AnnotationTag implements Tag
       else if (elements instanceof List<?>)
     	  this.elems = (List<AnnotationElem>)elements;
       else
-    	  this.elems = new ArrayList<AnnotationElem>(elements);
+    	  this.elems = new ArrayList<>(elements);
     }
     
     @Deprecated
     public AnnotationTag(String type, int numElem){
       this.type = type;
-      this.elems = new ArrayList<AnnotationElem>(numElem);
+      this.elems = new ArrayList<>(numElem);
     }
     
     // should also print here number of annotations and perhaps the annotations themselves
     public String toString() {
         if (elems != null){
         	StringBuffer sb = new StringBuffer("Annotation: type: "+type+" num elems: "+elems.size()+" elems: ");
-            Iterator<AnnotationElem> it = elems.iterator();
-            while (it.hasNext()){
+            for (AnnotationElem elem : elems) {
                 sb.append("\n");
-                sb.append(it.next());
+                sb.append(elem);
             }
             sb.append("\n");
             return sb.toString();

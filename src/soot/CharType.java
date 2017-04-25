@@ -30,7 +30,7 @@ import soot.util.Switch;
  *   Soot representation of the Java built-in type 'char'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
+
 public class CharType extends PrimType implements IntegerType
 {
     private static CharType instance = null;

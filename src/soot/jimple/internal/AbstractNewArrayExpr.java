@@ -35,7 +35,7 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractNewArrayExpr implements NewArrayExpr
 {
     Type baseType;

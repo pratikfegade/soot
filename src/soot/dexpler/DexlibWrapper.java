@@ -30,7 +30,7 @@ import org.jf.dexlib2.dexbacked.DexBackedDexFile;
 import org.jf.dexlib2.iface.ClassDef;
 import org.jf.dexlib2.iface.DexFile;
 import soot.*;
-import soot.javaToJimple.IInitialResolver.Dependencies;
+import soot.IInitialResolver.Dependencies;
 import soot.options.Options;
 
 import java.io.File;

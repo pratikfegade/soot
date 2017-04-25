@@ -39,7 +39,7 @@ import java.util.List;
 public class JAssignStmt extends AbstractDefinitionStmt
     implements AssignStmt
 {
-    @SuppressWarnings("serial")
+
 	private static class LinkedVariableBox extends VariableBox
     {
         ValueBox otherBox = null;
@@ -64,7 +64,7 @@ public class JAssignStmt extends AbstractDefinitionStmt
         }
     }
 
-    @SuppressWarnings("serial")
+
 	private static class LinkedRValueBox extends RValueBox
     {
         ValueBox otherBox = null;

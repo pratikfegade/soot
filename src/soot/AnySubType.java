@@ -32,7 +32,7 @@ package soot;
 import soot.util.Switch;
 
 
-@SuppressWarnings("serial")
+
 public class AnySubType extends RefLikeType
 {
     private AnySubType( RefType base )

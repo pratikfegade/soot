@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractNewMultiArrayExpr implements NewMultiArrayExpr
 {
     ArrayType baseType;

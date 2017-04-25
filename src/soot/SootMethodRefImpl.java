@@ -19,7 +19,6 @@
 
 package soot;
 
-import soot.javaToJimple.LocalGenerator;
 import soot.jimple.*;
 import soot.options.Options;
 import soot.util.NumberedString;

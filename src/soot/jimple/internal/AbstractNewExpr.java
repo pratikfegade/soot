@@ -38,7 +38,7 @@ import soot.util.Switch;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractNewExpr implements NewExpr
 {
     RefType type;

@@ -563,7 +563,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 		return strBuf.toString();
 	}
 
-	@SuppressWarnings("serial")
+
 	class Link<X extends E> implements Serializable {
 		private Link<X> nextLink;
 		private Link<X> previousLink;

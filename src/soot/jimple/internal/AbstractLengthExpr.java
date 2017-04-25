@@ -35,7 +35,7 @@ import soot.jimple.Jimple;
 import soot.jimple.LengthExpr;
 import soot.util.Switch;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractLengthExpr extends AbstractUnopExpr implements LengthExpr
 {
     protected AbstractLengthExpr(ValueBox opBox) { super(opBox); }

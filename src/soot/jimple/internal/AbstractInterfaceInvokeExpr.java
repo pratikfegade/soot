@@ -32,7 +32,7 @@ import soot.jimple.InterfaceInvokeExpr;
 import soot.jimple.Jimple;
 import soot.util.Switch;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractInterfaceInvokeExpr extends AbstractInstanceInvokeExpr
 		implements InterfaceInvokeExpr {
 	AbstractInterfaceInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {

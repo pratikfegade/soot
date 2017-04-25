@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractInstanceInvokeExpr extends AbstractInvokeExpr 
                       implements InstanceInvokeExpr
 {

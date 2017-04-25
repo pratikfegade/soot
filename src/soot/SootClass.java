@@ -25,7 +25,6 @@
 
 package soot;
 
-import soot.dava.toolkits.base.misc.PackageNamer;
 import soot.options.Options;
 import soot.tagkit.AbstractHost;
 import soot.util.*;

@@ -58,7 +58,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		}
 	}
 
-	@SuppressWarnings("serial")
+
 	private static class RuntimeTypeException extends RuntimeException {
 		RuntimeTypeException(String message) {
 			super(message);

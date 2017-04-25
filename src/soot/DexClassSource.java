@@ -20,7 +20,7 @@ package soot;
 
 
 import soot.dexpler.DexResolver;
-import soot.javaToJimple.IInitialResolver.Dependencies;
+import soot.IInitialResolver.Dependencies;
 import soot.options.Options;
 
 import java.io.File;

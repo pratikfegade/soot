@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Provides default implementations for the methods in Unit. */
-@SuppressWarnings("serial")
+
 public abstract class AbstractUnit extends AbstractHost implements Unit 
 {
 
@@ -78,7 +78,7 @@ public abstract class AbstractUnit extends AbstractHost implements Unit
     }
     
     /** List of UnitBoxes pointing to this Unit. */
-    List<UnitBox> boxesPointingToThis = null;
+    private List<UnitBox> boxesPointingToThis = null;
     
     /** Returns a list of Boxes pointing to this Unit. */
     @Override
@@ -119,7 +119,7 @@ public abstract class AbstractUnit extends AbstractHost implements Unit
                 return useBoxes;
             }
             else {
-                List<ValueBox> valueBoxes = new ArrayList<ValueBox>();
+                List<ValueBox> valueBoxes = new ArrayList<>();
                 valueBoxes.addAll(defBoxes);
                 valueBoxes.addAll(useBoxes);
                 return valueBoxes;
@@ -150,6 +150,5 @@ public abstract class AbstractUnit extends AbstractHost implements Unit
             if(box.isBranchTarget())
                 box.setUnit(newLocation);
         }
-
     }
 }

@@ -26,7 +26,7 @@
 
 package soot;
 
-@SuppressWarnings("serial")
+
 public class CompilationDeathException extends RuntimeException
 {
 
@@ -40,7 +40,7 @@ public class CompilationDeathException extends RuntimeException
     	super(msg);
     }
 
-    public CompilationDeathException()
+    CompilationDeathException()
     {
     }
 }

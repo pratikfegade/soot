@@ -36,7 +36,7 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public class JDynamicInvokeExpr extends AbstractInvokeExpr implements DynamicInvokeExpr {
 	protected SootMethodRef bsmRef;
 	protected ValueBox[] bsmArgBoxes;

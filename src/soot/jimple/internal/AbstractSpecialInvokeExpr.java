@@ -34,7 +34,7 @@ import soot.jimple.Jimple;
 import soot.jimple.SpecialInvokeExpr;
 import soot.util.Switch;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractSpecialInvokeExpr extends AbstractInstanceInvokeExpr
 		implements SpecialInvokeExpr {
 	AbstractSpecialInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {

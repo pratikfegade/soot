@@ -5,7 +5,7 @@ import org.jf.dexlib2.iface.DexFile;
 import org.jf.dexlib2.iface.Field;
 import org.jf.dexlib2.iface.Method;
 import soot.*;
-import soot.javaToJimple.IInitialResolver.Dependencies;
+import soot.IInitialResolver.Dependencies;
 import soot.options.Options;
 import soot.tagkit.InnerClassAttribute;
 import soot.tagkit.InnerClassTag;

@@ -63,19 +63,17 @@ public class ShimpleBodyBuilder
 {
     protected ShimpleBody body;
     protected ShimpleFactory sf;
-    protected DominatorTree<Block> dt;
+    private DominatorTree<Block> dt;
     protected BlockGraph cfg;
     
     /**
      * A fixed list of all original Locals.
      **/
-    protected List<Local> origLocals;
+    private List<Local> origLocals;
 
     public PhiNodeManager phi;
-    public PiNodeManager pi;
-
-
-    final String ssaSeparator = "_$$A_";
+    private PiNodeManager pi;
+    private final String ssaSeparator = "_$$A_";
 
     /**
      * Transforms the provided body to pure SSA form.
@@ -101,20 +99,6 @@ public class ShimpleBodyBuilder
     {
         phi.insertTrivialPhiNodes();
 
-        boolean change = false;
-        if(false){
-            change = pi.insertTrivialPiNodes();
-        
-            while(change){
-                if(phi.insertTrivialPhiNodes()){
-                    change = pi.insertTrivialPiNodes();
-                }
-                else{
-                    break;
-                }
-            }
-        }
-
         renameLocals();
         phi.trimExceptionalPhiNodes();
         makeUniqueLocalNames();
@@ -122,11 +106,6 @@ public class ShimpleBodyBuilder
 
     public void preElimOpt()
     {
-        //boolean optElim = options.node_elim_opt();
-
-        // *** FIXME: 89e9a0470601091906j26489960j65290849dbe0481f@mail.gmail.com
-        //if(optElim)
-        //DeadAssignmentEliminator.getInstance().transform(body);
     }
 
     public void postElimOpt()
@@ -145,46 +124,43 @@ public class ShimpleBodyBuilder
      **/
     public void eliminatePhiNodes()
     {
-        if(false)
-            makeUniqueLocalNames();
 
     }
 
     public void eliminatePiNodes()
     {
-        boolean optElim = false;
-        pi.eliminatePiNodes(optElim);
+        pi.eliminatePiNodes(false);
     }
     
     /**
      * Maps new name Strings to Locals.
      **/
-    protected Map<String, Local> newLocals;
+    private Map<String, Local> newLocals;
 
     /**
      * Maps renamed Locals to original Locals.
      **/
-    protected Map<Local,Local> newLocalsToOldLocal;
+    private Map<Local,Local> newLocalsToOldLocal;
 
-    protected int[] assignmentCounters;
-    protected Stack<Integer>[] namingStacks;
+    private int[] assignmentCounters;
+    private Stack<Integer>[] namingStacks;
     
     /**
      * Variable Renaming Algorithm from Cytron et al 91, P26-8,
      * implemented in various bits and pieces by the next functions.
      * Must be called after trivial nodes have been added.
      **/
-    public void renameLocals()
+    private void renameLocals()
     {
         update();
-        newLocals = new HashMap<String, Local>();
-        newLocalsToOldLocal = new HashMap<Local, Local>();
+        newLocals = new HashMap<>();
+        newLocalsToOldLocal = new HashMap<>();
 
         assignmentCounters = new int[origLocals.size()];
         namingStacks = new Stack[origLocals.size()];
 
         for(int i = 0; i < namingStacks.length; i++)
-            namingStacks[i] = new Stack<Integer>();
+            namingStacks[i] = new Stack<>();
 
         List<Block> heads = cfg.getHeads();
 
@@ -201,7 +177,7 @@ public class ShimpleBodyBuilder
     /**
      * Driven by renameLocals().
      **/
-    public void renameLocalsSearch(Block block)
+    private void renameLocalsSearch(Block block)
     {
         // accumulated in Step 1 to be re-processed in Step 4
         List<Local> lhsLocals = new ArrayList<>();
@@ -315,26 +291,19 @@ public class ShimpleBodyBuilder
 
             // now we recurse over children
 
-            Iterator<DominatorNode<Block>> childrenIt = dt.getChildrenOf(node).iterator();
-
-            while(childrenIt.hasNext()){
-                DominatorNode<Block> childNode = childrenIt.next();
-
+            for (DominatorNode<Block> childNode : dt.getChildrenOf(node)) {
                 renameLocalsSearch(childNode.getGode());
             }
         }
 
         // Step 4 of 4 -- Tricky name stack updates.
         {
-            Iterator<Local> lhsLocalsIt = lhsLocals.iterator();
 
-            while(lhsLocalsIt.hasNext()){
-                Local lhsLocal = lhsLocalsIt.next();
-
+            for (Local lhsLocal : lhsLocals) {
                 int lhsLocalIndex = indexOfLocal(lhsLocal);
-                if(lhsLocalIndex == -1)
+                if (lhsLocalIndex == -1)
                     throw new RuntimeException("Assertion failed.");
-                
+
                 namingStacks[lhsLocalIndex].pop();
             }
         }
@@ -346,14 +315,14 @@ public class ShimpleBodyBuilder
      * Clever convenience function to fetch or create new Local's
      * given a Local and the desired subscript.
      **/
-    protected Local fetchNewLocal(Local local, Integer subscript)
+    private Local fetchNewLocal(Local local, Integer subscript)
     {
         Local oldLocal = local;
         
         if(!origLocals.contains(local))
             oldLocal = newLocalsToOldLocal.get(local);
         
-        if(subscript.intValue() == 0)
+        if(subscript == 0)
             return oldLocal;
 
         // If the name already exists, makeUniqueLocalNames() will

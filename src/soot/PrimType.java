@@ -33,7 +33,7 @@ package soot;
  *   (ie all types except void, null, reference types, and array types)
  * @author Ondrej Lhotak
  */
-@SuppressWarnings("serial")
+
 public abstract class PrimType extends Type
 {
 	public abstract RefType boxedType();

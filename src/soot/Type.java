@@ -33,7 +33,7 @@ import soot.util.Switchable;
 import java.io.Serializable;
 
 /** Represents types within Soot, eg <code>int</code>, <code>java.lang.String</code>. */
-@SuppressWarnings("serial")
+
 public abstract class Type implements Switchable, Serializable, Numberable
 {
     public Type() {

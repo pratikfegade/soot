@@ -116,13 +116,6 @@ public class TypeSwitch implements ITypeSwitch
 
     }
 
-    /** @deprecated Replaced by defaultCase(Type)
-        @see #defaultCase(Type) **/
-	@Deprecated
-    public void caseDefault(Type t)
-    {
-    }
-
     public void setResult(Object result)
     {
         this.result = result;

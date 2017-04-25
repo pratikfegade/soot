@@ -42,7 +42,7 @@ public class Printer {
 
     private static final int USE_ABBREVIATIONS = 0x0001, ADD_JIMPLE_LN = 0x0010;
 
-    public static boolean useAbbreviations() {
+    private static boolean useAbbreviations() {
         return (options & USE_ABBREVIATIONS) != 0;
     }
 

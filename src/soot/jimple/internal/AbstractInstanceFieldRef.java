@@ -36,7 +36,7 @@ import soot.util.Switch;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractInstanceFieldRef implements InstanceFieldRef
 {
     protected SootFieldRef fieldRef;

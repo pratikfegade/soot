@@ -37,7 +37,7 @@ import soot.jimple.UnopExpr;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 abstract public class AbstractUnopExpr implements UnopExpr
 {
     final ValueBox opBox;

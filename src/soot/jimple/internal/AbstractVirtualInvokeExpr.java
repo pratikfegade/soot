@@ -34,7 +34,7 @@ import soot.jimple.Jimple;
 import soot.jimple.VirtualInvokeExpr;
 import soot.util.Switch;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractVirtualInvokeExpr extends AbstractInstanceInvokeExpr
         implements VirtualInvokeExpr {
     protected AbstractVirtualInvokeExpr(ValueBox baseBox, SootMethodRef methodRef, ValueBox[] argBoxes) {

@@ -47,12 +47,11 @@ public class PhiNodeManager
 {
     protected ShimpleBody body;
     protected ShimpleFactory sf;
-    protected DominatorTree<Block> dt;
-    protected DominanceFrontier<Block> df;
+    private DominatorTree<Block> dt;
+    private DominanceFrontier<Block> df;
     protected BlockGraph cfg;
-    protected GuaranteedDefs gd;
-    
-    public PhiNodeManager(ShimpleBody body, ShimpleFactory sf)
+
+    PhiNodeManager(ShimpleBody body, ShimpleFactory sf)
     {
         this.body = body;
         this.sf = sf;
@@ -60,13 +59,13 @@ public class PhiNodeManager
 
     public void update()
     {
-        gd = new GuaranteedDefs(sf.getUnitGraph());
+        new GuaranteedDefs(sf.getUnitGraph());
         cfg = sf.getBlockGraph();
         dt = sf.getDominatorTree();
         df = sf.getDominanceFrontier();
     }
 
-    protected MultiMap<Local, Block> varToBlocks;
+    private MultiMap<Local, Block> varToBlocks;
     
     /**
      * Phi node Insertion Algorithm from Cytron et al 91, P24-5,
@@ -74,7 +73,7 @@ public class PhiNodeManager
      * <p>Special Java case: If a variable is not defined along all
      * paths of entry to a node, a Phi node is not needed.</p>
      **/
-    public boolean insertTrivialPhiNodes()
+    boolean insertTrivialPhiNodes()
     {
 		update();
 		boolean change = false;

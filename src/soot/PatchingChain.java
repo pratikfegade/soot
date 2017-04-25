@@ -33,7 +33,7 @@ import java.util.*;
  * and handles patching to deal with element insertions and removals.
  * This is done by calling Unit.redirectJumpsToThisTo at strategic
  * times. */
-@SuppressWarnings("serial")
+
 public class PatchingChain<E extends Unit> extends AbstractCollection<E> implements Chain<E> 
 {
     protected Chain<E> innerChain;

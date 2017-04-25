@@ -29,7 +29,7 @@ import soot.util.Switch;
  *   Soot representation of the Java built-in type 'float'. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
+
 public class FloatType extends PrimType
 {
     private static FloatType instance = null;

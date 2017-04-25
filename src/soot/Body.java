@@ -53,7 +53,7 @@ import java.util.*;
  *
  *  @see soot.jimple.JimpleBody
  */
-@SuppressWarnings("serial")
+
 public abstract class Body extends AbstractHost implements Serializable
 {
     /** The method associated with this Body. */

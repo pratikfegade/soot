@@ -37,7 +37,7 @@ import soot.util.Switch;
  *
  *
  */
-@SuppressWarnings("serial")
+
 public class ArrayType extends RefLikeType
 {
     /**

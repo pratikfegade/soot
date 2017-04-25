@@ -35,7 +35,7 @@ import soot.util.Switch;
  *   Soot representation used for untypable objects. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
+
 public class ErroneousType extends Type
 {
     private static ErroneousType instance = null;

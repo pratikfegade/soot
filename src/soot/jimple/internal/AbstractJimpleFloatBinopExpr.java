@@ -34,7 +34,7 @@ import soot.Value;
 import soot.ValueBox;
 import soot.jimple.Jimple;
 
-@SuppressWarnings("serial")
+
 abstract public class AbstractJimpleFloatBinopExpr
     extends AbstractFloatBinopExpr
 {

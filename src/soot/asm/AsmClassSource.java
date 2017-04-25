@@ -22,7 +22,7 @@ import org.objectweb.asm.ClassReader;
 import soot.ClassSource;
 import soot.SootClass;
 import soot.SourceLocator.FoundFile;
-import soot.javaToJimple.IInitialResolver.Dependencies;
+import soot.IInitialResolver.Dependencies;
 
 import java.io.IOException;
 import java.io.InputStream;

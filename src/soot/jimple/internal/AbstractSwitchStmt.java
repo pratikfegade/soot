@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("serial")
+
 public abstract class AbstractSwitchStmt extends AbstractStmt implements SwitchStmt {
 
     final UnitBox defaultTargetBox;

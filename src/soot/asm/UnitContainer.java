@@ -33,7 +33,7 @@ import java.util.List;
  * 
  * @author Aaloan Miftah
  */
-@SuppressWarnings("serial")
+
 class UnitContainer implements Unit {
 	
 	final Unit[] units;
