@@ -28,7 +28,6 @@ package soot.jimple.toolkits.typing;
 import soot.*;
 import soot.jimple.*;
 
-import java.util.Iterator;
 import java.util.List;
 
 class ConstraintCollector extends AbstractStmtSwitch {
@@ -37,7 +36,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 
 	private JimpleBody stmtBody;
 
-	public ConstraintCollector(TypeResolver resolver, boolean uses) {
+	ConstraintCollector(TypeResolver resolver, boolean uses) {
 		this.resolver = resolver;
 		this.uses = uses;
 
@@ -383,11 +382,8 @@ class ConstraintCollector extends AbstractStmtSwitch {
 				right.addParent(left);
 			} else {
 				List<RefType> exceptionTypes = TrapManager.getExceptionTypesOf(stmt, stmtBody);
-				Iterator<RefType> typeIt = exceptionTypes.iterator();
 
-				while (typeIt.hasNext()) {
-					Type t = typeIt.next();
-
+				for (RefType t : exceptionTypes) {
 					resolver.typeVariable(t).addParent(left);
 				}
 
@@ -425,9 +421,8 @@ class ConstraintCollector extends AbstractStmtSwitch {
 		if (uses) {
 			ConditionExpr cond = (ConditionExpr) stmt.getCondition();
 
-			BinopExpr expr = cond;
-			Value lv = expr.getOp1();
-			Value rv = expr.getOp2();
+			Value lv = cond.getOp1();
+			Value rv = cond.getOp2();
 
 			TypeVariable lop;
 			TypeVariable rop;

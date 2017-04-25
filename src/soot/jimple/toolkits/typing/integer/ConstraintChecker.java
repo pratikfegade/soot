@@ -560,7 +560,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		}
 	}
 
-	static Type getTypeForCast(TypeNode node)
+	private static Type getTypeForCast(TypeNode node)
 	// This method is a local kludge, for avoiding NullPointerExceptions
 	// when a R0_1, R0_127, or R0_32767 node is used in a type
 	// cast. A more elegant solution would work with the TypeNode
@@ -619,16 +619,15 @@ class ConstraintChecker extends AbstractStmtSwitch {
 	public void caseIfStmt(IfStmt stmt) {
 		ConditionExpr cond = (ConditionExpr) stmt.getCondition();
 
-		BinopExpr expr = cond;
-		Value lv = expr.getOp1();
-		Value rv = expr.getOp2();
+		Value lv = cond.getOp1();
+		Value rv = cond.getOp2();
 
 		TypeNode lop = null;
 		TypeNode rop = null;
 
 		// ******** LEFT ********
 		if (lv instanceof Local) {
-			if (lv.getType() instanceof IntegerType/* || lv.getType() instanceof LongType*/) {
+			if (lv.getType() instanceof IntegerType) {
 				lop = ClassHierarchy.getInstance().typeNode(lv.getType());
 			}
 		} else if (lv instanceof DoubleConstant) {
@@ -659,14 +658,13 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		} else if (lv instanceof StringConstant) {
 		} else if (lv instanceof ClassConstant) {
 		} else {
-			throw new RuntimeException(
-					"Unhandled binary expression left operand type: "
+			throw new RuntimeException("Unhandled binary expression left operand type: "
 							+ lv.getClass());
 		}
 
 		// ******** RIGHT ********
 		if (rv instanceof Local) {
-			if (rv.getType() instanceof IntegerType/* || rv.getType() instanceof LongType*/) {
+			if (rv.getType() instanceof IntegerType) {
 				rop = ClassHierarchy.getInstance().typeNode(rv.getType());
 			}
 		} else if (rv instanceof DoubleConstant) {
@@ -706,12 +704,12 @@ class ConstraintChecker extends AbstractStmtSwitch {
 			if (lop.lca_1(rop) == ClassHierarchy.getInstance().TOP) {
 				if (fix) {
 					if (!lop.hasAncestor_1(ClassHierarchy.getInstance().INT)) {
-						expr.setOp1(insertCast(expr.getOp1(),
+						cond.setOp1(insertCast(cond.getOp1(),
 								getTypeForCast(lop), getTypeForCast(rop), stmt));
 					}
 
 					if (!rop.hasAncestor_1(ClassHierarchy.getInstance().INT)) {
-						expr.setOp2(insertCast(expr.getOp2(),
+						cond.setOp2(insertCast(cond.getOp2(),
 								getTypeForCast(rop), getTypeForCast(lop), stmt));
 					}
 				} else {

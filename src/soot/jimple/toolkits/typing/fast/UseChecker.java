@@ -40,9 +40,8 @@ public class UseChecker extends AbstractStmtSwitch
 	private IUseVisitor uv;
 	
 	private LocalDefs defs = null;
-	private LocalUses uses = null;
-	
-	public UseChecker(JimpleBody jb)
+
+	UseChecker(JimpleBody jb)
 	{
 		this.jb = jb;
 	}
@@ -177,7 +176,7 @@ public class UseChecker extends AbstractStmtSwitch
 					if (rhsType instanceof PrimType) {
 						if (defs == null) {
 					        defs = LocalDefs.Factory.newLocalDefs(jb);
-							uses = LocalUses.Factory.newLocalUses(jb, defs);
+							LocalUses.Factory.newLocalUses(jb, defs);
 						}
 						
 						// Check the original type of the array from the alloc site

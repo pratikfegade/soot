@@ -30,7 +30,6 @@ import soot.jimple.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.List;
 
 class ConstraintChecker extends AbstractStmtSwitch {
@@ -39,7 +38,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 
 	private JimpleBody stmtBody;
 
-	public ConstraintChecker(TypeResolver resolver, boolean fix) {
+	ConstraintChecker(TypeResolver resolver, boolean fix) {
 		this.fix = fix;
 
 		hierarchy = resolver.hierarchy();
@@ -65,7 +64,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		}
 	}
 
-	static void error(String message) {
+	private static void error(String message) {
 		throw new RuntimeTypeException(message);
 	}
 
@@ -163,7 +162,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 		Value l = stmt.getLeftOp();
 		Value r = stmt.getRightOp();
 
-		TypeNode left = null;
+		TypeNode left;
 
 		// ******** LEFT ********
 
@@ -525,11 +524,8 @@ class ConstraintChecker extends AbstractStmtSwitch {
 			}
 		} else {
 			List<RefType> exceptionTypes = TrapManager.getExceptionTypesOf(stmt, stmtBody);
-			Iterator<RefType> typeIt = exceptionTypes.iterator();
 
-			while (typeIt.hasNext()) {
-				Type t = typeIt.next();
-
+			for (RefType t : exceptionTypes) {
 				if (!left.hasDescendantOrSelf(hierarchy.typeNode(t))) {
 					error("Type Error(47)");
 				}
@@ -565,9 +561,8 @@ class ConstraintChecker extends AbstractStmtSwitch {
 	}
 
 	public void caseIfStmt(IfStmt stmt) {
-		ConditionExpr cond = (ConditionExpr) stmt.getCondition();
 
-		BinopExpr expr = cond;
+		BinopExpr expr = (ConditionExpr) stmt.getCondition();
 		Value lv = expr.getOp1();
 		Value rv = expr.getOp2();
 

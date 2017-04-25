@@ -47,14 +47,14 @@ public class TypeResolver
 	private final ClassHierarchy hierarchy;
 
 	/** All type variable instances **/
-	private final List<TypeVariable> typeVariableList = new ArrayList<TypeVariable>();
+	private final List<TypeVariable> typeVariableList = new ArrayList<>();
 
 	/** Hashtable: [TypeNode or Local] -> TypeVariable **/
-	private final Map<Object, TypeVariable> typeVariableMap = new ConcurrentHashMap<Object, TypeVariable>();
+	private final Map<Object, TypeVariable> typeVariableMap = new ConcurrentHashMap<>();
 
 	private final JimpleBody stmtBody;
 
-	final TypeNode NULL;
+	private final TypeNode NULL;
 	private final TypeNode OBJECT;
 
 	private static final boolean DEBUG = false;
@@ -78,18 +78,16 @@ public class TypeResolver
 		return hierarchy;
 	}
 
-	public TypeNode typeNode(Type type)
-	{
-		return hierarchy.typeNode(type);
-	}
-
 	/** Get type variable for the given local. **/
 	TypeVariable typeVariable(Local local)
 	{
-		TypeVariable result = typeVariableMap.get(local);
 
-		if(result == null)
-		{
+		TypeVariable result = typeVariableMap.get(local);
+		if (local.getName().equals("node")) {
+			System.out.println("Variable named node, type variable: " + result);
+		}
+
+		if (result == null) {
 			int id = typeVariableList.size();
 			typeVariableList.add(null);
 
@@ -98,8 +96,7 @@ public class TypeResolver
 			typeVariableList.set(id, result);
 			typeVariableMap.put(local, result);
 
-			if(DEBUG)
-			{
+			if(DEBUG) {
 				System.out.println("[LOCAL VARIABLE \"" + local + "\" -> " + id + "]");
 			}
 		}
@@ -108,7 +105,7 @@ public class TypeResolver
 	}
 
 	/** Get type variable for the given type node. **/
-	public TypeVariable typeVariable(TypeNode typeNode)
+	TypeVariable typeVariable(TypeNode typeNode)
 	{
 		TypeVariable result = typeVariableMap.get(typeNode);
 
@@ -118,8 +115,8 @@ public class TypeResolver
 			typeVariableList.add(null);
 
 			result = new TypeVariable(id, this, typeNode);
-
 			typeVariableList.set(id, result);
+
 			typeVariableMap.put(typeNode, result);
 		}
 
@@ -127,25 +124,23 @@ public class TypeResolver
 	}
 
 	/** Get type variable for the given soot class. **/
-	public TypeVariable typeVariable(SootClass sootClass)
+	TypeVariable typeVariable(SootClass sootClass)
 	{
 		return typeVariable(hierarchy.typeNode(sootClass.getType()));
 	}
 
 	/** Get type variable for the given type. **/
-	public TypeVariable typeVariable(Type type)
+	TypeVariable typeVariable(Type type)
 	{
 		return typeVariable(hierarchy.typeNode(type));
 	}
 
 	/** Get new type variable **/
-	public TypeVariable typeVariable()
-	{
+	TypeVariable typeVariable() {
 		int id = typeVariableList.size();
 		typeVariableList.add(null);
 
 		TypeVariable result = new TypeVariable(id, this);
-
 		typeVariableList.set(id, result);
 
 		return result;
@@ -161,11 +156,8 @@ public class TypeResolver
 		typeVariable(OBJECT);
 		typeVariable(NULL);
 
-		// hack for J2ME library, reported by Stephen Cheng
-		if (!Options.getInstance().j2me()) {
-			typeVariable(hierarchy.CLONEABLE);
-			typeVariable(hierarchy.SERIALIZABLE);
-		}
+		typeVariable(hierarchy.CLONEABLE);
+		typeVariable(hierarchy.SERIALIZABLE);
 	}
 
 	public static void resolve(JimpleBody stmtBody, Scene scene) {
@@ -224,8 +216,8 @@ public class TypeResolver
 		if(DEBUG)
 		{
 			System.out.println("-- Body Start --");
-			for( Iterator<Unit> stmtIt = stmtBody.getUnits().iterator(); stmtIt.hasNext(); ) {
-				final Stmt stmt = (Stmt) stmtIt.next();
+			for (Unit unit : stmtBody.getUnits()) {
+				final Stmt stmt = (Stmt) unit;
 				System.out.println(stmt);
 			}
 			System.out.println("-- Body End --");
@@ -304,16 +296,14 @@ public class TypeResolver
 	{
 		ConstraintCollector collector = new ConstraintCollector(this, true);
 
-		for( Iterator<Unit> stmtIt = stmtBody.getUnits().iterator(); stmtIt.hasNext(); ) {
+		for (Unit unit : stmtBody.getUnits()) {
 
-			final Stmt stmt = (Stmt) stmtIt.next();
-			if(DEBUG)
-			{
+			final Stmt stmt = (Stmt) unit;
+			if (DEBUG) {
 				System.out.print("stmt: ");
 			}
 			collector.collect(stmt, stmtBody);
-			if(DEBUG)
-			{
+			if (DEBUG) {
 				System.out.println(stmt);
 			}
 		}
@@ -323,16 +313,14 @@ public class TypeResolver
 	{
 		ConstraintCollector collector = new ConstraintCollector(this, false);
 
-		for( Iterator<Unit> stmtIt = stmtBody.getUnits().iterator(); stmtIt.hasNext(); ) {
+		for (Unit unit : stmtBody.getUnits()) {
 
-			final Stmt stmt = (Stmt) stmtIt.next();
-			if(DEBUG)
-			{
+			final Stmt stmt = (Stmt) unit;
+			if (DEBUG) {
 				System.out.print("stmt: ");
 			}
 			collector.collect(stmt, stmtBody);
-			if(DEBUG)
-			{
+			if (DEBUG) {
 				System.out.println(stmt);
 			}
 		}
@@ -372,11 +360,10 @@ public class TypeResolver
 		}
 
 		// create lists for each array depth
-		@SuppressWarnings("unchecked")
 		LinkedList<TypeVariable>[] lists = new LinkedList[max + 1];
 		for(int i = 0; i <= max; i++)
 		{
-			lists[i] = new LinkedList<TypeVariable>();
+			lists[i] = new LinkedList<>();
 		}
 
 		for (TypeVariable var : typeVariableList) {
@@ -386,8 +373,7 @@ public class TypeResolver
 		}
 
 		// propagate constraints, starting with highest depth
-		for(int i = max; i >= 0; i--)
-		{
+		for(int i = max; i >= 0; i--) {
 			for (TypeVariable var : typeVariableList) {
 				var.propagate();
 			}
@@ -399,30 +385,23 @@ public class TypeResolver
 		// merge primitive types with all parents/children
 		compute_solved();
 
-		Iterator<TypeVariable> varIt = solved.iterator();
-		while( varIt.hasNext() ) {
-			TypeVariable var = varIt.next();
-
-			if(var.type().type() instanceof IntType ||
+		for (TypeVariable var : solved) {
+			if (var.type().type() instanceof IntType ||
 					var.type().type() instanceof LongType ||
 					var.type().type() instanceof FloatType ||
-					var.type().type() instanceof DoubleType)
-			{
+					var.type().type() instanceof DoubleType) {
 				List<TypeVariable> parents;
 				List<TypeVariable> children;
 				boolean finished;
 
-				do
-				{
+				do {
 					finished = true;
 
 					parents = var.parents();
-					if(parents.size() != 0)
-					{
+					if (parents.size() != 0) {
 						finished = false;
 						for (TypeVariable parent : parents) {
-							if(DEBUG)
-							{
+							if (DEBUG) {
 								System.out.print(".");
 							}
 
@@ -431,12 +410,10 @@ public class TypeResolver
 					}
 
 					children = var.children();
-					if(children.size() != 0)
-					{
+					if (children.size() != 0) {
 						finished = false;
 						for (TypeVariable child : children) {
-							if(DEBUG)
-							{
+							if (DEBUG) {
 								System.out.print(".");
 							}
 
@@ -444,7 +421,7 @@ public class TypeResolver
 						}
 					}
 				}
-				while(!finished);
+				while (!finished);
 			}
 		}
 	}
@@ -452,7 +429,7 @@ public class TypeResolver
 	private void merge_connected_components() throws TypeException
 	{
 		refresh_solved();
-		List<TypeVariable> list = new LinkedList<TypeVariable>();
+		List<TypeVariable> list = new LinkedList<>();
 		list.addAll(solved);
 		list.addAll(unsolved);
 
@@ -462,7 +439,7 @@ public class TypeResolver
 	private void remove_transitive_constraints() throws TypeException
 	{
 		refresh_solved();
-		List<TypeVariable> list = new LinkedList<TypeVariable>();
+		List<TypeVariable> list = new LinkedList<>();
 		list.addAll(solved);
 		list.addAll(unsolved);
 
@@ -485,15 +462,11 @@ public class TypeResolver
 				finished = false;
 				modified = true;
 
-				Iterator<TypeVariable> i = single_child_not_null.iterator();
-				while( i.hasNext() ) {
-					TypeVariable var = i.next();
-
-					if(single_child_not_null.contains(var))
-					{
+				for (TypeVariable var : single_child_not_null) {
+					if (single_child_not_null.contains(var)) {
 						TypeVariable child = var.children().get(0);
 
-						var = var.union(child);
+						var.union(child);
 					}
 				}
 			}
@@ -505,12 +478,8 @@ public class TypeResolver
 					finished = false;
 					modified = true;
 
-					Iterator<TypeVariable> i = single_soft_parent.iterator();
-					while( i.hasNext() ) {
-						TypeVariable var = i.next();
-
-						if(single_soft_parent.contains(var))
-						{
+					for (TypeVariable var : single_soft_parent) {
+						if (single_soft_parent.contains(var)) {
 							TypeVariable parent = var.parents().get(0);
 
 							var = var.union(parent);
@@ -523,16 +492,12 @@ public class TypeResolver
 					finished = false;
 					modified = true;
 
-					Iterator<TypeVariable> i = single_hard_parent.iterator();
-					while( i.hasNext() ) {
-						TypeVariable var = i.next();
-
-						if(single_hard_parent.contains(var))
-						{
+					for (TypeVariable var : single_hard_parent) {
+						if (single_hard_parent.contains(var)) {
 							TypeVariable parent = var.parents().get(0);
 
 							debug_vars("union single parent\n " + var + "\n " + parent);
-							var = var.union(parent);
+							var.union(parent);
 						}
 					}
 				}
@@ -667,65 +632,45 @@ public class TypeResolver
 
 	private void assign_types_1_2() throws TypeException
 	{
-		for( Iterator<Local> localIt = stmtBody.getLocals().iterator(); localIt.hasNext(); ) {
-			final Local local = localIt.next();
+		for (final Local local : stmtBody.getLocals()) {
 			TypeVariable var = typeVariable(local);
 
-			if(var == null)
-			{
+			if (var == null) {
 				local.setType(RefType.getInstance("java.lang.Object"));
-			}
-			else if (var.depth() == 0)
-			{
-				if(var.type() == null)
-				{
+			} else if (var.depth() == 0) {
+				if (var.type() == null) {
 					TypeVariable.error("Type Error(5):  Variable without type");
-				}
-				else
-				{
+				} else {
 					local.setType(var.type().type());
 				}
-			}
-			else
-			{
+			} else {
 				TypeVariable element = var.element();
 
-				for(int j = 1; j < var.depth(); j++)
-				{
+				for (int j = 1; j < var.depth(); j++) {
 					element = element.element();
 				}
 
-				if(element.type() == null)
-				{
+				if (element.type() == null) {
 					TypeVariable.error("Type Error(6):  Array variable without base type");
-				}
-				else if(element.type().type() instanceof NullType)
-				{
+				} else if (element.type().type() instanceof NullType) {
 					local.setType(NullType.getInstance());
-				}
-				else
-				{
+				} else {
 					Type t = element.type().type();
-					if(t instanceof IntType)
-					{
+					if (t instanceof IntType) {
 						local.setType(var.approx().type());
-					}
-					else
-					{
+					} else {
 						local.setType(ArrayType.getInstance(t, var.depth()));
 					}
 				}
 			}
 
-			if(DEBUG)
-			{
-				if((var != null) &&
+			if (DEBUG) {
+				if ((var != null) &&
 						(var.approx() != null) &&
 						(var.approx().type() != null) &&
 						(local != null) &&
 						(local.getType() != null) &&
-						!local.getType().equals(var.approx().type()))
-				{
+						!local.getType().equals(var.approx().type())) {
 					System.out.println("local: " + local + ", type: " + local.getType() + ", approx: " + var.approx().type());
 				}
 			}
@@ -734,18 +679,14 @@ public class TypeResolver
 
 	private void assign_types_3() throws TypeException
 	{
-		for( Iterator<Local> localIt = stmtBody.getLocals().iterator(); localIt.hasNext(); ) {
-			final Local local = localIt.next();
+		for (final Local local : stmtBody.getLocals()) {
 			TypeVariable var = typeVariable(local);
 
-			if(var == null ||
+			if (var == null ||
 					var.approx() == null ||
-					var.approx().type() == null)
-			{
+					var.approx().type() == null) {
 				local.setType(RefType.getInstance("java.lang.Object"));
-			}
-			else
-			{
+			} else {
 				local.setType(var.approx().type());
 			}
 		}
@@ -761,21 +702,16 @@ public class TypeResolver
 			s = new StringBuffer("Checking:\n");
 		}
 
-		for( Iterator<Unit> stmtIt = stmtBody.getUnits().iterator(); stmtIt.hasNext(); ) {
+		for (Unit unit : stmtBody.getUnits()) {
 
-			final Stmt stmt = (Stmt) stmtIt.next();
-			if(DEBUG)
-			{
+			final Stmt stmt = (Stmt) unit;
+			if (DEBUG) {
 				s.append(" " + stmt + "\n");
 			}
-			try
-			{
+			try {
 				checker.check(stmt, stmtBody);
-			}
-			catch(TypeException e)
-			{
-				if(DEBUG)
-				{
+			} catch (TypeException e) {
+				if (DEBUG) {
 					System.out.println(s);
 				}
 				throw e;

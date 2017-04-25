@@ -27,19 +27,20 @@ package soot.jimple.internal;
 
 import soot.*;
 import soot.jimple.JimpleValueSwitch;
+import soot.jimple.toolkits.typing.fast.BottomType;
 import soot.util.Switch;
 
 import java.util.Collections;
 import java.util.List;
 
 public class JimpleLocal implements Local {
-	String name;
-	Type type;
+	private String name;
+	private Type type;
 
 	/** Constructs a JimpleLocal of the given name and type. */
 	public JimpleLocal(String name, Type type) {
-		setName(name);
-		setType(type);
+		this.name = name;
+		this.type = type;
 		Scene.getInstance().getLocalNumberer().add(this);
 	}
 
@@ -59,7 +60,7 @@ public class JimpleLocal implements Local {
 	public Object clone() {
 		// do not intern the name again
 		JimpleLocal local = new JimpleLocal(null, type);
-		local.name = name;
+		local.setName(name);
 		return local;
 	}
 
@@ -80,7 +81,11 @@ public class JimpleLocal implements Local {
 
 	/** Sets the type of this local. */
 	public void setType(Type t) {
-		this.type = t;
+	    if (this.type instanceof UnknownType || !(this.type instanceof RefType))
+		    this.type = t;
+	    else {
+	        System.out.println("Keeping existing type " + this.type + "  provided by debugging information instead of inferred: " + t);
+        }
 	}
 
 	public String toString() {

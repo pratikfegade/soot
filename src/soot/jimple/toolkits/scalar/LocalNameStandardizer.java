@@ -91,31 +91,33 @@ public class LocalNameStandardizer extends BodyTransformer
                 final List<ValueBox> defs = body.getDefBoxes();
                 ArrayList<Local> sortedLocals = new ArrayList<>(locals);
 
-                Collections.sort(sortedLocals, new Comparator<Local>(){
+                sortedLocals.sort(new Comparator<Local>() {
                     private Map<Local, Integer> firstOccurrenceCache = new ConcurrentHashMap<>();
+
                     public int compare(Local arg0, Local arg1) {
                         int ret = arg0.getType().toString().compareTo(arg1.getType().toString());
-                        if(ret == 0){
+                        if (ret == 0) {
                             ret = Integer.compare(getFirstOccurance(arg0), getFirstOccurance(arg1));
                         }
                         return ret;
                     }
-                    private int getFirstOccurance(Local l){
+
+                    private int getFirstOccurance(Local l) {
                         Integer cur = firstOccurrenceCache.get(l);
-                        if(cur != null){
+                        if (cur != null) {
                             return cur;
-                        }else{
+                        } else {
                             int count = 0;
                             int first = -1;
-                            for(ValueBox vb : defs){
+                            for (ValueBox vb : defs) {
                                 Value v = vb.getValue();
-                                if(v instanceof Local && v.equals(l)){
+                                if (v instanceof Local && v.equals(l)) {
                                     first = count;
                                     break;
                                 }
                                 count++;
                             }
-                            firstOccurrenceCache.put(l,first);
+                            firstOccurrenceCache.put(l, first);
                             return first;
                         }
                     }

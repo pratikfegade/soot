@@ -56,23 +56,20 @@ class TypeVariable implements Comparable<Object>
     private BitVector ancestors;
     private BitVector indirectAncestors;
 
-    public TypeVariable(int id, TypeResolver resolver)
+    TypeVariable(int id, TypeResolver resolver)
     {
         this.id = id;
         this.resolver = resolver;
     }
 
-    public TypeVariable(int id, TypeResolver resolver, TypeNode type)
+    TypeVariable(int id, TypeResolver resolver, TypeNode type)
     {
         this.id = id;
         this.resolver = resolver;
         this.type = type;
         approx = type;
 
-        for( Iterator<TypeNode> parentIt = type.parents().iterator(); parentIt.hasNext(); ) {
-
-            final TypeNode parent = parentIt.next();
-
+        for (final TypeNode parent : type.parents()) {
             addParent(resolver.typeVariable(parent));
         }
 
@@ -137,8 +134,7 @@ class TypeVariable implements Comparable<Object>
 
     public TypeVariable union(TypeVariable var) throws TypeException
     {
-        if(rep != this)
-        {
+        if(rep != this) {
             return ecr().union(var);
         }
 
@@ -185,89 +181,38 @@ class TypeVariable implements Comparable<Object>
 
     private void merge(TypeVariable var) throws TypeException
     {
-        if(depth != 0 || var.depth != 0)
-        {
+        if(depth != 0 || var.depth != 0) {
             throw new InternalTypingException();
         }
 
         // Merge types
-        if(type == null)
-        {
+        if(type == null) {
             type = var.type;
         }
-        else if(var.type != null)
-        {
+        else if(var.type != null) {
             error("Type Error(1): Attempt to merge two types.");
         }
 
         // Merge parents
         {
-            Set<TypeVariable> set = new TreeSet<TypeVariable>(parents);
+            Set<TypeVariable> set = new TreeSet<>(parents);
             set.addAll(var.parents);
             set.remove(this);
-            parents = Collections.unmodifiableList(new LinkedList<TypeVariable>(set));
+            parents = Collections.unmodifiableList(new LinkedList<>(set));
         }
 
         // Merge children
         {
-            Set<TypeVariable> set = new TreeSet<TypeVariable>(children);
+            Set<TypeVariable> set = new TreeSet<>(children);
             set.addAll(var.children);
             set.remove(this);
-            children = Collections.unmodifiableList(new LinkedList<TypeVariable>(set));
+            children = Collections.unmodifiableList(new LinkedList<>(set));
         }
     }
 
-    void validate() throws TypeException
+    void removeIndirectRelations()
     {
-        if(rep != this)
-        {
-            ecr().validate();
-            return;
-        }
-
-        // Validate relations.
-        if(type != null)
-        {
-            for (TypeVariable typeVariable : parents) {
-                TypeVariable parent = typeVariable.ecr();
-
-                if(parent.type != null)
-                {
-                    if(!type.hasAncestor(parent.type))
-                    {
-                        if(DEBUG)
-                        {
-                            System.out.println(parent.type + " is not a parent of " + type);
-                        }
-
-                        error("Type Error(2): Parent type is not a valid ancestor.");
-                    }
-                }
-            }
-
-            for (TypeVariable typeVariable : children) {
-                TypeVariable child = typeVariable.ecr();
-
-                if(child.type != null)
-                {
-                    if(!type.hasDescendant(child.type))
-                    {
-                        if(DEBUG)
-                        {
-                            System.out.println(child.type + "(" + child + ") is not a child of " + type + "(" + this + ")");
-                        }
-
-                        error("Type Error(3): Child type is not a valid descendant.");
-                    }
-                }
-            }
-        }
-    }
-
-    public void removeIndirectRelations()
-    {
-        if(rep != this)
-        {
+        if(rep != this) {
             ecr().removeIndirectRelations();
             return;
         }
@@ -277,7 +222,7 @@ class TypeVariable implements Comparable<Object>
             fixAncestors();
         }
 
-        List<TypeVariable> parentsToRemove = new LinkedList<TypeVariable>();
+        List<TypeVariable> parentsToRemove = new LinkedList<>();
 
         for (TypeVariable parent : parents) {
 
@@ -342,17 +287,17 @@ class TypeVariable implements Comparable<Object>
         {
             Set<TypeVariable> set = new TreeSet<TypeVariable>(parents);
             set.add(var);
-            parents = Collections.unmodifiableList(new LinkedList<TypeVariable>(set));
+            parents = Collections.unmodifiableList(new LinkedList<>(set));
         }
 
         {
             Set<TypeVariable> set = new TreeSet<TypeVariable>(var.children);
             set.add(this);
-            var.children = Collections.unmodifiableList(new LinkedList<TypeVariable>(set));
+            var.children = Collections.unmodifiableList(new LinkedList<>(set));
         }
     }
 
-    public void removeParent(TypeVariable variable)
+    void removeParent(TypeVariable variable)
     {
         if(rep != this)
         {
@@ -365,17 +310,17 @@ class TypeVariable implements Comparable<Object>
         {
             Set<TypeVariable> set = new TreeSet<TypeVariable>(parents);
             set.remove(var);
-            parents = Collections.unmodifiableList(new LinkedList<TypeVariable>(set));
+            parents = Collections.unmodifiableList(new LinkedList<>(set));
         }
 
         {
             Set<TypeVariable> set = new TreeSet<TypeVariable>(var.children);
             set.remove(this);
-            var.children = Collections.unmodifiableList(new LinkedList<TypeVariable>(set));
+            var.children = Collections.unmodifiableList(new LinkedList<>(set));
         }
     }
 
-    public void addChild(TypeVariable variable)
+    void addChild(TypeVariable variable)
     {
         if(rep != this)
         {

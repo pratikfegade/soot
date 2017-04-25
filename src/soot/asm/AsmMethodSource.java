@@ -106,10 +106,13 @@ final class AsmMethodSource implements MethodSource {
                 name = "l" + idx;
                 desc = null;
             }
+
             if (desc == null) {
                 l = Jimple.newLocal(name, UnknownType.getInstance());
             }
             else {
+                if (name.equals("node"))
+                    System.out.println("node type found in jar: " + jimpleTypeOfDescriptor(desc));
                 l = Jimple.newLocal(name, jimpleTypeOfDescriptor(desc));
             }
             locals.put(i, l);

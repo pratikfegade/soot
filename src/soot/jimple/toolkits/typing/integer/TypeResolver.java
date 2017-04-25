@@ -465,10 +465,9 @@ public class TypeResolver {
 			s = new StringBuffer("Checking:\n");
 		}
 
-		for (Iterator<Unit> stmtIt = stmtBody.getUnits().iterator(); stmtIt
-				.hasNext();) {
+		for (Unit unit : stmtBody.getUnits()) {
 
-			final Stmt stmt = (Stmt) stmtIt.next();
+			final Stmt stmt = (Stmt) unit;
 			if (DEBUG) {
 				s.append(" " + stmt + "\n");
 			}
@@ -521,7 +520,7 @@ public class TypeResolver {
 
 		TypeVariable.computeApprox(workList);
 
-		workList = new TreeSet<TypeVariable>();
+		workList = new TreeSet<>();
 
 		for (TypeVariable var : typeVariableList) {
 

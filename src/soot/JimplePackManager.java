@@ -70,7 +70,6 @@ public class JimplePackManager {
 
         String fileName = SourceLocator.v().getFileNameFor(c, format);
         try {
-
             new File(fileName).getParentFile().mkdirs();
             streamOut = new FileOutputStream(fileName);
         } catch (IOException e) {
@@ -80,8 +79,7 @@ public class JimplePackManager {
         switch (format) {
             case Options.output_format_jimple :
             case Options.output_format_shimple :
-                writerOut =
-                        new PrintWriter(new EscapedWriter(new OutputStreamWriter(streamOut)));
+                writerOut = new PrintWriter(new EscapedWriter(new OutputStreamWriter(streamOut)));
                 Printer.printTo(c, writerOut);
                 break;
             default :
