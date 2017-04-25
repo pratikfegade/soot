@@ -111,8 +111,6 @@ final class AsmMethodSource implements MethodSource {
                 l = Jimple.newLocal(name, UnknownType.getInstance());
             }
             else {
-                if (name.equals("node"))
-                    System.out.println("node type found in jar: " + jimpleTypeOfDescriptor(desc));
                 l = Jimple.newLocal(name, jimpleTypeOfDescriptor(desc));
             }
             locals.put(i, l);
@@ -260,7 +258,6 @@ final class AsmMethodSource implements MethodSource {
         return l;
     }
 
-    @SuppressWarnings("unchecked")
     <A extends Unit> A getUnit(AbstractInsnNode insn) {
         return (A) units.get(insn);
     }
