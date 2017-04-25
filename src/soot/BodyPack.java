@@ -30,8 +30,8 @@ package soot;
  * Provides chain-like operations, except that the key is the phase name. */
 public class BodyPack extends Pack
 {
-    BodyPack(String name) {
-        super(name);
+    BodyPack() {
+        super();
     }
 
     protected void internalApply(Body b)

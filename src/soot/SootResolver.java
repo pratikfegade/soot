@@ -41,7 +41,6 @@ public class SootResolver {
 	private final Map<SootClass, Collection<Type>> classToTypesHierarchy = new HashMap<SootClass, Collection<Type>>();
 
 	/** SootClasses waiting to be resolved. */
-	@SuppressWarnings("unchecked")
 	private final Deque<SootClass>[] worklist = new Deque[4];
 
 	public SootResolver() {
@@ -58,10 +57,7 @@ public class SootResolver {
 
 	/** Returns true if we are resolving all class refs recursively. */
 	private boolean resolveEverything() {
-		if (Options.getInstance().on_the_fly())
-			return false;
-		return (Options.getInstance().whole_program() || Options.getInstance().whole_shimple()
-				|| Options.getInstance().full_resolver() || Options.getInstance().output_format() == Options.output_format_dava);
+		return !Options.getInstance().on_the_fly() && (Options.getInstance().whole_program() || Options.getInstance().whole_shimple() || Options.getInstance().full_resolver() || Options.getInstance().output_format() == Options.output_format_dava);
 	}
 
 	/**
@@ -217,7 +213,7 @@ public class SootResolver {
 		reResolveHierarchy(sc);
 	}
 
-	public void reResolveHierarchy(SootClass sc) {
+	private void reResolveHierarchy(SootClass sc) {
 		// Bring superclasses to hierarchy
 		if (sc.hasSuperclass())
 			addToResolveWorklist(sc.getSuperclass(), SootClass.HIERARCHY);
@@ -283,9 +279,7 @@ public class SootResolver {
 			if (references != null) {
 				// This must be an iterator, not a for-all since the underlying
 				// collection may change as we go
-				Iterator<Type> it = references.iterator();
-				while (it.hasNext()) {
-					final Type t = it.next();
+				for (Type t : references) {
 					addToResolveWorklist(t, SootClass.HIERARCHY);
 				}
 			}
@@ -296,9 +290,7 @@ public class SootResolver {
 			if (references != null) {
 				// This must be an iterator, not a for-all since the underlying
 				// collection may change as we go
-				Iterator<Type> it = references.iterator();
-				while (it.hasNext()) {
-					final Type t = it.next();
+				for (Type t : references) {
 					addToResolveWorklist(t, SootClass.SIGNATURES);
 				}
 			}

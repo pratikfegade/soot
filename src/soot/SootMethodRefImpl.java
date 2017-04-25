@@ -36,7 +36,7 @@ import java.util.List;
  */
 
 class SootMethodRefImpl implements SootMethodRef {
-    public SootMethodRefImpl( 
+    SootMethodRefImpl(
             SootClass declaringClass,
             String name,
             List<Type> parameterTypes,
@@ -51,8 +51,7 @@ class SootMethodRefImpl implements SootMethodRef {
         this.isStatic = isStatic;
         if( declaringClass == null ) throw new RuntimeException( "Attempt to create SootMethodRef with null class" );
         if( name == null ) throw new RuntimeException( "Attempt to create SootMethodRef with null name" );
-        if( parameterTypes == null ) throw new RuntimeException( "Attempt to create SootMethodRef with null parameterTypes" );
-        if( returnType == null ) throw new RuntimeException( "Attempt to create SootMethodRef with null returnType" );        
+        if( returnType == null ) throw new RuntimeException( "Attempt to create SootMethodRef with null returnType" );
     }
 
     private final SootClass declaringClass;
@@ -90,7 +89,7 @@ class SootMethodRefImpl implements SootMethodRef {
 		 * 
 		 */
 		private static final long serialVersionUID = 5430199603403917938L;
-		public ClassResolutionFailedException() {
+		ClassResolutionFailedException() {
             super("Class "+declaringClass+" doesn't have method "+name+
                     "("+parameterTypes+")"+" : "+returnType+
                     "; failed to resolve in superclasses and interfaces" );
@@ -147,8 +146,7 @@ class SootMethodRefImpl implements SootMethodRef {
             queue.addAll( cl.getInterfaces() );
             while( !queue.isEmpty() ) {
                 SootClass iface = queue.removeFirst();
-                if(trace != null) trace.append(
-                        "Looking in "+iface+" which has methods "+iface.getMethods()+"\n" );
+                if(trace != null) trace.append("Looking in ").append(iface).append(" which has methods ").append(iface.getMethods()).append("\n");
                 SootMethod sm = iface.getMethodUnsafe(getSubSignature());
                 if( sm != null )
                     return checkStatic(sm);

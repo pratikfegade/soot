@@ -47,12 +47,12 @@ public class ValueGraph
     //            Affects fields whether of simple type or ref type
     //          - CONCURRENT writes?
 
-    protected Map<Value, Node> localToNode;
-    protected Map<Node, Value> nodeToLocal;
-    protected List<Node> nodeList;
-    protected int currentNodeNumber;
+    private Map<Value, Node> localToNode;
+    private Map<Node, Value> nodeToLocal;
+    private List<Node> nodeList;
+    private int currentNodeNumber;
     
-    public ValueGraph(BlockGraph cfg)
+    ValueGraph(BlockGraph cfg)
     {
         if(!(cfg.getBody() instanceof ShimpleBody))
             throw new RuntimeException("ValueGraph requires SSA form");
@@ -64,10 +64,8 @@ public class ValueGraph
         Orderer<Block> pto = new PseudoTopologicalOrderer<Block>();
         List<Block> blocks = pto.newList(cfg,false);
 
-        for(Iterator<Block> blocksIt = blocks.iterator(); blocksIt.hasNext();){
-            Block block = blocksIt.next();
-            for(Iterator<Unit> blockIt = block.iterator(); blockIt.hasNext();)
-                handleStmt((Stmt) blockIt.next());
+        for (Block block : blocks) {
+            for (Unit aBlock : block) handleStmt((Stmt) aBlock);
         }
 
         for (Node node : nodeList) {
@@ -75,7 +73,7 @@ public class ValueGraph
         }
     }
 
-    protected void handleStmt(Stmt stmt)
+    private void handleStmt(Stmt stmt)
     {
         if(!(stmt instanceof DefinitionStmt))
             return;

@@ -22,6 +22,7 @@ package soot.jimple.toolkits.typing.fast;
 
 import soot.Local;
 import soot.Type;
+import soot.UnknownType;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,81 +35,89 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Typing
 {
-	private Map<Local, Type> map;
+    private Map<Local, Type> map;
 
-	public Typing(Collection<Local> vs)
-	{
-		this.map = new ConcurrentHashMap<>();
-		for (Local v : vs)
-			this.map.put(v, BottomType.getInstance());
-	}
+    Typing(Collection<Local> vs)
+    {
+        this.map = new ConcurrentHashMap<>();
+        for (Local v : vs) {
+            /*
+              Originally, all the values on this map where the BottomType instance. My understanding is that this
+              that the information obtained from the debugging in bytecode was completely discarded.
+             */
+            if (v.getType() == null || v.getType() instanceof UnknownType)
+                this.map.put(v, BottomType.getInstance());
+            else
+                this.map.put(v, v.getType());
+        }
+    }
 
-	public Typing(Typing tg)
-	{
-		this.map = new ConcurrentHashMap<>(tg.map);
-	}
+    Typing(Typing tg)
+    {
+        this.map = new ConcurrentHashMap<>(tg.map);
+    }
 
-	public Type get(Local v) { return this.map.get(v); }
+    public Type get(Local v) { return this.map.get(v); }
 
-	public Type set(Local v, Type t) { return this.map.put(v, t); }
+    public Type set(Local v, Type t) { return this.map.put(v, t); }
 
-	public String toString()
-	{
-		StringBuffer sb = new StringBuffer();
-		sb.append('{');
-		for ( Local v : this.map.keySet() )
-		{
-			sb.append(v);
-			sb.append(':');
-			sb.append(this.get(v));
-			sb.append(',');
-		}
-		sb.append('}');
-		return sb.toString();
-	}
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append('{');
+        for ( Local v : this.map.keySet() )
+        {
+            sb.append(v);
+            sb.append(':');
+            sb.append(this.get(v));
+            sb.append(',');
+        }
+        sb.append('}');
+        return sb.toString();
+    }
 
-	public static void minimize(List<Typing> tgs, IHierarchy h)
-	{
-		outer: for ( ListIterator<Typing> i = tgs.listIterator(); i.hasNext(); )
-		{
-			Typing tgi = i.next();
+    static void minimize(List<Typing> tgs, IHierarchy h)
+    {
+        outer: for ( ListIterator<Typing> i = tgs.listIterator(); i.hasNext(); )
+        {
+            Typing tgi = i.next();
 
-			// Throw out duplicate typings
-			for ( Typing tgj : tgs ) {
-				// if compare = 1, then tgi is the more general typing
-				// We shouldn't pick that one as we would then end up
-				// with lots of locals typed to Serializable etc.
-				if ( tgi != tgj && compare(tgi, tgj, h) == 1 ) {
-					i.remove();
-					continue outer;
-				}
-			}
-		}
+            // Throw out duplicate typings
+            for ( Typing tgj : tgs ) {
+                // if compare = 1, then tgi is the more general typing
+                // We shouldn't pick that one as we would then end up
+                // with lots of locals typed to Serializable etc.
+                if ( tgi != tgj && compare(tgi, tgj, h) == 1 ) {
+                    i.remove();
+                    continue outer;
+                }
+            }
+        }
 
-	}
+    }
 
-	public static int compare(Typing a, Typing b, IHierarchy h)
-	{
-		int r = 0;
-		for ( Local v : a.map.keySet() )
-		{
-			Type ta = a.get(v), tb = b.get(v);
+    public static int compare(Typing a, Typing b, IHierarchy h)
+    {
+        int r = 0;
+        for ( Local v : a.map.keySet() )
+        {
+            Type ta = a.get(v), tb = b.get(v);
 
-			int cmp;
-			if ( TypeResolver.typesEqual(ta, tb) )
-				cmp = 0;
-			else if ( h.ancestor(ta, tb) )
-				cmp = 1;
-			else if ( h.ancestor(tb, ta) )
-				cmp = -1;
-			else
-				return -2;
+            int cmp;
+            if (TypeResolver.typesEqual(ta, tb))
+                cmp = 0;
+            else if ( h.ancestor(ta, tb) )
+                cmp = 1;
+            else if ( h.ancestor(tb, ta) )
+                cmp = -1;
+            else
+                return -2;
 
-			if ( (cmp == 1 && r == -1) || (cmp == -1 && r == 1) )
-				return 2;
-			if ( r == 0 )
-				r = cmp;
-		}
-		return r;
-	}
+            if ( (cmp == 1 && r == -1) || (cmp == -1 && r == 1) )
+                return 2;
+            if ( r == 0 )
+                r = cmp;
+        }
+        return r;
+    }
 }

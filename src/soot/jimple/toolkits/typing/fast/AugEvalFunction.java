@@ -33,7 +33,7 @@ public class AugEvalFunction implements IEvalFunction
 {
 	private JimpleBody jb;
 	
-	public AugEvalFunction(JimpleBody jb)
+	AugEvalFunction(JimpleBody jb)
 	{
 		this.jb = jb;
 	}
@@ -43,7 +43,7 @@ public class AugEvalFunction implements IEvalFunction
 		return Collections.singletonList(eval_(tg, expr, stmt, this.jb));
 	}
 
-	public static Type eval_(Typing tg, Value expr, Stmt stmt, JimpleBody jb)
+	static Type eval_(Typing tg, Value expr, Stmt stmt, JimpleBody jb)
 	{
 		if ( expr instanceof ThisRef )
 			return expr.getType();
@@ -161,9 +161,7 @@ public class AugEvalFunction implements IEvalFunction
 			}
 			
 			if ( r == null )
-				throw new RuntimeException(
-					"Exception reference used other than as the first "
-					+ "statement of an exception handler.");
+				throw new RuntimeException("Exception reference used other than as the first " + "statement of an exception handler.");
 				
 			return r;
 		}
@@ -175,14 +173,7 @@ public class AugEvalFunction implements IEvalFunction
 			if ( at instanceof ArrayType )
 				return ((ArrayType)at).getElementType();
 			else if ( at instanceof RefType ) {
-				RefType ref = (RefType) at;
-//				if (ref.getSootClass().getName().equals("java.lang.Object")
-//						|| ref.getSootClass().getName().equals("java.io.Serializable")
-//						|| ref.getSootClass().getName().equals("java.lang.Cloneable"))
-//					return ref;
-//				else
-//					return BottomType.getInstance();
-				return ref;
+				return at;
 			}
 			else {
                 return at;

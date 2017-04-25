@@ -92,8 +92,8 @@ public class SourceLocator
     private List<ClassProvider> classProviders;
 
     private List<String> classPath;
-    public List<String> classPath() { return classPath; }
-    public void invalidateClassPath() {
+    List<String> classPath() { return classPath; }
+    void invalidateClassPath() {
         classPath = null;
         dexClassIndex = null;
     }
@@ -137,12 +137,12 @@ public class SourceLocator
         }
     }
 
-    public List<String> getClassesUnder(String aPath) {
+    List<String> getClassesUnder(String aPath) {
         return getClassesUnder(aPath, "");
     }
 
     private List<String> getClassesUnder(String aPath, String prefix) {
-        List<String> classes = new ArrayList<String>();
+        List<String> classes = new ArrayList<>();
         ClassSourceType cst = getClassSourceType(aPath);
 
         // Get the dex file from an apk
@@ -210,12 +210,12 @@ public class SourceLocator
                         try {
                             classes.addAll(DexClassProvider.classesOfDex(
                                     file,dexEntryName));
-                        } catch (Throwable e) {} /* Ignore unreadable files */
+                        } catch (Throwable ignored) {} /* Ignore unreadable files */
                     }
                 }else{
                     try {
                         classes.addAll(DexClassProvider.classesOfDex(file));
-                    } catch (Throwable e) {} /* Ignore unreadable files */
+                    } catch (Throwable ignored) {} /* Ignore unreadable files */
                 }
             }
         }
@@ -314,7 +314,7 @@ public class SourceLocator
 
     /* This is called after sootClassPath has been defined. */
     Set<String> classesInDynamicPackage(String str) {
-        HashSet<String> set = new HashSet<String>(0);
+        HashSet<String> set = new HashSet<>(0);
         StringTokenizer strtok = new StringTokenizer(
                 Scene.getInstance().getSootClassPath(), String.valueOf(File.pathSeparatorChar));
         while (strtok.hasMoreTokens()) {
@@ -377,7 +377,7 @@ public class SourceLocator
                 dir.mkdirs();
             } catch (SecurityException se) {
                 System.out.println("Unable to create " + dir);
-                throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
+                throw new CompilationDeathException();
             }
         }
     }
@@ -410,8 +410,8 @@ public class SourceLocator
     }
 
     /** Explodes a class path into a list of individual class path entries. */
-    public static List<String> explodeClassPath( String classPath ) {
-        List<String> ret = new ArrayList<String>();
+    private static List<String> explodeClassPath(String classPath) {
+        List<String> ret = new ArrayList<>();
 
         StringTokenizer tokenizer =
                 new StringTokenizer(classPath, File.pathSeparator);
@@ -443,7 +443,7 @@ public class SourceLocator
             this.entryName = entryName;
         }
 
-        public FoundFile(File file) {
+        FoundFile(File file) {
             this();
             if(file == null)
                 throw new IllegalArgumentException("Error: The file cannot be null.");
@@ -454,14 +454,14 @@ public class SourceLocator
         private FoundFile() {
             this.zipFile = null;
             this.zipEntry = null;
-            this.openedInputStreams = new ArrayList<InputStream>();
+            this.openedInputStreams = new ArrayList<>();
         }
 
         public String getFilePath() {
             return file.getPath();
         }
 
-        public boolean isZipFile() {
+        boolean isZipFile() {
             return entryName != null;
         }
 
@@ -470,7 +470,7 @@ public class SourceLocator
         }
 
         public InputStream inputStream() {
-            InputStream ret = null;
+            InputStream ret;
             if(!isZipFile()) {
                 try{
                     ret = new FileInputStream(file);
@@ -518,15 +518,15 @@ public class SourceLocator
             return ret;
         }
 
-        public void silentClose() {
+        void silentClose() {
             try {
                 close();
-            } catch(Exception e) {}
+            } catch(Exception ignored) {}
         }
 
         public void close(){
             //Try to close all opened input streams
-            List<Exception> errs = new ArrayList<Exception>();
+            List<Exception> errs = new ArrayList<>();
             for(Iterator<InputStream> it = openedInputStreams.iterator(); it.hasNext();){
                 InputStream is = it.next();
                 try {
@@ -618,7 +618,7 @@ public class SourceLocator
                             ZipFile archive = null;
                             try {
                                 archive = new ZipFile(archivePath);
-                                Set<String> ret = new HashSet<String>();
+                                Set<String> ret = new HashSet<>();
                                 Enumeration<? extends ZipEntry> it = archive.entries();
                                 while(it.hasMoreElements()){
                                     ret.add(it.nextElement().getName());
@@ -672,15 +672,15 @@ public class SourceLocator
      *
      * @param index the index
      */
-    public void setDexClassIndex(Map<String, File> index) {
+    void setDexClassIndex(Map<String, File> index) {
         dexClassIndex = index;
     }
 
-    public void extendClassPath(String newPathElement) {
+    void extendClassPath(String newPathElement) {
         classPath = null;
         if (newPathElement.endsWith(".dex") || newPathElement.endsWith(".apk")) {
             if (dexClassPathExtensions == null)
-                dexClassPathExtensions = new HashSet<String>();
+                dexClassPathExtensions = new HashSet<>();
             dexClassPathExtensions.add(newPathElement);
         }
     }
@@ -690,14 +690,14 @@ public class SourceLocator
      * not yet been processed for the dexClassIndex mapping
      * @return The set of dex or apk files that still need to be indexed
      */
-    public Set<String> getDexClassPathExtensions() {
+    Set<String> getDexClassPathExtensions() {
         return this.dexClassPathExtensions;
     }
 
     /**
      * Clears the set of dex or apk files that still need to be indexed
      */
-    public void clearDexClassPathExtensions() {
+    void clearDexClassPathExtensions() {
         this.dexClassPathExtensions = null;
     }
 }

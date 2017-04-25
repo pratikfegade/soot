@@ -32,7 +32,7 @@ package soot;
 public class JimpleBodyPack extends BodyPack
 {
     public JimpleBodyPack(JimplePackManager jimplePackManager) {
-        super("jb");
+        super();
         _jimplePackManager = jimplePackManager;
     }
 

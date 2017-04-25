@@ -70,16 +70,6 @@ public final class Kind implements Numberable
 
     public String toString() { return name(); }
 
-    public boolean passesParameters() {
-        return isExplicit() || this == THREAD || this == EXECUTOR || this == ASYNCTASK || this == FINALIZE ||
-            this == PRIVILEGED || this == NEWINSTANCE || this == INVOKE_FINALIZE ||
-            this == REFL_INVOKE || this == REFL_CONSTR_NEWINSTANCE || this == REFL_CLASS_NEWINSTANCE;
-    }
-
-    public boolean isFake() {
-        return this == THREAD || this == EXECUTOR || this == ASYNCTASK || this == PRIVILEGED;
-    }
-
     /** Returns true if the call is due to an explicit invoke statement. */
     public boolean isExplicit() {
         return isInstance() || isStatic();
@@ -100,40 +90,16 @@ public final class Kind implements Numberable
     public boolean isSpecial() {
     	return this == SPECIAL;
     }
-    
-    /** Returns true if the call is to static initializer. */
-    public boolean isClinit() {
-        return this == CLINIT;
-    }
+
     /** Returns true if the call is due to an explicit static invoke
      * statement. */
     public boolean isStatic() {
         return this == STATIC;
     }
-
-    public boolean isThread() {
-    	return this == THREAD;
-    }
-
-    public boolean isExecutor() {
-    	return this == EXECUTOR;
-    }
-
-    public boolean isAsyncTask() {
-    	return this == ASYNCTASK;
-    }
-    
-    public boolean isPrivileged() {
-    	return this == PRIVILEGED;
-    }
     
     public boolean isReflection() {
     	return this == REFL_CLASS_NEWINSTANCE || this == REFL_CONSTR_NEWINSTANCE
     			|| this == REFL_INVOKE;
-    }
-    
-    public boolean isReflInvoke() {
-    	return this == REFL_INVOKE;
     }
 }
 

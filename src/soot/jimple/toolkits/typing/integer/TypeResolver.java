@@ -85,7 +85,7 @@ public class TypeResolver {
 	}
 
 	/** Get type variable for the given type node. **/
-	public TypeVariable typeVariable(TypeNode typeNode) {
+	private TypeVariable typeVariable(TypeNode typeNode) {
 		TypeVariable result = typeVariableMap.get(typeNode);
 
 		if (result == null) {
@@ -102,12 +102,12 @@ public class TypeResolver {
 	}
 
 	/** Get type variable for the given type. **/
-	public TypeVariable typeVariable(Type type) {
+	TypeVariable typeVariable(Type type) {
 		return typeVariable(ClassHierarchy.getInstance().typeNode(type));
 	}
 
 	/** Get new type variable **/
-	public TypeVariable typeVariable() {
+	TypeVariable typeVariable() {
 		int id = typeVariableList.size();
 		typeVariableList.add(null);
 

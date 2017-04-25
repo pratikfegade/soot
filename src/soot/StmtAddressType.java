@@ -32,7 +32,6 @@ import soot.util.Switch;
  *   Soot representation of the Java type for a statement address. Implemented as
  *   a singleton.
  */
-@SuppressWarnings("serial")
 public class StmtAddressType extends Type
 {
     private static StmtAddressType instance = null;

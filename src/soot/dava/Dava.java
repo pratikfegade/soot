@@ -79,12 +79,12 @@ public class Dava
 		catch (FileNotFoundException fnfe) {
 		    System.out.println( "Unable to open " + LOG_TO_FILE);
 		    fnfe.printStackTrace();
-                    throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
+                    throw new CompilationDeathException();
 		}
 		catch (UnsupportedEncodingException uee) {
 		    System.out.println( "This system doesn't support US-ASCII encoding!!");
 		    uee.printStackTrace();
-                    throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
+                    throw new CompilationDeathException();
 		}
 
 	    try {
@@ -95,7 +95,7 @@ public class Dava
 	    catch (IOException ioe) {
 		System.out.println( "Unable to write to " + LOG_TO_FILE);
 		ioe.printStackTrace();
-                throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED);
+                throw new CompilationDeathException();
 	    }
 	}
     }

@@ -50,7 +50,7 @@ public enum JimpleTrapValidator implements BodyValidator {
 	 * Checks whether all Caught-Exception-References are associated to traps.
 	 */
 	public void validate(Body body, List<ValidationException> exception) {
-		Set<Unit> caughtUnits = new HashSet<Unit>();
+		Set<Unit> caughtUnits = new HashSet<>();
 		for (Trap trap : body.getTraps()) {
 			caughtUnits.add(trap.getHandlerUnit());
 			

@@ -78,12 +78,7 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private StackFrame getFrame(AbstractInsnNode insn) {
-        StackFrame frame = frames.get(insn);
-        if (frame == null) {
-            frame = new StackFrame(this);
-            frames.put(insn, frame);
-        }
-        return frame;
+        return frames.computeIfAbsent(insn, k -> new StackFrame(this));
     }
 
     private Local getLocal(int idx) {
@@ -1031,6 +1026,7 @@ final class AsmMethodSource implements MethodSource {
                     argList = new ArrayList<>(nrArgs);
             }
             while (nrArgs-- != 0) {
+                assert args != null;
                 args[nrArgs] = popImmediate(sigTypes.get(nrArgs));
                 argList.add(args[nrArgs].stackOrValue());
             }
@@ -1169,7 +1165,6 @@ final class AsmMethodSource implements MethodSource {
                 if (!expr.getMethodRef().isStatic())
                     oprs[oprs.length - 1] = pop();
                 frame.mergeIn(oprs);
-                nrArgs = types.size();
             }
             returnType = expr.getMethodRef().returnType();
         }
@@ -1772,7 +1767,7 @@ final class AsmMethodSource implements MethodSource {
         return jb;
     }
 
-    public Type jimpleTypeOfDescriptor(String descriptor)
+    private Type jimpleTypeOfDescriptor(String descriptor)
     {
         boolean isArray = false;
         int numDimensions = 0;

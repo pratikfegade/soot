@@ -35,17 +35,10 @@ import java.util.Iterator;
  * except that the key is the phase name.
  */
 public abstract class Pack implements Iterable<Transform> {
-	private String name;
 
-	public String getPhaseName() {
-		return name;
-	}
+	Pack() {}
 
-	public Pack(String name) {
-		this.name = name;
-	}
-
-	Chain<Transform> opts = new HashChain<Transform>();
+	Chain<Transform> opts = new HashChain<>();
 
 	public Iterator<Transform> iterator() {
 		return opts.iterator();
@@ -55,7 +48,7 @@ public abstract class Pack implements Iterable<Transform> {
 		opts.add(t);
 	}
 
-	protected void internalApply() {
+	private void internalApply() {
 		throw new RuntimeException("wrong type of pack");
 	}
 

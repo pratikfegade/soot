@@ -158,7 +158,7 @@ public class ClassHierarchy {
     private final Map<Type,TypeNode> typeNodeMap = new ConcurrentHashMap<>();
 
     /** Get the type node for the given type. **/
-    public TypeNode typeNode(Type type) {
+    TypeNode typeNode(Type type) {
         if (type == null || !(type instanceof PrimType || type instanceof RefType)) {
             throw new InternalTypingException(type);
         }
@@ -173,15 +173,15 @@ public class ClassHierarchy {
         return typeNode;
     }
 
-    public boolean hasAncestor_1(int t1, int t2) {
+    boolean hasAncestor_1(int t1, int t2) {
         return ancestors_1[t1][t2];
     }
 
-    public boolean hasAncestor_2(int t1, int t2) {
+    boolean hasAncestor_2(int t1, int t2) {
         return ancestors_2[t1][t2];
     }
 
-    public TypeNode lca_1(int t1, int t2) {
+    TypeNode lca_1(int t1, int t2) {
         return lca_1[t1][t2];
     }
 
@@ -196,15 +196,15 @@ public class ClassHierarchy {
         }
     }
 
-    public TypeNode lca_2(int t1, int t2) {
+    TypeNode lca_2(int t1, int t2) {
         return lca_2[convert(t1)][convert(t2)];
     }
 
-    public TypeNode gcd_1(int t1, int t2) {
+    TypeNode gcd_1(int t1, int t2) {
         return gcd_1[t1][t2];
     }
 
-    public TypeNode gcd_2(int t1, int t2) {
+    TypeNode gcd_2(int t1, int t2) {
         return gcd_2[convert(t1)][convert(t2)];
     }
 

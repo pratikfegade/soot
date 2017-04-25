@@ -61,20 +61,14 @@ class TypeNode
     return type;
   }
 
-  public boolean hasAncestor_1(TypeNode typeNode)
-  {
-    if(typeNode == this)
-      return true;
+  boolean hasAncestor_1(TypeNode typeNode) {
+    return typeNode == this || ClassHierarchy.getInstance().hasAncestor_1(id, typeNode.id);
 
-    return ClassHierarchy.getInstance().hasAncestor_1(id, typeNode.id);
   }
 
-  public boolean hasAncestor_2(TypeNode typeNode)
-  {
-    if(typeNode == this)
-      return true;
-    
-    return ClassHierarchy.getInstance().hasAncestor_2(id, typeNode.id);
+  public boolean hasAncestor_2(TypeNode typeNode) {
+    return typeNode == this || ClassHierarchy.getInstance().hasAncestor_2(id, typeNode.id);
+
   }
 
   /*  public boolean hasDescendant_1(TypeNode typeNode)

@@ -33,13 +33,13 @@ import java.util.Set;
 */
 public abstract class LabeledUnitPrinter extends AbstractUnitPrinter {
     /** branch targets **/
-    protected Map<Unit, String> labels;
+    private Map<Unit, String> labels;
     /** for unit references in Phi nodes **/
     protected Map<Unit, String> references;
 
-    protected String labelIndent = "\u0020\u0020\u0020\u0020\u0020";
+    private String labelIndent = "\u0020\u0020\u0020\u0020\u0020";
     
-    public LabeledUnitPrinter( Body b ) {
+    LabeledUnitPrinter(Body b) {
         createLabelMaps(b);
     }
     
@@ -93,12 +93,12 @@ public abstract class LabeledUnitPrinter extends AbstractUnitPrinter {
     private void createLabelMaps(Body body) {
         Chain<Unit> units = body.getUnits();
 
-        labels = new HashMap<Unit, String>(units.size() * 2 + 1, 0.7f);
-        references = new HashMap<Unit, String>(units.size() * 2 + 1, 0.7f);
+        labels = new HashMap<>(units.size() * 2 + 1, 0.7f);
+        references = new HashMap<>(units.size() * 2 + 1, 0.7f);
         
         // Create statement name table        
-        Set<Unit> labelStmts = new HashSet<Unit>();
-        Set<Unit> refStmts = new HashSet<Unit>();
+        Set<Unit> labelStmts = new HashSet<>();
+        Set<Unit> refStmts = new HashSet<>();
                     
         // Build labelStmts and refStmts
         for (UnitBox box : body.getAllUnitBoxes() ) {

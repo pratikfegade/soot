@@ -59,7 +59,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 				}
 			}
 		}
-		
+
 		if (ie instanceof DynamicInvokeExpr) {
 			DynamicInvokeExpr die = (DynamicInvokeExpr) ie;
 			SootMethodRef bootstrapMethod = die.getBootstrapMethodRef();
@@ -335,8 +335,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			}
 		} else if (r instanceof CastExpr) {
 			CastExpr ce = (CastExpr) r;
-
-			if (ce.getCastType() instanceof IntegerType) {
+			if (ce instanceof IntegerType) {
 				right = resolver.typeVariable(ce.getCastType());
 			}
 		} else if (r instanceof InstanceOfExpr) {
@@ -376,7 +375,7 @@ class ConstraintCollector extends AbstractStmtSwitch {
 			right = resolver.INT;
 		} else if (r instanceof NegExpr) {
 			NegExpr ne = (NegExpr) r;
-			
+
 			if (ne.getOp() instanceof Local) {
 				Local local = (Local) ne.getOp();
 

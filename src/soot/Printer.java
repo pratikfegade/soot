@@ -39,23 +39,18 @@ import java.util.*;
  * Prints out a class and all its methods.
  */
 public class Printer {
-    final private static char fileSeparator =
-            System.getProperty("file.separator").charAt(0);
 
-    public static final int USE_ABBREVIATIONS = 0x0001, ADD_JIMPLE_LN = 0x0010;
+    private static final int USE_ABBREVIATIONS = 0x0001, ADD_JIMPLE_LN = 0x0010;
 
     public static boolean useAbbreviations() {
         return (options & USE_ABBREVIATIONS) != 0;
     }
 
-    public static boolean addJimpleLn() {
+    private static boolean addJimpleLn() {
         return (options & ADD_JIMPLE_LN) != 0;
     }
 
     static int options = 0;
-    public static void setOption(int opt) {
-        options |= opt;
-    }zz
 
     private static int jimpleLnNum = 0; // actual line number
 
