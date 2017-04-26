@@ -42,4 +42,5 @@ public interface Local extends Value, Numberable, Immediate
 
     /** Sets the type of the current variable. */
     void setType(Type t);
+
 }

@@ -292,7 +292,7 @@ public class DexBody  {
         if (!isStatic) {
             int thisRegister = numRegisters - numParameterRegisters - 1;
 
-            Local thisLocal = Jimple.newLocal("$u"+ thisRegister, UnknownType.getInstance()); //generateLocal(UnknownType.getInstance());
+            Local thisLocal = Jimple.newLocal("$u"+ thisRegister, UnknownType.getInstance(), -1, -1); //generateLocal(UnknownType.getInstance());
             jBody.getLocals().add(thisLocal);
 
             registerLocals[thisRegister] = thisLocal;
@@ -310,7 +310,7 @@ public class DexBody  {
             int parameterRegister = numRegisters - numParameterRegisters; // index of parameter register
             for (Type t: parameterTypes) {
 
-                Local gen = Jimple.newLocal("$u"+ parameterRegister, UnknownType.getInstance()); //may only use UnknownType here
+                Local gen = Jimple.newLocal("$u"+ parameterRegister, UnknownType.getInstance(), -1, -1); //may only use UnknownType here
                 // because the local may be reused with a different type later (before splitting)
                 jBody.getLocals().add(gen);
 
@@ -331,7 +331,7 @@ public class DexBody  {
                 // used later in the Dalvik bytecode
                 if (t instanceof LongType || t instanceof DoubleType) {
                     parameterRegister++;
-                    Local g = Jimple.newLocal("$u"+ parameterRegister, UnknownType.getInstance()); //may only use UnknownType here because the local may be reused with a different type later (before splitting)
+                    Local g = Jimple.newLocal("$u"+ parameterRegister, UnknownType.getInstance(), -1, -1); //may only use UnknownType here because the local may be reused with a different type later (before splitting)
                     jBody.getLocals().add (g);
                     registerLocals[parameterRegister] = g;
                 }
@@ -342,12 +342,12 @@ public class DexBody  {
 
         for (int i = 0; i < (numRegisters - numParameterRegisters - (isStatic?0:1)); i++) {
             Debug.printDbg ("add local for register number: ", i);
-            registerLocals[i] = Jimple.newLocal("$u"+ i, UnknownType.getInstance());
+            registerLocals[i] = Jimple.newLocal("$u"+ i, UnknownType.getInstance(), -1, -1);
             jBody.getLocals().add(registerLocals[i]);
         }
 
         // add local to store intermediate results
-        storeResultLocal = Jimple.newLocal("$u-1", UnknownType.getInstance());
+        storeResultLocal = Jimple.newLocal("$u-1", UnknownType.getInstance(), -1, -1);
         jBody.getLocals().add (storeResultLocal);
 
         // process bytecode instructions

@@ -219,7 +219,7 @@ public class RegisterAllocator {
 	
 	public Register asTmpReg(Type regType) {
 		String tmpRegName = "tmp" + getRegCount();
-		return asLocal(new JimpleLocal(tmpRegName, regType));
+		return asLocal(new JimpleLocal(tmpRegName, regType, -1, -1));
 	}
 	
 	public void increaseRegCount(int amount) {

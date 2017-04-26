@@ -598,8 +598,8 @@ public class Jimple {
 	/**
 	 * Constructs a Local with the given name and type.
 	 */
-	public static Local newLocal(String name, Type t) {
-		return new JimpleLocal(name, t);
+	public static Local newLocal(String name, Type t, int scopeStart, int scopeEnd) {
+		return new JimpleLocal(name, t, scopeStart, scopeEnd);
 	}
 
 	/**

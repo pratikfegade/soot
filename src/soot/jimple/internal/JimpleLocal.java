@@ -27,7 +27,6 @@ package soot.jimple.internal;
 
 import soot.*;
 import soot.jimple.JimpleValueSwitch;
-import soot.jimple.toolkits.typing.fast.BottomType;
 import soot.util.Switch;
 
 import java.util.Collections;
@@ -36,12 +35,17 @@ import java.util.List;
 public class JimpleLocal implements Local {
     private String name;
     private Type type;
+    private int scopeStart;
+    private int scopeEnd;
 
     /** Constructs a JimpleLocal of the given name and type. */
-    public JimpleLocal(String name, Type type) {
+    public JimpleLocal(String name, Type type, int scopeStart, int scopeEnd) {
         this.name = name;
         this.type = type;
+        this.scopeStart = scopeStart;
+        this.scopeEnd = scopeEnd;
         Scene.getInstance().getLocalNumberer().add(this);
+        setName(name + "[" + scopeStart + ", " + scopeEnd + "]");
     }
 
     /** Returns true if the given object is structurally equal to this one. */
@@ -59,7 +63,7 @@ public class JimpleLocal implements Local {
     /** Returns a clone of the current JimpleLocal. */
     public Object clone() {
         // do not intern the name again
-        JimpleLocal local = new JimpleLocal(null, type);
+        JimpleLocal local = new JimpleLocal(null, type, scopeStart, scopeEnd);
         local.setName(name);
         return local;
     }
@@ -115,4 +119,12 @@ public class JimpleLocal implements Local {
     }
 
     private int number = 0;
+
+    public int getScopeStart() {
+        return scopeStart;
+    }
+
+    public int getScopeEnd() {
+        return scopeEnd;
+    }
 }

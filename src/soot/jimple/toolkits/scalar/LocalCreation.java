@@ -65,7 +65,7 @@ public class LocalCreation {
    * @param String prefix overrides the DEFAULT-PREFIX
    */
   public LocalCreation(Collection<Local> locals, String prefix) {
-    this.locals = new HashSet<String>(locals.size());
+    this.locals = new HashSet<>(locals.size());
     localChain = locals;
     Iterator<Local> it = locals.iterator();
     while (it.hasNext()) {
@@ -114,7 +114,7 @@ public class LocalCreation {
       counter = suffix + 1;
     }
     String newName = prefix + suffix;
-    Local newLocal = Jimple.newLocal(newName, type);
+    Local newLocal = Jimple.newLocal(newName, type, -1, -1);
     localChain.add(newLocal);
     locals.add(newName);
     return newLocal;

@@ -83,7 +83,7 @@ public class Options extends OptionsBase {
     private static final int check_init_throw_analysis_unit = 3;
     private static final int check_init_throw_analysis_dalvik = 4;
 
-    @SuppressWarnings("unused")
+
     public boolean parse( String[] argv ) {
         LinkedList<String> phaseOptions = new LinkedList<>();
 

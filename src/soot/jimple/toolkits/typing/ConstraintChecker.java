@@ -676,7 +676,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 	}
 
 	private Local insertCast(Local oldlocal, Type type, Stmt stmt) {
-		Local newlocal = Jimple.newLocal("tmp", type);
+		Local newlocal = Jimple.newLocal("tmp", type, -1, -1);
 		stmtBody.getLocals().add(newlocal);
 
 		Unit u = Util.findFirstNonIdentityUnit(stmtBody, stmt);

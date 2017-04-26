@@ -939,7 +939,7 @@ public class TypeResolver
 								{
 									// We split the local.
 									//G.getInstance().out.println("split: [" + assign + "] and [" + stmt + "]");
-									Local newlocal = Jimple.newLocal("tmp", null);
+									Local newlocal = Jimple.newLocal("tmp", null, -1, -1);
 									stmtBody.getLocals().add(newlocal);
 
 									special.setBase(newlocal);

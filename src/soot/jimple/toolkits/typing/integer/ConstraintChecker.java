@@ -785,7 +785,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 	}
 
 	private Local insertCast(Local oldlocal, Type type, Stmt stmt) {
-		Local newlocal = Jimple.newLocal("tmp", type);
+		Local newlocal = Jimple.newLocal("tmp", type, -1, -1);
 		stmtBody.getLocals().add(newlocal);
 
 		Unit u = Util.findFirstNonIdentityUnit(this.stmtBody, stmt);
@@ -797,7 +797,7 @@ class ConstraintChecker extends AbstractStmtSwitch {
 
 	private Local insertCastAfter(Local leftlocal, Type lefttype,
 								  Type righttype, Stmt stmt) {
-		Local newlocal = Jimple.newLocal("tmp", righttype);
+		Local newlocal = Jimple.newLocal("tmp", righttype, -1, -1);
 		stmtBody.getLocals().add(newlocal);
 
 		Unit u = Util.findLastIdentityUnit(this.stmtBody, stmt);
@@ -808,17 +808,14 @@ class ConstraintChecker extends AbstractStmtSwitch {
 	}
 
 	private Local insertCast(Value oldvalue, Type oldtype, Type type, Stmt stmt) {
-		Local newlocal1 = Jimple.newLocal("tmp", oldtype);
-		Local newlocal2 = Jimple.newLocal("tmp", type);
+		Local newlocal1 = Jimple.newLocal("tmp", oldtype, -1, -1);
+		Local newlocal2 = Jimple.newLocal("tmp", type, -1, -1);
 		stmtBody.getLocals().add(newlocal1);
 		stmtBody.getLocals().add(newlocal2);
 
 		Unit u = Util.findFirstNonIdentityUnit(this.stmtBody, stmt);
-		stmtBody.getUnits().insertBefore(
-				Jimple.newAssignStmt(newlocal1, oldvalue), u);
-		stmtBody.getUnits().insertBefore(
-				Jimple.newAssignStmt(newlocal2,
-						Jimple.newCastExpr(newlocal1, type)), u);
+		stmtBody.getUnits().insertBefore(Jimple.newAssignStmt(newlocal1, oldvalue), u);
+		stmtBody.getUnits().insertBefore(Jimple.newAssignStmt(newlocal2, Jimple.newCastExpr(newlocal1, type)), u);
 		return newlocal2;
 	}
 }
