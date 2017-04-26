@@ -50,14 +50,8 @@ public interface Host
   /** Adds a tag. */
   void addTag(Tag t);
 
-    /** Removes the first tag with the given name. */
-    void removeTag(String name);
-   
     /** Returns true if this host has a tag with the given name. */
     boolean hasTag(String aName);
-
-    /** Removes all the tags from this host. */
-    void removeAllTags();
 
     /** Adds all the tags from h to this host. */
     void addAllTagsOf(Host h);
@@ -67,12 +61,7 @@ public interface Host
      * Returns -1 if not.
      */
     int getJavaSourceStartLineNumber();
-    
-    /**
-     * Returns the Java source line column if available.
-     * Returns -1 if not.
-     */
-    int getJavaSourceStartColumnNumber();
+
 }
 
 

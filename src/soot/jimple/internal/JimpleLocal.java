@@ -45,7 +45,10 @@ public class JimpleLocal implements Local {
         this.scopeStart = scopeStart;
         this.scopeEnd = scopeEnd;
         Scene.getInstance().getLocalNumberer().add(this);
-        setName(name + "[" + scopeStart + ", " + scopeEnd + "]");
+        if (scopeStart > -1 && scopeEnd > -1)
+            setName(name + "[" + scopeStart + ", " + scopeEnd + "]");
+        else if (scopeStart > -1)
+            setName(name + "[" + scopeStart + "]");
     }
 
     /** Returns true if the given object is structurally equal to this one. */

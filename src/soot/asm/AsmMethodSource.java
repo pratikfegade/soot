@@ -23,6 +23,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
 import org.objectweb.asm.Handle;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.tree.*;
 import soot.*;
 import soot.coffi.Util;
@@ -46,6 +47,7 @@ import static org.objectweb.asm.tree.AbstractInsnNode.*;
 final class AsmMethodSource implements MethodSource {
 
     private static final Operand DWORD_DUMMY = new Operand(null, null);
+    private final String signature;
 
     /* -state fields- */
     private int nextLocal;
@@ -67,16 +69,17 @@ final class AsmMethodSource implements MethodSource {
     private final Map<LabelNode, Unit> inlineExceptionHandlers = new HashMap<>();
 
     private final CastAndReturnInliner castAndReturnInliner = new CastAndReturnInliner();
-    private final Map<LabelNode, LineNumberNode> labelNodeToLineNodeMap = new HashMap();
+    private final Map<Label, LineNumberNode> labelToLineNodeMap = new LinkedHashMap<>();
 
-    AsmMethodSource(int maxLocals, InsnList insns, List<LocalVariableNode> localVars, List<TryCatchBlockNode> tryCatchBlocks) {
+    AsmMethodSource(String signature, int maxLocals, InsnList insns, List<LocalVariableNode> localVars, List<TryCatchBlockNode> tryCatchBlocks) {
+        this.signature = signature;
         this.maxLocals = maxLocals;
         this.instructions = insns;
         this.localVars = localVars;
         this.tryCatchBlocks = tryCatchBlocks;
         for (int i = 0; i < insns.size(); i++) {
            if (insns.get(i) instanceof LineNumberNode) {
-               labelNodeToLineNodeMap.put(((LineNumberNode) insns.get(i)).start, (LineNumberNode) insns.get(i));
+               labelToLineNodeMap.put(((LineNumberNode) insns.get(i)).start.getLabel(), (LineNumberNode) insns.get(i));
            }
         }
     }
@@ -92,23 +95,20 @@ final class AsmMethodSource implements MethodSource {
         Integer i = idx;
         Local l = locals.get(i);
         if (l == null) {
-            String name;
-            String desc;
-            int startScope;
-            int endScope;
+            String name = null;
+            String desc = null;
+            int startScope = -1;
+            int endScope = -1;
             if (localVars != null) {
-                name = null;
-                desc = null;
-                startScope = -1;
-                endScope = -1;
                 for (LocalVariableNode lvn : localVars) {
                     if (lvn.index == idx) {
                         name = lvn.name;
                         desc = lvn.desc;
-                        if (labelNodeToLineNodeMap.containsKey(lvn.start))
-                            startScope = labelNodeToLineNodeMap.get(lvn.start).line;
-                        if (labelNodeToLineNodeMap.containsKey(lvn.end))
-                            endScope = labelNodeToLineNodeMap.get(lvn.end).line;
+                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
+                            startScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
+
+                        if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
+                            endScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
                         break;
                     }
                 }
@@ -1091,6 +1091,7 @@ final class AsmMethodSource implements MethodSource {
         Operand[] out = frame.out();
         Operand opr;
         Type returnType;
+
         if (out == null) {
             //convert info on bootstrap method
             SootMethodRef bsmMethodRef = toSootMethodRef(insn.bsm);
@@ -1362,7 +1363,7 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private void convertLine(LineNumberNode ln) {
-        labelNodeToLineNodeMap.put(ln.start, ln);
+        labelToLineNodeMap.put(ln.start.getLabel(), ln);
         lastLineNumber = ln.line;
     }
 	

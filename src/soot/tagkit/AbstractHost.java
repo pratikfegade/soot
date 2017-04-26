@@ -27,7 +27,6 @@ package soot.tagkit;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 // extended by SootClass, SootField, SootMethod, Scene
@@ -51,15 +50,6 @@ public class AbstractHost implements Host
     public List<Tag> getTags()
     {
         return (mTagList == null) ? Collections.emptyList() : mTagList;
-    }
-
-    /** remove the tag named <code>aName</code> */
-    public void removeTag(String aName)
-    {
-        int tagIndex;
-        if((tagIndex = searchForTag(aName)) != -1) {
-            mTagList.remove(tagIndex);
-        }
     }
 
     /** search for tag named <code>aName</code> */
@@ -101,11 +91,6 @@ public class AbstractHost implements Host
         mTagList.add(t);
     }
 
-    /** Removes all the tags from this host. */
-    public void removeAllTags() {
-        mTagList = null;
-    }
-
     /** Adds all the tags from h to this host. */
     public void addAllTagsOf( Host h ) {
         List<Tag> tags = h.getTags();
@@ -137,17 +122,6 @@ public class AbstractHost implements Host
         return line;
     }
 
-    public int getJavaSourceStartColumnNumber() {
-        if(col==0) {
-            //get line from source
-            SourceLnPosTag tag = (SourceLnPosTag) getTag("SourceLnPosTag");
-            if(tag!=null) {
-                col = tag.startPos();
-            }
-            else col = -1;
-        }
-        return col;
-    }
 }
 
 

@@ -77,15 +77,7 @@ class UnitContainer implements Unit {
 		throw new UnsupportedOperationException();
 	}
 
-	public void removeTag(String name) {
-		throw new UnsupportedOperationException();
-	}
-
 	public boolean hasTag(String aName) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void removeAllTags() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -145,8 +137,4 @@ class UnitContainer implements Unit {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public int getJavaSourceStartColumnNumber() {
-		throw new UnsupportedOperationException();
-	}
 }
