@@ -40,15 +40,24 @@ public class JimpleLocal implements Local {
 
     /** Constructs a JimpleLocal of the given name and type. */
     public JimpleLocal(String name, Type type, int scopeStart, int scopeEnd) {
-        this.name = name;
         this.type = type;
         this.scopeStart = scopeStart;
         this.scopeEnd = scopeEnd;
-        Scene.getInstance().getLocalNumberer().add(this);
-        if (scopeStart > -1 && scopeEnd > -1)
-            setName(name + "[" + scopeStart + ", " + scopeEnd + "]");
+
+        if (scopeStart > -1 && scopeEnd > -1) {
+            // FIX: Bytecode does not assign labels to line numbers monotonically so we may need to swap the lines
+            if (scopeStart > scopeEnd) {
+                int temp = scopeEnd;
+                scopeEnd = scopeStart;
+                scopeStart = temp;
+            }
+            this.name = name + "[" + scopeStart + ", " + scopeEnd + "]";
+        }
         else if (scopeStart > -1)
-            setName(name + "[" + scopeStart + "]");
+            this.name = name + "[" + scopeStart + "]";
+        else
+            this.name = name;
+        Scene.getInstance().getLocalNumberer().add(this);
     }
 
     /** Returns true if the given object is structurally equal to this one. */
