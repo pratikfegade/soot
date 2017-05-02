@@ -51,10 +51,10 @@ public class JimpleLocal implements Local {
                 scopeEnd = scopeStart;
                 scopeStart = temp;
             }
-            this.name = name + "[" + scopeStart + ", " + scopeEnd + "]";
+            this.name = name + "[" + --scopeStart + ", " + --scopeEnd + "]";
         }
         else if (scopeStart > -1)
-            this.name = name + "[" + scopeStart + "]";
+            this.name = name + "[" + --scopeStart + "]";
         else
             this.name = name;
         Scene.getInstance().getLocalNumberer().add(this);
@@ -131,12 +131,4 @@ public class JimpleLocal implements Local {
     }
 
     private int number = 0;
-
-    public int getScopeStart() {
-        return scopeStart;
-    }
-
-    public int getScopeEnd() {
-        return scopeEnd;
-    }
 }

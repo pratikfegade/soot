@@ -78,9 +78,9 @@ final class AsmMethodSource implements MethodSource {
         this.localVars = localVars;
         this.tryCatchBlocks = tryCatchBlocks;
         for (int i = 0; i < insns.size(); i++) {
-           if (insns.get(i) instanceof LineNumberNode) {
-               labelToLineNodeMap.put(((LineNumberNode) insns.get(i)).start.getLabel(), (LineNumberNode) insns.get(i));
-           }
+            if (insns.get(i) instanceof LineNumberNode) {
+                labelToLineNodeMap.put(((LineNumberNode) insns.get(i)).start.getLabel(), (LineNumberNode) insns.get(i));
+            }
         }
     }
 
@@ -89,6 +89,8 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private Local getLocal(int idx) {
+        if (signature.contains("Driver"))
+            System.out.println("Searching for index: " + idx + " in method: " + signature);
         if (idx >= maxLocals)
             throw new IllegalArgumentException("Invalid local index: " + idx);
 
@@ -101,6 +103,8 @@ final class AsmMethodSource implements MethodSource {
             int endScope = -1;
             if (localVars != null) {
                 for (LocalVariableNode lvn : localVars) {
+                    if (signature.contains("Driver.run"))
+                        System.out.println("Local variable: " + lvn.name + " index: " + idx);
                     if (lvn.index == idx) {
                         name = lvn.name;
                         desc = lvn.desc;
@@ -263,9 +267,7 @@ final class AsmMethodSource implements MethodSource {
         if (stack.isEmpty())
             return;
         for (Operand opr : stack) {
-            if (opr == DWORD_DUMMY ||
-                    opr.stack != null ||
-                    (l == null && opr.value instanceof Local))
+            if (opr == DWORD_DUMMY || opr.stack != null || (l == null && opr.value instanceof Local))
                 continue;
             if (l != null && !opr.value.equivTo(l)) {
                 List<ValueBox> uses = opr.value.getUseBoxes();
@@ -281,8 +283,7 @@ final class AsmMethodSource implements MethodSource {
                     continue;
             }
             int op = opr.insn.getOpcode();
-            if (l == null && op != GETFIELD && op != GETSTATIC &&
-                    (op < IALOAD && op > SALOAD))
+            if (l == null && op != GETFIELD && op != GETSTATIC && (op < IALOAD && op > SALOAD))
                 continue;
             Local stack = newStackLocal();
             opr.stack = stack;
@@ -332,8 +333,7 @@ final class AsmMethodSource implements MethodSource {
         Operand opr, rvalue;
         Type type;
         if (out == null) {
-            SootClass declClass = Scene.getInstance().getSootClass(
-                    AsmUtil.toQualifiedName(insn.owner));
+            SootClass declClass = Scene.getInstance().getSootClass(AsmUtil.toQualifiedName(insn.owner));
             type = AsmUtil.toJimpleType(insn.desc);
             Value val;
             SootFieldRef ref;
@@ -1282,9 +1282,11 @@ final class AsmMethodSource implements MethodSource {
     private void convertVarLoadInsn(VarInsnNode insn) {
         int op = insn.getOpcode();
         boolean dword = op == LLOAD || op == DLOAD;
+
         StackFrame frame = getFrame(insn);
         Operand[] out = frame.out();
         Operand opr;
+
         if (out == null) {
             opr = new Operand(insn, getLocal(insn.var));
             frame.out(opr);
@@ -1300,9 +1302,11 @@ final class AsmMethodSource implements MethodSource {
     private void convertVarStoreInsn(VarInsnNode insn) {
         int op = insn.getOpcode();
         boolean dword = op == LSTORE || op == DSTORE;
+
         StackFrame frame = getFrame(insn);
         Operand opr = dword ? popDual() : pop();
         Local local = getLocal(insn.var);
+
         if (!units.containsKey(insn)) {
             DefinitionStmt as = Jimple.newAssignStmt(local, opr.stackOrValue());
             opr.addBox(as.getRightOpBox());

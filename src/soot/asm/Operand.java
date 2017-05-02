@@ -75,7 +75,7 @@ final class Operand {
 			list.add(vb);
 		} else if (boxes instanceof ValueBox) {
 			ValueBox ovb = (ValueBox) boxes;
-			List<ValueBox> list = new ArrayList<ValueBox>();
+			List<ValueBox> list = new ArrayList<>();
 			list.add(ovb);
 			list.add(vb);
 			boxes = list;
@@ -123,9 +123,7 @@ final class Operand {
 	 * operand, {@code false} otherwise.
 	 */
 	boolean equivTo(Operand other) {
-		if (other.value == null && value == null)
-			return true;
-		return stackOrValue().equivTo(other.stackOrValue());
+		return other.value == null && value == null || stackOrValue().equivTo(other.stackOrValue());
 	}
 
     // For consistency
