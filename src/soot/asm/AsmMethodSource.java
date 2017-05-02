@@ -28,6 +28,7 @@ import org.objectweb.asm.tree.*;
 import soot.*;
 import soot.coffi.Util;
 import soot.jimple.*;
+import soot.jimple.internal.JimpleLocal;
 import soot.options.Options;
 import soot.tagkit.LineNumberTag;
 import soot.tagkit.Tag;
@@ -89,23 +90,25 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private Local getLocal(int idx) {
-        if (signature.contains("Driver"))
+        if (signature.equals("<org.clyze.jphantom.Driver: void run()>"))
             System.out.println("Searching for index: " + idx + " in method: " + signature);
         if (idx >= maxLocals)
             throw new IllegalArgumentException("Invalid local index: " + idx);
 
         Integer i = idx;
-        Local l = locals.get(i);
+        Local l = locals.get(i);  // First search the list of stack locals for the variable with index idx
         if (l == null) {
             String name = null;
             String desc = null;
             int startScope = -1;
             int endScope = -1;
-            if (localVars != null) {
+
+            if (localVars != null) {       // If not found in stack locals search method local variables
                 for (LocalVariableNode lvn : localVars) {
-                    if (signature.contains("Driver.run"))
-                        System.out.println("Local variable: " + lvn.name + " index: " + idx);
                     if (lvn.index == idx) {
+                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>"))
+                            System.out.println("Found variable: " + lvn.name + " index: " + lvn.index);
+
                         name = lvn.name;
                         desc = lvn.desc;
                         if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
@@ -133,6 +136,27 @@ final class AsmMethodSource implements MethodSource {
                 l = Jimple.newLocal(name, jimpleTypeOfDescriptor(desc), startScope, endScope);
             }
             locals.put(i, l);
+        } else {
+            for (LocalVariableNode lvn : localVars) {
+                if (lvn.index == idx) {
+                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                        System.out.println("Enforcing variable: " + lvn.name + " index: " + lvn.index);
+                        l.setName(lvn.name);
+                        l.setType(jimpleTypeOfDescriptor(lvn.desc));
+                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
+                            ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()).line);
+                        else
+                            ((JimpleLocal) l).setScopeStart(-1);
+
+                        if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
+                            ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()).line);
+                        else
+                            ((JimpleLocal) l).setScopeEnd(-1);
+
+                        break;
+                    }
+                }
+            }
         }
         return l;
     }
@@ -254,6 +278,8 @@ final class AsmMethodSource implements MethodSource {
 
     Local newStackLocal() {
         Integer idx = nextLocal++;
+        if (signature.equals("<org.clyze.jphantom.Driver: void run()>)"))
+            System.out.println("Creating new stack local: $stack" + idx);
         Local l = Jimple.newLocal("$stack" + idx, UnknownType.getInstance(), -1, -1);
         locals.put(idx, l);
         return l;

@@ -35,6 +35,15 @@ import java.util.List;
 public class JimpleLocal implements Local {
     private String name;
     private Type type;
+
+    public void setScopeStart(int scopeStart) {
+        this.scopeStart = scopeStart;
+    }
+
+    public void setScopeEnd(int scopeEnd) {
+        this.scopeEnd = scopeEnd;
+    }
+
     private int scopeStart;
     private int scopeEnd;
 
