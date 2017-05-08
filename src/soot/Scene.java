@@ -119,7 +119,7 @@ public class Scene  //extends AbstractHost
 
     private int androidAPIVersion = -1;
 
-    public void setMainClass(SootClass m)
+    private void setMainClass(SootClass m)
     {
         mainClass = m;
         if(!m.declaresMethod(getSubSigNumberer().findOrAdd( "void main(java.lang.String[])" ))) {
@@ -133,7 +133,7 @@ public class Scene  //extends AbstractHost
      Returns a set of tokens which are reserved.  Any field, class, method, or local variable with such a name will be quoted.
      */
 
-    public Set<String> getReservedNames()
+    private Set<String> getReservedNames()
     {
         return reservedNames;
     }
@@ -143,7 +143,7 @@ public class Scene  //extends AbstractHost
      * version of it.  Else pass it through. If the name consists of multiple
      * parts separated by dots, the individual names are checked as well.
      */
-    public String quotedNameOf(String s)
+    String quotedNameOf(String s)
     {
         // Pre-check: Is there a chance that we need to escape something?
         // If not, skip the transformation altogether.
@@ -177,7 +177,7 @@ public class Scene  //extends AbstractHost
      * @param s The possibly escaped name
      * @return The original, non-escaped name
      */
-    public String unescapeName(String s) {
+    String unescapeName(String s) {
         // If the name is not escaped, there is nothing to do here
         if (!s.contains("'"))
             return s;
@@ -195,19 +195,11 @@ public class Scene  //extends AbstractHost
         return res.toString();
     }
 
-    public boolean hasMainClass() {
+    private boolean hasMainClass() {
         if(mainClass == null) {
             setMainClassFromOptions();
         }
         return mainClass!=null;
-    }
-
-    public SootClass getMainClass()
-    {
-        if(!hasMainClass())
-            throw new RuntimeException("There is no main class set!");
-
-        return mainClass;
     }
 
     public void setSootClassPath(String p)
@@ -296,7 +288,7 @@ public class Scene  //extends AbstractHost
         return maxApi;
     }
 
-    public String getAndroidJarPath(String jars, String apk) {
+    private String getAndroidJarPath(String jars, String apk) {
         int APIVersion = getAndroidAPIVersion(jars,apk);
 
         String jarPath = jars + File.separator + "android-" + APIVersion + File.separator + "android.jar";
@@ -726,11 +718,6 @@ public class Scene  //extends AbstractHost
         return c.getMethod( mname );
     }
 
-    boolean containsMethod(String methodSignature)
-    {
-        return grabMethod(methodSignature) != null;
-    }
-
     public SootField getField(String fieldSignature)
     {
         SootField f = grabField( fieldSignature );
@@ -812,26 +799,37 @@ public class Scene  //extends AbstractHost
         Type result = getRefTypeUnsafe(type);
 
         if (result == null) {
-            if (type.equals("long"))
-                result = LongType.getInstance();
-            else if (type.equals("short"))
-                result = ShortType.getInstance();
-            else if (type.equals("double"))
-                result = DoubleType.getInstance();
-            else if (type.equals("int"))
-                result = IntType.getInstance();
-            else if (type.equals("float"))
-                result = FloatType.getInstance();
-            else if (type.equals("byte"))
-                result = ByteType.getInstance();
-            else if (type.equals("char"))
-                result = CharType.getInstance();
-            else if (type.equals("void"))
-                result = new VoidType();
-            else if (type.equals("boolean"))
-                result = BooleanType.getInstance();
-            else
-                throw new RuntimeException("unknown type: '" + type + "'");
+            switch (type) {
+                case "long":
+                    result = LongType.getInstance();
+                    break;
+                case "short":
+                    result = ShortType.getInstance();
+                    break;
+                case "double":
+                    result = DoubleType.getInstance();
+                    break;
+                case "int":
+                    result = IntType.getInstance();
+                    break;
+                case "float":
+                    result = FloatType.getInstance();
+                    break;
+                case "byte":
+                    result = ByteType.getInstance();
+                    break;
+                case "char":
+                    result = CharType.getInstance();
+                    break;
+                case "void":
+                    result = new VoidType();
+                    break;
+                case "boolean":
+                    result = BooleanType.getInstance();
+                    break;
+                default:
+                    throw new RuntimeException("unknown type: '" + type + "'");
+            }
         }
 
         if (arrayCount != 0) {
@@ -932,7 +930,7 @@ public class Scene  //extends AbstractHost
      * Returns a chain of the application classes in this scene.
      * These classes are the ones which can be freely analysed & modified.
      */
-    public Chain<SootClass> getApplicationClasses()
+    Chain<SootClass> getApplicationClasses()
     {
         return applicationClasses;
     }
@@ -941,7 +939,7 @@ public class Scene  //extends AbstractHost
      * Returns a chain of the library classes in this scene.
      * These classes can be analysed but not modified.
      */
-    public Chain<SootClass> getLibraryClasses()
+    Chain<SootClass> getLibraryClasses()
     {
         return libraryClasses;
     }
@@ -1031,7 +1029,7 @@ public class Scene  //extends AbstractHost
         return Options.getInstance().allow_phantom_refs();
     }
 
-    public void setPhantomRefs()
+    private void setPhantomRefs()
     {
     }
 
@@ -1138,7 +1136,7 @@ public class Scene  //extends AbstractHost
         rn.add("with");
     }
 
-    private final Set<String>[] basicclasses=new Set[4];
+    private final Set<String>[] basicclasses = new Set[4];
 
     private void addSootBasicClasses() {
         basicclasses[SootClass.HIERARCHY] = new HashSet<>();
@@ -1216,7 +1214,7 @@ public class Scene  //extends AbstractHost
      *  specified on the command-line. You don't need to use both this and
      *  loadNecessaryClasses, though it will only waste time.
      */
-    public void loadBasicClasses() {
+    private void loadBasicClasses() {
 
         for(int i=SootClass.BODIES;i>=SootClass.HIERARCHY;i--) {
             for(String name: basicclasses[i]){
@@ -1342,7 +1340,7 @@ public class Scene  //extends AbstractHost
         return false;
     }
 
-    public boolean isIncluded(SootClass sc){
+    private boolean isIncluded(SootClass sc){
         String name = sc.getName();
         for (String inc : Options.getInstance().include()) {
             if (name.equals(inc) || ((inc.endsWith(".*") || inc.endsWith("$*")) && name.startsWith(inc.substring(0, inc.length() - 1)))) {
@@ -1351,17 +1349,6 @@ public class Scene  //extends AbstractHost
         }
         return false;
     }
-
-    List<String> pkgList;
-
-    public void setPkgList(List<String> list){
-        pkgList = list;
-    }
-
-    public List<String> getPkgList(){
-        return pkgList;
-    }
-
 
     /** Create an unresolved reference to a method. */
     public SootMethodRef makeMethodRef(
