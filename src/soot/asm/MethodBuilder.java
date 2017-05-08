@@ -21,6 +21,7 @@ package soot.asm;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.commons.JSRInlinerAdapter;
+import org.objectweb.asm.tree.analysis.Frame;
 import soot.ArrayType;
 import soot.RefType;
 import soot.SootMethod;
@@ -39,6 +40,7 @@ class MethodBuilder extends JSRInlinerAdapter {
     private VisibilityAnnotationTag[] invisibleParamAnnotations;
     private final SootMethod method;
     private final SootClassBuilder scb;
+
 
     MethodBuilder(SootMethod method, SootClassBuilder scb, String desc, String[] ex) {
         super(Opcodes.ASM5, null, method.getModifiers(), method.getName(), desc, null, ex);
@@ -71,6 +73,19 @@ class MethodBuilder extends JSRInlinerAdapter {
     @Override
     public void visitAttribute(Attribute attr) {
         getTagBuilder().visitAttribute(attr);
+    }
+
+    @Override
+    public void visitFrame(int type, int nLocal, Object[] local, int nStack, Object[] stack) {
+//        System.out.println("Locals: ");
+//        for (Object l: local) {
+//            System.out.println(l);
+//        }
+//        System.out.println("Stack: " );
+//        for (Object s: stack) {
+//            System.out.println(s);
+//        }
+        super.visitFrame(type, nLocal, local, nStack, stack);
     }
 
     @Override

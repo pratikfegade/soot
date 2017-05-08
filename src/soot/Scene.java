@@ -1378,15 +1378,7 @@ public class Scene  //extends AbstractHost
             boolean isStatic) {
         return new AbstractSootFieldRef(declaringClass, name, type, isStatic);
     }
-    /** Returns the list of SootClasses that have been resolved at least to
-     * the level specified. */
-    public List<SootClass> getClasses(int desiredLevel) {
-        List<SootClass> ret = new ArrayList<>();
-        for (final SootClass cl : getClasses()) {
-            if (cl.resolvingLevel() >= desiredLevel) ret.add(cl);
-        }
-        return ret;
-    }
+
     private boolean doneResolving = false;
     private LinkedList<String> excludedPackages;
     boolean doneResolving() { return doneResolving; }

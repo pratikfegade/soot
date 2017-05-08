@@ -27,22 +27,22 @@ import java.util.ArrayList;
 
 /**
  * Annotation element builder.
- * 
+ *
  * @author Aaloan Miftah
  */
 abstract class AnnotationElemBuilder extends AnnotationVisitor {
 
 	protected final ArrayList<AnnotationElem> elems;
-	
+
 	AnnotationElemBuilder(int expected) {
 		super(Opcodes.ASM5);
-		this.elems = new ArrayList<AnnotationElem>(expected);
+		this.elems = new ArrayList<>(expected);
 	}
-	
+
 	AnnotationElemBuilder() {
 		this(4);
 	}
-	
+
 	public AnnotationElem getAnnotationElement(String name, Object value){
 		AnnotationElem elem;
 		if (value instanceof Byte) {
@@ -96,18 +96,18 @@ abstract class AnnotationElemBuilder extends AnnotationVisitor {
 			throw new UnsupportedOperationException("Unsupported value type: " + value.getClass());
 		return(elem);
 	}
-	
+
 	@Override
 	public void visit(String name, Object value) {
 		AnnotationElem elem = getAnnotationElement(name,value);
 		this.elems.add(elem);
 	}
-	
+
 	@Override
 	public void visitEnum(String name, String desc, String value) {
 		elems.add(new AnnotationEnumElem(desc, value, 'e', name));
 	}
-	
+
 	@Override
 	public AnnotationVisitor visitArray(final String name) {
 		return new AnnotationElemBuilder() {
@@ -121,7 +121,7 @@ abstract class AnnotationElemBuilder extends AnnotationVisitor {
 			}
 		};
 	}
-	
+
 	@Override
 	public AnnotationVisitor visitAnnotation(final String name, final String desc) {
 		return new AnnotationElemBuilder() {
@@ -132,7 +132,7 @@ abstract class AnnotationElemBuilder extends AnnotationVisitor {
 			}
 		};
 	}
-	
+
 	@Override
 	public abstract void visitEnd();
 }

@@ -43,7 +43,7 @@ final class TagBuilder {
 	 * @see MethodVisitor#visitAnnotation(String, boolean)
 	 * @see ClassVisitor#visitAnnotation(String, boolean)
 	 */
-	public AnnotationVisitor visitAnnotation(final String desc, boolean visible) {
+	AnnotationVisitor visitAnnotation(final String desc, boolean visible) {
 		VisibilityAnnotationTag tag;
 		if (visible) {
 			tag = visibleTag;
@@ -74,7 +74,7 @@ final class TagBuilder {
 	 * @see MethodVisitor#visitAttribute(Attribute)
 	 * @see ClassVisitor#visitAttribute(Attribute)
 	 */
-	public void visitAttribute(Attribute attr) {
+	void visitAttribute(Attribute attr) {
 		host.addTag(new GenericAttribute(attr.type,null));
 		//throw new UnsupportedOperationException("Unknown attribute: " + attr);
 	}

@@ -41,7 +41,7 @@ public class AsmClassSource extends ClassSource {
 	 * @param cls fully qualified name of the class.
 	 * @param data stream containing data for class.
 	 */
-	public AsmClassSource(String cls, FoundFile foundFile) {
+	AsmClassSource(String cls, FoundFile foundFile) {
 		super(cls);
 		if(foundFile == null)
 			throw new IllegalStateException("Error: The FoundFile must not be null.");
@@ -55,7 +55,7 @@ public class AsmClassSource extends ClassSource {
 			d = foundFile.inputStream();
 			ClassReader clsr = new ClassReader(d);
 			SootClassBuilder scb = new SootClassBuilder(sc);
-			clsr.accept(scb, ClassReader.SKIP_FRAMES);
+			clsr.accept(scb, ClassReader.EXPAND_FRAMES);
 			Dependencies deps = new Dependencies();
 			deps.typesToSignature.addAll(scb.deps);
 			return deps;

@@ -65,5 +65,4 @@ public class CastAndReturnInliner extends BodyTransformer {
 			}
 		}
 	}
-
 }
