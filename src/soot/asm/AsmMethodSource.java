@@ -93,11 +93,11 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private Local getLocal(int idx) {
-        if (signature.contains("Driver") && signature.contains("run")) {
-            System.out.println("Searching for index: " + idx + " latest label: " + latestLabel);
-            if (labelToLineNodeMap.containsKey(latestLabel))
-                System.out.println("Latest Line: " + labelToLineNodeMap.get(latestLabel).line);
-        }
+//        if (signature.contains("Driver") && signature.contains("run")) {
+//            System.out.println("Searching for index: " + idx + " latest label: " + latestLabel);
+//            if (labelToLineNodeMap.containsKey(latestLabel))
+//                System.out.println("Latest Line: " + labelToLineNodeMap.get(latestLabel).line);
+//        }
 
         if (idx >= maxLocals)
             throw new IllegalArgumentException("Invalid local index: " + idx);
@@ -130,11 +130,11 @@ final class AsmMethodSource implements MethodSource {
                         if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
                             eScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
 
-                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                            System.out.println("Candidate: " + lvn.name);
-                            System.out.println("Scope start: " + sScope);
-                            System.out.println("Scope end: " + eScope);
-                        }
+//                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                            System.out.println("Candidate: " + lvn.name);
+//                            System.out.println("Scope start: " + sScope);
+//                            System.out.println("Scope end: " + eScope);
+//                        }
 
 
                         if (lvn.start.getLabel() == latestLabel) {
@@ -142,9 +142,9 @@ final class AsmMethodSource implements MethodSource {
                             endScope = eScope;
                             name = lvn.name;
                             desc = lvn.desc;
-                            if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                                System.out.println("Selected!");
-                            }
+//                            if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                                System.out.println("Selected!");
+//                            }
                             break;
                         }
                         else {
@@ -153,9 +153,9 @@ final class AsmMethodSource implements MethodSource {
                                 endScope = eScope;
                                 name = lvn.name;
                                 desc = lvn.desc;
-                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                                    System.out.println("Selected!");
-                                }
+//                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                                    System.out.println("Selected!");
+//                                }
                             }
                         }
                     }
