@@ -53,19 +53,19 @@ public class JimpleLocal implements Local {
         this.scopeStart = scopeStart;
         this.scopeEnd = scopeEnd;
 
-        if (scopeStart > -1 && scopeEnd > -1) {
-            // FIX: Bytecode does not assign labels to line numbers monotonically so we may need to swap the lines
-            if (scopeStart > scopeEnd) {
-                int temp = scopeEnd;
-                scopeEnd = scopeStart;
-                scopeStart = temp;
-            }
-            this.name = name + "[" + --scopeStart + ", " + --scopeEnd + "]";
-        }
-        else if (scopeStart > -1)
-            this.name = name + "[" + --scopeStart + "]";
-        else
-            this.name = name;
+//        if (scopeStart > -1 && scopeEnd > -1) {
+//            // FIX: Bytecode does not assign labels to line numbers monotonically so we may need to swap the lines
+//            if (scopeStart > scopeEnd) {
+//                int temp = scopeEnd;
+//                scopeEnd = scopeStart;
+//                scopeStart = temp;
+//            }
+//            this.name = name + "[" + --scopeStart + ", " + --scopeEnd + "]";
+//        }
+//        else if (scopeStart > -1)
+//            this.name = name + "[" + --scopeStart + "]";
+//        else
+        this.name = name;
         Scene.getInstance().getLocalNumberer().add(this);
     }
 

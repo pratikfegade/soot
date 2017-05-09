@@ -71,8 +71,11 @@ final class AsmMethodSource implements MethodSource {
 
     private final CastAndReturnInliner castAndReturnInliner = new CastAndReturnInliner();
     private final Map<Label, LineNumberNode> labelToLineNodeMap = new LinkedHashMap<>();
+    private Label latestLabel = null;
 
     AsmMethodSource(String signature, int maxLocals, InsnList insns, List<LocalVariableNode> localVars, List<TryCatchBlockNode> tryCatchBlocks) {
+
+
         this.signature = signature;
         this.maxLocals = maxLocals;
         this.instructions = insns;
@@ -90,6 +93,12 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private Local getLocal(int idx) {
+        if (signature.contains("Driver") && signature.contains("run")) {
+            System.out.println("Searching for index: " + idx + " latest label: " + latestLabel);
+            if (labelToLineNodeMap.containsKey(latestLabel))
+                System.out.println("Latest Line: " + labelToLineNodeMap.get(latestLabel).line);
+        }
+
         if (idx >= maxLocals)
             throw new IllegalArgumentException("Invalid local index: " + idx);
 
@@ -101,17 +110,54 @@ final class AsmMethodSource implements MethodSource {
             int startScope = -1;
             int endScope = -1;
 
+            int latestLine = -1;
+
+            if (labelToLineNodeMap.containsKey(latestLabel))
+                latestLine = labelToLineNodeMap.get(latestLabel).line;
+
+
             if (localVars != null) {       // If not found in stack locals search method local variables
                 for (LocalVariableNode lvn : localVars) {
                     if (lvn.index == idx) {
-                        name = lvn.name;
-                        desc = lvn.desc;
-                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
-                            startScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
 
+                        int sScope = -1;
+
+                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
+                            sScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
+
+
+                        int eScope = -1;
                         if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
-                            endScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
-                        break;
+                            eScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
+
+                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                            System.out.println("Candidate: " + lvn.name);
+                            System.out.println("Scope start: " + sScope);
+                            System.out.println("Scope end: " + eScope);
+                        }
+
+
+                        if (lvn.start.getLabel() == latestLabel) {
+                            startScope = sScope;
+                            endScope = eScope;
+                            name = lvn.name;
+                            desc = lvn.desc;
+                            if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                                System.out.println("Selected!");
+                            }
+                            break;
+                        }
+                        else {
+                            if (sScope <= latestLine && (eScope >= latestLine || eScope == -1)) {
+                                startScope = sScope;
+                                endScope = eScope;
+                                name = lvn.name;
+                                desc = lvn.desc;
+                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                                    System.out.println("Selected!");
+                                }
+                            }
+                        }
                     }
                 }
 				/* normally for try-catch blocks */
@@ -135,22 +181,19 @@ final class AsmMethodSource implements MethodSource {
 //        else {
 //            for (LocalVariableNode lvn : localVars) {
 //                if (lvn.index == idx) {
-//                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-//                        //System.out.println("Enforcing variable: " + lvn.name + " index: " + lvn.index);
-//                        l.setName(lvn.name);
-//                        l.setType(jimpleTypeOfDescriptor(lvn.desc));
-//                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
-//                            ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()).line);
-//                        else
-//                            ((JimpleLocal) l).setScopeStart(-1);
+//                    l.setName(lvn.name);
+//                    l.setType(jimpleTypeOfDescriptor(lvn.desc));
+//                    if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
+//                        ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()).line);
+//                    else
+//                        ((JimpleLocal) l).setScopeStart(-1);
 //
-//                        if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
-//                            ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()).line);
-//                        else
-//                            ((JimpleLocal) l).setScopeEnd(-1);
+//                    if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
+//                        ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()).line);
+//                    else
+//                        ((JimpleLocal) l).setScopeEnd(-1);
 //
-//                        break;
-//                    }
+//                    break;
 //                }
 //            }
 //        }
@@ -1355,6 +1398,7 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private void convertLabel(LabelNode ln) {
+        latestLabel = ln.getLabel();
         if (!trapHandlers.containsKey(ln))
             return;
 
