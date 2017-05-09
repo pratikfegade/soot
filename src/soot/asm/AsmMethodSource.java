@@ -130,13 +130,19 @@ final class AsmMethodSource implements MethodSource {
                         if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
                             eScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
 
+                        if (sScope > eScope) {
+                            int temp = sScope;
+                            sScope = eScope;
+                            eScope = temp;
+                        }
 //                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
 //                            System.out.println("Candidate: " + lvn.name);
 //                            System.out.println("Scope start: " + sScope);
 //                            System.out.println("Scope end: " + eScope);
 //                        }
 
-
+                        // if there is direct connection to the label we consider ourselves done (assuming
+                        // variables with the same index to never have exactly the same starting label)
                         if (lvn.start.getLabel() == latestLabel) {
                             startScope = sScope;
                             endScope = eScope;
