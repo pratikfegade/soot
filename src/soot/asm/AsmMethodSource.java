@@ -90,8 +90,6 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private Local getLocal(int idx) {
-        if (signature.equals("<org.clyze.jphantom.Driver: void run()>"))
-            System.out.println("Searching for index: " + idx + " in method: " + signature);
         if (idx >= maxLocals)
             throw new IllegalArgumentException("Invalid local index: " + idx);
 
@@ -106,9 +104,6 @@ final class AsmMethodSource implements MethodSource {
             if (localVars != null) {       // If not found in stack locals search method local variables
                 for (LocalVariableNode lvn : localVars) {
                     if (lvn.index == idx) {
-                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>"))
-                            System.out.println("Found variable: " + lvn.name + " index: " + lvn.index);
-
                         name = lvn.name;
                         desc = lvn.desc;
                         if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
@@ -136,28 +131,29 @@ final class AsmMethodSource implements MethodSource {
                 l = Jimple.newLocal(name, jimpleTypeOfDescriptor(desc), startScope, endScope);
             }
             locals.put(i, l);
-        } else {
-            for (LocalVariableNode lvn : localVars) {
-                if (lvn.index == idx) {
-                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                        System.out.println("Enforcing variable: " + lvn.name + " index: " + lvn.index);
-                        l.setName(lvn.name);
-                        l.setType(jimpleTypeOfDescriptor(lvn.desc));
-                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
-                            ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()).line);
-                        else
-                            ((JimpleLocal) l).setScopeStart(-1);
-
-                        if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
-                            ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()).line);
-                        else
-                            ((JimpleLocal) l).setScopeEnd(-1);
-
-                        break;
-                    }
-                }
-            }
         }
+//        else {
+//            for (LocalVariableNode lvn : localVars) {
+//                if (lvn.index == idx) {
+//                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                        //System.out.println("Enforcing variable: " + lvn.name + " index: " + lvn.index);
+//                        l.setName(lvn.name);
+//                        l.setType(jimpleTypeOfDescriptor(lvn.desc));
+//                        if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
+//                            ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()).line);
+//                        else
+//                            ((JimpleLocal) l).setScopeStart(-1);
+//
+//                        if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
+//                            ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()).line);
+//                        else
+//                            ((JimpleLocal) l).setScopeEnd(-1);
+//
+//                        break;
+//                    }
+//                }
+//            }
+//        }
         return l;
     }
 
@@ -278,8 +274,6 @@ final class AsmMethodSource implements MethodSource {
 
     Local newStackLocal() {
         Integer idx = nextLocal++;
-        if (signature.equals("<org.clyze.jphantom.Driver: void run()>)"))
-            System.out.println("Creating new stack local: $stack" + idx);
         Local l = Jimple.newLocal("$stack" + idx, UnknownType.getInstance(), -1, -1);
         locals.put(idx, l);
         return l;
