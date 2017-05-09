@@ -72,6 +72,7 @@ final class AsmMethodSource implements MethodSource {
     private final CastAndReturnInliner castAndReturnInliner = new CastAndReturnInliner();
     private final Map<Label, LineNumberNode> labelToLineNodeMap = new LinkedHashMap<>();
     private Label latestLabel = null;
+    private int latestLine = -1;
 
     AsmMethodSource(String signature, int maxLocals, InsnList insns, List<LocalVariableNode> localVars, List<TryCatchBlockNode> tryCatchBlocks) {
 
@@ -110,7 +111,6 @@ final class AsmMethodSource implements MethodSource {
             int startScope = -1;
             int endScope = -1;
 
-            int latestLine = -1;
 
             if (labelToLineNodeMap.containsKey(latestLabel))
                 latestLine = labelToLineNodeMap.get(latestLabel).line;
@@ -121,7 +121,6 @@ final class AsmMethodSource implements MethodSource {
                     if (lvn.index == idx) {
 
                         int sScope = -1;
-
                         if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
                             sScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
 
@@ -130,43 +129,68 @@ final class AsmMethodSource implements MethodSource {
                         if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
                             eScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
 
-                        if (sScope > eScope) {
+                        if (sScope > eScope && eScope != -1) {
                             int temp = sScope;
                             sScope = eScope;
                             eScope = temp;
                         }
-//                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-//                            System.out.println("Candidate: " + lvn.name);
-//                            System.out.println("Scope start: " + sScope);
-//                            System.out.println("Scope end: " + eScope);
-//                        }
+                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                            System.out.println("Candidate: " + lvn.name);
+                            System.out.println("Scope start: " + sScope);
+                            System.out.println("Scope end: " + eScope);
+                        }
 
                         // if there is direct connection to the label we consider ourselves done (assuming
                         // variables with the same index to never have exactly the same starting label)
-                        if (lvn.start.getLabel() == latestLabel) {
+                        if (latestLine == -1) {
                             startScope = sScope;
                             endScope = eScope;
                             name = lvn.name;
                             desc = lvn.desc;
-//                            if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-//                                System.out.println("Selected!");
-//                            }
-                            break;
                         }
                         else {
-                            if (sScope <= latestLine && (eScope >= latestLine || eScope == -1)) {
+                            if (lvn.start.getLabel() == latestLabel) {
                                 startScope = sScope;
                                 endScope = eScope;
                                 name = lvn.name;
                                 desc = lvn.desc;
-//                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-//                                    System.out.println("Selected!");
-//                                }
+                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                                    System.out.println("Selected!");
+                                }
+                                break;
+                            }
+                            else {
+                                if (sScope <= latestLine && (eScope >= latestLine || eScope == -1)) {
+                                    startScope = sScope;
+                                    endScope = eScope;
+                                    name = lvn.name;
+                                    desc = lvn.desc;
+                                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+                                        System.out.println("Selected!");
+                                    }
+                                }
                             }
                         }
                     }
                 }
 				/* normally for try-catch blocks */
+                if (name == null) {
+                    for (LocalVariableNode lvn : localVars) {
+                        if (lvn.index == idx) {
+
+                            if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
+                                startScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
+
+                            if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
+                                endScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
+
+                            name = lvn.name;
+                            desc = lvn.desc;
+                            break;
+
+                        }
+                    }
+                }
                 if (name == null)
                     name = "l" + idx;
             } else {
