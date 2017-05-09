@@ -134,11 +134,11 @@ final class AsmMethodSource implements MethodSource {
                             sScope = eScope;
                             eScope = temp;
                         }
-                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                            System.out.println("Candidate: " + lvn.name);
-                            System.out.println("Scope start: " + sScope);
-                            System.out.println("Scope end: " + eScope);
-                        }
+//                        if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                            System.out.println("Candidate: " + lvn.name);
+//                            System.out.println("Scope start: " + sScope);
+//                            System.out.println("Scope end: " + eScope);
+//                        }
 
                         // if there is direct connection to the label we consider ourselves done (assuming
                         // variables with the same index to never have exactly the same starting label)
@@ -154,9 +154,9 @@ final class AsmMethodSource implements MethodSource {
                                 endScope = eScope;
                                 name = lvn.name;
                                 desc = lvn.desc;
-                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                                    System.out.println("Selected!");
-                                }
+//                                if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                                    System.out.println("Selected!");
+//                                }
                                 break;
                             }
                             else {
@@ -165,9 +165,9 @@ final class AsmMethodSource implements MethodSource {
                                     endScope = eScope;
                                     name = lvn.name;
                                     desc = lvn.desc;
-                                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
-                                        System.out.println("Selected!");
-                                    }
+//                                    if (signature.equals("<org.clyze.jphantom.Driver: void run()>")) {
+//                                        System.out.println("Selected!");
+//                                    }
                                 }
                             }
                         }
