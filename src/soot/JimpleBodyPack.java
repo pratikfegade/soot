@@ -60,7 +60,7 @@ public class JimpleBodyPack extends BodyPack
         //Don't remove unused code
         PackManager.v().getTransform( "jb.uce" ).apply( b );
 		//Don't split locals
-        //PackManager.v().getTransform( "jb.ls" ).apply( b );
+        PackManager.v().getTransform( "jb.ls" ).apply( b );
 
         if(Options.v().time()) Timers.v().splitTimer.end();
 
@@ -77,7 +77,7 @@ public class JimpleBodyPack extends BodyPack
 
         if(options.use_original_names())
         {   
-            //PackManager.v().getTransform( "jb.ulp" ).apply( b );
+            PackManager.v().getTransform( "jb.ulp" ).apply( b );
         }
         PackManager.v().getTransform( "jb.lns" ).apply( b );		// LocalNameStandardizer
         PackManager.v().getTransform( "jb.cp" ).apply( b );			// CopyPropagator
