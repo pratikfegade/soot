@@ -152,7 +152,7 @@ public class LocalSplitter extends BodyTransformer
             	continue;
             Local newLocal = (Local) oldLocal.clone();
             
-            newLocal.setName(newLocal.getName()+'#'+ ++w); // renaming should not be done here
+            newLocal.setName(newLocal.getName()/*+'#'+ ++w*/); // renaming should not be done here
     		body.getLocals().add(newLocal);
             
     		Deque<Unit> queue = new ArrayDeque<Unit>();
