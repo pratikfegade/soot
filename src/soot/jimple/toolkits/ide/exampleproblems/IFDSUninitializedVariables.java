@@ -195,7 +195,7 @@ public class IFDSUninitializedVariables extends DefaultJimpleIFDSTabulationProbl
 
 	@Override
 	public Local createZeroValue() {
-		return new JimpleLocal("<<zero>>", NullType.v());
+		return new JimpleLocal("<<zero>>", NullType.v(), -1, -1);
 	}
 
 }

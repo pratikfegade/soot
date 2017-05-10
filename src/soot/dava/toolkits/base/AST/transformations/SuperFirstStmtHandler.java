@@ -485,7 +485,7 @@ public class SuperFirstStmtHandler extends DepthFirstAdapter {
 		RefType type = (new SootClass("DavaSuperHandler")).getType();
 
 		// make JimpleLocal to be used in each arg
-		Local jimpleLocal = new JimpleLocal("handler", type);// takes care of
+		Local jimpleLocal = new JimpleLocal("handler", type, -1, -1);// takes care of
 																// handler
 
 		// make reference to a method of name get takes one int arg belongs to
@@ -753,7 +753,7 @@ public class SuperFirstStmtHandler extends DepthFirstAdapter {
 		RefType type = (new SootClass("DavaSuperHandler")).getType();
 
 		// make JimpleLocal to be used in each arg
-		Local jimpleLocal = new JimpleLocal("handler", type);// takes care of
+		Local jimpleLocal = new JimpleLocal("handler", type, -1, -1);// takes care of
 																// handler
 
 		// make reference to a method of name get takes one int arg belongs to
@@ -1166,7 +1166,7 @@ public class SuperFirstStmtHandler extends DepthFirstAdapter {
 		SootClass sootClass = new SootClass("DavaSuperHandler");
 
 		Type localType = sootClass.getType();
-		Local newLocal = new JimpleLocal("handler", localType);
+		Local newLocal = new JimpleLocal("handler", localType, -1, -1);
 
 		/*
 		 * Create * DavaSuperHandler handler; *

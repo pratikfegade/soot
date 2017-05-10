@@ -104,15 +104,11 @@ public class IFDSLocalInfoFlow extends DefaultJimpleIFDSTabulationProblem<Local,
 							if(leftOp instanceof Local) {
 								final Local tgtLocal = (Local) leftOp;
 								final Local retLocal = (Local) op;
-								return new FlowFunction<Local>() {
-
-									public Set<Local> computeTargets(Local source) {
-										if(source==retLocal)
-											return Collections.singleton(tgtLocal);
-										return Collections.emptySet();
-									}
-									
-								};
+								return source -> {
+                                    if(source==retLocal)
+                                        return Collections.singleton(tgtLocal);
+                                    return Collections.emptySet();
+                                };
 							}
 						}
 					}
@@ -129,7 +125,7 @@ public class IFDSLocalInfoFlow extends DefaultJimpleIFDSTabulationProblem<Local,
 
 	@Override
 	public Local createZeroValue() {
-		return new JimpleLocal("zero", NullType.v());
+		return new JimpleLocal("zero", NullType.v(), -1, -1);
 	}
 
 	@Override

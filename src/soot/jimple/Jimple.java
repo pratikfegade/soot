@@ -606,7 +606,12 @@ public class Jimple {
 	 * Constructs a Local with the given name and type.
 	 */
 	public Local newLocal(String name, Type t) {
-		return new JimpleLocal(name, t);
+		return new JimpleLocal(name, t, -1, -1);
+	}
+
+
+	public Local newLocal(String name, Type t, int scopeStart, int scopeEnd) {
+		return new JimpleLocal(name, t, scopeStart, scopeEnd);
 	}
 
 	/**

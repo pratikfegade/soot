@@ -380,7 +380,7 @@ public class ShimpleBodyBuilder
         Local newLocal = newLocals.get(name);
 
         if(newLocal == null){
-            newLocal = new JimpleLocal(name, oldLocal.getType());
+            newLocal = new JimpleLocal(name, oldLocal.getType(), -1, -1);
             newLocals.put(name, newLocal);
             newLocalsToOldLocal.put(newLocal, oldLocal);
 

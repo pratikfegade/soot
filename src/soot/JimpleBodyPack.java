@@ -47,19 +47,18 @@ public class JimpleBodyPack extends BodyPack
     { 
         JBOptions options = new JBOptions( opts );
         
-        if(options.use_original_names())
-            PhaseOptions.v().setPhaseOptionIfUnset( "jb.lns", "only-stack-locals");
+        PhaseOptions.v().setPhaseOptionIfUnset( "jb.lns", "only-stack-locals");
         
         if(Options.v().time()) Timers.v().splitTimer.start();
 
-        //PackManager.v().getTransform( "jb.tt" ).apply( b );		// TrapTigthener
-        //PackManager.v().getTransform( "jb.dtr" ).apply( b );	// DuplicateCatchAllTrapRemover
+        PackManager.v().getTransform( "jb.tt" ).apply( b );		// TrapTigthener
+        PackManager.v().getTransform( "jb.dtr" ).apply( b );	// DuplicateCatchAllTrapRemover
         
         // UnreachableCodeEliminator: We need to do this before splitting
         // locals for not creating disconnected islands of useless assignments
         // that afterwards mess up type assignment.
         //Don't remove unused code
-        //PackManager.v().getTransform( "jb.uce" ).apply( b );
+        PackManager.v().getTransform( "jb.uce" ).apply( b );
 		//Don't split locals
         //PackManager.v().getTransform( "jb.ls" ).apply( b );
 
@@ -68,7 +67,7 @@ public class JimpleBodyPack extends BodyPack
         //This will aggregate only stack locals
         PackManager.v().getTransform( "jb.a" ).apply( b );
         //Don't remove unused locals
-        //PackManager.v().getTransform( "jb.ule" ).apply( b );
+        PackManager.v().getTransform( "jb.ule" ).apply( b );
 
         if(Options.v().time()) Timers.v().assignTimer.start();
 
@@ -81,22 +80,22 @@ public class JimpleBodyPack extends BodyPack
             //PackManager.v().getTransform( "jb.ulp" ).apply( b );
         }
         PackManager.v().getTransform( "jb.lns" ).apply( b );		// LocalNameStandardizer
-        //PackManager.v().getTransform( "jb.cp" ).apply( b );			// CopyPropagator
-        //PackManager.v().getTransform( "jb.dae" ).apply( b );		// DeadAssignmentElimintaor
-        //PackManager.v().getTransform( "jb.cp-ule" ).apply( b );		// UnusedLocalEliminator
-        //PackManager.v().getTransform( "jb.lp" ).apply( b );			// LocalPacker
-        //PackManager.v().getTransform( "jb.ne" ).apply( b );			// NopEliminator
-        //PackManager.v().getTransform( "jb.uce" ).apply( b );		// UnreachableCodeEliminator: Again, we might
+        PackManager.v().getTransform( "jb.cp" ).apply( b );			// CopyPropagator
+        PackManager.v().getTransform( "jb.dae" ).apply( b );		// DeadAssignmentElimintaor
+        PackManager.v().getTransform( "jb.cp-ule" ).apply( b );		// UnusedLocalEliminator
+        PackManager.v().getTransform( "jb.lp" ).apply( b );			// LocalPacker
+        PackManager.v().getTransform( "jb.ne" ).apply( b );			// NopEliminator
+        PackManager.v().getTransform( "jb.uce" ).apply( b );		// UnreachableCodeEliminator: Again, we might
         // have new dead code
         
         // LocalNameStandardizer: After all these changes, some locals
         // may end up being eliminated. If we want a stable local iteration
         // order between soot instances, running LocalNameStandardizer
         // again after all other changes is required.
-//        if (PhaseOptions.getBoolean(opts, "stabilize-local-names")) {
-//        	PhaseOptions.v().setPhaseOption("jb.lns", "sort-locals:true");
-//        	PackManager.v().getTransform( "jb.lns" ).apply( b );
-//        }
+        if (PhaseOptions.getBoolean(opts, "stabilize-local-names")) {
+        	PhaseOptions.v().setPhaseOption("jb.lns", "sort-locals:true");
+        	PackManager.v().getTransform( "jb.lns" ).apply( b );
+        }
         
         if(Options.v().time())
             Timers.v().stmtCount += b.getUnits().size();

@@ -272,7 +272,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 			if (((SootField) field).isStatic())
 				ref = new DStaticFieldRef(tempFieldRef, true);
 			else
-				ref = new DInstanceFieldRef(new JimpleLocal("this", fieldType),
+				ref = new DInstanceFieldRef(new JimpleLocal("this", fieldType, -1, -1),
 						tempFieldRef, new HashSet<Object>());
 
 		} else if (field instanceof Local) {
@@ -388,7 +388,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 				
 				// Creating STMT0
 				Type localType = field.getType();
-				Local newLocal = new JimpleLocal("DavaTemp_" + field.getName(),localType);
+				Local newLocal = new JimpleLocal("DavaTemp_" + field.getName(),localType, -1, -1);
 
 				DVariableDeclarationStmt varStmt = new DVariableDeclarationStmt(localType,davaBody);
 				
@@ -467,7 +467,7 @@ public class FinalFieldDefinition {// extends DepthFirstAdapter{
 					ref = new DStaticFieldRef(tempFieldRef, true);
 				else {
 					ref = new DInstanceFieldRef(new JimpleLocal("this", field
-							.getType()), tempFieldRef, new HashSet<Object>());
+							.getType(), -1, -1), tempFieldRef, new HashSet<Object>());
 					// throw new RuntimeException("STOPPED");
 				}
 

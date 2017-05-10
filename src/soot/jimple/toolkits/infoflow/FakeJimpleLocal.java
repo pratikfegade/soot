@@ -26,7 +26,7 @@ public class FakeJimpleLocal extends JimpleLocal
     
     public FakeJimpleLocal(String name, Type t, Local realLocal, Object info)
     {
-    	super(name, t);
+    	super(name, t, -1, -1);
     	this.realLocal = realLocal;
     	this.info = info;
     }

@@ -134,17 +134,13 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 					return Identity.v();
 				
 				final DefinitionStmt definitionStmt = (DefinitionStmt) callSite;
-				return new FlowFunction<Pair<Value, Set<DefinitionStmt>>>() {
-
-					@Override
-					public Set<Pair<Value, Set<DefinitionStmt>>> computeTargets(Pair<Value, Set<DefinitionStmt>> source) {
-						if(source.getO1().equivTo(definitionStmt.getLeftOp())) {
-							return Collections.emptySet();
-						} else {
-							return Collections.singleton(source);
-						}
-					}
-				};
+				return source -> {
+                    if(source.getO1().equivTo(definitionStmt.getLeftOp())) {
+                        return Collections.emptySet();
+                    } else {
+                        return Collections.singleton(source);
+                    }
+                };
 			}
 		};
 	}
@@ -155,7 +151,7 @@ public class IFDSReachingDefinitions extends DefaultJimpleIFDSTabulationProblem<
 
 
 	public Pair<Value, Set<DefinitionStmt>> createZeroValue() {
-		return new Pair<Value, Set<DefinitionStmt>>(new JimpleLocal("<<zero>>", NullType.v()), Collections.emptySet());
+		return new Pair<Value, Set<DefinitionStmt>>(new JimpleLocal("<<zero>>", NullType.v(), -1, -1), Collections.emptySet());
 	}
 
 }

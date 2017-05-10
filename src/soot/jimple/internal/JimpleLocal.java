@@ -38,11 +38,18 @@ import java.util.List;
 public class JimpleLocal implements Local, ConvertToBaf {
 	String name;
 	Type type;
+	int scopeStart;
+	int scopeEnd;
+
+
 
 	/** Constructs a JimpleLocal of the given name and type. */
-	public JimpleLocal(String name, Type type) {
+	public JimpleLocal(String name, Type type, int scopeStart, int scopeEnd) {
 		setName(name);
 		setType(type);
+		this.scopeStart = scopeStart;
+		this.scopeEnd = scopeEnd;
+
 		Scene.v().getLocalNumberer().add(this);
 	}
 
@@ -67,7 +74,7 @@ public class JimpleLocal implements Local, ConvertToBaf {
 	/** Returns a clone of the current JimpleLocal. */
 	public Object clone() {
 		// do not intern the name again
-		JimpleLocal local = new JimpleLocal(null, type);
+		JimpleLocal local = new JimpleLocal(null, type, -1, -1);
 		local.name = name;
 		return local;
 	}
@@ -125,4 +132,20 @@ public class JimpleLocal implements Local, ConvertToBaf {
 	}
 
 	private int number = 0;
+
+	public int getScopeStart() {
+		return scopeStart;
+	}
+
+	public void setScopeStart(int scopeStart) {
+		this.scopeStart = scopeStart;
+	}
+
+	public int getScopeEnd() {
+		return scopeEnd;
+	}
+
+	public void setScopeEnd(int scopeEnd) {
+		this.scopeEnd = scopeEnd;
+	}
 }
