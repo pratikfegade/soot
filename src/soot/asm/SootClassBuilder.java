@@ -66,7 +66,11 @@ class SootClassBuilder extends ClassVisitor {
 	void addDep(soot.Type s) {
 		deps.add(s);
 	}
-	
+
+	public SootClass getKlass() {
+		return klass;
+	}
+
 	@Override
 	public void visit(int version, int access,
 			String name, String signature,
