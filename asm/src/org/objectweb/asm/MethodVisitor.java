@@ -35,7 +35,7 @@ package org.objectweb.asm;
  * <tt>visitAnnotationDefault</tt> ] ( <tt>visitAnnotation</tt> |
  * <tt>visitParameterAnnotation</tt> <tt>visitTypeAnnotation</tt> |
  * <tt>visitAttribute</tt> )* [ <tt>visitCode</tt> ( <tt>visitFrame</tt> |
- * <tt>visit<i>X</i>Insn</tt> | <tt>visitLabel</tt> |
+ * <tt>visit<i>X</i>Insn</tt> | <tt>visitLabel</tt> | <tt>visitOffset</tt> |
  * <tt>visitInsnAnnotation</tt> | <tt>visitTryCatchBlock</tt> |
  * <tt>visitTryCatchAnnotation</tt> | <tt>visitLocalVariable</tt> |
  * <tt>visitLocalVariableAnnotation</tt> | <tt>visitLineNumber</tt> )*
@@ -540,6 +540,19 @@ public abstract class MethodVisitor {
         if (mv != null) {
             mv.visitLabel(label);
         }
+    }
+
+    /**
+     * Visits a bytecode offset. The offset applies to the next instruction
+     * visited.
+     *
+     * @param offset
+     *             the bytecode offset of the following instruction, in bytes.
+     */
+    public void visitOffset(int offset) {
+	if (mv != null) {
+	    mv.visitOffset(offset);
+	}
     }
 
     // -------------------------------------------------------------------------

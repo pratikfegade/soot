@@ -1324,6 +1324,9 @@ public class ClassReader {
         while (u < codeEnd) {
             int offset = u - codeStart;
 
+	    // visits this offset, if any
+	    mv.visitOffset(offset);
+
             // visits the label and line number for this offset, if any
             Label l = labels[offset];
             if (l != null) {
