@@ -21,6 +21,7 @@ package soot.asm;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.commons.JSRInlinerAdapter;
+import org.objectweb.asm.tree.analysis.*;
 import soot.ArrayType;
 import soot.RefType;
 import soot.SootMethod;
@@ -192,6 +193,10 @@ class MethodBuilder extends JSRInlinerAdapter {
 			method.addTag(tag);
 		}
 		if (method.isConcrete()) {
+			Analyzer<BasicValue> a = new Analyzer<>(new BasicInterpreter());
+			a.analyze(scb.getKlass().getName())
+			Frame<BasicValue>[] frames ;
+
 			method.setSource(new AsmMethodSource("<" + scb.getKlass().getName() + "." + name + ">", maxLocals, instructions,
 					localVariables, tryCatchBlocks));
 		}

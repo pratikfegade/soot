@@ -25,7 +25,9 @@ import com.google.common.collect.Table;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.tree.*;
+import org.objectweb.asm.tree.analysis.*;
 import soot.*;
+import soot.Value;
 import soot.coffi.Util;
 import soot.jimple.*;
 import soot.jimple.CaughtExceptionRef;
@@ -77,7 +79,6 @@ final class AsmMethodSource implements MethodSource {
     private int currentLine = -1;
 
     AsmMethodSource(String name, int maxLocals, InsnList insns, List<LocalVariableNode> localVars, List<TryCatchBlockNode> tryCatchBlocks) {
-
 
         this.name = name;
         this.maxLocals = maxLocals;
