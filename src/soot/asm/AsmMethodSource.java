@@ -72,7 +72,7 @@ final class AsmMethodSource implements MethodSource {
     private final Map<LabelNode, Unit> inlineExceptionHandlers = new HashMap<>();
 
     private final CastAndReturnInliner castAndReturnInliner = new CastAndReturnInliner();
-    private final Map<Label, LineNumberNode> labelToLineNodeMap = new LinkedHashMap<>();
+    private final Map<Label, Integer> labelToLineNodeMap = new LinkedHashMap<>();
     private Label latestLabel = null;
     private int currentLine = -1;
 
@@ -86,7 +86,18 @@ final class AsmMethodSource implements MethodSource {
         this.tryCatchBlocks = tryCatchBlocks;
         for (int i = 0; i < insns.size(); i++) {
             if (insns.get(i) instanceof LineNumberNode) {
-                labelToLineNodeMap.put(((LineNumberNode) insns.get(i)).start.getLabel(), (LineNumberNode) insns.get(i));
+                labelToLineNodeMap.put(((LineNumberNode) insns.get(i)).start.getLabel(), ((LineNumberNode) insns.get(i)).line);
+            }
+        }
+
+        for (int i = 0; i < insns.size(); i++) {
+            if (insns.get(i) instanceof LabelNode) {
+                if (labelToLineNodeMap.containsKey(((LabelNode)insns.get(i)).getLabel())) {
+                    currentLine = labelToLineNodeMap.get(((LabelNode) insns.get(i)).getLabel());
+                }
+                else {
+                    labelToLineNodeMap.put(((LabelNode) insns.get(i)).getLabel(), currentLine);
+                }
             }
         }
         if (this.name.equals("<org.clyze.jphantom.Driver.run>")) {
@@ -106,7 +117,7 @@ final class AsmMethodSource implements MethodSource {
         if (name.contains("<org.clyze.jphantom.Driver.run>")) {
             System.out.print("Searching for index: " + idx + " ");
             if (labelToLineNodeMap.containsKey(latestLabel))
-                System.out.println("Latest Line: " + labelToLineNodeMap.get(latestLabel).line);
+                System.out.println("Latest Line: " + labelToLineNodeMap.get(latestLabel));
         }
 
         if (idx >= maxLocals)
@@ -121,7 +132,7 @@ final class AsmMethodSource implements MethodSource {
             int endScope = -1;
 
             if (labelToLineNodeMap.containsKey(latestLabel))
-                currentLine = labelToLineNodeMap.get(latestLabel).line;
+                currentLine = labelToLineNodeMap.get(latestLabel);
 
             if (localVars != null) {       // If not found in stack locals search method local variables
                 for (LocalVariableNode lvn : localVars) {
@@ -129,12 +140,12 @@ final class AsmMethodSource implements MethodSource {
 
                         int sScope = -1;
                         if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
-                            sScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
+                            sScope = labelToLineNodeMap.get(lvn.start.getLabel());
 
 
                         int eScope = -1;
                         if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
-                            eScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
+                            eScope = labelToLineNodeMap.get(lvn.end.getLabel());
 
                         if (sScope > eScope && eScope != -1) {
                             int temp = sScope;
@@ -147,58 +158,15 @@ final class AsmMethodSource implements MethodSource {
                             System.out.println("Scope end: " + eScope);
                         }
 
-                        // if there is direct connection to the label we consider ourselves done (assuming
-                        // variables with the same index to never have exactly the same starting label)
-                        if (currentLine == -1) {
+
+                        if (sScope <= currentLine && eScope >= currentLine) {
                             startScope = sScope;
                             endScope = eScope;
                             name = lvn.name;
                             desc = lvn.desc;
                             if (this.name.equals("<org.clyze.jphantom.Driver.run>")) {
                                 System.out.println("Selected!");
-                                break;
                             }
-                        }
-                        else {
-                            if (lvn.start.getLabel() == latestLabel) {
-                                startScope = sScope;
-                                endScope = eScope;
-                                name = lvn.name;
-                                desc = lvn.desc;
-                                if (this.name.equals("<org.clyze.jphantom.Driver.run>")) {
-                                    System.out.println("Selected!");
-                                }
-                                break;
-                            }
-                            else {
-                                if (sScope <= currentLine && (eScope >= currentLine || eScope == -1)) {
-                                    startScope = sScope;
-                                    endScope = eScope;
-                                    name = lvn.name;
-                                    desc = lvn.desc;
-                                    if (this.name.equals("<org.clyze.jphantom.Driver.run>")) {
-                                        System.out.println("Selected!");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-				/* normally for try-catch blocks */
-                if (name == null) {
-                    for (LocalVariableNode lvn : localVars) {
-                        if (lvn.index == idx) {
-
-                            if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
-                                startScope = labelToLineNodeMap.get(lvn.start.getLabel()).line;
-
-                            if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
-                                endScope = labelToLineNodeMap.get(lvn.end.getLabel()).line;
-
-                            name = lvn.name;
-                            desc = lvn.desc;
-                            break;
-
                         }
                     }
                 }
@@ -229,12 +197,12 @@ final class AsmMethodSource implements MethodSource {
 //                    l.setName(lvn.name);
 //                    l.setType(jimpleTypeOfDescriptor(lvn.desc));
 //                    if (labelToLineNodeMap.containsKey(lvn.start.getLabel()))
-//                        ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()).line);
+//                        ((JimpleLocal) l).setScopeStart(labelToLineNodeMap.get(lvn.start.getLabel()));
 //                    else
 //                        ((JimpleLocal) l).setScopeStart(-1);
 //
 //                    if (labelToLineNodeMap.containsKey(lvn.end.getLabel()))
-//                        ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()).line);
+//                        ((JimpleLocal) l).setScopeEnd(labelToLineNodeMap.get(lvn.end.getLabel()));
 //                    else
 //                        ((JimpleLocal) l).setScopeEnd(-1);
 //
@@ -348,8 +316,8 @@ final class AsmMethodSource implements MethodSource {
         }
 
         Unit o = units.put(insn, u);
-		if (o != null)
-			throw new AssertionError(insn.getOpcode() + " already has a unit, " + o);
+        if (o != null)
+            throw new AssertionError(insn.getOpcode() + " already has a unit, " + o);
     }
 
     void mergeUnits(AbstractInsnNode insn, Unit u) {
@@ -1475,7 +1443,7 @@ final class AsmMethodSource implements MethodSource {
     }
 
     private void convertLine(LineNumberNode ln) {
-        labelToLineNodeMap.put(ln.start.getLabel(), ln);
+        labelToLineNodeMap.put(ln.start.getLabel(), ln.line);
         lastLineNumber = ln.line;
     }
 

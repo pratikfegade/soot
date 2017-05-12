@@ -2,9 +2,9 @@ plugins {
     id 'java'
     id 'application'
     id 'maven-publish'
-    //id 'net.researchgate.release' version '2.4.0'
+    id 'net.researchgate.release' version '2.4.0'
 }
-apply plugin: 'net.researchgate.release'
+//apply plugin: 'net.researchgate.release'
 group = 'ext'
 
 sourceCompatibility = 1.8
