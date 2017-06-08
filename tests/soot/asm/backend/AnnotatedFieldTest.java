@@ -70,16 +70,6 @@ public class AnnotatedFieldTest extends AbstractASMBackendTest {
 	}
 
 	@Override
-	protected String getTargetFolder() {
-		return "./testclasses";
-	}
-
-	@Override
-	protected String getClassPathFolder() {
-		return "./testclasses";
-	}
-	
-	@Override
 	protected String getRequiredJavaVersion(){
 		return "1.8";
 	}

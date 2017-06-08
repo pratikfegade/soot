@@ -68,13 +68,4 @@ public class ReturnsTest extends AbstractASMBackendTest {
 		return "soot.asm.backend.targets.Returns";
 	}
 
-	@Override
-	protected String getTargetFolder() {
-		return "./testclasses";
-	}
-
-	@Override
-	protected String getClassPathFolder() {
-		return "./testclasses";
-	}
 }

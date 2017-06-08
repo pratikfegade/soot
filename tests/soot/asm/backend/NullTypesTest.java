@@ -50,15 +50,5 @@ public class NullTypesTest extends AbstractASMBackendTest{
         return "soot.asm.backend.targets.nullTypes";
     }
 
-    @Override
-    protected String getTargetFolder() {
-		return "./testclasses";
-    }
-
-    @Override
-    protected String getClassPathFolder() {
-		return "./testclasses";
-    }
-
 }
 

@@ -107,14 +107,4 @@ public class TryCatchTest extends AbstractASMBackendTest {
 		return "soot.asm.backend.targets.TryCatch";
 	}
 
-	@Override
-	protected String getTargetFolder() {
-		return "./testclasses";
-	}
-
-	@Override
-	protected String getClassPathFolder() {
-		return "./testclasses";
-	}
-
 }

@@ -35,14 +35,4 @@ public class AnnotatedAnnotationTest extends AbstractASMBackendTest {
 		return "soot.asm.backend.targets.MyAnnotatedAnnotation";
 	}
 
-	@Override
-	protected String getTargetFolder() {
-		return "./testclasses";
-	}
-
-	@Override
-	protected String getClassPathFolder() {
-		return "./testclasses";
-	}
-
 }

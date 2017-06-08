@@ -19,6 +19,7 @@
 
 package soot.jimple.spark.solver;
 
+
 import soot.*;
 import soot.jimple.spark.pag.*;
 import soot.jimple.spark.sets.EmptyPointsToSet;
@@ -33,6 +34,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+
 /**
  * Propagates points-to sets along pointer assignment graph using a relevant
  * aliases.
@@ -41,14 +43,14 @@ import java.util.TreeSet;
  */
 
 public final class PropAlias extends Propagator {
-	protected final Set<VarNode> varNodeWorkList = new TreeSet<VarNode>();
+	protected final Set<VarNode> varNodeWorkList = new TreeSet<>();
 	protected Set<VarNode> aliasWorkList;
-	protected Set<FieldRefNode> fieldRefWorkList = new HashSet<FieldRefNode>();
-	protected Set<FieldRefNode> outFieldRefWorkList = new HashSet<FieldRefNode>();
+	protected Set<FieldRefNode> fieldRefWorkList = new HashSet<>();
+	protected Set<FieldRefNode> outFieldRefWorkList = new HashSet<>();
 
 	public PropAlias(PAG pag) {
 		this.pag = pag;
-		loadSets = new LargeNumberedMap<FieldRefNode, PointsToSetInternal>(pag.getFieldRefNodeNumberer());
+		loadSets = new LargeNumberedMap<>(pag.getFieldRefNodeNumberer());
 	}
 
 	/** Actually does the propagation. */
@@ -126,7 +128,7 @@ public final class PropAlias extends Propagator {
 				}
 				getP2Set(src).flushNew();
 			}
-			outFieldRefWorkList = new HashSet<FieldRefNode>();
+			outFieldRefWorkList = new HashSet<>();
 		} while (!varNodeWorkList.isEmpty());
 	}
 
@@ -136,7 +138,7 @@ public final class PropAlias extends Propagator {
 	/**
 	 * Propagates new points-to information of node src to all its successors.
 	 */
-	protected final boolean handleAllocNode(AllocNode src) {
+	private void handleAllocNode(AllocNode src) {
 		boolean ret = false;
 		Node[] targets = pag.allocLookup(src);
 		for (Node element : targets) {
@@ -145,13 +147,12 @@ public final class PropAlias extends Propagator {
 				ret = true;
 			}
 		}
-		return ret;
 	}
 
 	/**
 	 * Propagates new points-to information of node src to all its successors.
 	 */
-	protected final boolean handleVarNode(final VarNode src) {
+	private boolean handleVarNode(final VarNode src) {
 		boolean ret = false;
 
 		if (src.getReplacement() != src)
@@ -176,8 +177,7 @@ public final class PropAlias extends Propagator {
 						VarNode edgeTgt = (VarNode) addedTgt;
 						if (edgeTgt.makeP2Set().addAll(edgeSrc.getP2Set(), null))
 							addToWorklist(edgeTgt);
-					}
-					else if (addedTgt instanceof NewInstanceNode) {
+					} else if (addedTgt instanceof NewInstanceNode) {
 						NewInstanceNode edgeTgt = (NewInstanceNode) addedTgt.getReplacement();
 						if (edgeTgt.makeP2Set().addAll(edgeSrc.getP2Set(), null)) {
 							for (Node element : pag.assignInstanceLookup(edgeTgt)) {
@@ -190,32 +190,32 @@ public final class PropAlias extends Propagator {
 					VarNode edgeTgt = (VarNode) addedTgt;
 					if (edgeTgt.makeP2Set().add(edgeSrc))
 						addToWorklist(edgeTgt);
-				} else if (addedSrc instanceof NewInstanceNode
-						&& addedTgt instanceof VarNode) {
+				} else if (addedSrc instanceof NewInstanceNode && addedTgt instanceof VarNode) {
 					final NewInstanceNode edgeSrc = (NewInstanceNode) addedSrc.getReplacement();
 					final VarNode edgeTgt = (VarNode) addedTgt.getReplacement();
 					addedSrc.getP2Set().forall(new P2SetVisitor() {
-						
+
 						@Override
 						public void visit(Node n) {
 							if (n instanceof ClassConstantNode) {
 								ClassConstantNode ccn = (ClassConstantNode) n;
-								Type ccnType = RefType.v(ccn.getClassConstant().getValue().replaceAll("/", "."));
-								
-								// If the referenced class has not been loaded, we do this now
+								Type ccnType = ccn.getClassConstant().toSootType();
+
+								// If the referenced class has not been loaded,
+								// we do this now
 								SootClass targetClass = ((RefType) ccnType).getSootClass();
 								if (targetClass.resolvingLevel() == SootClass.DANGLING)
 									Scene.v().forceResolve(targetClass.getName(), SootClass.SIGNATURES);
-								
-								edgeTgt.makeP2Set().add(pag.makeAllocNode(edgeSrc.getValue(),
-										ccnType, ccn.getMethod()));
+
+								edgeTgt.makeP2Set()
+										.add(pag.makeAllocNode(edgeSrc.getValue(), ccnType, ccn.getMethod()));
 								addToWorklist(edgeTgt);
 							}
 						}
-						
+
 					});
 				}
-				
+
 				FieldRefNode frn = null;
 				if (addedSrc instanceof FieldRefNode)
 					frn = (FieldRefNode) addedSrc;
@@ -251,7 +251,7 @@ public final class PropAlias extends Propagator {
 		return ret;
 	}
 
-	protected final PointsToSetInternal makeP2Set(FieldRefNode n) {
+	private PointsToSetInternal makeP2Set(FieldRefNode n) {
 		PointsToSetInternal ret = loadSets.get(n);
 		if (ret == null) {
 			ret = pag.getSetFactory().newSet(null, pag);
@@ -268,15 +268,15 @@ public final class PropAlias extends Propagator {
 		return ret;
 	}
 
-	private boolean addToWorklist(VarNode n) {
+	private void addToWorklist(VarNode n) {
 		if (n.getReplacement() != n)
 			throw new RuntimeException("Adding bad node " + n + " with rep " + n.getReplacement());
-		return varNodeWorkList.add(n);
+		varNodeWorkList.add(n);
 	}
 
 	protected PAG pag;
-	protected MultiMap<SparkField, VarNode> fieldToBase = new HashMultiMap<SparkField, VarNode>();
-	protected MultiMap<FieldRefNode, FieldRefNode> aliasEdges = new HashMultiMap<FieldRefNode, FieldRefNode>();
-	protected LargeNumberedMap<FieldRefNode, PointsToSetInternal> loadSets;
-	protected OnFlyCallGraph ofcg;
+	private MultiMap<SparkField, VarNode> fieldToBase = new HashMultiMap<>();
+	private MultiMap<FieldRefNode, FieldRefNode> aliasEdges = new HashMultiMap<>();
+	private LargeNumberedMap<FieldRefNode, PointsToSetInternal> loadSets;
+	private OnFlyCallGraph ofcg;
 }

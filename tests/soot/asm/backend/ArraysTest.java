@@ -256,14 +256,4 @@ public class ArraysTest extends AbstractASMBackendTest {
 		return "soot.asm.backend.targets.Arrays";
 	}
 
-	@Override
-	protected String getTargetFolder() {
-		return "./testclasses";
-	}
-
-	@Override
-	protected String getClassPathFolder() {
-		return "./testclasses";
-	}
-
 }

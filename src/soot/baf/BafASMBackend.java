@@ -16,7 +16,8 @@ import java.util.*;
 import static soot.util.backend.ASMBackendUtils.*;
 
 /**
- * Concrete ASM based bytecode generation backend for the BAF intermediate representation
+ * Concrete ASM based bytecode generation backend for the BAF intermediate
+ * representation
  *
  * @author Tobias Hamann, Florian Kuebler, Dominik Helm, Lukas Sommer
  *
@@ -25,35 +26,53 @@ public class BafASMBackend extends AbstractASMBackend {
 
 	// Contains one Label for every Unit that is the target of a branch or jump
 	protected final Map<Unit, Label> branchTargetLabels = new HashMap<Unit, Label>();
-	
+
 	/**
-	 * Returns the ASM Label for a given Unit that is the target of a branch or jump
-	 * @param target The unit that is the branch target
+	 * Returns the ASM Label for a given Unit that is the target of a branch or
+	 * jump
+	 * 
+	 * @param target
+	 *            The unit that is the branch target
 	 * @return The Label that specifies this unit
 	 */
 	protected Label getBranchTargetLabel(Unit target) {
 		return branchTargetLabels.get(target);
 	}
 
-	// Contains a mapping of local variables to indices in the local variable stack
+	// Contains a mapping of local variables to indices in the local variable
+	// stack
 	protected final Map<Local, Integer> localToSlot = new HashMap<Local, Integer>();
 
 	/**
 	 * Creates a new BafASMBackend with a given enforced java version
-	 * @param sc The SootClass the bytecode is to be generated for
-	 * @param javaVersion A particular Java version enforced by the user, may be 0 for automatic detection, must not be lower than necessary for all features used
+	 * 
+	 * @param sc
+	 *            The SootClass the bytecode is to be generated for
+	 * @param javaVersion
+	 *            A particular Java version enforced by the user, may be 0 for
+	 *            automatic detection, must not be lower than necessary for all
+	 *            features used
 	 */
 	public BafASMBackend(SootClass sc, int javaVersion) {
 		super(sc, javaVersion);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see soot.AbstractASMBackend#getMinJavaVersion(soot.SootMethod)
 	 */
 	@Override
 	protected int getMinJavaVersion(SootMethod method) {
 		final BafBody body = getBafBody(method);
 		int minVersion = Options.java_version_1_1;
+
+		// http://hg.openjdk.java.net/jdk8/jdk8/hotspot/file/87ee5ee27509/src/share/vm/classfile/classFileParser.cpp
+		if (method.getDeclaringClass().isInterface()) {
+			if (method.isStatic()) {
+				return Options.java_version_1_8;
+			}
+		}
 
 		for (Unit u : body.getUnits()) {
 			if (u instanceof DynamicInvokeInst) {
@@ -69,8 +88,11 @@ public class BafASMBackend extends AbstractASMBackend {
 		return minVersion;
 	}
 
-	/* (non-Javadoc)
-	 * @see soot.AbstractASMBackend#generateMethodBody(org.objectweb.asm.MethodVisitor, soot.SootMethod)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see soot.AbstractASMBackend#generateMethodBody(org.objectweb.asm.
+	 * MethodVisitor, soot.SootMethod)
 	 */
 	@Override
 	protected void generateMethodBody(MethodVisitor mv, SootMethod method) {
@@ -92,7 +114,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			startLabel = new Label();
 			mv.visitLabel(startLabel);
 		}
-		
+
 		/*
 		 * Handle all TRY-CATCH-blocks
 		 */
@@ -128,18 +150,15 @@ public class BafASMBackend extends AbstractASMBackend {
 		}
 
 		for (Unit u : instructions) {
-			if (u instanceof IdentityInst
-					&& ((IdentityInst) u).getLeftOp() instanceof Local) {
+			if (u instanceof IdentityInst && ((IdentityInst) u).getLeftOp() instanceof Local) {
 				Local l = (Local) ((IdentityInst) u).getLeftOp();
-				IdentityRef identity = (IdentityRef) ((IdentityInst) u)
-						.getRightOp();
+				IdentityRef identity = (IdentityRef) ((IdentityInst) u).getRightOp();
 
 				int slot = 0;
 
 				if (identity instanceof ThisRef) {
 					if (method.isStatic())
-						throw new RuntimeException(
-								"Attempting to use 'this' in static method");
+						throw new RuntimeException("Attempting to use 'this' in static method");
 				} else if (identity instanceof ParameterRef)
 					slot = paramSlots[((ParameterRef) identity).getIndex()];
 				else {
@@ -158,7 +177,6 @@ public class BafASMBackend extends AbstractASMBackend {
 			}
 		}
 
-		
 		// Generate the code
 		for (Unit u : instructions) {
 			if (branchTargetLabels.containsKey(u)) {
@@ -177,22 +195,21 @@ public class BafASMBackend extends AbstractASMBackend {
 			}
 			generateInstruction(mv, (Inst) u);
 		}
-				
+
 		// Generate the local annotations
 		if (Options.v().write_local_annotations()) {
 			Label endLabel = new Label();
 			mv.visitLabel(endLabel);
-			
+
 			for (Local local : body.getLocals()) {
 				Integer slot = localToSlot.get(local);
 				if (slot != null) {
 					BafLocal l = (BafLocal) local;
-					if (l.getOriginalLocal() != null)
-					{
+					if (l.getOriginalLocal() != null) {
 						Local jimpleLocal = l.getOriginalLocal();
 						if (jimpleLocal != null)
-							mv.visitLocalVariable(jimpleLocal.getName(), toTypeDesc(jimpleLocal.getType()),
-									null, startLabel, endLabel, slot);
+							mv.visitLocalVariable(jimpleLocal.getName(), toTypeDesc(jimpleLocal.getType()), null,
+									startLabel, endLabel, slot);
 					}
 				}
 			}
@@ -201,8 +218,11 @@ public class BafASMBackend extends AbstractASMBackend {
 
 	/**
 	 * Emits the bytecode for a single Baf instruction
-	 * @param mv The ASM MethodVisitor the bytecode is to be emitted to
-	 * @param inst The Baf instruction to be converted into bytecode
+	 * 
+	 * @param mv
+	 *            The ASM MethodVisitor the bytecode is to be emitted to
+	 * @param inst
+	 *            The Baf instruction to be converted into bytecode
 	 */
 	protected void generateInstruction(final MethodVisitor mv, Inst inst) {
 		inst.apply(new InstSwitch() {
@@ -273,8 +293,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void defaultCase(Type t) {
-						throw new RuntimeException("Invalid return type "
-								+ t.toString());
+						throw new RuntimeException("Invalid return type " + t.toString());
 					}
 
 				});
@@ -287,8 +306,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseJSRInst(JSRInst i) {
-				mv.visitJumpInsn(Opcodes.JSR,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.JSR, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
@@ -330,8 +348,7 @@ public class BafASMBackend extends AbstractASMBackend {
 				} else if (c instanceof StringConstant) {
 					mv.visitLdcInsn(((StringConstant) c).value);
 				} else if (c instanceof ClassConstant) {
-					mv.visitLdcInsn(org.objectweb.asm.Type
-							.getObjectType(((ClassConstant) c).getValue()));
+					mv.visitLdcInsn(org.objectweb.asm.Type.getType(((ClassConstant) c).getValue()));
 				} else if (c instanceof DoubleConstant) {
 					double v = ((DoubleConstant) c).value;
 					/*
@@ -374,16 +391,16 @@ public class BafASMBackend extends AbstractASMBackend {
 				} else if (c instanceof MethodHandle) {
 					SootMethodRef ref = ((MethodHandle) c).getMethodRef();
 					int tag;
-					if(ref.isStatic()) {
+					if (ref.isStatic()) {
 						tag = Opcodes.H_INVOKESTATIC;
-					} else if(ref.declaringClass().isInterface()) {
+					} else if (ref.declaringClass().isInterface()) {
 						tag = Opcodes.H_INVOKEINTERFACE;
 					} else {
 						tag = Opcodes.H_INVOKEVIRTUAL;
 					}
-					Handle handle = new Handle(tag, ref.declaringClass().getName(), ref.name(), ref.getSignature(), 
+					Handle handle = new Handle(tag, ref.declaringClass().getName(), ref.name(), ref.getSignature(),
 							ref.declaringClass().isInnerClass());
-					
+
 					mv.visitLdcInsn(handle);
 				} else {
 					throw new RuntimeException("unsupported opcode");
@@ -404,7 +421,7 @@ public class BafASMBackend extends AbstractASMBackend {
 				Value l = i.getLeftOp();
 				Value r = i.getRightOp();
 				if (r instanceof CaughtExceptionRef && l instanceof Local) {
-					mv.visitVarInsn(Opcodes.ASTORE, localToSlot.get(l)); 
+					mv.visitVarInsn(Opcodes.ASTORE, localToSlot.get(l));
 					// asm handles constant opcodes automatically here
 				}
 			}
@@ -466,8 +483,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseStmtAddressType(StmtAddressType t) {
-						throw new RuntimeException(
-								"JSR not supported, use recent Java compiler!");
+						throw new RuntimeException("JSR not supported, use recent Java compiler!");
 					}
 
 					@Override
@@ -484,8 +500,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseGotoInst(GotoInst i) {
-				mv.visitJumpInsn(Opcodes.GOTO,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.GOTO, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
@@ -682,50 +697,42 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseIfNullInst(IfNullInst i) {
-				mv.visitJumpInsn(Opcodes.IFNULL,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFNULL, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfNonNullInst(IfNonNullInst i) {
-				mv.visitJumpInsn(Opcodes.IFNONNULL,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFNONNULL, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfEqInst(IfEqInst i) {
-				mv.visitJumpInsn(Opcodes.IFEQ,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFEQ, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfNeInst(IfNeInst i) {
-				mv.visitJumpInsn(Opcodes.IFNE,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFNE, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfGtInst(IfGtInst i) {
-				mv.visitJumpInsn(Opcodes.IFGT,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFGT, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfGeInst(IfGeInst i) {
-				mv.visitJumpInsn(Opcodes.IFGE,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFGE, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfLtInst(IfLtInst i) {
-				mv.visitJumpInsn(Opcodes.IFLT,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFLT, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
 			public void caseIfLeInst(IfLeInst i) {
-				mv.visitJumpInsn(Opcodes.IFLE,
-						getBranchTargetLabel(i.getTarget()));
+				mv.visitJumpInsn(Opcodes.IFLE, getBranchTargetLabel(i.getTarget()));
 			}
 
 			@Override
@@ -734,71 +741,60 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseArrayType(ArrayType t) {
-						mv.visitJumpInsn(Opcodes.IF_ACMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ACMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseBooleanType(BooleanType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseByteType(ByteType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseCharType(CharType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseDoubleType(DoubleType t) {
 						mv.visitInsn(Opcodes.DCMPG);
-						mv.visitJumpInsn(Opcodes.IFEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseFloatType(FloatType t) {
 						mv.visitInsn(Opcodes.FCMPG);
-						mv.visitJumpInsn(Opcodes.IFEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseIntType(IntType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseLongType(LongType t) {
 						mv.visitInsn(Opcodes.LCMP);
-						mv.visitJumpInsn(Opcodes.IFEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseRefType(RefType t) {
-						mv.visitJumpInsn(Opcodes.IF_ACMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ACMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseShortType(ShortType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseNullType(NullType t) {
-						mv.visitJumpInsn(Opcodes.IF_ACMPEQ,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ACMPEQ, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
@@ -814,71 +810,60 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseArrayType(ArrayType t) {
-						mv.visitJumpInsn(Opcodes.IF_ACMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ACMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseBooleanType(BooleanType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseByteType(ByteType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseCharType(CharType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseDoubleType(DoubleType t) {
 						mv.visitInsn(Opcodes.DCMPG);
-						mv.visitJumpInsn(Opcodes.IFNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseFloatType(FloatType t) {
 						mv.visitInsn(Opcodes.FCMPG);
-						mv.visitJumpInsn(Opcodes.IFNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseIntType(IntType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseLongType(LongType t) {
 						mv.visitInsn(Opcodes.LCMP);
-						mv.visitJumpInsn(Opcodes.IFNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseRefType(RefType t) {
-						mv.visitJumpInsn(Opcodes.IF_ACMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ACMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseShortType(ShortType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseNullType(NullType t) {
-						mv.visitJumpInsn(Opcodes.IF_ACMPNE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ACMPNE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
@@ -894,53 +879,45 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseBooleanType(BooleanType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseByteType(ByteType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseCharType(CharType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseDoubleType(DoubleType t) {
 						mv.visitInsn(Opcodes.DCMPG);
-						mv.visitJumpInsn(Opcodes.IFGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseFloatType(FloatType t) {
 						mv.visitInsn(Opcodes.FCMPG);
-						mv.visitJumpInsn(Opcodes.IFGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseIntType(IntType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseLongType(LongType t) {
 						mv.visitInsn(Opcodes.LCMP);
-						mv.visitJumpInsn(Opcodes.IFGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseShortType(ShortType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
@@ -956,53 +933,45 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseBooleanType(BooleanType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseByteType(ByteType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseCharType(CharType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseDoubleType(DoubleType t) {
 						mv.visitInsn(Opcodes.DCMPG);
-						mv.visitJumpInsn(Opcodes.IFGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseFloatType(FloatType t) {
 						mv.visitInsn(Opcodes.FCMPG);
-						mv.visitJumpInsn(Opcodes.IFGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseIntType(IntType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseLongType(LongType t) {
 						mv.visitInsn(Opcodes.LCMP);
-						mv.visitJumpInsn(Opcodes.IFGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseShortType(ShortType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPGE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPGE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
@@ -1018,53 +987,45 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseBooleanType(BooleanType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseByteType(ByteType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseCharType(CharType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseDoubleType(DoubleType t) {
 						mv.visitInsn(Opcodes.DCMPG);
-						mv.visitJumpInsn(Opcodes.IFLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseFloatType(FloatType t) {
 						mv.visitInsn(Opcodes.FCMPG);
-						mv.visitJumpInsn(Opcodes.IFLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseIntType(IntType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseLongType(LongType t) {
 						mv.visitInsn(Opcodes.LCMP);
-						mv.visitJumpInsn(Opcodes.IFLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseShortType(ShortType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLT,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLT, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
@@ -1080,53 +1041,45 @@ public class BafASMBackend extends AbstractASMBackend {
 
 					@Override
 					public void caseBooleanType(BooleanType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseByteType(ByteType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseCharType(CharType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseDoubleType(DoubleType t) {
 						mv.visitInsn(Opcodes.DCMPG);
-						mv.visitJumpInsn(Opcodes.IFLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseFloatType(FloatType t) {
 						mv.visitInsn(Opcodes.FCMPG);
-						mv.visitJumpInsn(Opcodes.IFLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseIntType(IntType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseLongType(LongType t) {
 						mv.visitInsn(Opcodes.LCMP);
-						mv.visitJumpInsn(Opcodes.IFLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IFLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
 					public void caseShortType(ShortType t) {
-						mv.visitJumpInsn(Opcodes.IF_ICMPLE,
-								getBranchTargetLabel(i.getTarget()));
+						mv.visitJumpInsn(Opcodes.IF_ICMPLE, getBranchTargetLabel(i.getTarget()));
 					}
 
 					@Override
@@ -1139,32 +1092,28 @@ public class BafASMBackend extends AbstractASMBackend {
 			@Override
 			public void caseStaticGetInst(StaticGetInst i) {
 				SootFieldRef field = i.getFieldRef();
-				mv.visitFieldInsn(Opcodes.GETSTATIC, slashify(field
-						.declaringClass().getName()), field.name(),
+				mv.visitFieldInsn(Opcodes.GETSTATIC, slashify(field.declaringClass().getName()), field.name(),
 						toTypeDesc(field.type()));
 			}
 
 			@Override
 			public void caseStaticPutInst(StaticPutInst i) {
 				SootFieldRef field = i.getFieldRef();
-				mv.visitFieldInsn(Opcodes.PUTSTATIC, slashify(field
-						.declaringClass().getName()), field.name(),
+				mv.visitFieldInsn(Opcodes.PUTSTATIC, slashify(field.declaringClass().getName()), field.name(),
 						toTypeDesc(field.type()));
 			}
 
 			@Override
 			public void caseFieldGetInst(FieldGetInst i) {
 				SootFieldRef field = i.getFieldRef();
-				mv.visitFieldInsn(Opcodes.GETFIELD, slashify(field
-						.declaringClass().getName()), field.name(),
+				mv.visitFieldInsn(Opcodes.GETFIELD, slashify(field.declaringClass().getName()), field.name(),
 						toTypeDesc(field.type()));
 			}
 
 			@Override
 			public void caseFieldPutInst(FieldPutInst i) {
 				SootFieldRef field = i.getFieldRef();
-				mv.visitFieldInsn(Opcodes.PUTFIELD, slashify(field
-						.declaringClass().getName()), field.name(),
+				mv.visitFieldInsn(Opcodes.PUTFIELD, slashify(field.declaringClass().getName()), field.name(),
 						toTypeDesc(field.type()));
 			}
 
@@ -1172,8 +1121,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			public void caseInstanceCastInst(InstanceCastInst i) {
 				Type castType = i.getCastType();
 				if (castType instanceof RefType) {
-					mv.visitTypeInsn(Opcodes.CHECKCAST,
-							slashify(((RefType)castType).getClassName()));
+					mv.visitTypeInsn(Opcodes.CHECKCAST, slashify(((RefType) castType).getClassName()));
 				} else if (castType instanceof ArrayType) {
 					mv.visitTypeInsn(Opcodes.CHECKCAST, toTypeDesc(castType));
 				}
@@ -1183,8 +1131,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			public void caseInstanceOfInst(InstanceOfInst i) {
 				Type checkType = i.getCheckType();
 				if (checkType instanceof RefType) {
-					mv.visitTypeInsn(Opcodes.INSTANCEOF,
-							slashify(((RefType)checkType).getClassName()));
+					mv.visitTypeInsn(Opcodes.INSTANCEOF, slashify(((RefType) checkType).getClassName()));
 				} else if (checkType instanceof ArrayType) {
 					mv.visitTypeInsn(Opcodes.INSTANCEOF, toTypeDesc(checkType));
 				}
@@ -1220,8 +1167,7 @@ public class BafASMBackend extends AbstractASMBackend {
 						} else if (to.equals(FloatType.v())) {
 							mv.visitInsn(Opcodes.D2F);
 						} else {
-							throw new RuntimeException(
-									"invalid to-type from double");
+							throw new RuntimeException("invalid to-type from double");
 						}
 					}
 
@@ -1234,8 +1180,7 @@ public class BafASMBackend extends AbstractASMBackend {
 						} else if (to.equals(DoubleType.v())) {
 							mv.visitInsn(Opcodes.F2D);
 						} else {
-							throw new RuntimeException(
-									"invalid to-type from float");
+							throw new RuntimeException("invalid to-type from float");
 						}
 					}
 
@@ -1253,8 +1198,7 @@ public class BafASMBackend extends AbstractASMBackend {
 						} else if (to.equals(DoubleType.v())) {
 							mv.visitInsn(Opcodes.L2D);
 						} else {
-							throw new RuntimeException(
-									"invalid to-type from long");
+							throw new RuntimeException("invalid to-type from long");
 						}
 					}
 
@@ -1284,8 +1228,7 @@ public class BafASMBackend extends AbstractASMBackend {
 						} else if (to.equals(IntType.v())) {
 						} else if (to.equals(BooleanType.v())) {
 						} else {
-							throw new RuntimeException(
-									"invalid to-type from int");
+							throw new RuntimeException("invalid to-type from int");
 						}
 					}
 				});
@@ -1304,8 +1247,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 						@Override
 						public void defaultCase(Object object) {
-							throw new RuntimeException(
-									"Unexpected constant type!");
+							throw new RuntimeException("Unexpected constant type!");
 						}
 
 						@Override
@@ -1319,17 +1261,14 @@ public class BafASMBackend extends AbstractASMBackend {
 							 * The Jasmin-backend throws an exception for the
 							 * null-type.
 							 */
-							throw new RuntimeException(
-									"Unexpected NullType as argument-type in invokedynamic!");
+							throw new RuntimeException("Unexpected NullType as argument-type in invokedynamic!");
 						}
 
 						@Override
 						public void caseMethodHandle(MethodHandle handle) {
 							SootMethodRef methodRef = handle.getMethodRef();
-							argsArray[j] = new Handle(handle.tag,
-									slashify(methodRef.declaringClass()
-											.getName()), methodRef.name(),
-									toTypeDesc(methodRef));
+							argsArray[j] = new Handle(handle.tag, slashify(methodRef.declaringClass().getName()),
+									methodRef.name(), toTypeDesc(methodRef));
 						}
 
 						@Override
@@ -1354,32 +1293,27 @@ public class BafASMBackend extends AbstractASMBackend {
 
 						@Override
 						public void caseClassConstant(ClassConstant v) {
-							argsArray[j] = org.objectweb.asm.Type.getType(v
-									.getValue());
+							argsArray[j] = org.objectweb.asm.Type.getType(v.getValue());
 						}
 					});
 					++index;
 				}
-				mv.visitInvokeDynamicInsn(m.name(), toTypeDesc(m),
-						new Handle(i.getHandleTag(), slashify(bsm
-								.declaringClass().getName()), bsm.name(),
-								toTypeDesc(bsm)), argsArray);
+				mv.visitInvokeDynamicInsn(m.name(), toTypeDesc(m), new Handle(i.getHandleTag(),
+						slashify(bsm.declaringClass().getName()), bsm.name(), toTypeDesc(bsm)), argsArray);
 			}
 
 			@Override
 			public void caseStaticInvokeInst(StaticInvokeInst i) {
 				SootMethodRef m = i.getMethodRef();
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, slashify(m
-						.declaringClass().getName()), m.name(), toTypeDesc(m),
-						m.declaringClass().isInterface());
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, slashify(m.declaringClass().getName()), m.name(),
+						toTypeDesc(m), m.declaringClass().isInterface());
 			}
 
 			@Override
 			public void caseVirtualInvokeInst(VirtualInvokeInst i) {
 				SootMethodRef m = i.getMethodRef();
-				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, slashify(m
-						.declaringClass().getName()), m.name(), toTypeDesc(m),
-						m.declaringClass().isInterface());
+				mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, slashify(m.declaringClass().getName()), m.name(),
+						toTypeDesc(m), m.declaringClass().isInterface());
 			}
 
 			@Override
@@ -1389,25 +1323,23 @@ public class BafASMBackend extends AbstractASMBackend {
 				boolean isInterface = true;
 				if (!declaration.isPhantom() && !declaration.isInterface()) {
 					/*
-					 * If the declaring class of a method called via invokeinterface 
-					 * is a phantom class we assume the declaring class to be an
-					 * interface. This might not be true in general, but as of 
-					 * today Soot can not evaluate isInterface() for phantom 
-					 * classes correctly.
+					 * If the declaring class of a method called via
+					 * invokeinterface is a phantom class we assume the
+					 * declaring class to be an interface. This might not be
+					 * true in general, but as of today Soot can not evaluate
+					 * isInterface() for phantom classes correctly.
 					 */
 					isInterface = false;
 				}
-				mv.visitMethodInsn(Opcodes.INVOKEINTERFACE,
-						slashify(declaration.getName()), m.name(),
-						toTypeDesc(m), isInterface);
+				mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, slashify(declaration.getName()), m.name(), toTypeDesc(m),
+						isInterface);
 			}
 
 			@Override
 			public void caseSpecialInvokeInst(SpecialInvokeInst i) {
 				SootMethodRef m = i.getMethodRef();
-				mv.visitMethodInsn(Opcodes.INVOKESPECIAL, slashify(m
-						.declaringClass().getName()), m.name(), toTypeDesc(m),
-						m.declaringClass().isInterface());
+				mv.visitMethodInsn(Opcodes.INVOKESPECIAL, slashify(m.declaringClass().getName()), m.name(),
+						toTypeDesc(m), m.declaringClass().isInterface());
 			}
 
 			@Override
@@ -1574,17 +1506,13 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseIncInst(IncInst i) {
-				if (i.getUseBoxes().get(0).getValue() != i
-						.getDefBoxes().get(0).getValue()) {
-					throw new RuntimeException(
-							"iinc def and use boxes don't match");
+				if (i.getUseBoxes().get(0).getValue() != i.getDefBoxes().get(0).getValue()) {
+					throw new RuntimeException("iinc def and use boxes don't match");
 				}
 				if (i.getConstant() instanceof IntConstant) {
-					mv.visitIincInsn(localToSlot.get(i.getLocal()),
-							((IntConstant) i.getConstant()).value);
+					mv.visitIincInsn(localToSlot.get(i.getLocal()), ((IntConstant) i.getConstant()).value);
 				} else {
-					throw new RuntimeException(
-							"Wrong constant type for increment!");
+					throw new RuntimeException("Wrong constant type for increment!");
 				}
 
 			}
@@ -1771,8 +1699,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseNewInst(NewInst i) {
-				mv.visitTypeInsn(Opcodes.NEW, slashify(i.getBaseType()
-						.getClassName()));
+				mv.visitTypeInsn(Opcodes.NEW, slashify(i.getBaseType().getClassName()));
 			}
 
 			@Override
@@ -1883,8 +1810,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseDup1_x2Inst(Dup1_x2Inst i) {
-				int toSkip = sizeOfType(i.getUnder1Type())
-						+ sizeOfType(i.getUnder2Type());
+				int toSkip = sizeOfType(i.getUnder1Type()) + sizeOfType(i.getUnder2Type());
 
 				if (sizeOfType(i.getOp1Type()) == 2) {
 					if (toSkip == 2) {
@@ -1903,8 +1829,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseDup2_x1Inst(Dup2_x1Inst i) {
-				int toDup = sizeOfType(i.getOp1Type())
-						+ sizeOfType(i.getOp2Type());
+				int toDup = sizeOfType(i.getOp1Type()) + sizeOfType(i.getOp2Type());
 
 				if (toDup == 2) {
 					if (sizeOfType(i.getUnder1Type()) == 2) {
@@ -1919,10 +1844,8 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseDup2_x2Inst(Dup2_x2Inst i) {
-				int toDup = sizeOfType(i.getOp1Type())
-						+ sizeOfType(i.getOp2Type());
-				int toSkip = sizeOfType(i.getUnder1Type())
-						+ sizeOfType(i.getUnder2Type());
+				int toDup = sizeOfType(i.getOp1Type()) + sizeOfType(i.getOp2Type());
+				int toSkip = sizeOfType(i.getUnder1Type()) + sizeOfType(i.getUnder2Type());
 
 				if (toDup > 2 || toSkip > 2) {
 					throw new RuntimeException("magic not implemented yet");
@@ -1931,8 +1854,7 @@ public class BafASMBackend extends AbstractASMBackend {
 				if (toDup == 2 && toSkip == 2) {
 					mv.visitInsn(Opcodes.DUP2_X2);
 				} else {
-					throw new RuntimeException(
-							"VoidType not allowed in Dup2_x2 Instruction");
+					throw new RuntimeException("VoidType not allowed in Dup2_x2 Instruction");
 				}
 			}
 
@@ -1940,7 +1862,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			public void caseNewArrayInst(NewArrayInst i) {
 				Type t = i.getBaseType();
 				if (t instanceof RefType) {
-					mv.visitTypeInsn(Opcodes.ANEWARRAY, slashify(((RefType)t).getClassName()));
+					mv.visitTypeInsn(Opcodes.ANEWARRAY, slashify(((RefType) t).getClassName()));
 				} else if (t instanceof ArrayType) {
 					mv.visitTypeInsn(Opcodes.ANEWARRAY, toTypeDesc(t));
 				} else {
@@ -1970,8 +1892,7 @@ public class BafASMBackend extends AbstractASMBackend {
 
 			@Override
 			public void caseNewMultiArrayInst(NewMultiArrayInst i) {
-				mv.visitMultiANewArrayInsn(toTypeDesc(i.getBaseType()),
-						i.getDimensionCount());
+				mv.visitMultiANewArrayInsn(toTypeDesc(i.getBaseType()), i.getDimensionCount());
 			}
 
 			@Override
@@ -1987,23 +1908,21 @@ public class BafASMBackend extends AbstractASMBackend {
 					labels[j] = branchTargetLabels.get(targets.get(j));
 				}
 
-				mv.visitLookupSwitchInsn(
-						branchTargetLabels.get(i.getDefaultTarget()), keys,
-						labels);
+				mv.visitLookupSwitchInsn(branchTargetLabels.get(i.getDefaultTarget()), keys, labels);
 			}
 
 			@Override
 			public void caseTableSwitchInst(TableSwitchInst i) {
 				List<Unit> targets = i.getTargets();
-				
+
 				Label[] labels = new Label[targets.size()];
 
 				for (int j = 0; j < targets.size(); j++) {
 					labels[j] = branchTargetLabels.get(targets.get(j));
 				}
 
-				mv.visitTableSwitchInsn(i.getLowIndex(), i.getHighIndex(),
-						branchTargetLabels.get(i.getDefaultTarget()), labels);
+				mv.visitTableSwitchInsn(i.getLowIndex(), i.getHighIndex(), branchTargetLabels.get(i.getDefaultTarget()),
+						labels);
 			}
 
 			@Override

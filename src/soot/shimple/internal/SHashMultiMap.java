@@ -32,7 +32,10 @@ import java.util.Set;
  **/
 public class SHashMultiMap<K,V> extends HashMultiMap<K,V>
 {
-    public SHashMultiMap()
+
+	private static final long serialVersionUID = -860669798578291979L;
+
+	public SHashMultiMap()
     {
         super();
     }
