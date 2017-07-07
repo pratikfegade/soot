@@ -7,7 +7,8 @@ import soot.Value;
 import soot.jimple.*;
 
 /**
- * Abstract base class for {@link DexNullTransformer} and {@link DexIfTransformer}.
+ * Abstract base class for {@link DexNullTransformer} and
+ * {@link DexIfTransformer}.
  * 
  * @author Steven Arzt
  */
@@ -21,16 +22,14 @@ public abstract class AbstractNullTransformer extends DexTransformer {
 	 */
 	protected boolean isZeroComparison(ConditionExpr expr) {
 		if (expr instanceof EqExpr || expr instanceof NeExpr) {
-			if (expr.getOp2() instanceof IntConstant
-					&& ((IntConstant) expr.getOp2()).value == 0)
+			if (expr.getOp2() instanceof IntConstant && ((IntConstant) expr.getOp2()).value == 0)
 				return true;
-			if (expr.getOp2() instanceof LongConstant
-					&& ((LongConstant) expr.getOp2()).value == 0)
+			if (expr.getOp2() instanceof LongConstant && ((LongConstant) expr.getOp2()).value == 0)
 				return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Replace 0 with null in the given unit.
 	 *
@@ -54,8 +53,7 @@ public abstract class AbstractNullTransformer extends DexTransformer {
 				// might have a.f = 2 with a being a null candidate, but a.f
 				// being an int.
 				if (!(s.getLeftOp() instanceof InstanceFieldRef)
-						|| ((InstanceFieldRef) s.getLeftOp()).getField().getType()
-							instanceof RefLikeType) {
+						|| ((InstanceFieldRef) s.getLeftOp()).getFieldRef().type() instanceof RefLikeType) {
 					s.setRightOp(NullConstant.v());
 					Debug.printDbg("[null] replacing with null in ", u);
 					Debug.printDbg(" new u: ", u);
@@ -63,7 +61,7 @@ public abstract class AbstractNullTransformer extends DexTransformer {
 			}
 		}
 	}
-	
+
 	protected boolean isObject(Type t) {
 		return t instanceof RefLikeType;
 	}

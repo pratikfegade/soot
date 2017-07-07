@@ -27,6 +27,7 @@
 /* Modified by Yannis Smaragdakis/UoA PLAST Lab,
    this comment included per LGPL. */
 
+
 package soot;
 
 import soot.jimple.paddle.PaddleField;
@@ -35,8 +36,9 @@ import soot.tagkit.AbstractHost;
 import soot.util.Numberable;
 
 /**
-    Soot representation of a Java field.  Can be declared to belong to a SootClass.
-*/
+ <<<<<<< HEAD
+ Soot representation of a Java field.  Can be declared to belong to a SootClass.
+ */
 public class SootField extends AbstractHost implements ClassMember, SparkField, Numberable, PaddleField
 {
     String name;
@@ -93,7 +95,7 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
         return buffer.toString().intern();
 
     }
-  
+
     public String getSubSignature()
     {
         StringBuffer buffer = new StringBuffer();
@@ -101,7 +103,7 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
         return buffer.toString().intern();
     }
 
-    public SootClass getDeclaringClass() 
+    public SootClass getDeclaringClass()
     {
         if(!isDeclared)
             throw new RuntimeException("not declared: "+getName()+" "+getType());
@@ -114,16 +116,16 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
     {
         return isPhantom;
     }
-    
+
     @Override
     public void setPhantom(boolean value)
     {
         if( value ) {
-            if( !Scene.v().allowsPhantomRefs() ) 
+            if( !Scene.v().allowsPhantomRefs() )
                 throw new RuntimeException( "Phantom refs not allowed" );
             if( declaringClass != null && !declaringClass.isPhantom() )
-                throw new 
-                    RuntimeException( "Declaring class would have to be phantom" );
+                throw new
+                        RuntimeException( "Declaring class would have to be phantom" );
         }
         isPhantom = value;
     }
@@ -194,7 +196,7 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
     {
         if (!declaringClass.isApplicationClass())
             throw new RuntimeException("Cannot set modifiers of a field from a non-app class!");
-            
+
         this.modifiers = modifiers;
     }
 
@@ -238,10 +240,5 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
     public SootFieldRef makeRef() {
         return Scene.v().makeFieldRef(declaringClass, name, type, isStatic());
     }
+
 }
-
-
-
-
-
-

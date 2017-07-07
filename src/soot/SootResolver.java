@@ -53,11 +53,13 @@ public class SootResolver {
 		worklist[SootClass.HIERARCHY] = new ArrayDeque<SootClass>();
 		worklist[SootClass.SIGNATURES] = new ArrayDeque<SootClass>();
 		worklist[SootClass.BODIES] = new ArrayDeque<SootClass>();
-		
+	}
+
+	protected void initializeProgram() {
 		if (Options.v().src_prec() != Options.src_prec_apk_c_j) {
 			program = new Program();
 			program.state().reset();
-	
+
 			program.initBytecodeReader(new BytecodeParser());
 			program.initJavaParser(new JavaParser() {
 				public CompilationUnit parse(InputStream is, String fileName)
@@ -65,11 +67,10 @@ public class SootResolver {
 					return new JastAddJavaParser().parse(is, fileName);
 				}
 			});
-	
+
 			program.options().initOptions();
 			program.options().addKeyValueOption("-classpath");
-			program.options().setValueForOption(Scene.v().getSootClassPath(),
-					"-classpath");
+			program.options().setValueForOption(Scene.v().getSootClassPath(), "-classpath");
 			if (Options.v().src_prec() == Options.src_prec_java)
 				program.setSrcPrec(Program.SRC_PREC_JAVA);
 			else if (Options.v().src_prec() == Options.src_prec_class)
@@ -85,22 +86,22 @@ public class SootResolver {
 	}
 
 	/** Returns true if we are resolving all class refs recursively. */
-	private boolean resolveEverything() {
+	protected boolean resolveEverything() {
 		if (Options.v().on_the_fly())
 			return false;
-		return (Options.v().whole_program() || Options.v().whole_shimple()
-				|| Options.v().full_resolver() || Options.v().output_format() == Options.output_format_dava);
+		return (Options.v().whole_program() || Options.v().whole_shimple() || Options.v().full_resolver()
+				|| Options.v().output_format() == Options.output_format_dava);
 	}
 
 	/**
 	 * Returns a (possibly not yet resolved) SootClass to be used in references
 	 * to a class. If/when the class is resolved, it will be resolved into this
 	 * SootClass.
-	 * */
+	 */
 	public SootClass makeClassRef(String className) {
 		// If this class name is escaped, we need to un-escape it
 		className = Scene.v().unescapeName(className);
-		
+
 		if (Scene.v().containsClass(className))
 			return Scene.v().getSootClass(className);
 
@@ -116,7 +117,7 @@ public class SootResolver {
 	 * Resolves the given class. Depending on the resolver settings, may decide
 	 * to resolve other classes as well. If the class has already been resolved,
 	 * just returns the class that was already resolved.
-	 * */
+	 */
 	public SootClass resolveClass(String className, int desiredLevel) {
 		SootClass resolvedClass = null;
 		try {
@@ -135,15 +136,13 @@ public class SootResolver {
 	}
 
 	/** Resolve all classes on toResolveWorklist. */
-	private void processResolveWorklist() {
+	protected void processResolveWorklist() {
 		for (int i = SootClass.BODIES; i >= SootClass.HIERARCHY; i--) {
 			while (!worklist[i].isEmpty()) {
 				SootClass sc = worklist[i].pop();
 				if (resolveEverything()) { // Whole program mode
-					boolean onlySignatures = sc.isPhantom()
-							|| (Options.v().no_bodies_for_excluded()
-									&& Scene.v().isExcluded(sc) && !Scene.v()
-									.getBasicClasses().contains(sc.getName()));
+					boolean onlySignatures = sc.isPhantom() || (Options.v().no_bodies_for_excluded()
+							&& Scene.v().isExcluded(sc) && !Scene.v().getBasicClasses().contains(sc.getName()));
 					if (onlySignatures) {
 						bringToSignatures(sc);
 						sc.setPhantomClass();
@@ -172,7 +171,7 @@ public class SootResolver {
 		}
 	}
 
-	private void addToResolveWorklist(Type type, int level) {
+	protected void addToResolveWorklist(Type type, int level) {
 		// We go from Type -> SootClass directly, since RefType.getSootClass
 		// calls makeClassRef anyway
 		if (type instanceof RefType)
@@ -182,7 +181,7 @@ public class SootResolver {
 		// Other types ignored
 	}
 
-	private void addToResolveWorklist(SootClass sc, int desiredLevel) {
+	protected void addToResolveWorklist(SootClass sc, int desiredLevel) {
 		if (sc.resolvingLevel() >= desiredLevel)
 			return;
 		worklist[desiredLevel].add(sc);
@@ -191,23 +190,22 @@ public class SootResolver {
 	/**
 	 * Hierarchy - we know the hierarchy of the class and that's it requires at
 	 * least Hierarchy for all supertypes and enclosing types.
-	 * */
-	private void bringToHierarchy(SootClass sc) {
+	 */
+	protected void bringToHierarchy(SootClass sc) {
 		if (sc.resolvingLevel() >= SootClass.HIERARCHY)
 			return;
 		if (Options.v().debug_resolver())
 			G.v().out.println("bringing to HIERARCHY: " + sc);
 		sc.setResolvingLevel(SootClass.HIERARCHY);
 
+		bringToHierarchyUnchecked(sc);
+	}
+
+	protected void bringToHierarchyUnchecked(SootClass sc) {
 		String className = sc.getName();
 		ClassSource is = SourceLocator.v().getClassSource(className);
 		try {
 			boolean modelAsPhantomRef = is == null;
-			// || (
-			// Options.v().no_jrl() &&
-			// Scene.v().isExcluded(sc) &&
-			// !Scene.v().getBasicClasses().contains(sc.getName())
-			// );
 			if (modelAsPhantomRef) {
 				if (!Scene.v().allowsPhantomRefs()) {
 					String suffix = "";
@@ -220,12 +218,10 @@ public class SootResolver {
 								+ "java -cp sootclasses.jar soot.Main -cp "
 								+ ".:/path/to/jdk/jre/lib/rt.jar:/path/to/jdk/jre/lib/jce.jar <other options>";
 					}
-					throw new SootClassNotFoundException("couldn't find class: "
-							+ className
-							+ " (is your soot-class-path set properly?)" + suffix);
+					throw new SootClassNotFoundException(
+							"couldn't find class: " + className + " (is your soot-class-path set properly?)" + suffix);
 				} else {
-					G.v().out.println("Warning: " + className
-							+ " is a phantom class!");
+					G.v().out.println("Warning: " + className + " is a phantom class!");
 					sc.setPhantomClass();
 					classToTypesSignature.put(sc, Collections.emptyList());
 					classToTypesHierarchy.put(sc, Collections.emptyList());
@@ -237,8 +233,7 @@ public class SootResolver {
 				if (!dependencies.typesToHierarchy.isEmpty())
 					classToTypesHierarchy.put(sc, dependencies.typesToHierarchy);
 			}
-		}
-		finally {
+		} finally {
 			if (is != null)
 				is.close();
 		}
@@ -259,8 +254,8 @@ public class SootResolver {
 	/**
 	 * Signatures - we know the signatures of all methods and fields requires at
 	 * least Hierarchy for all referred to types in these signatures.
-	 * */
-	private void bringToSignatures(SootClass sc) {
+	 */
+	protected void bringToSignatures(SootClass sc) {
 		if (sc.resolvingLevel() >= SootClass.SIGNATURES)
 			return;
 		bringToHierarchy(sc);
@@ -268,6 +263,10 @@ public class SootResolver {
 			G.v().out.println("bringing to SIGNATURES: " + sc);
 		sc.setResolvingLevel(SootClass.SIGNATURES);
 
+		bringToSignaturesUnchecked(sc);
+	}
+
+	protected void bringToSignaturesUnchecked(SootClass sc) {
 		for (SootField f : sc.getFields()) {
 			addToResolveWorklist(f.getType(), SootClass.HIERARCHY);
 		}
@@ -297,8 +296,8 @@ public class SootResolver {
 	 * distinguish between the receiver and other references. Therefore, it is
 	 * conservative and brings all of them to signatures. But this could/should
 	 * be improved.
-	 * */
-	private void bringToBodies(SootClass sc) {
+	 */
+	protected void bringToBodies(SootClass sc) {
 		if (sc.resolvingLevel() >= SootClass.BODIES)
 			return;
 		bringToSignatures(sc);
@@ -306,6 +305,10 @@ public class SootResolver {
 			G.v().out.println("bringing to BODIES: " + sc);
 		sc.setResolvingLevel(SootClass.BODIES);
 
+		bringToBodiesUnchecked(sc);
+	}
+
+	protected void bringToBodiesUnchecked(SootClass sc) {
 		{
 			Collection<Type> references = classToTypesHierarchy.get(sc);
 			if (references != null) {
@@ -348,6 +351,8 @@ public class SootResolver {
 	}
 
 	public Program getProgram() {
+		if (program == null)
+			initializeProgram();
 		return program;
 	}
 
