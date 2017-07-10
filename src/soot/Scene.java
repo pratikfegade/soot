@@ -1359,7 +1359,7 @@ public class Scene // extends AbstractHost
         rn.add("lengthof");
         rn.add("lookupswitch");
         rn.add("neg");
-        rn.add("if");
+        // rn.add("if");
         rn.add("abstract");
         // rn.add("annotation");
         rn.add("boolean");
