@@ -70,6 +70,7 @@ import soot.jimple.toolkits.pointer.CastCheckEliminatorDumper;
 import soot.jimple.toolkits.pointer.DependenceTagAggregator;
 import soot.jimple.toolkits.pointer.ParameterAliasTagger;
 import soot.jimple.toolkits.pointer.SideEffectTagger;
+import soot.jimple.toolkits.reflection.ConstantInvokeMethodBaseTransformer;
 import soot.jimple.toolkits.scalar.*;
 import soot.jimple.toolkits.scalar.pre.BusyCodeMotion;
 import soot.jimple.toolkits.scalar.pre.LazyCodeMotion;
@@ -110,19 +111,25 @@ import java.util.zip.ZipEntry;
 
 /** Manages the Packs containing the various phases and their options. */
 public class PackManager {
-
 	public static boolean DEBUG = false;
+    private final Map<String, Pack> packNameToPack = new HashMap<String, Pack>();
+    private final List<Pack> packList = new LinkedList<Pack>();
+    private boolean onlyStandardPacks = false;
+    private JarOutputStream jarFile = null;
+    private DexPrinter dexPrinter = null;
 
 	public PackManager(Singletons.Global g) {
 		PhaseOptions.v().setPackManager(this);
 		init();
 	}
 
+    public static PackManager v() {
+        return G.v().soot_PackManager();
+    }
+
 	public boolean onlyStandardPacks() {
 		return onlyStandardPacks;
 	}
-
-	private boolean onlyStandardPacks = false;
 
 	void notifyAddPack() {
 		onlyStandardPacks = false;
@@ -172,6 +179,9 @@ public class PackManager {
 
 		// Whole-Jimple Pre-processing Pack
 		addPack(p = new ScenePack("wjpp"));
+        {
+            p.add(new Transform("wjpp.cimbt", ConstantInvokeMethodBaseTransformer.v()));
+        }
 
 		// Whole-Shimple Pre-processing Pack
 		addPack(p = new ScenePack("wspp"));
@@ -330,13 +340,6 @@ public class PackManager {
 		onlyStandardPacks = true;
 	}
 
-	public static PackManager v() {
-		return G.v().soot_PackManager();
-	}
-
-	private final Map<String, Pack> packNameToPack = new HashMap<String, Pack>();
-	private final List<Pack> packList = new LinkedList<Pack>();
-
 	private void addPack(Pack p) {
 		if (packNameToPack.containsKey(p.getPhaseName()))
 			throw new RuntimeException("Duplicate pack " + p.getPhaseName());
@@ -390,8 +393,8 @@ public class PackManager {
 		}
 
 		setupJAR();
-		for (String path : (Collection<String>) Options.v().process_dir()) {
-			// hack1: resolve to signatures only
+        for (String path : Options.v().process_dir()) {
+            // hack1: resolve to signatures only
 			for (String cl : SourceLocator.v().getClassesUnder(path)) {
 				SootClass clazz = Scene.v().forceResolve(cl, SootClass.SIGNATURES);
 				clazz.setApplicationClass();
@@ -442,7 +445,6 @@ public class PackManager {
 
 		handleInnerClasses();
 	}
-
 
 	private void runPacksNormally() {
 		if (Options.v().src_prec() == Options.src_prec_class && Options.v().keep_line_number()) {
@@ -506,8 +508,6 @@ public class PackManager {
 		runBodyPacks(reachableClasses());
 	}
 
-	private JarOutputStream jarFile = null;
-
 	public JarOutputStream getJarFile() {
 		return jarFile;
 	}
@@ -539,8 +539,6 @@ public class PackManager {
 		dexPrinter.print();
 		dexPrinter = null;
 	}
-
-	private DexPrinter dexPrinter = null;
 
 	private void setupJAR() {
 		if (Options.v().output_jar()) {
@@ -645,6 +643,10 @@ public class PackManager {
 		agg.internalTransform("", null);
 	}
 
+    private Iterator<SootClass> classes() {
+        return Scene.v().getClasses().snapshotIterator();
+    }
+
 	private void writeOutput(Iterator<SootClass> classes) {
 		// If we're writing individual class files, we can write them
 		// concurrently. Otherwise, we need to synchronize for not destroying
@@ -703,10 +705,6 @@ public class PackManager {
 		return Scene.v().getApplicationClasses().snapshotIterator();
 	}
 
-    private Iterator<SootClass> classes() {
-        return Scene.v().getClasses().snapshotIterator();
-    }
-
 	/* post process for DAVA */
 	private void postProcessDAVA() {
 		G.v().out.println();
@@ -727,12 +725,11 @@ public class PackManager {
 			 */
 			DavaStaticBlockCleaner.v().staticBlockInlining(s);
 
-            //remove returns from void methods
-            VoidReturnRemover.cleanClass(s);
+			// remove returns from void methods
+			VoidReturnRemover.cleanClass(s);
 
-            //remove the default constructor if this is the only one present
-            RemoveEmptyBodyDefaultConstructor.checkAndRemoveDefault(s);
-
+			// remove the default constructor if this is the only one present
+			RemoveEmptyBodyDefaultConstructor.checkAndRemoveDefault(s);
 
 			/*
 			 * Nomair A. Naeem 1st March 2006 Check if we want to apply
@@ -795,7 +792,7 @@ public class PackManager {
 		ArrayList<String> decompiledClasses = new ArrayList<String>();
 		Iterator<SootClass> classIt = appClasses.iterator();
 		while (classIt.hasNext()) {
-			SootClass s = (SootClass) classIt.next();
+            SootClass s = classIt.next();
 
 			OutputStream streamOut = null;
 			PrintWriter writerOut = null;
@@ -920,7 +917,6 @@ public class PackManager {
 			throw new RuntimeException();
 		}
 
-
 		soot.xml.TagCollector tc = new soot.xml.TagCollector();
 
 		boolean wholeShimple = Options.v().whole_shimple();
@@ -1022,8 +1018,8 @@ public class PackManager {
 				ArrayList<SootMethod> sootMethodsAdded = G.v().SootMethodsAdded;
 				Iterator<SootMethod> it = sootMethodsAdded.iterator();
 				while (it.hasNext()) {
-					c.addMethod((SootMethod) it.next());
-				}
+                    c.addMethod(it.next());
+                }
 				G.v().SootMethodsAdded = new ArrayList<SootMethod>();
 				G.v().SootMethodAddedByDava = false;
 			}
@@ -1047,125 +1043,14 @@ public class PackManager {
 		return bafBody;
 	}
 
-	private void writeClass(SootClass c) {
-		// Create code assignments for those values we only have in code
-		// assignments
-		if (Options.v().output_format() == Options.output_format_jimple)
-			if (!c.isPhantom)
-				ConstantValueToInitializerTransformer.v().transformClass(c);
-
-		final int format = Options.v().output_format();
-		if (format == Options.output_format_none)
-			return;
-		if (format == Options.output_format_dava)
-			return;
-		if (format == Options.output_format_dex || format == Options.output_format_force_dex) {
-			// just add the class to the dex printer, writing is done after
-			// adding all classes
-			dexPrinter.add(c);
-			return;
-		}
-
-		OutputStream streamOut = null;
-		PrintWriter writerOut = null;
-
-		String fileName = SourceLocator.v().getFileNameFor(c, format);
-		if (Options.v().gzip())
-			fileName = fileName + ".gz";
-
-		try {
-			if (jarFile != null) {
-				// Fix path delimiters according to ZIP specification
-				fileName = fileName.replace("\\", "/");
-				JarEntry entry = new JarEntry(fileName);
-				entry.setMethod(ZipEntry.DEFLATED);
-				jarFile.putNextEntry(entry);
-				streamOut = jarFile;
-			} else {
-				new File(fileName).getParentFile().mkdirs();
-				streamOut = new FileOutputStream(fileName);
-			}
-			if (Options.v().gzip()) {
-				streamOut = new GZIPOutputStream(streamOut);
-			}
-			if (format == Options.output_format_class) {
-				if (!Options.v().asm_backend()) {
-					streamOut = new JasminOutputStream(streamOut);
-				}
-			}
-			writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
-			G.v().out.println("Writing to " + fileName);
-		} catch (IOException e) {
-			throw new CompilationDeathException("Cannot output file " + fileName, e);
-		}
-
-		if (Options.v().xml_attributes()) {
-			Printer.v().setOption(Printer.ADD_JIMPLE_LN);
-		}
-
-		int java_version = Options.v().java_version();
-
-		switch (format) {
-		case Options.output_format_class:
-			if (Options.v().asm_backend()) {
-				new BafASMBackend(c, java_version).generateClassFile(streamOut);
-				break;
-			}
-		case Options.output_format_jasmin:
-			if (c.containsBafBody())
-				new soot.baf.JasminClass(c).print(writerOut);
-			else
-				new soot.jimple.JasminClass(c).print(writerOut);
-			break;
-		case Options.output_format_jimp:
-		case Options.output_format_shimp:
-		case Options.output_format_b:
-		case Options.output_format_grimp:
-			Printer.v().setOption(Printer.USE_ABBREVIATIONS);
-			Printer.v().printTo(c, writerOut);
-			break;
-		case Options.output_format_baf:
-		case Options.output_format_jimple:
-		case Options.output_format_shimple:
-		case Options.output_format_grimple:
-			writerOut = new PrintWriter(new EscapedWriter(new OutputStreamWriter(streamOut)));
-			Printer.v().printTo(c, writerOut);
-			break;
-		case Options.output_format_xml:
-			writerOut = new PrintWriter(new EscapedWriter(new OutputStreamWriter(streamOut)));
-			XMLPrinter.v().printJimpleStyleTo(c, writerOut);
-			break;
-		case Options.output_format_template:
-			writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
-			TemplatePrinter.v().printTo(c, writerOut);
-			break;
-		case Options.output_format_asm:
-			new BafASMBackend(c, java_version).generateTextualRepresentation(writerOut);
-			break;
-		default:
-			throw new RuntimeException();
-		}
-
-		try {
-			writerOut.flush();
-			if (jarFile == null) {
-				streamOut.close();
-				writerOut.close();
-			} else
-				jarFile.closeEntry();
-		} catch (IOException e) {
-			throw new CompilationDeathException("Cannot close output file " + fileName);
-		}
-	}
-
 	private void postProcessXML(Iterator<SootClass> classes) {
 		if (!Options.v().xml_attributes())
 			return;
 		if (Options.v().output_format() != Options.output_format_jimple)
 			return;
 		while (classes.hasNext()) {
-			SootClass c = (SootClass) classes.next();
-			processXMLForClass(c);
+            SootClass c = classes.next();
+            processXMLForClass(c);
 		}
 	}
 
@@ -1198,6 +1083,120 @@ public class PackManager {
 		}
 	}
 
+    public void writeClass(SootClass c) {
+        // Create code assignments for those values we only have in code assignments
+        if (Options.v().output_format() == Options.output_format_jimple)
+            if (!c.isPhantom)
+                ConstantValueToInitializerTransformer.v().transformClass(c);
+
+        final int format = Options.v().output_format();
+        if( format == Options.output_format_none ) return;
+        if( format == Options.output_format_dava ) return;
+        if (format == Options.output_format_dex
+                || format == Options.output_format_force_dex) {
+            // just add the class to the dex printer, writing is done after adding all classes
+            dexPrinter.add(c);
+            return;
+        }
+
+        OutputStream streamOut;
+        PrintWriter writerOut;
+
+        String fileName = SourceLocator.v().getFileNameFor(c, format);
+        if( Options.v().gzip() ) fileName = fileName+".gz";
+
+        try {
+            if( jarFile != null ) {
+                // Fix path delimiters according to ZIP specification
+                fileName = fileName.replace("\\", "/");
+                JarEntry entry = new JarEntry(fileName);
+                entry.setMethod(ZipEntry.DEFLATED);
+                jarFile.putNextEntry(entry);
+                streamOut = jarFile;
+            } else {
+                new File(fileName).getParentFile().mkdirs();
+                streamOut = new FileOutputStream(fileName);
+            }
+            if( Options.v().gzip() ) {
+                streamOut = new GZIPOutputStream(streamOut);
+            }
+            if(format == Options.output_format_class) {
+                if(!Options.v().asm_backend()){
+                    streamOut = new JasminOutputStream(streamOut);
+                }
+            }
+            writerOut = new PrintWriter(new OutputStreamWriter(streamOut));
+            //G.v().out.println( "Writing to "+fileName );
+        } catch (IOException e) {
+            throw new CompilationDeathException("Cannot output file " + fileName,e);
+        }
+
+        if (Options.v().xml_attributes()) {
+            Printer.v().setOption(Printer.ADD_JIMPLE_LN);
+        }
+
+        int java_version = Options.v().java_version();
+
+        switch (format) {
+            case Options.output_format_class :
+                if(Options.v().asm_backend()){
+                    new BafASMBackend(c, java_version).generateClassFile(streamOut);
+                    break;
+                }
+            case Options.output_format_jasmin :
+                if (c.containsBafBody())
+                    new soot.baf.JasminClass(c).print(writerOut);
+                else
+                    new soot.jimple.JasminClass(c).print(writerOut);
+                break;
+            case Options.output_format_jimp :
+            case Options.output_format_shimp :
+            case Options.output_format_b :
+            case Options.output_format_grimp :
+                Printer.v().setOption(Printer.USE_ABBREVIATIONS);
+                Printer.v().printTo(c, writerOut);
+                break;
+            case Options.output_format_baf :
+            case Options.output_format_jimple :
+            case Options.output_format_shimple :
+            case Options.output_format_grimple :
+                writerOut =
+                        new PrintWriter(
+                                new EscapedWriter(new OutputStreamWriter(streamOut)));
+                Printer.v().printTo(c, writerOut);
+                break;
+            case Options.output_format_xml :
+                writerOut =
+                        new PrintWriter(
+                                new EscapedWriter(new OutputStreamWriter(streamOut)));
+                XMLPrinter.v().printJimpleStyleTo(c, writerOut);
+                break;
+            case Options.output_format_template :
+                writerOut =
+                        new PrintWriter(
+                                new OutputStreamWriter(streamOut));
+                TemplatePrinter.v().printTo(c, writerOut);
+                break;
+            case Options.output_format_asm :
+                new BafASMBackend(c, java_version).generateTextualRepresentation(writerOut);
+                break;
+            default :
+                throw new RuntimeException();
+        }
+
+        try {
+            writerOut.flush();
+            if( jarFile == null ) {
+                streamOut.close();
+                writerOut.close();
+            }
+            else
+                jarFile.closeEntry();
+        } catch (IOException e) {
+            throw new CompilationDeathException("Cannot close output file " + fileName);
+        }
+    }
+
 	private void retrieveAllBodies() {
 		// The old coffi front-end is not thread-safe
 		int threadNum = Options.v().coffi() ? 1 : Runtime.getRuntime().availableProcessors();
@@ -1206,8 +1205,8 @@ public class PackManager {
 
 		Iterator<SootClass> clIt = reachableClasses();
 		while (clIt.hasNext()) {
-			SootClass cl = (SootClass) clIt.next();
-			// note: the following is a snapshot iterator;
+            SootClass cl = clIt.next();
+            // note: the following is a snapshot iterator;
 			// this is necessary because it can happen that phantom methods
 			// are added during resolution
 			Iterator<SootMethod> methodIt = cl.getMethods().iterator();
@@ -1240,4 +1239,47 @@ public class PackManager {
 			throw (RuntimeException) executor.getException();
 	}
 
+    public void retrieveAllSceneClassesBodies() {
+        // The old coffi front-end is not thread-safe
+        int threadNum = Options.v().coffi() ? 1 : Runtime.getRuntime().availableProcessors();
+        CountingThreadPoolExecutor executor =  new CountingThreadPoolExecutor(threadNum,
+                threadNum, 30, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>());
+
+        Iterator<SootClass> clIt = classes();
+        while( clIt.hasNext() ) {
+            SootClass cl = clIt.next();
+            //note: the following is a snapshot iterator;
+            //this is necessary because it can happen that phantom methods
+            //are added during resolution
+            Iterator<SootMethod> methodIt = cl.getMethods().iterator();
+            while (methodIt.hasNext()) {
+                final SootMethod m = methodIt.next();
+                if( m.isConcrete() ) {
+                    executor.execute(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            m.retrieveActiveBody();
+                        }
+
+                    });
+                }
+            }
+        }
+
+        // Wait till all method bodies have been loaded
+        try {
+            executor.awaitCompletion();
+            executor.shutdown();
+        } catch (InterruptedException e) {
+            // Something went horribly wrong
+            throw new RuntimeException("Could not wait for loader threads to "
+                    + "finish: " + e.getMessage(), e);
+        }
+
+        // If something went wrong, we tell the world
+        if (executor.getException() != null)
+            throw (RuntimeException) executor.getException();
+    }
 }

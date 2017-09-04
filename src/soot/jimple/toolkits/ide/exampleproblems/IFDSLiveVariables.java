@@ -65,7 +65,7 @@ public class IFDSLiveVariables extends DefaultJimpleIFDSTabulationProblem<Value,
 								Value value = useBox.getValue();
 								liveVars.add(value);
 							}
-							
+
 							return liveVars;
 						}
 						

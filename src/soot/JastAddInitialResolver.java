@@ -43,31 +43,31 @@ public class JastAddInitialResolver implements IInitialResolver {
 	protected Map<String,CompilationUnit> classNameToCU = new HashMap<String, CompilationUnit>();
 	
 	public void formAst(String fullPath, List<String> locations, String className) {
-	      Program program = SootResolver.v().getProgram();
-    	  CompilationUnit u = program.getCachedOrLoadCompilationUnit(fullPath);
-    	  if(u != null && !u.isResolved) {
-    		  u.isResolved = true;
-	          java.util.ArrayList<jastadd.soot.JastAddJ.Problem> errors = new java.util.ArrayList<jastadd.soot.JastAddJ.Problem>();
-	          u.errorCheck(errors);
-	          if(!errors.isEmpty()) {
-	        	  for(jastadd.soot.JastAddJ.Problem p : errors)
-	        		  G.v().out.println(p);
-	        	  //die
-	        	  throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED,
-	        			  "there were errors during parsing and/or type checking (JastAdd frontend)");
-	          }
-	          u.transformation();
-	          u.jimplify1phase1();
-	          u.jimplify1phase2();
-	  		  HashSet<SootClass> types = new HashSet<SootClass>();
-			  for(TypeDecl typeDecl : u.getTypeDecls())
-				  collectTypeDecl(typeDecl, types);
-			  if(types.isEmpty())
-				  classNameToCU.put(className, u);
-		      else
-		    	  for(SootClass sc : types)
-		    		  classNameToCU.put(sc.getName(), u);	     
-    	  }
+	      //Program program = SootResolver.v().getProgram();
+    	  //CompilationUnit u = program.getCachedOrLoadCompilationUnit(fullPath);
+//    	  if(u != null && !u.isResolved) {
+//    		  u.isResolved = true;
+//	          java.util.ArrayList<jastadd.soot.JastAddJ.Problem> errors = new java.util.ArrayList<jastadd.soot.JastAddJ.Problem>();
+//	          u.errorCheck(errors);
+//	          if(!errors.isEmpty()) {
+//	        	  for(jastadd.soot.JastAddJ.Problem p : errors)
+//	        		  G.v().out.println(p);
+//	        	  //die
+//	        	  throw new CompilationDeathException(CompilationDeathException.COMPILATION_ABORTED,
+//	        			  "there were errors during parsing and/or type checking (JastAdd frontend)");
+//	          }
+//	          u.transformation();
+//	          u.jimplify1phase1();
+//	          u.jimplify1phase2();
+//	  		  HashSet<SootClass> types = new HashSet<SootClass>();
+//			  for(TypeDecl typeDecl : u.getTypeDecls())
+//				  collectTypeDecl(typeDecl, types);
+//			  if(types.isEmpty())
+//				  classNameToCU.put(className, u);
+//		      else
+//		    	  for(SootClass sc : types)
+//		    		  classNameToCU.put(sc.getName(), u);
+//    	  }
 	}
 	
 	@SuppressWarnings("unchecked")

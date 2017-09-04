@@ -26,28 +26,37 @@
 
 package soot;
 
-import jastadd.soot.JastAddJ.*;
+//import java.io.IOException;
+//import java.io.InputStream;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.Iterator;
+
+//import soot.JastAddJ.BytecodeParser;
+//import soot.JastAddJ.CompilationUnit;
+//import soot.JastAddJ.JastAddJavaParser;
+//import soot.JastAddJ.JavaParser;
+//import soot.JastAddJ.Program;
 import soot.javaToJimple.IInitialResolver.Dependencies;
 import soot.options.Options;
 import soot.singletons.Singletons;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
+import soot.util.ConcurrentHashMultiMap;
+import soot.util.MultiMap;
 
 /** Loads symbols for SootClasses from either class files or jimple files. */
 public class SootResolver {
 	/** Maps each resolved class to a list of all references in it. */
-	private final Map<SootClass, Collection<Type>> classToTypesSignature = new HashMap<SootClass, Collection<Type>>();
+	protected MultiMap<SootClass, Type> classToTypesSignature = new ConcurrentHashMultiMap<SootClass, Type>();
 
 	/** Maps each resolved class to a list of all references in it. */
-	private final Map<SootClass, Collection<Type>> classToTypesHierarchy = new HashMap<SootClass, Collection<Type>>();
+	protected MultiMap<SootClass, Type> classToTypesHierarchy = new ConcurrentHashMultiMap<SootClass, Type>();
 
 	/** SootClasses waiting to be resolved. */
 	@SuppressWarnings("unchecked")
 	private final Deque<SootClass>[] worklist = new Deque[4];
 
-	private Program program = null;
+	//private Program program = null;
 
 	public SootResolver(Singletons.Global g) {
 		worklist[SootClass.HIERARCHY] = new ArrayDeque<SootClass>();
@@ -55,31 +64,31 @@ public class SootResolver {
 		worklist[SootClass.BODIES] = new ArrayDeque<SootClass>();
 	}
 
-	protected void initializeProgram() {
-		if (Options.v().src_prec() != Options.src_prec_apk_c_j) {
-			program = new Program();
-			program.state().reset();
-
-			program.initBytecodeReader(new BytecodeParser());
-			program.initJavaParser(new JavaParser() {
-				public CompilationUnit parse(InputStream is, String fileName)
-						throws IOException, jastadd.beaver.Parser.Exception {
-					return new JastAddJavaParser().parse(is, fileName);
-				}
-			});
-
-			program.options().initOptions();
-			program.options().addKeyValueOption("-classpath");
-			program.options().setValueForOption(Scene.v().getSootClassPath(), "-classpath");
-			if (Options.v().src_prec() == Options.src_prec_java)
-				program.setSrcPrec(Program.SRC_PREC_JAVA);
-			else if (Options.v().src_prec() == Options.src_prec_class)
-				program.setSrcPrec(Program.SRC_PREC_CLASS);
-			else if (Options.v().src_prec() == Options.src_prec_only_class)
-				program.setSrcPrec(Program.SRC_PREC_CLASS);
-			program.initPaths();
-		}
-	}
+//	protected void initializeProgram() {
+//		if (Options.v().src_prec() != Options.src_prec_apk_c_j) {
+//			program = new Program();
+//			program.state().reset();
+//
+//			program.initBytecodeReader(new BytecodeParser());
+//			program.initJavaParser(new JavaParser() {
+//				public CompilationUnit parse(InputStream is, String fileName)
+//						throws IOException, beaver.Parser.Exception {
+//					return new JastAddJavaParser().parse(is, fileName);
+//				}
+//			});
+//
+//			program.options().initOptions();
+//			program.options().addKeyValueOption("-classpath");
+//			program.options().setValueForOption(Scene.v().getSootClassPath(), "-classpath");
+//			if (Options.v().src_prec() == Options.src_prec_java)
+//				program.setSrcPrec(Program.SRC_PREC_JAVA);
+//			else if (Options.v().src_prec() == Options.src_prec_class)
+//				program.setSrcPrec(Program.SRC_PREC_CLASS);
+//			else if (Options.v().src_prec() == Options.src_prec_only_class)
+//				program.setSrcPrec(Program.SRC_PREC_CLASS);
+//			program.initPaths();
+//		}
+//	}
 
 	public static SootResolver v() {
 		return G.v().soot_SootResolver();
@@ -221,17 +230,15 @@ public class SootResolver {
 					throw new SootClassNotFoundException(
 							"couldn't find class: " + className + " (is your soot-class-path set properly?)" + suffix);
 				} else {
-					G.v().out.println("Warning: " + className + " is a phantom class!");
+					//G.v().out.println("Warning: " + className + " is a phantom class!");
 					sc.setPhantomClass();
-					classToTypesSignature.put(sc, Collections.emptyList());
-					classToTypesHierarchy.put(sc, Collections.emptyList());
 				}
 			} else {
 				Dependencies dependencies = is.resolve(sc);
 				if (!dependencies.typesToSignature.isEmpty())
-					classToTypesSignature.put(sc, dependencies.typesToSignature);
+					classToTypesSignature.putAll(sc, dependencies.typesToSignature);
 				if (!dependencies.typesToHierarchy.isEmpty())
-					classToTypesHierarchy.put(sc, dependencies.typesToHierarchy);
+					classToTypesHierarchy.putAll(sc, dependencies.typesToHierarchy);
 			}
 		} finally {
 			if (is != null)
@@ -350,11 +357,11 @@ public class SootResolver {
 		reResolve(cl, SootClass.HIERARCHY);
 	}
 
-	public Program getProgram() {
-		if (program == null)
-			initializeProgram();
-		return program;
-	}
+//	public Program getProgram() {
+//		if (program == null)
+//			initializeProgram();
+//		return program;
+//	}
 
 	private class SootClassNotFoundException extends RuntimeException {
 		/**

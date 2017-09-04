@@ -442,6 +442,20 @@ public class AntTask extends MatchingTask {
             }
         }
   
+        public void setfield_type_mismatches(String arg) {
+            if(false
+    
+                || arg.equals( "fail" )
+                || arg.equals( "ignore" )
+                || arg.equals( "null" )
+                ) {
+                addArg("-field-type-mismatches");
+                addArg(arg);
+            } else {
+                throw new BuildException("Bad value "+arg+" for option field_type_mismatches");
+            }
+        }
+  
         public void setoptimize(boolean arg) {
             if(arg) addArg("-optimize");
         }
@@ -1191,6 +1205,27 @@ public class AntTask extends MatchingTask {
             addArg("-p");
             addArg("wjpp");
             addArg("enabled:"+(arg?"true":"false"));
+          }
+      
+        }
+    
+        public Object createp_wjpp_cimbt() {
+            Object ret = new PhaseOptwjpp_cimbt();
+            phaseopts.add(ret);
+            return ret;
+        }
+        public class PhaseOptwjpp_cimbt {
+      
+          public void setenabled(boolean arg) {
+            addArg("-p");
+            addArg("wjpp.cimbt");
+            addArg("enabled:"+(arg?"true":"false"));
+          }
+      
+          public void setverbose(boolean arg) {
+            addArg("-p");
+            addArg("wjpp.cimbt");
+            addArg("verbose:"+(arg?"true":"false"));
           }
       
         }

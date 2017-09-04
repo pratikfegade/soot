@@ -148,8 +148,8 @@ public class FillArrayDataInstruction extends PseudoInstruction {
     if (elementType instanceof BooleanType) {
       value = IntConstant.v(element.intValue());
       IntConstant ic = (IntConstant)value;
-      if (!(ic.value == 0 || ic.value == 1)) {
-        throw new RuntimeException("ERROR: Invalid value for boolean: "+ value);
+      if (ic.value != 0) {
+        value = IntConstant.v(1);
       }
     } else if(elementType instanceof ByteType) {
       value = IntConstant.v(element.byteValue());

@@ -36,7 +36,6 @@ import soot.tagkit.AbstractHost;
 import soot.util.Numberable;
 
 /**
- <<<<<<< HEAD
  Soot representation of a Java field.  Can be declared to belong to a SootClass.
  */
 public class SootField extends AbstractHost implements ClassMember, SparkField, Numberable, PaddleField
