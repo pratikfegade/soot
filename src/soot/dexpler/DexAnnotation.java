@@ -1,17 +1,71 @@
 package soot.dexpler;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.jf.dexlib2.AnnotationVisibility;
-import org.jf.dexlib2.iface.*;
+import org.jf.dexlib2.iface.Annotation;
+import org.jf.dexlib2.iface.AnnotationElement;
+import org.jf.dexlib2.iface.ClassDef;
+import org.jf.dexlib2.iface.Field;
+import org.jf.dexlib2.iface.Method;
+import org.jf.dexlib2.iface.MethodParameter;
 import org.jf.dexlib2.iface.reference.FieldReference;
 import org.jf.dexlib2.iface.reference.MethodReference;
-import org.jf.dexlib2.iface.value.*;
-import soot.*;
-import soot.javaToJimple.IInitialResolver.Dependencies;
-import soot.tagkit.*;
-import soot.toDex.SootToDexUtils;
+import org.jf.dexlib2.iface.value.AnnotationEncodedValue;
+import org.jf.dexlib2.iface.value.ArrayEncodedValue;
+import org.jf.dexlib2.iface.value.BooleanEncodedValue;
+import org.jf.dexlib2.iface.value.ByteEncodedValue;
+import org.jf.dexlib2.iface.value.CharEncodedValue;
+import org.jf.dexlib2.iface.value.DoubleEncodedValue;
+import org.jf.dexlib2.iface.value.EncodedValue;
+import org.jf.dexlib2.iface.value.EnumEncodedValue;
+import org.jf.dexlib2.iface.value.FieldEncodedValue;
+import org.jf.dexlib2.iface.value.FloatEncodedValue;
+import org.jf.dexlib2.iface.value.IntEncodedValue;
+import org.jf.dexlib2.iface.value.LongEncodedValue;
+import org.jf.dexlib2.iface.value.MethodEncodedValue;
+import org.jf.dexlib2.iface.value.ShortEncodedValue;
+import org.jf.dexlib2.iface.value.StringEncodedValue;
+import org.jf.dexlib2.iface.value.TypeEncodedValue;
 
-import java.util.*;
-import java.util.Map.Entry;
+import soot.ArrayType;
+import soot.RefType;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.SootResolver;
+import soot.Type;
+import soot.javaToJimple.IInitialResolver.Dependencies;
+import soot.tagkit.AnnotationAnnotationElem;
+import soot.tagkit.AnnotationArrayElem;
+import soot.tagkit.AnnotationBooleanElem;
+import soot.tagkit.AnnotationClassElem;
+import soot.tagkit.AnnotationConstants;
+import soot.tagkit.AnnotationDefaultTag;
+import soot.tagkit.AnnotationDoubleElem;
+import soot.tagkit.AnnotationElem;
+import soot.tagkit.AnnotationEnumElem;
+import soot.tagkit.AnnotationFloatElem;
+import soot.tagkit.AnnotationIntElem;
+import soot.tagkit.AnnotationLongElem;
+import soot.tagkit.AnnotationStringElem;
+import soot.tagkit.AnnotationTag;
+import soot.tagkit.DeprecatedTag;
+import soot.tagkit.EnclosingMethodTag;
+import soot.tagkit.Host;
+import soot.tagkit.InnerClassAttribute;
+import soot.tagkit.InnerClassTag;
+import soot.tagkit.ParamNamesTag;
+import soot.tagkit.SignatureTag;
+import soot.tagkit.Tag;
+import soot.tagkit.VisibilityAnnotationTag;
+import soot.tagkit.VisibilityParameterAnnotationTag;
+import soot.toDex.SootToDexUtils;
 
 /**
  * Converts annotations from Dexlib to Jimple.
@@ -135,7 +189,6 @@ public class DexAnnotation {
    				} else {
    					clazz.addTag(t);
    				}
-   				Debug.printDbg("add class annotation: ", t, " type: ", t.getClass());
    			}
     }
 
@@ -168,8 +221,8 @@ public class DexAnnotation {
 			break;
 		case 'e': //enum
 			AnnotationEnumElem enumElem = (AnnotationEnumElem) e;
-			annotationType = Util.getType(enumElem.getTypeName());
-            break;
+			annotationType = Util.getType(enumElem.getTypeName());; 
+			break;
 			
         case 'L':
         case 'J':
@@ -203,7 +256,6 @@ public class DexAnnotation {
         		for (Tag t : tags)
 	            	if (t != null) {
 		                h.addTag(t);
-		                Debug.printDbg("add field annotation: ", t);
 		            }
         }
     }
@@ -221,7 +273,6 @@ public class DexAnnotation {
 	            for (Tag t : tags)
 	            	if (t != null) {
 		                h.addTag(t);
-		                Debug.printDbg("add method annotation: ", t);
 		            }
 		}
 
@@ -241,7 +292,6 @@ public class DexAnnotation {
         boolean doParam = false;
         List<? extends MethodParameter> parameters = method.getParameters();
         for (MethodParameter p : parameters) {
-            Debug.printDbg("parameter ", p, " annotations: ", p.getAnnotations());
             if (p.getAnnotations().size() > 0) {
                 doParam = true;
                 break;
@@ -294,7 +344,6 @@ public class DexAnnotation {
                         vat = ((VisibilityAnnotationTag) t).getAnnotations().get(0);
                     }
 
-                    Debug.printDbg("add parameter annotation: ", t);
                     paramVat.addAnnotation(vat);
                 }
             }
@@ -336,7 +385,6 @@ public class DexAnnotation {
             Type atype = DexType.toSoot(a.getType());
             String atypes = atype.toString();
             int eSize = a.getElements().size();
-            Debug.printDbg("annotation type: ", atypes ," elements: ", eSize);
 
             if (atypes.equals("dalvik.annotation.AnnotationDefault")) {
                 if (eSize != 1)
@@ -366,11 +414,9 @@ public class DexAnnotation {
 							 * '-'. Thus we search for '$-' and anything after it including '-' is the inner
 							 * classes name and anything before it is the outer classes name.
 							 */
-                			Debug.printDbg("Fixing circular outer class for the jack and jill generated lambda class ", outerClass, "...");
 							outerClass = outerClass.substring(0, outerClass.indexOf("$-"));
                 		} else if (outerClass.contains("$")) {
                 			//remove everything after the last '$' including the last '$'
-                			Debug.printDbg("Fixing circular outer class ", outerClass, "...");
                 			outerClass = outerClass.substring(0, outerClass.lastIndexOf("$"));
                 		}
                 	}
@@ -536,8 +582,6 @@ public class DexAnnotation {
 				vatg[v].addAnnotation(adt);
                 
             } else {
-                Debug.printDbg("read visibility tag: ", a.getType());
-
                 if (vatg[v] == null)
                     vatg[v] = new VisibilityAnnotationTag(v);
 
@@ -566,7 +610,6 @@ public class DexAnnotation {
             //Debug.printDbg("element: ", ae.getName() ," ", ae.getValue() ," type: ", ae.getClass());
             //Debug.printDbg("value type: ", ae.getValue().getValueType() ," class: ", ae.getValue().getClass());
 
-            Debug.printDbg("   element type: ", ae.getValue().getClass());
             List<AnnotationElem> eList = handleAnnotationElement(ae, Collections.singletonList(ae.getValue()));
             if (eList != null)
             	aelemList.addAll(eList);
@@ -580,7 +623,6 @@ public class DexAnnotation {
         for (EncodedValue ev: evList) {
             int type = ev.getValueType();
             AnnotationElem elem = null;
-            Debug.printDbg("encoded value type: ", type);
             switch (type) {
             case 0x00: // BYTE
             {
@@ -628,7 +670,6 @@ public class DexAnnotation {
             {
                 StringEncodedValue v = (StringEncodedValue)ev;
                 elem = new AnnotationStringElem(v.getValue(), 's', ae.getName());
-                Debug.printDbg("value for string: ", v.getValue());
                 break;
             }
             case 0x18: // TYPE
@@ -648,7 +689,6 @@ public class DexAnnotation {
                 fieldSig += DexType.toSootAT(fr.getDefiningClass()) +": ";
                 fieldSig += DexType.toSootAT(fr.getType()) +" ";
                 fieldSig += fr.getName();
-                Debug.printDbg("FIELD: ", fieldSig);
                 elem = new AnnotationStringElem(fieldSig, 'f', ae.getName());
                 break;
             }

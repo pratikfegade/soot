@@ -30,7 +30,6 @@ import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction21c;
 import org.jf.dexlib2.iface.reference.TypeReference;
 import soot.Type;
-import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
 import soot.dexpler.IDalvikTyper;
@@ -49,6 +48,7 @@ public class ConstClassInstruction extends DexlibAbstractInstruction {
 		super(instruction, codeAdress);
 	}
 
+	@Override
 	public void jimplify(DexBody body) {
 		if (!(instruction instanceof Instruction21c))
 			throw new IllegalArgumentException("Expected Instruction21c but got: " + instruction.getClass());
@@ -65,7 +65,6 @@ public class ConstClassInstruction extends DexlibAbstractInstruction {
 		body.add(assign);
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: " + assign);
 			// DalvikTyper.v().captureAssign((JAssignStmt)assign, op); //TODO:
 			// classtype could be null!
 			DalvikTyper.v().setType(assign.getLeftOpBox(), cst.getType(), false);

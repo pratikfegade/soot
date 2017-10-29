@@ -56,7 +56,6 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
         this.type = type;
         this.modifiers = modifiers;
         this.initialValueString = initialValueString;
-        if( type instanceof RefLikeType ) Scene.v().getFieldNumberer().add(this);
     }
 
     /** Constructs a Soot field with the given name, type and modifiers. */
@@ -88,8 +87,8 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
     {
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("<" + Scene.v().quotedNameOf(cl.getName()) + ": ");
-        buffer.append(type + " " + Scene.v().quotedNameOf(name) + ">");
+		buffer.append("<" + Scene.v().quotedNameOf(cl.getName()) + ": ");
+        buffer.append(type.toQuotedString() + " " + Scene.v().quotedNameOf(name) + ">");
 
         return buffer.toString().intern();
 
@@ -211,16 +210,14 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
         return getSignature();
     }
 
+	private String getOriginalStyleDeclaration() {
+        String qualifiers = Modifier.toString(modifiers) + " " + type.toQuotedString();
+		qualifiers = qualifiers.trim();
 
-    private String getOriginalStyleDeclaration()
-    {
-        String qualifiers = Modifier.toString(modifiers) + " " + type.toString();
-        qualifiers = qualifiers.trim();
-
-        if(qualifiers.equals(""))
-            return Scene.v().quotedNameOf(name);
-        else
-            return qualifiers + " " + Scene.v().quotedNameOf(name) + "";
+		if (qualifiers.isEmpty())
+			return Scene.v().quotedNameOf(name);
+		else
+			return qualifiers + " " + Scene.v().quotedNameOf(name) + "";
 
     }
 
@@ -240,4 +237,13 @@ public class SootField extends AbstractHost implements ClassMember, SparkField, 
         return Scene.v().makeFieldRef(declaringClass, name, type, isStatic());
     }
 
+	public void setDeclared(boolean declared) {
+		this.isDeclared = declared;
+	}
+
+	public void setDeclaringClass(SootClass sc) {
+		this.declaringClass = sc;
+		if (type instanceof RefLikeType)
+			Scene.v().getFieldNumberer().add(this);
+	}
 }

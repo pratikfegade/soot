@@ -24,21 +24,23 @@
 
 package soot.dexpler.instructions;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.jf.dexlib2.iface.instruction.FiveRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.RegisterRangeInstruction;
-import soot.*;
+
+import soot.Type;
+import soot.Unit;
 import soot.dexpler.DexBody;
 import soot.options.Options;
 import soot.tagkit.BytecodeOffsetTag;
 import soot.tagkit.Host;
 import soot.tagkit.LineNumberTag;
 import soot.tagkit.SourceLineNumberTag;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 /**
  * This class represents a wrapper around dexlib instruction.
@@ -153,11 +155,12 @@ public abstract class DexlibAbstractInstruction {
      *            the host to tag
      */
     protected void addTags(Host host) {
-        if (Options.v().keep_line_number() && lineNumber != -1) {
+    	Options options = Options.v();
+        if (options.keep_line_number() && lineNumber != -1) {
             host.addTag(new LineNumberTag(lineNumber));
             host.addTag(new SourceLineNumberTag(lineNumber));
         }
-        if (Options.v().keep_offset())
+        if (options.keep_offset())
         	host.addTag(new BytecodeOffsetTag(codeAddress));
     }
 
@@ -203,6 +206,9 @@ public abstract class DexlibAbstractInstruction {
 //    }
 
     //FT
+    //All uses for the array have been commented out.
+    //Calling all v()s for all types make no sense if we do not use them
+    /*
     protected Type [] opUnType = {
         IntType.v(),    // 0x7B neg-int vx, vy
         IntType.v(),    // 0x7C
@@ -354,7 +360,7 @@ public abstract class DexlibAbstractInstruction {
           DoubleType.v(),
           DoubleType.v(),
           DoubleType.v()
-        };
+        };*/
 
       //public abstract void getConstraint(IDalvikTyper DalvikTyper.v());
 

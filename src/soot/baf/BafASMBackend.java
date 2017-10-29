@@ -1306,7 +1306,7 @@ public class BafASMBackend extends AbstractASMBackend {
 			public void caseStaticInvokeInst(StaticInvokeInst i) {
 				SootMethodRef m = i.getMethodRef();
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC, slashify(m.declaringClass().getName()), m.name(),
-						toTypeDesc(m), m.declaringClass().isInterface());
+						toTypeDesc(m), m.declaringClass().isInterface() && !m.isStatic());
 			}
 
 			@Override

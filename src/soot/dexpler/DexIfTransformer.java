@@ -53,6 +53,7 @@ public class DexIfTransformer extends AbstractNullTransformer {
 
 	Local l = null;
 
+	@Override
 	protected void internalTransform(final Body body, String phaseName, Map<String,String> options) {
 		final DexDefUseAnalysis localDefs = new DexDefUseAnalysis(body);
 
@@ -63,7 +64,6 @@ public class DexIfTransformer extends AbstractNullTransformer {
 					(Local) ifCondition.getOp2() };
 			usedAsObject = false;
 			for (Local loc : twoIfLocals) {
-				Debug.printDbg("\n[null if with two local candidate] ", loc);
 				Set<Unit> defs = localDefs.collectDefinitionsWithAliases(loc);
 				
 				// process normally
@@ -79,13 +79,13 @@ public class DexIfTransformer extends AbstractNullTransformer {
 										+ " class: " + u.getClass() + "");
 					}
 
-					Debug.printDbg("    target local: ", l, " (Unit: ", u, " )");
 
 					// check defs
 					u.apply(new AbstractStmtSwitch() { // Alex: should also end
 														// as soon as detected
 														// as not used as an
 														// object
+						@Override
 						public void caseAssignStmt(AssignStmt stmt) {
 							Value r = stmt.getRightOp();
 							if (r instanceof FieldRef) {
@@ -128,12 +128,11 @@ public class DexIfTransformer extends AbstractNullTransformer {
 								if (usedAsObject)
 									doBreak = true;
 								return;
-								// introduces alias
-							} else if (r instanceof Local) {
 							}
 
 						}
 
+						@Override
 						public void caseIdentityStmt(IdentityStmt stmt) {
 							if (stmt.getLeftOp() == l) {
 								usedAsObject = isObject(stmt.getRightOp().getType());
@@ -148,7 +147,6 @@ public class DexIfTransformer extends AbstractNullTransformer {
 
 					// check uses
 					for (Unit use : localDefs.getUsesOf(l)) {
-						Debug.printDbg("    use: ", use);
 						use.apply(new AbstractStmtSwitch() {
 							private boolean examineInvokeExpr(InvokeExpr e) {
 								List<Value> args = e.getArgs();
@@ -173,15 +171,16 @@ public class DexIfTransformer extends AbstractNullTransformer {
 								return false;
 							}
 
+							@Override
 							public void caseInvokeStmt(InvokeStmt stmt) {
 								InvokeExpr e = stmt.getInvokeExpr();
 								usedAsObject = examineInvokeExpr(e);
-								Debug.printDbg("use as object = ", usedAsObject);
 								if (usedAsObject)
 									doBreak = true;
 								return;
 							}
 
+							@Override
 							public void caseAssignStmt(AssignStmt stmt) {
 								Value left = stmt.getLeftOp();
 								Value r = stmt.getRightOp();
@@ -277,7 +276,6 @@ public class DexIfTransformer extends AbstractNullTransformer {
 									return;
 								} else if (r instanceof InvokeExpr) {
 									usedAsObject = examineInvokeExpr((InvokeExpr) stmt.getRightOp());
-									Debug.printDbg("use as object 2 = ", usedAsObject);
 									if (usedAsObject)
 										doBreak = true;
 									return;
@@ -294,11 +292,13 @@ public class DexIfTransformer extends AbstractNullTransformer {
 								}
 							}
 
+							@Override
 							public void caseIdentityStmt(IdentityStmt stmt) {
 								if (stmt.getLeftOp() == l)
 									throw new RuntimeException("IMPOSSIBLE 0");
 							}
 
+							@Override
 							public void caseEnterMonitorStmt(EnterMonitorStmt stmt) {
 								usedAsObject = stmt.getOp() == l;
 								if (usedAsObject)
@@ -306,6 +306,7 @@ public class DexIfTransformer extends AbstractNullTransformer {
 								return;
 							}
 
+							@Override
 							public void caseExitMonitorStmt(ExitMonitorStmt stmt) {
 								usedAsObject = stmt.getOp() == l;
 								if (usedAsObject)
@@ -313,16 +314,15 @@ public class DexIfTransformer extends AbstractNullTransformer {
 								return;
 							}
 
+							@Override
 							public void caseReturnStmt(ReturnStmt stmt) {
 								usedAsObject = stmt.getOp() == l && isObject(body.getMethod().getReturnType());
-								Debug.printDbg(" [return stmt] ", stmt, " usedAsObject: ", usedAsObject,
-										", return type: ", body.getMethod().getReturnType());
-								Debug.printDbg(" class: ", body.getMethod().getReturnType().getClass());
 								if (usedAsObject)
 									doBreak = true;
 								return;
 							}
 
+							@Override
 							public void caseThrowStmt(ThrowStmt stmt) {
 								usedAsObject = stmt.getOp() == l;
 								if (usedAsObject)
@@ -394,7 +394,6 @@ public class DexIfTransformer extends AbstractNullTransformer {
 				}
 				if (isTargetIf) {
 					candidates.add((IfStmt) u);
-					Debug.printDbg("[add if candidate: ", u);
 				}
 
 			}

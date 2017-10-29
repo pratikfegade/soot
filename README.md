@@ -1,5 +1,8 @@
 [![Build Status](http://soot-build.cs.uni-paderborn.de/jenkins/job/soot/job/soot-build/badge/icon)](http://soot-build.cs.uni-paderborn.de/jenkins/job/soot/job/soot-build/)
 
+# Soot supports Java 9 modules now!
+Try and get involved in Soot's Java 9 bleeding edge developement. Check out the [Soot-j9](https://github.com/sable/soot/tree/java9) branch.
+
 # Please help us improve Soot!
 You are using Soot and would like to help us support it in the future? Then please support us by filling out [this little web form](https://goo.gl/forms/rk1oSxFIxAH0xaf52).
 
@@ -47,16 +50,22 @@ a dependency via Maven, Gradle, SBT, etc using the following coordinates:
 
 ```
 
+**Please make sure that your Java version is up to date to avoid problems with our SSL certificate**
+
 # How do I obtain the nightly builds
 
 **Note that the nightly build server has moved**
 
-Nightly builds of soot can be obtained from [nightly build](https://soot-build.cs.uni-paderborn.de/nightly/soot/). The "soot-trunk.jar" file is an all-in-one file that also contains all the required libraries. The "sootclasses-trunk.jar" file contains only Soot, allowing you to use manually pick dependencies as you need them.
+Nightly builds of Soot can be obtained from [nightly build](https://soot-build.cs.uni-paderborn.de/nightly/soot/). The "sootclasses-trunk-jar-with-dependencies.jar" file is an all-in-one file that also contains all the required libraries. The "sootclasses-trunk.jar" file contains only Soot, allowing you to manually pick dependencies as you need them. If you do not want to bother with dependencies, we recommend using the former.
+
+# Building Soot yourself
+
+If you cannot work with the prebuild versions and need to build Soot on your own, please consider the [wiki](https://github.com/Sable/soot/wiki/Building-Soot-from-the-Command-Line-(Recommended)) for further steps.
 
 # About Soot's source code
 
 Soot follows the git-flow convention. Releases and hotfixes are maintained in the master branch.
 Development happens in the develop branch. To catch the bleeding edge of Soot, check out the latter.
-You will also need the projects [jasmin](https://github.com/Sable/jasmin) and
+If not using Maven, you will also need the projects [jasmin](https://github.com/Sable/jasmin) and
 [heros](https://github.com/Sable/heros). In case of any questions, please consult the Soot
 mailing list at: http://www.sable.mcgill.ca/mailman/listinfo/soot-list/

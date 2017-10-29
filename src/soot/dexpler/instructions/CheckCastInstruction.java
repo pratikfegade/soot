@@ -30,7 +30,6 @@ import org.jf.dexlib2.iface.instruction.formats.Instruction21c;
 import org.jf.dexlib2.iface.reference.TypeReference;
 import soot.Local;
 import soot.Type;
-import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
 import soot.dexpler.IDalvikTyper;
@@ -49,7 +48,8 @@ public class CheckCastInstruction extends DexlibAbstractInstruction {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    @Override
+	public void jimplify (DexBody body) {
         if(!(instruction instanceof Instruction21c))
             throw new IllegalArgumentException("Expected Instruction21c but got: "+instruction.getClass());
 
@@ -70,7 +70,6 @@ public class CheckCastInstruction extends DexlibAbstractInstruction {
         
 
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
             DalvikTyper.v().setType(assign.getLeftOpBox(), checkCastType, false);
 		}
 

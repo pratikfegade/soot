@@ -1,19 +1,40 @@
-package soot.dexpler.typing;
-
-import soot.*;
-import soot.dexpler.Debug;
-import soot.dexpler.IDalvikTyper;
-import soot.jimple.*;
-import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
-import soot.jimple.toolkits.scalar.NopEliminator;
-import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
-import soot.toolkits.scalar.LocalDefs;
-import soot.toolkits.scalar.UnusedLocalEliminator;
+package soot.dexpler.typing; 
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import soot.ArrayType;
+import soot.Body;
+import soot.Local;
+import soot.RefType;
+import soot.Scene;
+import soot.SootClass;
+import soot.SootMethodRef;
+import soot.SootResolver;
+import soot.Type;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.VoidType;
+import soot.jimple.ArrayRef;
+import soot.jimple.AssignStmt;
+import soot.jimple.CastExpr;
+import soot.jimple.Constant;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.FieldRef;
+import soot.jimple.IdentityRef;
+import soot.jimple.IdentityStmt;
+import soot.jimple.InvokeExpr;
+import soot.jimple.Jimple;
+import soot.jimple.NewArrayExpr;
+import soot.jimple.StringConstant;
+import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
+import soot.jimple.toolkits.scalar.NopEliminator;
+import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
+import soot.toolkits.scalar.LocalDefs;
+import soot.toolkits.scalar.UnusedLocalEliminator;
 
 public class Validate {
 
@@ -43,11 +64,8 @@ public class Validate {
         
         for (Unit u: unitWithArrayRef) {
             boolean ok = false;
-            Debug.printDbg(IDalvikTyper.DEBUG, "handling unit: "+ u);
             List<ValueBox> uses = u.getUseBoxes();
-            Debug.printDbg(IDalvikTyper.DEBUG,"uses size: "+ uses.size());
             for (ValueBox vb: uses) {
-                Debug.printDbg(IDalvikTyper.DEBUG,"vb use: "+ vb +" class: "+ vb.getClass());
                 Value v = vb.getValue();
                 if (v instanceof ArrayRef) {
                     ArrayRef ar = (ArrayRef)v;
@@ -143,7 +161,6 @@ public class Validate {
             }
             
             if (!ok) {
-                Debug.printDbg(IDalvikTyper.DEBUG, "warning: no valid defs for local used for array: "+ u +" replacing with throw exception instruction...");
                 toReplace.add(u);
             }
         }

@@ -1,16 +1,81 @@
 package soot.toDex;
 
-import org.jf.dexlib2.Opcode;
-import org.jf.dexlib2.writer.builder.BuilderMethodReference;
-import org.jf.dexlib2.writer.builder.BuilderReference;
-import org.jf.dexlib2.writer.builder.DexBuilder;
-import soot.*;
-import soot.jimple.*;
-import soot.toDex.instructions.*;
-import soot.util.Switchable;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jf.dexlib2.Opcode;
+import org.jf.dexlib2.iface.reference.MethodReference;
+import org.jf.dexlib2.iface.reference.TypeReference;
+
+import soot.ArrayType;
+import soot.DoubleType;
+import soot.FloatType;
+import soot.IntType;
+import soot.IntegerType;
+import soot.Local;
+import soot.LongType;
+import soot.NullType;
+import soot.PrimType;
+import soot.RefType;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.Type;
+import soot.Value;
+import soot.jimple.AddExpr;
+import soot.jimple.AndExpr;
+import soot.jimple.CastExpr;
+import soot.jimple.CmpExpr;
+import soot.jimple.CmpgExpr;
+import soot.jimple.CmplExpr;
+import soot.jimple.DivExpr;
+import soot.jimple.DynamicInvokeExpr;
+import soot.jimple.EqExpr;
+import soot.jimple.Expr;
+import soot.jimple.ExprSwitch;
+import soot.jimple.GeExpr;
+import soot.jimple.GtExpr;
+import soot.jimple.InstanceInvokeExpr;
+import soot.jimple.InstanceOfExpr;
+import soot.jimple.IntConstant;
+import soot.jimple.InterfaceInvokeExpr;
+import soot.jimple.InvokeExpr;
+import soot.jimple.LeExpr;
+import soot.jimple.LengthExpr;
+import soot.jimple.LongConstant;
+import soot.jimple.LtExpr;
+import soot.jimple.MulExpr;
+import soot.jimple.NeExpr;
+import soot.jimple.NegExpr;
+import soot.jimple.NewArrayExpr;
+import soot.jimple.NewExpr;
+import soot.jimple.NewMultiArrayExpr;
+import soot.jimple.NullConstant;
+import soot.jimple.OrExpr;
+import soot.jimple.RemExpr;
+import soot.jimple.ShlExpr;
+import soot.jimple.ShrExpr;
+import soot.jimple.SpecialInvokeExpr;
+import soot.jimple.StaticInvokeExpr;
+import soot.jimple.Stmt;
+import soot.jimple.SubExpr;
+import soot.jimple.UshrExpr;
+import soot.jimple.VirtualInvokeExpr;
+import soot.jimple.XorExpr;
+import soot.toDex.instructions.Insn;
+import soot.toDex.instructions.Insn10x;
+import soot.toDex.instructions.Insn11x;
+import soot.toDex.instructions.Insn12x;
+import soot.toDex.instructions.Insn21c;
+import soot.toDex.instructions.Insn21t;
+import soot.toDex.instructions.Insn22b;
+import soot.toDex.instructions.Insn22c;
+import soot.toDex.instructions.Insn22s;
+import soot.toDex.instructions.Insn22t;
+import soot.toDex.instructions.Insn23x;
+import soot.toDex.instructions.Insn35c;
+import soot.toDex.instructions.Insn3rc;
+import soot.toDex.instructions.InsnWithOffset;
+import soot.util.Switchable;
 
 /**
  * A visitor that builds a list of instructions from the Jimple expressions it visits.<br>
@@ -23,8 +88,6 @@ import java.util.List;
  * @see StmtVisitor
  */
 class ExprVisitor implements ExprSwitch {
-	
-	private final DexBuilder dexFile;
 	
 	private StmtVisitor stmtV;
 	
@@ -39,8 +102,7 @@ class ExprVisitor implements ExprSwitch {
     private Stmt origStmt;
 
 	public ExprVisitor(StmtVisitor stmtV, ConstantVisitor constantV,
-			RegisterAllocator regAlloc, DexBuilder dexFile) {
-		this.dexFile = dexFile;
+			RegisterAllocator regAlloc) {
 		this.stmtV = stmtV;
 		this.constantV = constantV;
 		this.regAlloc = regAlloc;
@@ -71,8 +133,8 @@ class ExprVisitor implements ExprSwitch {
 	
 	@Override
 	public void caseSpecialInvokeExpr(SpecialInvokeExpr sie) {
-		BuilderMethodReference method = DexPrinter.toMethodReference
-				(sie.getMethodRef(), dexFile);
+		MethodReference method = DexPrinter.toMethodReference
+				(sie.getMethodRef());
 		List<Register> arguments = getInstanceInvokeArgumentRegs(sie);
 		if (isCallToConstructor(sie) || isCallToPrivate(sie)) {
             stmtV.addInsn(buildInvokeInsn("INVOKE_DIRECT", method, arguments), origStmt);
@@ -85,7 +147,7 @@ class ExprVisitor implements ExprSwitch {
 		}
 	}
 
-	private Insn buildInvokeInsn(String invokeOpcode, BuilderMethodReference method,
+	private Insn buildInvokeInsn(String invokeOpcode, MethodReference method,
 			List<Register> argumentRegs) {
 		Insn invokeInsn;
 		int regCountForArguments = SootToDexUtils.getRealRegCount(argumentRegs);
@@ -126,9 +188,11 @@ class ExprVisitor implements ExprSwitch {
 		// If we're dealing with phantom classes, we might not actually
 		// arrive at java.lang.Object. In this case, we should not fail
 		// the check
-        return currentClass.isPhantom() && !currentClass.getName().equals("java.lang.Object");
-
-    }
+		if (currentClass.isPhantom() && !currentClass.getName().equals("java.lang.Object"))
+			return true;
+		
+		return false; // we arrived at java.lang.Object and did not find a declaration
+	}
 
 	@Override
 	public void caseVirtualInvokeExpr(VirtualInvokeExpr vie) {
@@ -136,8 +200,8 @@ class ExprVisitor implements ExprSwitch {
 		 * for final methods we build an invoke-virtual opcode, too, although the dex spec says that a virtual method is not final.
 		 * An alternative would be the invoke-direct opcode, but this is inconsistent with dx's output...
 		 */
-		BuilderMethodReference method = DexPrinter.toMethodReference
-				(vie.getMethodRef(), dexFile);
+		MethodReference method = DexPrinter.toMethodReference
+				(vie.getMethodRef());
 		List<Register> argumentRegs = getInstanceInvokeArgumentRegs(vie);
         stmtV.addInsn(buildInvokeInsn("INVOKE_VIRTUAL", method, argumentRegs), origStmt);
 	}
@@ -187,16 +251,16 @@ class ExprVisitor implements ExprSwitch {
 
 	@Override
 	public void caseInterfaceInvokeExpr(InterfaceInvokeExpr iie) {
-		BuilderMethodReference method = DexPrinter.toMethodReference
-				(iie.getMethodRef(), dexFile);
+		MethodReference method = DexPrinter.toMethodReference
+				(iie.getMethodRef());
 		List<Register> arguments = getInstanceInvokeArgumentRegs(iie);
         stmtV.addInsn(buildInvokeInsn("INVOKE_INTERFACE", method, arguments), origStmt);
 	}
 
 	@Override
 	public void caseStaticInvokeExpr(StaticInvokeExpr sie) {
-		BuilderMethodReference method = DexPrinter.toMethodReference
-				(sie.getMethodRef(), dexFile);
+		MethodReference method = DexPrinter.toMethodReference
+				(sie.getMethodRef());
 		List<Register> arguments = getInvokeArgumentRegs(sie);
         stmtV.addInsn(buildInvokeInsn("INVOKE_STATIC", method, arguments), origStmt);
 	}
@@ -523,8 +587,7 @@ class ExprVisitor implements ExprSwitch {
 		constantV.setOrigStmt(origStmt);
 		Register referenceToCheckReg = regAlloc.asImmediate(referenceToCheck, constantV);
 		
-		BuilderReference checkType = DexPrinter.toTypeReference(ioe.getCheckType(),
-				stmtV.getBelongingFile());
+		TypeReference checkType = DexPrinter.toTypeReference(ioe.getCheckType());
         stmtV.addInsn(new Insn22c(Opcode.INSTANCE_OF, destinationReg, referenceToCheckReg,
                 checkType), origStmt);
 	}
@@ -554,8 +617,7 @@ class ExprVisitor implements ExprSwitch {
 		 * b) is relevant for exceptional control flow: if we move to the new reg and do the check-cast there, an exception between the end of
 		 * the move's execution and the end of the check-cast execution leaves the new reg with the type of the old reg.
 		 */
-		BuilderReference castTypeItem = DexPrinter.toTypeReference
-				(castType, stmtV.getBelongingFile());
+		TypeReference castTypeItem = DexPrinter.toTypeReference(castType);
 		if (sourceReg.getNumber() == destinationReg.getNumber()) {
 			// simplyfied case if reg numbers do not differ
             stmtV.addInsn(new Insn21c(Opcode.CHECK_CAST, destinationReg, castTypeItem), origStmt);
@@ -630,16 +692,24 @@ class ExprVisitor implements ExprSwitch {
 			// at this point, the types are "bigger" or equal to int, so no "should cast from int" is needed 
 			return true;
 		}
-        return castType == PrimitiveType.INT && !isBiggerThan(sourceType, PrimitiveType.INT);
-    }
+		if (castType == PrimitiveType.INT && !isBiggerThan(sourceType, PrimitiveType.INT)) {
+			// there is no "upgrade" cast from "smaller than int" to int, so move it
+			return true;
+		}
+		return false;
+	}
 
 	private boolean shouldCastFromInt(PrimitiveType sourceType, PrimitiveType castType) {
 		if (isEqualOrBigger(sourceType, PrimitiveType.INT)) {
 			// source is already "big" enough
 			return false;
 		}
-        return castType != PrimitiveType.INT;
-    }
+		if (castType == PrimitiveType.INT) {
+			// would lead to an int-to-int cast, so leave it as it is
+			return false;
+		}
+		return true;
+	}
 
 	private boolean isEqualOrBigger(PrimitiveType type, PrimitiveType relativeTo) {
 		return type.compareTo(relativeTo) >= 0;
@@ -668,8 +738,8 @@ class ExprVisitor implements ExprSwitch {
 		constantV.setOrigStmt(origStmt);
 		Register sizeReg = regAlloc.asImmediate(size, constantV);
 		ArrayType arrayType = nae.getBaseType().getArrayType();
-		BuilderReference arrayTypeItem = DexPrinter.toTypeReference
-				(arrayType, stmtV.getBelongingFile());
+		TypeReference arrayTypeItem = DexPrinter.toTypeReference
+				(arrayType);
         stmtV.addInsn(new Insn22c(Opcode.NEW_ARRAY, destinationReg, sizeReg, arrayTypeItem), origStmt);
 	}
 	
@@ -683,8 +753,8 @@ class ExprVisitor implements ExprSwitch {
 		short dimensions = (short) nmae.getSizeCount();
 		// get array base type
 		ArrayType arrayType = ArrayType.v(nmae.getBaseType().baseType, dimensions);
-		BuilderReference arrayTypeItem = DexPrinter.toTypeReference
-				(arrayType, stmtV.getBelongingFile());
+		TypeReference arrayTypeItem = DexPrinter.toTypeReference
+				(arrayType);
 		// get the dimension size registers
 		List<Register> dimensionSizeRegs = new ArrayList<Register>();
 		for (int i = 0; i < dimensions; i++) {
@@ -708,8 +778,8 @@ class ExprVisitor implements ExprSwitch {
 
 	@Override
 	public void caseNewExpr(NewExpr ne) {
-		BuilderReference baseType = DexPrinter.toTypeReference
-				(ne.getBaseType(), stmtV.getBelongingFile());
+		TypeReference baseType = DexPrinter.toTypeReference
+				(ne.getBaseType());
         stmtV.addInsn(new Insn21c(Opcode.NEW_INSTANCE, destinationReg, baseType), origStmt);
 	}
 }

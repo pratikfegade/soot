@@ -20,38 +20,39 @@
  */
 package soot.jimple.toolkits.typing.fast;
 
-import soot.Local;
-import soot.Type;
-
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
+import soot.Local;
+import soot.Type;
 
 /**
  * @author Ben Bellamy
  */
 public class Typing
 {
-	private Map<Local, Type> map;
-
+	private HashMap<Local, Type> map;
+	
 	public Typing(Collection<Local> vs)
 	{
-		this.map = new ConcurrentHashMap<>();
+		map = new HashMap<Local, Type>(vs.size());
+		final BottomType bottomType = BottomType.v();
 		for ( Local v : vs )
-			this.map.put(v, BottomType.v());
+			this.map.put(v, bottomType);
 	}
-
+	
 	public Typing(Typing tg)
 	{
-		this.map = new ConcurrentHashMap<>(tg.map);
+		this.map = new HashMap<Local, Type>(tg.map);
 	}
-
+	
 	public Type get(Local v) { return this.map.get(v); }
-
+	
 	public Type set(Local v, Type t) { return this.map.put(v, t); }
-
+	
+	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer();
@@ -66,7 +67,7 @@ public class Typing
 		sb.append('}');
 		return sb.toString();
 	}
-
+	
 	public static void minimize(List<Typing> tgs, IHierarchy h)
 	{
 		outer: for ( ListIterator<Typing> i = tgs.listIterator(); i.hasNext(); )
@@ -84,16 +85,16 @@ public class Typing
 				}
 			}
 		}
-
+		
 	}
-
+	
 	public static int compare(Typing a, Typing b, IHierarchy h)
 	{
 		int r = 0;
 		for ( Local v : a.map.keySet() )
 		{
 			Type ta = a.get(v), tb = b.get(v);
-
+			
 			int cmp;
 			if ( TypeResolver.typesEqual(ta, tb) )
 				cmp = 0;
@@ -103,7 +104,7 @@ public class Typing
 				cmp = -1;
 			else
 				return -2;
-
+			
 			if ( (cmp == 1 && r == -1) || (cmp == -1 && r == 1) )
 				return 2;
 			if ( r == 0 )

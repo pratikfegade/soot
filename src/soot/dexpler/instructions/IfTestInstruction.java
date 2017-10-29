@@ -27,7 +27,6 @@ package soot.dexpler.instructions;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22t;
 import soot.Local;
-import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
 import soot.dexpler.typing.DalvikTyper;
@@ -41,7 +40,8 @@ public class IfTestInstruction extends ConditionalJumpInstruction {
         super(instruction, codeAdress);
     }
 
-    protected IfStmt ifStatement(DexBody body) {
+    @Override
+	protected IfStmt ifStatement(DexBody body) {
         Instruction22t i = (Instruction22t) instruction;
         Local one = body.getRegisterLocal(i.getRegisterA());
         Local other = body.getRegisterLocal(i.getRegisterB());
@@ -50,7 +50,7 @@ public class IfTestInstruction extends ConditionalJumpInstruction {
         // setUnit() is called in ConditionalJumpInstruction
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
-		    Debug.printDbg(IDalvikTyper.DEBUG, "constraint if: "+ jif +" condition: "+ condition);
+		    //Debug.printDbg(IDalvikTyper.DEBUG, "constraint if: "+ jif +" condition: "+ condition);
 		    DalvikTyper.v().addConstraint(condition.getOp1Box(), condition.getOp2Box());
         }
         

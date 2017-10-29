@@ -30,11 +30,10 @@
 
 package soot.grimp.internal;
 
-import soot.Value;
-import soot.grimp.Grimp;
-import soot.jimple.ExprSwitch;
-import soot.jimple.UshrExpr;
-import soot.util.Switch;
+import soot.*;
+import soot.grimp.*;
+import soot.jimple.*;
+import soot.util.*;
 
 public class GUshrExpr extends AbstractGrimpIntLongBinopExpr 
     implements UshrExpr
@@ -43,6 +42,23 @@ public class GUshrExpr extends AbstractGrimpIntLongBinopExpr
     public String getSymbol() { return " >>> "; }
     public int getPrecedence() { return 650; }
     public void apply(Switch sw) { ((ExprSwitch) sw).caseUshrExpr(this); }
+
+    @Override
+    public Type getType()
+    {
+        Value op1 = op1Box.getValue();
+        Value op2 = op2Box.getValue();
+
+        if (!isIntLikeType(op2.getType()))
+            return UnknownType.v();
+
+        if (isIntLikeType(op1.getType()))
+            return IntType.v();
+        if (op1.getType().equals(LongType.v()))
+            return LongType.v();
+
+        return UnknownType.v();
+    }
 
     public Object clone() 
     {

@@ -1,3 +1,4 @@
+/ant.settings
 /lib
 /classes
 /.classpath
@@ -9,9 +10,7 @@
 /javadoc
 /reports
 /testclasses
-*.iml
-
 # Eclipse settings directory
 /.settings
 
-
+/target

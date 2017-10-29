@@ -28,15 +28,26 @@
 
 
 package soot.toolkits.scalar;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-import soot.*;
-import soot.options.Options;
+import soot.Body;
+import soot.BodyTransformer;
+import soot.G;
+import soot.Local;
+import soot.Scene;
 import soot.singletons.Singletons;
+import soot.Timers;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
+import soot.options.Options;
 import soot.toolkits.exceptions.ThrowAnalysis;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.util.NumberedSet;
-
-import java.util.*;
 
 /**
  *    A BodyTransformer that attemps to indentify and separate uses of a local
@@ -82,15 +93,15 @@ public class LocalSplitter extends BodyTransformer
 	@Override
     protected void internalTransform(Body body, String phaseName, Map<String, String> options)
     {		
-        if(Options.v().verbose())
+        final Options sootOptions = Options.v();
+        if(sootOptions.verbose())
             G.v().out.println("[" + body.getMethod().getName() + "] Splitting locals...");
         
-		if (Options.v().time()) 
+		if (sootOptions.time())
+		{
 			Timers.v().splitTimer.start();
-		
-
-        if(Options.v().time())
-                Timers.v().splitPhase1Timer.start();
+            Timers.v().splitPhase1Timer.start();
+		}
 
         if (throwAnalysis == null)
         	throwAnalysis = Scene.v().getDefaultThrowAnalysis();
@@ -105,10 +116,10 @@ public class LocalSplitter extends BodyTransformer
 		final LocalDefs defs = LocalDefs.Factory.newLocalDefs(graph, true);
 		final LocalUses uses = LocalUses.Factory.newLocalUses(graph, defs);
 		
-        if(Options.v().time())
+        if (sootOptions.time()) {
             Timers.v().splitPhase1Timer.end();
-        if(Options.v().time())
             Timers.v().splitPhase2Timer.start();
+        }
         
 		Set<Unit> visited = new HashSet<Unit>();
         
@@ -152,7 +163,7 @@ public class LocalSplitter extends BodyTransformer
             	continue;
             Local newLocal = (Local) oldLocal.clone();
             
-            newLocal.setName(newLocal.getName()/*+'#'+ ++w*/); // renaming should not be done here
+            newLocal.setName(newLocal.getName()+'#'+ ++w); // renaming should not be done here
     		body.getLocals().add(newLocal);
             
     		Deque<Unit> queue = new ArrayDeque<Unit>();
@@ -189,10 +200,9 @@ public class LocalSplitter extends BodyTransformer
     		visited.remove(s);
         }
 
-        if(Options.v().time())
+        if(sootOptions.time()) {
             Timers.v().splitPhase2Timer.end();
-        
-		if (Options.v().time()) 
 			Timers.v().splitTimer.end();
+        }
     }
 }

@@ -19,14 +19,26 @@
 
 package soot.toolkits.scalar;
 
-import soot.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import soot.G;
+import soot.Local;
+import soot.Timers;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
 import soot.options.Options;
 import soot.toolkits.graph.ExceptionalUnitGraph;
 import soot.toolkits.graph.ExceptionalUnitGraph.ExceptionDest;
 import soot.toolkits.graph.UnitGraph;
 import soot.util.Cons;
-
-import java.util.*;
 
 /**
  * Analysis that provides an implementation of the LocalDefs interface.
@@ -58,7 +70,7 @@ public class SmartLocalDefs implements LocalDefs {
 	 */
 	private static <T> List<T> asList(Set<T> a, Set<T> b) {
 		if (a == null || b == null || a.isEmpty() || b.isEmpty()) {
-			return Collections.emptyList();
+			return Collections.<T> emptyList();
 		}
 
 		if (a.size() < b.size()) {
@@ -75,10 +87,11 @@ public class SmartLocalDefs implements LocalDefs {
 	public SmartLocalDefs(UnitGraph g, LiveLocals live) {
 		this.graph = g;
 
-		if (Options.v().time())
+		final Options options = Options.v();
+		if (options.time())
 			Timers.v().defsTimer.start();
 
-		if (Options.v().verbose())
+		if (options.verbose())
 			G.v().out.println("[" + g.getBody().getMethod().getName()
 					+ "]     Constructing SmartLocalDefs...");
 
@@ -110,13 +123,14 @@ public class SmartLocalDefs implements LocalDefs {
 			addDefOf(l, u);
 		}
 
-		if (Options.v().verbose())
+		if (options.verbose())
+		{
 			G.v().out.println("[" + g.getBody().getMethod().getName()
 					+ "]        done localToDefs map...");
 
-		if (Options.v().verbose())
 			G.v().out.println("[" + g.getBody().getMethod().getName()
 					+ "]        done unitToMask map...");
+		}
 
 		analysis = new LocalDefsAnalysis(graph);
 
@@ -152,10 +166,10 @@ public class SmartLocalDefs implements LocalDefs {
 			locals[i].setNumber(oldNumbers[i]);
 		}
 
-		if (Options.v().time())
+		if (options.time())
 			Timers.v().defsTimer.end();
 
-		if (Options.v().verbose())
+		if (options.verbose())
 			G.v().out.println("[" + g.getBody().getMethod().getName()
 					+ "]     SmartLocalDefs finished.");
 	}

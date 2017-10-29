@@ -38,6 +38,7 @@ import soot.baf.Baf;
 import soot.jimple.ConvertToBaf;
 import soot.jimple.JimpleToBafContext;
 import soot.jimple.JimpleValueSwitch;
+import soot.util.ArrayNumberer;
 import soot.util.Switch;
 
 public class JimpleLocal implements Local, ConvertToBaf {
@@ -51,7 +52,9 @@ public class JimpleLocal implements Local, ConvertToBaf {
 	public JimpleLocal(String name, Type type) {
 		setName(name);
 		setType(type);
-		Scene.v().getLocalNumberer().add(this);
+		ArrayNumberer<Local> numberer = Scene.v().getLocalNumberer();
+		if (numberer != null)
+			numberer.add(this);
 	}
 
 

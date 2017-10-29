@@ -26,10 +26,7 @@ import soot.ValueBox;
 import soot.jimple.DefinitionStmt;
 import soot.jimple.internal.JimpleLocal;
 import soot.jimple.toolkits.base.Aggregator;
-import soot.jimple.toolkits.scalar.DeadAssignmentEliminator;
-import soot.jimple.toolkits.scalar.LocalNameStandardizer;
-import soot.jimple.toolkits.scalar.UnconditionalBranchFolder;
-import soot.jimple.toolkits.scalar.UnreachableCodeEliminator;
+import soot.jimple.toolkits.scalar.*;
 import soot.options.ShimpleOptions;
 import soot.shimple.*;
 import soot.toolkits.graph.Block;
@@ -89,6 +86,13 @@ public class ShimpleBodyBuilder
      **/
     public ShimpleBodyBuilder(ShimpleBody body)
     {
+        //Must remove nops prior to building the CFG because NopStmt appearing
+        //  before the IdentityStmt in a trap handler that is itself protected
+        //  by a trap cause Phi nodes to be inserted before the NopStmt and
+        //  therefore before the IdentityStmt. This introduces a validation
+        //  problem if the Phi nodes leave residual assignment statements after
+        //  their removal.
+        NopEliminator.v().transform(body);
         this.body = body;
         sf = new DefaultShimpleFactory(body);
         sf.clearCache();

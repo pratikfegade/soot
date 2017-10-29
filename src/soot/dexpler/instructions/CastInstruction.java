@@ -27,8 +27,15 @@ package soot.dexpler.instructions;
 import org.jf.dexlib2.Opcode;
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
-import soot.*;
-import soot.dexpler.Debug;
+
+import soot.ByteType;
+import soot.CharType;
+import soot.DoubleType;
+import soot.FloatType;
+import soot.IntType;
+import soot.LongType;
+import soot.ShortType;
+import soot.Type;
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
 import soot.dexpler.tags.DoubleOpTag;
@@ -46,7 +53,8 @@ public class CastInstruction extends TaggedInstruction {
         super(instruction, codeAddress);
     }
 
-    public void jimplify (DexBody body) {
+    @Override
+	public void jimplify (DexBody body) {
         TwoRegisterInstruction i = (TwoRegisterInstruction)instruction;
         int dest = i.getRegisterA();
         int source = i.getRegisterB();
@@ -59,7 +67,6 @@ public class CastInstruction extends TaggedInstruction {
         body.add(assign);
         
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint cast: "+ assign +" castexpr type: "+ cast.getType()+" cast type: "+ cast.getCastType());
           DalvikTyper.v().setType(assign.getLeftOpBox(), cast.getType(), false);
           //DalvikTyper.v().captureAssign((JAssignStmt)assign, op);
         }

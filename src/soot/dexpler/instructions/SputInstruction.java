@@ -30,7 +30,6 @@ import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.reference.FieldReference;
 import soot.Local;
 import soot.Type;
-import soot.dexpler.Debug;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
 import soot.dexpler.IDalvikTyper;
@@ -45,7 +44,8 @@ public class SputInstruction extends FieldInstruction {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    @Override
+	public void jimplify (DexBody body) {
         int source = ((OneRegisterInstruction)instruction).getRegisterA();
         FieldReference f = (FieldReference)((ReferenceInstruction)instruction).getReference();
         StaticFieldRef instanceField = Jimple.v().newStaticFieldRef(getStaticSootFieldRef(f));
@@ -56,7 +56,6 @@ public class SputInstruction extends FieldInstruction {
         body.add(assign);
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
           DalvikTyper.v().setType(assign.getRightOpBox(), instanceField.getType(), true);
         }
     }

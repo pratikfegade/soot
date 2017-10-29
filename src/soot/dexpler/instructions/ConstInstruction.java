@@ -29,14 +29,18 @@ import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.NarrowLiteralInstruction;
 import org.jf.dexlib2.iface.instruction.OneRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.WideLiteralInstruction;
-import soot.dexpler.Debug;
+
 import soot.dexpler.DexBody;
 import soot.dexpler.IDalvikTyper;
 import soot.dexpler.typing.DalvikTyper;
 import soot.dexpler.typing.UntypedConstant;
 import soot.dexpler.typing.UntypedIntOrFloatConstant;
 import soot.dexpler.typing.UntypedLongOrDoubleConstant;
-import soot.jimple.*;
+import soot.jimple.AssignStmt;
+import soot.jimple.Constant;
+import soot.jimple.IntConstant;
+import soot.jimple.Jimple;
+import soot.jimple.LongConstant;
 
 public class ConstInstruction extends DexlibAbstractInstruction {
 
@@ -44,7 +48,8 @@ public class ConstInstruction extends DexlibAbstractInstruction {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    @Override
+	public void jimplify (DexBody body) {
         int dest = ((OneRegisterInstruction) instruction).getRegisterA();
 
         Constant cst = getConstant(dest, body);
@@ -54,7 +59,6 @@ public class ConstInstruction extends DexlibAbstractInstruction {
         body.add(assign);
 
         if (IDalvikTyper.ENABLE_DVKTYPER) {
-            Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
             if (cst instanceof UntypedConstant) {
                 DalvikTyper.v().addConstraint(assign.getLeftOpBox(), assign.getRightOpBox());
             } else {

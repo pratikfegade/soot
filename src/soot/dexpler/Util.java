@@ -24,15 +24,40 @@
 
 package soot.dexpler;
 
-import soot.*;
-import soot.javaToJimple.LocalGenerator;
-import soot.jimple.*;
-import soot.jimple.toolkits.scalar.LocalCreation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import soot.ArrayType;
+import soot.Body;
+import soot.BooleanType;
+import soot.ByteType;
+import soot.CharType;
+import soot.DoubleType;
+import soot.FloatType;
+import soot.IntType;
+import soot.Local;
+import soot.LongType;
+import soot.RefType;
+import soot.Scene;
+import soot.ShortType;
+import soot.Type;
+import soot.Unit;
+import soot.VoidType;
+import soot.javaToJimple.LocalGenerator;
+import soot.jimple.AssignStmt;
+import soot.jimple.DoubleConstant;
+import soot.jimple.FloatConstant;
+import soot.jimple.IdentityStmt;
+import soot.jimple.IntConstant;
+import soot.jimple.Jimple;
+import soot.jimple.LongConstant;
+import soot.jimple.NullConstant;
+import soot.jimple.ParameterRef;
+import soot.jimple.StringConstant;
+import soot.jimple.ThisRef;
+import soot.jimple.toolkits.scalar.LocalCreation;
 
 public class Util {
 	/**
@@ -157,7 +182,6 @@ public class Util {
 		if (returnType != null && arraySize > 0) {
 			returnType = ArrayType.v(returnType, arraySize);
 		}
-		Debug.printDbg("casttype i:", returnType);
 		return returnType;
 	}
 
@@ -285,7 +309,7 @@ public class Util {
 						Scene.v().makeMethodRef(
 								Scene.v().getSootClass(exceptionType),
 								"<init>",
-								Collections.singletonList(RefType
+								Collections.singletonList((Type) RefType
 										.v("java.lang.String")), VoidType.v(),
 								false), StringConstant.v(m)));
 		Unit u3 = Jimple.v().newThrowStmt(l);

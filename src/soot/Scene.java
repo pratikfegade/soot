@@ -113,15 +113,15 @@ public class Scene // extends AbstractHost
 
 	private final Map<String, RefType> nameToClass = new HashMap<String, RefType>();
 
-	final ArrayNumberer<Kind> kindNumberer;
-	ArrayNumberer<Type> typeNumberer = new ArrayNumberer<Type>();
-	ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<SootMethod>();
-	Numberer<Unit> unitNumberer = new MapNumberer<Unit>();
-	Numberer<Context> contextNumberer = null;
-	Numberer<SparkField> fieldNumberer = new ArrayNumberer<SparkField>();
-	ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<SootClass>();
-	StringNumberer subSigNumberer = new StringNumberer();
-	ArrayNumberer<Local> localNumberer = new ArrayNumberer<Local>();
+	protected final ArrayNumberer<Kind> kindNumberer;
+	protected ArrayNumberer<Type> typeNumberer = new ArrayNumberer<Type>();
+	protected ArrayNumberer<SootMethod> methodNumberer = new ArrayNumberer<SootMethod>();
+	protected Numberer<Unit> unitNumberer = new MapNumberer<Unit>();
+	protected Numberer<Context> contextNumberer = null;
+	protected Numberer<SparkField> fieldNumberer = new ArrayNumberer<SparkField>();
+	protected ArrayNumberer<SootClass> classNumberer = new ArrayNumberer<SootClass>();
+	protected StringNumberer subSigNumberer = new StringNumberer();
+	protected ArrayNumberer<Local> localNumberer = new ArrayNumberer<Local>();
 
 	private Hierarchy activeHierarchy;
 	private FastHierarchy activeFastHierarchy;
@@ -591,14 +591,15 @@ public class Scene // extends AbstractHost
 		if (System.getProperty("os.name").equals("Mac OS X")) {
 			// in older Mac OS X versions, rt.jar was split into classes.jar and
 			// ui.jar
-			String prefix = System.getProperty("java.home") + File.separator + ".." + File.separator + "Classes" + File.separator;
+			String prefix = System.getProperty("java.home") + File.separator + ".." + File.separator + "Classes"
+					+ File.separator;
 			File classesJar = new File(prefix + "classes.jar");
 			if (classesJar.exists())
-			    sb.append(classesJar.getAbsolutePath() + File.pathSeparator);
+				sb.append(classesJar.getAbsolutePath() + File.pathSeparator);
 
 			File uiJar = new File(prefix + "ui.jar");
 			if (uiJar.exists())
-			    sb.append(uiJar.getAbsolutePath() + File.pathSeparator);
+				sb.append(uiJar.getAbsolutePath() + File.pathSeparator);
 		}
 
 		File rtJar = new File(System.getProperty("java.home") + File.separator + "lib" + File.separator + "rt.jar");
@@ -909,7 +910,7 @@ public class Scene // extends AbstractHost
 	 * with the given name can be found.
 	 */
 	public RefType getRefTypeUnsafe(String className) {
-		RefType refType = nameToClass.get(unescapeName(className));
+        RefType refType = nameToClass.get(className);
 		return refType;
 	}
 
@@ -942,8 +943,9 @@ public class Scene // extends AbstractHost
 			if (tsc != null)
 				return tsc;
 		}
-
-		if (allowsPhantomRefs() || className.equals(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME)) {
+		
+		if (allowsPhantomRefs() ||
+				   className.equals(SootClass.INVOKEDYNAMIC_DUMMY_CLASS_NAME)) {
 			SootClass c = new SootClass(className);
 			c.isPhantom = true;
 			addClassSilent(c);
@@ -1419,6 +1421,7 @@ public class Scene // extends AbstractHost
 		addBasicClass("java.lang.Error");
 		addBasicClass("java.lang.AssertionError", SootClass.SIGNATURES);
 		addBasicClass("java.lang.Throwable", SootClass.SIGNATURES);
+		addBasicClass("java.lang.Exception", SootClass.SIGNATURES);
 		addBasicClass("java.lang.NoClassDefFoundError", SootClass.SIGNATURES);
 		addBasicClass("java.lang.ExceptionInInitializerError");
 		addBasicClass("java.lang.RuntimeException");
@@ -1799,6 +1802,10 @@ public class Scene // extends AbstractHost
 
 	public SootClass makeSootClass(String name) {
 		return new SootClass(name);
+	}
+
+	public SootClass makeSootClass(String name, int modifiers) {
+		return new SootClass(name, modifiers);
 	}
 
 	public SootMethod makeSootMethod(String name, List<Type> parameterTypes, Type returnType) {

@@ -24,13 +24,20 @@
 
 package soot.dexpler.instructions;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.ReferenceInstruction;
 import org.jf.dexlib2.iface.instruction.TwoRegisterInstruction;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22c;
 import org.jf.dexlib2.iface.reference.TypeReference;
-import soot.*;
-import soot.dexpler.Debug;
+
+import soot.ArrayType;
+import soot.IntType;
+import soot.Local;
+import soot.Type;
+import soot.Value;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
 import soot.dexpler.IDalvikTyper;
@@ -39,16 +46,14 @@ import soot.jimple.AssignStmt;
 import soot.jimple.Jimple;
 import soot.jimple.NewArrayExpr;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class NewArrayInstruction extends DexlibAbstractInstruction {
 
     public NewArrayInstruction (Instruction instruction, int codeAdress) {
         super(instruction, codeAdress);
     }
 
-    public void jimplify (DexBody body) {
+    @Override
+	public void jimplify (DexBody body) {
 
         if(!(instruction instanceof Instruction22c))
             throw new IllegalArgumentException("Expected Instruction22c but got: "+instruction.getClass());
@@ -72,7 +77,6 @@ public class NewArrayInstruction extends DexlibAbstractInstruction {
         body.add(assign);
 
 		if (IDalvikTyper.ENABLE_DVKTYPER) {
-			Debug.printDbg(IDalvikTyper.DEBUG, "constraint: "+ assign);
           DalvikTyper.v().setType(newArrayExpr.getSizeBox(), IntType.v(), true);
           DalvikTyper.v().setType(assign.getLeftOpBox(), newArrayExpr.getType(), false);
         }

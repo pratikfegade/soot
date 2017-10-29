@@ -23,6 +23,9 @@
  */
 package soot.dexpler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jf.dexlib2.iface.Annotation;
 import org.jf.dexlib2.iface.AnnotationElement;
 import org.jf.dexlib2.iface.DexFile;
@@ -30,13 +33,19 @@ import org.jf.dexlib2.iface.Method;
 import org.jf.dexlib2.iface.value.ArrayEncodedValue;
 import org.jf.dexlib2.iface.value.EncodedValue;
 import org.jf.dexlib2.iface.value.TypeEncodedValue;
-import soot.*;
+
+import soot.Body;
+import soot.G;
+import soot.MethodSource;
+import soot.Modifier;
+import soot.Scene;
+import soot.SootClass;
+import soot.SootMethod;
+import soot.SootResolver;
+import soot.Type;
 import soot.jimple.Jimple;
 import soot.jimple.toolkits.typing.TypeAssigner;
 import soot.options.Options;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DexMethod is a container for all methods that are declared in a class. It
@@ -62,8 +71,6 @@ public class DexMethod {
 
 		// get the name of the method
 		String name = method.getName();
-		Debug.printDbg("processing method '", method.getDefiningClass(), ": ", method.getReturnType(), " ",
-				method.getName(), " p: ", method.getParameters(), "'");
 
 		// the following snippet retrieves all exceptions that this method
 		// throws by analyzing its annotations
@@ -130,11 +137,12 @@ public class DexMethod {
 		// sets the method source by adding its body as the active body
 		sm.setSource(new MethodSource() {
 
+			@Override
 			public Body getBody(SootMethod m, String phaseName) {
 				Body b = Jimple.v().newBody(m);
 				try {
 					// add the body of this code item
-					DexBody dexBody = new DexBody(dexFile, method, (RefType) declaringClass.getType());
+					DexBody dexBody = new DexBody(dexFile, method, declaringClass.getType());
 					dexBody.jimplify(b, m);
 				} catch (InvalidDalvikBytecodeException e) {
 					String msg = "Warning: Invalid bytecode in method " + m + ": " + e;

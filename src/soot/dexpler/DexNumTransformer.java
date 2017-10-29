@@ -24,10 +24,38 @@
 
 package soot.dexpler;
 
-import soot.*;
-import soot.jimple.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.*;
+import soot.Body;
+import soot.DoubleType;
+import soot.FloatType;
+import soot.Local;
+import soot.Type;
+import soot.Unit;
+import soot.UnknownType;
+import soot.Value;
+import soot.jimple.AbstractStmtSwitch;
+import soot.jimple.ArrayRef;
+import soot.jimple.AssignStmt;
+import soot.jimple.BinopExpr;
+import soot.jimple.CastExpr;
+import soot.jimple.CmpExpr;
+import soot.jimple.DefinitionStmt;
+import soot.jimple.DoubleConstant;
+import soot.jimple.FieldRef;
+import soot.jimple.FloatConstant;
+import soot.jimple.IdentityStmt;
+import soot.jimple.IntConstant;
+import soot.jimple.InvokeExpr;
+import soot.jimple.InvokeStmt;
+import soot.jimple.LengthExpr;
+import soot.jimple.LongConstant;
+import soot.jimple.NewArrayExpr;
+import soot.jimple.ReturnStmt;
 
 /**
  * BodyTransformer to find and change initialization type of Jimple variables.
@@ -75,11 +103,11 @@ public class DexNumTransformer extends DexTransformer {
 		return new DexNumTransformer();
 	}
 	
+	@Override
 	protected void internalTransform(final Body body, String phaseName, Map<String,String> options) {
 		final DexDefUseAnalysis localDefs = new DexDefUseAnalysis(body);
 		
         for (Local loc : getNumCandidates(body)) {
-            Debug.printDbg("\n[num candidate] ", loc);
 			usedAsFloatingPoint = false;
 			Set<Unit> defs = localDefs.collectDefinitionsWithAliases(loc);
 			
@@ -89,12 +117,9 @@ public class DexNumTransformer extends DexTransformer {
 				// put correct local in l
 				final Local l = u instanceof DefinitionStmt ? (Local) ((DefinitionStmt) u).getLeftOp()
 						: null;
-				
-		        Debug.printDbg("    def  : ", u);
-				Debug.printDbg("    local: ", l);
-
 				// check defs
 				u.apply(new AbstractStmtSwitch() {
+					@Override
 					public void caseAssignStmt(AssignStmt stmt) {
 						Value r = stmt.getRightOp();
 						if (r instanceof BinopExpr && !(r instanceof CmpExpr)) {
@@ -107,24 +132,20 @@ public class DexNumTransformer extends DexTransformer {
 						} else if (r instanceof NewArrayExpr) {
 							NewArrayExpr nae = (NewArrayExpr) r;
 							Type t = nae.getType();
-							Debug.printDbg("new array expr: ", nae, " type: ",
-									t);
 							usedAsFloatingPoint = isFloatingPointLike(t);
 							doBreak = true;
 						} else if (r instanceof ArrayRef) {
 							ArrayRef ar = (ArrayRef) r;
 							Type arType = ar.getType();
-							Debug.printDbg("ar: ", r, " ", arType);
 							if (arType instanceof UnknownType) {
 								Type t = findArrayType(localDefs,
-										stmt, 0, Collections.emptySet()); // TODO:
+										stmt, 0, Collections.<Unit> emptySet()); // TODO:
 																					// check
 																					// where
 																					// else
 																					// to
 																					// update
 																					// if(ArrayRef...
-								Debug.printDbg(" array type:", t);
 								usedAsFloatingPoint = isFloatingPointLike(t);
 							} else {
 								usedAsFloatingPoint = isFloatingPointLike(ar
@@ -136,21 +157,19 @@ public class DexNumTransformer extends DexTransformer {
 									.getCastType());
 							doBreak = true;
 						} else if (r instanceof InvokeExpr) {
-							usedAsFloatingPoint = isFloatingPointLike(r
+							usedAsFloatingPoint = isFloatingPointLike(((InvokeExpr) r)
 									.getType());
 							doBreak = true;
 						} else if (r instanceof LengthExpr) {
 							usedAsFloatingPoint = false;
 							doBreak = true;
 						}
-						// introduces alias
-						else if (r instanceof Local) {
-						}
+						
 
 					}
 
+					@Override
 					public void caseIdentityStmt(IdentityStmt stmt) {
-						Debug.printDbg("h");
 						if (stmt.getLeftOp() == l) {
 							usedAsFloatingPoint = isFloatingPointLike(stmt
 									.getRightOp().getType());
@@ -165,8 +184,6 @@ public class DexNumTransformer extends DexTransformer {
 
 				// check uses
 				for (Unit use : localDefs.getUsesOf(l)) {
-					Debug.printDbg("    use: ", use);
-
 					use.apply(new AbstractStmtSwitch() {
 						private boolean examineInvokeExpr(InvokeExpr e) {
 							List<Value> args = e.getArgs();
@@ -182,11 +199,13 @@ public class DexNumTransformer extends DexTransformer {
 							return false;
 						}
 
+						@Override
 						public void caseInvokeStmt(InvokeStmt stmt) {
 							InvokeExpr e = stmt.getInvokeExpr();
 							usedAsFloatingPoint = examineInvokeExpr(e);
 						}
 
+						@Override
 						public void caseAssignStmt(AssignStmt stmt) {
 							// only case where 'l' could be on the left side is
 							// arrayRef with 'l' as the index
@@ -231,11 +250,9 @@ public class DexNumTransformer extends DexTransformer {
 								} else if (left instanceof ArrayRef) {
 									ArrayRef ar = (ArrayRef) left;
 									Type arType = ar.getType();
-									Debug.printDbg("ar: ", r, " ", arType);
 									if (arType instanceof UnknownType) {
-										arType = findArrayType(localDefs, stmt, 0, Collections.emptySet());
+										arType = findArrayType(localDefs, stmt, 0, Collections.<Unit> emptySet());
 									}
-									Debug.printDbg(" array type:", arType);
 									usedAsFloatingPoint = isFloatingPointLike(arType);
 									doBreak = true;
 									return;
@@ -244,16 +261,11 @@ public class DexNumTransformer extends DexTransformer {
 
 						}
 
+						@Override
 						public void caseReturnStmt(ReturnStmt stmt) {
 							usedAsFloatingPoint = stmt.getOp() == l
 									&& isFloatingPointLike(body.getMethod()
 											.getReturnType());
-							Debug.printDbg(" [return stmt] ", stmt,
-									" usedAsObject: ", usedAsFloatingPoint,
-									", return type: ", body.getMethod()
-											.getReturnType());
-							Debug.printDbg(" class: ", body.getMethod()
-									.getReturnType().getClass());
 							doBreak = true;
 							return;
 						}
@@ -278,8 +290,11 @@ public class DexNumTransformer extends DexTransformer {
 	}
 
 	protected boolean examineBinopExpr(Unit u) {
-        return u.hasTag("FloatOpTag") || u.hasTag("DoubleOpTag");
-    }
+		if (u.hasTag("FloatOpTag") || u.hasTag("DoubleOpTag")) {
+			return true;
+		}
+		return false;
+	}
 
 	private boolean isFloatingPointLike(Type t) {
 		return (t instanceof FloatType || t instanceof DoubleType);
@@ -303,7 +318,6 @@ public class DexNumTransformer extends DexTransformer {
 				Value r = a.getRightOp();
 				if ((r instanceof IntConstant || r instanceof LongConstant)) {
 					candidates.add(l);
-					Debug.printDbg("[add num candidate: ", u);
 				}
 			}
 		}
@@ -324,12 +338,10 @@ public class DexNumTransformer extends DexTransformer {
 			if ((v instanceof IntConstant)) {
 				int vVal = ((IntConstant) v).value;
 				s.setRightOp(FloatConstant.v(Float.intBitsToFloat(vVal)));
-				Debug.printDbg("[floatingpoint] replacing with float in ", u);
 			} else if (v instanceof LongConstant) {
 				long vVal = ((LongConstant) v).value;
 				s.setRightOp(DoubleConstant.v(Double
 						.longBitsToDouble(vVal)));
-				Debug.printDbg("[floatingpoint] replacing with double in ", u);
 			}
 		}
 

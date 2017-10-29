@@ -29,12 +29,23 @@
 
 
 package soot.toolkits.scalar;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import soot.*;
+import soot.Body;
+import soot.G;
+import soot.Local;
+import soot.Timers;
+import soot.Unit;
+import soot.Value;
+import soot.ValueBox;
 import soot.options.Options;
 import soot.toolkits.graph.UnitGraph;
-
-import java.util.*;
 
 
 /**
@@ -69,13 +80,14 @@ public class SimpleLocalUses implements LocalUses
     public SimpleLocalUses(Body body, LocalDefs localDefs)
     {
     	this.body = body;
-        if(Options.v().time())
+    	final Options options = Options.v();
+        if(options.time())
+        {
            Timers.v().usesTimer.start();
-    
-        if(Options.v().time())
            Timers.v().usePhase1Timer.start();
+        }
         
-        if(Options.v().verbose())
+        if(options.verbose())
             G.v().out.println("[" + body.getMethod().getName() +
                 "]     Constructing SimpleLocalUses...");
         
@@ -83,11 +95,11 @@ public class SimpleLocalUses implements LocalUses
     
         // Initialize this map to empty sets
 
-        if(Options.v().time())
+        if(options.time())
+        {
            Timers.v().usePhase1Timer.end();
-    
-        if(Options.v().time())
            Timers.v().usePhase2Timer.start();
+        }
     
         // Traverse units and associate uses with definitions
         for (Unit unit : body.getUnits()) {
@@ -114,13 +126,13 @@ public class SimpleLocalUses implements LocalUses
         }
         
 
-        if(Options.v().time())
+        if(options.time())
+        {
            Timers.v().usePhase2Timer.end();
-        
-        if(Options.v().time())
             Timers.v().usesTimer.end();
+        }
 
-        if(Options.v().verbose())
+        if(options.verbose())
             G.v().out.println("[" + body.getMethod().getName() +
                 "]     finished SimpleLocalUses...");
     }

@@ -24,20 +24,39 @@
 
 package soot.dexpler.instructions;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.jf.dexlib2.iface.instruction.Instruction;
 import org.jf.dexlib2.iface.instruction.formats.ArrayPayload;
 import org.jf.dexlib2.iface.instruction.formats.Instruction22c;
 import org.jf.dexlib2.iface.instruction.formats.Instruction31t;
 import org.jf.dexlib2.iface.reference.TypeReference;
-import soot.*;
-import soot.dexpler.Debug;
+
+import soot.ArrayType;
+import soot.BooleanType;
+import soot.ByteType;
+import soot.CharType;
+import soot.DoubleType;
+import soot.FloatType;
+import soot.G;
+import soot.IntType;
+import soot.Local;
+import soot.LongType;
+import soot.ShortType;
+import soot.Type;
 import soot.dexpler.DexBody;
 import soot.dexpler.DexType;
-import soot.jimple.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import soot.jimple.ArrayRef;
+import soot.jimple.AssignStmt;
+import soot.jimple.DoubleConstant;
+import soot.jimple.FloatConstant;
+import soot.jimple.IntConstant;
+import soot.jimple.Jimple;
+import soot.jimple.LongConstant;
+import soot.jimple.NumericConstant;
+import soot.jimple.Stmt;
 
 public class FillArrayDataInstruction extends PseudoInstruction {
 
@@ -45,7 +64,8 @@ public class FillArrayDataInstruction extends PseudoInstruction {
     super(instruction, codeAdress);
   }
 
-  public void jimplify (DexBody body) {
+  @Override
+public void jimplify (DexBody body) {
     if(!(instruction instanceof Instruction31t))
       throw new IllegalArgumentException("Expected Instruction31t but got: "+instruction.getClass());
 
@@ -166,14 +186,12 @@ public class FillArrayDataInstruction extends PseudoInstruction {
     } else {
       throw new RuntimeException("Invalid Array Type occured in FillArrayDataInstruction: "+ elementType);
     }
-    Debug.printDbg("array element: ", value);
     return value;
 
   }
 
   @Override
   public void computeDataOffsets(DexBody body) {
-    Debug.printDbg("compute data offset");
     if(!(instruction instanceof Instruction31t))
       throw new IllegalArgumentException("Expected Instruction31t but got: "+instruction.getClass());
 
