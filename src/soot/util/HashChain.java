@@ -149,7 +149,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	@Override
-	public void insertAfter(E toInsert, E point) {
+	public synchronized void insertAfter(E toInsert, E point) {
 		if (toInsert == null)
 			throw new RuntimeException("Bad idea! You tried to insert " + " a null object into a Chain!");
 
@@ -190,7 +190,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	@Override
-	public void insertBefore(E toInsert, E point) {
+	public synchronized void insertBefore(E toInsert, E point) {
 		if (toInsert == null)
 			throw new RuntimeException("Bad idea! You tried to insert " + "a null object into a Chain!");
 
@@ -434,7 +434,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	@Override
-	public void addFirst(E item) {
+	public synchronized void addFirst(E item) {
 		if (item == null)
 			throw new RuntimeException("Bad idea!  You tried to insert " + "a null object into a Chain!");
 
@@ -455,7 +455,7 @@ public class HashChain<E> extends AbstractCollection<E> implements Chain<E> {
 	}
 
 	@Override
-	public void addLast(E item) {
+	public synchronized void addLast(E item) {
 		if (item == null)
 			throw new RuntimeException("Bad idea! You tried to insert " + " a null object into a Chain!");
 
