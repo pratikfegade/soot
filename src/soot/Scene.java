@@ -1133,7 +1133,7 @@ public class Scene  //extends AbstractHost
     /****************************************************************************/
     /** Makes a new fast hierarchy is none is active, and returns the active
      * fast hierarchy. */
-    public FastHierarchy getOrMakeFastHierarchy() {
+    public synchronized FastHierarchy getOrMakeFastHierarchy() {
 	if(!hasFastHierarchy() ) {
 	    setFastHierarchy( new FastHierarchy() );
 	}
@@ -1143,7 +1143,7 @@ public class Scene  //extends AbstractHost
         Retrieves the active fast hierarchy
      */
 
-    public FastHierarchy getFastHierarchy() 
+    public synchronized FastHierarchy getFastHierarchy()
     {
         if(!hasFastHierarchy())
             throw new RuntimeException("no active FastHierarchy present for scene");
@@ -1175,7 +1175,7 @@ public class Scene  //extends AbstractHost
         Retrieves the active hierarchy
      */
 
-    public Hierarchy getActiveHierarchy() 
+    public synchronized Hierarchy getActiveHierarchy()
     {
         if(!hasActiveHierarchy())
             //throw new RuntimeException("no active Hierarchy present for scene");
