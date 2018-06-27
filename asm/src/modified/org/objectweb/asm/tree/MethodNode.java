@@ -30,8 +30,10 @@
 package modified.org.objectweb.asm.tree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import modified.org.objectweb.asm.AnnotationVisitor;
 import modified.org.objectweb.asm.Attribute;
@@ -45,7 +47,7 @@ import modified.org.objectweb.asm.TypePath;
 
 /**
  * A node that represents a method.
- * 
+ *
  * @author Eric Bruneton
  */
 public class MethodNode extends MethodVisitor {
@@ -86,7 +88,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The runtime visible annotations of this method. This list is a list of
      * {@link AnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.AnnotationNode
      * @label visible
      */
@@ -95,7 +97,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The runtime invisible annotations of this method. This list is a list of
      * {@link AnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.AnnotationNode
      * @label invisible
      */
@@ -104,7 +106,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The runtime visible type annotations of this method. This list is a list
      * of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.TypeAnnotationNode
      * @label visible
      */
@@ -113,7 +115,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The runtime invisible type annotations of this method. This list is a
      * list of {@link TypeAnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.TypeAnnotationNode
      * @label invisible
      */
@@ -122,7 +124,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The non standard attributes of this method. This list is a list of
      * {@link Attribute} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.Attribute
      */
     public List<Attribute> attrs;
@@ -140,7 +142,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The runtime visible parameter annotations of this method. These lists are
      * lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.AnnotationNode
      * @label invisible parameters
      */
@@ -149,7 +151,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The runtime invisible parameter annotations of this method. These lists
      * are lists of {@link AnnotationNode} objects. May be <tt>null</tt>.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.AnnotationNode
      * @label visible parameters
      */
@@ -158,7 +160,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The instructions of this method. This list is a list of
      * {@link AbstractInsnNode} objects.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.AbstractInsnNode
      * @label instructions
      */
@@ -167,7 +169,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The try catch blocks of this method. This list is a list of
      * {@link TryCatchBlockNode} objects.
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.TryCatchBlockNode
      */
     public List<TryCatchBlockNode> tryCatchBlocks;
@@ -185,7 +187,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The local variables of this method. This list is a list of
      * {@link LocalVariableNode} objects. May be <tt>null</tt>
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.LocalVariableNode
      */
     public List<LocalVariableNode> localVariables;
@@ -193,7 +195,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The visible local variable annotations of this method. This list is a
      * list of {@link LocalVariableAnnotationNode} objects. May be <tt>null</tt>
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.LocalVariableAnnotationNode
      */
     public List<LocalVariableAnnotationNode> visibleLocalVariableAnnotations;
@@ -201,7 +203,7 @@ public class MethodNode extends MethodVisitor {
     /**
      * The invisible local variable annotations of this method. This list is a
      * list of {@link LocalVariableAnnotationNode} objects. May be <tt>null</tt>
-     * 
+     *
      * @associates modified.org.objectweb.asm.tree.LocalVariableAnnotationNode
      */
     public List<LocalVariableAnnotationNode> invisibleLocalVariableAnnotations;
@@ -212,10 +214,20 @@ public class MethodNode extends MethodVisitor {
     private boolean visited;
 
     /**
+     * Current bytecode offset in the classfile
+     */
+    private int currOffset;
+
+    /**
+     * Map to hold bytecode offsets for each AbstractInsnNode
+     */
+    private Map<AbstractInsnNode, Integer> offsetMap;
+
+    /**
      * Constructs an uninitialized {@link MethodNode}. <i>Subclasses must not
      * use this constructor</i>. Instead, they must use the
      * {@link #MethodNode(int)} version.
-     * 
+     *
      * @throws IllegalStateException
      *             If a subclass calls this constructor.
      */
@@ -228,7 +240,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * Constructs an uninitialized {@link MethodNode}.
-     * 
+     *
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
@@ -242,7 +254,7 @@ public class MethodNode extends MethodVisitor {
      * Constructs a new {@link MethodNode}. <i>Subclasses must not use this
      * constructor</i>. Instead, they must use the
      * {@link #MethodNode(int, int, String, String, String, String[])} version.
-     * 
+     *
      * @param access
      *            the method's access flags (see {@link Opcodes}). This
      *            parameter also indicates if the method is synthetic and/or
@@ -270,7 +282,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * Constructs a new {@link MethodNode}.
-     * 
+     *
      * @param api
      *            the ASM API version implemented by this visitor. Must be one
      *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
@@ -296,6 +308,8 @@ public class MethodNode extends MethodVisitor {
         this.name = name;
         this.desc = desc;
         this.signature = signature;
+	this.currOffset = 0;
+	this.offsetMap = new HashMap<>();
         this.exceptions = new ArrayList<String>(exceptions == null ? 0
                 : exceptions.length);
         boolean isAbstract = (access & Opcodes.ACC_ABSTRACT) != 0;
@@ -413,35 +427,35 @@ public class MethodNode extends MethodVisitor {
     @Override
     public void visitFrame(final int type, final int nLocal,
             final Object[] local, final int nStack, final Object[] stack) {
-        instructions.add(new FrameNode(type, nLocal, local == null ? null
+        addToInsnListAndSaveOffset(new FrameNode(type, nLocal, local == null ? null
                 : getLabelNodes(local), nStack, stack == null ? null
                 : getLabelNodes(stack)));
     }
 
     @Override
     public void visitInsn(final int opcode) {
-        instructions.add(new InsnNode(opcode));
+        addToInsnListAndSaveOffset(new InsnNode(opcode));
     }
 
     @Override
     public void visitIntInsn(final int opcode, final int operand) {
-        instructions.add(new IntInsnNode(opcode, operand));
+        addToInsnListAndSaveOffset(new IntInsnNode(opcode, operand));
     }
 
     @Override
     public void visitVarInsn(final int opcode, final int var) {
-        instructions.add(new VarInsnNode(opcode, var));
+        addToInsnListAndSaveOffset(new VarInsnNode(opcode, var));
     }
 
     @Override
     public void visitTypeInsn(final int opcode, final String type) {
-        instructions.add(new TypeInsnNode(opcode, type));
+        addToInsnListAndSaveOffset(new TypeInsnNode(opcode, type));
     }
 
     @Override
     public void visitFieldInsn(final int opcode, final String owner,
             final String name, final String desc) {
-        instructions.add(new FieldInsnNode(opcode, owner, name, desc));
+        addToInsnListAndSaveOffset(new FieldInsnNode(opcode, owner, name, desc));
     }
 
     @Deprecated
@@ -452,7 +466,7 @@ public class MethodNode extends MethodVisitor {
             super.visitMethodInsn(opcode, owner, name, desc);
             return;
         }
-        instructions.add(new MethodInsnNode(opcode, owner, name, desc));
+        addToInsnListAndSaveOffset(new MethodInsnNode(opcode, owner, name, desc));
     }
 
     @Override
@@ -462,52 +476,57 @@ public class MethodNode extends MethodVisitor {
             super.visitMethodInsn(opcode, owner, name, desc, itf);
             return;
         }
-        instructions.add(new MethodInsnNode(opcode, owner, name, desc, itf));
+        addToInsnListAndSaveOffset(new MethodInsnNode(opcode, owner, name, desc, itf));
     }
 
     @Override
     public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
             Object... bsmArgs) {
-        instructions.add(new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs));
+        addToInsnListAndSaveOffset(new InvokeDynamicInsnNode(name, desc, bsm, bsmArgs));
     }
 
     @Override
     public void visitJumpInsn(final int opcode, final Label label) {
-        instructions.add(new JumpInsnNode(opcode, getLabelNode(label)));
+        addToInsnListAndSaveOffset(new JumpInsnNode(opcode, getLabelNode(label)));
     }
 
     @Override
     public void visitLabel(final Label label) {
-        instructions.add(getLabelNode(label));
+        addToInsnListAndSaveOffset(getLabelNode(label));
     }
 
     @Override
     public void visitLdcInsn(final Object cst) {
-        instructions.add(new LdcInsnNode(cst));
+        addToInsnListAndSaveOffset(new LdcInsnNode(cst));
     }
 
     @Override
     public void visitIincInsn(final int var, final int increment) {
-        instructions.add(new IincInsnNode(var, increment));
+        addToInsnListAndSaveOffset(new IincInsnNode(var, increment));
     }
 
     @Override
     public void visitTableSwitchInsn(final int min, final int max,
             final Label dflt, final Label... labels) {
-        instructions.add(new TableSwitchInsnNode(min, max, getLabelNode(dflt),
+        addToInsnListAndSaveOffset(new TableSwitchInsnNode(min, max, getLabelNode(dflt),
                 getLabelNodes(labels)));
     }
 
     @Override
     public void visitLookupSwitchInsn(final Label dflt, final int[] keys,
             final Label[] labels) {
-        instructions.add(new LookupSwitchInsnNode(getLabelNode(dflt), keys,
+        addToInsnListAndSaveOffset(new LookupSwitchInsnNode(getLabelNode(dflt), keys,
                 getLabelNodes(labels)));
     }
 
     @Override
     public void visitMultiANewArrayInsn(final String desc, final int dims) {
-        instructions.add(new MultiANewArrayInsnNode(desc, dims));
+        addToInsnListAndSaveOffset(new MultiANewArrayInsnNode(desc, dims));
+    }
+
+    @Override
+    public void visitOffset(int offset) {
+        currOffset = offset;
     }
 
     @Override
@@ -598,7 +617,7 @@ public class MethodNode extends MethodVisitor {
 
     @Override
     public void visitLineNumber(final int line, final Label start) {
-        instructions.add(new LineNumberNode(line, getLabelNode(start)));
+        addToInsnListAndSaveOffset(new LineNumberNode(line, getLabelNode(start)));
     }
 
     @Override
@@ -616,7 +635,7 @@ public class MethodNode extends MethodVisitor {
      * LabelNode if necessary. The default implementation of this method uses
      * the {@link Label#info} field to store associations between labels and
      * label nodes.
-     * 
+     *
      * @param l
      *            a Label.
      * @return the LabelNode corresponding to l.
@@ -649,6 +668,18 @@ public class MethodNode extends MethodVisitor {
     }
 
     // ------------------------------------------------------------------------
+    // Methods to handle bytecode offsets recording
+    // ------------------------------------------------------------------------
+    private void addToInsnListAndSaveOffset(AbstractInsnNode insn) {
+	instructions.add(insn);
+	offsetMap.put(insn, currOffset);
+    }
+
+    public Map<AbstractInsnNode, Integer> getOffsetMap() {
+	return offsetMap;
+    }
+
+    // ------------------------------------------------------------------------
     // Accept method
     // ------------------------------------------------------------------------
 
@@ -657,7 +688,7 @@ public class MethodNode extends MethodVisitor {
      * version. This methods checks that this node, and all its nodes
      * recursively, do not contain elements that were introduced in more recent
      * versions of the ASM API than the given version.
-     * 
+     *
      * @param api
      *            an ASM API version. Must be one of {@link Opcodes#ASM4} or
      *            {@link Opcodes#ASM5}.
@@ -714,7 +745,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * Makes the given class visitor visit this method.
-     * 
+     *
      * @param cv
      *            a class visitor.
      */
@@ -730,7 +761,7 @@ public class MethodNode extends MethodVisitor {
 
     /**
      * Makes the given method visitor visit this method.
-     * 
+     *
      * @param mv
      *            a method visitor.
      */
