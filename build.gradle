@@ -17,6 +17,7 @@ sourceSets {
     main {
         java {
             srcDir 'src'
+            srcDir 'asm/src'
         }
     }
 }
@@ -39,8 +40,9 @@ repositories {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.7',             // Groovy
             'org.apache.ivy:ivy:2.3.0',                         // Apache Ivy (for downloading jars from maven repos)
+            // -- ASM is now vendored in-tree
             // 'org.ow2.asm:asm-debug-all:5.2                   // Java Bytecode library
-            'ext:asm:5.2',                                      // Java Bytecode library
+            // 'ext:asm:5.2',                                      // Java Bytecode library
             'com.google.guava:guava:18.0',                      // GSON library
             'org.apache.ant:ant:1.10.1',
             'org.smali:dexlib2:2.2b4',                          // Dexlib2: library for reading/modifying/writing Android dex files
